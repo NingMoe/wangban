@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--- defaultVM:默认vm名称 list:存放需要配置的信息集合 item:存放一个具体配置信息 @type:类型，如果文件后缀为vm，则值为vm，其他暂时可以不写，只有配置的name与访问地址相同时，才有效 
+	@name:访问的地址,主要作为主键来使用 @title：页面显示中的名称 @vm:页面摸板关联到的vm名称 @verify:是否需要验证，1为需要，0为不需要 
+	@cache:是否需要缓存，1位需要，0位不需要 @redirect：重定向地址,只有配置的name与访问地址相同时，redirect才有效 -->
+<custom version="1.0">
+  <defaultVerify>0</defaultVerify>
+  <defaultCache>0</defaultCache>
+  <defaultVM>default.vm</defaultVM>
+  <list>
+  	<!--非公开访问地址-->
+  	<item name="/ipmi" type="vm"/>
+    <item name="/pmi" vm="void.vm"/> 
+    <!-- 无任何信息模版 -->
+    <item name="/src"   type="vm"/>
+    <item name="/admin" type="vm"/>
+	<item name="/imobile" type="vm"/>
+    <!-- 业务中心 -->
+    <item name="/center" redirect="/icity/center/index"   vm="container.vm" cache="0" verify="1" title="业务中心"/>
+    <item name="/uinfo" redirect="/icity/center/index"  cache="0" verify="1" title="业务中心"/>    
+    <item name="/center/index" redirect="/icity/center/index"  vm="container.vm" cache="0" verify="1" title="业务中心"/>
+    <item name="/icity/center/business/lhtk_detail" vm="container.vm" cache="0" verify="1" title="业务中心"/>
+    <!-- 公共信息 -->
+    <item name="/bsp/api" vm="admin.vm"/>
+    <item name="/bsp/api_detail" vm="admin.vm"/>
+    <item name="/home/map" redirect="/public/home/map" title="网站地图"/>
+    <item name="/home/linker" redirect="/public/home/linker" title="联系我们"/>
+    <item name="/home/help" redirect="/public/home/help" title="使用帮助"/>
+    <item name="/uc/login" vm="src.vm" title="用户登录"/>
+    <item name="/msglogin" redirect="/uc/msglogin" vm="src.vm" title="用户登录"/>
+    <item name="/uc/register" vm="src.vm" title="用户注册"/>
+    <item name="/uc/userBinding" vm="src.vm" title="绑定用户"/>
+	<item name="/uc/perregister" title="用户注册"/>
+	<item name="/uc/corregister" title="用户注册"/>  
+    <!--威海政务服务中心 -->
+    <item name="/register_per" redirect="/uc/register_per" title="用户注册"/> 	
+  	<item name="/register_cor" redirect="/uc/register_cor" title="用户注册"/> 
+  	<item name="/deptresult" redirect="/external/result" vm="noframe.vm"/> 
+  	<item name="/mobile"  vm="imobile.vm"/>
+  	<item name="/wechat"  vm="imobile.vm"/>
+    <!--聊城政务服务中心 -->
+    <item name="/icity/submitspEx/baseinfoview" redirect="/icity/submitsp/baseinfoview" verify="1" title="办件明细"/>
+	<item name="/icity/submitspEx/baseinfo"  redirect="/icity/submitsp/baseinfoview"  verify="1"/>
+    <item name="/uc/accbind" cache="0" verify="1" title="绑定信息"/>
+    <item name="/uc/accmanager" cache="0" verify="1" title="用户设置"/>
+    <item name="/uc/acccertification" cache="0" verify="1" title="身份认证"/>
+    <item name="/uc/setting"  cache="0" verify="1" title="用户设置"/>
+    <item name="/icity/business_ask_info" vm="admin.vm" verify="0"/>
+    <item name="/server" redirect="/govservice/project" verify="0"/>
+    <item name="/result" redirect="/govservice/result/index" verify="0"/>
+    <item name="/con" redirect="/govservice/consult/index" verify="0"/>
+    <item name="/assess" redirect="/govservice/assess/index" verify="0"/>
+    <item name="/help" redirect="/govservice/help/index" verify="0"/>
+    <item name="/inform" redirect="/govservice/inform/index" verify="0"/>
+    <item name="/track" redirect="/govservice/track/index" verify="0"/>
+    <item name="/track_result" redirect="/govservice/track/track_result" verify="0"/>
+    <item name="/robot" redirect="/govservice/robot/index" verify="0"/>
+    <item name="/list" redirect="/govservice/list" verify="0"/>
+    <item name="/hall" redirect="/govservice/hall" verify="0"/>
+    <item name="/sug" redirect="/govservice/suggestion" verify="0"/>
+    <item name="/message" redirect="/govservice/message" verify="1"/>
+    <item name="/complaint" redirect="/govservice/complaint" verify="0"/>
+    <item name="/consult/info" redirect="/icity/project/consultInfo" title="办事指南"/>
+    <item name="/assess/info" redirect="/icity/project/assessInfo" title="监督评价"/>
+    <item name="/result/info" redirect="/icity/project/resultInfo" title="结果公告"/>
+    <item name="/jrobot/search" redirect="/search" title="搜索结果" vm="src.vm"/>
+    <item name="/gdlb" redirect="/icity/gdlb" title="结果公示滚动列表" vm="lbgd.vm"/>
+    <item name="/tongji" redirect="/icity/tongji" title="数据统计" vm="lbgd.vm"/>
+    <item name="/queryprogress" redirect="/govservice/queryprogress" verify="0"/>
+    <item name="/approve/guidelist" redirect="/icity/project/guidelist" title="办事指南"/>
+    <item name="/govservice/service" redirect="/govservice/convenience/servicedetail" title="办事指南"/>
+    <item name="/icity/engineering/checkproject"  verify="1" title="投资项目并联审批"/>
+    <item name="/icity/engineering/addproject"  verify="1" title="投资项目并联审批"/>
+    <item name="/icity/engineering/formview"  verify="1" title="投资项目并联审批"/>
+    <item name="/icity/engineering/uploadattachments"  verify="1" title="投资项目并联审批"/>
+    <item name="/govservice/powerlist" cache="0" vm="noframe.vm"/>       
+    <!--政务服务网  -->
+    <item name="/uc" redirect="/uc/index"  vm="container.vm" cache="0" verify="1" title="用户中心"/>
+    <item name="/uc/getbackpass" verify="0"/>
+	<item name="/uc/index" vm="container.vm" cache="0" verify="1" title="用户中心"/>
+	<item name="/uc/getPwd"   cache="0"  title="找回密码"/>
+    <item name="/uc/agreement"  vm="container.vm" cache="0" />
+    <item name="/pub" redirect="/govservice/pub/contentrel" verify="0"/>
+    <item name="/pub/contentrel" redirect="/govservice/pub/contentrel" verify="0"/>
+    <item name="/pub/content" redirect="/govservice/pub/content" verify="0"/>
+    <item name="/public/index"  vm="src.vm"/>
+    <item name="/public/county"  vm="src.vm"/>
+    <item name="/index2" redirect="/public/index2" vm="src.vm"/>
+    <item name="/person" redirect="/govservice/person/index" verify="0"/>
+    <item name="/ent" redirect="/govservice/enterprise/index" verify="0"/>
+    <item name="/investService" redirect="/govservice/investService/index" verify="0"/>
+    <item name="/ylxfw" redirect="/govservice//ylxfw/index" verify="0"/>
+    <item name="/approve" redirect="/govservice/approve/index" verify="0"/>
+    <item name="/convenience" redirect="/govservice/convenience/index" verify="0"/>
+	<item name="/convenience/project2" redirect="/govservice/project2" verify="0"/>
+    <item name="/sunny" redirect="/govservice/sunny/index" verify="0"/>
+    <item name="/sunny/newindex" redirect="/govservice/sunny/newindex" verify="0"/>
+    <item name="/power" redirect="/govservice/power/index" verify="0"/>
+    <item name="/content" redirect="/govservice/pub/content"  verify="0"/>
+    <item name="/sunny/power" redirect="/govservice/sunny/power" verify="0"/>
+    <item name="/sunny/test" redirect="/govservice/sunny/test" verify="0"/>
+    <item name="/sunny/response" redirect="/govservice/sunny/response" verify="0"/>
+    <item name="/sunny/binlist" redirect="/govservice/sunny/binlist" verify="0"/>
+    <item name="/sunny/specialfund" redirect="/govservice/sunny/specialfund" verify="0"/>
+    <item name="/sunny/eventpublic" redirect="/govservice/sunny/eventpublic" verify="0"/>
+    <item name="/sunny/policieslist" redirect="/govservice/sunny/policieslist" verify="0"/>
+    <item name="/sunny/approvals" redirect="/govservice/sunny/approvals" verify="0"/>
+    <item name="/sunny/noticeList" redirect="/govservice/sunny/noticeList" verify="0"/>    
+    <item name="/person/project" redirect="/govservice/project" verify="0"/>
+    <item name="/ent/project" redirect="/govservice/project" verify="0"/>
+    <item name="/approve/project" redirect="/govservice/approve" verify="0"/>
+    <item name="/consult" redirect="/govservice/consult" verify="0"/>
+    <item name="/complain" redirect="/govservice/complain" verify="1"/>
+    <item name="/suggested" redirect="/govservice/suggested" verify="0"/>
+    <item name="/contactUS" redirect="/govservice/contactUS" verify="0"/>
+    <item name="/queryletter" redirect="/govservice/queryletter" verify="0"/>
+    <item name="/queryprogress" redirect="/govservice/queryprogress" verify="0"/>
+    <item name="/satisfaction" redirect="/govservice/satisfaction" verify="0"/>
+    <item name="/dolist" redirect="/govservice/dolist"  verify="0"/>
+    <item name="/pho" redirect="/govservice/pho" vm="src.vm" verify="0"/>
+    <item name="/pho_geter" redirect="/govservice/pho_geter" vm="src.vm" verify="0"/>
+    <!-- 网上办事 -->
+    <item name="/bsp/hitstat" vm="noframe.vm" title="访问量统计"/>
+    <item name="/onlineapply/applyinfo" vm="noframe.vm"  verify="1"  title="在线办理"/>
+    <item name="/icity/submitsp/baseinfo"  verify="1"/>
+    <item name="/icity/project/guide"  title="办事指南"/>
+    <item name="/project/guide" redirect="/icity/project/guide" title="办事指南"/>
+    <item name="/approve/guide" redirect="/icity/project/guide" title="办事指南"/>
+    <item name="/approve/guideMobile" redirect="/icity/project/guideMobile" vm="mobile.vm" title="办事指南"/>
+  	<item name="/pmi/config/qrcode"   title="二维码"/>
+  	<item name="/address" redirect="/icity/address" vm="src.vm"  verify="0" title="中心地址"/>
+  	<item name="/configicon" redirect="/govservice/configuration/themeicon" vm="noframe.vm" title=""/>
+  	<item name="/public/networknav"  vm="noframe.vm" title=""/>
+  	<item name="/icity/enterprises/index"  verify="1" title=""/>
+  	<item name="/icity/engineering/select"  verify="1" title=""/>
+  	<item name="/icity/submitsp/view" cache="0" vm="src.vm"/>
+  	<item name="/icity/submitsp/view_zs" cache="0" vm="src.vm"/>
+	<!--舟山 -->
+	<item name="/pro/view" cache="0" vm="src.vm"/>
+	<item name="/JRPlatform"  vm="JRPlatform.vm"  title="联审联办平台首页"/>                                                                                 
+  	<item name="/iportal"  vm="iportal.vm" verify="1" title="内部工作平台"   login="/iportal/login"/>
+  	<item name="/govservice/busyinfolist" cache="0" vm="noframe.vm"/>
+  	<item name="/JRPlatform/lslbdetail" cache="0" vm="noframe.vm"/>
+  	<item name="/govservice/busyinfostatistic" cache="0" vm="noframe.vm"/>
+  	<item name="/govservice/busyinfostatistic4day" cache="0" vm="noframe.vm"/>
+  	<item name="/govservice/busyinfostatistic4month" cache="0" vm="noframe.vm"/>
+  	<item name="/govservice/busyinfostatistic4year" cache="0" vm="noframe.vm"/>
+  	<item name="/bsp/scanqrcode" cache="0" vm="noframe.vm"/>
+  	<item name="/govservice/newindex" cache="0" vm="noframe.vm"/>
+  	<item name="/govservice/guideto" cache="0" vm="noframe.vm"/>
+  	<item name="/govservice/index" cache="0" vm="noframe.vm"/>
+  	<item name="/govservice/businessdetail" cache="0" vm="noframe.vm"/>
+  	<item name="/szw"  vm="szw.vm"  title="审招委"/>
+  	<item name="/zsszb/index" redirect="/szw/index" vm="szw.vm" title="审招委"/>  	
+    <item name="/iportal/login"  vm="src.vm"  title="内部工作平台" />
+    <item name="/iportal/index2"  vm="iportal.vm"  title="内部工作平台" />
+    <item name="/icity/interactive/onlineBook/fsbsj" verify="1" login="/bsp/check" title="非上班时间网上预约"></item>
+  	<item name="/szw/address"  vm="src.vm"  />
+  	<!-- <item name="/JRPlatform/onlineDeal" verify="1" login="/bsp/check" title="联审联办在线申报"/> -->
+  	<!-- qiqihaer -->
+  	<item name="/JRPlatform/onlineDeal" verify="1"  title="联审联办在线申报"/>
+  	<item name="/icity/statistical" cache="0"  vm="noframe.vm"/>
+  	<item name="/govservice/index_XKGS" cache="0" vm="src.vm"/>
+  	<item name="/govservice/item_XKGS" cache="0" vm="noframe.vm"/>
+  	<!--舟山 -->
+  	<!--昆明 -->
+  	<item name="/icity/project/projectlist" cache="0" verify="0" vm="noframe.vm" title="事项列表嵌套页"/>
+    <item name="/govservice/jxkh" cache="0" verify="0" vm="noframe.vm" title="效能监察"/>
+  	<item name="/interactive/satisfaction" redirect="/icity/interactive/satisfaction" verify="1" title="星级测评"></item>
+  	<item name="/register" redirect="/uc/register" title="用户注册"/> 	
+  	<!--投资项目在线审批监管平台-->  	
+  	<item name="/ipro"  vm="ipro.vm"  title="投资项目在线审批监管平台首页"/>  	
+  	<item name="/ipro/printApply" verify="0" vm="src.vm"/>
+  	<item name="/ipro/note" verify="0" vm="admin.vm"/>
+  	<item name="/ipro/printJD" verify="0" vm="admin.vm"/>
+  	<item name="/ipro/xmnbEdit" verify="0" vm="src.vm"/>
+  	<item name="/ipro/noteSP" verify="0" vm="admin.vm"/>
+  	<item name="/ipro/deptTree" verify="0" vm="admin.vm"/>
+  	<item name="/ipro/gmjjhyTree" verify="0" vm="admin.vm"/>
+  	
+  	<item name="/ipro/onlineapply" verify="1" vm="ipro.vm" title="投资项目在线审批监管平台-在线办理"/>
+  	<item name="/ipro/center"  vm="ipro.vm" verify="1"  title="投资项目在线审批监管平台业务中心"/>
+  	<item name="/ipro/engineering/internalpage" verify="1" vm="ipro.vm" title="并联审批需要登录的页面"/>  	
+  	<item name="/ipro/submit/view" cache="0" vm="src.vm"/>
+  	<item name="/ipro/center/business/addprojectreport" verify="1" vm="src.vm"/>
+  	<item name="/ipro/submit/tree/countryTree" verify="0" vm="admin.vm"/>
+  	<item name="/ipro/submit/tree/cyzctmTree" verify="0" vm="admin.vm"/>
+  	<item name="/ipro/submit/tree/theindustryarrayTree" verify="0" vm="admin.vm"/>
+  	<item name="/ipro/submit/tree/gmjjhyTree" verify="0" vm="admin.vm"/>
+  	<item name="/ipro/submit/tree/provinceTree" verify="0" vm="admin.vm"/>
+  	<item name="/ipro/submit" verify="1" vm="ipro.vm" title="投资项目在线审批监管平台-在线办理"/>
+  	<!--投资项目在线审批监管平台 -->
+  	<!--舟山投资项目在线审批监管平台-->
+  	<item name="/pro"  vm="pro.vm"  title="投资项目在线审批监管平台首页"/>
+  	<item name="/pro/onlineapply"  verify="1" vm="pro.vm" title="投资项目在线审批监管平台-在线办理"/>
+  	<item name="/pro/printApply" verify="0" vm="src.vm"/>
+  	<item name="/pro/note" verify="0" vm="admin.vm"/>
+  	<item name="/pro/printJD" verify="0" vm="admin.vm"/>
+  	<item name="/pro/checkProject" verify="0" vm="admin.vm"/>
+  	<item name="/pro/xmnbEdit" verify="0" vm="src.vm"/>
+  	<item name="/pro/noteSP" verify="0" vm="admin.vm"/>
+  	<item name="/pro/deptTree" verify="0" vm="admin.vm"/>
+  	<item name="/pro/industryTree" verify="0" vm="admin.vm"/>
+  	<item name="/pro/newIndustryTree" verify="0" vm="admin.vm"/>
+  	<item name="/pro/permitIndustryTree" verify="0" vm="admin.vm"/>
+  	<item name="/pro/projectTree" verify="0" vm="admin.vm"/>
+  	<item name="/pro/myprojectlist" verify="0" vm="admin.vm"/>
+  	<item name="/pro/gmjjhyTree" verify="0" vm="admin.vm"/>
+  	<item name="/pro/registrationProject" verify="1"  vm="pro.vm" title="项目注册"/>
+  	<item name="/pro/unionlist" verify="1"  vm="pro.vm" title="联合审批提交申请"/>
+  	<item name="/pro/dlsq" verify="1"  vm="pro.vm" title="代理申请"/>
+  	<item name="/pro/wdxm" verify="1"  vm="pro.vm" title="我的项目"/>
+  	<item name="/pro/new" verify="1"  vm="pro.vm" title="我的项目,报告上传"/>
+  	<item name="/pro/zxfw" verify="1"  vm="pro.vm" title="咨询服务"/>
+  	<!--舟山投资项目在线审批监管平台 -->
+  	<!-- 烟台市网上政务服务平台 -->
+  	<item name="/govservice/business_ask_info" cache="0" verify="0" vm="admin.vm"/>
+  	<!-- 烟台政务服务中心 -->
+    <item name="/gov/index"  vm="src.vm"/>
+    
+  	<!-- 烟台市网上政务服务平台 -->
+  	<!-- 重庆市网上政务平台 -->
+  	<item name="/intermediary" redirect="/icity/intermediary/intermed" cache="0" verify="1" title="业务中心"/>
+  	<item name="/external/bjgg"  vm="noframe.vm"/>
+  	<item name="/external/bjggpage"  vm="noframe.vm"/>
+  	<item name="/external/workhall"  vm="noframe.vm"/>
+  	<item name="/govservice/jdcx_dz"  vm="noframe.vm"/>
+  	<item name="/govservice/bjgg_dz"  vm="noframe.vm"/>
+  	<item name="/govservice/index1"  vm="noframe.vm"/>
+  	<item name="/access"  verify="1" title=""/>
+  	<item name="/icity/submitsp/returndataid" vm="src.vm" title="食药监保存数据成功回传数据"/>
+  	<!-- 重庆市网上政务平台 -->
+  	
+  	<!-- 十堰市大屏幕公示 -->
+  	<item name="/icity/dpgs"  vm="noframe.vm"/>
+  	<item name="/icity/xpgs"  vm="noframe.vm"/>
+  	<!-- 十堰市大屏幕公示 -->
+  	<!-- 西宁大屏幕公示 -->
+  	<item name="/dpgs"  vm="noframe.vm"/>
+  	<item name="/matterdpgs"  vm="noframe.vm"/>
+  	<item name="/dpgs_gaspc"  vm="noframe.vm"/>
+  	<!-- 西宁大屏幕公示 -->
+  	<!-- 阿拉尔大屏幕公示 -->
+  	<item name="/govservice/dpgs"  vm="noframe.vm"/>
+  	<!-- 阿拉尔大屏幕公示 -->
+  	<!-- 福州 -->
+  	<item name="/icity/nestedpages/csq"  vm="noframe.vm"/>
+  	<item name="/uc/showlicense" vm="src.vm"/>
+  	<item name="/icity/submitsp/googleseal" vm="src.vm"/>
+  	<item name="/icity/submitsp/ieseal" vm="src.vm"/>
+  	<!-- 福州 -->
+  	<!-- 天门 -->
+  	<item name="/govservice/dolist-middle" vm="noframe.vm"/>
+  	<item name="/govservice/dolist-small" vm="noframe.vm"/>
+  	<!-- 天门 -->
+  	
+  	<!--北京教育部 -->
+  	<item name="/icity/skip" vm="noframe.vm" verify="1"/>
+  	
+  	
+  	<!-- 齐齐哈尔证照中心 -->
+	<item name="/certificate/index" verify="1"/>
+	<item name="/certificate/zzck" verify="1"/>
+	<item name="/certificate/zzlr" verify="1"/>
+	<item name="/certificate/zzmb" verify="1"/>
+	<item name="/certificate/business_licenseinfo"  vm="noframe.vm" />
+	<!-- 我的证照中心-->
+	<item name="/elicense" verify="1" vm="src.vm"/>
+	<!--枣庄市薛城区结果公示展示  -->
+	<item name="/govservice/result_notice"  vm="noframe.vm"/>
+	<!-- 满洲里-->
+	<item name="/govservice/guestbook/message"  vm="src.vm"/>
+	<item name="/govservice/guestbook/complain"  vm="src.vm"/>
+	<item name="/govservice/guestbook/queryprogress"  vm="src.vm"/>	
+	<item name="/govservice/guestbook/index"  verify="1"/>
+	
+	<!--德州市办件统计页面、大屏展示页面、LED屏幕页面  -->
+	<item name="/icity/bjtj"  vm="noframe.vm"/>
+	<item name="/dpgs/dpgs"  vm="src.vm"/>
+    <item name="/dpgs/dzdpgs" redirect="/dpgs/dzdpgs" vm="lbgd.vm"/>
+    <item name="/icity/dz_led"  vm="noframe.vm"/>
+	<!--德州市办件统计页面  -->
+	<!-- 辽阳审批局 、辽阳大屏公示-->
+	<item name="/liaoyang_portal"  vm="src.vm"  title="辽阳审批局"/>
+	<item name="/dpgs"  vm="noframe.vm"/>
+	<!-- 漳州办件公告和屏幕公示页面 -->
+	<item name="/icity/bjgg"  vm="noframe.vm"/>
+	<item name="/icity/pmgs"  vm="noframe.vm"/>
+	<item name="/icity/bszn"  vm="noframe.vm"/>
+	<item name="/govservice/pub/info" vm="admin.vm"/>
+	<!-- 新余办件公告页面 -->
+	<item name="/icity/bjgg"  vm="noframe.vm"/>
+	
+	<!-- 呼伦贝尔在线办理动态图 -->
+	<item name="/icity/project/onlineinterface"  vm="src.vm"/>
+	<item name="/icity/project/deptlistinterface"  vm="src.vm"/>
+	
+	<!-- 商丘 有限公司设立登记事项打印申请表-->
+	<item name="/icity/center/business/print_form"  vm="src.vm"/>
+	<!-- 漳州-机关党建 -->
+	<item name="/govservice/jgdj"  vm="noframe.vm"/>
+	
+	
+	<!--石家庄高新区  咨询列表   -->
+	<item name="/querylist" redirect="/govservice/querylist" verify="0"/>
+	<!--石家庄高新区  留言  -->
+	<item name="/messages" redirect="/govservice/message" verify="0"/>
+	<!--石家庄高新区  大屏滚动  -->
+	<item name="/dolist2" redirect="/govservice/dolist2" vm="noframe.vm" verify="0"/>
+    <!-- 	鹤城政务公开 -->
+	<item name="/openHczw/query_list"  vm="noframe.vm"/>
+	<item name="/openHczw/ggxq"  vm="noframe.vm"/>
+    <!-- 	怀化对外提供展示页 -->
+    <item name="/open/bjgd"  vm="noframe.vm"/>
+    <item name="/open/left"  vm="noframe.vm"/>
+  </list>
+</custom>

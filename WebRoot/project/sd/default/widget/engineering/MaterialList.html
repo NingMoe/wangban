@@ -1,0 +1,75 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}project.css" />
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}print.css" media="print" />
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+
+<style type="text/css">
+.main{width: 900px}
+</style>
+	<button onclick="printArea()" class="nbutton_gray" style="float: right; margin-right: 20px; margin-top: 0px; margin-bottom: 5px;">打印</button>
+	<div class="" id="sqcllist" style="margin: 0px;">
+		<table class="table table-bordered">
+           <thead>
+               <tr class="active">
+                   <th>申请材料名称</th>
+                   <th>实际上传材料的名称</th>
+               </tr>
+           </thead>
+           <tbody id="apply_data">
+                    
+           </tbody>
+       </table>
+	</div>
+	<div id="m_document"  style="margin: 15px;display:none;">
+		<table class="listTable" width="100%" cellspacing="1">
+			<tr class="tr_2">
+				<th>无任何实际上传材料！</th>
+			</tr>
+		</table>
+	</div>
+<script type="text/javascript">
+$(function(){	
+	var command = new LEx.Command("app.icity.engineering.EngineeringCmd");	 
+	command.setParameter("BIZ_ID","{{biz_id}}");	
+	var ret= command.execute("getEnginBaseList");
+	if (ret.state == 1) {
+		var bool = false;
+		if(ret.total>0){
+			if(ret.data[0].APPLY_DATA.length>0){
+				var document = ret.data[0].APPLY_DATA;
+				var len = document.length;
+				var str = "";
+				for(var i=0;i<len;i++){
+					str += "<tr><td width=\"35%\">"+document[i].resourceName+"</td><td width=\"65%\">"+
+					"<a href=\"javascript:;\" onclick=\"opena('"+document[i].filePath+"','"+document[i].fileName+"');\">"
+					+document[i].fileName+"</a></td></tr>";
+				}
+				$("#apply_data").html(str);
+				bool = true;
+			}
+		}
+		if(bool){
+			$("#m_document").hide();
+			$("#sqcllist").show();
+		}else{
+			$("#m_document").show();
+			$("#sqcllist").hide();
+		}
+	} else {
+		$("#m_document").show();
+		$("#sqcllist").hide();
+		LEx.dialog.tips("未获取到数据",1);
+	}
+});
+function printArea(){
+	$("#sqcllist").printArea();
+}
+function opena(docid,name){
+	if(docid==""||docid==undefined||docid=="undefined"){
+		return;
+	}
+    var opera = "downloadagent4wp&path="+docid+"&name="+encodeURIComponent(name); 
+   	window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+	return false;
+}
+</script>

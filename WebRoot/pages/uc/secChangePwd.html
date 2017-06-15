@@ -1,0 +1,62 @@
+<script type="text/javascript" src="{{PageContext.PagePath}}uc/js/changePwd.js"></script>
+<script type="text/javascript" src="{{PageContext.PagePath}}uc/js/common.js"></script>
+<div class="sec_div"><span>修改密码</span></div>
+<img src="{%public assets/img/1-1.png%}">
+<ul  id="change-form">
+	<li><span>提示：如果你正在使用与其他网站相同的密码，建议您修改，</span></li>
+	<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;降低账号被盗风险。</span></li>
+	<li>
+		<table class="modify">
+				<tr>
+					<td>
+						<em>*</em>&nbsp;当前密码：
+					</td>
+					<td>
+						<input id="oldPassWord" reg="^.+$" tip="请填写当前登录密码" name="oldPassWord" type="password" class="input">
+					</td>
+					<td class="form-tip">
+						<span for="oldPassWord"></span>
+					</td>
+				</tr>
+				<tr><td></td><td colspan="2" class="check_rule">请输入您当前登录密码</td></tr>
+				<tr>
+					<td>
+						<em>*</em>&nbsp;新密码：
+					</td>
+					<td>
+						<input id="newPassWord" name="newPassWord" reg="^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,15}$" tip="请按要求填写" type="password" class="input" func="check_new_password">
+					</td>
+					<td class="form-tip">
+						<span for="newPassWord"></span>
+					</td>					
+				</tr>
+				<tr><td></td><td colspan="2" class="check_rule">请输入您的新密码，由6-15位字母、数字或特殊符号组成</td></tr>
+				<tr>
+					<td>
+						<em>*</em>&nbsp;确认密码：
+					</td>
+					<td>
+						<input id="cfmPassWord" name="cfmPassWord" reg="^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,15}$" tip="请按要求填写" type="password" class="input" func="check_confirm_password">
+					</td>
+					<td class="form-tip">
+						<span for="cfmPassWord"></span>
+					</td>					
+				</tr>
+				<tr><td></td><td colspan="2" class="check_rule">请再次输入您设置的密码</td></tr>
+			</table>
+	</li>
+</ul>
+
+<div class="form-submit" style="margin-top: 20px;margin-left: 280px;">
+	<table>
+	<tr>
+				<td><a class="opt_btn" href="javascript:void(0);" style="position: relative; left: -20px;" id="submit_btn" hidefocus="hidefocus"><span>提交</span></a></td>
+				<td><a class="opt_btn opt_btn_cancle" href="javascript:void(0);" style="position: relative; left: 5px;" id="clear_btn" hidefocus="hidefocus"><span>重新输入</span></a></td>
+	</tr>
+	</table>
+</div>
+ 		
+<div class="m_tip">
+	<div class="sec_div"><span>小贴士</span></div>
+	<div class="tip_text" style="text-indent: 2em;">将登录密码设置为8位以上，数字、大小写字母、特殊字符混合型是相对安全的，但通常不方便记忆，在这里我们教您一个小窍门：尝试用字母"O"代替数字零等等。同时，我们建议您每隔半年修改一次登录密码。</div>
+</div>

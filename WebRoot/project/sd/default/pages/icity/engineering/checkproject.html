@@ -1,0 +1,38 @@
+<!-- 4、并联审批 选择项目-->
+{% include icity/engineering/engineeringcss.html %}
+<script>
+	var data = LEx.urldata;	
+	function putin(o) {
+		var projectName = $(o).attr("projectname");
+		var projectId = $(o).attr("projectid");
+		data.projectName = projectName;
+		data.projectId = projectId;
+		data.ID = "no";
+		window.location = "{{PageContext.ContextPath}}icity/engineering/formview?"+ LEx.urlEncode(data);
+	}
+	function newproject() {
+		var url = "{{PageContext.ContextPath}}icity/engineering/addproject?"+ LEx.urlEncode(data);
+		window.location = url;
+	}
+</script>
+<div class="container" style="width: 1030px !important;">
+	<section class="panel" style="padding: 10px; min-height:500px;">
+	<h4 class="text-primary"
+		style="font-size: 20px; background: #e3e7f1; padding: 15px; padding-top: 18px;">
+		<strong style="color: #4f719c;"> 请选择项目</strong> <a
+			class="btn btn-info" style="text-align: right;"
+			onclick="newproject()"> 新项目注册</a>
+	</h4>
+	<div class="panel-body lc-xiangmu">
+		<ul class="row">
+			{% set ucid UserInfo.uid %} {% map "ucid",ucid, as l %} {% command
+			"app.icity.engineering.EngineeringCmd","getProject",l as m %} {%for n
+			in m.data %}
+			<li class="col-xs-3"><a href="javascript:;"
+				onclick="putin(this)" projectid={{n.PROJECT_ID}}
+				projectname={{n.PROJECT_NAME}}>{{n.PROJECT_NAME}}</a>
+			</li> {% endfor %}
+		</ul>
+	</div>
+	</section>
+</div>

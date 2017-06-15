@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--- （开发者禁用此配置）用户自定义的URL路由及站点配置-->
+<custom version="1.0">
+  <virtualPath>
+    <item id="aaaed50ea9014b0c995dc75aed54c516" title="福建省" domain="" name="/fj" value="security/fj.properties"/>
+    <item id="03a4b51260fb440cae168c60ace3bce9" title="莆田市" domain="" name="/pt" value="security/pt.properties" pid="aaaed50ea9014b0c995dc75aed54c516"/>
+    <item id="fdae7ab39fac4319b548477bba2fc2f5" title="城厢区" domain="" name="/ptcx" value="security/ptcx.properties" pid="03a4b51260fb440cae168c60ace3bce9"/>
+    <item id="f33744b4a7ea434696355853360e683d" title="涵江区" domain="" name="/pthj" value="security/pthj.properties" pid="03a4b51260fb440cae168c60ace3bce9"/>
+    <item id="493d2539244c4e438e1ab0554beea191" title="荔城区" domain="" name="/ptlc" value="security/ptlc.properties" pid="03a4b51260fb440cae168c60ace3bce9"/>
+    <item id="541ba4e576c0449992af545a19ce61e7" title="龙岩市" domain="" name="/ly" value="security/ly.properties" pid="aaaed50ea9014b0c995dc75aed54c516"/>
+    <item id="d66e2d5a38d147908545e15a61088f73" title="新罗区" domain="" name="/lyxl" value="security/lyxl.properties" pid="541ba4e576c0449992af545a19ce61e7"/>
+    <item id="e0d4553af11a41b88292eba09300b330" title="长汀县" domain="" name="/lyct" value="security/lyct.properties" pid="541ba4e576c0449992af545a19ce61e7"/>
+    <item id="fff16cb74b8e4bc1897d7bcd5064bba5" title="永定县" domain="" name="/lyyd" value="security/lyyd.properties" pid="541ba4e576c0449992af545a19ce61e7"/>
+    <item id="bb4084ce00f143c293de8b50e54bd8fc" title="上杭县" domain="" name="/lysh" value="security/lysh.properties" pid="541ba4e576c0449992af545a19ce61e7"/>
+    <item id="ba238b54433d404fa333bbce9adb3186" title="武平县" domain="" name="/lywp" value="security/lywp.properties" pid="541ba4e576c0449992af545a19ce61e7"/>
+    <item id="ca74d4cd559f410db2f58543e4dd3ca4" title="连城县" domain="" name="/lylc" value="security/lylc.properties" pid="541ba4e576c0449992af545a19ce61e7"/>
+    <item id="7a2d0446c14347ee9879f9af583054fb" title="漳平市" domain="" name="/lyzp" value="security/lyzp.properties" pid="541ba4e576c0449992af545a19ce61e7"/>
+  </virtualPath>
+</custom>

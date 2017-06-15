@@ -1,0 +1,274 @@
+<link href="{{PageContext.ContextPath}}public/JRPlatform/css/bootstrap.css" rel="stylesheet">
+<link href="{{PageContext.ContextPath}}public/JRPlatform/css/mine.css" rel="stylesheet">
+
+<style type="text/css">
+.tab-content {
+margin: 0px;
+line-height: 24px;
+}
+.zl-list-unstyled-ggfu-2>li>a {
+	padding: 6px;
+}
+.buttonli {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #E2E5EA;
+	text-align: center;
+}
+a:link{ text-decoration: none}
+.paddingli {
+	padding: 2px 2px 2px 2px;
+	width:120px;
+	height:30px;
+}
+@font-face {
+  font-family: 'Glyphicons Halflings';
+
+  src: url('{{PageContext.ContextPath}}public/JRPlatform/fonts/glyphicons-halflings-regular.eot');
+  src: url('{{PageContext.ContextPath}}public/JRPlatform/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('{{PageContext.ContextPath}}public/JRPlatform/fonts/glyphicons-halflings-regular.woff') format('woff'), url('{{PageContext.ContextPath}}public/JRPlatform/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('{{PageContext.ContextPath}}public/JRPlatform/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+.btn-tinyClass{
+	color: #333;
+  	background-color: #ccc;
+  	border-color: #ccc;
+  	background-image: none;
+  	border: 1px solid transparent;
+  	border-radius: 4px;
+  	display: inline-block;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+.btn-tinyClass:HOVER{
+  	background-color: #faa;
+  	border-color: #ccc;
+}
+.thumbnails {
+  display: block;
+  padding: 4px;
+  /*margin-bottom: 20px;*/
+  line-height: 1.42857143;
+  background-color: #F0F8FF;
+  border: 1px solid #ffffff;
+  border-radius: 0;
+  -webkit-transition: border 0.2s ease-in-out;
+  -o-transition: border 0.2s ease-in-out;
+  transition: border 0.2s ease-in-out;
+}
+.thumbnail {
+  display: block;
+  padding: 4px;
+  margin-bottom: 20px;
+  line-height: 1.428571429;
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  -webkit-transition: all 0.2s ease-in-out;
+          transition: all 0.2s ease-in-out;
+}
+
+.thumbnail > img,
+.thumbnail a > img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+  border-color: #428bca;
+}
+
+.thumbnail .caption {
+  padding: 9px;
+  color: #333333;
+}
+
+.col-xs-6{
+	width:32%;
+}
+.bs-example.bs-example-tabs ul li a{
+    text-align: left;
+}
+.table {
+    width: 100%;
+    max-width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+</style>
+
+<script type="text/javascript">
+
+var type = LEx.urldata.type;
+var formId_rep = "";
+var flowId_rep = "";
+$(function () {
+	if(type == "0"){
+		$("#shangshi").show();
+		$("#fangchan").hide();
+		$("#qita").hide();
+	}else if(type == "3"){
+		$("#shangshi").hide();
+		$("#fangchan").show();
+		$("#qita").hide();
+	}else{
+		$("#shangshi").hide();
+		$("#fangchan").hide();
+		$("#qita").show();
+	}
+	initList(type);
+});	
+
+function initList(type){
+	
+	var cmd = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+	cmd.setParameter("applyNumber",type);
+	var ret = cmd.execute("getBusinessRulesInfo");
+	if(!cmd.error){
+		if(ret.data.length>0){
+			for(var i=0; i<ret.data.length; i++){
+				if(type == "0"){
+					if(ret.data[i].flowName == "个体工商户设立登记与后置事项联办"){
+						$("#gtul").append('<li><table width="100%"><tr><td style="width:75%"><a href="#"><span class="glyphicon glyphicon-chevron-right"></span>'+ret.data[i].flowName+'</a></td><td style="width:25%;text-align:right"><button type="button" onclick="getApplicationInfo(\''+ret.data[i].flowId+'\',\''+ret.data[i].flowName+'\',\''+type+'\')" class="btn btn-info btn-xs pull-right" style="margin-right:10px;">在线申报</button><button type="button" class="btn btn-info btn-xs pull-right" style="margin-right:20px;" onclick="tzlbzn(\''+ret.data[i].flowId+'\',\''+ret.data[i].flowName+'\')">联办办事指南</button></td></tr></table></li>');
+					}else{
+						$("#qyul").append('<li><table width="100%"><tr><td style="width:75%"><a href="#"><span class="glyphicon glyphicon-chevron-right"></span>'+ret.data[i].flowName+'</a></td><td style="width:25%;text-align:right"><button type="button" onclick="getApplicationInfo(\''+ret.data[i].flowId+'\',\''+ret.data[i].flowName+'\',\''+type+'\')" class="btn btn-info btn-xs pull-right" style="margin-right:10px;">在线申报</button><button type="button" class="btn btn-info btn-xs pull-right" style="margin-right:20px;" onclick="tzlbzn(\''+ret.data[i].flowId+'\',\''+ret.data[i].flowName+'\')">联办办事指南</button></td></tr></table></li>');
+					}
+				}else if(type == "3"){
+					$("#fcul").append('<li><table width="100%"><tr><td style="width:75%"><a href="#"><span class="glyphicon glyphicon-chevron-right"></span>'+ret.data[i].flowName+'</a></td><td style="width:25%;text-align:right"><button type="button" onclick="getApplicationInfo(\''+ret.data[i].flowId+'\',\''+ret.data[i].flowName+'\',\''+type+'\')" class="btn btn-info btn-xs pull-right" style="margin-right:10px;">在线申报</button><button type="button" class="btn btn-info btn-xs pull-right" style="margin-right:20px;" onclick="tzlbzn(\''+ret.data[i].flowId+'\',\''+ret.data[i].flowName+'\')">联办办事指南</button></td></tr></table></li>');
+				}else{
+					$("#qtul").append('<li><table width="100%"><tr><td style="width:75%"><a href="#"><span class="glyphicon glyphicon-chevron-right"></span>'+ret.data[i].flowName+'</a></td><td style="width:25%;text-align:right"><button type="button" onclick="getApplicationInfo(\''+ret.data[i].flowId+'\',\''+ret.data[i].flowName+'\',\''+type+'\')" class="btn btn-info btn-xs pull-right" style="margin-right:10px;">在线申报</button><button type="button" class="btn btn-info btn-xs pull-right" style="margin-right:20px;" onclick="tzlbzn(\''+ret.data[i].flowId+'\',\''+ret.data[i].flowName+'\')">联办办事指南</button></td></tr></table></li>');
+				}
+			}	
+		}		
+	}else{
+		LEx.alert("查询事项失败！");
+	}
+}
+
+//在线申报
+function getApplicationInfo(flowId,flowName,type){
+	getRepId(flowId);
+	declareonline(flowName,type);
+}
+
+function getRepId(flowId){
+	var cmd = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+	cmd.setParameter("flowId",flowId);
+	var ret = cmd.execute("zs_getApplicationInfo");
+	if(!cmd.error){
+		if(ret.data){
+			formId_rep = ret.data.formId;
+			flowId_rep = ret.data.flowId;
+		}
+	}else{
+		LEx.alert("获取表单信息失败！");
+	}
+};
+
+function declareonline(flowName,type){
+	var data = {};
+	data.name = flowName;
+	data.formId = formId_rep;
+	data.flowId = flowId_rep;
+	data.ID_index = "no";
+	data.JRType = type;
+	window.open("{{PageContext.ContextPath}}JRPlatform/onlineDeal?"+LEx.urlEncode(data));
+	
+};
+function tzyhz(){
+	window.open("http://mcxt.zjaic.gov.cn/namereg");
+}
+
+//联办指南
+function tzlbzn(flowId,flowName){
+	window.open("{{PageContext.ContextPath}}JRPlatform/unionguide?flowId="+flowId+"&flowName="+flowName);
+}
+
+</script>
+<!------content---->
+<div class="container" >
+<div class="page-content">
+    <div class="row">
+<div class="col-xs-12">
+    <div class="panel" >
+        <div class="panel-heading">
+        	<div class="panel-title">一窗受理</div>
+        </div>
+        <div class="panel-body" style="padding:10px;">
+            <div id="shangshi" class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#qytab" id="qy" role="tab" data-toggle="tab" aria-controls="home">
+                            <img src="{{PageContext.ContextPath}}public/JRPlatform/img/icon-1.png" style="margin-bottom:15px"><br><span>企业登记</span>
+                        </a>
+                    </li>
+                    <li class="" role="presentation">
+                        <a href="#grtab" id="gr" role="tab" data-toggle="tab" aria-expanded="false" >
+                            <img src="{{PageContext.ContextPath}}public/JRPlatform/img/icon-2.png" style="margin-bottom:15px"><br><span>个体户登记</span>
+                        </a>
+                    </li>
+                    <li class="" role="presentation" onclick="tzyhz();">
+                        <a href="#mctab" id="mc" data-toggle="tab" aria-expanded="false" >
+                            <img src="{{PageContext.ContextPath}}public/JRPlatform/img/icon-3.png" style="margin-bottom:15px"><br><span>企业名称预核准</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade active in" id="qytab" aria-labelledby="qy">
+                        <ul id="qyul" class="list-unstyled row j-list-unstyled" style="line-height:2; padding-left: 15px;">
+                        </ul>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="grtab" aria-labelledby="gr">
+                        <ul id="gtul" class="list-unstyled row j-list-unstyled" style="line-height:2; padding-left: 15px;">
+                        </ul>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="mctab" aria-labelledby="mc"></div>
+                </div>
+            </div>
+            
+            <div id="fangchan" class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#fctab" id="fc" role="tab" data-toggle="tab" aria-controls="home">
+                            <img src="{{PageContext.ContextPath}}public/JRPlatform/img/icon-3.png" style="margin-bottom:15px"><br><span>个人不动产权登记联办</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade active in" id="fctab" aria-labelledby="fc">
+                        <ul id="fcul" class="list-unstyled row j-list-unstyled" style="line-height:2; padding-left: 15px;">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="qita" class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#qttab" id="qt" role="tab" data-toggle="tab" aria-controls="home">
+                            <img src="{{PageContext.ContextPath}}public/JRPlatform/img/icon-4.png" style="margin-bottom:15px"><br><span>其他事项联办</span>
+                        </a>
+                    </li>
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade active in" id="qttab" aria-labelledby="qt">
+                        <ul id="qtul" class="list-unstyled row j-list-unstyled" style="line-height:2; padding-left: 15px;">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>

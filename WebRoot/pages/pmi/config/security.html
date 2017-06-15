@@ -1,0 +1,115 @@
+<style>
+<!--
+
+.tree-file {
+	background: url("");
+	width: 0;
+}
+
+.tree-title {
+	padding: 0px
+}
+
+.datagrid-body td,.datagrid-footer td {
+	border-bottom: 1px dotted #21A4FF
+}
+
+.ntabs .opt li {    border: 1px solid #CCCCCC;
+    border-radius: 2px 2px 2px 2px;
+    cursor: pointer;
+    float: left;
+    margin: 0 10px;
+    padding: 3px 10px;}
+.ntabs .opt li.on{color: #FFF; background: #4F95EA;border:1px solid #155BDD;font-weight: bold;}
+
+.ntabs .ntab{
+	border:1px solid #CCCCCC;
+	background: #F4F4F4
+}
+.list_table_1{
+	table-layout: fixed;
+	word-break:break-all;
+}
+.list_table_1 td{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	height: 100%;
+}
+
+.baseform {background: #EDEDED;border-top: 2px solid #888;}
+
+.baseform tr th { background: #f1f1f1;padding: 5px; color: #222; border:1px solid #f1f1f1;}
+
+body {
+	background: #fff;
+    min-width: 100%;
+    overflow-x: hidden;
+    background-color: #fff;
+}
+-->
+</style>
+<div class="navigation">
+	<ul class="navigation_ul">
+		<li class="cur">security配置</li>
+	</ul>
+	<ul class="navigation_button">
+		<li class="edit" onClick="save()">保存配置</li>
+	</ul>
+</div>
+
+
+<div region="north" border="false" style="height: 40px; display: none;"></div>
+<div id="security" style="margin-top: 5px;" align="center" >
+
+</div>
+<script type="text/template" id="securityTemplate">
+	<table id="tJob" class="baseform list_table_1" style="width: 98%">
+		
+		<tr>
+			<th align="center" style="text-align: center;">名称</th>
+			<th align="center" style="text-align: center;">描述</th>
+			<th align="center" style="text-align: center;">默认属性</th>
+			<th align="center" style="text-align: center;">配置属性</th>
+			<th align="center" style="text-align: center;">操作</th>
+		</tr>
+		{for o in data}
+			{if o.TYPE == 'PARAM'}
+				<tr id="tr_${o_index}"
+					{if o.ISREGISTER == '1'}
+							class="on"
+					{else}
+						class="off"
+					{/if}
+				>
+					<input type="hidden" id="id" value="${o.ID}"></input>
+					<td>${o.ID}</td>
+					<td title="双击查看全部内容" ondblclick="viewAll(this)">
+					<span style="display:none">${o.DESCRIBE}</span> 
+					${o.DESCRIBE}</td>
+					<td title="双击查看全部内容" ondblclick="viewAll(this)">
+                    <span style="display:none">${o.DEFAULT_VALUE}</span> 
+					${o.DEFAULT_VALUE}</td>
+					<td><textarea name="value" cols="5"
+						{if o.ISREGISTER != '1'}
+							class="disabled_textarea"
+							disabled="disabled"
+						{/if}
+					 rows="1" id="value" value="${o.VALUE}" style="width: 95%;height: auto;" title="没有配置属性就采用默认属性">${o.VALUE}</textarea>
+					</td>
+					<td style="text-align: center;">
+						{if o.ISREGISTER == '1'}
+							<span class="selectedOn" onclick="cmd(this,'${o_index}')"></span>
+						{else}
+							<span class="selectedOff" onclick="cmd(this,'${o_index}')"></span>
+						{/if}
+					</td>
+				</tr>
+				{else}
+				<tr>
+					<td colspan="5" style="font-size: 16px;font-weight: bolder;color: #333;background-color: ##f8f8f8;">${o.NAME}</td>
+				</tr>
+			{/if}
+		{/for}
+	</table>
+</script>

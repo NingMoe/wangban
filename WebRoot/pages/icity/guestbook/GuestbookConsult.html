@@ -1,0 +1,100 @@
+<script type="text/javascript" src="{{PageContext.JsPath}}LEx.form.js"></script>
+<style type="text/css">
+.listTable th {
+	text-align: center;
+	color: black;
+	font-weight: normal;
+	background-color: #F1F1F1;
+	padding: 2px 2px;
+	font-size: 13px;
+	height: 24px;
+	background: url("{{PageContext.ContextPath}}public/themes/default/images/w3c_ttt.png") bottom repeat-x #FFF;
+}
+
+.listTable tr td {
+	padding: 6px 10px;
+	font-size: 12px;
+	font-weight:normal;
+	cursor:default;
+}
+a.htmlhref{cursor: pointer;text-decoration: none;}
+a.htmlhref:link{color:#335CF4;}
+a.htmlhref:visited{color:#335CF4;}
+a.htmlhref:hover{color:#FF9F10;}
+a.htmlhref:active{color:#FF9F10;}
+</style>
+<div class="fl w210">
+	{% widget "other.GuestBookLeftWidget"%}
+</div>
+<div class="ml210">
+	<ul class="tabs tabs-base">
+		<li><a href="javascript:void(0);" class="tab active" id="title">历史咨询信息</a></li>
+	</ul>
+	<div class="tabs-content" style="padding-top: 8px; margin-top: -2px;">
+		<table class="listTable" style="margin: 8px auto;" width="93%">
+			<tr>
+				<th style="width: 10%;">类别</th>
+				<th style="width: 19%;">信件来源</th>
+				<th style="width: 45%;">主题</th>
+				<th style="width: 16%;">来信时间</th>
+				<th style="width: 10%;">处理状态</th>
+			</tr>
+			{% if ResultList.data %} 
+				{% for o in ResultList.data %}
+					<tr>
+						<td align="center"><font class="NeedFormatStatus">{{o.TYPE}}</font></td>
+						<td align="center"><a target="_blank" href="{{PageContext.ContextPath}}icity/guestbook/GuestbookConsult?depart={{o.DEPART_ID}}" class="htmlhref">{{o.DEPART_NAME}}</a></td>
+						<td><a target="_blank" href="{{PageContext.ContextPath}}icity/guestbook/detail?id={{o.ID}}" class="htmlhref">{{o.TITLE}}</a></td>
+						<td align="center"><q class="NeedFormatTime" style="display: none;">{{o.WRITE_DATE}}</q></td>
+						<td align="center">{% if o.STATUS|equal:"1" %} 已处理 {% else %} 未处理 {% endif %}</td>
+					</tr>
+				{% endfor %} 
+			{% else %}
+				<tr>
+					<td colspan="5">没有符合条件的记录!</td>
+				</tr>
+			{% endif%}
+		</table>
+		{{ResultList_Pager}}
+	</div>
+</div>
+<script type="text/javascript">
+var _calendar = null;
+
+function init() {
+	_calendar = new LEx.Control.Calendar(function() {
+		contentHandler();
+	});
+
+	$(".NeedFormatStatus").each(function() {
+		var bState = formatStatus($(this).html());
+		$(this).html(bState);
+	});
+
+	$(".NeedFormatTime").each(function() {
+		var json = $(this).html().toString();		
+		try{
+			var obj = eval('(' + json + ')');
+			var date = LEx.util.Format.formatDate(parseInt(obj.time) / 1000);
+			$(this).html(date).show();
+		}catch(e){
+			$(this).html("-").show();
+		}	
+	})
+}
+
+//信件类型状态转换
+function formatStatus(val) {
+	if (val == 0) {
+		return "建议";
+	} else if (val == 1) {
+		return "表扬";
+	} else if (val == 2) {
+		return "咨询";
+	} else if (val == 3) {
+		return "投诉";
+	} else if (val == 4) {
+		return "其他";
+	}
+}
+</script>

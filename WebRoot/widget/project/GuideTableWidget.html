@@ -1,0 +1,64 @@
+<script type="text/javascript"
+	src="{{PageContext.JsPath}}home/jquery.qrcode.min.js"></script>
+<script type="text/javascript"
+	src="{{PageContext.PagePath}}icity/project/common.js"></script>
+<script type="text/javascript"
+	src="{{PageContext.ContextPath}}public/scripts/addfavorite.js"></script>
+<style>
+<!--
+.wqrcode {
+	margin-top: 4px;
+	margin-left: 8px;
+}
+-->
+
+
+
+</style>
+<script type="text/javascript">
+var dick_url =LEx.webPath+ "bsp/uploadify?action=downloadagent4wp";
+$(function (){
+	    var attachments = {{attachments}};
+	  if(attachments.length==0){
+	   		$("#dfile").html("<tr><td colspan='2'>无表格下载</td></tr>");
+	   }else{ 	
+		   var materials={data:attachments}
+	   		$('#dfile').html(LEx.processDOMTemplate('MattersListTemplate',materials));
+	   }
+});
+</script>
+<script type="text/template" id ="MattersListTemplate">
+{for o in data}
+{var samples=[]}
+{if LEx.isNotNull(o.SAMPLE_NAME)}
+{var samples=o.SAMPLE_NAME.split(";")}
+{var docids=o.SAMPLE.split(";")}
+{/if}
+  <tr>
+     <td>${o.NAME} </td>
+<td>
+{if samples.length>0}
+{for sample in samples}
+{if LEx.isNotNull(sample)}
+		${sample}<a class="btn btn-xs btn-link" href="${dick_url+'&path='+docids[sample_index]+'&name='+sample}">下载</a></br>	
+{/if} 
+{/for}
+{else}
+无样表
+{/if}
+</td>    
+{/for}
+</script>
+
+<div id="page" class="" style="padding-left: 10px; padding-right: 10px; background-color: #fff;">
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th>文档名称</th>
+								<th>样表</th>
+							</tr>
+						</thead>
+						<tbody id="dfile">
+						</tbody>
+					</table>
+</div>

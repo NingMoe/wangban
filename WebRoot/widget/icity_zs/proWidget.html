@@ -1,0 +1,138 @@
+<script type="text/javascript">
+$("document").ready(function () {
+    $('.nav-tabs > li > a').hover(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+    $('.navbar > .nav-tabs > li > a').click(function (e) { 
+        e.preventDefault();
+        $(this).tab('show');
+        if(isNotNull($(this).attr("goto"))){
+        location.href = $(this).attr("goto");}
+          if(isNotNull($(this).attr("gotonew"))){
+        window.open($(this).attr("gotonew"),'_blank');}
+    });
+    if({{UserInfo}}){
+    	$("#div_user").show();
+    	$("#div_login").hide();
+    	$("#div_header").hide();
+    }else{
+    	$("#div_user").hide();
+    	$("#div_login").show();
+    	$("#div_header").show();
+    }
+   	var src = "{{PageContext.ContextPath}}file/zs/pro/logo/logo_{{ConfigInfo.WebRegion}}.png";
+   	$("#logo_img").attr("src",src);
+   	$("#curDate").html(getCurrentTime());
+});
+
+function getCurrentTime(){
+    var date = new Date();
+    this.year = date.getFullYear();
+    this.month = date.getMonth() + 1;
+    this.date = date.getDate();
+    this.day = new Array("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六")[date.getDay()];
+    var currentTime = this.year + "年" + this.month + "月" + this.date + "日 " + " " + this.day;
+    return currentTime;
+  }
+//登录成功后的列表 menu_tab_x  0尚未提交   1正在办理 2办结事项 3补齐补正 4不予受理事项  5不受理事项 
+//6用户中心 7 业务中心
+function setiframe(obj){
+	var obj = obj.split("menu_tab_")[1];
+	var str = "#";
+	switch(obj){
+		case '0':
+			str="{{PageContext.ContextPath}}center/index";
+			break;
+		case '1':
+			str="{{PageContext.ContextPath}}center/index";
+			break;
+		case '2':
+			str="{{PageContext.ContextPath}}center/index";
+			break;
+		case '3':
+			str="{{PageContext.ContextPath}}center/index";
+			break;
+		case '4':
+			str="{{PageContext.ContextPath}}center/index";
+			break;
+		case '5':
+			str="{{PageContext.ContextPath}}center/index";
+			break;		
+		case '6':
+			str="{{PageContext.ContextPath}}uc/index";
+			break;
+		case '7':
+			str="{{PageContext.ContextPath}}center/index";
+			break;
+	}
+	window.location.href=str;
+}
+function doLoginfr(c) {
+	var str = encodeURIComponent(window.location.href);
+	if(c=="c"){
+		str = check_goto;
+	}
+	var redirectTo = "{{ConfigInfo.login_fr}}?goto="+str;
+	window.location.href = redirectTo;
+    return false;
+}	
+function doLogin(c) {	
+	var str = encodeURIComponent(window.location.href);
+	if(c=="c"){
+		str = check_goto;
+	}
+    var redirectTo=null;
+    redirectTo = "{{ConfigInfo.login_gr}}&goto="+str;
+	window.location.href = redirectTo;
+    return false;
+}
+function doLogout(ucPath) {
+	var logout_url=null;
+	var surl="{{ConfigInfo.logout_gr}}";
+	if({{UserInfo}}.type==21){
+		surl = "{{ConfigInfo.logout_fr}}?goto={{PageContext.WebSite}}public/index";
+	}
+	logout_url = "{{PageContext.ContextPath}}zs/logout?goto="+encodeURIComponent(surl);
+	window.location.href = logout_url;
+    return false;
+}
+
+
+function contentQuery(type){
+	var str = "{{PageContext.ContextPath}}icity/interactive/base?type="+type;	
+	window.location.href = str;
+	/* var command = new LEx.Command("app.pmi.content.ContentCmd");
+	command.setParameter("NAME", name);
+	var ret = command.execute("getContentList");
+	var str = "#";
+	if(!command.error){
+		if(ret.total>0){			
+			str = "{{PageContext.ContextPath}}govservice/pub/contentDetail?id="+ret.data[0].ID;
+			window.location.href = str;
+		}
+	} */
+}
+function searchX(){
+	 var key=$(".key").val();
+	 if(!LEx.isNotNull(key)){
+		 return false;
+	 }
+	 window.open("{{cp}}icity/project/searchZS?websitetype=0&key="+ encodeURIComponent(key));
+}
+</script>
+<style>
+.title_class{
+		/* background: #EEE url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAHklEQVQImWNkYGBgYGD4//8/A5wF5SBYyAr+//8PAPOCFO0Q2zq7AAAAAElFTkSuQmCC) repeat;
+		text-shadow: 5px -5px black, 4px -4px white;
+		font-weight: bold;
+		-webkit-text-fill-color: transparent;
+		-webkit-background-clip: text; */
+		margin: 0;
+		padding: 0;
+		line-height: 1.5em;
+        font-family: Tangerine,STKaiti;
+        color: #000088;
+        font-weight:bold;
+}
+</style>

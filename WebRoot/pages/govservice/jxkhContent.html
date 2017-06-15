@@ -1,0 +1,151 @@
+<div id="page" class="container" style="min-height: 500px; background-color: #fff;">
+	<div style="margin-bottom:15px;">
+		<span style="font-size: 32px;" id="moreTitle">服务进驻率</span>
+	</div>
+	<div>
+		<div style="width: 800px;">
+			<div style="display: block; float: left; width:240px;; border: 0px solid #36F;margin-left:10px;">
+				省级部门窗口
+				<table class="table table-hover table-condensed f12" id="fwjzl1"
+		style="display: block; max-height: 400px; overflow-y: auto;">
+					
+				</table>
+			</div>
+			<div style="display: block; float: left; width:240px; border: 0px solid #36F;margin-left:10px;">
+				设区市平台
+				<table class="table table-hover table-condensed f12" id="fwjzl2"
+		style="display: block; max-height: 400px; overflow-y: auto;">
+					
+				</table>
+			</div>
+			<div style="diaplay: block; float : left; width:240px; border: 0px solid #36F;margin-left:10px;">
+				县（区、市平台）
+				<table class="table table-hover table-condensed f12" id="fwjzl3"
+		style="display: block; max-height: 400px; overflow-y: auto;">
+					
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	var deptList;
+	getDeptList();
+	function getDeptList() {
+		var region_code = getSecurityValue("WebRegion");
+		var command = new LEx.Command("app.icity.ServiceCmd");
+		command.setParameter("region_code", region_code);
+		deptList = command.execute("getDeptList");
+		if (!command.error) {
+		} else if (type != "0") {
+			LEx.dialog({
+				title : "系统提示",
+				content : command.error,
+				icon : 'error',
+				lock : true
+			});
+		}
+	}
+	$(function() {
+		$("#moreTitle").html(LEx.urldata.moreTitle);
+		if(LEx.urldata.moreTitle=="关注度"){
+			setFwlDept();
+			if("{{ConfigInfo.WebRank}}"=='0'){
+				setFwlHall('1',"chartT2");
+				setFwlHall('2',"chartT3");
+			}else if("{{ConfigInfo.WebRank}}"=='1'){
+				setFwlHall('2',"chartT2");
+				setFwlHall('3',"chartT3");
+			}
+		}else{
+			addTables();	
+		}
+	});
+
+	function getDeptListGrade4(region_code) {
+		var command = new LEx.Command("app.icity.ServiceCmd");
+		command.setParameter("region_code", region_code);
+		return command.execute("getDeptList");
+	}
+	function addTables() {
+		var data = [];
+		data = deptList.data.organ;//document.write(LEx.encode(data));
+		var ret = {};
+		ret.data = data;
+		var ret1 = {};
+		var data1 = [];
+
+		var ret2 = {};
+		var data2 = [];//document.write(LEx.encode(deptList.data.region));
+		for ( var i = 0; i < deptList.data.region.length; i++) {
+			if (deptList.data.region[i].GRADE == "3") {
+				data1.push(deptList.data.region[i]);
+				var deptList2 = getDeptListGrade4(deptList.data.region[i].CODE);
+				for ( var j = 0; j < deptList2.data.region.length; j++) {
+					if (deptList2.data.region[j].GRADE == "4") {
+						data2.push(deptList2.data.region[j]);
+					}
+				}
+			}
+		}
+		ret1.data = data1;
+		ret2.data = data2;
+
+		$('#fwjzl1').html(LEx.processDOMTemplate('Table12Template', ret));
+
+		$('#fwjzl2').html(LEx.processDOMTemplate('Table12Template', ret1));
+
+		$('#fwjzl3').html(LEx.processDOMTemplate('Table12Template', ret2));
+
+	}
+	function setFwlDept(){
+		var command = new LEx.Command("app.icity.project.ProjectIndexCmd");	
+		var ret = command.execute("getTrafficStatisticsDept");
+		if(!command.error){
+			$('#fwjzl1').append(LEx.processDOMTemplate('Table12_3Template',ret));
+		}else{
+			LEx.alert(ret.message);
+		}
+	}
+	function setFwlHall(WebRank,id){//alert("{{ConfigInfo.WebRank}}");
+		var command = new LEx.Command("app.icity.project.ProjectIndexCmd");	
+		command.setParameter("WebRank",WebRank);
+		var ret = command.execute("getTrafficStatisticsHall");
+		if(!command.error){		
+			if(id=="chartT2"){
+				$('#fwjzl2').append(LEx.processDOMTemplate('Table12_3Template',ret));
+			}else if(id=="chartT3"){			
+				$('#fwjzl3').append(LEx.processDOMTemplate('Table12_3Template',ret));
+			}
+		}else{
+			LEx.alert(ret.message);
+		}
+	}
+</script>
+<script type="text/template" id="Table12Template">
+<tbody style="width:100%;">
+{var i=1}
+{for o in data}
+	<tr  style="width:100%;">
+		<td  style="width:20%;"><span class="label label-warning">${i++}</span>
+		</td>
+		<td  style="width:60%;" title="${o.NAME}">${formatLenUtf8(o.NAME,10)}</td>
+		<td  style="width:20%;">100.00%</td>
+	</tr>	
+{/for}
+</tbody>
+</script>
+<script type="text/template" id="Table12_3Template">
+<tbody style="width:100%;">
+{var i=1}
+{for o in data}
+	<tr  style="width:100%;">
+		<td  style="width:20%;"><span class="label label-warning">${i++}</span>
+		</td>
+		<td  style="width:60%;" title="${o.NAME}">${formatLenUtf8(o.NAME,10)}</td>
+		<td  style="width:20%;">${o.COUNT}</td>
+	</tr>	
+{/for}
+</tbody>
+</script>

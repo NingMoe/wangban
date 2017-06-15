@@ -1,0 +1,144 @@
+<style>
+.tabs-content{margin-top: -1px;}
+</style>
+<script src="{{PageContext.JsPath}}/chart/highcharts.js"></script>
+<div class="center" style="margin:0 auto; width:700px;">
+			<div class="fl" id="tab">
+				<header class="panel-heading">
+					<ul class="nav nav-tabs">
+						<li class="panel-title" style="width: 100px;">&nbsp;&nbsp;&nbsp;办件统计</li>
+						<li class="active"><a href="#day" data-toggle="tab">按日</a></li>
+						<li><a href="#month" data-toggle="tab">按月</a></li>
+						<li><a href="#year" data-toggle="tab">按年</a></li>
+					</ul>
+				</header>
+			</div>
+			<div class="tab-content panel-body" style="width:99%;height:300px;display:block">
+			 	<div id="day" class="tab-pane active" style="height:290px;" ></div>
+			 	<div id="month" class="tab-pane" style="height:290px;" ></div>
+			 	<div id="year" class="tab-pane" style="height:290px;" ></div>
+			</div>
+			
+</div>
+
+<script type="text/javascript">
+$(function () {
+	contentHandler("day");
+    contentHandler("month");
+    contentHandler("year");
+});
+function contentHandler(t){
+	var tabObj = {};
+	tabObj.id = "tab";
+	LEx.Control.Tab(tabObj);
+	if(t=="day"){
+		agencyTotal('day','day',t);
+	}else if(t=="month"){
+		agencyTotal('month','month',t);
+	}else{
+		agencyTotal('year','year',t);
+	}
+}
+
+function agencyTotal(id,type,t){
+	var cmd = new LEx.Command("app.icity.ServiceCmd");
+	var ret;
+	var text;
+	var strArr = new Array();
+	var sumArr = new Array();
+	cmd.setParameter("type",t);
+	
+		text="按当前状态统计";
+		json =  cmd.execute("getBjtj");
+		if(json!=''&& json!=null){	
+			var obj =['预审','咨询','受理','即办','承诺','补办','挂起','办结'];
+			for (x in obj)
+			{	
+				strArr.push(obj[x]);
+				sumArr.push(0);
+			}
+			if(json!=''&& json!=null){
+				
+						sumArr[0]=json[0].INTERNET;						
+						sumArr[1]=json[0].CONSULT;
+						sumArr[2]=json[0].ACCEPT;
+						sumArr[3]=json[0].JIBAN;
+						sumArr[4]=json[0].CHENGNUO;
+						sumArr[5]=json[0].CORRECTION;
+						sumArr[6]=json[0].SUSPEND;
+						sumArr[7]=json[0].COMPLETE;
+					
+			}
+			//strArr.splice(5,1);
+			//sumArr.splice(5,1);		
+		}else{
+			LEx.alert(json.error);
+		}
+	//LEx.alert("strArr: "+LEx.encode(strArr)+"   sumArr:  "+LEx.encode(sumArr));
+	renderColumn(id,strArr,sumArr,'','');
+}
+
+function renderColumn(id,name,sum,text,url){
+    $('#'+id).highcharts({
+            chart: {
+                type: 'column',
+                margin: [ 50, 50, 100, 80]
+            },
+            title: {
+                text: text
+            },
+            xAxis: {
+                categories: 
+                	name,
+                labels: {
+                    rotation: -45,
+                    align: 'right',
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+            	allowDecimals:false,
+                min: 0,
+                title: {
+                    text: '办<br>理<br>业<br>务<br>数<br>',
+   	                rotation : 0 
+                },
+            },
+            legend: {
+                enabled: false
+            },
+            credits:{
+            	enabled:!0,
+            	text:text,
+            	href:url
+            },
+            tooltip: {
+                formatter: function() {
+                    return '<b>'+ this.x +'</b><br/>'+
+                        '办理业务数: '+parseInt(Highcharts.numberFormat(this.y, 1)) +
+                        ' 次';
+                }
+            },
+            series: [{
+                name: 'Population',
+                data: sum,
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    color: '#FFFFFF',
+                    align: 'center',
+                    x: 0,
+                    y: 19,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            }]
+        });
+	}
+    
+</script>

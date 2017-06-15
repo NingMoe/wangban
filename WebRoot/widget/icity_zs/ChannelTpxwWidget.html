@@ -1,0 +1,71 @@
+<script>
+$(function(){
+	onQueryTpxw(1);
+});
+function onQueryTpxw(start){
+	var limit=5;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("start",(start-1)*limit);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	cmd.setParameter("name", "动态要闻");
+	cmd.setParameter("open", '{{ConfigInfo.Dtyw_isout}}');
+	cmd.setParameter("picModel", '1');
+	var ret =  cmd.execute("getContentInfo");
+	if(!ret.error){
+		if(ret.data.length>0){
+			ret.data[0].REMARK = "active";
+			$("#ul_sspdw_tpxw").html(LEx.processDOMTemplate('TpxwContentTemplate',ret));
+			$("#p1").html(LEx.processDOMTemplate('TpxwContentTemplate1',ret));
+		}
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+
+function parseLen(val) {
+	if (LEx.isNotNull(val)&&val.length>14) {
+		return val.substring(0,14)+"...";
+	} else {
+		return val;
+	}
+}
+</script>
+<div class="carousel slide ex-carousel-news" data-ride="carousel" id="ex-carousel-news" >
+                <div class="carousel-inner" id="tpxw_index">
+<ol class="carousel-indicators" style="position: absolute;
+bottom: -5px;
+left: 250px;
+z-index: 15;" id="p1">
+                                            <li data-target="#ex-carousel-news" data-slide-to="0" class="active"></li>
+                                            <li data-target="#ex-carousel-news" data-slide-to="1"></li>
+                                            <li data-target="#ex-carousel-news" data-slide-to="2"></li>
+                                            <li data-target="#ex-carousel-news" data-slide-to="3"></li>
+                                            <li data-target="#ex-carousel-news" data-slide-to="4"></li>
+                                        </ol>
+<div id="ul_sspdw_tpxw" class="carousel-inner">
+
+</div>
+</div>
+</div>
+<script type="text/template" id="TpxwContentTemplate">
+{for o in data}
+                    <div style="width:349px;height:260px" {if o.REMARK=="active"} class="item active" {else} class="item" {/if}> <img src="{{cp}}file/upload/${o.PICNAME}" width="349px" height="260px">
+                        <div style="position: absolute;bottom: 0px;z-index: 10;width:320px;padding-bottom: 0px;background-color: #00000f;text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);">
+                            <p><a href="{{PageContext.ContextPath}}govservice/pub/contentDetail?id=${o.ID}" style="color:#FFFFFF; margin-left:5px" title="${o.NAME}">${parseLen(o.NAME)}</a></p>
+                        </div>
+                    </div>
+
+{/for}
+</script>
+<!-- 以下为首页图片切换模块(白点) -->
+<script type="text/template" id="TpxwContentTemplate1">
+{var i=0} 
+{for o in data }
+{if i==0}<li data-target="#ex-carousel-news" data-slide-to="${i}" class="active"></li>
+{else}
+<li data-target="#ex-carousel-news" data-slide-to="${i}"></li>
+{/if}
+{var i=i+1}
+{/for}
+</script>

@@ -1,0 +1,158 @@
+@charset "utf-8";
+
+.picture {
+	width: 96%;
+	margin: 15px auto auto 2%;
+	float: left;
+}
+
+.picture img {
+	width: 64px;
+	height: 64px;
+}
+
+.img_checkbox {
+	position: relative;
+	left: 85px;
+	top: -64px;
+}
+
+.fDiv {
+	border: 1px solid #E2E2E2;
+	border-radius: 2px;
+	box-shadow: 1px 1px 2px #EEEEEE;
+	cursor: pointer;
+	float: left;
+	height: 90px;
+	margin: 10px 15px;
+	padding: 5px;
+	position: relative;
+	width: 100px;
+	background: #FEFEFE;
+	text-align: center;
+}
+
+.fDiv:hover {
+	background: #F0F0F0;
+}
+
+.fDiv dl dd span{
+	width: 24px; height: 24px;position: absolute;background:url("../images/selection.png") no-repeat;right: 5px;
+}
+
+.selected dl dd span{
+	width: 24px; height: 24px;position: absolute;background:url("../images/selection.png") no-repeat scroll 0 -24px rgba(0, 0, 0, 0);right: 4px;
+}
+
+.fDiv dl dt {
+	color: #999;
+	width: 80px;
+	height: 24px;
+	line-height: 24px;
+	font-size: 12px;
+	overflow: hidden;
+	white-space: nowrap;
+	-o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	margin: 0 auto;
+}
+
+#tips {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 1px solid #CCC;
+	border-radius: 2px 2px 2px 2px;
+	box-shadow: 0 0 3px #CCC;
+	left: 20px;
+	position: absolute;
+	width: 200px;
+	display: none;
+	padding: 5px;
+}
+
+#tips li {
+	padding: 2px 10px;
+	font-style: 13px;
+	color: #999
+}
+
+#tips li span {
+	color: #333;
+	text-decoration: inherit;
+	font-style: italic;
+}
+
+.selected {
+	background: #FFFFCC;
+	border: 2px solid #DB6100;
+	padding: 4px
+}
+
+#viewDIV{display:none;width: 100%;height: 100%;position: absolute;top: 0px;left: 0px;background:none repeat scroll 0 0 rgba(0, 0, 0, 0.3) ;z-index:100; }
+#viewDIV .showDIV{position: fixed;left: 50%;top:50%;width: 400px;height: 300px;line-height:300px;background: none repeat scroll 0 0 rgba(255, 255, 255, 0.9); margin-left: -200px;margin-top: -150px;box-shadow:2px 2px 2px rgba(0, 0, 0, 0.3);text-align: center;}
+#viewDIV img{vertical-align: middle;}
+#block {width: 0px;height: 100%;} 
+#viewDIV .close{background: url("../images/close.png")no-repeat;width: 31px;height: 31px;cursor: pointer;margin-right: -15px;margin-top: -15px;float: right;}
+.icon_type {
+	background: url("../images/pre-ico.png") repeat scroll 0 -860px
+		rgba(0, 0, 0, 0);
+	display: inline-block;
+	height: 60px;
+	width: 60px;
+}
+
+
+.doc,.docx {
+	background-position: 0 -60px
+}
+
+.ppt,.pptx {
+	background-position: 0 -308px
+}
+
+.xls,.xlsx {
+	background-position: 0 -555px
+}
+
+.pdf {
+	background-position: 0 -185px
+}
+
+.img,.png,.jpg,.jpeg,.gif,.bmp {
+	background-position: 0 -920px
+}
+
+.music,.mp3,.ogg,.wma,.aac,.mmf,.m4a,.mp2,.wav,.wv {
+	background-position: 0 -676px
+}
+
+.video,.flv,.rmvb,.avi,.rm,.mpg,.mpeg,.wmv,.mkv,.vob,.mp4 {
+	background-position: 0 -617px
+}
+
+.txt {
+	background-position: 0 -432px
+}
+
+.folder {
+	background-position: 0 -798px
+}
+
+.rar,.zip,.tar,.jar {
+	background-position: 0 -370px
+}
+
+.swf {
+	background-position: 0 -860px
+}
+
+.unknow {
+	background-position: 0 -860px
+}
+
+.dll{
+	background-position: 0 0px
+}
+
+.bat,.exe{
+	background-position: 0 -738px
+}

@@ -1,0 +1,244 @@
+	<script type="text/javascript">
+		{% set cp PageContext.ContextPath %}
+		var __webPath = "{{cp}}";
+		var __signature = "{{PageContext.SignatureInfo}}";
+		var signupUrl="{{PageContext.ContextPath}}uc/register";
+	</script>
+	<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.form.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js,md5.js"></script>
+	<script  type="text/javascript" src="{% public scripts/common.js %}"></script>
+	<script  type="text/javascript" src="{{PageContext.JsPath}}laypage/laypage.js"></script>
+	<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/jeDate/jedate.js"></script>
+	<link rel="stylesheet" type="text/css" href="{% public assets/css/custom.css%}">
+	<link rel="stylesheet" type="text/css" href="{% public assets/css/mdicon.font.css %}" />
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+	<script src="{% public assets/js/html5.min.js %}"></script>
+	<script src="{% public assets/js/respond.min.js %}"></script>
+<![endif]-->
+	<script type="text/javascript">
+		plugin.add('dialog', {
+			path: '{{cp}}public/scripts/dialog/a?t=js&m=jquery.artDialog.js,plugins/iframeTools.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['dialog_css']
+		});
+		plugin.add('dialog_css', {
+			path: '{{cp}}public/scripts/dialog/skins/simple.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		plugin.add('tree', {
+			path: '{{cp}}public/scripts/zTreeStyle/jquery.ztree.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['tree_css']
+		});
+		plugin.add('tree_css', {
+			path: '{{cp}}public/scripts/zTreeStyle/zTreeStyle.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		
+		plugin.add('calendar', {
+			path: '{{cp}}public/scripts/calendar/calendar-min.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['calendar_css']
+		});
+		plugin.add('calendar_css', {
+			path: '{{cp}}public/scripts/calendar/calendar-min.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		plugin.add('editor',{path:'{{cp}}public/scripts/kindeditor/kindeditor-min.js',type:'js',charset:'utf-8'});
+		plugin.add('fullCalendar',{
+			path:'{{cp}}public/scripts/fullcalendar/fullcalendar.js',
+			type:'js',
+			charset:'utf-8',
+			rely: ['jquery_ui']
+		});
+		
+		plugin.add('jquery_ui',{
+			path:'{{cp}}public/scripts/fullcalendar/jquery-ui-1.10.2.custom.min.js',
+			type:'js',
+			charset:'utf-8',
+			rely: ['fullCalendar_css']
+		});
+		
+		plugin.add('fullCalendar_css',{
+			path:'{{cp}}public/scripts/fullcalendar/a?t=css&m=fullcalendar.css,fullcalendar.print.css',
+			type:'css',
+			charset:'utf-8'
+		});
+	</script>
+ {% include public/index/header.html %}
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=md5.js"></script>	
+<script type="text/javascript" src="{{PageContext.PagePath}}uc/js/a?t=js&m=base64.js,jquery.form.js"></script>
+<script type="text/javascript" src="{{PageContext.ContextPath}}project/sd/default/pages/uc/js/a?t=js&m=login.js"></script>
+<div class="container"> 
+		
+		<div class="form-tab" style="display:none;">
+								<input id="caAuth" type="hidden" value="{{ConfigInfo.CA_auth}}"/>
+								<ul>
+									<li class="on" style="width:123px" tag="yhdl">用户名登录</li>
+								</ul>
+							</div>
+							 
+        <div class="row">
+            <div class="col-xs-6">
+                <section class="panel its-login">
+                    <h3 class="delta"><strong style="color: #29588c;">公民用户登录</strong></h3>
+                    <br>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-xs-2 omega control-label" style="width: 22%;">用户名：</div>
+                            <div class="col-xs-10 alpha" style="width: 78%;">
+                                <input type="text" class="form-control" placeholder="请输入用户名" id="username_gm" onkeypress="if(event.keyCode==13) { $('#pass_gm').focus();return false;}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-2 omega control-label" style="width: 22%;">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</div>
+                            <div class="col-xs-10 alpha" style="width: 78%;">
+                                <input type="password" class="form-control" placeholder="请输入用户密码" id="pass_gm" onkeypress="if(event.keyCode==13) { lclogin('gm');return false;}">
+                            </div>
+                        </div>
+                        <div id="verify_code_div_gm"  class="col-xs-10 alpha" style="display:none;margin-left:65px;">
+							<input id="verify_gm" name="verify" type="text" class="text-verify" style="width: 70px;height:33px" placeholder="验证码"> 
+							<a href="javascript:changeVerify();" hidefocus="hidefocus"> 
+								<img id="verifyImg_gm" src="" alt="换一张" style="position: relative; top: 0px; left: 0px;height:30px">
+							</a>&nbsp; 
+							<a href="javascript:changeVerify();" hidefocus="hidefocus" style="font-size: 13px;">换一张</a>
+						</div>
+                        <div class="form-group">
+                            <div class="col-xs-12" style="top: 22px;">
+                                <button class="btn btn-danger btn-block f20" onclick="lclogin('gm')">登录</button>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="list-inline">
+                        <li><a class="text-muted" href="#">忘记密码？</a></li>
+                        <li><a href="{{cp}}uc/perregister">注册</a></li>
+                    </ul>
+                </section>
+            </div>
+            <div class="col-xs-6">
+                <section class="panel its-login">
+                    <h3 class="delta"><strong style="color: #29588c;">法人/其他组织用户登录</strong></h3>
+                    <br>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-xs-2 omega control-label" style="width: 22%;">用户名：</div>
+                            <div class="col-xs-10 alpha" style="width: 78%;">
+                                <input type="text" class="form-control" placeholder="请输入用户名" id="username_fr" onkeypress="if(event.keyCode==13) { $('#pass_fr').focus();return false;}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-2 omega control-label" style="width: 22%;">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</div>
+                            <div class="col-xs-10 alpha" style="width: 78%;">
+                                <input type="password" class="form-control" placeholder="请输入用户密码" id="pass_fr" onkeypress="if(event.keyCode==13) { lclogin('fr');return false;}">
+                            </div>
+                        </div>
+                        <div id="verify_code_div_fr" style="display:none ;margin-left:65px;">
+				<input id="verify_fr" name="verify" type="text" class="text-verify" style="width: 70px;height:33px " placeholder="验证码"> 
+				<a href="javascript:changeVerify();" hidefocus="hidefocus"> 
+					<img id="verifyImg_fr" src="" alt="换一张" style="position: relative; top: 0px; left: 0px; height:30px">
+				</a>&nbsp; <a href="javascript:changeVerify();" hidefocus="hidefocus" style="font-size: 13px;">换一张</a>
+			</div>
+                        <div class="form-group">
+                            <div class="col-xs-12" style="top:22px	">
+                                <button class="btn btn-danger btn-block f20" onclick="lclogin('fr')">登录</button>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="list-inline">
+                        <li><a class="text-muted" href="#">忘记密码？</a></li>
+                        <li><a href="{{cp}}uc/corregister">注册</a></li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </div>
+   
+    <div id="yhdl" class="tab" style="display:none">
+								<dl>
+									<dd>
+										<form onsubmit="return false" action="" method="post" id="yhLoginForm" name="yhLoginForm">
+											<input id="userType" name="userType" type="hidden" value="gm" tag="type"/>
+											<input id="type" name="type" type="hidden" value="YH" tag="type"/>
+											<input id="account" reg="^.+$" tips="请输入用户名！" tag="account" name="account" type="text" placeholder="用户名/身份证号/手机号" class="text-name"/> 
+											<input id="pwd" name="pwd" type="hidden" tag="pwd"/>
+											<input id="verify_code" name="verify_code" type="hidden" tag="verify_code"/>
+											<input id="goto" name="goto" type="hidden" value="{{PageContext.Parameter.goto}}" tag="goto"/>
+											<input id="callback" name="callback" type="hidden" value="{{PageContext.Parameter.callback}}" tag="callback"/>
+											<input id="uuid" name="uuid" type="hidden" value="{{PageContext.Parameter.uuid}}" tag="uuid"/>
+										</form>
+									</dd>
+								</dl>
+								<dl>
+									<dd>
+										<input id="password" reg="^.+$" tips="请输入密码！" name="password" placeholder="密码" type="password" class="text-pwd" oncopy="return false;" oncut="return false;"/>
+									</dd>
+								</dl>
+								<dl id="verify_code_div" style="display: none;">
+									<dd>
+										<input id="verify" name="verify" type="text" class="text-verify" style="width: 70px;" placeholder="验证码"> 
+										<a href="javascript:changeVerify();" hidefocus="hidefocus"> 
+											<img id="verifyImg" src="{{PageContext.ContextPath}}bsp/verifyCode" alt="换一张" style="position: relative; top: 6px; left: 0px;">
+										</a>&nbsp; <a href="javascript:changeVerify();" hidefocus="hidefocus" style="font-size: 13px;">换一张</a>
+									</dd>
+								</dl>
+								<dl style=" padding: 2px;">
+									<dd>
+										<input type="checkbox" value="" id="remember_me">&nbsp;
+									</dd>
+									<dd style="font-size:13px;">
+										<label>记住用户名</label>
+									</dd>									
+									<!-- <dd>
+										&nbsp;&nbsp;&nbsp;<input type="checkbox" value="" id="remember_login_state">&nbsp;
+									</dd>
+									<dd style="font-size:13px;">
+										<label>记住登录状态</label>
+									</dd> ------>
+								</dl>
+								<dl style="padding: 0px;">
+									<dd style="float: left; width: 220px; ">
+										<input style="float: left;" type="button" class="btn-smb" onclick="okSubmit()" hidefocus="hidefocus">
+										<div style="float: left;margin-left: 10px; font-size: 13px;">
+											<a href="{{PageContext.ContextPath}}uc/getPwd?step=first" target="_blank" style="margin: 0px;" hidefocus="hidefocus">忘记密码</a>
+										</div>
+									</dd>
+								</dl>	
+							</div>
+							
+<script>
+function lclogin(type)
+{
+	$("#bt"+type).attr("disabled","disabled");
+	$("#account").val($("#username_"+type).val());
+	$("#password").val($("#pass_"+type).val());
+	$("#verify").val( $("#verify_"+type).val());
+	$("#userType").val(type);
+	okSubmit();
+	
+	//rechangeVerify();
+	$("#bt"+type).removeAttr("disabled");
+	
+}
+
+function rechangeVerify(){
+	
+	if ($("#verifyImg").attr("src")!="/icity/bsp/verifyCode") {
+		//verify_code_div_gm
+		
+		$("#verify_code_div_gm").show();
+		$("#verify_code_div_fr").show();
+		$("#verifyImg_gm").attr("src",$("#verifyImg").attr("src"));
+		$("#verifyImg_fr").attr("src",$("#verifyImg").attr("src"));
+	} else {
+		$("#verify_code_div_gm").hide();
+		$("#verify_code_div_fr").hide();
+	}
+}
+</script>
+	{% include "public/index/footer.html" %}

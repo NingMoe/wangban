@@ -1,0 +1,37 @@
+<script>
+$(function(){
+SPsxChange();
+});
+function SPsxChange(){
+    //获取事项材料表格
+    var limit=200;
+    var start=1;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("itemid",$("#simple").val());//"3DACC6AB361F40C2B50F4E6FAADC1AD8"
+	var ret =  cmd.execute("getAllItemInfoByItemID");
+	if(!ret.error){
+	    var len = ret.data.length;
+	   if(len==0){
+	   		$("#dfile").html("<tr><td><input type='checkbox'></td><td> </td><td>无表格下载</td><td></td><td></td></tr>");
+	   }else{ 		    
+	   		$('#dfile').html(LEx.processDOMTemplate('MattersListTemplate',ret));
+	   }
+		
+	}else{
+		alert(ret.error);//打印错误信息
+	}
+
+}
+</script><input id="simple" type="hidden" value="{{itemInfo.ID}}" />
+<div id="dfile"></div>
+<script type="text/template" id="MattersListTemplate">
+	{for o in data}
+      <tr>
+        <td><input type="checkbox"></td>
+         <td>${o.NAME} </td>
+ 		 <td>${o.SAMPLE_NAME} </td>
+         <td>${o.DESCRIPTION}</td>
+         <td><a class="btn btn-xs btn-link" href="${dick_url+o.SAMPLE.split(";")[0]}">下载</a></td>
+       </tr>
+	{/for}
+</script>

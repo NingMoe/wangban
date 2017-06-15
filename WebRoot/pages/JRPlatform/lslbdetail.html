@@ -1,0 +1,420 @@
+<!DOCTYPE header PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/icity.js"></script>
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/layer.js"></script>
+<script>
+
+var receiveid;
+
+var subject;
+
+var docids=[];
+
+$(function () {
+	
+	$('#detail').on('shown.bs.modal', function (e) {
+		  var $this = $(this);
+	      var $modal_dialog = $this.find('.modal-dialog');
+	      var m_top = $(window).height()/15; //- $modal_dialog.height()/2-100;
+	      $modal_dialog.animate({ top: m_top +'px'},10);
+	  });
+	$('#detail').on('hide.bs.modal', function (e) {
+		  var $this = $(this);
+	      var $modal_dialog = $this.find('.modal-dialog');
+	      $modal_dialog.css("top",0);
+	  });
+	
+	layer.ready(function(){ 
+	    layer.open({
+	        type: 2,
+	        title: '',
+	        fix: true,
+	        shadeClose: true,
+	        maxmin: true,
+	        content: '',
+	        end: function(){
+	        }
+	    });
+	});
+	
+	var acceptanceNum = LEx.urldata.acceptanceNum;
+	var queryPsw = LEx.urldata.queryPsw;
+	
+	getLslbDetail();
+	
+	getTaKanTongZhi(receiveid);
+	
+	getHqYiJian(receiveid);
+	
+	getTaKanGaoZhi(receiveid);
+	
+	$(".upload_file").each(function(){
+	 	LEx.Control.SWFUpload({
+			id: $(this).attr('id'),
+			text: '上传附件',
+			upload_url:LEx.webPath+"bsp/uploadify?action=uploadagent4wp",
+	        button_width:120,
+	        button_height:34,
+	        upload_success_handler:uploadSuccess,
+	        type:"doc,file,pic"
+		}); 
+	});
+	$(".uploadTipe").hide();
+	
+	function getLslbDetail(){
+		
+		var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+	  	command.setParameter("acceptanceNum",acceptanceNum);
+		command.setParameter("queryPsw",queryPsw);
+		var ret= command.execute("queryProgress");
+		if (ret.state == 1 && ret.total>0) {
+			$("#progressContentDiv").html(LEx.processDOMTemplate("progressContent", ret));
+			
+			var isTaKan = ret.data.isTaKan;
+			receiveid = ret.data.bizId;
+			subject = ret.data.applySubject;
+			
+			if(isTaKan != 1){
+				$("#tkbutton").attr("style","display:none");
+			}
+		} else {
+			if(ret.data.length>0){
+				LEx.dialog.tips(ret.data[0].message,1);
+			}else{
+				LEx.dialog.tips("没有查询到对应的业务信息",1);
+			}
+		}
+	}
+});
+
+
+//获取踏勘通知
+function getTaKanTongZhi(receiveid){
+	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+	command.setParameter("bizId", receiveid);
+	var ret = command.execute("getTaKanMessage");
+	
+	if(!command.error){
+		
+		$("#demo1 p").html("");
+		if(ret.data){
+			var message = ret.data.message;
+			$("#demo1 p").append(message);
+		}
+	}else{
+		LEx.dialog({
+			title : "系统提示",
+			content : cmd.error,
+			icon : 'error',
+			lock : true
+		});
+	}
+}
+
+//获取会签意见
+function getHqYiJian(receiveid){
+	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+	command.setParameter("bizId", receiveid);
+	var ret = command.execute("getTaKanSign");
+	
+	if(!command.error){
+		
+		$("#opinionTable tbody").html("");
+		
+		if(ret.data.state == "200"){
+			for(var i=0; i<ret.data.info.orgArray.length; i++){
+				var item = ret.data.info.orgArray[i];
+				$("#opinionTable tbody").append("<tr><td>"+item.orgName+"</td><td>"+formateOpinionStatus(item.opinionState)+"</td><td>"+item.opinion+"</td><td>"+item.personName+"</td></tr>");
+			}
+		}else{
+			
+			$("#opinionTable").attr("style","display:none");
+			document.getElementById("tishi").style.display = "block";
+			document.getElementById("tishi").innerHTML = "各部门暂时没有确认是否参与！";
+		}
+	}else{
+		LEx.alert('查询失败!'+ret.message);
+		return;
+	}
+}
+
+//踏勘告知
+function getTaKanGaoZhi(receiveid){
+	
+	//获取需要上传材料的踏勘事项
+	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+	command.setParameter("bizId", receiveid);
+	var ret = command.execute("getTaKanItem2");
+	
+	if(!command.error){
+		
+		if(ret.data.state == 200){
+			$("#demo3").html(LEx.processDOMTemplate("gaozhiTemplate", ret));
+			$("#demo3").append("<div id =\"submitsp\" style=\"bottom:0px;height:30px;text-align:center;\"><button type=\"button\" class=\"btn btn-primary\" onclick=\"saveMaterial()\">提交踏勘材料</button></div>");
+		}
+	}else{
+		LEx.alert('查询失败!'+ret.message);
+		return;
+	}
+}
+
+function viewTkDetail(){
+	
+	$("#detail").modal('show');
+	
+}
+function formateTakan(val){
+	if(val == 1){
+		return "是";
+	}else if(val == 0){
+		return "否";
+	}else{
+		return "";
+	}
+}
+function formateStatus(val){
+	if(val == 10){
+		return "未办";
+	}else if(val == 11){
+		return "在办";
+	}else if(val == 99){
+		return "已办";
+	}else {
+		return "";
+	}
+}
+function formateOpinionStatus(val){
+	if(val == 0){
+		return "不适宜选址";
+	}else if(val == 1){
+		return "适宜选址";
+	}else if(val == 2){
+		return "暂时没回复会签意见";
+	}else {
+		return "";
+	}
+}
+function showBszn(id,handleWay,resourceList,remark){
+	
+	if(resourceList != '' && resourceList != null){
+		index = layer.tips('<p style="padding:0px 0px 0px 10px"><strong>申报材料：</strong><br/>'+resourceList+'<br/></p>'+'<p style="padding:0px 0px 0px 15px"><strong>办事指南：</strong><br/>'+handleWay+'</p>', '#'+id, {
+		    tips: [4, '#f3f3f3'],
+		    area: ['44%', '52%'],
+		});
+	}else{
+		index = layer.tips('<p style="padding:0px 0px 0px 10px"><strong>备注：</strong><br/>'+remark+'<br/></p>', '#'+id, {
+		    tips: [4, '#f3f3f3'],
+		    area: ['44%', '52%'],
+		});
+	}
+}
+function formateComma(resourceList){
+	var resourceList = resourceList.replace(/\,/g,"<br/>")
+	return resourceList;
+}
+function c(){
+	layer.close(index);
+}
+
+function uploadSuccess(file, serverData) {
+	var obj=$(this);
+	var resourceCode=obj[0].settings.id;
+	$(".uploadTipe").hide();
+	var _data = LEx.decode(serverData);
+	if(_data.scc.code!="0000"){
+		alert("上传失败,请重新上传！");
+		return;
+	}
+	
+	$("#list_"+resourceCode).append("<div id=\"file_"+_data.scc.docid+"\">"+formatLen(_data.name,0,20)+"&nbsp;&nbsp;<a class='btn btn-success' href=\"#\" onclick=\"onDownload(this);\">下载</a> | <a class='btn btn-danger' href=\"#\" onclick=\"onDel(this);\">删除</a>"+"<br/><br/></div>");
+	$("#file_"+_data.scc.docid).attr("title",_data.name);
+	$("#file_"+_data.scc.docid).attr("url",_data.url);
+	var wp_apply = {};
+	wp_apply.resourceCode = resourceCode;
+   	wp_apply.resourceType = $("#type_"+resourceCode).html();
+   	wp_apply.itemId = $("#id_"+resourceCode).html();
+   	wp_apply.filePath = _data.scc.docid;
+   	wp_apply.fileType = "1";
+    wp_apply.fileName=_data.name;
+    wp_apply.url=_data.url;
+    wp_apply.subject = subject;
+    docids.push(wp_apply);
+    alert("上传成功！");
+}
+
+//下载
+function onDownload(obj){
+	var title = $(obj).parent().attr("url");
+	var title =obj;
+	if(title==""){
+		alert("请先上传附件！");
+	}else{
+    	var opera = "download&path="+$(obj).parent().attr("url"); 
+    	window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+	}
+	
+	return false;
+}
+//删除
+function onDel(obj){
+	var filePath = $(obj).parent().attr("id").replace("file_","");
+    	for(var i=0;i<docids.length;i++){
+    		if(docids[i].filePath == filePath){
+    			docids.splice(i,1);
+    			break;
+    		}
+    	} 
+    	var opera = "delete&path="+$(obj).parent().attr("url"); 
+    	$.ajax({
+    		type : "get",
+    		url : LEx.webPath + "bsp/uploadify?action="+opera,
+    		success : function(data) {        			
+    		},
+    		error : function() {        			
+    		}
+    	});
+    	$(obj).parent().remove();
+}
+/*提交*/
+function saveMaterial(){
+	alert("开始提交");
+	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+	command.setParameter("bizId", receiveid);
+	command.setParameter("material",docids);
+	var ret = command.execute("submitQtLhtkInfo");
+	if(!command.error){
+		if(ret.state=='1'){
+			alert(ret.message);
+			
+			document.getElementById("detail").style.display="none";
+			
+/* 
+			$("#submitsp").attr("style","display:none");
+		    for(var i=0;i<count_material;i++){
+		    	$("#SWFUpload_"+i).attr("style","display:none");
+		    	
+		    	if(document.getElementsByClassName("btn btn-danger")[i] != undefined){
+		    		document.getElementsByClassName("btn btn-danger")[i].style.display = "none";
+		    	}
+		    } */
+		}else{
+			errorDialog("验证","提交失败"+ret.message);
+			return;
+		}
+	}else{
+		errorDialog("验证","提交失败");
+		return;
+	}
+}
+</script>
+<script type="text/javascript"></script>
+<div id="progress">
+  <div class="modal-dialog" style="width: 90%;height:560px;">
+          <div class="panel panel-primary" >
+              <header class="panel-heading" style="background-color: #f3f3f3;">
+                  <h3 class="panel-title"><font color="black">联办进度</font></h3>
+              </header>
+              <div class="modal-body">
+              	<div class="panel-body" id="progressContentDiv" >
+               	
+              	</div>
+        </div>
+          </div>
+ </div>
+</div>
+<div id="detail" class="modal bs-modal-newmail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" style="width: 65%;height:350px;">
+   		<div class="modal-content">
+   			<div class="modal-header" >
+          		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+       			<h4 class="modal-title">
+       				<font>踏勘信息</font>
+       			</h4>
+      		</div>
+          		<div class="panel panel-primary">
+           		<div role="tabpanel" class="tab-pane active" id="z-c-1">
+       				<div class="tabs ex-trends" role="tabpanel" data-example-id="togglable-tabs">
+			             <ul class="nav nav-tabs" role="tablist" style="width:99%;">
+			                 <li role="presentation" class="active">
+			                     <a href="#demo1"  role="tab" data-toggle="tab">踏勘通知</a>
+			                 </li>
+			                 <li role="presentation" class="" >
+			                     <a href="#demo2" role="tab" data-toggle="tab">会签意见</a>
+			                 </li>
+			                 <li role="presentation" >
+			                     <a href="#demo3" role="tab" data-toggle="tab">踏勘告知</a>
+			                 </li>
+			            </ul>
+           				<div class="tab-content" style="width:100%;height:350px;overflow:auto;">
+			                <div role="tabpanel" class="tab-pane active" id="demo1"><br/>
+			                    <p></p>
+			                </div>
+			                <div role="tabpanel" class="tab-pane fade" id="demo2">
+			                    <table class="table table-bordered table-hover" id="opinionTable">
+			                        <thead>
+				                        <tr>
+				                            <th width="24%" style="text-align:center;">部门名称</th>
+				                            <th width="20%" style="text-align:center;">联合会签</th>
+				                            <th width="36%" style="text-align:center;">会签意见</th>
+											<th width="20%" style="text-align:center;">踏勘人</th>
+				                        </tr>
+				                    </thead>
+				                    <tbody></tbody>
+			                    </table>
+			                    <span id="tishi" style="display:none"></span>
+			                </div>
+              				<div role="tabpanel" class="tab-pane fade" id="demo3">
+              				</div>
+           			</div>
+       			</div> 
+   			</div>
+           </div>
+      </div>
+ </div>
+</div>
+<script type="text/template" id="progressContent">
+	<table class="table table-bordered">
+   		<tbody>
+   			<tr><th>联办事项主题</th><td colspan="4">${data.applySubject}</td></tr>
+   			<tr><th>联办受理时间</th><td>${(new Date(data.acceptTime)).pattern("yyyy-MM-dd HH:mm:ss")}</td><th>联办承诺时间</th><td></td></tr>
+   			<tr><th>是否联合踏勘</th><td>&nbsp;${formateTakan(data.isTaKan)}&nbsp;&nbsp;&nbsp;&nbsp;<button id="tkbutton" type="button" class="btn btn-primary" onclick="viewTkDetail()">查看踏勘信息</button></td><th>状态</th><td>${formateStatus(data.status)}</td></tr>
+   			<tr><th>联办节点事项名称</th><th>联办节点部门</th><th>联办节点受理时间</th><th>联办节点状态</th></tr>
+   			{for t in data.opinion}
+				{if t.itemName != '联合踏勘'}
+	   				<tr><td>${t.itemName}</td><td>${t.orgName}</td><td>${(new Date(t.receiveTime)).pattern("yyyy-MM-dd")}</td><td>${formateStatus(t.status)}</td></tr>
+				{/if}
+   			{/for}
+   		</tbody>
+   	</table>
+</script>
+<script type="text/template" id="gaozhiTemplate">
+	<table class="table table-bordered" id="table1">
+		<tbody>
+	  		{var i = 0}
+			{for o in data.info.orgArray}
+				<tr><th>部门名称</th><td>${o.orgName}</td><th>事项名称</th><td>${o.itemName}</td><th><a id="${o.itemId}" onmouseout="c()" onmouseover="showBszn('${o.itemId}','${o.handleWay}','${formateComma(o.resourceList)}','${o.remark}')">办事指南</a></th></tr>
+				<tr><th>踏勘材料</th><td colspan="4">
+				{if o.status==1}
+				{for p in o.resourceArray}
+					{var i = i+1}
+							<table class="table table-bordered">
+								<tbody>
+									<tr>
+										<td id="id_${p.resourceCode}" style="width:10%;display:none;">${o.itemId}</td>
+ 										<td id="code_${p.resourceCode}" style="width:10%;display:none;">${p.resourceCode}</td>
+                    					<td id="name_${p.resourceCode}" style="width:30%;" title="${p.resourceName}">【${i}】${formatLen(p.resourceName,0,20)}</td>
+ 										<td id="type_${p.resourceCode}" style="width:10%;display:none;">${p.resourceType}</td>
+                    					<td style="width:30%;"><div id="list_${p.resourceCode}"></div></td>
+                    					<td style="width:10%;"> <button class="upload_file" id="${p.resourceCode}" code="upload">上传</button></td>
+                					</tr>
+								</tbody>
+							</table>
+					{/for}
+{/if}
+				</td>
+				</tr>
+			{/for}
+		</tbody>
+	</table>
+</script>
+</html>

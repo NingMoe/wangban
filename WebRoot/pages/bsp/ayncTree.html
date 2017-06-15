@@ -1,0 +1,75 @@
+<SCRIPT type="text/javascript">
+		<!--
+		var setting = {
+				check : {
+					enable : true,
+					chkStyle : "checkbox",
+					radioType : "all",
+					chkboxType : {
+						"Y" : "",
+						"N" : ""
+					}
+				},
+				view : {
+					showLine : true
+				},
+				data : {
+					key : {
+						title : "NAME",
+						name : "NAME"
+					},
+					simpleData : {
+						enable : true,
+						idKey : "CODE",
+						pIdKey : "PARENT_CODE",
+						rootPId : ""
+					}
+				},
+				async : {
+					enable : true,
+					autoParam : [ "CODE" ],
+					type : "post",
+					dataType : "json",
+					url : LEx.webPath + "bsp/ayncTree?action=asyncNewOrg&selData="					
+				},
+				callback : {
+					beforeClick : function(treeId, treeNode) {
+					},			
+					onClick : onClick_oregion
+				}
+			};
+		var zNodes =[];
+		$(function(){
+			//initTree();	
+		});
+		function initTree(){
+			LEx.Control.Tree("ztree",setting,zNodes,function(obj){
+				deptTreeObj = obj;
+				//回调函数
+			});
+		}
+		/* 点击事件 */
+		function onClick_oregion(e, treeId, treeNode) {
+			//refreshOrganRegionTree();
+		}
+		function getDatas(){
+			var selectedDepts = [];
+			nodes = deptTreeObj.getCheckedNodes(true);
+			var len = nodes.length;
+			if(null != nodes && nodes.length >0){
+				for(var i=0;i<len;i++){
+					var selectedDept = {};
+					node=nodes[i];
+					selectedDept.CODE = node.CODE;
+					selectedDept.NAME = node.NAME;
+					selectedDept.TYPE = node.TYPE;
+					selectedDept.PARENT_CODE = node.PARENT_CODE;
+					selectedDept.GRADE = node.GRADE;
+					selectedDepts.push(selectedDept);
+				}				
+			}
+			return selectedDepts;
+		}
+		//-->
+	</SCRIPT>
+<ul id="ztree" class="ztree" style="overflow:auto;height:350px;display:none;"></ul>

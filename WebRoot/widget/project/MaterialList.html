@@ -1,0 +1,54 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}project.css" />
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}print.css" media="print" />
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+
+
+<style type="text/css">
+.main{width: 900px}
+</style>
+{% map "SBLSH",code,"TYPE",type as p%} {% command "app.icity.project.ProjectIndexCmd","materialListQueryByNameAndId",p as d %}
+{% if d.data %}
+	{% if d.data.metail %} 
+	
+	<div class="busy-result" id="sqcllist">
+		<table class="table table-bordered " width="100%" cellspacing="0">
+			<tr >
+				<th width="35%"  style="padding-top: 5px" class="text-center text-primary" >申请材料名称</th>
+				<th width="65%" style="padding-top: 5px" class="text-center text-primary">实际上传材料的名称
+				<button onclick="printArea()" class="btn btn-info btn-sm" style="float: right;">打印</button>
+				</th>
+			</tr>
+		{% for o in d.data.metail %}
+			<tr>
+				<input type="hidden" name="DOCUMENT_ID" value="{{o.DOCUMENT_ID}}" />
+				<td width="35%">{{o.DOCUMENT_NAME}}</td>
+				<td width="65%"><a href="#" onclick="opena('{{o.FILE_PATH}}','{{o.FILE_NAME}}');">{{o.FILE_NAME}}</a></td>
+			</tr>
+		{% endfor %}
+		</table>
+	</div>
+	{% else %}
+	<div class="busy-result"  style="margin: 15px;">
+		<table class="listTable" width="100%" cellspacing="1">
+			<tr class="tr_2">
+				<th>无任何实际上传材料！</th>
+			</tr>
+		</table>
+	</div>
+	{% endif %}
+{% endif %}
+<script type="text/javascript">
+function printArea(){
+	$("#sqcllist").printArea();
+}
+function opena(docid,name){
+	if(docid==""||docid==undefined||docid=="undefined"){
+		return;
+	}
+    var opera = "downloadagent4wp&path="+docid+"&name="+encodeURIComponent(name); 
+   	window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+	return false;
+	//window.location.href="{{ConfigInfo.NetDiskDownloadAddress}}"+docid;
+}
+</script>

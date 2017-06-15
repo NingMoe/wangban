@@ -1,0 +1,168 @@
+<script  type="text/javascript" src="{% public scripts/des.js %}"></script>
+<style>
+   #register_form_per tr td[colspan="3"]{
+     font-size:12px;
+     text-align:center;
+     color: #888888;
+   }
+  #register_form_per tr .form-tip{
+     width:30%;
+     color:red;
+  }
+</style>
+<div class="container" style="width: 1000px !important;"> 
+    <section class="panel" style="padding: 10px;">
+        <header class="panel-heading">
+            <h4 class="text-primary" style="border-bottom: solid 2px #9fbdd6; padding-bottom: 15px;">
+                <img src="{%public assets/img/hz_grzc_icon.jpg%}">&nbsp;&nbsp;<strong style="color: #4f719c;">公民用户注册</strong>
+               <!--  <small>请在右边选择正确的用户类型完成注册</small> -->
+            </h4>
+        </header>
+        <div class="panel-body form-contain">
+            <table class="table table-form curr_contain" id="register_form_per">
+                <tbody>
+                    <tr>
+                        <td class="text-right" width="25%"><strong style="color: red;">*</strong> 用户名：</td>
+                        <td width="25%">
+                        	<input tag="ACCOUNT" name="ACCOUNT" id="ACCOUNT" reg="^[a-zA-Z][a-zA-Z0-9_]{5,20}$" tip="格式不符合要求" func="check_Exists" class="form-control" type="text">
+                        	<input type="hidden" tag="TYPE" name="TYPE" id="TYPE" value="11"> 
+							<input type="hidden" tag="USERIDCODE" name="USERIDCODE" id="USERIDCODE" value="{{PageContext.Parameter.uuid}}"> 
+							<input type="hidden" tag="goto" name="goto" id="goto" value="{{PageContext.Parameter.goto}}">
+                        </td>
+                        <td class="form-tip" style="width:30%;">
+							<span for="ACCOUNT"></span>
+						</td>
+                    </tr>
+                    <tr>
+                     <td colspan="3">
+                     <span class="text-muted" style="margin-left: -49px;">以字母开头，允许使用字母数字下划线，6-20位组成</span>
+                     </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong style="color: red;">*</strong> 密码：</td>
+                        <td><input id="PASSWORD" name="PASSWORD" tag="PASSWORD" reg="^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,15}$" tip="请按要求填写" oncopy="return false;" oncut="return false;" onpaste="return false;" class="form-control" type="password">
+                        <div class="progress pull-left" style="width: 100%; height:6px; margin-top:10px;margin-bottom: 0;">
+                        <div id="progress-bar" style="width:0%; height:6px;">
+                        </div>
+                    	</div>
+                        </td>
+                        <td class="form-tip"><span for="PASSWORD"></span></td>
+                    </tr>
+                    <tr>
+	                    <td colspan="3">
+	                     <span class="text-danger" style="margin-left:-110px;color:#888888;">密码由6-15位字母、数字或特殊符号组成</span>
+	                    </td>
+	                 </tr>
+                    <tr>
+                        <td class="text-right"><strong style="color: red;">*</strong> 确认密码：</td>
+                        <td><input id="CONFIRM_PASSWORD" name="CONFIRM_PASSWORD" reg="^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,15}$" tag="CONFIRM_PASSWORD" tip="请按要求填写" func="check_confirm_password" oncopy="return false;" oncut="return false;" onpaste="return false;" class="form-control" type="password"></td>
+                        <td class="form-tip"><span for="CONFIRM_PASSWORD"></span></td>
+                    </tr>
+                     <tr>
+                     <td colspan="3" style="text-align:left;">
+                     <span class="text-success" style="margin-left: 286px;color:#888888;">请再输入一次</span>
+                     </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="text-right"><strong style="color: red;">*</strong> 真实姓名：</td>
+                        <td><input id="NAME" name="NAME" tag="NAME" reg="^.+$" tip="请按要求填写" class="form-control" type="text"></td>
+                        <td class="form-tip"><span for="NAME"></span></td>
+                    </tr>
+                     <tr>
+                     <td colspan="3" style="text-align:left;">
+                     <span class="text-muted" style="margin-left: 286px;">请输入真实的姓名</span>
+                     </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong style="color: red;">*</strong> 身份证号码：</td>
+                        <td>
+                            <input type="hidden" tag="CARD_TYPE" name="CARD_TYPE" id="CARD_TYPE" value="10"  /> 
+                        	<input tag="CARD_NO" id="CARD_NO" reg="^.+$" tip="请按要求填写"  func="check_card"  for="CARD_TYPE" class="form-control" type="text"></td>
+                        <td class="form-tip"><span for="CARD_NO"></span></td>
+                    </tr>
+                     <tr>
+                     <td colspan="3" style="text-align:left;">
+                     <span class="text-info" style="margin-left: 286px;color:#888888;">请输入正确格式的号码</span>
+                     </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">工作单位：</td>
+                        <td><input id="ADDRESS" name="ADDRESS" tag="ADDRESS" reg="^.+$" type="ADDRESS" tip="请按要求填写" class="form-control" type="text"></td>
+                        <td class="form-tip"><span for="ADDRESS"></span></td>
+                    </tr>
+                     <tr>
+	                     <td colspan="3" style="text-align:left;">
+	                       <span class="text-muted" style="margin-left: 286px;">请输入真实的工作单位</span>
+	                     </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">电子邮箱：</td>
+                        <td><input id="EMAIL" name="EMAIL" tag="EMAIL" reg="^(\w)+(\.\w+)*@(\w)+(\.\w+)*$" tip="请输入正确的邮箱地址" func="check_Exists" class="form-control" type="text"></td>
+                        <td class="form-tip"><span for="EMAIL"></span></td>
+                    </tr>
+                    <tr>
+                     <td colspan="3" style="text-align:left;">
+                     <span class="text-muted" style="margin-left:286px;">请输入正确电子邮箱</span>
+                     </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">
+                      	<!--   使用短信验证手机号必填 -->
+                        	  {% if ConfigInfo.ValidType|equal:'sms' %}
+                        	  <strong style="color: red;" id="isRequired_phone">*</strong>
+                        	   {% endif %}
+                        	  手机：</td>
+                        <td><input id="PHONE" name="PHONE" tag="PHONE" reg="^[1][0-9][0-9]{9}$" tip="请输入正确的手机号码" func="check_Exists" class="form-control" type="text"></td>
+                        <td class="form-tip"><span for="PHONE"></span></td>
+                    </tr>
+                     <tr>
+	                     <td colspan="3" style="text-align:left;">
+	                      <span class="text-muted" style="margin-left: 286px;">请输入真实的手机号码，以便我们与您联系</span>
+	                     </td>
+                    </tr>
+                    {% if ConfigInfo.ValidType|equal:'sms' %}
+							<tr>
+							  <th class="text-right"><strong style="color: red;">*</strong> 验证码：</th>
+							  <td colspan="2"><input type="text" style="width: 68px;" reg="^.+$" tip="请填写验证码" name="VCODE" id="VCODE" tag="VCODE" maxlength="4">
+							    <a id="verify_btn" name="verify_btn" href="javascript:void(0);" style="margin:-3px 3px;border-radius: 5px;position:absolute; float: right;" class="btn btn-primary"> <span id="verify_btn_text" name="verify_btn_text">获取短信验证码</span></a>
+							    <span for="VCODE"></span>
+							  </td>
+							</tr>  
+	                      {% else %}
+                    <tr>
+                        <td class="text-right"><strong style="color: red;">*</strong>验证码：</td>
+                        <td><input style="width: 68px;float:left;margin-right: 10px;" name="VCODE" id="VCODE" tag="VCODE" maxlength="4" class="form-control" type="text"><a href="javascript:changeVerify();" hidefocus="hidefocus"> <img name="verifyImg" src="{{PageContext.ContextPath}}bsp/verifyCode" alt="换一张" style="position: relative; top: 6px; left: 0px;">
+													</a>&nbsp; <a href="javascript:changeVerify();" hidefocus="hidefocus" style="font-size: 13px;">换一张</a></td>
+                        <td class="form-tip"><span for="VCODE"></span></td>
+                    </tr>
+                    {% endif %}
+                     <tr>
+	                     <td colspan="3" style="text-align:left;">
+	                       <span class="check_rule" style="margin-left: 286px;">请输入验证码</span>
+	                     </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button type="submit" id="btn-submit_per" class="btn btn-primary">&nbsp;&nbsp;&nbsp;&nbsp;注册&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                            <button type="submit" id="btn-clear" class="btn btn-default">&nbsp;&nbsp;&nbsp;&nbsp;重填&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <input id="validType" type="hidden" value="{{ConfigInfo.ValidType}}" />
+	<input id="userInfo" type="hidden" />
+	<input id="goto" name="goto" type="hidden" value="{{PageContext.Parameter.goto}}" />
+	<input id="DES_password" type="hidden" value="inspur!@" />
+</div>
+<script type="text/javascript">
+	{% merge "[{label:'dict_code@in',value:'user_sfzjlx'}]" as pwhere %}
+	{% map "code","PUB_DICT_ITEM_GetCollection","pwhere",pwhere as params %}
+	{% command "app.db.DbProxy","collection",params as result %}
+	var CODE_MAP_SOURCE = {{result.data}};
+	var type = "11";
+	{% include /uc/js/perregister.js %}
+</script>

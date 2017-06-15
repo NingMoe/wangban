@@ -1,0 +1,20 @@
+{% map "start","0","limit","3" as p_HotStat%}
+{% command "app.icity.project.ProjectBusinessStatCmd",'getBusinessUsed4Person',p_HotStat as d_HotStat%}
+<br/><br/><br/>
+<span style="color:blue;">&nbsp;&nbsp;温馨提示：（您常办事项）</span>
+<ul id="ul_srdsx" class="list-unstyled zl-list-unstyled-ggfu-1">
+ 	{% if d_HotStat.data %}
+		{% for o in d_HotStat.data %}
+		<label style="font-weight:normal;" class="col-xs-6" title="{{o.SXMC}}">{{o.SXMC|truncate:22}}</label>
+		<label style="font-weight:normal;" class="col-xs-3" title="{{o.SJDW}}">{{o.SJDW|truncate:10}}</label>
+		<label style="font-weight:normal;" class="col-xs-3">
+		<a style="color: blue;" href="{{PageContext.ContextPath}}approve/guide?id={{o.ID}}" target="_blank">办事指南</a>&nbsp;&nbsp;<a style="color: blue;" href="{{PageContext.ContextPath}}onlineapply/applyinfo?itemId={{o.ID}}" target="_blank">在线办理</a></label>
+	    <hr>
+	   {% endfor %}
+	{% else %}
+ 		<li>
+       		<div style="text-align: center;margin-top:5px;"><font>暂无数据</font></div>
+       	</li>
+	{% endif %}	
+</ul>
+<br>

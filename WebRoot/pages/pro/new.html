@@ -1,0 +1,198 @@
+<script>
+var page = 1;
+var limit = 10;
+var uuid="";
+$(function(){
+	getXmnb();
+	$("#pname").html(LEx.urldata.projectname+"项目");
+});
+
+function addXMNB(){
+	var href = $("#jieduan").find(".active").find("a").attr("href");
+	var xmjd = "0";
+	if(href=="#w-d-x-1"){
+		xmjd="0";
+	}else if(href=="#w-d-x-2"){
+		xmjd="1";
+	}else if(href=="#w-d-x-3"){
+		xmjd="2";
+	}
+	LEx.dialog({
+		id: "editXMNB", title: "报告上传",
+		url: LEx.webPath+"pro/xmnbEdit?uuid="+{{UserInfo}}.uid+"&xmjd="+xmjd+"&projectname="+LEx.urldata.projectname+"&projectcode="+LEx.urldata.projectcode,
+		width: 800, height: 400,
+		lock:true,
+		button: [
+		         {
+		        	name: '保存',
+		        	callback: function() {
+		        		var iframe = this.iframe.contentWindow;
+		        		if (!iframe.document.body) {
+		        			LEx.alert('内容还没加载完毕呢');
+		        			return false;
+		        		}		        		
+		        	 	if(iframe.checkdata()){
+		        	 		LEx.alert("报告提交成功！");
+		        	 	}else{
+		        	 		LEx.alert("提交失败，您未上传任何附件！");
+		        	 	}
+		        	 	getXmnb();
+		         	},
+		         	focus: true
+		         },
+		         {
+		        	 name: '关闭'
+		         }
+		         ]
+	});
+}
+
+
+function getXmnb()
+{
+	var command = new LEx.Command("app.icity.pro.ProCmd");
+	command.setParameter("projectcode", LEx.urldata.projectcode);
+	var ret = command.execute("queryIproReport");
+	if(!command.error){
+		total = ret.total;
+		var dataList=ret.data;
+		var list1=[], list2=[], list3=[];
+		for(var i=0;i<total;i++){
+			var item = ret.data[i];
+			if(item.PROJECTSTATUSID=="0"){
+				if(item.NODEID=="0"){
+					item.NODENAME = "在建（开工）";
+				}else if(item.NODEID=="1"){
+					item.NODENAME = "在建（季度进展）";
+				}else if(item.NODEID=="2"){
+					item.NODENAME = "在建（年度进展）";
+				}	
+				list1.push(item);
+			} else if(item.PROJECTSTATUSID=="1"){
+				item.NODENAME = "竣工";
+				list2.push(item);
+			} else if(item.PROJECTSTATUSID=="2"){
+				item.NODENAME = "撤销";
+				list3.push(item);
+			}
+		}		
+		var o ={};
+		o.data=list1;
+		$('#user-jdcx-list1').html(LEx.processDOMTemplate('itemTemplate',o));
+		o.data=list2;
+		$('#user-jdcx-list2').html(LEx.processDOMTemplate('itemTemplate',o));
+		o.data=list3;
+		$('#user-jdcx-list3').html(LEx.processDOMTemplate('itemTemplate',o));
+		
+	}
+}
+function   formatDate(now)   {     
+    var   year=now.getFullYear();
+    var   month=now.getMonth()+1;
+    var   date=now.getDate();
+    var   hour=now.getHours();
+    var   minute=now.getMinutes();
+    var   second=now.getSeconds();
+    return   year+"-"+month+"-"+date;     
+    }
+function _formateDate(state){//alert(123);
+	if(state!=""&&state!=undefined){
+		var dt =new Date(state);//alert(123);
+		return  dt.getFullYear()+"-"+dt.getMonth()+"-"+dt.getDay();
+	}else{
+		return "--";
+	}	
+}
+function onDownload(docid){
+	window.location.href="{{ConfigInfo.NetDiskDownloadAddress}}"+docid;
+}
+</script>
+<div style="background-color: #fff; padding: 20px 40px;width:1030px;margin:0px auto;">
+    <ol class="breadcrumb">
+        <li><a href="{{cp}}pro/index">首页</a></li>
+        <li class="active">我的项目</li>
+        <li id="pname"></li>
+    </ol>
+    
+    <section class="panel panel-default">
+        <header class="clearfix" style="border-bottom: 2px solid #29588C; background-color: #fff; margin: -1px; margin-bottom:0;">
+            <div class="input-group pull-right" style="width: 300px; margin-top: 5px;">
+<!--                     <span class="input-group-btn"> -->
+                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    	&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="btn btn-primary" type="button" onclick="addXMNB()">添加</button>
+<!--                     </span> -->
+                </div>
+            <ul class="nav nav-pills font-size-16" id="jieduan">
+                <li class="active"><a data-toggle="pill" href="#w-d-x-1"><i class="fa fa-clock-o fa-lg"></i> 在建</a></li>
+                <li><a data-toggle="pill" href="#w-d-x-2"><i class="fa fa-dot-circle-o fa-lg"></i> 竣工</a></li>
+                <li><a data-toggle="pill" href="#w-d-x-3"><i class="fa fa-check-circle-o fa-lg"></i> 撤销</a></li>
+            </ul>
+        </header>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="w-d-x-1">
+                 <table class="table table-hover">
+                    <thead>
+                        <tr class="active">
+                            <th class="text-center"  style="width:20%;">报告日期</th>
+                            <th class="text-center"  style="width:20%;">阶段节点</th>
+                            <th class="text-center"  style="width:60%;">附件</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-jdcx-list1">
+                        
+                    </tbody>
+                    
+                </table>
+            </div>
+            <div class="tab-pane fade" id="w-d-x-2">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="active">                           
+                            <th class="text-center"  style="width:20%;">报告日期</th>
+                            <th class="text-center"  style="width:20%;">阶段节点</th>
+                            <th class="text-center"  style="width:60%;">附件</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-jdcx-list2">
+                        
+                    </tbody>
+                    
+                </table>
+            </div>
+            <div class="tab-pane fade" id="w-d-x-3">
+                 <table class="table table-hover">
+                    <thead>
+                        <tr class="active">                          
+                             <th class="text-center"  style="width:20%;">报告日期</th>
+                            <th class="text-center"  style="width:20%;">阶段节点</th>
+                            <th class="text-center"  style="width:60%;">附件</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-jdcx-list3">
+                        
+                    </tbody>
+                    
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/template" id="itemTemplate">
+{for o in data}
+	<tr>       
+        <td class="text-center">${o.TIME}</td>
+        <td class="text-center">${o.NODENAME}</td>
+		<td class="text-left">
+			{for p in o.METAIL}
+				<div>${p.fileName}&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-success btn-sm' href="#" onclick="onDownload('${p.filePath}');">下载</a><br/></div>
+			{/for}		
+		</td>
+      </tr>
+{/for}
+</script>
+

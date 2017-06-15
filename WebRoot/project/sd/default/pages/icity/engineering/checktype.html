@@ -1,0 +1,81 @@
+<!-- 2、并联审批 选择类别 核准 备案 审批-->
+{% include icity/engineering/engineeringcss.html %}
+<div class="container" style="width: 1030px !important;">
+	<section class="panel" style="padding: 10px;">
+	<h4 class="text-primary"
+		style="font-size: 20px; background: #e3e7f1; padding: 15px; padding-top: 18px;">
+		<img
+			src="{%public assets/img/adx_bszx.png%}"
+			style="margin-top: -5px;">&nbsp;&nbsp;<strong
+			style="color: #4f719c;">投资项目审批平台</strong> <small>欢迎来到投资项目审批平台</small>
+	</h4>
+	<ul class="nav nav-tabs nav-justified its-nav-tabs-obligation">
+		<li class="active"><a data-toggle="tab" href="#o-t-1"> <img
+				src="{%public assets/img/dept_tab_icon11.jpg%}">
+				企业投资 </a>
+		</li>
+		<!-- <li><a data-toggle="tab" href="#o-t-2"> <img
+				src="{%public assets/img/dept_tab_icon22.jpg%}">
+				政府投资 </a>
+		</li> -->
+	</ul>
+	<br>
+	<div class="tab-content"
+		style="padding: 15px 30px; border: 1px solid #d7d7d7; min-height: 400px;">
+		<div class="tab-pane active" id="o-t-1">
+			<div class="its-btn-group-department" style="padding-top: 60px;">
+				<div class="col-xs-4 col-xs-offset-1">
+					<button type="button" flowType="审批"
+						class="btn btn-primary btn-lg btn-block text-center checkStage"
+						style="color: #ffffff; background-color: #0085c3;">
+						<strong>企业投资备案类项目</strong>
+					</button>
+				</div>
+				<div class="col-xs-4 col-xs-offset-2">
+					<button type="button" flowType="核准"
+						class="btn btn-primary btn-lg btn-block text-center checkStage"
+						style="color: #ffffff; background-color: #0085c3;">
+						<strong> 企业投资核准类项目 </strong>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane" id="o-t-2">
+			<div class="its-btn-group-department" style="padding-top: 60px;">
+				<div class="col-xs-4 col-xs-offset-4">
+					<button type="button" flowType="备案"
+						class="btn btn-primary btn-lg btn-block text-center checkStage"
+						style="color: #ffffff; background-color: #0085c3;">
+						<strong>政府投资审批类项目</strong>
+					</button>
+				</div>				
+			</div>
+		</div>
+	</div>
+	</section>
+</div>
+<script>
+/**
+ * 跳转到项目阶段
+ * obj流程类型 sp：审批类；hz:核准类；ba：备案类。
+ */
+$(function(){
+	$(".checkStage").click(function(){
+		var obj = $(this).attr("flowType");
+		var data=LEx.urldata;
+		$.each(TZSPXMLX,function(i,e){
+			if(e.name.indexOf(obj)>-1){
+				obj = e.code;
+			}
+		});
+		if(!LEx.isNotNull(obj)){
+			LEx.alert("流程类型为空！");
+			return;
+		}else{
+			data.flowType = obj;
+			var m_href = "{{cp}}icity/engineering/checkstage?"+LEx.urlEncode(data);	
+			window.open(m_href,"_self");
+		}
+	});
+});
+</script>

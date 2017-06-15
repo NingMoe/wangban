@@ -1,0 +1,90 @@
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/icity.js"></script>
+<script type="text/javascript">
+	function deleteValue_sv() {
+		if ($("#busyCodeShow").val() == "请输入申办流水号") {
+			$("#busyCodeShow").val("");
+		}
+		return;
+	}
+
+	function addValue_sv() {
+		if ($("#busyCodeShow").val() == "") {
+			$("#busyCodeShow").val("请输入申办流水号");
+		}
+		return;
+	}
+</script>
+{% if code|length %} {% set method "getBusinessListById"%} {% else %} {% set method "getBusinessListTab"%} {% endif %} {% map "SXBM",code,"start","0","limit","50","sort","B.SBSJ DESC" as p_stateList%} {% command "app.icity.project.ProjectBusinessStatCmd",method,p_stateList as d_stateList%}
+<div class="busy-bg">
+	<div id="busy-info" class="busy-info ">
+		<ul>
+			{% if d_stateList.data %} {% for o in d_stateList.data %}
+			<li>
+				<div>
+					<font>申办流水号：</font><br>{{o.SBLSH}}
+				</div>
+				<div>
+					<font>业务主题：</font><br>{{o.SBXMMC}}
+				</div>
+				<div>
+					<font>当前状态：</font><q class="NeedFormatState_">{{o.STATE}}</q>
+				</div>
+				<div class="endline">
+					<font>申办日期：</font><q class="NeedFormatTime_">{{o.SBSJ}}</q>
+				</div>
+			</li> {% endfor %} {% else %}
+			<li>
+				<div style="text-align: center;margin-top:5px;">
+					<font>暂无业务数据</font>
+				</div>
+			</li> {% endif %}
+		</ul>
+	</div>
+</div>
+
+<script>
+	//办件信息和办件统计
+	function BusyInfoinit() {
+		var scrtime;
+		$(".NeedFormatState_").each(function() {
+			var bState = LEx.icityBusiness.getGroupNameByStatus($(this).html());
+			$(this).html(bState);
+		});
+		$(".NeedFormatTime_").each(function() {
+			var json = $(this).html().toString();
+			try {
+				var obj = eval('(' + json + ')');
+				var date = LEx.util.Format.formatDate(parseInt(obj.time) / 1000);
+				$(this).html(date);
+			} catch (ex) {
+				$(this).html(" —");
+			}
+		});
+		if ($("#busy-info ul li").length < 2) {
+			return false;
+		}
+		$("#busy-info").hover(function() {
+			clearInterval(scrtime);
+		}, function() {
+			scrtime = setInterval(function() {
+				var $ul = $("#busy-info ul");
+				var liHeight = $ul.find("li:first").height();
+				$ul.animate({
+					marginTop : "-=" + liHeight + "px"
+				}, 9000, function() {
+					var first = $ul.find("li:first");
+					first.hide(); //隐藏首行
+					var content = first.html();
+					content = "<li>" + content + "</li>"
+					$ul.find("li:first").remove();
+					$ul.append(content);
+					$ul.css({
+						marginTop : 0
+					});
+					$ul.find("li:eq(8)").fadeIn(1000); //查找第9条数据，使用淡入效果来显示被选元素,显示条数为8条
+				});
+			}, 4000);
+		}).trigger("mouseleave");
+	}
+	BusyInfoinit();
+</script>

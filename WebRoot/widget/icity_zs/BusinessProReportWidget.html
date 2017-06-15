@@ -1,0 +1,89 @@
+{% map "projectId",id as p %}
+{% command "app.icity.pro.ProCmd","queryProjectReport",p as d %}
+{% set reportArray d.data.reportArray %}
+<ul class="nav nav-tabs nav-justified its-nav-tabs-business">
+	<li class="active"><a data-toggle="tab" href="#t-b-21"
+		aria-expanded="true">在建</a>
+	</li>
+	<li class=""><a data-toggle="tab" href="#t-b-22"
+		aria-expanded="false">竣工</a>
+	</li>
+	<li><a data-toggle="tab" href="#t-b-23"
+		aria-expanded="true">撤销</a>
+	</li>
+</ul>
+<div class="tab-content panel-body" style="min-height:500px;">
+	<div class="tab-pane active" id="t-b-21" style="height:1080px;overflow: auto" >
+		<table class="table table-bordered table-condensed table01">
+				<tbody id="project_body">
+					<tr>									
+						<th style="width:20%;">节点名称</th>
+						<th style="width:25%;">报告名称</th>
+						<th style="width:20%;">报告时间</th>
+						<th style="width:35%;">操作</th>
+					 </tr>
+					{% for o in reportArray %}
+					 {% if o.projectStatusId|equal:"0" %}
+					<tr>
+						<th>{{o.nodeName}}</th>
+						<th>{{o.fileName}}</th>
+						<th>{{o.insertTime}}</th>
+						<th><a href="" onclick="onDownload('{{o.filePath}}','{{o.fileName}}')">下载</a></th>
+					 </tr>
+					 {% endif %}
+					{% endfor %}
+				</tbody>
+		</table>
+	</div>
+	<div class="tab-pane" id="t-b-22">
+		<table class="table table-bordered table-condensed table01">
+				<tbody id="project_body">
+					<tr>									
+						<th style="width:20%;">节点名称</th>
+						<th style="width:25%;">报告名称</th>
+						<th style="width:20%;">报告时间</th>
+						<th style="width:35%;">操作</th>
+					 </tr>
+					 {% for o in reportArray %}
+					 {% if o.projectStatusId|equal:"1" %}
+					<tr>
+						<th>{{o.nodeName}}</th>
+						<th>{{o.fileName}}</th>
+						<th>{{o.insertTime}}</th>
+						<th><a style="cursor: pointer;" onclick="onDownload('{{o.filePath}}','{{o.fileName}}')">下载</a></th>
+					 </tr>
+					 {% endif %}
+					{% endfor %}
+				</tbody>
+		</table>
+	</div>
+	<div class="tab-pane" id="t-b-23">
+		<table class="table table-bordered table-condensed table01">
+				<tbody id="project_body">
+					<tr>									
+						<th style="width:20%;">节点名称</th>
+						<th style="width:25%;">报告名称</th>
+						<th style="width:20%;">报告时间</th>
+						<th style="width:35%;">操作</th>
+					 </tr>
+					 {% for o in reportArray %}
+					 {% if o.projectStatusId|equal:"2" %}
+					<tr>
+						<th>{{o.nodeName}}</th>
+						<th>{{o.fileName}}</th>
+						<th>{{o.insertTime}}</th>
+						<th><a style="cursor: pointer;" onclick="onDownload('{{o.filePath}}','{{o.fileName}}')">下载</a></th>
+					 </tr>
+					 {% endif %}
+					{% endfor %}
+				</tbody>
+		</table>
+	</div>
+</div>
+<script>
+function onDownload(path,name){
+    var opera = "downloadagent4wp&path="+path+"&name="+encodeURIComponent(name); 
+    window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+	return false;
+}
+</script>

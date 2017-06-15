@@ -1,0 +1,13 @@
+{% map "flowId",PageContext.Parameter.flowId as p %}
+{% command "app.icity.enterprises.EnterprisesCmd","zs_getSeecGuide",p as d %}
+<div>
+    <div style="background-color: #fff; padding: 20px 40px;width:1020px;margin:0px auto;">
+        <ol class="breadcrumb">
+            <li><a href="/icity/public/index">首页</a></li>
+            <li>联办办事指南</li>
+            <li class="active">{{PageContext.Parameter.flowName}}</li>
+        </ol>
+        <br>
+        <div>{{d.data.guide}}</div>
+    </div>
+</div>

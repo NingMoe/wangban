@@ -1,0 +1,16 @@
+1、approvetransfer.java 		为审批威海接口转接 主要是运管处业务。
+2、businessInterface.java   投资项目在线审批 非上班时间预约 评价 咨询投诉相关
+3、cform.java               表单 获取 转存
+4、channel.java             栏目内容
+5、express.java             ems数据交换
+6、hlverify.java            重庆华龙网
+7、icity.java               威海app接口 爱城市网政务版 威海 潍坊 临沂等山东省内项目
+8、inlcity.java             爱城市网标准接口  部分济南旧接口
+9、intermediary.java 
+10、item.java               业务更新 审批等其他系统调接口更新业务
+11、KunMing.java
+12、note.java
+13、service.java            通用接口 一切通用都放这里
+14、userInterface.java 
+15、wechat.java             微信接口
+16、xngdapp.java            西宁广电app接口

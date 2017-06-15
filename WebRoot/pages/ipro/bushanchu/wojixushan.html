@@ -1,0 +1,109 @@
+{% set code PageContext.Parameter.code %}
+<div style="padding:20px 0 80px 20px;">
+<div>
+		<label class="overstriking">申办编码：</label> <input type="text" id="code"
+			name="code" placeholder="请输入项目编码" /> <input
+			type="button" onclick="search()" style="width: 70px;" value="查询" />
+		<input type="button" onclick="reset()" style="width: 70px;" value="重置" />
+	</div>
+	<div>
+	<table border="1px" wight="100%">
+		<tr height="35px">
+			<td width="220px" align="center">申办编码</td>
+			<td width="220px" align="center">业务主题</td>
+			<td width="220px" align="center">事项名称</td>
+			<td width="220px" align="center">受理单位</td>
+			<td width="90px" align="center">当前环节</td>
+			<td width="90px" align="center">办理状态</td>
+			<td width="93px" align="center">操作</td>
+		</tr>
+	</table>
+	<table border="1px" wight="100%" id="delesList"></table>
+	<input type="button" value="返回" onclick="history.go(-1)"style="width:70px;"/>
+	</div>
+</div>
+	
+<script type="text/javascript">
+window.onload = function() {
+	checkLogin();
+	if (loginInfo.uuid == 'C201510091026409033331235') {
+		if("{{code}}"==""){
+			search();
+		}else{
+			losearch();
+		}
+	} else {
+		window.location.href = "http://www.baidu.com";
+	}
+};
+
+function search() {
+	checkLogin();
+	if (loginInfo.uuid == 'C201510091026409033331235') {
+		var code = document.getElementById("code").value;
+		var command = new LEx.Command("app.icity.ipro.IproCmd");
+		command.setParameter("code", code);
+		var ret = command.execute("searchP");
+		//  		$("#spList").html()
+		$('#delesList').html(LEx.processDOMTemplate('itemTemplate',ret));
+	}else {
+		window.location.href = "http://www.baidu.com";
+	}
+}
+
+function reset() {
+	document.getElementById("code").value = "";
+}
+
+function losearch(){
+	if(loginInfo.uuid=='C201510091026409033331235'){
+		var code='{{code}}';
+	 	var command = new LEx.Command("app.icity.ipro.IproCmd");
+	 		command.setParameter("code",code);
+	 		var ret = command.execute("searchProjects");
+	 			$('#delesList').html(LEx.processDOMTemplate('itemTemplate',ret));
+	}else{
+		window.location.href="http://www.baidu.com";
+	}
+}
+
+function dele(info){
+	this.info=info;
+	var boo=firm();
+	if(boo){
+	 	var command = new LEx.Command("app.icity.ipro.IproCmd");
+	 		command.setParameter("bsnum",info);
+	 		var ret = command.execute("deles");
+	 		if(ret){
+	 			alert("删除成功");
+	 			 location.reload(); 
+	 		}
+	}
+}
+
+function firm()
+{
+    if(confirm("真要删吗？"))
+    {
+    	return true;
+    }else{
+    	return false;
+    }
+}
+
+</script>
+<script type="text/template" id="itemTemplate">
+{for o in data}
+	<tr>
+        <td width="220px">${o.RECEIVE_NUMBER}</td>
+		<td width="220px">${o.APPLY_SUBJECT}</td>
+		<td width="220px">${o.ITEM_NAME}</td>
+		<td width="220px">${o.ORG_NAME}</td>
+		<td width="90px">${o.CURRENT_NODE_NAME}</td>
+		<td width="90px">
+			{if o.STATE=='97'}<font color='red'>作废</color>{/if}
+			{if o.STATE!='97'}————{/if}
+		</td>
+		<td width="93px" align="center"><input type="button" value="删除" style="width:80px;" onclick="dele('${o.BSNUM}')" /></td>
+{/for}
+</script>

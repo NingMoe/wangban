@@ -1,0 +1,57 @@
+<script>
+$(function(){
+	onQueryKhkp(1);
+});
+function onQueryKhkp(start){
+	var limit=7;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("start",(start-1)*limit);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	cmd.setParameter("name", "考核考评");
+	cmd.setParameter("open", '{{ConfigInfo.Khkp_isout}}');
+	var ret =  cmd.execute("getContentInfo");
+	if(!ret.error){
+		//document.write(LEx.encode(ret));
+		$("#ul_sspdw_khkp").html(LEx.processDOMTemplate('KhkpContentTemplate',ret));
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+
+function parseDate(val){
+	if(LEx.isNotNull(val)){
+		return LEx.util.Format.formatDate(val);
+	}else{
+		return '-';
+	}
+}
+
+function parseLength(val,len) {
+	if (LEx.isNotNull(val)&&val.length>len) {
+		return val.substring(0,len)+"...";
+	} else {
+		return val;
+	}
+}
+function formatDate(obj) {
+	return LEx.util.Format.formatDate(obj);
+}
+
+</script>
+<ul id="ul_sspdw_khkp" class="list-unstyled">
+<!-- 原来此处显示六条数据的class属性：zl-list-unstyled-ggfu-2 -->
+</ul> 
+
+<script type="text/template" id="KhkpContentTemplate">
+{for o in data}
+<li style="height:30px;">
+				<time class="text-muted pull-right" style="">${formatDate(o.CTIME)}</time>
+				{if o.TYPE==3 }
+						<a href="${o.URL}" title="${o.NAME}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>【${formatLen(o.DEPT_NAME,0,4)}】${formatLen(o.NAME,0,7)}</a>
+				{else}
+						<a href="{{PageContext.ContextPath}}govservice/pub/contentDetail?id=${o.ID}" title="${o.NAME}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>【${formatLen(o.DEPT_NAME,0,4)}】${parseLength(o.NAME,9)}</a>
+				{/if}
+</li>
+{/for}
+</script>

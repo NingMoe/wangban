@@ -1,0 +1,197 @@
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<style type="text/css">
+#flowStep a {
+	width: 183px;
+}
+
+.table th {
+	font: 14px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #FF6600;
+	font-weight: bold;
+	border-right: 0px;
+	border-left: 0px;
+	border-bottom: 0px;
+	border-top: 2px solid #BAE2DC;
+	text-transform: uppercase;
+	padding: 6px 6px 6px 12px;
+}
+
+.table td {
+	border-right: 1px solid #BAE2DC;
+	border-left: 1px solid #BAE2DC;
+	border-bottom: 1px solid #BAE2DC;
+	border-top: 1px solid #BAE2DC;
+	font-size: 14px;
+	padding: 6px 6px 6px 12px;
+}
+
+.table .num {
+	display: block;
+	width: 70px;
+	height: 33px;
+	line-height: 33px;
+	text-align: center;
+	font-size: 18px;
+	color: #d40000;
+}
+
+.table .name {
+	display: block;
+	width: 57px;
+	height: 20px;
+	line-height: 18px;
+	text-align: center;
+	font-size: 12px;
+}
+
+.table .txt2 {
+	line-height: 26px;
+	width: 675px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	border-right: 1px solid #BAE2DC;
+	border-left: 1px solid #BAE2DC;
+	border-bottom: 1px solid #BAE2DC;
+	border-top: 1px solid #BAE2DC;
+	font-size: 12px;
+	padding: 6px 6px 6px 12px;
+}
+
+.table .input_style {
+	/*height:16px;默认高度*/
+	padding: 2px 8px 0pt 3px;
+	height: 18px;
+	border: 1px solid #BAE2DC;
+	background-color: #FFF;
+}
+
+.table .input_style2 {
+	/*height:16px;默认高度*/
+	padding: 2px 8px 0pt 3px;
+	height: 15px;
+	border: 1px solid #BAE2DC;
+	background-color: #FFF;
+}
+
+.table .input_onFocus {
+	padding: 2px 8px 0pt 3px;
+	height: 18px;
+	border: 1px solid #BAE2DC;
+	background-color: #FFF;
+	BACKGROUND: #ffc
+}
+
+.table .input_onBlur {
+	padding: 2px 8px 0pt 3px;
+	height: 18px;
+	border: 1px solid #BAE2DC;
+	background-color: #FFF;
+	BACKGROUND: #fff
+}
+.txt2 p{
+	line-height: 24px;
+	text-indent: 2em;
+}
+.redstar{
+	color: red; 
+	font-weight: normal;
+}
+</style>
+<div class="fl w210">
+	{% widget "other.GuestBookLeftWidget" %}
+</div>
+<div class="ml210">
+	<div id="flowStep"></div>
+	<div class="tabs-content" style="width:744px;height:851px;padding-left:8px;padding-right: 8px;">
+		<div class="txt2" align="left">
+			<p style="text-indent: 1em;font-size:14px;font-weight:bold;">写信须知：</p>
+			<p>请认真填写表格（带*项不能为空），请留下您的真实联系电话及发生事由的真实地址，以便更好地与您联系开展调查，得以落实。我们会对来信人联系方式保密，不对外公开，敬请放心。 </p>
+			<p>以下信件将被视为无效，不再进入处理程序： </p>
+			<p>1、需要展开具体调查和处理，但来信人联系不上的信件； </p>
+			<p>2、内容不完整、表述不清楚，导致无法回答或开展调查的信件； </p>
+			<p>3、同一来信人在规定办理时效内多次提交的内容相同或相近的信件；</p>
+			<p>4、所填内容中（包括所有选项）带有不文明用语或用语过激；</p>
+		</div>
+		<table width="755px" cellspacing="0" style="margin: 0; padding: 25px" class="table">
+			<tbody>
+				<tr>
+					<th style="width: 100px; border-top: 1px solid #BAE2DC; border-left: 1px solid #BAE2DC; border-bottom: 1px solid #BAE2DC;" scope="row" rowspan="4">用户信息</th>
+					<td style="border-right: 0px; width: 80px; height: 20px; text-align: right;">
+						<span class="redstar">*</span>姓名：
+					</td>
+					<td style="border-right: 0px; height: 20px; width: 184px;">
+						<input type="text" maxlength="20" onfocus="this.className='input_onFocus'" onblur="this.className='input_onBlur'" class="input_style" id="username" name="username">
+					</td>
+					<td style="border-left: 0px; height: 20px;">&nbsp;</td>
+				</tr>
+				<tr>
+					<td style="border-top: 0px; border-right: 0px; width: 80px; height: 20px; text-align: right;"><span class="redstar">*</span>电话：</td>
+					<td style="border-top: 0px; border-right: 0px; height: 20px; width: 184px;"><input type="text" maxlength="15" onfocus="this.className='input_onFocus'" onblur="this.className='input_onBlur'" class="input_style" id="userphone" name="userphone"></td>
+					<td style="border-top: 0px; border-left: 0px; height: 20px; padding-left: 0px;"><a id="phonemessage">&nbsp;</a></td>
+				</tr>
+				<tr>
+					<td style="border-top: 0px; border-right: 0px; width: 80px; height: 20px; text-align: right;"><span class="redstar">*</span>邮箱：</td>
+					<td style="border-top: 0px; border-right: 0px; height: 20px; width: 184px;"><input type="text" maxlength="25" onfocus="this.className='input_onFocus'" onblur="this.className='input_onBlur'" class="input_style" id="useremail" name="useremail"></td>
+					<td style="border-top: 0px; border-left: 0px; height: 20px; padding-left: 0px"><a id="emailmessage">&nbsp;</a></td>
+				</tr>
+				<tr>
+					<td style="border-top: 0px; border-right: 0px; width: 80px; height: 20px; text-align: right;">地址：</td>
+					<td style="border-top: 0px; border-right: 0px; height: 20px; width: 184px;">
+						<input type="text" style="width: 416px" maxlength="45" onfocus="this.className='input_onFocus'" onblur="this.className='input_onBlur'" class="input_style" id="useraddress" name="useraddress">
+					</td>
+					<td style="border-top: 0px; border-left: 0px; height: 20px;">&nbsp;</td>
+				</tr>
+			</tbody>
+		</table>
+		<table width="755px" cellspacing="0" style="margin: 0; padding: 25px" class="table">
+			<tbody>
+				<tr>
+					<th style="width: 100px; border-top: 1px solid #BAE2DC; border-left: 1px solid #BAE2DC; border-bottom: 1px solid #BAE2DC;" scope="row" rowspan="5">信件内容</th>
+					<td style="border-right: 0px; width: 80px; height: 20px; text-align: right;">
+						<span class="redstar">*</span>主题：
+					</td>
+					<td style="border-right: 0px; height: 20px; width: 441px;">
+						<input type="text" style="width: 416px" maxlength="45" onfocus="this.className='input_onFocus'" onblur="this.className='input_onBlur'" class="input_style" id="title" name="title">
+					</td>
+					<td style="border-left: 0px; height: 20px;">&nbsp;</td>
+				</tr>
+				<tr>
+					<td style="border-top: 0px; border-right: 0px; width: 80px; height: 20px; text-align: right;">类别：</td>
+					<td style="border-top: 0px; border-right: 0px; height: 20px; width: 441px;">
+						<select id="type" style="background: #FFFFFF;width: 80px;">
+							<option value="0">建议</option>
+							<option value="1">表扬</option>
+							<option value="2">咨询</option>
+							<option value="3">投诉</option>
+							<option value="4">其他</option>
+						</select>
+					</td>
+					<td style="border-top: 0px; border-left: 0px; height: 20px;">&nbsp;</td>
+				</tr>				
+				<tr>
+					<td style="border-top: 0px; border-right: 0px; width: 80px; height: 20px; text-align: right;">
+						<span class="redstar">*</span>验证码：
+					</td>
+					<td style="border-top: 0px; border-right: 0px; height: 20px; width: 441px;">
+						<input type="text" style="width: 81px;margin-right: 5px;" maxlength="6" class="input_style" id="validCode" name="validCode"> 
+						<img title="看不清，点击图片更换验证码" id="code" src="{{PageContext.ContextPath}}bsp/verifyCode" style="width:80px; height:22px;vertical-align:text-top;cursor: pointer;" onclick="changeimg();" /> 
+						<a href="javascript:changeimg()" style="color:#35A5EC;">看不清，换一张</a><br>
+					</td>
+					<td style="border-top: 0px; border-left: 0px; height: 20px;">&nbsp;</td>
+				</tr>
+				<tr>
+					<td style="border-top: 0px; border-right: 0px; width: 80px; height: 110px; text-align: right;">
+						<span class="redstar">*</span>内容：
+					</td>
+					<td style="border-top: 0px; border-right: 0px; width: 441px; height: 110px;">
+						<textarea style="height: 200px; width: 413px;" maxlength="750" class="input_style" id="content" cols="20" rows="4" name="content"></textarea>
+					</td>
+					<td style="border-top: 0px; border-left: 0px; height: 110px;">&nbsp;</td>
+				</tr>
+			</tbody>
+		</table>
+		<div style="text-align: center; margin-top: 0px">
+			<input type="submit" id="submit" value="提交" name="submit" class="nbutton_blue"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="reset" id="reset" value="重   置" name="reset" class="nbutton_gray" onclick="resetQuery();">
+		</div>
+	</div>
+</div>

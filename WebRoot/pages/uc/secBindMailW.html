@@ -1,0 +1,100 @@
+<script type="text/javascript" src="{{PageContext.PagePath}}uc/js/bindMail.js"></script>
+<script type="text/javascript" src="{{PageContext.PagePath}}uc/js/common.js"></script>
+<div class="panel sec-show-panel">
+	<style>
+	.form-body dd{
+		float: left;
+		text-align: left;
+		font-weight: normal;
+	}
+	.form-body .input{
+		width:220px;
+	}
+	.form-body dl{
+		padding-left:100px;
+		margin:15px auto;
+	}
+	.form-signup-body .dd-input{
+		width:auto;	
+	}
+	</style>
+	<div class="m_sum">
+		<h3 class="title">安全邮箱</h3>
+		<div class="text_b sum_text">
+			把您常用的邮箱设为安全邮箱，是一种方便、安全的密码找回方式。
+		</div>
+	</div>	
+	<div class="m_step">
+		 <ol class="clearfix">
+		 	<li class="start">
+		 		<div>
+		 			<span class="index">1</span>
+		 			<span class="desc">填写邮箱</span>
+		 		</div>
+		 	</li>
+		 	<li class="end">
+		 		<div class="middle">
+		 			<span class="index">2</span>
+		 			<span class="desc">邮箱验证</span>
+		 		</div>
+		 		<div>
+		 			<span class="index">3</span>
+		 			<span class="desc">绑定成功</span>
+		 		</div>
+		 	</li>
+		 </ol>
+	</div>
+	<div class="m_form">        
+		<div id="bindmail_form">
+			<div class="form-body form-signup-body">
+				<div id="oldMail">
+					<dl>
+						<dt>
+							<em>*</em>&nbsp;当前安全邮箱：
+						</dt>
+						<dd class="dd-input">
+							<input id="YMAIL" name="YMAIL" reg="^(\w)+(\.\w+)*$" tip="请输入当前邮箱用户名" type="text" class="input" style="width:150px;">					
+						</dd>
+						<dd>
+							<span id="YCOM" name="YCOM" type="text" style="color:#999;margin-left: 5px;"></span>
+						</dd>
+						<dd class="form-tip"><span for="YMAIL"></span></dd>
+					</dl>
+				</div>
+				<dl>
+					<dt>
+						<em>*</em>&nbsp;新安全邮箱：
+					</dt>
+					<dd class="dd-input">
+						<input id="MAIL" name="MAIL" reg="^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$" tip="请输入正确邮箱地址" type="text" class="input">
+					</dd>
+					<dd class="form-tip"><span for="MAIL"></span></dd>
+				</dl>
+				<dl>
+					<dt>
+						<em>*</em>&nbsp;确认登录密码：
+					</dt>
+					<dd class="dd-input">
+						<input id="PASSWORD" name="PASSWORD" reg="^.+$" tip="请填写当前登录密码" type="password" class="input">
+					</dd>
+					<dd class="form-tip"><span for="PASSWORD"></span></dd>
+					<dd class="check_rule">是您一站通帐户的登录密码，不是常用邮箱的登录密码。</dd>
+				</dl>
+			</div>
+			<div class="form-submit">
+				<dl>
+					<dd style="text-align: center">
+						<a class="opt_btn" style="margin-right:20px;" href="javascript:void(0);" id="submit_btn" hidefocus="hidefocus"><span>免费绑定</span></a>
+						<a class="opt_btn opt_btn_cancle" href="javascript:void(0);" id="cancle_btn" hidefocus="hidefocus"><span>重新输入</span></a>
+					</dd>
+				</dl>	
+			</div>
+		</div>
+	</div>		
+	<div class="m_tip">
+	    <h3 class="title">为什么要设置安全邮箱？</h3>
+	    <div class="tip_text">当您记不清一站通帐户密码时，我们会根据您的申请，将重置密码邮件发送到您绑定的邮箱中，帮助您方便快捷的找回登录密码。</div>
+		<h3 class="title">如何使用安全邮箱找回密码？</h3>
+	    <div class="tip_text">您在密码找回页，按流程引导填写您的登录名和绑定的邮箱，系统校验成功后会向您的邮箱中发送密码重置的邮件，点击重置邮件中的链接地址进行密码重置工作。</div>
+	</div>
+</div>

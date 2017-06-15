@@ -1,0 +1,43 @@
+<div style="padding:20px 0 80px 20px;">
+    <ol class="breadcrumb alpha omega transparent">
+        <li>当前位置</li>
+        <li class="active">搜索引擎</li>
+    </ol>
+	<ul class="row list-unstyled pull-left lh25 f16" style="width:100%;height:5px;">
+	<li class="col-xs-6">1.事项数据初始化</li>
+	<li class="col-xs-6"><a class="btn btn-primary btn-sm" onclick="initSolr(1);">
+	<i class="mdicon mdicon-refresh"></i>初始化</a></li>
+	
+	<li class="col-xs-6">2.目录数据初始化</li>
+	<li class="col-xs-6"><a class="btn btn-primary btn-sm" onclick="initSolr(2);">
+	<i class="mdicon mdicon-refresh"></i>初始化</a></li>
+	</ul>
+</div>
+<script type="text/javascript">
+function initSolr(index){
+	//alert(index);
+	switch(index){
+		//事项初始化
+		case 1:
+			initHandler("genProject","事项");
+		break;
+		//材料初始化
+		case 2:
+			initHandler("genCatalog","目录");
+		break;
+	}
+}
+function initHandler(type,name){
+	var command = new LEx.Command("app.icity.ipro.IproSearchGenCmd");
+	command.afterExecute = function(){
+		var ret = command.returns;
+		if(ret.state == 1){
+			LEx.dialog({title:"系统提示",content:name+"初始化成功！",icon: 'succeed',lock:true});
+		}else{
+			LEx.dialog({title:"系统提示",content:name+"初始化失败，错误内容为："+ret.message,icon: 'error',lock:true});
+		}
+	}
+	command.execute(type, false);
+	LEx.dialog.tips("正在进行初始化操作",1.5);
+}
+</script>

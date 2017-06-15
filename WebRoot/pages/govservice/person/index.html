@@ -1,0 +1,63 @@
+
+<table width="1070" height="446" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="E6E6E6">
+  <tr>
+    <td width="285" height="446" valign="top" bordercolor="#FFFFFF" background="{{cp}}public/assets/img/zwfww_019.jpg" bgcolor="#FFFFFF"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="17%" height="47" align="center"><img src="{{cp}}public/assets/img/zwfww_012.jpg" width="30" height="30" /></td>
+        <td width="65%"><span class="STYLE19">热点事项</span></td>
+        <td width="18%" valign="bottom"><img src="{{cp}}public/assets/img/zwfww_013.jpg" width="31" height="10" /></td>
+      </tr>
+    </table>
+      <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td height="279" colspan="2"><table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+              <td colspan="2" height="25" align="center"> <div class="panel-body tab-content">
+                    {% widget "project.BusyInfoHotStatWidget",layout %}
+                </div></td>
+            </tr>
+          </table></td>
+        </tr>
+      
+      </table></td>
+    <td width="782" valign="top" bordercolor="#FFFFFF" background="{{cp}}public/assets/img/zwfww_019.jpg" bgcolor="#FFFFFF"><table width="98%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="7%" height="45" align="center"><img src="{{cp}}public/assets/img/zwfww_014.jpg" width="30" height="30" /></td>
+        <td width="93%"><span class="STYLE19">个人办事</span></td>
+      </tr>
+    </table>
+      <table width="99%" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="F4F3F3">
+      <tr>
+        <td width="93%" height="250" align="center" valign="top" bordercolor="#FFFFFF" bgcolor="#FFFFFF"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+         <div style="height:390px;overflow-y:auto;" class="panel-body tab-content">
+                    <div class="tab-pane fade active in"  id="n-s-t-a">
+                        <div class="row thumbnails yi-thumbnails-s-2">
+                            {% widget "icity.PersonalBusinessWidget" %}                            
+                        </div>                        
+                    </div>
+                     <div class="tab-pane fade"  id="n-s-t-b">                    
+                    	<div class="row thumbnails yi-thumbnails-s-2">
+                            {% widget "icity.DeptWidget" %}                            
+                        </div>
+                    </div>
+                </div>
+        </table></td>
+        <td width="4%" align="right" bordercolor="#FFFFFF" bgcolor="#FFFFFF"><a href="#n-s-t-a" data-toggle="tab"><img src="{{cp}}public/assets/img/zwfww_017.jpg" width="25" height="390" /></a></td>
+        <td width="3%" bordercolor="#FFFFFF" bgcolor="#FFFFFF"><a href="#n-s-t-b" data-toggle="tab"><img src="{{cp}}public/assets/img/zwfww_018.jpg" width="25" height="390" /></a></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+<script>
+$(function(){
+	 $('.title-classtype > a').click(function (e) {
+			window.open("{{PageContext.ContextPath}}person/project?pagemodel=person&cat=theme&id="+$(this).find('div').attr("id"),"_self");
+	  });
+});
+$(function(){
+	 $('.dept-classtype > a').click(function (e) {
+			window.open("{{PageContext.ContextPath}}person/project?pagemodel=person&cat=dept&id="+$(this).find('div').attr("id"),"_self");
+	  });
+});
+
+</script>

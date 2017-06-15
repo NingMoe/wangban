@@ -1,0 +1,143 @@
+<style type="text/css">
+.its-page-body { padding: 2px 35px;}
+.breadcrumb { padding: 12px 35px;}
+</style>
+<section class="its-page-body">
+	<h4 class="text-primary"
+		style="border-bottom: solid 2px #9fbdd6; font-size: 20px; background: #e3e7f1; padding: 15px; padding-top: 18px;">
+		<img src="{%public assets/img/adx_bszx.png %}"
+			style="margin-top: -5px;">&nbsp;&nbsp;<strong
+			style="color: #4f719c;">我的消息</strong> <small class="pull-right">
+			<a class="btn btn-primary" href="javascript:updateType();">全部设为已读</a>
+		</small>
+	</h4>
+	<table class="table table-striped its-table-backlog">
+		<thead>
+			<tr class="bg-info">
+				<th class="text-left text-primary" width="16%">序号</th>
+				<th class="text-left text-primary" width="38%">待办件名称</th>
+				<th class="text-center text-primary" width="16%">类型</th>
+				<th class="text-center text-primary" width="14%">状态</th>
+			</tr>
+		</thead>
+		<tbody id="news_list">
+		</tbody>
+	</table>
+	<div id="epager" style="text-align:center;"></div>
+</section>
+<textarea id="template_news_list" style="display: none">
+{if data.length > 0}
+{for o in data}
+<tr>
+	<td class="text-left"><a class="btn btn-danger">${Math.ceil(o_index)+1}</a></td>
+	 {if o.TYPE=="01"}
+	<td><a href="javascript:;" onclick="togo(this);"
+		type="${o.TYPE}" title="${o.NAME}" id="${o.ID}">${o.NAME}</a>
+	</td>
+	{/if} 
+	{if o.TYPE=="02"}
+	<td><a href="javascript:;" onclick="togo(this);"
+		type="${o.TYPE}" title="${o.NAME}" id="${o.ID}">${o.NAME}</a>
+	</td>
+	{/if} 
+	{if o.TYPE=="03"}
+	<td><a href="javascript:;" onclick="togo(this);"
+		type="${o.TYPE}" title="${o.NAME}" id="${o.ID}">${o.NAME}</a>
+	</td>
+	{/if} 
+	{if o.TYPE=="04"}
+	<td><a href="javascript:;" onclick="togo(this);" sblsh="${o.NEWSID}" itemid="${o.ITEMID}" title="${o.NAME}"
+		type="${o.TYPE}" id="${o.ID}">${o.NAME}</a>
+	</td>
+	{/if} 
+	<td class="text-center leixing">${o.TYPE}</td>
+	<td class="text-center">{if o.STATUS=="1"}已读{else}未读{/if}</td>
+</tr>
+{/for}
+{else}
+<tr>
+    <td colspan="5"><font>暂无数据</font></td>
+</tr>
+{/if}
+</textarea>
+<script>
+var bltable = null;
+function contentHandler(){	
+	//1.实例化分页bltable控件：bltable的id，模版的id
+	bltable = new LEx.Control.Table("news_list","template_news_list");
+	bltable.limit(8);
+	onQuery();
+}
+$(function(){
+	$(".leixing").each(function(){
+		$(this).html(formateType($(this).html()));
+	});
+	$(".time").each(function(){
+	alert($(this).html());
+	alert(LEx.util.Format.formatDate($(this).html()));
+		$(this).html(LEx.util.Format.formatDate($(this).html()));
+	});
+});
+function onQuery(){
+	var cmd = new LEx.Command("app.icity.govservice.ServiceManageCmd");
+	cmd.setParameter("start", bltable.start());
+	cmd.setParameter("limit", bltable.limit());
+	var ret = cmd.execute("getNewsPubmynews");
+	if(ret.state=="1"){
+		bltable.toBody(ret);
+		bltable.toPageBar("epager","bltable",ret.total,"onQuery()");
+		$("#news_list").html(LEx.processDOMTemplate("template_news_list",ret));
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+function formateType(val){
+	if(val=="04"){
+		return "补齐补正";
+	}
+	if(val=="01"){
+		return "我的咨询";
+	}
+	if(val=="02"){
+		return "我的投诉";
+	}
+	if(val=="03"){
+		return "待评价";
+	}
+	return "其他";
+}
+function togo(obj){
+	var cmd = new LEx.Command("app.icity.govservice.ServiceManageCmd");
+	cmd.setParameter("ID",$(obj).attr("id"));
+	var ret = cmd.execute("updateNewsPubmynews");
+	if(ret.state!="1"){
+		LEx.alert(ret.message);
+		return;
+	}
+	var url = "";
+	var type = $(obj).attr("type");
+	if(type=="04"){
+		url = "{{PageContext.ContextPath}}icity/submitsp/baseinfo?itemId="+$(obj).attr("itemid")+"&sblsh="+$(obj).attr("sblsh");
+	}
+	if(type=="03"){
+		url = "";
+	}
+	if(type=="02"){
+		url = "";
+	}
+	if(type=="01"){
+		url = "";
+	}
+	window.open(url,"_blank");
+}
+function updateType(){
+	var cmd = new LEx.Command("app.icity.govservice.ServiceManageCmd");
+	cmd.setParameter("isall","1");
+	var ret = cmd.execute("updateNewsPubmynews");
+	if(ret.state!="1"){
+		LEx.alert(ret.message);
+		return;
+	}
+	window.open(location.href,"_self");
+}
+</script>

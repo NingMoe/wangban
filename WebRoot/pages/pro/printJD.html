@@ -1,0 +1,296 @@
+<link rel="icon" href="{% public zs/pro/assets/ico/favicon.ico %}">
+<link rel="stylesheet" href="{% public zs/pro/assets/css/custom.css %}">
+
+<style>
+tbody {
+	font-size:12px;
+}
+th{
+	min-width:85px;
+}
+</style>
+<script type="text/javascript">
+$(function() {
+	$(".main").click(function(){
+		$(this).next(".sub").slideToggle("slow");
+	});
+});
+</script>
+<div class="container" style="background-color: #fff; padding: 20px 40px;">
+	<div class="main">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+			<tr class="active">
+	             <th class="text-center font-size-18" colspan="9"><i class="fa fa-flag"></i><span id="name1">核准阶段</span></th>
+	        </tr>
+	   </table>
+   </div>
+   <div class="sub">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+	   		<thead>
+	            <tr class="info">
+	                <th class="text-center" style="width:160px">申办编号</th>
+	                <th class="text-center">业务主题</th>
+	                <th class="text-center">事项名称</th>
+	                <th class="text-center">接收时间</th>
+	                <th class="text-center">承诺时间</th>
+	                <th class="text-center">受理单位</th>
+	                <th class="text-center">办理状态</th>
+	                <!-- <th class="text-center">办结时间</th> -->
+	            </tr>
+	        </thead>
+	        <tbody id="table1" class="sub">          
+	             <!-- <tr>
+	                <td class="text-center">327383203DU38299</td>
+	                <td class="text-center">关于济南利民制药有限责任</td>
+	                <td class="text-center">建筑工程施工许可</td>
+	                <td class="text-center">2015-11-01</td>
+	                <td class="text-center">2015-11-27</td>
+	                <td class="text-center">济南市住房和城建</td>
+	                <td class="text-center"><span class="label label-info">审核</span></td>
+	                <td class="text-center"><span class="label label-success">正常</span></td>
+	                <td class="text-center">－</td>
+	            </tr>  -->
+	        </tbody>
+	    </table>
+    </div>
+   <div class="main">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+			<tr class="active">
+	             <th class="text-center font-size-18" colspan="9"><i class="fa fa-flag"></i><span id="name2">开工阶段</span></th>
+	        </tr>
+	   </table>
+   </div>
+   <div class="sub">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+	   		<thead>
+	            <tr class="info">
+	                <th class="text-center" style="width:160px">申办编号</th>
+	                <th class="text-center">业务主题</th>
+	                <th class="text-center">事项名称</th>
+	                <th class="text-center">接收时间</th>
+	                <th class="text-center">承诺时间</th>
+	                <th class="text-center">受理单位</th>
+	                <th class="text-center">办理状态</th>
+	                <!-- <th class="text-center">办结时间</th> -->
+	            </tr>
+	        </thead>
+	        <tbody id="table2" class="sub">          
+	            <!--  <tr>
+	                <td class="text-center">327383203DU38299</td>
+	                <td class="text-center">关于济南利民制药有限责任</td>
+	                <td class="text-center">建筑工程施工许可</td>
+	                <td class="text-center">2015-11-01</td>
+	                <td class="text-center">2015-11-27</td>
+	                <td class="text-center">济南市住房和城建</td>
+	                <td class="text-center"><span class="label label-info">审核</span></td>
+	                <td class="text-center"><span class="label label-success">正常</span></td>
+	                <td class="text-center">－</td>
+	            </tr>  -->
+	        </tbody>
+	    </table>
+    </div>
+    <div class="main">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+			<tr class="active">
+	             <th class="text-center font-size-18" colspan="9"><i class="fa fa-flag"></i><span id="name3">竣工验收阶段</span></th>
+	        </tr>
+	   </table>
+   </div>
+   <div class="sub">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+	   		<thead>
+	            <tr class="info">
+	                <th class="text-center" style="width:160px">申办编号</th>
+	                <th class="text-center">业务主题</th>
+	                <th class="text-center">事项名称</th>
+	                <th class="text-center">接收时间</th>
+	                <th class="text-center">承诺时间</th>
+	                <th class="text-center">受理单位</th>
+	                <th class="text-center">办理状态</th>
+	                <!-- <th class="text-center">办结时间</th> -->
+	            </tr>
+	        </thead>
+	        <tbody id="table3" class="sub">          
+	             <!-- <tr>
+	                <td class="text-center">327383203DU38299</td>
+	                <td class="text-center">关于济南利民制药有限责任</td>
+	                <td class="text-center">建筑工程施工许可</td>
+	                <td class="text-center">2015-11-01</td>
+	                <td class="text-center">2015-11-27</td>
+	                <td class="text-center">济南市住房和城建</td>
+	                <td class="text-center"><span class="label label-info">审核</span></td>
+	                <td class="text-center"><span class="label label-success">正常</span></td>
+	                <td class="text-center">－</td>
+	            </tr>  -->
+	        </tbody>
+	    </table>
+    </div>
+    <div  id ="sptable" style="display:none;">
+   <div class="main">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+			<tr class="active">
+	             <th class="text-center font-size-18" colspan="9"><i class="fa fa-flag"></i><span id="name4">开工阶段</span></th>
+	        </tr>
+	   </table>
+   </div>
+   <div class="sub">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+	   		<thead>
+	            <tr class="info">
+	                <th class="text-center" style="width:160px">申办编号</th>
+	                <th class="text-center">业务主题</th>
+	                <th class="text-center">事项名称</th>
+	                <th class="text-center">接收时间</th>
+	                <th class="text-center">承诺时间</th>
+	                <th class="text-center">受理单位</th>
+	                <th class="text-center">办理状态</th>
+	                <!-- <th class="text-center">办结时间</th> -->
+	            </tr>
+	        </thead>
+	        <tbody id="table4" class="sub">          
+	        </tbody>
+	    </table>
+    </div>
+   <div class="main">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+			<tr class="active">
+	             <th class="text-center font-size-18" colspan="9"><i class="fa fa-flag"></i><span id="name5">竣工验收阶段</span></th>
+	        </tr>
+	   </table>
+   </div>
+   <div class="sub">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+	   		<thead>
+	            <tr class="info">
+	                <th class="text-center" style="width:160px">申办编号</th>
+	                <th class="text-center">业务主题</th>
+	                <th class="text-center">事项名称</th>
+	                <th class="text-center">接收时间</th>
+	                <th class="text-center">承诺时间</th>
+	                <th class="text-center">受理单位</th>
+	                <th class="text-center">办理状态</th>
+	                <!-- <th class="text-center">办结时间</th> -->
+	            </tr>
+	        </thead>
+	        <tbody id="table5" class="sub">          
+	        </tbody>
+	    </table>
+    </div>
+    </div>
+</div>
+<script>
+
+function timeStamp2String(time){
+	if(null!=time){
+	    var datetime = new Date();
+	    datetime.setTime(time);
+	    var year = datetime.getFullYear();
+	    var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+	    var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+	    var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();
+	    var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+	    var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+	    //return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
+	    return year + "-" + month + "-" + date;
+	}else{
+		return "";
+	}
+}
+
+</script>
+<!-- //state：“状态”1：草稿2收件3预受理7不予受理8在办10办结 -->
+<script id="tableTemplate" type="text/template">
+{for o in data}
+<tr >
+<td class="text-center">${LEx.urldata.sblsh}</td>
+<td class="text-center">${o.applySubject}</td>
+<td class="text-center">${o.itemName}</td>
+<td class="text-center">${timeStamp2String(o.receiveTime)}</td>
+<td class="text-center">${timeStamp2String(o.promiseTime)}</td>
+<td class="text-center">${o.orgName}</td>
+<td class="text-center"><span class="label label-success">
+{if o.state=="1"}草稿
+{/if}
+{if o.state=="2"}收件
+{/if}
+{if o.state=="3"}预受理
+{/if}
+{if o.state=="7"}不予受理
+{/if}
+{if o.state=="8"}在办
+{/if}
+{if o.state=="10"}办结
+{/if}
+</span>
+</td>
+</tr>
+{/for}
+</script>
+
+<script>    
+function init(){
+	var projectCode=LEx.urldata.sblsh;
+	var projectType=LEx.urldata.type;
+	var command = new LEx.Command("app.icity.pro.ProCmd");
+	command.setParameter("projectCode", projectCode);
+	var ret = command.execute("queryBusiness");
+	if(!command.error){	
+		//document.write(LEx.encode(ret));
+		var o={};
+		blist1=[];
+		blist2=[];
+		blist3=[];
+		blist4=[];
+		blist5=[];
+		var len = ret.data.business.length;
+		for(var i=0;i<len;i++){
+			if(ret.data.business[i].stage=="01"){
+				blist1.push(ret.data.business[i]);
+			}else if(ret.data.business[i].stage=="02"){
+				blist2.push(ret.data.business[i]);
+			}else if(ret.data.business[i].stage=="03"){
+				blist3.push(ret.data.business[i]);
+			}else if(ret.data.business[i].stage=="04"){
+				blist4.push(ret.data.business[i]);
+			}else if(ret.data.business[i].stage=="05"){
+				blist5.push(ret.data.business[i]);
+			}
+		}
+		o.data = blist1;
+		$('#table1').html(LEx.processDOMTemplate('tableTemplate',o));
+		o.data = blist2;
+		$('#table2').html(LEx.processDOMTemplate('tableTemplate',o));
+		o.data = blist3;
+		$('#table3').html(LEx.processDOMTemplate('tableTemplate',o));
+		if(projectType=="A00002"){
+			$("#name1").html("核准阶段");
+		}else if(projectType=="A00003"){
+			$("#name1").html("备案阶段");
+		}else if(projectType=="A00002"){
+			o.data = blist4;
+			$('#table4').html(LEx.processDOMTemplate('tableTemplate',o));
+			o.data = blist5;
+			$('#table5').html(LEx.processDOMTemplate('tableTemplate',o));
+			//$("#sptable").attr("display","block");
+			$("#name1").html("项目建议书阶段");
+			$("#name2").html("可行性研究报告阶段");
+			$("#name3").html("初步设计及概算阶段");
+			$("#sptable").css("display","block");
+		}
+	}
+}
+
+function   formatDate(now)   {     
+    var   year=now.getFullYear();
+    var   month=now.getMonth()+1;
+    var monthStr=""+month;
+    if(month<10)   monthStr="0"+month;
+    var   date=now.getDate();
+    var dateStr=""+date;
+    if(date<10)  dateStr="0"+date;
+    var   hour=now.getHours();
+    var   minute=now.getMinutes();
+    var   second=now.getSeconds();
+    return   year+"-"+monthStr+"-"+dateStr;     
+    }
+</script>

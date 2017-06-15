@@ -1,0 +1,64 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}project.css" />
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}print.css" media="print" />
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+
+<style type="text/css">
+.main{width: 900px}
+</style>
+{% map "SBLSH",code,"TYPE",type as p%} {% command "app.icity.project.ProjectIndexCmd","materialListQueryByNameAndId",p as d %}
+{% if d.data %}
+	{% if d.data.metail|or: d.data.windowsub %}
+	<div class="" id="sqcllist" style="margin: 0px;">
+		<table class="table table-bordered">
+           <thead>
+               <tr class="active">
+                   <th width="45%"><label style="font-size: 15px;font-weight: bold;">申请材料名称</label></th>
+                   <th width="45%"><label style="font-size: 15px;font-weight: bold;">实际上传材料的名称 </label> </th>
+                   <td width="10%" align="center"><button onclick="printArea()" class="btn-primary">打印</button></td>
+               </tr>
+           </thead>
+           <tbody>
+           {% for o in d.data.metail %}
+			<tr>
+				<input type="hidden" name="DOCUMENT_ID" value="{{o.DOCUMENT_ID}}" />
+				<td>{{o.DOCUMENT_NAME}} </td>
+				<td>{{o.FILE_NAME}}</td>
+				<td align="center"><a href="#" class="text-primary" onclick="opena('{{o.FILE_PATH}}','{{o.FILE_NAME}}');">下载</a></td>
+			</tr>
+		   {% endfor %}   
+		
+             {% for c in d.data.windowsub %}
+		      <tr>
+				<input type="hidden" name="name" value="{{c.name}}" />
+				<td>{{c.name}} </td>
+				<td>窗口提交</td>
+           <td align="center">--</td>	
+			</tr>
+			{% endfor %} 
+	 </tbody>
+	 </table>
+	 </div>
+	{% else %}
+	<div class=""  style="margin: 15px;">
+		<table class="listTable" width="100%" cellspacing="1">
+			<tr class="tr_2">
+				<th><label>无任何实际上传材料！</label></th>
+			</tr>
+		</table>
+	</div>
+	{% endif %}
+{% endif %}
+<script type="text/javascript">
+function printArea(){
+	$("#sqcllist").printArea();
+}
+function opena(docid,name){
+	if(docid==""||docid==undefined||docid=="undefined"){
+		return;
+	}
+    var opera = "downloadagent4wp&path="+docid+"&name="+encodeURIComponent(name); 
+   	window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+	return false;
+}
+</script>

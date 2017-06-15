@@ -1,0 +1,193 @@
+{% set uuid PageContext.Parameter.uuid %}
+<script type="text/javascript">
+		{% set cp PageContext.ContextPath %}
+		var __webPath = "{{cp}}";
+		var __signature = "{{PageContext.SignatureInfo}}";
+	</script>
+	<link rel="icon" href="{% public ipro/assets/ico/favicon.ico %}">
+  	<link rel="stylesheet" href="{% public ipro/assets/css/custom.css %}">
+  	<link rel="stylesheet" href="{% public ipro/assets/css/bootstrap-datetimepicker.min.css %}">
+	<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+	<script  type="text/javascript" src="{% public ipro/assets/js/bootstrap-datetimepicker.min.js %}"></script>
+	<script  type="text/javascript" src="{% public ipro/assets/js/bootstrap-datetimepicker.zh-CN.js %}"></script>
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+	<script src="{% public assets/js/html5.min.js %}"></script>
+	<script src="{% public assets/js/respond.min.js %}"></script>
+<![endif]-->
+	
+<style type="text/css">
+	.input_validation-invalid {
+		border: 1px solid #f00 !important;
+		color: #f00;
+	}
+	.xmnb_table  .bordered{
+		border:1px solid red;
+	}
+	input {
+	font-family: "RobotoDraft", "Roboto", "Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
+  font-size: 14px;
+  }
+</style>
+    <section class="panel panel-default" style="width:100%">
+        <div class="panel-body" style="padding-left:20px">
+            <br> 
+            	<h3 style="text-align:center;font-size:30px;height:60px">项目年报</h3>
+                <table class="table table-bordered table-condensed table01  xmnb_table"  cellspacing="1" id="sub_form" style="display:block;border-width:0px;">
+				<colgroup>
+					<col width="200px">
+					<col width="30%">
+					<col width="20%">
+					<col width="30%">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th class="text-center info"><font color="red">*</font>项目代码：</th>
+						<td><input value="" id="projectCode" onBlur="checkCode()"  onkeyup="value=value.replace(/[^\d+\-?\d*]/g,'') " 
+										onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^/d{1,}[-]{1,}/d{0,}]/g,''))"
+										field="projectCode" name="projectCode" type="text"
+										class="span3" datatype="*0-80" nullmsg="此项不能为空"
+										sucmsg=" " /><span id="checkCode" style="display:none;"><font color="red" size="2px">×请输入已存在的项目编码</font><span></td>
+						<th class="text-center info"><font color="red">*</font>报告日期：</th>
+						<td><input value="" id="applyDate" onBlur="checkApplyDate()"
+										field="applyDate" name="applyDate" type="text"
+										class="span3" datatype="*0-80" nullmsg="此项不能为空"
+										sucmsg=" " /><span id="checkApplyDate" style="display:none;"><font color="red" size="2px">×此项不能为空</font><span></td>
+					</tr>
+					<tr>
+						<th class="text-center info"><font color="red">*</font>报告类型：</th>
+						<td><select id="reportType" name="reportType" class="span3" >
+								<option value="A08200">年报</option>
+								<option value="A08100">开工</option>
+								<option value="A08300">竣工</option>
+							</select>
+							</td>
+						<th class="text-center info"><font color="red">*</font>年报年份：</th>
+						<td><input value="" id="constructYear" onBlur="checkConstructYear()"
+										field="constructYear" name="constructYear" type="text"
+										class="span3" datatype="*0-80" nullmsg="此项不能为空"
+										sucmsg=" " />
+							<span id="checkConstructYear" style="display:none;"><font color="red" size="2px">×此项不能为空</font><span></td>
+					</tr>
+					
+				</tbody>
+			</table>
+			<table class="table table-bordered table-condensed table01  xmnb_table"  cellspacing="1" id="sub_form" style="display:block;border-width:0px">
+				<colgroup>
+					<col width="200px">
+					<col width="80%">
+				</colgroup>
+					<tr>
+						<th class="text-center info"><font color="red">*</font>备注内容：</th>
+						<td><textarea value="" id="remark" onBlur="checkRemark()"
+								field="remark" name="remark" type="text" style="width:90%;height:100px"
+								class="span3" datatype="*0-80" nullmsg="此项不能为空"
+								sucmsg=" " ></textarea>
+							<span id="checkRemark" style="display:none;"><font color="red" size="2px">×此项不能为空</font><span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+    </section>
+    <!-- <input type="button" onclick="saveData()" value="aaaaaaaa" /> -->
+<script>
+$(function(){
+	$('#constructYear').datetimepicker({autoclose:true,language: 'zh-CN',format:'yyyy', startView:4,minView:4})
+	$('#applyDate').datetimepicker({autoclose:true,language: 'zh-CN',format:'yyyy-mm-dd',minView: 2});
+});
+
+var checkCodeIf=0;
+function checkConstructYear(){
+	var constructYear=$("#constructYear").val();
+	if(constructYear==""){
+		$("#constructYear").addClass("bordered");
+		$("#checkConstructYear").css("display","block");
+	}else{
+		$("#constructYear").removeClass("bordered");
+		$("#checkConstructYear").css("display","none");
+	}
+}
+
+function checkRemark(){
+	var remark=$("#remark").val();
+	if(remark==""){
+		$("#remark").addClass("bordered");
+		$("#checkRemark").css("display","block");
+	}else{
+		$("#remark").removeClass("bordered");
+		$("#checkRemark").css("display","none");
+	}
+}
+
+function checkApplyDate(){
+	var applyDate=$("#applyDate").val();
+	if(applyDate==""){
+		$("#applyDate").addClass("bordered");
+		$("#checkApplyDate").css("display","block");
+	}else{
+		$("#applyDate").removeClass("bordered");
+		$("#checkApplyDate").css("display","none");
+	}
+}
+
+function checkCode(){
+	var projecrtCode=$("#projectCode").val();
+	if(projecrtCode==""){
+		$("#checkCode").css("display","block");
+		checkCodeIf=0;
+	}else{
+		var command=new LEx.Command("app.icity.ipro.IproCmd");
+		command.setParameter("uuid","{{uuid}}");
+		command.setParameter("project_code",projecrtCode);
+		var ret=command.execute("checkXmnbCode");
+		if(!command.error){
+			var count=ret.data;
+			if(ret.data[0].TOTAL=="0"){
+				checkCodeIf=0;
+				$("#checkCode").css("display","block");
+			}else if(ret.data[0].TOTAL=="1"){
+				checkCodeIf=1;
+				$("#checkCode").css("display","none");
+			}
+		}else{
+		}
+	}
+	
+}
+
+function checkdata(){
+	var projecrtCode=$("#projectCode").val();
+	var applyDate=$("#applyDate").val();
+	var reportType=$("#reportType").find("option:selected").text();
+	var constructYear=$("#constructYear").val();
+	var remark=$("#remark").val();
+	checkConstructYear();
+	checkRemark();
+	checkApplyDate();
+	checkCode();
+	if(projecrtCode==""||checkCodeIf==0||applyDate==""||reportType==""||constructYear==""||remark==""){
+		alert("请正确填写年报内容!");
+		return false;
+	}else{
+		saveData();
+		return true;
+	}
+}
+
+function saveData(){
+	var command = new LEx.Command("app.icity.ipro.IproCmd");
+	command.setParameter("projectCode",$("#projectCode").val());
+	command.setParameter("applyDate",$("#applyDate").val());
+	command.setParameter("reportType",$("#reportType").val());
+	command.setParameter("constructYear",$("#constructYear").val());
+	command.setParameter("remark",$("#remark").val());
+	var ret = command.execute("saveXMNB");
+	if(!command.error){
+		alert("保存成功");
+		return true;
+	}else{
+		alert("保存失败");
+		return false;
+	}
+}
+</script>

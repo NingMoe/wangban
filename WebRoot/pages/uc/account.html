@@ -1,0 +1,147 @@
+<script type="text/javascript" src="{{PageContext.PagePath}}uc/common.js"></script>
+<div class="sec_div"><span>账号信息</span></div>
+<img src="{%public assets/img/1-1.png%}">
+                                    <ul id="account_form">
+                                        <li><span>您在网上办事大厅注册的账号信息</span></li>
+                                        <li>
+                                            <table class="sec_tab">
+                                                <tr>
+                                                    <td class="t1">登录用户名：</td>
+                                                    <td class="t2"><span tag="NAME" id="NAME" style="width: 280px;"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="t1">用户类型：</td>
+                                                    <td class="t2"><span tag="TYPE" id="TYPE" class="formatType"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="t1">账号创建时间：</td>
+                                                    <td class="t2"><span tag="CREATION_TIME" id="CREATION_TIME" class="formatDate"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="t1">账号状态：</td>
+                                                    <td class="t2"><span tag="STATUS" id="STATUS" class="formatStatus"></span></td>
+                                                </tr>
+                                            </table>
+                                        </li>
+                                        <dl class="dx" id="mail" style="display:none;">
+							<dt>登录邮箱：</dt>
+							<dd style="width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-right: 10px;">
+								<span tag="EMAIL" id="EMAIL"></span>
+							</dd>
+							<dd>
+								<span class="m_warn" style="width: 90px; margin: 0px; padding: 4px 5px 4px 10px; text-align: center; display: block;">
+									<a id="btn_modifyEmail" href="javascript:void(0);" hidefocus="hidefocus">绑定新邮箱</a>
+								</span>
+							</dd>
+						</dl>
+						<dl clsss="dx" id="sms" style="display:none;">
+							<dt>登录手机号：</dt>
+							<dd style="width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-right: 10px;">
+								<span tag="PHONE" id="PHONE"></span>
+							</dd>
+							<dd>
+								<span class="m_warn" style="width: 90px; margin: 0px; padding: 4px 5px 4px 10px; text-align: center; display: block;">
+									<a id="btn_modifyPhone" href="javascript:void(0);" hidefocus="hidefocus">绑定新手机号</a>
+								</span>
+							</dd>
+						</dl>
+                                    </ul>
+
+<script type="text/javascript">
+(function(){ 
+	checkLogin();
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	var ret=cmd.execute("showUserInfo");
+	if (ret.state==1) {
+		if(ret.data){
+			var obj=ret.data;
+			obj.CREATION_TIME=formatTime(obj.CREATION_TIME);
+			LEx.form.set("account_form", obj);
+			$("#userface").attr("src",LEx.webPath+obj.PHOTO_URI);
+		}		
+	} else {
+		errorDialog("系统提示", "error：" + cmd.error);
+	}
+	
+	$(".formatType").each(function() {
+		var val = $(this).html();
+		if (val == "11" || val == "12") {
+			$(this).html("个人");
+		} else if (val == "21" || val == "22") {
+			if("{{ConfigInfo.AppId}}" == "zhangzhou"){
+				$(this).html("企业");
+			}else{
+				$(this).html("单位");
+			}
+			
+		} else {
+			$(this).html("-");
+		}
+	});
+
+	$(".formatStatus").each(function() {
+		var val = $(this).html();
+		if (val == "1") {
+			$(this).html("普通注册");
+		} else if (val == "2") {
+			$(this).html("实名认证");
+		} else {
+			$(this).html("-");
+		}
+	});	
+	var ValidTypeList = getSecurityValue('ValidType','');
+	var ValidTypeListArr = ValidTypeList.split(',');
+	for(var o in ValidTypeListArr){
+		var arr = ValidTypeListArr[o];
+		if("sms"==arr){
+			//$("#sms").removeClass();
+			$("#sms").css("display","block");
+		}else if("mail"==arr){
+			//$("#mail").removeClass();
+			$("#mail").css("display","block");
+		}
+	}
+	$("#btn_modifyEmail").click(function(){
+		$(".show_tab").load(LEx.webPath+"src?m=uc/secBindMailW.html");		
+	});
+	
+	$("#btn_modifyPhone").click(function(){
+		$(".show_tab").load(LEx.webPath+"src?m=uc/secBindPhoneW.html");	
+	});
+})();
+
+function formatTime(val){
+	var date=null;
+	try{
+		date=LEx.util.Format.formatDate(val,"yyyy-MM-dd HH:mm:ss");
+	}catch(e){
+		date="-";
+	}
+	return date;
+}
+
+function formatValid(){
+	var ValidTypeList = getSecurityValue('ValidTypeList','');
+	var ValidTypeListArr = ValidTypeList.split(',');
+	for(var o in  ValidTypeListArr){
+		var arr = ValidTypeListArr[o];
+		if("mail"==arr){
+			$("#securityCenter li").each(function(){
+				var tag = $(this).find("a").attr("tag");
+				if(tag == "secBindMailW"){
+					$(this).css('display','block');
+				}
+			});
+		}else if("sms"==arr){
+			$("#securityCenter li").each(function(){
+				var tag = $(this).find("a").attr("tag");
+				if(tag == "secBindPhoneW"){
+					$(this).css('display','block');
+				}
+			});
+		}
+	}
+}
+
+</script>
+

@@ -1,0 +1,242 @@
+<script>
+var cat = "";
+var id = "";
+var pagemodel="";
+$(function(){$('.jqpagination').jqPagination({
+	paged: function(page) {onQuery(page);},
+	page_string:"第{current_page}页   共{max_page}页"
+});})
+$(function(){
+	pagemodel=LEx.urldata.pagemodel;
+	cat = LEx.urldata.cat;
+	id = LEx.urldata.id;
+	onQueryDept();
+	onQueryTheme(pagemodel);
+	if(cat=="dept"){
+		$("a[href=#s-t-2]").trigger("click");
+	}
+	$("#"+LEx.urldata.id).addClass("active");
+	$('#project-option > strong').html($("#"+LEx.urldata.id).text());
+	onQuery(1);
+});
+function onQuery(start){
+	var limit=6;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+	cmd.setParameter("CAT", cat);
+	cmd.setParameter("ID", $("#"+id).attr("name"));
+	cmd.setParameter("PAGEMODEL", pagemodel);
+	cmd.setParameter("start",(start-1)*limit);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	if($("#project-checkbox").attr("checked")=="checked"){
+		cmd.setParameter("SUIT_ONLINE", "1");
+	}else{
+		cmd.setParameter("SUIT_ONLINE", "");
+	}
+	cmd.setParameter("SearchName",$("#project-text-search").val());
+	var ret =  cmd.execute("getMattersList");
+	if(!ret.error){
+		$('#js-list-group-l2').html(LEx.processDOMTemplate('MattersListTemplate',ret));
+		var total=ret.total;
+			total=Math.ceil(total/limit);
+			if(total==0){
+				$("#project-none").show();
+				$('.jqpagination').hide();
+			}
+			else{
+				$("#project-none").hide();
+				$('.jqpagination').show();
+				$('.jqpagination').jqPagination('option',{current_page:start,max_page:total,trigger:false});
+			}
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+$(function(){
+	 $('#s-t-1 > ul > li').click(function (e) {
+		 $("#project-text-search").val("");
+		 cat = "theme";
+		 id = $(this).attr("id");
+		 $("#project-checkbox").attr("checked",false);
+		 $('#project-option > strong').html($(this).text());
+		 onQuery(1);
+	 });
+	 $('#s-t-2 > ul >li').click(function (e) {
+		 $("#project-text-search").val("");
+		 cat = "dept";
+		 id = $(this).attr("id");
+		 $("#project-checkbox").attr("checked",false);
+		 $('#project-option > strong').html($(this).text());
+		 onQuery(1);
+	 });
+	 $("#project-checkbox").click(function(){
+		 onQuery(1);
+	 });
+	 $("#project-btn-search").click(function(){	
+		 onQuery(1);
+	 });
+});
+function onQueryTheme(obj){
+	var cmd = new LEx.Command("app.icity.col.WidgetCmd");
+	cmd.setParameter("TYPE", obj=="person"?"gr":"fr");
+	var ret =  cmd.execute("getPersonalBusinessList");
+	if(!ret.error){
+		$('#s-t-1').html(LEx.processDOMTemplate('titleTemplate',ret));
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+function onQueryDept(){
+	var region_code=getSecurityValue("WebRegion");
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	command.setParameter("region_code",region_code);
+	var ret = command.execute("getDeptList");
+	if(!command.error){
+		$('#s-t-2').html(LEx.processDOMTemplate('bmTemplate',ret));
+	}else{
+		LEx.dialog({
+			title : "系统提示",
+			content : command.error,
+			icon : 'error',
+			lock : true
+		});
+	}	
+}
+function sp(obj){
+    var itemId = obj.getAttribute("id");
+	window.open("{{PageContext.ContextPath}}icity/submitsp/baseinfo?itemId="+itemId,"_blank"); 
+}
+function addFaveriot(o) {
+	if (LEx.userInfo == null || LEx.userInfo == "null") {
+		LEx.dialog.tips("登录后进行收藏！",1.5);
+	} else {
+		var cmd = new LEx.Command("app.icity.favorite.ProjectFavoriteCmd");
+		cmd.setParameter("SXID", $(o).attr("item_id"));
+		cmd.setParameter("SXBM", $(o).attr("item_code"));
+		cmd.setParameter("SXMC", $(o).attr("item_name"));
+		var ret = cmd.execute("addFaveriot");
+		if (!ret.error && ret.state == 1) {
+			LEx.dialog.tips("收藏成功！");
+		} else {
+			LEx.dialog.tips(ret.error);
+		}
+	}
+}
+document.onkeydown = function(e){ 
+    var ev = document.all ? window.event : e;
+    if(ev.keyCode==13) {
+    	onQuery(1);
+     }
+}
+</script>
+<script type="text/template" id="MattersListTemplate">
+{for o in data}
+                    <li class="list-group-item open">
+                        <ul class="list-inline pull-right small">
+                            <li><i class="mdicon mdicon-star f14" style="color: orange;"></i><i class="mdicon mdicon-star f14" style="color: orange;"></i><i class="mdicon mdicon-star f14" style="color: orange;"></i><i class="mdicon mdicon-star f14" style="color: gray;"></i><i class="mdicon mdicon-star f14" style="color: gray;"></i></li>
+                            <li>|</li>
+                            <li><a class="text-muted"  item_id="${o.ID}" item_code="${o.CODE}" item_name="${o.NAME}" onclick="addFaveriot(this);">收藏</a></li>
+                        </ul>
+                        <h5 class="list-group-item-heading"><a href="{{PageContext.ContextPath}}approve/guide?id=${o.ID}" target="_blank">${o.NAME}</a></h5>
+                        <div class="btn-toolbar mt10">
+							<button type="button" class="btn btn-xs {if o.IS_ONLINE=="1"} btn-primary {else} btn-default disabled {/if}" code="${o.CODE}" id="${o.ID}" onclick="sp(this);">{if LEx.userInfo }{if LEx.userInfo.type==999}大厅收件{else}在线办理{/if}{else}在线办理{/if}</button>
+							<a type="button" class="btn btn-xs btn-primary" href="{{PageContext.ContextPath}}approve/guide?id=${o.ID}" target="_blank">办事指南</a>						
+                            <button cat="2" dept_id="${o.ORG_CODE}" dept_name="${o.ORG_NAME}" item_id="${o.ID}" item_code="${o.CODE}" item_name="${o.NAME}" onclick="doWrite(this);" type="button" class="btn btn-xs btn-primary">我要咨询</button>
+                        </div>
+                    </li>
+{/for}
+</script>
+<script type="text/template" id="bmTemplate">
+<ul class="row list-unstyled lh25">
+{for o in data.organ}
+{if o.IS_HALL=="1"}
+<li class="col-xs-6" name="${o.CODE}" id="${o.CODE}"><a href="#" data-toggle="tab" title="${o.SHORT_NAME}">${formatLen(o.SHORT_NAME,0,5)}</a></li>
+{/if}
+{/for}
+</ul>
+</script>
+<script type="text/template" id="titleTemplate">
+<ul class="row list-unstyled lh25">
+{for o in data}
+<li class="col-xs-6" name="${o.NAME}" id="${o.ID}"><a href="#" data-toggle="tab" >${o.NAME}</a></li>
+{/for}
+</ul>
+</script>
+<div id="page" class="container">
+    <div class="row" style="border: 1px solid #ddd; background-color: #fff;">
+        <div class="col-xs-3 table-cell" style="background-color: #f3fbfe;">
+            <section class="panel transparent no-shadow no-bordered">
+                <header class="panel-heading alpha omega beta psi" style="margin-left: -15px; margin-right: -15px;">
+                    <ul class="nav nav-pills nav-justified">
+                        <li class=""><a href="#s-t-2" data-toggle="tab"><i class="mdicon mdicon-domain f36"></i><br>按部门</a></li>
+                    </ul>
+                </header>
+                <div class="panel-body tab-content">
+                    <div class="tab-pane fade active in" id="s-t-1">
+                        
+                    </div>
+                    <div class="tab-pane fade" id="s-t-2">
+                        
+                    </div>
+                    <div class="tab-pane fade" id="s-t-3">
+                        3
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-xs-9 alpha omega table-cell">
+            <section class="panel panel-default no-shadow no-bordered">
+                <header class="panel-heading clearfix" style="padding-top:19px; padding-bottom:19px;">
+                    
+                    <form class="form-inline pull-right">
+<!--                         <div class="form-group">
+                            <select class="form-control">
+                                <option>当前省级服务事项</option>
+                                <option>2</option>
+                                <option>3</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">其他服务 >></button> -->
+                    </form>
+                    <h3 class="panel-title mt10 mb10" id="project-option">
+                    <strong></strong><span class="text-muted"></span>
+                    </h3>
+                    
+                </header>
+                <div class="panel-body">
+                    <form class="form-inline">
+                        
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" id="project-text-search"  class="form-control" style="width: 400px;" placeholder="请输入关键字查询">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success" type="button" id="project-btn-search">搜索</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="checkbox ml10">
+                            <label>
+                                <input type="checkbox" id="project-checkbox"> 仅显示可以在线办理事项
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <ul class="list-group panel-body yi-list-group-l2" id="js-list-group-l2">
+
+                   
+                </ul>
+                <div id="project-none" style="display:none;font-size:30px;font-weight:bold;text-align:center;">查无相关事项</div>
+                <nav class="text-center">
+                <div class="jqpagination" style="display:none;">
+			    <a href="#" class="first" data-action="first">&laquo;</a>
+			    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+			    <input type="text" readonly="readonly"/>
+			    <a href="#" class="next" data-action="next">&rsaquo;</a>
+			    <a href="#" class="last" data-action="last">&raquo;</a>
+				</div>
+                </nav>
+            </section>
+        </div>
+    </div>
+</div>
+{% include govservice/newmail.html %}

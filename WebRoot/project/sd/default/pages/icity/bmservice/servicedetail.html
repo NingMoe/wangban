@@ -1,0 +1,219 @@
+<style>
+.riqi{
+  height:24px;
+  line-height:24px;
+  font-size:13px;
+  width:100%;
+  text-align:center;
+  color:#6e6e6e;
+  margin-top:-20px;
+  margin-bottom:10px;
+  }
+  </style>
+{% set id PageContext.Parameter.id %}
+{% if id %}
+	{% map "id",id as p %}
+	{% command "app.icity.ServiceCmd","getPermission",p as d %}
+	<!-- 事项信息 -->
+	{%  set item d.data %}
+	{% set itemInfo item.itemBasicInfo%}
+{% else %}
+	<script type="text/javascript">window.location.href="{{PageContext.ContextPath}}index";</script>
+{% endif %}	
+<!-- 材料信息 -->	
+{% set materials item.material%}
+<!-- 办理流程 -->
+{% set handlingprocess item.handlingprocess %}
+<!-- 法律依据 -->
+{% set legalbasis item.legalbasis %}
+<!-- 受理条件 -->
+{% set conditions item.condition %}
+<!-- 办事地址 -->
+{% set windows item.window %}
+<!-- 收费标准 -->
+{% set charges item.charge %}
+<!-- 常见问题 -->
+{% set questions itemInfo.FAQ %}
+<!-- 流程图-->
+{% set outmaps item.outmap %}
+<!-- 展现常见问题和表格下载标志  -->
+{% set show PageContext.Parameter.show %}
+<div class="container" style="width: 1030px !important;"> 
+    <div class="table-table">
+    	<div class="table-cell its-page">
+            <section class="its-page-body">
+                <div style="padding: 0 60px;">
+                    <h3 class="text-center" style="line-height: 1.75;">{{itemInfo.NAME}}</h3>
+                    <div class="riqi">
+        	<span id="riqi">发布日期：{% for window in windows %} 
+        	<span id="CREATE_TIME" code="{{window.CREATE_TIME.time}}"></span>
+        	{% endfor %}</span>
+        	<!-- <span>信息来源：</span> -->
+        </div>
+                    <table class="table table-bordered its-table-overview">
+                        <tbody>
+                            <tr>
+            <th class="text-center">法定时限</th>
+            <td>{{itemInfo.LAW_TIME}}个工作日 </td>
+            <th class="text-center">承诺期限</th>
+            <td >{%if itemInfo.AGREE_TIME|equal:'0' %}
+                                    		             即办
+                                    	{% else %}
+									    	{{itemInfo.AGREE_TIME}}个工作日	
+									    {% endif %}
+			</td>
+          </tr>
+                            <tr>
+            <th class="text-center">实施机关</th>
+            <td >{{itemInfo.ORG_NAME|truncate:'30','...'}}</td>
+            <th class="text-center">咨询电话</th>
+           	<td >{% for window in windows %}
+                                    {{window.PHONE}}
+                                    {% endfor %}
+            </td>
+          </tr>
+                            <tr>
+            <th class="text-center">实施机关</th>
+            <td >{{itemInfo.ORG_NAME|truncate:'30','...'}}</td>
+           	<th class="text-center">投诉电话</th>
+            <td></td>
+          </tr>
+             <tr>
+            <th class="text-center">办事对象</th>
+            <td>
+            {% if itemInfo.SERVICE_OBJECT|equal:'0' %}
+			 	个人
+			{% else %}
+			{% if itemInfo.SERVICE_OBJECT|equal:'1' %}
+				企业
+			{% else %}
+				个人和企业
+			{% endif %}
+			{% endif %}
+			</td>
+			<th class="text-center">办公地点</th>
+			<td>{% for window in windows %} {{window.ADDRESS}}{% endfor %}</td>
+            </tr> 
+                        </tbody>
+                    </table>
+                    <br>
+                    <h5 style="border-top: solid 2px #d6d6d6;">
+                        <span style="display: inline-block; margin-top:-2px; border-top:solid 2px #2e5c8e; color: #315f91; padding: 15px 20px 5px 20px; font-size: 15px; ">受理条件</span>
+                    </h5>
+                    <div style="padding: 0 20px; line-height: 2;">
+                    	{% if conditions %}
+  			{% for condition in conditions %}
+  			<div>{{loop.counter}}、{{condition.NAME}}</div>
+   			{% endfor %}			   				
+		{% else %}
+   			无
+   		{% endif %}
+                    </div>
+                    <br>
+                    <h5 style="border-top: solid 2px #d6d6d6;">
+                        <span style="display: inline-block; margin-top:-2px; border-top:solid 2px #2e5c8e; color: #315f91; padding: 15px 20px 5px 20px; font-size: 15px; ">办理材料</span>
+                    </h5>
+                    <div style="padding: 0 20px; line-height: 2;">
+                       {% if materials %}				   		
+		   		{% for material in materials %}
+		   		<p>	   			
+		   			{{loop.counter}}、
+		   			{% if material.LACK_FLAG|equal:'0' %}
+		   				{% if material.REASON|cut:' '|length|equal:'0'|not %}
+		   					<a href="javascript:void(0);" tag="lackreason" title="{{material.REASON}}" class="htmlhref" >[非必备]</a>
+		   				{% else %}
+		   					<a href="javascript:LEx.dialog.tips('暂无非必备说明');" style="color:#999999;">[非必备]</a>
+		   				{% endif %}
+		   			{% endif %}&nbsp;{{material.NAME}}[
+		   			{%if material.MUST|equal:'0'|not %}必需&nbsp;{%else%}非必需&nbsp;{%endif%}
+		   			<!-- {%if material.TYPE_VALUE|length|equal:'0'|not %}材料类型：{{material.TYPE_VALUE}}&nbsp;{%endif%}
+		   			{%if material.PUBLISHER|length|equal:'0'|not %}材料介质：{{material.PUBLISHER}}&nbsp;{%endif%} -->
+		   			{%if material.ORIGIN|equal:'0'|not %}原件{{material.ORIGIN}}份&nbsp;{%endif%}
+		   			{%if material.COPY|equal:'0'|not %}复印件{{material.COPY}}份&nbsp;{%endif%}
+		   			]		   			
+		   			{% if material.DESCRIPTION|cut:' '|length|equal:'0'|not %}
+			   			<span>				   				
+				   			<a href="javascript:void(0);" title="查看材料备注" tag="material" clcode="{{material.CODE}}" class="question" hidefocus="true" style="outline:none;"></a>	   			
+			   			</span>
+			   		{% endif %}
+			   		{% if material.ORIGINAL_TYPE|cut:' '|length|equal:'0'|not %}
+			   			<span style="color: #999;font-size: 12px">[&nbsp;&nbsp;
+			   			{%if material.ORIGINAL_TYPE|Contain:'1'%}原件(收)&nbsp;&nbsp;{%endif%}
+			   			{%if material.ORIGINAL_TYPE|Contain:'2'%}原件(验)&nbsp;&nbsp;{%endif%}
+			   			{%if material.ORIGINAL_TYPE|Contain:'3'%}复印件{{material.COUNT}}份&nbsp;&nbsp;{%endif%}
+			   			{%if material.ORIGINAL_TYPE|Contain:'4'%}电子件&nbsp;&nbsp;{%endif%}
+			   			{%if material.ORIGINAL_TYPE|Contain:'9'%}其他&nbsp;&nbsp;{%endif%}   			
+			   			]</span>
+			   		{% endif %}
+			   		{% if material.FILE_URL|cut:' '|length|equal:'0'|not %}
+			   			<span style="color: #999;font-size: 12px">[&nbsp;
+			   				<a href="{{PageContext.ContextPath}}{{material.FILE_URL}}" style="color: #999;font-size: 12px">下载</a>
+			   			&nbsp;]</span>
+			   		{% endif %}
+			   	</p>		
+		   		{% endfor %}
+		   	{% else %}
+		   		无
+		   	{% endif %}
+                    </div>
+                    <br>
+                    <h5 style="border-top: solid 2px #d6d6d6;">
+                        <span style="display: inline-block; margin-top:-2px; border-top:solid 2px #2e5c8e; color: #315f91; padding: 15px 20px 5px 20px; font-size: 15px; ">办理流程</span>
+                    </h5>
+                    <div style="padding: 0 20px; line-height: 2;">
+                        {% if handlingprocess %}
+ 					{% set length handlingprocess|length %}  							
+	   				{% for wpro in handlingprocess %}
+	   					{% if wpro.NAME %}
+	   						{{loop.counter}}、{{wpro.NAME}}
+		   					{% if loop.counter|equal:length|not %}
+		   						</br>
+		   					{% endif %}
+		   				{% else %}
+		   					{% if wpro.NAME|equal:""|not %}
+	   							{{loop.counter}}、{{wpro}}
+	   						{% endif %}
+		   				{% endif %}	   							
+	   				{% endfor %} 						
+   				{% else %}
+	   				无
+	   			{% endif %}
+                    </div>
+                    <br>
+                    <h5 style="border-top: solid 2px #d6d6d6;">
+                        <span style="display: inline-block; margin-top:-2px; border-top:solid 2px #2e5c8e; color: #315f91; padding: 15px 20px 5px 20px; font-size: 15px; ">收费情况</span>
+                    </h5>
+                    <div style="padding: 0 20px; line-height: 2;">
+                    {% if itemInfo.IS_CHARGE|equal:'1' %}
+								收费
+							{% else %}
+								免费
+							{% endif %}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<script> 
+function timeStamp2String(time){
+    var datetime = new Date();
+    datetime.setTime(time);
+    var year = datetime.getFullYear();
+    var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+    var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+    var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();
+    var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+    var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+    //return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
+    return year + "-" + month + "-" + date;
+}
+$(function(){
+	var ct = timeStamp2String($("#CREATE_TIME").attr("code"));
+	if(ct=="NaN-NaN-NaN"){
+		$("#riqi").hide();
+	}else{
+		$("#CREATE_TIME").html(ct);
+	}
+});
+</script>    

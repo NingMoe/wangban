@@ -1,0 +1,33 @@
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+<div id="classlistgr">
+</div>
+<script type="text/javascript">
+{% set cp PageContext.ContextPath %}
+		var __webPath = "{{cp}}";
+		var __signature = "{{PageContext.SignatureInfo}}";
+$(function(){
+	onQuerygr();
+	
+});
+function onQuerygr(){
+	var cmd = new LEx.Command("app.icity.col.WidgetCmd");
+	cmd.setParameter("TYPE", "gr");
+	var ret =  cmd.execute("getPersonalBusinessList");
+	if(!ret.error){
+		creatListgr(ret);
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+function creatListgr(ret){
+	var len = ret.total;
+	var strHtml = "";
+	for(var i=0;i<len;i++){
+		strHtml += "<div style=\"height:100px;\"  class=\"col-xs-2 text-center title-classtype\"><a class=\"thumbnail no-bordered\" href=\"javascript:catalogonclick('1','"+ret.data[i].NAME+"')\">"
+		        +"<img src=\"{{cp}}public/assets/icon/"+ret.data[i].ICON_URL+"\" width=\"40\" height=\"40\" />"
+		        +"<div class=\"caption alpha omega\" id='"+ret.data[i].CODE+"'>"+ret.data[i].NAME+"</div></a></div>";
+	}
+	$("#classlistgr").html(strHtml);
+};
+</script>

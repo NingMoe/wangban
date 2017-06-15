@@ -1,0 +1,125 @@
+<style type="text/css">
+.input_validation-failed {border: 2px solid #FF0000;color: red;}
+</style>
+<script src="{% public scripts/LEx.form.js %}"></script>
+<header id="header" class="yi-subhead" style="margin: 10px;">
+    <div class="container">
+        <h4><strong>信件回复</strong><small>&nbsp;&nbsp; 您在政务服务网提交的咨询投诉信件，可在此查看回复</small></h4>
+    </div>
+</header>
+<div id="page" class="container" style="background-color: #ffffff;">
+<div class="h4" style="padding: 10px 200px;"><span style="color: red;">方式一：</span>进入业务中心查询&nbsp;&nbsp;<a class="btn btn-primary" href="{{cp}}center/index" target="_blank">前往</a></div>
+<div style="padding: 10px 200px;">
+<div class="h4"><span style="color: red;">方式二：</span>直接输入信件编号、手机号码查询</div>
+<div class="form-horizontal query" style="margin-left:50px;">
+        <div class="form-group">
+            <label class="col-xs-2 control-label"><font style="color: red;">*</font>信件编号:</label>
+            <div class="col-xs-5">
+                <input tag="1" id="letter_id" type="text" reg="^\d+$" class="form-control">
+            </div>
+        </div>
+      
+        <div class="form-group">
+            <label class="col-xs-2 control-label"> <font style="color: red;">*</font>手机号码:</label>
+            <div class="col-xs-5">
+                <input tag="2" id="phone" type="text"  reg="^[1][358]\d{9}$"  class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-5">
+                <button onclick="queryLetter();" class="btn btn-primary">查询</button>
+                </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade bs-modal-result" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" >
+   <div class="modal-header" >
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">
+           	 <strong>查询结果</strong>
+          </h4>
+        </div>
+       <div class="modal-body">
+       <div class="query-result" style="margin: 20px 0px 30px">
+       </div>
+	</div>
+  </div>
+  </div>
+  </div>
+  <script>
+  (function(){
+	  LEx.form.init(".query");
+  })();
+  function queryLetter() {
+	  if(!LEx.form.validate(".query")){
+		  LEx.dialog.tips("请正确填写查询条件",1);
+		  return false;
+		}
+	  var letter_id=$("#letter_id").val();
+	  var phone=$("#phone").val();
+		var cmd = new LEx.Command("app.icity.guestbook.WriteCmd");
+		cmd.setParameter("ID@=", letter_id);
+		cmd.setParameter("PHONE@=", phone);
+		var ret = cmd.execute("getList");
+		if (ret.state == 1 && ret.data.length > 0) {
+			$(".bs-modal-result").modal('show');
+			$(".query-result").html(LEx.processDOMTemplate("template4letter", ret.data[0]));
+		} else {
+			LEx.dialog.tips("没有找到对应的信件信息",1);
+		}
+		
+		formatStatus($("#status").html());
+	}
+  function formatStatus(val) {
+		if (val == '0') {
+			$("#status").html("未处理");
+			return false;
+		} else if (val == '1') {
+			$("#status").html("已处理");
+			return false;
+		} 
+	}
+  </script>
+  <textarea id="template4letter" style="display: none">
+		<table class="table table-bordered" width="95%" height="100%">
+			<tr class="tr_1">
+				<th class="th_1">ID：</th>
+				<td class="td_1" colspan="3"><font id="id">${ID}</font></td>
+			</tr>
+			<tr class="tr_1">
+				<th class="th_1">主题：</th>
+				<td class="td_1" colspan="3"><font id="title">${TITLE}</font></td>
+			</tr>
+			<tr class="tr_1">
+				<th class="th_1">内容：</th>
+				<td class="td_1" colspan="3"><font id="content">${CONTENT}</font></td>
+			</tr>
+			<tr class="tr_1">
+				<th class="th_1" width="20%">提交人：</th>
+				<td class="td_1" width="30%"><font id="username">${USERNAME}</font></td>
+				<th class="th_1" width="20%">提交部门：</th>
+				<td class="td_1" width="30%"><font id="depart_name">${DEPART_NAME}</font></td>
+			</tr>
+			<tr class="tr_1">
+				<th class="th_1" width="20%">提交时间：</th>
+				<td class="td_1" width="30%" id="write_date">${LEx.util.Format.formatDate(WRITE_DATE,'yyyy-MM-dd HH:mm')}</td>	
+				<th class="th_1" width="20%">处理状态：</th>
+				<td class="td_1" width="30%" id="status">${STATUS}</td>
+			</tr>
+	 {if STATUS==1}
+	        <tr class="tr_1">
+				<th class="th_1">回复内容：</th>
+				<td class="td_1" colspan="3"><font id="deal_result">${DEAL_RESULT}</font></td>
+			</tr>
+			<tr class="tr_1">			   
+				<th class="th_1" width="20%">处理时间：</th>
+				<td class="td_1" width="30%"><font id="deal_date">${LEx.util.Format.formatDate(DEAL_DATE,'yyyy-MM-dd HH:mm')}</font></td>
+				<th class="th_1" width="20%">处理部门：</th>
+				<td class="td_1" width="30%"><font id="depart_name">${DEPART_NAME}</font></td>
+			</tr>
+	 {/if}			
+		</table>
+</textarea>

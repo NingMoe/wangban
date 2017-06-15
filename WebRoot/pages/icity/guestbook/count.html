@@ -1,0 +1,321 @@
+<style type="text/css">
+a {
+	font-weight: bold;
+}
+
+.mytable {
+	width: 601px;
+	padding: 0;
+	margin: 0;
+}
+
+.listTable tr th {
+	font: 14px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #115918;
+	font-weight: bold;
+	border-right: 0px;
+	border-left: 0px;
+	border-bottom: 0px;
+	border-top: 2px solid #BAE2DC;
+	text-transform: uppercase;
+	padding: 6px 6px 6px 12px;
+}
+
+.listTable tr td {
+	border-right: 1px solid #BAE2DC;
+	border-left: 1px solid #BAE2DC;
+	border-bottom: 1px solid #BAE2DC;
+	border-top: 1px solid #BAE2DC;
+	font-size: 14px;
+	padding: 6px 6px 6px 12px;
+}
+
+element.style {
+	clear: both;
+	margin: 20px 12px 12px;
+	width: 100%;
+}
+
+div,input,table,p {
+	font-size: 12px;
+	margin: 0;
+	/*padding: 0;*/
+}
+
+.vote_hfl {
+	float: left;
+	height: 38px;
+	margin-left: 5px;
+	width: 185px;
+}
+
+.vote_hfl .imgback {
+	background: url("{{PageContext.ContextPath}}public/images/mutual/vote_hui.gif") repeat-x scroll 0 0 transparent;
+	height: 6px;
+	margin-top: 5px;
+	width: 160px;
+}
+
+.vote_hfl .txt {
+	margin-top: 5px;
+	width: 160px;
+}
+
+.vote_lxr {
+	float: left;
+	height: 24px;
+	margin-left: 5px;
+	width: 185px;
+}
+
+.vote_lxr .txt {
+	float: left;
+	height: 10px;
+	width: 40px;
+}
+
+.vote_lxr .imgback {
+	background: url("{{PageContext.ContextPath}}public/images/mutual/vote_hui.gif") repeat-x scroll 0 0 transparent;
+	float: left;
+	height: 10px;
+	margin-top: 3px;
+	width: 100px;
+}
+
+.vote_lxr .imgback .inside {
+	float: left;
+	height: 6px;
+	text-align: left;
+	width: 100px;
+}
+
+.vote_lxr .persent {
+	float: left;
+	height: 10px;
+	width: 45px;
+}
+
+.vote_other {
+	float: left;
+	height: 24px;
+	margin-left: 5px;
+	width: 185px;
+}
+
+.vote_other .txt {
+	float: left;
+	height: 10px;
+	width: 40px;
+}
+
+.vote_other .imgback {
+	background: url("{{PageContext.ContextPath}}public/images/mutual/vote_hui.gif") repeat-x scroll 0 0 transparent;
+	float: left;
+	height: 10px;
+	margin-top: 3px;
+	width: 100px;
+}
+
+.vote_other .imgback .inside {
+	float: left;
+	height: 6px;
+	text-align: left;
+	width: 100px;
+}
+
+.vote_other .persent {
+	float: left;
+	height: 10px;
+	width: 45px;
+}
+
+.txt1 {
+	color: #FF0000;
+}
+
+.writetxt1 {
+	font-size: 12px;
+	line-height: 26px;
+	width: 680px;
+}
+</style>
+
+<script type="text/javascript">
+	var table = null;
+	var _calendar = null;
+	function init() {
+		_calendar = new LEx.Control.Calendar(function() {
+			contentHandler();
+		});
+		//1.实例化分页table控件：table的id，模版的id
+		table = new LEx.Control.Table("list", "template");
+		//limit值的构造函数，默认值为10
+		table.limit(8);
+		onQuery();
+	}
+	function onQuery() {
+		var cmd = new LEx.Command("app.icity.guestbook.WriteCmd");
+		//cmd.setParameter("ID@=", "asdf");
+		cmd.setParameter("start", table.start());
+		cmd.setParameter("limit", table.limit());
+		var ret = cmd.execute("getCount");
+		if (!ret.error) {
+			//2.将数据传递给table对象
+			LEx.processDOMTemplate("template", ret);
+			table.toBody(ret);
+			//3.加载分页控件：分页div的id，Table的实例化对象名称（字符串）,总数量，查询方法（字符串）
+			table.toPageBar("pager", "table", ret.total, "onQuery()");
+		} else {
+			LEx.alert(ret.error);
+		}
+	}
+</script>
+<div class="fl w210">
+	{% widget "other.GuestBookLeftWidget"%}
+</div>
+<div class="ml210">
+	<ul class="tabs tabs-base">
+		<li><a href="javascript:void(0);" tag="govweibo" class="tab active">办件统计</a></li>
+	</ul>
+	<div class="tabs-content" style="padding-top:8px">
+		<table id="list" class="listTable" width="740" style="margin:8px; padding:0" cellspacing="0">
+			<thead>
+				<tr bgcolor="#ccffcc">
+					<th width="100px" align="center" style="border-left:1px solid #BAE2DC;border-bottom:1px solid #BAE2DC">部门</th>
+					<th width="180px" align="center" style="border-left:1px solid #BAE2DC;border-bottom:1px solid #BAE2DC">回复情况</th>
+					<th width="230px" align="center" style="border-left:1px solid #BAE2DC;border-bottom:1px solid #BAE2DC">来信人评价</th>
+					<th width="230px" align="center" style="border-left:1px solid #BAE2DC;;border-right:1px solid #BAE2DC;border-bottom:1px solid #BAE2DC">其他人评价</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+		<div id="pager" />
+	</div>
+</div>
+<textarea id="template" style="display:none">
+	{for o in data}
+ 		<tr height="25">
+          <td width="100px" align="center" style="border-right:0px; border-top:0px; height:60px" rowspan="2">${o.DEPART_NAME}</td>
+          <td width="180px" align="left" style="border-right:0px; border-top:0px; border-bottom:0px ;height:60px">
+            <div class="vote_hfl">
+                <div class="imgback">
+                    <img src="{{PageContext.ContextPath}}public/images/mutual/vote_green.gif" width="${o.DEAL/o.TOTAL*160}px" height="6px" />
+                </div>
+				<br>
+                <span class="txt">回复率:<a style="color:Red">
+                 {if o.DEAL==""}
+                       0%
+                 {elseif o.DEAL!=""}
+                 	${(o.DEAL/o.TOTAL*100).toFixed(1)}%
+                 {/if} 
+                 </a>
+                </span>   
+             </div>
+          </td>
+
+         <td width="230" align="center" style="border-right:0px; border-top:0px;border-bottom:0px; height:80px">
+              <div class="vote_lxr">
+                  <div class="txt">很满意</div>
+                    <div class="imgback">
+                      <div class="inside">
+						<img src="{{PageContext.ContextPath}}public/images/mutual/vote_green.gif" width='${o.SATISFY_2/(o.SATISFY_0+o.SATISFY_1+o.SATISFY_2)*100}px' height="6px" />
+					</div>
+                    </div>
+                    <div class="persent">
+                       {if o.SATISFY_2==""}
+                          0%
+                       {elseif o.SATISFY_2!=""}
+                          ${(o.SATISFY_2/(o.SATISFY_0+o.SATISFY_1+o.SATISFY_2)*100).toFixed(1)}%
+                       {/if} 
+                    </div>
+              </div>
+    
+              <div class="vote_lxr">
+                 <div class="txt">满意</div>
+                   <div class="imgback">
+                     <div class="inside">
+						<img src="{{PageContext.ContextPath}}public/images/mutual/vote_green.gif" width='${o.SATISFY_1/(o.SATISFY_0+o.SATISFY_1+o.SATISFY_2)*100}px' height="6px" />
+					</div>
+                   </div>
+                   <div class="persent">
+                         {if o.SATISFY_1==""}
+                             0%
+                         {elseif o.SATISFY_1!=""}
+                          	${(o.SATISFY_1/(o.SATISFY_0+o.SATISFY_1+o.SATISFY_2)*100).toFixed(1)}%
+                         {/if}
+                   </div>
+              </div>
+    
+              <div class="vote_lxr">
+                  <div class="txt">不满意</div>
+                     <div class="imgback">
+                        <div class="inside">
+						<img src="{{PageContext.ContextPath}}public/images/mutual/vote_green.gif" width='${o.SATISFY_0/(o.SATISFY_0+o.SATISFY_1+o.SATISFY_2)*100}px' height="6px" />
+					</div>
+                     </div>
+                     <div class="persent">
+                         {if o.SATISFY_0==""}
+                         	0%
+                         {elseif o.SATISFY_0!=""}
+                         	${(o.SATISFY_0/(o.SATISFY_0+o.SATISFY_1+o.SATISFY_2)*100).toFixed(1)}%
+                         {/if}
+                     </div>
+              </div>  
+         </td>
+         
+         <td width="230" align="center" style="border-top:0px;border-bottom:0px; height:60px">
+              <div class="vote_other">
+                  <div class="txt">有用</div>
+                     <div class="imgback">
+                         <div class="inside">
+						<img src="{{PageContext.ContextPath}}public/images/mutual/vote_green.gif" width='${o.USEFUL_TOTAL/(o.NOTUSEFUL_TOTAL+o.USEFUL_TOTAL)*100}px' height="6px" />
+					</div>
+                     </div>
+                     <div class="persent">
+                       {if (o.NOTUSEFUL_TOTAL+o.USEFUL_TOTAL)==0}
+                           0%
+                       {elseif o.USEFUL_TOTAL!=""}                       
+                          ${(o.USEFUL_TOTAL/(o.NOTUSEFUL_TOTAL+o.USEFUL_TOTAL)*100).toFixed(1)}%
+                       {/if} 
+                     </div>
+                  </div>
+    
+              <div class="vote_other">
+                  <div class="txt">没用</div>
+                      <div class="imgback">
+                         <div class="inside">
+						<img src="{{PageContext.ContextPath}}public/images/mutual/vote_green.gif" width='${o.NOTUSEFUL_TOTAL/(o.NOTUSEFUL_TOTAL+o.USEFUL_TOTAL)*100}px' height="6px" />
+					</div>
+                      </div>
+                      <div class="persent">
+                        {if (o.NOTUSEFUL_TOTAL+o.USEFUL_TOTAL)==0}
+                           	0%
+                        {elseif o.NOTUSEFUL_TOTAL!=""}
+                        	${(o.NOTUSEFUL_TOTAL/(o.NOTUSEFUL_TOTAL+o.USEFUL_TOTAL)*100).toFixed(1)}%
+                        {/if} 
+                      </div>
+                  </div>
+          </td>    
+      </tr>
+      <tr>
+           <td style=" border-top:0px; border-right:0px" align="center">
+            <span class="txt1">来信总数:${o.TOTAL}</span>  
+            <span class="txt1">回复总数:
+                 {if o.DEAL==""}
+                    0
+                 {elseif o.DEAL!=""}
+                    ${o.DEAL}
+                 {/if}
+                </span>
+           </td>
+           <td style=" border-top:0px; border-right:0px" align="center"><span class="txt1">来信人评价次数:
+                {if o.SATISFY_0+o.SATISFY_1+o.SATISFY_2=="" }
+                     0
+                {elseif o.SATISFY_0+o.SATISFY_1+o.SATISFY_2!=""}
+                     ${o.SATISFY_0+o.SATISFY_1+o.SATISFY_2}
+                {/if}
+           </span></td>
+           <td style=" border-top:0px" align="center"><span class="txt1">其他人评价次数:${LEx.num(o.NOTUSEFUL_TOTAL,0)+LEx.num(o.USEFUL_TOTAL,0)}</span></td>
+     </tr>
+     {/for}
+</textarea>

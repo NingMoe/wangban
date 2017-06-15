@@ -1,0 +1,95 @@
+<!DOCTYPE header PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/icity.js"></script>
+<script>
+	function roll(){
+		var speed = 50;
+		var MyMar = setInterval(Marquee, speed);
+		roll_list.onmouseover = function() {
+			clearInterval(MyMar);
+		};
+		roll_list.onmouseout = function() {
+			MyMar = setInterval(Marquee, speed);
+		};
+	}
+	function Marquee() {
+		if (4150 - roll_list.scrollTop <= 0)
+			roll_list.scrollTop -= 4150;
+		else {
+			roll_list.scrollTop++;
+		}
+	}
+	roll();
+</script>
+<style>
+.zl-list-unstyled-ggfu-3 {
+
+}
+.zl-list-unstyled-ggfu-3 > li {
+  padding: 4px 10px 0 10px;
+  border-bottom: 1px dashed #ddd;
+}
+.zl-list-unstyled-ggfu-3 > li p,
+.zl-list-unstyled-ggfu-3 > li span,
+.zl-list-unstyled-ggfu-3 > li time,
+.zl-list-unstyled-ggfu-3 > li em {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 5px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.zl-list-unstyled-ggfu-3 > li p {
+  width: 35%;
+  margin: 0;
+}
+.zl-list-unstyled-ggfu-3 > li span {
+  width: 15%;
+}
+.zl-list-unstyled-ggfu-3 > li time {
+  width: 10%;
+}
+.zl-list-unstyled-ggfu-3 > li em {
+  width: 9%;
+  font-style: normal;
+}
+</style>
+<script type="text/javascript"></script>
+{% command "app.icity.project.ProjectBusinessStatCmd","getBusinessList" as list %}
+<section class="panel panel-success" style="margin-bottom: 10px;width:1000px;height:290px;margin:0 auto">
+	<header class="panel-heading">
+		<h3 class="panel-title">办件公告</h3>
+	</header>
+	<ul class="list-unstyled zl-list-unstyled-ggfu-3">
+		<li> <span style=" width:240px;"><strong>申报号</strong></span>
+			<p style=" width:260px;"><strong>申报事项</strong></p>
+			<span style=" width:140px;"><strong>受理单位</strong></span> 
+			<span style=" width:100px;"><strong>申报时间</strong></span> 
+			<span style=" width:100px;"><strong>承诺时间</strong></span>
+			<em style=" width:80px;"><strong>状态</strong></em> </li>
+	</ul>
+	<div id="roll_list" style="height: 192px; overflow: hidden; position: relative;">
+		<ul style="position: absolute; top: 0px; left: 0px;" id="maq" class="list-unstyled zl-list-unstyled-ggfu-3">
+			{% if list.data %} {% for o iNeedFormatState_n list.data %}
+				<li>
+					<span style="width:240px;text-align:left;">{{o.receiveNumber}}</span>
+					<p title="{{o.applySubject}}" style="width:260px;text-align:left;">{{o.applySubject|truncate:18}}</p>
+					<span title="{{o.orgName}}" style="width:140px;text-align:left;">{{o.orgName}}</span>
+					<p style="width: 100px;text-align:left;"><i class="NeedFormatTime_">{{o.acceptTime}}</i></p>
+ 					<p style="width: 100px;text-align:left;"><i class="NeedFormatTime_">{{o.limitTime}}</i></p>
+					<em style="width:80px;text-align:left;"><i class="label label-success">&nbsp;</i><i>{{o.state}}</i></em>
+				</li>
+			{% endfor %} {% else %}
+			<li>
+				<div style="text-align: center;margin-top:5px;">
+					<font>暂无业务数据</font>
+				</div>
+			</li> 
+			{% endif %}
+		</ul>
+	</div>
+</section>
+</html>

@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <title>检索结果</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+	<script type="text/javascript">
+		{% set cp PageContext.ContextPath %}
+		var __webPath = "{{cp}}";
+		var __signature = "{{PageContext.SignatureInfo}}";
+		var signupUrl="{{PageContext.ContextPath}}uc/register";
+	</script>
+	<link rel="stylesheet" type="text/css" href="{% public assets/css/custom.css%}" />
+	<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.form.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js,md5.js"></script>
+	<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=md5.js"></script>
+	<script  type="text/javascript" src="{% public scripts/common.js %}"></script>
+	<script  type="text/javascript" src="{{PageContext.JsPath}}laypage/laypage.js"></script>
+	<link rel="stylesheet" href="{% public assets/css/jquery-ui.css %}">
+	<script src="{% public assets/js/jquery-ui.js %}"></script>
+	<script type="text/javascript">
+		plugin.add('dialog', {
+			path: '{{cp}}public/scripts/dialog/a?t=js&m=jquery.artDialog.js,plugins/iframeTools.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['dialog_css']
+		});
+		plugin.add('dialog_css', {
+			path: '{{cp}}public/scripts/dialog/skins/simple.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+	</script>
+	<style>
+		/*侧边栏导航 */
+        body {
+            font-family: "Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
+            background-color: #f3f3f3;
+        }
+        .sy_rfloat {
+            width: 72px;
+            height: 462px;
+            position: fixed;
+            top: 167px;
+            right: 1%;
+            margin-right: auto;
+            z-index: 999;
+            display: block;
+        }
+        
+        .rfloat_sub {
+            width: 72px;
+            height: 71px;
+            position: absolute;
+            cursor: pointer;
+        }
+        
+        .rfloat_sub_tit {
+            width: 72px;
+            height: 28px;
+            position: absolute;
+            bottom: 5px;
+            font-size: 14px;
+            line-height: 28px;
+            text-align: center;
+        }
+        
+        .rfloat_sub:hover .rfloat_sub_tit {
+            color: #1492FF;
+        }
+        
+        .rfloat_sub1 {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) top no-repeat;
+        }
+        
+        .rfloat_sub1:hover {
+            background: url({% public assets/img/1-2.png%}) top no-repeat;
+        }
+        
+        .rfloat_sub2 {
+            position: absolute;
+            top: 71px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) 0px -71px no-repeat;
+        }
+        
+        .rfloat_sub2:hover {
+            background: url({% public assets/img/1-2.png%}) 0px -71px no-repeat;
+        }
+        
+        .rfloat_sub2:hover .rfloat_sub_zxts {
+            display: block;
+        }
+        
+        .rfloat_sub_zxts {
+            width: 125px;
+            height: 216px;
+            position: absolute;
+            top: -74px;
+            left: -125px;
+            background: url({% public assets/img/1-3.png%}) left no-repeat;
+            display: none;
+        }
+        
+        .rfloat_sub_zx {
+            width: 120px;
+            height: 108px;
+            padding-top: 0px;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+        
+        .rfloat_sub_zxtit {
+            width: 106px;
+            height: 40px;
+            position: absolute;
+            top: 68px;
+            left: 0px;
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
+        }
+        
+        .rfloat_sub_zx:hover {
+            background: url({% public assets/img/1-4.png%}) top left no-repeat;
+        }
+        
+        .rfloat_sub_zx:hover .rfloat_sub_zxtit {
+            color: #1492FF;
+        }
+        
+        .rfloat_sub_ts {
+            width: 120px;
+            height: 107px;
+            padding-top: 0px;
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+        }
+        
+        .rfloat_sub_tstit {
+            width: 106px;
+            height: 40px;
+            position: absolute;
+            top: 67px;
+            left: 0px;
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
+        }
+        
+        .rfloat_sub_ts:hover {
+            background: url({% public assets/img/1-4.png%}) bottom left no-repeat;
+        }
+        
+        .rfloat_sub_ts:hover .rfloat_sub_tstit {
+            color: #1492FF;
+        }
+        
+        .rfloat_sub3 {
+            position: absolute;
+            top: 142px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) 0px -142px no-repeat;
+        }
+        
+        .rfloat_sub3:hover {
+            background: url({% public assets/img/1-2.png%}) 0px -142px no-repeat;
+        }
+        
+        .rfloat_sub4 {
+            position: absolute;
+            top: 213px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) 0px -213px no-repeat;
+        }
+        
+        .rfloat_sub4:hover {
+            background: url({% public assets/img/1-2.png%}) 0px -213px no-repeat;
+        }
+        
+        .rfloat_sub_2code {
+            width: 191px;
+            height: 377px;
+            position: absolute;
+            top: -150px;
+            left: -191px;
+            background: url({% public assets/img/1-5.png%}) top no-repeat;
+            display: none;
+        }
+        
+        .rfloat_sub4:hover .rfloat_sub_2code {
+            display: block;
+        }
+        
+        .rfloat_sub5 {
+            position: absolute;
+            top: 284px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) 0px -284px no-repeat;
+        }
+        
+        .rfloat_sub5:hover {
+            background: url({% public assets/img/1-2.png%}) 0px -284px no-repeat;
+        }
+        
+        .rfloat_sub6 {
+            height: 72px;
+            position: absolute;
+            top: 355px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) 0px -355px no-repeat;
+        }
+        
+        .rfloat_sub6 .rfloat_sub_tit {
+            bottom: 8px;
+        }
+        
+        .rfloat_sub6:hover {
+            background: url({% public assets/img/1-2.png%}) 0px -355px no-repeat;
+        }
+        
+        .rfloat_sub7 {
+            height: 35px;
+            position: absolute;
+            top: 427px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) 0px -427px no-repeat;
+        }
+        
+        .rfloat_sub7 .rfloat_sub_tit {
+            bottom: 4px;
+            color: #fff;
+        }
+        
+        .rfloat_sub7:hover {
+            background: url({% public assets/img/1-2.png%}) 0px -427px no-repeat;
+        }
+        
+        .rfloat_sub7:hover .rfloat_sub_tit {
+            color: #fff;
+        }
+        
+        .rfloat_sub8 {
+            height: 73px;
+            overflow: hidden;
+            position: absolute;
+            top: 462px;
+            left: 0px;
+            cursor: default;
+        }
+        
+        .rfloat_sub8_bg {
+            width: 72px;
+            height: 73px;
+            overflow: hidden;
+            position: absolute;
+            top: -73px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) 0px -462px no-repeat;
+            cursor: pointer;
+        }
+        
+        .rfloat_sub8 .rfloat_sub8_bg .rfloat_sub_tit {
+            bottom: 2px;
+            color: #fff;
+        }
+        
+        .rfloat_sub8:hover .rfloat_sub8_bg .rfloat_sub_tit {
+            color: #fff;
+        }
+        .navbar-static-top {
+		    /* z-index: 1000; */
+		    border-width: 0 0 1px;
+		}
+</style>
+<style>
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus{
+background-color:#F1F1F1;
+color:#312C2C;
+}
+.its-table-overview {
+    border: 1px solid #6699cc;
+}
+.its-table-overview > tbody > tr > th{
+	background-color:rgb(233, 242, 249);
+    padding: 10px;
+    line-height: 1;
+}
+.its-table-overview > tbody > tr > td {
+    padding: 10px;
+    line-height: 1;
+}
+</style>
+</head>
+<body>
+<div id="container_main">
+<div class="its-topbar" style="min-height: 10px; height: 25px;">
+</div>
+<header style="background-color: #f5f5f5; margin-bottom: 30px; padding: 5px 0; border-bottom: 1px solid #eee;">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6" >
+                <div class="its-brand pull-left">
+                    <a href="{{cp}}public/index"><img src="{%public assets/img/logo.png%}" height="70"></a>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="input-group" style="margin-top: 18px;">
+                    <input type="text" autocomplete="off" class="form-control" placeholder="请输入关键字查询" id="searchKey">
+                    <div class="input-group-btn">
+                        <!-- <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="padding: 6px 0; border-left:0;">
+                            <span class="text-muted" style="border-left: 1px solid #ddd; padding: 0 12px;">高级</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" style="width: 250px; padding: 10px; font-size: 13px;">
+                            <form>
+                                <div class="form-group clearfix phi">
+                                    <div for="">包含以下 <strong>完整</strong> 的关键词</div>
+                                    <input type="text" class="form-control input-sm" id="" placeholder="">
+                                </div>
+                                <div class="form-group clearfix phi">
+                                    <div for="">包含以下 <strong>任意</strong> 关键字词</div>
+                                    <input type="text" class="form-control input-sm" id="" placeholder="">
+                                </div>
+                                <div class="form-group clearfix phi">
+                                    <div for=""><strong>不包含</strong> 以下关键词</div>
+                                    <input type="text" class="form-control input-sm" id="" placeholder="">
+                                </div>
+                                <div class="form-group clearfix phi">
+                                    <div for="">文件格式</div>
+                                    <select class="form-control input-sm">
+                                        <option>1</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div> -->
+                        <button onclick="searchSubmit()" class="btn btn-primary" style="margin-left: 10px;">&nbsp;&nbsp;&nbsp;搜索一下&nbsp;&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+</header>
+<div class="container"> 
+    <div class="row">
+        <div class="col-xs-2">
+            <section class="panel panel-default no-bordered">
+                <h4 style="font-size: 15px; margin:0; padding: 5px 15px; border-bottom: 1px dashed #ddd; margin-bottom: 2px;"><strong>分类检索</strong></h4>
+                <div class="list-group" style="font-size: 13px;" id="list-group">
+                </div>
+            </section>
+            <section class="panel panel-default no-bordered">
+                <h4 style="font-size: 15px; margin:0; padding: 5px 15px; border-bottom: 1px dashed #ddd; margin-bottom: 2px;"><strong>时间范围</strong></h4>
+                <div class="list-group" style="font-size: 13px;" id = "time">
+                	<a class="list-group-item no-bordered active" name="">全部<span class="pull-right"></span></a>
+                	<a id="day" class="list-group-item no-bordered" name="">一天内<span class="pull-right"></span></a>
+                	<a id="month" class="list-group-item no-bordered" name="">一月内<span class="pull-right"></span></a>
+                	<a id ="year" class="list-group-item no-bordered" name="">一年内<span class="pull-right"></span></a>
+                </div>
+            </section>
+            <section class="panel panel-default no-bordered">
+                <h4 style="font-size: 15px; margin:0; padding: 5px 15px; border-bottom: 1px dashed #ddd; margin-bottom: 2px;"><strong>查询范围</strong></h4>
+                <div class="list-group" style="font-size: 13px;" id = "title">
+                    <a class="list-group-item no-bordered active">全部<span class="pull-right"></span></a>
+                    <a class="list-group-item no-bordered">标题<span class="pull-right"></span></a>
+                    <a class="list-group-item no-bordered">正文<span class="pull-right"></span></a>
+                </div>
+            </section>
+            <section class="panel panel-default no-bordered">
+                <h4 style="font-size: 15px; margin:0; padding: 5px 15px; border-bottom: 1px dashed #ddd; margin-bottom: 2px;"><strong>排序方式</strong></h4>
+                <div class="list-group" style="font-size: 13px;" id = "sort">
+                    <a class="list-group-item no-bordered active">相关度<span class="pull-right"></span></a>
+                    <a class="list-group-item no-bordered" name="t">时间<span class="pull-right"></span></a>
+                </div>
+            </section>
+        </div>
+        <div class="col-xs-10">
+            <p class="text-muted">找到约<span id="total"></span>条结果，用时<span id="searchTime">0.358</span>秒</p>
+            <section class="panel no-bordered">
+                <ul class="list-group" style="line-height: 1.5;" id="contentList">
+                </ul>
+            </section>
+                <nav id="layer"></nav>
+        </div>
+    </div>
+</div>
+<footer class="its-footer">
+    <div class="container text-center">
+        <a href="javascript:void(0);"><img src="{% public assets/img/gov_44.png%}" alt=""></a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>聊城市人民政府版权所有copyright 2016</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>聊城市人民政府主办 聊城市政务服务中心承办</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>鲁ICP备16005899号-1</span>
+    </div>
+</footer>
+</div>
+</body>
+<script type="text/javascript">
+var select = LEx.urldata.select;
+var href = location.href.substring(0,location.href.indexOf("jrobot"));
+var pageTotal=0;
+var searchStr = "";
+$("#searchKey").val(LEx.urldata.key);
+$(function(){
+	regroupList();
+	$("#time > a").click(function(){
+		$(this).siblings().removeClass("active").end().addClass ("active");
+		regroupList();
+		doSearch('1');
+		layerPage();
+	});
+	$("#title > a").click(function(){
+		$(this).siblings().removeClass("active").end().addClass ("active");
+		doSearch('1');
+		layerPage();
+	});
+	$("#sort > a").click(function(){
+		$(this).siblings().removeClass("active").end().addClass ("active");
+		doSearch('1');
+		layerPage();
+	});
+	doSearch('1');
+	layerPage();
+	$("#day").attr("name",GetDateStr(-1));
+	$("#month").attr("name",GetDateStr(-30));
+	$("#year").attr("name",GetDateStr(-365));
+});
+function regroupList(){
+	searchStr = "<a class=\"list-group-item no-bordered active\" type=\"11\" href=\"#\">全部<span class=\"pull-right\"></span></a>";
+	searchByGroup("theme");
+	searchByGroup("power_type");
+	$("#list-group").html(searchStr);
+	$(".list-group-item").each(function() {
+		var name = $(this).attr("name");
+		var number = $(this).attr("number");
+		if(name=="XK"){
+			$(this).html("行政许可<span class=\"pull-right\">"+number+"</span>");
+			$(this).attr("title","行政许可");
+		}else if(name=="BM"){
+			$(this).html("便民服务<span class=\"pull-right\">"+number+"</span>");
+			$(this).attr("title","便民服务");
+		}else if(name=="QZ"){
+			$(this).html("行政强制<span class=\"pull-right\">"+number+"</span>");
+			$(this).attr("title","行政强制");
+		}else if(name=="JF"){
+			$(this).html("行政给付<span class=\"pull-right\">"+number+"</span>");
+			$(this).attr("title","行政给付");
+		}else if(name=="FW"){
+			$(this).html("行政服务<span class=\"pull-right\">"+number+"</span>");
+			$(this).attr("title","行政服务");
+		}else if(name=="QT"){
+			$(this).html("其他权力<span class=\"pull-right\">"+number+"</span>");
+			$(this).attr("title","其他权力");
+		}
+	});
+	$("#list-group > a").click(function(){
+		$(this).siblings().removeClass("active").end().addClass ("active");
+		doSearch('1');
+		layerPage();
+	});
+}
+function searchByGroup(type){
+	var startTime = document.getElementById("time").getElementsByClassName("list-group-item no-bordered active")[0].name;
+	var cmd = new LEx.Command("app.icity.search.SearchCmd");
+	cmd.setParameter("key",LEx.urldata.key);
+	cmd.setParameter("m","group");
+	cmd.setParameter("type","project");
+	cmd.setParameter("starTime",startTime);
+	cmd.setParameter("endTime",GetDateStr(0));
+	if(LEx.isNotNull(select)){
+		cmd.setParameter("power_type",select);
+	}
+	cmd.setParameter("groupBy",type);
+	var ret = cmd.execute("getIndex");
+	if(ret.state==1){
+		var searchJson = ret.data;
+		for(var key in searchJson){
+			var themes = key.split(";");
+			if(themes.length>1){
+				for(var i=0 ;i<themes.length;i++){
+					searchStr += "<a class=\"list-group-item no-bordered\" title=\""+key+"\" type=\""+type+"\" name=\""+key+"\" number=\""+searchJson[key]+"\">"+LEx.util.Format.truncate(themes[i],4,"..")+"<span class=\"pull-right\">"+searchJson[key]+"</span></a>";
+				}
+			}else{
+				searchStr += "<a class=\"list-group-item no-bordered\" title=\""+key+"\" type=\""+type+"\" name=\""+key+"\" number=\""+searchJson[key]+"\">"+LEx.util.Format.truncate(key,4,"..")+"<span class=\"pull-right\">"+searchJson[key]+"</span></a>";
+			}
+		}
+	}
+}
+function doSearch(page){
+	var temp=new Date();
+	var sTime = temp.getTime();
+	var cmd = new LEx.Command("app.icity.search.SearchCmd");
+	cmd.setParameter("key",LEx.urldata.key);
+	var type = document.getElementById("list-group").getElementsByClassName("list-group-item no-bordered active")[0].type;
+	var typedetail = document.getElementById("list-group").getElementsByClassName("list-group-item no-bordered active")[0].name;
+	var startTime = document.getElementById("time").getElementsByClassName("list-group-item no-bordered active")[0].name;
+	var sortBy = document.getElementById("sort").getElementsByClassName("list-group-item no-bordered active")[0].name;
+	if(LEx.isNotNull(select)){
+		cmd.setParameter("power_type",select);
+	}
+	if(type=="power_type"){
+		cmd.setParameter("power_type",typedetail);
+	}else if(type=="theme"){
+		cmd.setParameter("theme",typedetail);
+	}
+	cmd.setParameter("type","project");
+	cmd.setParameter("start",page);
+	cmd.setParameter("limit",'6');
+	cmd.setParameter("starTime",startTime);
+	cmd.setParameter("endTime",GetDateStr(0));
+	cmd.setParameter("sortBy",sortBy);
+	var ret = cmd.execute("getIndex");
+	if(ret.state==1){
+		var total=ret.total;		
+		$("#total").html(total);
+		pageTotal=Math.ceil(total/8);
+		$("#contentList").html(LEx.processDOMTemplate("contentListTemplate",ret));
+		$(".list-group-item").each(function() {
+			var type = $(this).children().find("a.text-success").attr("type");
+			var id = $(this).children().find("a.text-success").attr("id");
+			var sub_type = $(this).children().find("a.text-success").attr("sub_type");
+			if(type=="BM"){
+				$(this).children().find("a.text-success").html(href+gotoHref(sub_type,id));
+				$(this).children().find("a.text-success").attr("href",href+gotoHref(sub_type,id));
+				$(this).children().find("a.text-primary").attr("href",href+gotoHref(sub_type,id));
+			}else{
+				var hre = $(this).children().find("a.text-success").html();
+				$(this).children().find("a.text-success").html(href+hre);
+				$(this).children().find("a.text-primary").attr("href",href+hre);
+			}
+		});
+		temp=new Date();
+		var eTime=temp.getTime();
+		var alltime = ((eTime-sTime)/1000);
+		$('#searchTime').html(alltime+"")
+	}
+}
+function searchSubmit(){
+	var key = $("#searchKey").val();
+	if(key==""){
+		alert("请输入关键字");
+		return;
+	}
+	window.open("{{cp}}jrobot/search?key="+key+"&select="+select,'_self');
+}
+//搜索提示
+$(document).ready(function() {
+	$( "#searchKey" ).autocomplete({
+  		source: function( request, response ) {
+  			response(getlist(request.term));
+  		},
+      	select: function( event, ui ) {
+      		$( "#searchKey" ).val($("<p>"+ui.item.NAME+"</p>").text());
+        	return false;
+      	}
+	}) .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li>" )
+        .append(item.NAME)
+        .appendTo( ul );
+    };;
+});
+function getlist(key){
+    var start='1';
+    var limit = '100';
+	var cmd = new LEx.Command("app.icity.search.SearchCmd");	
+	cmd.setParameter("key", key);
+	cmd.setParameter("start",start);
+	cmd.setParameter("limit",limit);
+	var ret = cmd.execute("getIndex");
+	var data=[];
+	var m_count=0;
+	$.each(ret.data,function(i){	
+		if(ret.data[i].TYPE=="project"&&m_count<10){			
+			m_count++;
+			data.push(ret.data[i]);
+		}
+	});
+	return data;
+}
+//layerPage分页
+function layerPage(){
+	laypage({
+    	cont: $("#layer"), //容器。值支持id名、原生dom对象，jquery对象,
+    	pages: pageTotal, //总页数
+    	skin: '#42a5f5', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+    	groups: 4, //连续显示分页数
+    	jump:function(obj,first){
+    			var currPage = obj.curr;
+    			if(!first){
+    				doSearch(currPage+'');
+    			}
+    		}
+		});	
+}
+function formatStatePower(type){
+	var val="其他";
+	switch(type){
+		case 'XK':
+			val="行政许可";
+			break;
+		case 'QZ':
+			val="行政强制";
+			break;
+		case 'JF':
+			val="行政给付";
+			break;
+		case 'FW':
+			val="行政服务";
+			break;
+		case 'QT':
+			val="其他权力";
+			break;
+		case 'BM':
+			val="便民服务";
+			break;
+	}	
+	return val;
+}
+function gotoHref(type,id){
+    var val="";
+    switch(type){
+    		case '1':
+    			val="icity/bmservice/servicedetail?id="+id;
+    			//val="办事指南类";
+    			break;
+    		case '3':
+    			val="icity/bmservice/infodetail?id="+id;
+    			//val="通知公告类";
+    			break;
+    		case 'cj':
+    			val="icity/bmservice/prodetail?id="+id;
+    			//val="常见问题类";
+    			break;
+    		case 'fw':
+    			val="icity/bmservice/conveniencedetail?id="+id;
+    			//val="服务链接类";
+    			break;
+    		case 'pt':
+    			val="icity/bmservice/infodetail?id="+id;
+    			//val="普通信息类";
+    			break;
+    		case '5':
+    			val="icity/bmservice/ditudetail?id="+id;
+    			//val="单位名录类";
+    			break;
+    		case '6':
+    			val="icity/bmservice/ditudetail?id="+id;
+    			//val="场馆信息类";
+    			break;
+    		case '7':
+    			val="icity/bmservice/lawdetail?id="+id;
+    			//val="政策文件类";
+    			break;
+    	}
+    	//window.location.href = val;
+    	//window.open(val,"_blank");
+		return val;
+}
+function GetDateStr(AddDayCount) 
+{ 
+	var dd = new Date(); 
+	dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期 
+	var y = dd.getFullYear();
+	var m = (dd.getMonth()+1)<10?"0"+(dd.getMonth()+1):(dd.getMonth()+1);//获取当前月份的日期，不足10补0
+	var d = dd.getDate()<10?"0"+dd.getDate():dd.getDate(); //获取当前几号，不足10补0
+	return y+""+m+""+d;
+}
+</script>
+<script type="text/template" id="contentListTemplate">
+{for o in data}
+{if o.POWER_TYPE=="XK"}
+	<li class="list-group-item alpha omega">
+        <h4 style="font-size: 16px;"><a class="text-primary" href="{{cp}}icity/proinfo?id=${o.ID}" target="_blank">${o.NAME}</a></h4>
+		<table class="table-bordered its-table-overview">
+			<tbody>
+              <tr>
+                  <th class="text-center" style="width:100px;">事项编码</th>
+                  <td style="width:250px;">${o.CODE}</td>
+                  <th class="text-center" style="width:100px;">所属部门</th>
+                  <td style="width:250px;">${o.ORG_NAME}</td>
+              </tr>
+              <tr>
+                  <th class="text-center">办理主体</th>
+                  <td>${o.ORG_NAME}</td>
+                  <th class="text-center">是否收费</th>
+                  <td>{if o.IS_CHARGE=="0"}不收费{else}收费{/if}</td>
+              </tr>
+              <tr>
+                  <th class="text-center">所属主题</th>
+                  <td>${o.TITLE_NAME}</td>
+                  <th class="text-center">权利类型</th>
+                  <td>${formatStatePower(o.POWER_TYPE)}</td>
+              </tr>
+        	</tbody>
+      	</table>
+        <p style="font-size: 13px;"><a class="text-success" href="{if o.TYPE=="project"}{{cp}}icity/proinfo?id=${o.ID}{/if}" target="_blank">{if o.TYPE=="project"}icity/proinfo?id=${o.ID}{/if}</a>&nbsp;&nbsp;&nbsp;&nbsp;<time class="text-success">${o.TIME}</time></p>
+	</li>
+{else}
+	<li class="list-group-item alpha omega">
+        <h4 style="font-size: 16px;"><a class="text-primary" href="{if o.TYPE=="project"}{{cp}}icity/proinfo?id=${o.ID}{/if}" target="_blank">${o.NAME}</a></h4>
+		<p style="font-size: 13px;" class="text-muted">所属主题：${o.TITLE_NAME}</p>
+        <p style="font-size: 13px;"><a class="text-success" id="${o.ID}" type="${o.POWER_TYPE}" sub_type="${o.SUB_TYPE}" href="{if o.TYPE=="project"}{{cp}}icity/proinfo?id=${o.ID}{/if}" target="_blank">{if o.TYPE=="project"}icity/proinfo?id=${o.ID}{/if}</a>&nbsp;&nbsp;&nbsp;&nbsp;<time class="text-success">${o.TIME}</time></p>
+	</li>
+{/if}
+{/for}
+</script>
+</html>

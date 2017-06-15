@@ -1,0 +1,19 @@
+{% map "start","0","limit","5" as p_HotStat%}
+{% command "app.icity.project.ProjectBusinessStatCmd",'getBusyInfoHotStat',p_HotStat as d_HotStat%}
+
+ 	{% if d_HotStat.data %}
+		{% for o in d_HotStat.data %}
+		<li>
+			<!--  <span style="background: none repeat scroll 0 0 #759EBE; border: 1px solid #333333;box-shadow: 0 1px 2px #CCCCCC;color: #FFFFFF;margin-right: 0px;padding: 0 1px;">{{o.ID_TONGJI_INDEX}}</span>-->
+			<a href="{{PageContext.ContextPath}}icity/project/guide?id={{o.CODE}}" title="{{o.NAME}}"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /> {{o.NAME|truncate:15}}</a>		
+			<!--  <span style="float:right;text-align:right;">({{o.SUM}}次)</span>-->
+		</li>
+	    <hr>
+	   {% endfor %}
+	{% else %}
+ 		<li>
+       		<div style="text-align: center;margin-top:5px;"><font>暂无数据</font></div>
+       	</li>
+	{% endif %}	
+
+<br>

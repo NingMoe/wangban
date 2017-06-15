@@ -1,0 +1,31 @@
+<script type="text/javascript">
+
+</script>
+<div style="color:red;font-size:15px;padding:10px 10px 10px 10px ;">
+	<p>温馨提示：</p>
+<p>审批类项目在平台进行项目登记后将获得“统一项目代码”，并可打印项目登记单（可多次打印），一个投资项目只有一个项目代码。办理国土、环保、水利、安监等相关部门相关手续均需提供项目登记单。对于同一项目办理不同部门的手续时，只需在平台进行一次项目登记，打印项目登记单即可至有关部门办理，无需在平台进行重复登记。
+</p>
+</div>
+<div style="color:blue;font-size:15px;padding:10px 10px 10px 10px ;">
+<li>选择审批阶段</li>
+<li>
+	<input type="radio" value="A00004" name="projectStage" id="0"/>项目建议书阶段
+	<input type="radio" value="A00005" name="projectStage"  id="1"/>可行性研究报告阶段
+	<input type="radio" value="A00006" name="projectStage"  id="2"/>初步设计阶段
+</li>
+</div>
+<script>
+function getData(){
+	var list= $('input:radio[name="projectStage"]:checked').val();
+
+    if(list==null){
+        alert("请选中一个!");
+        return false;
+    }
+
+    else{
+		return list;
+    }          
+}
+
+</script>

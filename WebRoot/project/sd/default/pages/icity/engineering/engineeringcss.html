@@ -1,0 +1,136 @@
+<style>
+.jieduan {
+	margin-bottom: 25px;
+}
+
+.jieduan .list-inline li {
+	text-align: center;
+	vertical-align: middle;
+}
+
+.jieduan .list-inline .active {
+	font-weight: 600;
+	color: #fff;
+	background-color: #66B4D8;
+	border-color: #66B4D8;
+	border-radius: 20px;
+	padding: 10px 20px;
+}
+
+.jieduan ul .border {
+	border-radius: 20px;
+	border: 1px solid #ddd;
+	padding: 10px 20px;
+}
+
+.bg-p-warning {
+	padding: 5px 15px;
+}
+
+.lc-well {
+	background: 0;
+}
+
+.its-nav-tabs-obligation {
+	border-bottom: 2px solid #d7d7d7 !important;
+}
+
+.its-nav-tabs-obligation>li>a {
+	font-size: 15px;
+	font-weight: bold;
+	padding: 10px 0;
+	border: 0 !important;
+}
+
+.its-nav-tabs-obligation>li.active>a {
+	color: #29588c;
+	border-bottom: 2px solid #29588c !important;
+	margin-bottom: -2px;
+}
+
+.its-nav-tabs-obligation>li.active>a:before {
+	content: "";
+	position: absolute;
+	left: 50%;
+	margin-left: -5px;
+	bottom: -9px;
+	width: 0;
+	height: 0;
+	border-left: 9px solid transparent;
+	border-right: 9px solid transparent;
+	border-top: 9px solid #29588c;
+}
+
+.its-list-group-obligation .list-group-item {
+	padding: 15px;
+	margin-bottom: 0;
+	border: 0;
+	border-bottom: 1px dashed #ddd;
+}
+
+.its-list-group-obligation .list-group-item:before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 24px;
+	width: 3px;
+	height: 3px;
+	background-color: #777;
+	border-radius: 50%;
+}
+
+.lc-xiangmu ul li a {
+	padding: 10px 15px;
+	border: 1px solid #ddd;
+	text-align: center;
+	display: block;
+	margin: 10px 0;
+}
+
+.lc-xiangmu ul li a:hover {
+	background-color: #fafafa;
+}
+</style>
+<script>
+$(function(){
+	initDict();
+});
+//装载select
+function addOption(sid,dict){
+	var len = dict.length;
+	for(var i=0;i<len;i++){
+		$("#"+sid).append("<option value='"+dict[i].code+"'>"+dict[i].name+"</option>");
+	}	
+}
+//字典
+//项目类型projectType
+var TZSPXMLX=[{"code":"A00001","name":"审批"},{"code":"A00002","name":"核准"},{"code":"A00003","name":"备案"}];
+//区划简码
+var REGION=[{"code":"JN,3701000000","name":"济南市"}];
+//项目法人证照类型lerepCerttype
+var ZSTZXMFRZZLX=[{"code":"0","name":"企业营业执照"},{"code":"1","name":"组织机构代码证（企业法人）"}];
+//建设性质constructPer
+var TZSPJSXZ=[{"code":"0","name":"新建"},{"code":"1","name":"扩建"}];
+//所属行业industry
+var TZXMLX=[{"code":"A01XXX","name":"农业"},{"code":"A011XX","name":"谷物及其他作物的种植"}];
+//投资项目行业分类industryName
+var TZXMHYFL=[{"code":"A00001","name":"农业水利"},{"code":"A0000101","name":"农业"}];
+//项目阶段projectStage
+var TZSPXMJD=[{"code":"0","name":"在建"},{"code":"1","name":"竣工"},{"code":"2","name":"撤销"}];
+
+//初始化字典
+function initDict(){
+	var command = new LEx.Command("app.icity.engineering.EngineeringCmd");
+	command.setParameter("dictCode", "TZSPXMLX,REGION,ZSTZXMFRZZLX,TZSPJSXZ,TZXMLX,TZXMHYFL,TZSPXMJD");
+	var ret = command.execute("getDictInfo");
+	if(ret.state=="1"){		
+		TZSPXMLX = ret.data.info[0].TZSPXMLX;
+		REGION = ret.data.info[0].REGION;
+		ZSTZXMFRZZLX = ret.data.info[0].ZSTZXMFRZZLX;
+		TZSPJSXZ = ret.data.info[0].TZSPJSXZ;
+		TZXMLX = ret.data.info[0].TZXMLX;
+		TZXMHYFL = ret.data.info[0].TZXMHYFL;
+		TZSPXMJD = ret.data.info[0].TZSPXMJD;
+	}
+}
+</script>

@@ -1,0 +1,10 @@
+[
+	{title:"市府首页",url:"http://www.sz.gov.cn",target:"_blank",type:"home"},
+	{title:"政务公开",url:"open",target:"_self",type:"home"},
+	{title:"政务公开",url:"portal/index",target:"_self",type:"product"},
+	{title:"投资审批",url:"invest",target:"_self"},
+	{title:"网上办事",url:"project",target:"_self"},
+	{title:"政民互动",url:"mutual",target:"_self"},
+	{title:"效能监察",url:"effect",target:"_self"},
+	{title:"实体大厅",url:"http://www.szzw.gov.cn/",target:"_blank",style:"border:none;",type:"home"}
+]

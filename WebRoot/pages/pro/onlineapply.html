@@ -1,0 +1,218 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.PagePath}}icity/submitsp/all.css" /> 
+<script src="{% public scripts/LEx.form.js %}"></script>
+<link 	href="{% public scripts/fineload/css/jquery.fileupload.css %}"  rel="stylesheet"/>
+<script src="{% public scripts/fineload/js/vendor/jquery.ui.widget.js %}"></script>
+<script src="{% public scripts/fineload/js/jquery.iframe-transport.js %}"></script>
+<script src="{% public scripts/fineload/js/jquery.fileupload.js %}"></script>
+<style type="text/css">
+input.date{background: #fff url({% public images/input_date.png %}) no-repeat right 3px;border:1px solid #848484;height:28px;width:100%; margin:0 5px 0 0;padding:2px 0 2px 5px; font-family: Verdana, Geneva, sans-serif,"宋体";font-size:12px;}
+.input_validation-invalid,.input_validation-failed {border: 1px solid #F00;color: #F00;}
+.input_validation-valid {border: 1px solid #333;color: #333;}
+.DynarchCalendar-topCont{width:200px;}
+table.t1 {width: 900px;}
+</style>
+<div id="guide-top" style="background-color: #fff; padding: 20px 40px;width:1030px;margin:0px auto;">
+	<div id = "apply" style="display:block;">
+	<script type="text/javascript">
+			var must_materials = [];
+			var n_must_materials = [];
+		</script>
+	<table style="border:1px;width:100%" class="t1" id="t_m">
+	</table>
+	</div>
+	<br/>
+	 <div id = "submitsp" style="height:40px;text-align:center;">
+	 <input type="button" style="width: 68px;"  class="btn btn-info next" onclick="submitData();" value="提交" />
+	</div>
+</div>
+<script>
+var materialArray=[];
+$(document).ready(function(){
+	if(LEx.urldata.itemId==""){
+		return;
+	}
+	getAllItemInfo(LEx.urldata.itemId);
+	$('.fileupload').fileupload({
+		url : LEx.webPath+"bsp/uploadify?action=uploadagent4wp&ucid="+LEx.userInfo.uid,
+		dataType : 'json',
+		autoUpload : true,
+		sequentialUploads : true,
+		//forceIframeTransport : true,
+		add : function(e, data) {
+			var check=true;
+			$.each(data.files, function(i, file) {
+		        var fileSize='1000000000';	
+				if(file.size>fileSize){
+					alert(file.name+":文件太大!");	
+					return check=false;}
+					//文件限制分类
+					var reg=/(gif|jpe?g|png|bmp|doc|docx|txt|ppt|pptx|xlsx|xls|pdf|chm|xml|rar|zip|7z|ceb)$/i;
+					var extName = file.name.substring(file.name.lastIndexOf(".")+1);
+				 	if(!reg.test(extName)){
+					alert("不支持的文件类型！");
+					return check=false;
+				}
+			});
+			if(check){
+				data.submit();
+			}
+		},
+		done :uploadSuccess,
+		fail : function(e, data) {
+			if(ltIE9()){
+				$('#progress_IE8').hide();
+			}else{
+				$('#progress').hide();
+			}
+			alert("上传附件失败!");
+		},
+		progressall: function (e, data) {
+			if(ltIE9()){
+				$('#progress_IE8').show();
+			}else{
+				$('#progress').show();
+				var progress = parseInt(data.loaded / data.total * 100, 10);
+				$('.progress-val-l').text(progress + '%');
+		        $('#bar').css(
+		            'width',
+		            progress + '%'
+		        );
+			}
+	    }
+	});
+	$(".pre").hide();//首次加载的时候，隐藏上一步
+});
+function uploadSuccess(e, serverData) {
+	if(ltIE9()){
+		$('#progress_IE8').hide();
+	}else{
+		$('#progress').hide();
+	}
+	var material_code=$(this).attr("id");
+	var material_name=$("#apply tr[code='"+material_code+"']").attr("name");
+	for(var i=0;i<serverData.result.length;i++){
+		var data = serverData.result[i];
+		if(data.scc.code!="0000"){
+			materialArray=[];
+			alert("上传失败,请重新上传！");
+			return;
+		}
+		$("#list_"+material_code).append("<div id=\"file_"+data.scc.docid+"\">"+formatLen(data.name,0,20)+"&nbsp;&nbsp;<a class='btn btn-success btn-sm' href=\"#\" onclick=\"onDownload(this);\">下载</a> | <a class='btn btn-danger btn-sm' href=\"#\" onclick=\"onDel(this);\">删除</a>"+"<br/><br/></div>");
+		$("#file_"+data.scc.docid).attr("title",data.name);
+		$("#file_"+data.scc.docid).attr("url",data.url);
+			
+		var index = must_materials.indexOf(material_code);
+		if(index != -1) {
+			must_materials.splice(index,1);
+		}	
+		var wp_apply = {};
+		   wp_apply.document_name =material_name;
+		   wp_apply.filePath = data.scc.docid;
+		   wp_apply.fileName = $("#file_"+data.scc.docid).attr("title");
+		   wp_apply.fileType = "1";
+		   wp_apply.document_id = material_code;
+		   wp_apply.resourceType = "Apply";
+		   wp_apply.resourceCode = material_code;
+		   wp_apply.url = data.url;
+		   wp_apply.operator_id = LEx.userInfo.userId;
+		   wp_apply.operator_name = LEx.userInfo.userName;
+		   materialArray.push(wp_apply);
+		   var bool = setBusinessAttach(data,LEx.userInfo.uid);
+		   if(bool){
+			   LEx.alert("上传成功！");
+		   }else{
+			   LEx.alert("上传成功！写入数据库失败！");
+		   }	
+	}
+}
+//删除
+function onDel(obj){
+	var filePath = $(obj).parent().attr("id").replace("file_","");
+    	for(var i=0;i<materialArray.length;i++){
+    		if(materialArray[i].filePath == filePath){
+    			materialArray.splice(i,1);
+    			break;
+    		}
+    	} 
+    	$(obj).parent().remove(); 
+	
+}	
+	 //下载
+function onDownload(obj){
+	var title = $(obj).parent().attr("url");
+	var title =obj;
+	if(title==""){
+		alert("请先上传附件！");
+	}else{
+    	var opera = "download&path="+$(obj).parent().attr("url"); 
+    	window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+	}
+	
+	return false;
+}
+function submitData(){
+	var item={};
+	var itemList=[];
+	item.itemId = LEx.urldata.itemId;
+	item.itemCode = LEx.urldata.itemCode;
+	item.itemName = LEx.urldata.itemName;
+	item.formId = LEx.urldata.formId;
+	item.dataId = LEx.urldata.dataId;
+	item.materialArray = materialArray;
+	itemList.push(item);
+	var command = new LEx.Command("app.icity.pro.ProCmd");
+	command.setParameter("investType",LEx.urldata.investType);
+	command.setParameter("projectCode",LEx.urldata.projectCode);
+	command.setParameter("itemList",itemList);
+	var ret = command.execute("applyBusiness");
+	if(!command.error){
+		if(ret.state==1){
+			alert("提交成功！");
+		}else{
+			alert("提交失败！");
+		}		
+		window.location.href="{{cp}}pro/index";
+    }else{
+    	alert("提交失败！");
+    	window.location.href="{{cp}}pro/index";
+    }
+}
+function getAllItemInfo(id){
+	var command = new LEx.Command("app.icity.pro.ProCmd");
+	command.setParameter("itemId", id);
+	var ret = command.execute("getAllItemInfo");
+	if(!command.error){			
+		$('#t_m').html(LEx.processDOMTemplate('materialListTemplate',ret.data));
+	}else{
+		
+	}
+}
+function ltIE9(){
+	if(LEx.isIE&&$.browser.version<9){
+		return true;
+	}
+	return false;
+}
+</script>
+<script type="text/template" id="materialListTemplate">
+		<tr>
+			<th style="width:8%;text-align: left;">编号</th>
+			<th style="width:45%;text-align: left;">文件名称</th>
+			<th style="width:30%;text-align: left;">附件名称</th>
+			<th style="width:17%;text-align: left;">操作</th>
+		</tr>
+{for d in material}
+		<tr code="${d.CODE}" name="${d.NAME}">
+			<td width="10%">${d_index*1+1}</td>
+			<td width="22%">
+				${d.NAME}	
+			</td>
+			<td width="30%"><div id="list_${d.CODE}"></div></td>
+			<td width="38%">
+				<input type="radio" id="ck_${d.CODE}" style="display:none;"/>
+				<span class="btn btn-sm btn-warning fileinput-button" style="margin-left: 5px;"> 
+					<i class="icon-upload">选择附件</i> <input id="${d.CODE}" class="fileupload" tag="0" type="file" name="files[]" multiple />
+				</span>
+		</tr>
+{/for}
+</script>

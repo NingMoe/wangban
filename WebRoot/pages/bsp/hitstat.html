@@ -1,0 +1,88 @@
+<script type="text/javascript" src="/icity/public/scripts/jeDate/jedate.js"></script>
+
+<style>
+body{background: #fff;}
+</style>
+<div style="margin:0 15px;">
+    <ol class="breadcrumb alpha omega transparent">
+        <li>当前位置</li>
+        <li class="active">访问量统计<input type="hidden" id="PAGE_MODE" value="{{ConfigInfo.PAGE_MODE}}"/></li>
+    </ol>
+    <label class="control-label col-xs-1"  style="margin-left:904px;">评价时间：</label>
+     <div class="input-group its-search" style="width:260px; float:right">
+                    <input type="text" class="form-control key" id="date" >
+                    <span class="input-group-btn">
+                        <a type="button" class="btn btn-primary pull-right" onclick="Querymrfwl();" style="height:34px; width:73px;">查询</a>
+                    </span>
+                </div>
+	<div id="_website"  align="center" ></div>
+</div>
+  <script>
+  $(function() {
+	  jeDate({
+			dateCell:"#date",
+			format:"YYYY-MM-DD",
+			isinitVal:false,
+			minDate:"2014-09-19"
+		});
+  });
+  </script>
+<script type="text/template" id="securityTemplate">
+{macro showChilds(o,level)}
+{for c in o.childs}
+
+<tr class="on"  iname="${c.id}">
+	<input type="hidden" name="pid" value="${o.id}" />
+	<td >
+		<span style="margin-left: ${level*30}px;">${c.title}</span>
+
+	</td>
+	<td style="text-align: center;">
+		<span class="fwltj" id="${c.name}">--</span>
+	</td>
+	<td>
+		<span>${c.domain}</span>
+	</td>
+   <td style="text-align: center; " >
+		<span class="mrfwltj" id="${c.name}"></span>
+	</td>
+</tr>
+
+{if c.childs }
+	{var cc = showChilds(c,level+1)}
+	${cc}
+{/if}
+
+{/for}
+{/macro}
+	<table id="tJob" class="table table-bordered" style="width: 100%">
+
+		<tr>
+			<th align="center" style="text-align: center;">名称</th>
+			<th align="center" style="text-align: center;" width="13%" id="fwl">访问量</th>
+			<th align="center" style="text-align: center;" width="35%">网址</th>
+            <th align="center" style="text-align: center; " width="27%" >每日访问量统计</th>
+		</tr>
+		{for o in data}
+				<tr class="on " iname="${o.id}">
+					<input type="hidden" name="pid" value="" />
+					<td >
+						<span>${o.title}</span>
+					</td>
+					<td style="text-align: center;">
+						<span class="fwltj" id="${o.name}">--</span>
+					</td>
+					<td>
+						<span>${o.domain}</span>
+					</td>
+                   <td style="text-align: center;">
+						<span class="mrfwltj" id="${o.name}"></span>
+					</td>
+				</tr>
+				{if o.childs }
+					{var cc = showChilds(o,1)}
+					${cc}
+				{/if}
+		{/for}
+	</table>
+</script>

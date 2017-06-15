@@ -1,0 +1,82 @@
+/* 用户自定义控件样式 */
+/*面包屑效果*/
+.crumb-nav
+{
+	margin-left: auto;
+	margin-right: auto;
+	margin-top:8px;
+	margin-bottom:8px;
+	display: block;
+	height: 21px;
+	overflow: hidden;
+	padding:5px;
+	border:solid 1px #dedede;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	background:#fff url('../images/bg-header2.gif') repeat-x scroll 0 0;
+}
+.crumb-nav ul
+{
+	margin: 0;
+	padding: 0;
+	height: 21px;
+	display: block;
+	background:url(../images/home.png) no-repeat 0 0;
+	padding-left:28px;
+	padding-top:2px;
+}
+.crumb-nav ul li
+{
+	display: block;
+	float: left;
+	position: relative;
+	height: 21px;
+	overflow: hidden;
+	line-height: 21px;
+	margin: 0px 6px 0px 0;
+	padding: 0px 20px 0px 0;
+	background: url(../images/arrow_right.png) no-repeat 100% 0;
+	color:#fff;
+}
+.crumb-nav ul li a
+{
+	color:#fff;
+	text-decoration: none;
+	cursor: pointer;
+	display: block;
+	position: relative;
+	height: 21px;
+	line-height: 21px;
+	overflow: hidden;
+	float: left;
+}
+.crumb-nav ul li a:hover
+{
+	color: #F60;
+	text-decoration: underline;
+}
+.crumb-nav ul li.first a:hover
+{
+	background-position: 0 -16px;
+}
+.crumb-nav ul li.last
+{
+	background: none;
+	margin-right: 0;
+	padding-right: 0;
+}
+
+
+/*Flow-Steps导航*/
+.flow-step{ position:relative; height:30px; list-style:none; font-size:14px; overflow:hidden;margin:8px;border-radius: 3px;
+	-webkit-border-radius: 3px;}
+.flow-step li{ float:left; height:30px; margin-right:-32px; background:#d7d7d7; line-height:30px; overflow:hidden;}
+.flow-step a{ display:block; float:left; width:85px; padding: 0 18px 0 0; text-align:center; color:#333; text-decoration:none;}
+.flow-step b{ float:left; width:0px; height:0px; margin-top:-6px; border:21px solid #d7d7d7; border-left-color:#fff; font-size:0; line-height:0; z-index:9;}
+.flow-step s{ position:relative; float:left; width:0px; height:0px; margin-top:-2px; border:17px solid transparent; /*For IE6*/ _border-color:snow; _filter:chroma(color=snow);/*For IE6*/ border-left-color:#d7d7d7; font-size:0; line-height:0; z-index:99;}
+.flow-step .on{ background:#ff6600;}
+.flow-step .on a{ color:#fff;}
+.flow-step .on b{ border-color:#ff6600; border-left-color:#fff; }
+.flow-step .on s{ border-color: #FFFFFF #FFFFFF #FFFFFF #FF6600;}
+/*.flow-step .on s{ border-left-color:#ff6600;}*/
+.flow-step .f{ border-color:#d7d7d7!important;}

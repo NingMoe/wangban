@@ -1,0 +1,99 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}open.css" />
+<style>
+
+.otab th{text-align: center;color: #FFF;font-size:15px;font-weight: bold;background:url("{{PageContext.ContextPath}}public/themes/default/images/open/bluebanner.png") center;height:35px;line-height:35px}
+.otab td{vertical-align:top;font-size: 11pt;color: #333;padding: 5px;}
+.otab td ul li{float: left;white-space:nowrap;overflow: hidden;}
+
+.otab td ul.city li{width:78px;text-align:center;padding:5px 0px;}
+.otab td ul.reg li{width:78px;text-align:center;padding:5px 0px;}
+.otab td ul.dept li{width:180px;text-align:left;padding: 5px 0px 5px 10px;}
+.otab td ul li a{color: #333;font-style: normal;text-decoration: none;padding:5px;}
+.otab td ul li a:hover{color: #F6891F;font-style: normal;}
+.otab td ul li.on a{
+	background-color: #3B79B4;
+	color: white!important;
+	font-weight: bold;
+}
+#expand{background:url("{{PageContext.ContextPath}}public/themes/default/images/open/xclick_arrow1.png") no-repeat center;margin-bottom: -5px;margin-top: 10px;cursor: pointer;height: 20px}
+#expand.on{background:url("{{PageContext.ContextPath}}public/themes/default/images/open/xclick_arrow2.png") no-repeat center;}
+.reg li{cursor: pointer;}
+.reg li:hover{color:#F9894B}
+.reg li.on{background:#F9894B;color:#FFF;}
+.city li{cursor: pointer;}
+.city li:hover{color:#F9894B}
+.city li.on{background:#F9894B;color:#FFF;}
+ 
+</style>
+{% set WebRank ConfigInfo.WebRank %}
+{% set WebRegion ConfigInfo.WebRegion %}
+{% set DsType ConfigInfo.DsType %}
+{% set QxType ConfigInfo.QxType %}
+{% set BmType ConfigInfo.BmType %}
+{% map "division_code",WebRegion,"type",BmType as p%}
+{% command "app.icity.project.ProjectIndexCmd","getDepartments",p as d%}
+
+		
+		<table width="100%" class="otab"  cellpadding="0" cellspacing="0">
+			<tr>
+				<td style="width:100%;" id="dept_td">
+					<ul id="dept" class="dept" style="overflow:hidden;">
+						{% for o in d.data %}
+							<li code="{{o.DIVISION_CODE}}" level="{{o.LEVEL_CODE}}" deptid="{{o.ID}}"><a href="javascript:void(0)"  title="{{o.NAME_SHORT}}">{{o.NAME_SHORT}}</a></li>
+						{% endfor %}
+					</ul>
+				</td>
+			</tr>
+		</table>
+	
+	<input id="webRank" type="hidden" value="{{WebRank}}">
+	<input id="webRegion" type="hidden" value="{{WebRegion}}">	
+	<input id="DsType" type="hidden" value="{{DsType}}">	
+	<input id="QxType" type="hidden" value="{{QxType}}">	
+	<input id="BmType" type="hidden" value="{{BmType}}">	
+
+
+<script>
+var deptHeight=0;//部门列表高度
+var webRank="";//0省分厅1市分厅2区县分厅3街道分厅4居委会分厅
+var webRegion="";//默认区划代码
+var webLevel="";//默认部门层级
+var DsType = "";//省直机关、市对应部门类型
+var QxType = "";//市直机关、区、县对应部门类型
+var BmType = "";//机构对应部门类型
+
+$(document).ready(function(){
+	$("#dept").height("300px");//默认高度
+	webRank=$("#webRank").val();
+	webRegion=$("#webRegion").val();
+	DsType=$("#DsType").val();
+	QxType=$("#QxType").val();
+	BmType=$("#BmType").val();
+	
+
+		
+	//动画效果展示部门
+	$("#dept").animate({height:"425px"},1000);
+	$("#expand").removeAttr('selected');
+});
+
+
+function changeDeptUi(level){
+	$("ul#dept li").hide();
+	$("ul#dept li[level^="+level+"]").show();
+	$("#dept").animate({height:"425px"},1000);
+	$("#expand").removeAttr('on');
+}
+
+function doExpand(){
+	var e = $("#expand");
+	if(e.hasClass("on")){
+		$(".dept").animate({height:"425px"},1000);
+		e.removeClass('on');
+	}else{
+		$(".dept").css("height","");
+		$(".dept").animate({height:"auto","min-height":"425px"},1000);
+		e.addClass('on');
+	}
+}
+</script>

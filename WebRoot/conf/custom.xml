@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--- （开发者禁用此配置）用户自定义的URL路由及站点配置-->
+<custom version="1.0">
+  <virtualPath>
+    <item id="b04391a111594acab00fe74d72346b4b" title="黑龙江省" domain="" is_show="1" name="/hlj" value="security/hlj.properties"/>
+    <item id="b48462bbe4694353ab41252976d3673a" title="齐齐哈尔市" domain="" is_show="1" name="/hlj_qqheNew" value="security/hlj_qqheNew.properties" pid="b04391a111594acab00fe74d72346b4b"/>
+    <item id="4da82f6c720340f0b4402b7c64d85c7b" title="市辖区" domain="" is_show="1" name="/qqhe_sxq" value="security/qqhe_sxq.properties" pid="b48462bbe4694353ab41252976d3673a"/>
+    <item id="a94e9083bc8b40feaf28373863a88e82" title="龙沙区" domain="" is_show="1" name="/qqhe_lsq" value="security/qqhe_lsq.properties" pid="b48462bbe4694353ab41252976d3673a"/>
+    <item id="edbb315f45dd467a91a0655c25ff19c2" title="建华区" domain="" is_show="1" name="/qqhe_jhq" value="security/qqhe_jhq.properties" pid="b48462bbe4694353ab41252976d3673a"/>
+    <item id="4e8b487ab27a45cab3d5fd4588eba5a4" title="铁锋区" domain="" is_show="1" name="/qqhe_tfq" value="security/qqhe_tfq.properties" pid="b48462bbe4694353ab41252976d3673a"/>
+    <item id="bf7bee73a8c04cde9370faf61f487597" title="昂昂溪区" domain="" is_show="1" name="/qqhe_aaxq" value="security/qqhe_aaxq.properties" pid="b48462bbe4694353ab41252976d3673a"/>
+    <item id="7e2e09f4fb8746eca4fcea9b1a0057cc" title="富拉尔基区" domain="" is_show="1" name="/qqhe_flejq" value="security/qqhe_flejq.properties" pid="b48462bbe4694353ab41252976d3673a"/>
+    <item id="6ca0c009eba14f9caa6d9ee04b845019" title="碾子山区" domain="" is_show="1" name="/qqhe_nzsq" value="security/qqhe_nzsq.properties" pid="b48462bbe4694353ab41252976d3673a"/>
+  </virtualPath>
+</custom>

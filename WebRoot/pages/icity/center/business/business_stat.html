@@ -1,0 +1,185 @@
+<style>
+.tabs-content{margin-top: -1px;}
+</style>
+<div class="center">
+	<div style="width:100%;float:left;border:none;margin-bottom:20px;">
+			<div class="fl" id="tab">
+				<ul class="tabs tabs-gray">
+					<li><a href="javascript:void(0);" tag="3line_container" class="tab">按状态统计</a></li>
+					<!-- <li><a href="javascript:void(0);" tag="1line_container" class="tab">分类统计</a></li> -->
+				</ul>
+			</div>
+			<div class="tabs-content" style="width:99%;height:300px;">
+			 	<div id="3line_container" class="chart" style="min-width:700px;height:300px;float:left;" ></div>
+			 	<!-- <div id="1line_container" class="chart" style="min-width:780px;min-height:300px;float:left;display:none"></div> -->
+			</div>
+	 </div>
+	<div style="width:100%;float:left;border:none;">
+		<div class="fl" id="tab_">
+			<ul class="tabs tabs-gray">
+				<li><a href="javascript:void(0);" tag="column_container" class="active">按部门统计</a></li>
+			</ul>
+		</div>
+		<div class="tabs-content" style="width:99%;height:300px;">
+			<div id="column_container" style="min-width:700px;min-height:300px;float:left;margin-bottom:30px;"></div>
+		</div>
+	</div>	
+</div>
+
+<script type="text/javascript">
+function contentHandler(){
+	var tabObj = {};
+	tabObj.id = "tab";//tab
+	LEx.Control.Tab(tabObj);
+	agencyTotal('3line_container','3line_container');
+	agencyTotal('column_container','column_container');
+	$('.tab').bind('click',function(){
+		agencyTotal($(this).attr('tag'),$(this).attr('tag'));
+		$('.chart').css('display','none');
+		$('#'+$(this).attr('tag')).css('display','block');
+	});
+}
+
+function agencyTotal(id,type){
+	var cmd = new LEx.Command("app.icity.project.ProjectIndexCmd");
+	var ret;
+	var text;
+	var strArr = new Array();
+	var sumArr = new Array();
+	cmd.setParameter("UCID",""+LEx.userInfo.uid);
+	if(type == 'column_container'){
+		text="按部门统计";
+		ret =  cmd.execute("getTotal");
+		if(!ret.error){	
+			if(ret.total > 0){
+				$.each(ret.data,function(i,n){
+					strArr.push(n.DEPTNAME);
+					sumArr.push(parseInt(n.SUM));
+				});
+			}
+			
+		}else{
+			LEx.alert(ret.error)
+		}
+	}else if(type == '1line_container'){
+		ret =  cmd.execute("getTypeTotal");
+		if(!ret.error){	
+			var obj ={"1":"行政许可事项","2":"非行政许可审批事项","3":"社会事务服务事项"};
+			for (x in obj)
+			{
+				strArr.push(obj[x]);
+				sumArr.push(0);
+			}
+			if(ret.total > 0){
+				$.each(ret.data,function(i,n){
+					sumArr[n.TYPE-1]=parseInt(n.SUM);
+				});
+			}
+		}else{
+			LEx.alert(ret.error);
+		}
+	}else if(type == '3line_container'){
+		text="按当前状态统计";
+		ret =  cmd.execute("getStateTotal");
+		if(!ret.error){	
+			var obj =["暂存","已撤回","已提交","补齐补正","办理中","办理成功","办理失败"];
+			for (x in obj)
+			{	
+				strArr.push(obj[x]);
+				sumArr.push(0);
+			}
+			if(ret.total > 0){
+				$.each(ret.data,function(i,n){
+					if(n.STATE =="00") {
+						sumArr[0]=parseInt(n.SUM);						
+					}else if(n.STATE == "03"){
+						sumArr[1]=parseInt(n.SUM);
+					}else if(n.STATE == "11"){
+						sumArr[2]=parseInt(n.SUM);
+					}
+					else if(n.STATE == "21"){
+						sumArr[3]+=parseInt(n.SUM);
+					}
+					else if(n.STATE == "01"||n.STATE == "16"){
+						sumArr[4]+=parseInt(n.SUM);
+					}else if (n.STATE == "99") {
+						sumArr[5]=parseInt(n.SUM);
+					}else if (n.STATE == "02"||n.STATE == "13"||n.STATE == "14"||n.STATE == "96"||n.STATE == "97"||n.STATE == "98") {
+						sumArr[6]+=parseInt(n.SUM);
+					}
+				});
+			}
+			//strArr.splice(5,1);
+			//sumArr.splice(5,1);		
+		}else{
+			LEx.alert(ret.error);
+		}
+	}
+	//LEx.alert("strArr: "+LEx.encode(strArr)+"   sumArr:  "+LEx.encode(sumArr));
+	renderColumn(id,strArr,sumArr,'','');
+}
+
+function renderColumn(id,name,sum,text,url){
+    $('#'+id).highcharts({
+            chart: {
+                type: 'column',
+                margin: [ 50, 50, 100, 80]
+            },
+            title: {
+                text: text
+            },
+            xAxis: {
+                categories: 
+                	name,
+                labels: {
+                    rotation: -45,
+                    align: 'right',
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+            	allowDecimals:false,
+                min: 0,
+                title: {
+                    text: '办<br>理<br>业<br>务<br>数<br>',
+   	                rotation : 0 
+                },
+            },
+            legend: {
+                enabled: false
+            },
+            credits:{
+            	enabled:!0,
+            	text:text,
+            	href:url
+            },
+            tooltip: {
+                formatter: function() {
+                    return '<b>'+ this.x +'</b><br/>'+
+                        '办理业务数: '+parseInt(Highcharts.numberFormat(this.y, 1)) +
+                        ' 次';
+                }
+            },
+            series: [{
+                name: 'Population',
+                data: sum,
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    //color: '#FFFFFF',
+                    align: 'center',
+                    x: 0,
+                    y: 19,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            }]
+        });
+	}
+    
+</script>

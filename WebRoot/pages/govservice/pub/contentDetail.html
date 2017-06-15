@@ -1,0 +1,172 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}report.css" />
+<style>
+.main{
+	width: 100%;
+	font-size: 14px;
+}
+.main .header{
+	width: 100%;
+}
+.main .title{
+	text-align: center;
+	font-weight: bold;
+	font-size: 18px;
+	height: 30px;
+}
+.main .other{
+	margin-left:auto;
+	margin-right:auto;
+	margin-top: 5px;
+	text-align: center;
+	width: 100%;
+}
+
+.main .other span{
+	margin-left: 10px;
+}
+.content{
+	width:90%;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top: 35px;
+	padding-top:10px;
+}
+hr{
+	margin-left:auto;
+	margin-right:auto;
+	height:2px;
+	width: 95%;
+}
+.left{
+	float:left;
+	width: 25%;
+}
+.center{
+	float:left;
+	width: 50%;
+	margin-top: 3px;
+}
+#bdshare{
+	float:left;
+	width: 25%;
+}
+.content-body {
+padding: 10px 40px;
+border: solid #169BE5 2px;
+}
+body {
+  margin: 0;
+  
+  background:no-repeat top center;
+}
+</style>
+<script type="text/javascript" id="bdshell_js"></script>
+<div class="container" style="margin-top:5px; background:white;border:1px solid #f3f3f3;">
+	<div id="data" style="padding:15px 15px;"></div>
+	<div id="comment" style="padding:5px 15px 0px 15px;"></div>
+	<div style="padding:5px 15px 0px 15px;">
+		<textarea id="commentArea" cols="80" rows="4" style="width:90%;"></textarea>&nbsp;&nbsp;&nbsp;&nbsp;
+		<button type="button" onclick="saveComment();" style="margin-bottom:10px;">发表评论</button>
+	</div>
+</div>
+<textarea id="template" style="display: none;">
+	<div class="main content-body" >
+		<div class="header">
+			<div class="title">${data.NAME}</div>
+			<div style="width:96%;border-bottom:1px solid #f3f3f3;margin:8px auto;"></div>
+			<div class="other">
+				<div>
+					<div class="left">&nbsp;</div>
+					<div class="center">
+						<span>来源:&nbsp;${data.DEPT_NAME}</span>
+						<span>发布人:&nbsp;${data.CREATOR}</span>
+						<span>发布时间:&nbsp;${data.CT}</span>
+					</div>
+					<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+						<span class="bds_more">分享到：</span>
+	                    <a href="javascript:shareWebSite('http://v.t.qq.com/share/share.php');"><img style="width:15px;height:15px;" src='{{PageContext.ContextPath}}public/assets/img/qq.png' border='0' alt='腾讯微博' title='分享到腾讯微博'/></a>
+						<a href="javascript:shareWebSite('http://v.t.sina.com.cn/share/share.php');"><img style="width:20px;height:20px;" src='{{PageContext.ContextPath}}public/assets/img/xinl.jpg' alt='新浪微博' title='分享到新浪微博' border='0'></a>
+						<a class="bds_qzone"></a>
+						<a class="bds_tsina"></a>
+						<a class="bds_tqq"></a>
+						<a class="bds_renren"></a>
+						<a class="bds_t163"></a>
+						<a class="shareCount"></a>
+					 </div>
+				</div>
+			</div>
+		</div>
+		<div class="content">${data.CONTENT}</div>
+		<div style="margin-top: 20px;"><span style="color: blue;font-size: 16px;font-weight: bold;">附件列表：</span>{for o in data.upfiles}<a href="{{cp}}file/upload/${o.NAME}"  target="_blank">${o.YNAME}</a>&nbsp;&nbsp;&nbsp;{/for}</div>
+	</div>
+</textarea>
+<textarea id="commentTemplate" style="display: none;">
+	<div class="main content-body" >
+	{for o in data}
+		<div style="margin-top: 20px;">评论时间：${o.CTIME}&nbsp;&nbsp;&nbsp;&nbsp;评论人：${o.CREATOR_NAME}</div>
+		<div class="">评论内容：${o.CONTENT}</div>
+	{/for}
+	</div>
+</textarea>
+<script type="text/javascript">
+$(function(){	
+	var id = LEx.urldata.id;
+	onQuery(id);
+	onQueryComment(id);
+});
+function onQuery(id){
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+	cmd.setParameter("id", id);
+	var ret =  cmd.execute("getContentDetail");
+	if(!ret.error){
+		$("#data").html(LEx.processDOMTemplate('template',ret));
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+
+//查询并展示评论
+function onQueryComment(id){
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+	cmd.setParameter("cid", id);
+	var ret =  cmd.execute("getCommentById");
+	if(!ret.error){
+		if(ret.data.length>0){
+			$("#comment").html(LEx.processDOMTemplate('commentTemplate',ret));
+		}
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+
+function parseDate(val){
+	if(LEx.isNotNull(val)){
+		return LEx.util.Format.formatDate(val);
+	}else{
+		return '-';
+	}
+}
+function shareWebSite(url){
+	window.open(url+'?title='+encodeURIComponent(location.href)+'&url='+encodeURIComponent(location.href),"_blank");
+}
+
+function saveComment(){
+	var content = $("#commentArea").val();
+	if(content == ""){
+		LEx.alert("请填写评论内容！");
+		return;
+	}else{
+		var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+		cmd.setParameter("CONTENT", content);
+		cmd.setParameter("CID",LEx.urldata.id);
+		var ret =  cmd.execute("saveComment");
+		if(!ret.error){
+			LEx.alert("评论成功！");
+			onQueryComment(LEx.urldata.id);
+			$("#commentArea").val("")
+		}else{
+			LEx.alert(ret.error);
+		}
+	}
+}
+</script>

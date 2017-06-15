@@ -1,0 +1,664 @@
+<script src="{% public scripts/LEx.form.js %}"></script>
+<script src="{% public scripts/md5.js %}"></script>
+<style>
+.input_validation-failed {border: 1px solid #FF0000;color: red;}
+.rectangle {
+	position: relative;
+	width: 200px;
+	text-align: center;
+	line-height: 40px;
+	display: block;
+	float: left;
+	height: 40px;
+	background-color: #d5d5d5;
+}
+
+.rectangle.active {
+	color: #fff;
+	background-color: #0099e2;
+}
+
+.active .triangle {
+	border-color: transparent transparent transparent #0099e2;
+}
+
+.triangle {
+	position: absolute;
+	right: -40px;
+	top: 0;
+	display: block;
+	width: 0;
+	height: 0;
+	border-width: 20px;
+	border-style: dashed dashed dashed solid;
+	border-color: transparent transparent transparent #d5d5d5;
+}
+
+.triangle-cave {
+	position: absolute;
+	left: -40px;
+	top: 0;
+	width: 0;
+	height: 0;
+	border-width: 20px;
+	border-style: solid solid solid dashed;
+	border-color: #d5d5d5 #d5d5d5 #d5d5d5 transparent;
+}
+
+.triangle-cave {
+	position: absolute;
+	left: -40px;
+	top: 0;
+	width: 0;
+	height: 0;
+	border-width: 20px;
+	border-style: solid solid solid dashed;
+	border-color: #d5d5d5 #d5d5d5 #d5d5d5 transparent;
+}
+
+.right-move {
+	margin-left: 42px;
+}
+</style>
+<div class="container" style="width: 1030px !important;">
+	<ol class="breadcrumb">
+		<li><img
+			src="{%public assets/img/current_home.png %}">
+			您当前所在的位置:</li>
+		<li><a href="{{cp}}public/index">首页</a>
+		</li>
+		<li><a href="{{cp}}uinfo">用户中心</a>
+		</li>
+		<li><a href="{{cp}}uc/accmanager">账户管理</a>
+		</li>
+		<li><a href="#">管理安全</a>
+		</li>
+	</ol>
+</div>
+<div class="container" style="width: 1030px !important;display:none;" id="1">
+	<section class="panel" style="padding:10px; min-height:500px;">
+		<div class="steps clearfix" style="width:700px;margin:10px auto;">
+			<div class="rectangle active f16">
+				1 验证身份
+				<div class="triangle"></div>
+			</div>
+			<div class="rectangle right-move f16 two">
+				<div class="triangle-cave "></div>
+				2 实名认证
+				<div class="triangle"></div>
+			</div>
+			<div class="rectangle right-move f16 three">
+				<div class="triangle-cave"></div>
+				3 完成
+			</div>
+		</div>
+		<hr>
+		<div class="panel-body" style="width:500px; margin:auto;">
+		<div class="form-group lowone">
+				<div class="input-group">
+					<input type="password" name="oldpw" class="form-control input-lg" style="width:468px;"
+						placeholder="请输入密码">
+				</div>
+			</div>
+			<div class="form-group lowtwo" style="display:none;">
+				<div class="input-group">
+					<input type="text" id="username" reg="^[a-zA-Z\u4E00-\u9FA5]{1,20}$" class="form-control input-lg" style="width:468px;"
+						placeholder="请输入真实姓名"><br>
+					<input type="text" id="usercno" reg="^.+$" class="form-control input-lg" style="width:468px;"
+						placeholder="请输入身份证号">
+					<select id="sex" class="form-control input-lg"
+							reg="^.+$" style="width: 468px;">
+							<option value="">--请选择性别--</option>
+							<option value="男">男</option>
+							<option value="女">女</option>
+					</select>
+					<select id="NATION" class="form-control input-lg"
+							reg="^.+$" style="width: 468px;">
+							<option value="">--请选择民族--</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group lowthree" style="display:none;">
+				<div class="input-group">
+					<div class="form-group">
+						<label>实名认证成功！</label>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary btn-block f20">下一步</button>
+		</div>
+	</section>
+</div>
+<div class="container" style="width: 1030px !important;display:none;" id="2">
+	<section class="panel" style="padding:10px; min-height:500px;">
+		<div class="steps clearfix" style="width:700px;margin:10px auto;">
+			<div class="rectangle active f16">
+				1 验证身份
+				<div class="triangle"></div>
+			</div>
+			<div class="rectangle right-move f16 two">
+				<div class="triangle-cave "></div>
+				2 邮箱绑定
+				<div class="triangle"></div>
+			</div>
+			<div class="rectangle right-move f16 three">
+				<div class="triangle-cave"></div>
+				3 完成
+			</div>
+		</div>
+		<hr>
+		<div class="panel-body" style="width:500px; margin:auto;">
+			<div class="form-group lowone">
+				<div class="input-group">
+					<input type="password" name="oldpw" class="form-control input-lg" style="width:468px;"
+						placeholder="请输入原密码">
+				</div>
+			</div>
+			<div class="form-group lowtwo" style="display:none;">
+				<div class="input-group">
+				<table><tr>
+					<input type="text" id="bdemail" class="form-control input-lg" reg="^(\w)+(\.\w+)*@(\w)+(\.\w+)*$" style="width:468px;"
+						placeholder="请输入邮箱">
+					</tr><tr style="text-overflow:ellipsis;word-break:keep-all; white-space:nowrap;">
+					<input type="text" class="form-control input-lg" id="emailcode" style="width:345px;"
+						placeholder="请输入邮箱验证码"> <span class="input-group-btn">
+						<button onclick="sendValid('2','EMAIL')" name="verify_btn_text" class="btn btn-default btn-lg">获取验证码</button>
+					</span></tr></table>
+				</div>
+			</div>
+			<div class="form-group lowthree" style="display:none;">
+				<div class="input-group">
+					<div class="form-group">
+						<label>邮箱绑定成功！</label>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary btn-block f20">下一步</button>
+		</div>
+	</section>
+</div>
+<div class="container" style="width: 1030px !important;display:none;" id="3">
+	<section class="panel" style="padding:10px; min-height:500px;">
+		<div class="steps clearfix" style="width:700px;margin:10px auto;">
+			<div class="rectangle active f16">
+				1 验证身份
+				<div class="triangle"></div>
+			</div>
+			<div class="rectangle right-move f16 two">
+				<div class="triangle-cave "></div>
+				2 手机绑定
+				<div class="triangle"></div>
+			</div>
+			<div class="rectangle right-move f16 three">
+				<div class="triangle-cave"></div>
+				3 完成
+			</div>
+		</div>
+		<hr>
+		<div class="panel-body" style="width:500px; margin:auto;">
+			<div class="form-group lowone">
+				<div class="input-group">
+					<input type="password" name="oldpw" class="form-control input-lg" style="width:468px;"
+						placeholder="请输入原密码">
+				</div>
+			</div>
+			<div class="form-group lowtwo" style="display:none;">
+				<div class="input-group">
+					<table>
+					<tr>
+						<input type="text" id="bdphone" class="form-control input-lg" reg="^[1][0-9][0-9]{9}$" style="width:468px;"
+							placeholder="请输入手机号码">
+							</tr><tr style="text-overflow:ellipsis;word-break:keep-all; white-space:nowrap;">
+						<input type="text" class="form-control input-lg" id="phonecode" style="width:345px;"
+							placeholder="请输入手机验证码"> <span class="input-group-btn">
+							<button onclick="sendValid('3','PHONE')" name="verify_btn_text" class="btn btn-default btn-lg">获取验证码</button>
+						</span></tr>
+					</table>
+				</div>
+			</div>
+			<div class="form-group lowthree" style="display:none;">
+				<div class="input-group">
+					<div class="form-group">
+						<label>手机绑定成功！</label>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary btn-block f20">下一步</button>
+		</div>
+	</section>
+</div>
+<div class="container" style="width: 1030px !important;display:none;" id="4">
+	<section class="panel" style="padding:10px; min-height:500px;">
+		<div class="steps clearfix" style="width:700px;margin:10px auto;">
+			<div class="rectangle active f16">
+				1验证身份
+				<div class="triangle">
+				</div>
+			</div>
+			<div class="rectangle right-move f16 two">
+				<div class="triangle-cave "></div>
+				2修改密码
+				<div class="triangle"></div>
+			</div>
+			<div class="rectangle right-move f16 three">
+				<div class="triangle-cave"></div>
+				3 完成
+			</div>
+		</div>
+		<hr>
+		<div class="panel-body" style="width:500px; margin:auto;">
+			<div class="form-group lowone">
+				<div class="input-group">
+					<input type="password" name="oldpw" class="form-control input-lg" style="width:468px;"
+						placeholder="请输入原密码">
+				</div>
+			</div>
+			<div class="form-group lowtwo" style="display:none;">
+				<div class="input-group">
+					<input type="password" id="newpw" reg="^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,15}$" class="form-control input-lg" style="width:468px;"
+						placeholder="请输入新密码"><br>
+					<input type="password" id="newpwd" reg="^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,15}$" class="form-control input-lg" style="width:468px;"
+						placeholder="确认新密码">
+				</div>
+			</div>
+			<div class="form-group lowthree" style="display:none;">
+				<div class="input-group">
+					<div class="form-group">
+						<label>修改密码成功！</label>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary btn-block f20">下一步</button>
+		</div>
+	</section>
+</div>
+<div class="container" style="width: 1030px !important;display:none;" id="5">
+	<section class="panel" style="padding:10px; min-height:500px;">
+		<div class="steps clearfix" style="width:700px;margin:10px auto;">
+			<div class="rectangle active f16">
+				1验证身份
+				<div class="triangle">
+				</div>
+			</div>
+			<div class="rectangle right-move f16 two">
+				<div class="triangle-cave "></div>
+				2修改密保问题
+				<div class="triangle"></div>
+			</div>
+			<div class="rectangle right-move f16 three">
+				<div class="triangle-cave"></div>
+				3 完成
+			</div>
+		</div>
+		<hr>
+		<div class="panel-body" style="width:500px; margin:auto;">
+			<div class="form-group lowone">
+				<div class="input-group">
+					<input type="password" name="oldpw" class="form-control input-lg" style="width:468px;"
+						placeholder="请输入密码">
+				</div>
+			</div>
+			<div class="form-group lowtwo" style="display:none;">
+				<div class="input-group">
+					<div id="oldquest" style="display:none;">
+						<input type="text" readonly="readonly" id="oldQue" class="form-control input-lg" style="width:468px;"><br>
+						<input type="text" id="oldAnswer" class="form-control input-lg" style="width:468px;"
+							placeholder="请输入密保答案"><br>
+					</div>
+					<select id="secAsk_select" name="secAsk_select" class="form-control input-lg"
+							reg="^.+$" style="width: 468px;">
+							<option value="">--请选择--</option>
+							<option value="我手机号码的后6位？">我手机号码的后6位？</option>
+							<option value="我母亲的生日？">我母亲的生日？</option>
+							<option value="我父亲的生日？">我父亲的生日？</option>
+							<option value="我最好朋友的生日？">我最好朋友的生日？</option>
+							<option value="我儿时居住地的地址？">我儿时居住地的地址？</option>
+							<option value="我小学校名全称？">我小学校名全称？</option>
+							<option value="我中学校名全称？">我中学校名全称？</option>
+							<option value="离我家最近的医院全称？">离我家最近的医院全称？</option>
+							<option value="离我家最近的公园全称？">离我家最近的公园全称？</option>
+							<option value="我的座右铭是？">我的座右铭是？</option>
+							<option value="我最喜爱的电影？">我最喜爱的电影？</option>
+							<option value="我最喜爱的歌曲？">我最喜爱的歌曲？</option>
+							<option value="我最喜爱的食物？">我最喜爱的食物？</option>
+							<option value="我最大的爱好？">我最大的爱好？</option>
+							<option value="我最喜欢的小说？">我最喜欢的小说？</option>
+							<option value="我最喜欢的运动队？">我最喜欢的运动队？</option>
+					</select>
+					<input type="password" id="newAnswer" class="form-control input-lg" style="width:468px;" reg="^.+$"
+						placeholder="请输入新密保答案">
+				</div>
+			</div>
+			<div class="form-group lowthree" style="display:none;">
+				<div class="input-group">
+					<div class="form-group">
+						<label>修改密保问题成功！</label>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary btn-block f20">下一步</button>
+		</div>
+	</section>
+</div>
+<script>
+var time = 60;
+var type = LEx.urldata.type;
+var step = 1;
+$("#"+type).show();
+$(".btn-primary").click(
+	function(){
+		if(step==1){
+		debugger;
+			if(!step1()){
+				return false;
+			}else{
+				$(".lowone").hide();
+				$(".lowtwo").show();
+				$(".two").removeClass("right-move").addClass("active");
+				step++;
+			}
+		}else if(step==2){
+			if(step2()){
+				$(".three").removeClass("right-move").addClass("active");
+				$(".lowtwo").hide();
+				$(".lowthree").show();
+				step++;
+				$(this).html("完成");
+			}
+		}else if(step==3){
+			window.close();
+		}
+	});
+$(function(){
+	if(type==5){
+		var cmd = new LEx.Command("app.uc.UserCmd");
+		cmd.setParameter("id@=",'{{UserInfo.uid}}');
+	    var ret = cmd.execute("getList");
+	    debugger;
+	    if (ret.state == 1) {
+	        if (ret.data.length > 0) {
+	        	var question=ret.data[0].QUESTION;
+	        	if(LEx.isNotNull(question)){
+	        		 $("#oldquest").show();
+	        		 $("#oldQue").val(question);
+	        		 $("#oldAnswer").attr("reg","^.+$").attr("tip","请输入旧密保答案");
+	        	}
+	        }
+	    }else{
+	        alert("验证原密保问题失败！");
+	    }
+	}
+});
+function step1(){
+	return checkpw();
+	/* if(type==1){
+		
+	}
+	if(type==2){
+		return checkpw();
+	}
+	if(type==3){
+		return checkpw();
+	}
+	if(type==4){
+		return checkpw();
+	}
+	if(type==5){
+	
+	}
+	if(type==6){
+	
+	} */
+}
+function step2(){
+	if(type==1){
+		return certifi();
+	}
+	if(type==2){
+		return dobind('email');
+	}
+	if(type==3){
+		return dobind('phone');
+	}
+	if(type==4){
+		return changepw();
+	}
+	if(type==5){
+		return bindAsk();
+	}
+}
+var national = [
+            "汉族", "壮族", "满族", "回族", "苗族", "维吾尔族", "土家族", "彝族", "蒙古族", "藏族", "布依族", "侗族", "瑶族", "朝鲜族", "白族", "哈尼族",
+            "哈萨克族", "黎族", "傣族", "畲族", "傈僳族", "仡佬族", "东乡族", "高山族", "拉祜族", "水族", "佤族", "纳西族", "羌族", "土族", "仫佬族", "锡伯族",
+            "柯尔克孜族", "达斡尔族", "景颇族", "毛南族", "撒拉族", "布朗族", "塔吉克族", "阿昌族", "普米族", "鄂温克族", "怒族", "京族", "基诺族", "德昂族", "保安族",
+            "俄罗斯族", "裕固族", "乌孜别克族", "门巴族", "鄂伦春族", "独龙族", "塔塔尔族", "赫哲族", "珞巴族"
+    ];
+window.onload = function (){
+    var nat = document.getElementById ("NATION");
+    for ( var i = 0; i < national.length; i++){
+        var option = document.createElement ('option');
+        option.value = national[i];
+        var txt = document.createTextNode (national[i]);
+        option.appendChild (txt);
+        nat.appendChild (option);
+     }
+}
+//验证密码
+function checkpw(){
+	var oldpw = toMD5Str($("#"+type+" input[name='oldpw']").val());
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	var ret = cmd.execute("getListExt");
+	if(ret.state==1){
+		if(oldpw==ret.data[0].PASSWORD){
+			return true;
+		}else{
+			alert("密码错误!");
+			return false;
+		}
+	}else{
+		alert("验证密码失败！");
+		return false;
+	}
+}
+//修改密码
+function changepw(){
+	if(!checkValidate("#"+type)){
+		alert("请按要求进行填写！");
+		return false;
+	}
+	var newPassWord=$("#newpw").val();//新密码
+	var confiPassWord=$("#newpwd").val();
+	
+	if(newPassWord!=confiPassWord){
+		LEx.dialog.tips("两次密码输入不一致，请重新输入！");
+		return false;
+	}
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	var oldPassWord=toMD5Str($("#"+type+" input[name='oldpw']").val());//原密码
+	cmd.setParameter("password",oldPassWord);
+	cmd.setParameter("newPassWord",toMD5Str(newPassWord));
+	var ret = cmd.execute("changePwd");
+	if (ret.state == 1) {
+		return true;
+	} else {
+		alert("修改密码失败："+ret.message);
+		return false;
+	}
+}
+//验证码验证成功后绑定（手机、邮箱）
+function dobind(type){
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	if(type=="phone"){
+		if(!checkValidate("#3")){
+			alert("请按要求进行填写！");
+			return false;
+		}
+		cmd.setParameter("link", $("#bdphone").val());
+		cmd.setParameter("VCODE", $("#phonecode").val());
+		cmd.setParameter("TYPE", "PHONE");
+	}else{
+		if(!checkValidate("#2")){
+			alert("请按要求进行填写！");
+			return false;
+		}
+		cmd.setParameter("link", $("#bdemail").val());
+		cmd.setParameter("VCODE", $("#emailcode").val());
+		cmd.setParameter("TYPE", "EMAIL");
+	}
+	ret = cmd.execute("bindPhoneOrEmail");
+	if (ret.state == 1) {
+		return true;
+	} else {
+		alert(ret.message);
+		return false;
+	}
+}
+//发送验证码（邮箱、手机）
+function sendValid(id, type) {
+	var receive;
+	if(time==60||time==0){
+		time=60;
+	}else{
+		return false;
+	}
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	var ret = null;
+	if (type == "PHONE") {
+		if(!checkValidate("#3")){
+			alert("请按要求进行填写！");
+			return false;
+		}
+		receive = $("#bdphone").val();
+		cmd.setParameter("PHONE", receive);
+		cmd.setParameter("MESSAGE", "您网上办事大厅账号修改绑定手机的验证码为：");
+		cmd.setParameter("SMS", "RegisterSms");// 对应security.properties中主键
+		ret = cmd.execute("sendMessage");
+		code=ret.route;
+	} else {
+		if(!checkValidate("#2")){
+			alert("请按要求进行填写！");
+			return false;
+		}
+		receive = $("#bdemail").val();
+		cmd.setParameter("mail", receive);
+		ret = cmd.execute("registerValidEmail");
+	}
+	if (ret.state == 1) {
+		$("#" + id + " [name=verify_btn_text]").addClass("opt_btn_gray").css("cursor", "default");
+		waitValid(id, type);// 重新发送短信倒数计时
+		return true;
+	} else {
+		alert(ret.message);
+		return false;
+	}
+}
+//验证码计时
+function waitValid(id, type) {
+	if (time > 0) {
+		time--;
+		$("#" + id + " [name=verify_btn_text]").html(time + "s发送中.");
+		setTimeout(function() {
+			waitValid(id, type, time);
+		}, 1000);
+	} else {
+		$("#" + id + " [name=verify_btn_text]").removeClass("opt_btn_gray");
+		if (type == "PHONE") {
+			$("#" + id + " [name=verify_btn_text]").html("获取验证码");
+		} else {
+			$("#" + id + " [name=verify_btn_text]").html("获取验证码");
+		}
+		return;
+	}
+}
+//自动验证
+$(function(){
+		$("[reg]").bind("blur", function() {
+		var c = $("#"+type);
+		var t = $(".form-tip span[for=" + $(this).attr("id") + "]", c);
+		if (!validate($(this))) {
+			t.attr("class", "invalid");
+		} else {
+			var func = $(this).attr("func");
+			if (func == undefined) {
+				t.html("").attr("class", "valid");
+			} else {
+				try {
+					var s = eval(func);
+					re = s.call(s, $(this));
+					if (re) {
+						t.html("").attr("class", "valid");
+					}else{
+						$(this).addClass("input_validation-failed");
+					}
+				} catch (e) {
+					alert("请求的验证函数错误。");
+				}
+			}
+		}
+	});
+});
+//验证函数
+function checkValidate(formid) {
+	var c = $(formid);
+	var f = true;
+	$("[reg]", c).each(function() {
+		var t = $(".form-tip span[for=" + $(this).attr("id") + "]", c);
+		if (!validate($(this))) {
+			t.html($(this).attr("tip"));
+			t.attr("class", "invalid");
+			f = false;
+		} else {
+			var func = $(this).attr("func");
+			if (func == undefined) {
+				t.html("");
+				t.attr("class", "valid");
+			} else {
+				try {
+					var s = eval(func);
+					var re = s.call(s, $(this));
+					if (!re) {
+						f = false;
+					}
+				} catch (e) {
+					alert("请求的验证函数错误。");
+				}
+			}
+		}
+		
+	});
+	
+	return f;
+}
+//修改密保问题
+function bindAsk(){
+	if(!checkValidate("#"+type)){
+		alert("请正确填写！");
+		return false;
+	}
+	var pass=toMD5Str($("#"+type+" input[name='oldpw']").val());//登录密码
+	var oldAnswer=$("#oldAnswer").val();//原密保问题
+	var secAsk=$("#secAsk_select").val();//新密保问题
+	var newAnswer=$("#newAnswer").val();//新密保答案	
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	cmd.setParameter("password",pass);	
+	cmd.setParameter("oldanswer",oldAnswer);
+	cmd.setParameter("question",secAsk);
+	cmd.setParameter("answer",newAnswer);	
+	var ret = cmd.execute("changeAsk");
+	if (ret.state == 1) {
+		return true;
+	} else {
+		alert(ret.message);
+		return false;
+	}
+}
+//实名认证方法
+function certifi(){
+	if(!checkValidate("#"+type)){
+		alert("请正确填写！");
+		return false;
+	}
+	//updateRealName
+	return true;
+}
+</script>

@@ -1,0 +1,336 @@
+<script src="{{cp}}public/scripts/validator/jquery.validator.min.js?local=zh-CN"></script>
+<link rel="icon" href="assets/ico/favicon.ico">
+<link rel="stylesheet" href="{% public assets/css/jquery-ui.css %}">
+<script src="{% public assets/js/jquery-ui.js %}"></script>
+<link 	href="{% public scripts/fineload/css/jquery.fileupload.css %}"  rel="stylesheet"/>
+<script src="{% public scripts/fineload/js/jquery.fileupload.js %}"></script>
+<style>
+.input_validation-failed {border: 1px solid #FF0000;color: red;}
+.form-control {
+  width: 70%;
+ }
+</style>
+<body style="background-color: #f5f5f5;">
+	<div class="container">
+		<ol class="breadcrumb">
+			<li><img src="{%public assets/img/current_home.png%}">
+				您当前所在的位置:</li>
+			<li><a href="{{cp}}/public/index">首页</a>
+			</li>
+			<li><a href="javascript:void(0)">我要纠错</a>
+			</li>
+		</ol>
+	</div>
+	<div class="container">
+		<div class="table-table">
+			<form class="table-cell its-page" id="wyjc">
+
+				<section class="its-page-body">
+					<section class="panel panel-default" style="border-color: #bacbda;">
+						<header class="" style="border-bottom: 1px solid #bacbda;">
+							<h3 class="panel-title inline-block"
+								style=" padding: 15px 25px; border-bottom: 3px solid #29588c; margin-bottom: -2px;">
+								<strong>我要纠错</strong>
+							</h3>
+						</header>
+						<table class="table table-form">
+							<tbody>
+								<tr>
+								<td class="text-right">纠错须知：</td>
+									<td colspan="2" style="color: red;">
+										1、无法显示的网页、图片或附件等；</br>
+										2、网页内容、格式上的错误，特别是各类办事服务存在内容不准确、信息不完整、更新不及时的地方；</br>
+										3、任何关于网站内容和功能方面的意见和想法，您都可以告诉我们。 
+								</td>
+								</tr>
+								<tr>
+									<td class="text-right"><strong
+										style="color: red;">*</strong>标题：</td>
+									<td colspan="2"><input data-rule="标题:required;length(~48);" class="form-control" id="bt" type="text"id="bt">
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right"><strong style="color: red;">*</strong>
+										纠错网页地址：</td>
+									<td colspan="2"><input data-rule="纠错网页地址:required;url;" class="form-control" type="text" id="wzurl">
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right"><strong style="color: red;">*</strong>纠错内容：</td>
+									<td colspan="2"><textarea type="text" data-rule="纠错内容:required;length(~400)" name="jcnr" id="jcnr" rows="5" cols="60" class="form-control"></textarea>
+										<p>(注：字数：1-400)</p>
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right">您的个人信息：</td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td class="text-right"><strong style="color: red;">*</strong>姓名：</td>
+									<td colspan="2"><input class="form-control" data-rule="姓名:required;length(~12)" value="{{UserInfo.userName}}" type="text" id="name">
+									</td>
+								</tr>
+
+								<tr>
+									<td class="text-right"><strong style="color: red;">*</strong> 电话：</td>
+									<td colspan="2"><input name="phone" class="form-control" value="{{UserInfo.mobile}}" id="phone" type="text">
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right"><strong style="color: red;">*</strong>电子邮箱：</td>
+									<td colspan="2"><input name="email"  class="form-control" value="" id="email"></td>
+								</tr>
+								<!--  <tr>
+									<td width="30%" class="text-right" >上传图片：</td>
+									<td width="10%"><span class="btn btn-sm btn-warning fileinput-button" style="margin-left: 5px;"> 
+													<i class="icon-upload">上传图片</i> <input id="{{material.CODE}}" class="fileupload" tag="0" type="file" name="files[]" multiple />
+													</span>
+													</td>
+									<td width="60%" class="pull-left" id = "islogion"><div id="list_material"></div></td>
+								</tr>  -->
+								<tr>
+									<td class="text-right"><strong style="color: red;">*</strong>验证码：</td>
+									<td colspan="2" style="text-overflow:ellipsis;word-break:keep-all; white-space:nowrap;"><div class="fromcontrol fromcontrol-code">
+											<input data-target="#change" id="verify" name="verify" type="text" class="form-control" style="width: 120px;" placeholder="验证码"> 
+											<a href="javascript:changeVerify();" hidefocus="hidefocus"> 
+												<img id="verifyImg" src="{{PageContext.ContextPath}}bsp/verifyCode" alt="换一张" style="position: relative;">
+											</a>&nbsp; <a id="change" href="javascript:changeVerify();" hidefocus="hidefocus" style="font-size: 13px;">换一张</a>
+									</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td colspan="2">
+										<button class="btn btn-primary" type="submit">&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;</button>
+										<button class="btn btn-default"
+											onclick="empty()">&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</section>
+				</section>
+
+			</form>
+		</div>
+	</div>
+	</div>
+	<div id="progress_IE8" style="display:none; position: absolute; left: 40%; top: 30%; width:200px; heigth: 130px; background-color: #5cb85c;border-radius: 5px;z-index:11999;">
+		<!--页面载入显示-->
+		<table width=80% height=80% border=0 align=center valign=middle>
+			<tr>
+				<td align=center>&nbsp;</td>
+			</tr>
+			<tr>
+				<td align=center><img src="{%public scripts/fineload/img/loading.gif %}" width="60px" height="60px" /></td>
+			</tr>
+			<tr>
+				<td align=center>文件正在上传，请稍后......</td>
+			</tr>
+			<tr>
+				<td align=center>&nbsp;</td>
+			</tr>
+		</table>
+	</div>
+	<div id="progress" class="progress-l" style="display:none; position: absolute; top: 40%; right: 40%;">
+		<span class="progress-val-l">0%</span>
+		<span class="progress-bar-l"><span id="bar" class="progress-in-l" style="width: 0%"></span></span>
+	</div>
+	<script type="text/javascript">
+	$(function(){
+		var id ='{{UserInfo.uid}}';
+		if(id!=''){
+			var cmd = new LEx.Command("app.uc.UserCmd");
+			cmd.setParameter("id",'{{UserInfo.uid}}');
+		    var ret = cmd.execute("getEmail");
+		    if (ret.state == 1) {
+		        if (ret.data.length > 0) {
+		        	$("#email").val(ret.data);
+		        }
+		    }
+		}
+	})
+var material = "";
+function init(){
+	//var url = LEx.urldata.referer;
+	if(!LEx.isNotNull(LEx.userInfo)){
+		$("#islogion").html("上传图片请先至登录页面登录！");
+	}
+	var url = location.href.split("referer=")[1];
+	$("#wzurl").val(decodeURIComponent(url));
+	initFileUpload();
+	$("#wyjc").validator({
+		theme:"yellow_right_effect",
+	    rules: {
+	    	mobile: [/^1[3458]\d{9}$/, '电话输入错误'],
+	    	email:[/^(\w)+(\.\w+)*@(\w)+(\.\w+)*$/,'邮箱输入错误'],
+	    	verifyCode:function(element){
+	    		var flag=false;
+	             $.ajax({
+	                url:'{{cp}}bsp/verifyCode',
+	                type: 'post',
+	                async:false,
+	                data: {"action":"check","VerifyCode":$("#verify").val()},
+	                dataType: 'json',
+	                success: function(d){
+	                	if(d.state==1){
+	                		flag=true;
+	                	}
+	                }
+	            });
+	             if(!flag){
+	            	 return "验证码错误";
+	             }
+	        }
+	    },
+	    fields: {
+	    	phone: "电话:required;mobile;",
+	    	email:"邮箱:required;email;",
+	    	verify:"验证码:required;verifyCode;"
+	    },
+	    valid: function(form) {
+	    	submit();
+	    }
+	});
+}
+	function submit() {
+		var cmd_ins = new LEx.Command("app.icity.guestbook.WriteCmd");
+		if (LEx.isNotNull(LEx.userInfo) && !LEx.isNotNull(LEx.userInfo.deptId)) {
+			cmd_ins.setParameter("USER_ID", LEx.userInfo.uid);
+		}
+		cmd_ins.setParameter("VerifyCode", $("#verify").val());
+		cmd_ins.setParameter("USERNAME", $("#name").val());
+		cmd_ins.setParameter("PHONE", $("#phone").val());
+		cmd_ins.setParameter("EMAIL", $("#email").val());
+		cmd_ins.setParameter("TITLE", $("#bt").val());
+		cmd_ins.setParameter("CONTENT", $("#jcnr").val());
+		cmd_ins.setParameter("URL", $("#wzurl").val());
+		cmd_ins.setParameter("doc_id", material);
+		cmd_ins.setParameter("TYPE", "11");
+		var ret = cmd_ins.execute("insert");
+		if (ret.state=='1') {
+			var id = ret.data.id;
+			LEx.alert("您的纠错信息已提交成功！");
+			empty();
+		} else {
+			LEx.alert(ret.message);
+			return false;
+		}
+	}
+function changeVerify() {
+    var url = LEx.webPath + "bsp/verifyCode?time=" + new Date().getTime();
+    $("#verifyImg").attr("src", url);
+}
+function empty(){
+	$("#bt,#jcnr,#name,#phone,#email,#verify,#list_material").val("");
+	changeVerify();
+	//上传图片置空
+	material="";
+	$("#list_material").remove();
+}
+function initFileUpload() {
+	$('.fileupload').fileupload({
+		url : LEx.webPath+"bsp/uploadify?action=uploadagent4wp&ucid="+LEx.userInfo.uid,
+		dataType : 'json',
+		autoUpload : true,
+		sequentialUploads : true,
+		//forceIframeTransport : true,
+		add : function(e, data) {
+			var check=true;
+			$.each(data.files, function(i, file) {
+				var fileSize='157286400';
+				var fileMin = '0';
+				if(file.size>fileSize){
+					LEx.alert(file.name+":文件太大!");
+					return check=false;
+				}else if(file.size<=fileMin){
+					LEx.alert("上传文件不可为空!");
+					return check=false;
+				}
+				//文件限制分类
+				var reg=/(gif|jpe?g|png)$/i;
+				var extName = file.name.substring(file.name.lastIndexOf(".")+1);
+				if(!reg.test(extName)){
+					LEx.alert("不支持的图片类型！");
+					return check=false;
+				}
+			});
+
+			if(check){
+				data.submit();
+			}
+		},
+		done :uploadSuccess,
+		fail : function(e, data) {
+			if(ltIE9()){
+				$('#progress_IE8').hide();
+			}else{
+				$('#progress').hide();
+			}
+			LEx.alert("上传附件失败!");
+		},
+		progressall: function (e, data) {
+			if(ltIE9()){
+				$('#progress_IE8').show();
+			}else{
+				$('#progress').show();
+				var progress = parseInt(data.loaded / data.total * 100, 10);
+				$('.progress-val-l').text(progress + '%');
+				$('#bar').css(
+						'width',
+						progress + '%'
+				);
+			}
+		}
+	});
+}
+function uploadSuccess(e, serverData) {
+	if(ltIE9()){
+		$('#progress_IE8').hide();
+	}else{
+		$('#progress').hide();
+	}
+	var material_code=$(this).attr("id");
+	var material_name=$("#apply tr[code='"+material_code+"']").attr("name");
+	var i = 0;
+	for(i=0;i<serverData.result.length;i++){
+		var data = serverData.result[i];
+		if(data.scc.code!="0000"){
+			docids=[];
+			LEx.alert("上传失败,请重新上传！");
+			return;
+		}
+		$("#list_material").append("<div style=\"text-align:right;margin-bottom:10px;\" id=\"file_"+data.scc.docid+"\">"+formatLenStr(data.name,0,20)+"<a class='btn btn-success btn-xs'  onclick=\"onDownload(this);\">下载</a> | <a class='btn btn-danger btn-xs'  onclick=\"onDel(this);\">删除</a>"+"</div>");
+		//$("#list_material").append("<div style=\"text-align:right;margin-bottom:10px;\" id=\"file_"+data.scc.docid+"\">"+formatLenStr(data.name,0,14)+"</div>");
+		$("#file_"+data.scc.docid).attr("title",data.name);
+		$("#file_"+data.scc.docid).attr("url",data.url);
+		material += data.scc.docid+";";
+	}
+}
+function ltIE9(){
+	if(LEx.isIE&&$.browser.version<9){
+		return true;
+	}
+	return false;
+}
+//下载
+function onDownload(obj){
+	var title = $(obj).parent().attr("url");
+	var name  = $(obj).parent().attr("title");
+	if(title==""){
+		LEx.alert("请先上传附件！");
+	}else{
+		var opera = "downloadagent4wp&path="+$(obj).parent().attr("url")+"&name="+encodeURIComponent(name);
+		window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+	}
+
+	return false;
+}
+//删除附件
+function onDel(obj){
+	var filePath = $(obj).parent().attr("id").replace("file_","")+";";
+	material.replace(filePath,"");
+	$(obj).parent().remove();
+	return false;
+}
+</script>

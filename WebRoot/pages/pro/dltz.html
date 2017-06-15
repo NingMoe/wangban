@@ -1,0 +1,43 @@
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/icity.js"></script>
+<script>
+	
+	//代理简介
+	function dljj(){
+		window.location.href = "{{PageContext.ContextPath}}pro/base-2?cname=代理简介&websitetype=0";
+	}
+	
+	//代理申请
+	function dlsq(){		
+		window.location.href = "{{PageContext.ContextPath}}pro/dlsq";	
+	}
+</script>
+<div style="padding: 0 40px 0 40px;width:1080px;margin:0px auto;">
+    <div class="row" style="background-color: #fff;">
+        <div class="col-xs-12">
+            <h4><strong>项目申报</strong></h4>
+            <div class="tab-content" style="border-top: 3px #29588c solid; padding-top: 20px; margin-bottom: 40px;">
+                <div class="tab-pane fade in active" id="k-i-1">
+                    <section class="panel panel-default" style="padding: 30px; height: 330px; overflow: hidden;">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a class="thumbnail text-center"  href="#" onclick="dljj();">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-7.png%}" alt="">
+                                    <br>
+                                    <h3 class="delta">代理简介</h3>
+                                </a>
+                            </div>
+                            <div class="col-xs-6">
+                                <a class="thumbnail text-center" href="#" onclick="dlsq();">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-8.png%}" alt="">
+                                    <br>
+                                    <h3 class="delta">代理申请</h3>
+                                </a>
+                            </div>
+                        </div>
+                        <hr>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

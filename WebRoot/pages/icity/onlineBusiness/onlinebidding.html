@@ -1,0 +1,326 @@
+<script>
+var id = "370000004502489";
+$(function(){
+	$('#item_type').html(LEx.processDOMTemplate('itTemplate',itemType));
+	$('.jqpagination').jqPagination({
+		paged: function(page) {
+			onQuery(page);
+		},
+		page_string:"第{current_page}页   共{max_page}页"
+	});
+	onQueryDept();
+	
+	 $('#s-t-2 > ul >li').click(function (e) {
+		 $(".active").removeClass("active");
+		 id = $(this).attr("id");
+		 $("#bmmc").html($(this).attr("name"));
+		 $("#"+id).addClass("active");
+		 onQuery(1);
+	 });
+});
+function onQueryDept(){
+	var region_code=getSecurityValue("WebRegion");
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	command.setParameter("region_code",region_code);
+	var ret = command.execute("getDeptList");
+	if(!command.error){
+		$('#s-t-2').html(LEx.processDOMTemplate('bmTemplate',ret));
+		var o = $('#s-t-2 li').first();
+		if(LEx.urldata.deptid){
+			id = LEx.urldata.deptid;
+		}else{
+			id = o.attr('id');		
+		}
+		//$("#zs").html("共"+ret.data.organ.length+"个部门");
+		$("#bmmc").html(o.attr("name"));
+		$("#"+id).addClass("active");
+		onQuery(1);
+	}else{
+		LEx.dialog({
+			title : "系统提示",
+			content : command.error,
+			icon : 'error',
+			lock : true
+		});
+	}	
+}
+function selectByType(){
+	onQuery(1);
+}
+function onQuery(start){	
+	var limit=10;
+	serial = (start-1)*limit;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+	cmd.setParameter("CAT", "dept");
+	cmd.setParameter("ID", id);//$("#"+id).attr("name"));
+	cmd.setParameter("PAGEMODEL", "pagemodel");
+	cmd.setParameter("start",(start-1)*limit);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	cmd.setParameter("TYPE",$("#item_type").val());
+    
+	cmd.setParameter("SearchName",$("#project-text-search").val());
+	var ret =  cmd.execute("getMattersList");
+	if(!ret.error){
+		$('#js-list-group-l2').html(LEx.processDOMTemplate('MattersListTemplate',ret));
+		 	var total=ret.total;
+			total=Math.ceil(total/limit);
+			if(total==0){
+				$("#project-none").show();
+				$('.jqpagination').hide();
+			}
+			else{
+				$("#project-none").hide();
+				$('.jqpagination').show();
+				$('.jqpagination').jqPagination('option',{current_page:start,max_page:total,trigger:false});
+			}
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+
+var serial = 0;
+
+var id1;
+var onaddress1;
+
+function getnum(){
+	serial++;
+	return serial+"";
+}
+function sp(obj){
+    var id = obj.getAttribute("id");
+    var sptype = obj.getAttribute("sptype");
+    var protype = obj.getAttribute("protype");
+    var onaddress = obj.getAttribute("onaddress");
+    id1 = id;
+    onaddress1 = onaddress;
+    if(protype == "0" || protype == ""){
+    	if(onaddress==""){
+    	    window.open("{{PageContext.ContextPath}}onlineapply/applyinfo?itemId="+id+"&mark=1","_blank");
+        }else{
+        	window.open(onaddress); 
+        }
+    }else{
+    	LEx.alert("是否属于投资项目？<br/><br/><a type='button' class='btn btn-xs btn-primary' onclick='tz(1)'>&nbsp;&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;&nbsp;</a><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a type='button' class='btn btn-xs btn-primary' onclick='tz(0)'>&nbsp;&nbsp;&nbsp;&nbsp;否&nbsp;&nbsp;&nbsp;&nbsp;</a>");
+    }
+}
+
+function tz(flag){
+	if(flag == "1"){
+		var WebRegion = "{{ConfigInfo.WebRegion}}";
+		
+		if(WebRegion == "330901000000"){
+			window.open("http://zszwfw.gov.cn/icity/pro/index");
+		}else if(WebRegion == "330902000000"){
+			window.open("http://www.dh.zszwfw.gov.cn/zsdh/pro/index");
+		}else if(WebRegion == "330903000000"){
+			window.open("http://www.pt.zszwfw.gov.cn/zspt/pro/index");
+		}else if(WebRegion == "330921000000"){
+			window.open("http://www.ds.zszwfw.gov.cn/zsds/pro/index");
+		}else if(WebRegion == "330922000000"){
+			window.open("http://www.ss.zszwfw.gov.cn/zsss/pro/index");
+		}else if(WebRegion == "000901000000"){
+			window.open("http://www.hycy.zszwfw.gov.cn/zshycy/pro/index");
+		}else if(WebRegion == "000902000000"){
+			window.open("http://www.xc.zszwfw.gov.cn/zsxc/pro/index");
+		}else if(WebRegion == "000903000000"){
+			window.open("http://www.pts.zszwfw.gov.cn/zsptszjj/pro/index");
+		}else if(WebRegion == "000904000000"){
+			window.open("http://www.lh.zszwfw.gov.cn/zslh/pro/index");
+		}else if(WebRegion == "000905000000"){
+			window.open("http://www.jt.zszwfw.gov.cn/zsjt/pro/index");
+		}
+	}else{
+		if(onaddress1==""){
+    	    window.open("{{PageContext.ContextPath}}onlineapply/applyinfo?itemId="+id1+"&mark=1","_blank");
+        }else{
+        	window.open(onaddress1); 
+        }
+	}
+	window.location.href = "{{PageContext.ContextPath}}icity/onlineBusiness/onlinebidding";
+};
+
+//收藏
+function addFaveriot(o) {
+	if (LEx.userInfo == null || LEx.userInfo == "null") {
+		LEx.dialog.tips("登录后进行收藏！",1.5);
+	} else {
+		var cmd = new LEx.Command("app.icity.favorite.ProjectFavoriteCmd");
+		cmd.setParameter("SXID", $(o).attr("item_id"));
+		cmd.setParameter("SXBM", $(o).attr("item_code"));
+		cmd.setParameter("SXMC", $(o).attr("item_name"));
+		var ret = cmd.execute("addFaveriot");
+		if (!ret.error && ret.state == 1) {
+			//LEx.dialog.tips("收藏成功！");
+		 LEx.dialog({
+		        id: 'Tips',
+		        title: false,
+		        content:"<div style='padding: 0 1em;'>收藏成功！</div>",
+		        cancel: false,
+		        fixed: true,
+		        lock: true,
+		        time:(1.5 || 4)
+		    });
+		} else {
+			LEx.dialog.tips(ret.error);
+		}
+	}
+}
+</script>
+<script type="text/template" id="itTemplate">
+{for o in data}
+	<option value="${o.CODE}">${o.TYPE}</option>
+{/for}
+</script>
+<script type="text/template" id="bmTemplate">
+ <ul class="list-unstyled yi-list-inline-l2">
+{for o in data.organ}
+{if o.TYPE_NAME=="机关"}
+	{if "330901000,001008009005146,001008009005142".indexOf(o.CODE)<0}
+	{if o.IS_HALL=="1"}
+     <li class="col-xs-6" name="${o.SHORT_NAME}" id="${o.CODE}"><a href="#" title="${o.SHORT_NAME}">${formatLen(o.SHORT_NAME,0,5)}</a></li>
+	{/if}
+	{/if}
+{/if}
+{/for}
+</ul>
+</script>
+<style>
+ 	.disabled{
+ 		background-color: #ffffff;
+    	color: #484848;
+ 	}
+</style>
+<script type="text/template" id="MattersListTemplate">
+					<table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                            <th>序号</th>
+                            <th>事项名称</th>
+                            <th>操作</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+					{for o in data}
+                                <tr>
+                                    <th scope="row">${getnum()}</th>
+                                    <td>${formatLen(o.NAME,0,20)} </td>
+                                    <td>
+                                        <a class="btn btn-xs btn-link {if o.IS_ONLINE=="1"} btn-primary {else} btn-default disabled {/if}" href="#" onaddress="${o.ONLINE_ADDRESS}" onclick="sp(this);" id="${o.ID}" sptype="${o.TYPE}" protype="${o.IS_INVESTMENT}">在线申报</a> 
+                                        <a class="btn btn-xs btn-link" href="{{PageContext.ContextPath}}approve/guide?id=${o.ID}" target="_blank">办事指南</a> 
+										<a class="btn btn-link" href="javascript:void(0)" item_id="${o.ID}" item_code="${o.CODE}" item_name="${o.NAME}" onclick="addFaveriot(this);">收藏</a></td>
+                                    </td>
+									
+                                    
+                                </tr>
+					{/for}
+                            </tbody>
+                    </table>
+</script>
+<div id="page" class="container" style="padding-left: 10px; padding-right: 10px; background-color: #fff;">
+	<div class="row">
+        <div class="col-xs-3">
+            <div class="panel-group" id="accordion" role="tablist" >
+                <div class="panel panel-success">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                全部单位
+                            </a>
+                        </h4>
+                        <div class="pull-right" id="zs">
+<!--                             共42个部门
+ -->                        </div>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel">
+                        <div class="panel-body" style="background:#fafafa;" id="s-t-2">
+                            
+                        </div>
+                    </div>
+                </div>
+           <!--    <div class="panel panel-success">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                  <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        进驻中心单位
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel">
+                    <div class="panel-body" style="background:#fafafa;">
+                        <ul class="list-unstyled yi-list-inline-l2">
+                            <li class="col-xs-6"><a href="#" title="发改委（统计局）">发改委...</a></li>
+                        </ul>
+                    </div>
+                </div>
+              </div>
+              <div class="panel panel-success">
+                <div class="panel-heading" role="tab" id="headingThree">
+                  <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                        进分中心单位
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel">
+                    <div class="panel-body" style="background:#fafafa;">
+                        <ul class="list-unstyled yi-list-inline-l2">
+                                <li class="col-xs-6"><a href="#" title="发改委（统计局）">发改委...</a></li>
+                        </ul>
+                    </div>
+                </div>
+              </div>
+              <div class="panel panel-success">
+                <div class="panel-heading" role="tab" id="headingFour">
+                  <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                        未进驻单位
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseFour" class="panel-collapse collapse" role="tabpanel">
+                  <div class="panel-body" style="background:#fafafa;">
+                    <div class="panel-body">
+                        <ul class="list-unstyled yi-list-inline-l2">
+                                <li class="col-xs-6"><a href="#" title="国土资源局">国土资源局</a></li>
+                        </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>  --> 
+            </div>
+        </div>
+        <div class="col-xs-9">
+            <section class="panel panel-success">
+				<header class="panel-heading" style="height:40px;">
+					<h3 style="display:block;float:left" class="panel-title" id="bmmc"></h3>	
+						<span style="display:block;float:right">
+							分类查询:
+							<select id="item_type" onchange="selectByType()">
+							
+							</select>
+						</span>
+						<span style="display:block;padding-left:200px;">
+						事项查询：
+						<input id="project-text-search" type="text"  placeholder="请输入事项名称">
+						 <button type="button"  onclick="onQuery(1);layerPage();"><i class="nc-icon-outline ui-1_zoom-split"></i>查询</button>
+						</span>
+				</header>
+				<div class="panel-body zl-thumbnails-ggfu-2" id="js-list-group-l2">
+					
+				</div>
+				<div id="project-none" style="display:none;font-size:30px;font-weight:bold;text-align:center;">查无相关事项</div>
+                <nav class="text-center">
+                <div class="jqpagination" style="display:none;">
+			    <a href="#" class="first" data-action="first">&laquo;</a>
+			    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+			    <input type="text" readonly="readonly"  data="max-page:23" />
+			    <a href="#" class="next" data-action="next">&rsaquo;</a>
+			    <a href="#" class="last" data-action="last">&raquo;</a>
+				</div>
+                </nav>
+			</section>
+        </div>
+    </div>
+</div>

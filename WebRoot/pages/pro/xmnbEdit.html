@@ -1,0 +1,259 @@
+{% set uuid PageContext.Parameter.uuid %}
+{% set xmjd PageContext.Parameter.xmjd %}
+<script type="text/javascript">
+	{% set cp PageContext.ContextPath %}
+	var __webPath = "{{cp}}";
+	var __signature = "{{PageContext.SignatureInfo}}";
+</script>
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+<link href="{% public scripts/fineload/css/jquery.fileupload.css %}"  rel="stylesheet"/>
+<script src="{% public scripts/fineload/js/vendor/jquery.ui.widget.js %}"></script>
+<script src="{% public scripts/fineload/js/jquery.iframe-transport.js %}"></script>
+<script src="{% public scripts/fineload/js/jquery.fileupload.js %}"></script>
+<script type="text/javascript" src="{% public scripts/common.js %}"></script>
+<link rel="icon" href="{% public zs/pro/assets/ico/favicon.ico %}">
+<link rel="stylesheet" href="{% public zs/pro/assets/css/custom.css %}">
+<style type="text/css">
+	.input_validation-invalid {
+		border: 1px solid #f00 !important;
+		color: #f00;
+	}
+	.xmnb_table  .bordered{
+		border:1px solid red;
+	}
+	input {
+	font-family: "RobotoDraft", "Roboto", "Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
+  font-size: 14px;
+  }
+</style>
+<script>
+var paramArray=[];
+var d = new Date();
+var str = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+var strDate = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+
+$(function(){
+	$("#projectName").attr("value",LEx.urldata.projectname);
+	$("#projectName").attr("code",LEx.urldata.projectcode);
+	var xmjd="{{xmjd}}";
+	$("#projectStatusName").attr("code",xmjd);
+	if(xmjd=="0"){
+		$("#projectStatusName").attr("name","在建");
+		$("#projectStatusName").html("在建");
+		$("#_nodeName").append("<option value='0'>开工</option>");
+		$("#_nodeName").append("<option value='1'>季度进展</option>");
+		$("#_nodeName").append("<option value='2'>年度进展</option>");
+	}else if(xmjd=="1"){
+		$("#projectStatusName").attr("name","竣工");
+		$("#projectStatusName").html("竣工");
+		$("#_nodeName").append("<option value='3'>竣工</option>");
+	}else if(xmjd=="2"){
+		$("#projectStatusName").attr("name","撤销");
+		$("#projectStatusName").html("撤销");
+		$("#_nodeName").append("<option value='4'>撤销</option>");
+	}
+	
+	initFileUpload();
+});
+function checkdata(){
+debugger;
+	if($("#projectName").val()==""){
+		return;
+	}
+	var len = paramArray.length;
+	if(len>0){
+		for(var i=0;i<len;i++){
+			paramArray[i].projectCode = LEx.urldata.projectcode;
+			paramArray[i].projectStatusId = $("#projectStatusName").attr("code");
+			paramArray[i].projectStatusName = $("#projectStatusName").attr("name");
+			paramArray[i].nodeId = $("#_nodeName option:selected").val();
+			paramArray[i].nodeName = $("#_nodeName option:selected").html();		
+		}
+		
+		var command = new LEx.Command("app.icity.pro.ProCmd");		
+		command.setParameter("paramArray", paramArray);
+		command.setParameter("PROJECTNAME", $("#projectName").html());
+		var ret = command.execute("submitProjectProcess");
+		if(!command.error){	
+			if(ret.state==1){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		return true;
+	}else{		
+		return false;
+	}
+}
+
+function initFileUpload() {
+	$('.fileupload').fileupload({
+		url : LEx.webPath+"bsp/uploadify?action=uploadagent4wp&ucid="+{{UserInfo.uid}},
+		dataType : 'json',
+		autoUpload : true,
+		sequentialUploads : true,
+		//forceIframeTransport : true,
+		add : function(e, data) {
+			var check=true;
+			$.each(data.files, function(i, file) {
+		        var fileSize='1000000000';	
+		        var fileMin = '0';
+				if(file.size>fileSize){
+					LEx.alert(file.name+":文件太大!");	
+					return check=false;
+				}else if(file.size<=fileMin){
+					LEx.alert("上传文件不可为空!");	
+					return check=false;	
+				} 
+					//文件限制分类
+					var reg=/(gif|jpe?g|png|dwg|bmp|doc|docx|txt|ppt|pptx|xlsx|xls|pdf|chm|xml|rar|zip|7z|ceb)$/i;
+					var extName = file.name.substring(file.name.lastIndexOf(".")+1);
+				 	if(!reg.test(extName)){
+					alert("不支持的文件类型！");
+					return check=false;
+				}
+			});
+			if(check){
+				data.submit();
+			}
+		},
+		done :uploadSuccess,
+		fail : function(e, data) {
+			if(ltIE9()){
+				$('#progress_IE8').hide();
+			}else{
+				$('#progress').hide();
+			}
+			alert("上传附件失败!");
+		},
+		progressall: function (e, data) {
+			if(ltIE9()){
+				$('#progress_IE8').show();
+			}else{
+				$('#progress').show();
+				var progress = parseInt(data.loaded / data.total * 100, 10);
+				$('.progress-val-l').text(progress + '%');
+		        $('#bar').css(
+		            'width',
+		            progress + '%'
+		        );
+			}
+	    }
+	});
+}
+function uploadSuccess(e, serverData) {
+	if(ltIE9()){
+		$('#progress_IE8').hide();
+	}else{
+		$('#progress').hide();
+	}
+	
+	for(var i=0;i<serverData.result.length;i++){
+		var data = serverData.result[i];
+		if(data.scc.code!="0000"){
+			paramArray=[];
+			alert("上传失败,请重新上传！");
+			return;
+		}
+		$("#list_metail").append("<div id=\"file_"+data.scc.docid+"\">"+formatLenStr(data.name,0,30)+"&nbsp;&nbsp;&nbsp;"+str+"&nbsp;&nbsp;&nbsp;"+"<a class='btn btn-success btn-sm' href=\"#\" onclick=\"onDownload(this);\">下载</a> | <a class='btn btn-danger btn-sm' href=\"#\" onclick=\"onDel(this);\">删除</a>"+"<br/><br/></div>");
+		$("#file_"+data.scc.docid).attr("title",data.name);
+		$("#file_"+data.scc.docid).attr("url",data.url);
+			
+		var wp_apply = {};
+	   	wp_apply.projectCode = LEx.urldata.projectcode;
+	   	wp_apply.projectStatusId = $("#projectStatusName").attr("code");
+	   	wp_apply.projectStatusName = $("#projectStatusName").attr("name");
+	   	wp_apply.nodeId = $("#_nodeName").val();
+	   	wp_apply.nodeName = $("._nodeName").find("option:selected").text();
+	   	wp_apply.fileName = $("#file_"+data.scc.docid).attr("title");
+	   	wp_apply.filePath = data.scc.docid;
+	   	//wp_apply.insertTime = new Date().format("yyyy-MM-dd HH:mm:ss");
+	   	var myDate = new Date();
+	   	wp_apply.insertTime = myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate()+" "+myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds();
+	   	paramArray.push(wp_apply);
+	   	var bool = setBusinessAttach(data,{{UserInfo.uid}});
+	   	if(bool){
+		   LEx.alert("上传成功！");
+	   }else{
+		   LEx.alert("上传成功！写入数据库失败！");
+	   }	
+	}
+}
+//下载
+function onDownload(obj){
+debugger;
+	var title = $(obj).parent().attr("url");
+	var name  = $(obj).parent().attr("title");
+	var title =obj;
+	if(title==""){
+		alert("请先上传附件！");
+	}else{
+    	var opera = "downloadagent4wp&path="+$(obj).parent().attr("url")+"&name="+encodeURIComponent(name); 
+    	window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+	}
+	
+	return false;
+}
+//删除附件
+function onDel(obj){
+	var filePath = $(obj).parent().attr("id").replace("file_","");
+    	for(var i=0;i<paramArray.length;i++){
+    		if(paramArray[i].FILE_PATH == filePath){
+    			paramArray.splice(i,1);
+    			break;
+    		}
+    	}  
+    	$(obj).parent().remove(); 
+}
+function ltIE9(){
+	if(LEx.isIE&&$.browser.version<9){
+		return true;
+	}
+	return false;
+}
+
+function setBusinessAttach(obj,uid){
+	var cmd = new LEx.Command("app.icity.project.WdwpCmd");
+	cmd.setParameter("obj", obj);
+	cmd.setParameter("TYPE", "0");
+	cmd.setParameter("STATE", "0");
+	cmd.setParameter("UID", uid+"");
+	var ret =  cmd.execute("setBusinessAttach");
+	if(!ret.error){
+		return true;
+	}else{
+		return false;
+	}
+}
+</script>
+<div style="background-color: #fff; padding: 20px 40px;">
+   <div class="sub">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+            <tr class="info">
+                <th class="text-center" style="width:100px;">项目名称:</th>	
+                <td colspan="3">
+                	<input type="text" style="width:100%;" id="projectName" name="projectName" vlaue="" code="" readonly="true" />
+                </td>               
+            </tr>
+            <tr class="info">               
+                <th class="text-center"  style="width:100px;">项目状态:</th>
+                <td id="projectStatusName" code="" name=""></td>	
+                 <th class="text-center"  style="width:100px;">阶段节点:</th>
+                <td>
+                	<select name="_nodeName" id="_nodeName" >
+                	</select>
+                </td>               
+            </tr>
+            <tr class="info" id="apply">               
+                <th class="text-center"  style="width:100px;">上传报告:</th>
+                <td id="uploadfiles" code="" name="" colspan="3">
+                	<div id="list_metail"></div>
+                	<span class="btn btn-sm btn-warning fileinput-button" style="margin-left: 5px;"> 
+						<i class="icon-upload">选择附件</i> <input id="{{material.CODE}}" class="fileupload" tag="0" type="file" name="files[]" multiple />
+					</span>
+                </td>               
+            </tr>	  	       
+	    </table>
+    </div>
+</div>

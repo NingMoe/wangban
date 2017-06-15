@@ -1,0 +1,270 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.PagePath}}icity/submitsp/all.css" /> 
+<script src="{% public scripts/LEx.form.js %}"></script>
+<link 	href="{% public scripts/fineload/css/jquery.fileupload.css %}"  rel="stylesheet"/>
+<script src="{% public scripts/fineload/js/vendor/jquery.ui.widget.js %}"></script>
+<script src="{% public scripts/fineload/js/jquery.iframe-transport.js %}"></script>
+<script src="{% public scripts/fineload/js/jquery.fileupload.js %}"></script>
+<style type="text/css">
+input.date{background: #fff url({% public images/input_date.png %}) no-repeat right 3px;border:1px solid #848484;height:28px;width:100%; margin:0 5px 0 0;padding:2px 0 2px 5px; font-family: Verdana, Geneva, sans-serif,"宋体";font-size:12px;}
+.input_validation-invalid,.input_validation-failed {border: 1px solid #F00;color: #F00;}
+.input_validation-valid {border: 1px solid #333;color: #333;}
+.DynarchCalendar-topCont{width:200px;}
+table.t1 {width: 900px;}
+</style>
+<div id="guide-top" style="background-color: #fff; padding: 20px 40px;width:1020px;margin:0px auto;">
+	<div id = "apply" style="display:block;">
+	<script type="text/javascript">
+			var must_materials = [];
+			var n_must_materials = [];
+		</script>
+	<table style="border:1px;width:100%" class="t1" id="t_m">
+	</table>
+	</div>
+	<br/>
+	 <div id = "submitsp" style="height:40px;text-align:center;">
+	 <input type="button" style="width: 68px;" class="btn btn-info" onclick="pre();" value="上一步 " title="上一步"/>
+<!-- 	 <input id="save" type="button"style="width: 68px;" class="btn btn-info save" onclick="saveDraft();" value="暂存" title="暂存"/>
+ -->	 <input type="button" style="width: 68px;"  class="btn btn-info next" onclick="submitData();" value="提交" />
+	</div>
+</div>
+<script>
+var data = LEx.urldata;
+var materialArray=[];
+$(document).ready(function(){
+	if(data.state=="12"){
+	   $("#save").remove();
+	}
+	onQueryList();
+	$('.fileupload').fileupload({
+		url : LEx.webPath+"bsp/uploadify?action=uploadagent4wp&ucid="+LEx.userInfo.uid,
+		dataType : 'json',
+		autoUpload : true,
+		sequentialUploads : true,
+		//forceIframeTransport : true,
+		add : function(e, data) {
+			var check=true;
+			$.each(data.files, function(i, file) {
+		        var fileSize='1000000000';	
+				if(file.size>fileSize){
+					alert(file.name+":文件太大!");	
+					return check=false;}
+					//文件限制分类
+					var reg=/(gif|jpe?g|png|bmp|doc|docx|txt|ppt|pptx|xlsx|xls|pdf|chm|xml|rar|zip|7z|ceb)$/i;
+					var extName = file.name.substring(file.name.lastIndexOf(".")+1);
+				 	if(!reg.test(extName)){
+					alert("不支持的文件类型！");
+					return check=false;
+				}
+			});
+			if(check){
+				data.submit();
+			}
+		},
+		done :uploadSuccess,
+		fail : function(e, data) {
+			if(ltIE9()){
+				$('#progress_IE8').hide();
+			}else{
+				$('#progress').hide();
+			}
+			alert("上传附件失败!");
+		},
+		progressall: function (e, data) {
+			if(ltIE9()){
+				$('#progress_IE8').show();
+			}else{
+				$('#progress').show();
+				var progress = parseInt(data.loaded / data.total * 100, 10);
+				$('.progress-val-l').text(progress + '%');
+		        $('#bar').css(
+		            'width',
+		            progress + '%'
+		        );
+			}
+	    }
+	});
+	$(".pre").hide();//首次加载的时候，隐藏上一步
+});
+function uploadSuccess(e, serverData) {
+	if(ltIE9()){
+		$('#progress_IE8').hide();
+	}else{
+		$('#progress').hide();
+	}
+	var material_code=$(this).attr("id");
+	var material_name=$("#apply tr[code='"+material_code+"']").attr("name");
+	for(var i=0;i<serverData.result.length;i++){
+		var data = serverData.result[i];
+		if(data.scc.code!="0000"){
+			materialArray=[];
+			alert("上传失败,请重新上传！");
+			return;
+		}
+		$("#list_"+material_code).append("<div id=\"file_"+data.scc.docid+"\">"+formatLen(data.name,0,20)+"&nbsp;&nbsp;<a class='btn btn-success btn-sm' href=\"#\" onclick=\"onDownload(this);\">下载</a> | <a class='btn btn-danger btn-sm' href=\"#\" onclick=\"onDel(this);\">删除</a>"+"<br/><br/></div>");
+		$("#file_"+data.scc.docid).attr("title",data.name);
+		$("#file_"+data.scc.docid).attr("url",data.url);
+			
+		var index = must_materials.indexOf(material_code);
+		if(index != -1) {
+			must_materials.splice(index,1);
+		}	
+		var wp_apply = {};
+		   wp_apply.filePath = data.scc.docid;
+		   wp_apply.name = $("#file_"+data.scc.docid).attr("title");
+		   wp_apply.fileType = "1";
+		   wp_apply.resourceType = "Apply";
+		   wp_apply.resourceCode = material_code;
+		   wp_apply.fileName = material_name;
+		   wp_apply.itemId = $("#id_"+material_code).html();
+		   materialArray.push(wp_apply);
+		   var bool = setBusinessAttach(data,LEx.userInfo.uid);
+		   if(bool){
+			   LEx.alert("上传成功！");
+		   }else{
+			   LEx.alert("上传成功！写入数据库失败！");
+		   }	
+	}
+}
+//删除
+function onDel(obj){
+	var filePath = $(obj).parent().attr("id").replace("file_","");
+    	for(var i=0;i<materialArray.length;i++){
+    		if(materialArray[i].filePath == filePath){
+    			materialArray.splice(i,1);
+    			break;
+    		}
+    	} 
+    	$(obj).parent().remove(); 
+	
+}
+
+//上一步
+function pre(){
+	window.open("{{PageContext.ContextPath}}JRPlatform/onlineDeal?"+ LEx.urlEncode(data), "_self");
+}
+
+//暂存
+function saveDraft() {
+	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+	command.setParameter("IS_LHTK", data.isTaKan);
+	command.setParameter("dataId", data.dataId);
+	command.setParameter("flowId", data.flowId);
+	command.setParameter("formId", data.formId);
+	command.setParameter("APPLY_SUBJECT", "关于"+data.qymc+"的申请");
+	command.setParameter("material",materialArray);
+	command.setParameter("state", "00")   /*标识操作类型： 00暂存  01 提交*/
+	command.setParameter("ID_index",data.ID_index);//alert(data.ID_index);
+	var ret = command.execute("submitApplicationInfo");
+	if(!command.error){
+		if(ret.state==1){
+			alert("暂存成功！");
+		}else{
+			alert("暂存失败！");
+		}		
+		window.location.href="{{cp}}center/index";
+    }else{
+    	alert("暂存失败！");
+    	window.location.href="{{cp}}center/index";
+    }
+}
+	 //下载
+function onDownload(obj){
+	var title = $(obj).parent().attr("url");
+	var title =obj;
+	if(title==""){
+		alert("请先上传附件！");
+	}else{
+    	var opera = "download&path="+$(obj).parent().attr("url"); 
+    	window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+	}
+	
+	return false;
+}
+function submitData(){
+	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+	command.setParameter("IS_LHTK", data.isTaKan);
+	command.setParameter("dataId", data.dataId);
+	command.setParameter("flowId", data.flowId);
+	command.setParameter("formId", data.formId);
+	command.setParameter("APPLY_SUBJECT", "关于"+data.qymc+"的申请");
+	command.setParameter("material",materialArray);
+	command.setParameter("state", "01")   /*标识操作类型： 00暂存  01 提交*/
+	command.setParameter("ID_index",data.ID_index);//alert(data.ID_index);
+	var ret = command.execute("submitApplicationInfo");
+	if(!command.error){
+		if(ret.state==1){
+			alert("提交成功！");
+		}else{
+			alert("提交失败！");
+		}		
+		window.location.href="{{cp}}center/index";
+    }else{
+    	alert("提交失败！");
+    	window.location.href="{{cp}}center/index";
+    }
+}
+
+function onQueryList(){
+	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+	command.setParameter("flowId",data.flowId);
+	var ret = command.execute("zs_getApplicationInfo");
+	if(!command.error){
+		if(ret.state == '1'){			
+			$('#t_m').html(LEx.processDOMTemplate('materialListTemplate',ret));
+		}else{
+			errorDialog("验证","验证未通过"+ret.message);
+			return;
+		}
+	}else{
+		errorDialog("验证","验证未通过");
+		return;
+	}
+}
+
+function setBusinessAttach(obj,uid){
+	var cmd = new LEx.Command("app.icity.project.WdwpCmd");
+	cmd.setParameter("obj", obj);
+	cmd.setParameter("TYPE", "0");
+	cmd.setParameter("STATE", "0");
+	cmd.setParameter("UID", uid+"");
+	var ret =  cmd.execute("setBusinessAttach");
+	if(!ret.error){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+function ltIE9(){
+	if(LEx.isIE&&$.browser.version<9){
+		return true;
+	}
+	return false;
+}
+</script>
+<script type="text/template" id="materialListTemplate">
+		<tr>
+			<th style="width:15%;text-align: center;">事项名称</th>
+			<th style="width:43%;text-align: center;">文件名称</th>
+			<th style="width:30%;text-align: center;">附件名称</th>
+			<th style="width:12%;text-align: center;">操作</th>
+		</tr>
+		{for o in data.itemArray}
+			{for p in o.resourceArray}
+			<tr code="${p.resourceCode}" name="${p.resourceName}">
+				<td id="id_${p.resourceCode}" style="display:none;">${o.itemId}</td>
+				<td style="width:15%;text-align: left;">${o.itemName}</td>
+				<td style="width:43%;text-align: left;">
+					${p.resourceName}	
+				</td>
+				<td style="width:30%;text-align: left;"><div id="list_${p.resourceCode}"></div></td>
+				<td style="width:12%;text-align: center;">
+					<input type="radio" id="ck_${p.resourceCode}" style="display:none;"/>
+					<span class="btn btn-sm btn-warning fileinput-button" style="margin-left: 5px;"> 
+						<i class="icon-upload">选择附件</i> <input id="${p.resourceCode}" class="fileupload" tag="0" type="file" name="files[]" multiple />
+					</span>
+			</tr>
+		{/for}
+		{/for}
+</table>
+</script>

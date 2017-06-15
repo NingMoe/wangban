@@ -1,0 +1,178 @@
+<script>
+var page = 1;
+var limit = 10;
+var uuid="";
+$(function(){
+	checkLogin();
+	getXmnb();
+});
+
+function addXMNB(){
+	LEx.dialog({
+		id: "editXMNB", title: "项目年报",
+		url: LEx.webPath+"ipro/xmnbEdit?uuid="+loginInfo.uuid,
+		width: 900, height: 450,
+		lock:true,
+		button: [
+		         {
+		        	name: '保存',
+		        	callback: function() {
+		        		var iframe = this.iframe.contentWindow;
+		        		if (!iframe.document.body) {
+		        			LEx.alert('内容还没加载完毕呢');
+		        			return false;
+		        		}
+		        		
+		        	 	return iframe.checkdata();
+		        	 	getXmnb();
+		         	},
+		         	focus: true
+		         },
+		         {
+		        	 name: '关闭'
+		         }
+		         ]
+	});
+}
+
+
+function getXmnb()
+{
+	var command = new LEx.Command("app.icity.ipro.IproCmd");
+	command.setParameter("uuid", loginInfo.uuid);
+	var ret = command.execute("getXmnb");
+	if(!command.error){	
+		total = ret.total;
+		var dataList=ret.data;
+		var list1=[], list2=[], list3=[];
+		for(var i=0;i<total;i++){
+			var item = ret.data[i];
+			item.REPORT_DATE = formatDate(new Date(item.REPORT_DATE.time));
+			if(item.REPORT_TYPE=="A08100"){
+				list1.push(item);
+			} else if(item.REPORT_TYPE=="A08200"){
+				list2.push(item);
+			} else if(item.REPORT_TYPE=="A08300"){
+				list3.push(item);
+			}
+		}
+		
+		var o ={};
+		o.data=list1;
+		$('#user-jdcx-list1').html(LEx.processDOMTemplate('itemTemplate',o));
+		o.data=list2;
+		$('#user-jdcx-list2').html(LEx.processDOMTemplate('itemTemplate',o));
+		o.data=list3;
+		$('#user-jdcx-list3').html(LEx.processDOMTemplate('itemTemplate',o));
+		
+	}
+}
+function   formatDate(now)   {     
+    var   year=now.getFullYear();
+    var   month=now.getMonth()+1;
+    var   date=now.getDate();
+    var   hour=now.getHours();
+    var   minute=now.getMinutes();
+    var   second=now.getSeconds();
+    return   year+"-"+month+"-"+date;     
+    }
+</script>
+<div class="container" style="background-color: #fff; padding: 20px 40px;">
+    <ol class="breadcrumb">
+        <li><a href="{{cp}}ipro/hall">首页</a></li>
+        <li class="active">我的项目</li>
+    </ol>
+    
+    
+    
+    <section class="panel panel-default">
+        <header class="clearfix" style="border-bottom: 2px solid #29588C; background-color: #fff; margin: -1px; margin-bottom:0;">
+            <div class="input-group pull-right" style="width: 300px; margin-top: 5px;">
+<!--                     <span class="input-group-btn"> -->
+                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    	&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="btn btn-primary" type="button" onclick="addXMNB()">添加</button>
+<!--                     </span> -->
+                </div>
+            <ul class="nav nav-pills font-size-16">
+                <li class="active"><a data-toggle="pill" href="#w-d-x-1"><i class="fa fa-clock-o fa-lg"></i> 开工信息</a></li>
+                <li><a data-toggle="pill" href="#w-d-x-2"><i class="fa fa-dot-circle-o fa-lg"></i> 项目年报</a></li>
+                <li><a data-toggle="pill" href="#w-d-x-3"><i class="fa fa-check-circle-o fa-lg"></i> 竣工信息</a></li>
+            </ul>
+        </header>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="w-d-x-1">
+                 <table class="table table-hover">
+                    <thead>
+                        <tr class="active">
+                            <th>项目名称</th>
+                            <th class="text-center">报告日期</th>
+                            <th class="text-center">审核状态</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody id="user-jdcx-list1">
+                        
+                    </tbody>
+                    
+                </table>
+            </div>
+            <div class="tab-pane fade" id="w-d-x-2">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="active">
+                            <th>项目名称</th>
+                            <th class="text-center">报告日期</th>
+                            <th class="text-center">审核状态</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody id="user-jdcx-list2">
+                        
+                    </tbody>
+                    
+                </table>
+            </div>
+            <div class="tab-pane fade" id="w-d-x-3">
+                 <table class="table table-hover">
+                    <thead>
+                        <tr class="active">
+                            <th>项目名称</th>
+                            <th class="text-center">报告日期</th>
+                            <th class="text-center">审核状态</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody id="user-jdcx-list3">
+                        
+                    </tbody>
+                    
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/template" id="itemTemplate">
+{for o in data}
+	<tr>
+        <td title="${o.REMARK}">${o.PROJECTNAME}</td>
+        <td class="text-center">${o.REPORT_DATE}</td>
+        <td class="text-center">
+	{if o.CHECK_STATE=="0"}
+	<span class="btn btn-xs btn-info">待审核 </span>
+	{/if}
+{if o.CHECK_STATE=="1"}
+	<span class="btn btn-xs btn-info">通过 </span>
+	{/if}
+{if o.CHECK_STATE=="2"}
+	<span class="btn btn-xs btn-info">不通过 </span>
+	{/if}
+</td>
+      </tr>
+{/for}
+</script>
+

@@ -1,0 +1,66 @@
+{% set deptid PageContext.Parameter.org_code %} {% set id
+PageContext.Parameter.id %} {% map
+"deptid",deptid,"id",id,"page","1","limit","1" as d%} {% command
+"app.icity.ServiceCmd","getDuty",d as p%} {% set info p.data%}
+<div class="container">
+	<ol class="breadcrumb alpha omega transparent">
+		<li>当前位置</li>
+		<li><a href="{{cp}}sunny">阳光政务</a></li>
+		<li><a href="{{cp}}sunny/response">责任清单</a></li>
+		<li class="active">部门职责</li>
+	</ol>
+	<div id="page"
+		style="padding-left: 10px; padding-right: 10px; background-color: #fff;">
+		<div class="row">
+			<div class="col-xs-12">
+				<section class="panel panel-success">
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">部门名称：</h3>
+					</header>
+					<div id="base-message1" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">{% for o in info%}
+									{{o.ORG_NAME}} {% endfor%}</td>
+							</tr>
+						</table>
+					</div>
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">主要职责：</h3>
+					</header>
+					<div id="base-message1" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">{% for o in info%} {% if
+									o.DUTY_CONTENT%} {{o.DUTY_CONTENT}} {% else %} 暂无数据！ {% endif
+									%} {% endfor%}</td>
+							</tr>
+						</table>
+					</div>
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">具体工作事项：</h3>
+					</header>
+					<div id="base-message2" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">{% for o in info%} {% if
+									o.WORK_CONTENT%} {{o.WORK_CONTENT}} {% else %} 暂无数据！ {% endif
+									%} {% endfor%}</td>
+							</tr>
+						</table>
+					</div>
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">备注：</h3>
+					</header>
+					<div id="base-message3" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">暂无</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>

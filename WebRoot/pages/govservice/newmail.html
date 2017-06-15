@@ -1,0 +1,311 @@
+<script src="{% public scripts/LEx.form.js %}"></script>
+<style type="text/css">
+.control-label font{color: red;}
+.control-label {font-size: 14px;}
+.input_validation-failed {border: 2px solid #FF0000;color: red;}
+.modal-lg{width: 1000px;}
+.modal-dialog{margin: 30px auto;}
+.form-horizontal .control-label { text-align: right; margin-bottom: 0; padding-top: 7px; }
+.form-group {
+  margin-bottom: 5px;
+}
+</style>
+<div id="bs-modal-newmail" class="modal fade bs-modal-newmail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+   <div class="modal-content" >
+        <div class="modal-header" >
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">
+            <img src="{% public assets/img/icon-1.png %}">
+            <small class="mail-title"></small>
+            <a href="#" class="btn btn-danger pull-right" style="margin:15px 20px;display: none" >查看以往投诉</a>
+          </h4>
+          
+        </div>
+        <div class="modal-body">
+          <div class="col-xs-12" >
+<div class="col-xs-10 text-center">		
+ <p>提示：带<font style="color: red;">*</font>的为必填项</p>
+</div>
+<div class="clearfix"></div>
+     <br>
+     
+     <div>
+          <div class="form-horizontal" style="width:400px; margin-left:50px; float:left;">
+          <div class="form-group ">
+            <label class="col-xs-3 control-label"><font>*</font>我的姓名:</label>
+            <div class="col-xs-6">
+                <input tag="USERNAME" type="text" reg="^.+$" class="form-control" >
+            </div>
+        </div>
+
+        <div class="form-group ">
+            <label class="col-xs-3 control-label"> <font>*</font>手机号码: </label>
+            <div class="col-xs-6">
+                <input tag="PHONE" reg="^\d{11}$" type="text" class="form-control">
+            </div>
+        </div>
+    </div>
+         <div class="form-horizontal" style="width:400px; float:left;">
+          <div class="form-group ">
+            <label class="col-xs-3 control-label">电子邮箱: </label>
+            <div class="col-xs-7">
+                <input tag="EMAIL" type="text" class="form-control"  >
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="col-xs-3 control-label">联系地址: </label>
+            <div class="col-xs-7">
+                <input tag="ADDRESS" type="text" class="form-control" >
+                <span class="form-control-feedback" style="margin-top: 10px;"></span>
+            </div>
+        </div>
+    </div>
+       <div class="form-horizontal" style="width:400px; margin-left:50px; float:left;display: none">
+        <div class="form-group">
+            <label class="col-xs-3 control-label"><font>*</font>验证码: </label>
+            <div class="col-xs-3">
+                <input tag="VerifyCode"  type="text" class="form-control">
+            </div>
+            <div class="col-xs-3">
+                <a  href="javascript:void(0);"  class="btn btn-info verify_btn">获取短信验证码</a>
+            </div>
+        </div>
+    </div>
+<div class="clearfix"></div>
+<br>
+
+<div class="col-xs-10 col-xs-push-1">		
+ <p>请您准确填写联系方式：</p>
+ <p>在您的信件处理完毕后,凭手机号码和查询码您可在网上查看相关处理结果。</p>
+</div>
+
+<div class="clearfix"></div>
+<br>
+
+<div class="form-horizontal" >
+          <div class="form-group ">
+            <label class="col-xs-3 control-label"><font>*</font>标题:</label>
+            <div class="col-xs-6">
+                <input id="title" tag="TITLE" type="text" reg="^.+$" class="form-control">
+            </div>
+        </div>
+      
+        <div class="form-group ">
+            <label class="col-xs-3 control-label"> <font>*</font>内容:</label>
+            <div class="col-xs-6">
+                <textarea tag="CONTENT" reg="^.+$" class="form-control" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+         <div class="form-group">
+            <div class="col-xs-offset-4 col-xs-2">
+                <button  op="submit" class="btn  btn-lg btn-block btn-info">提交</button>
+                </div>
+            <div class="col-xs-2 pull-left">    
+                <button op="reset" class="btn  btn-lg btn-block btn-default">重置</button>
+            </div>
+        </div>
+     <br>        
+  </div> 
+</div>
+        <div class="clearfix"></div>
+        </div>
+      </div>
+  </div>
+</div>
+<div class="modal fade bs-modal-result" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" >
+       <div class="modal-body" style="height:115px;">
+         <div style="width:100%;padding-top:5px;font-size:18px;text-align:center;" >
+				<p>您的唯一查询码为：<span id="id" style="font-size:20px;font-weight: bold; color:red;"></span></p>
+				<p>请务必牢记！！方便您以后查询回复结果。<!-- <span id="totalSecond" style="color:Red; font-size:20px; font-weight:bold"></span>秒后窗口将自动关闭.......   -->           </p>
+		</div>
+		 <div class="col-xs-10 text-right col-xs-push-9">
+     	<ul class="list-inline pull-left" >
+            <li><a onclick="redirect();" href="#">【转到查询页】</a></li>
+            <li><a onclick="hide();" href="#">【关闭窗口】</a></li>
+        </ul>
+    </div>
+	</div>
+  </div>
+  </div>
+  </div>
+  <script>
+  var depart_id="",depart_name="",cat="";
+  var item_id="",item_code="",item_name="";
+(function(){
+	LEx.form.init();
+	$("button[op]").click(function(event) {
+		var container=".bs-modal-newmail";
+		var op=$(this).attr("op");
+		if(op=="submit"){
+			if(LEx.form.validate(container) && $("#title").val().length > 50){
+				//LEx.dialog.tips("标题过长",1.5);
+				LEx.alert("标题过长");
+			}else if(LEx.form.validate(container)){
+				submit(container);
+			}else{
+				LEx.dialog.tips("请正确填写必填项",1.5);
+			}
+		}
+		else{
+			$(container+" input,textarea").each(function(){
+			$(this).removeClass("input_validation-failed");
+			if(!$(this).hasClass("reset-not")){
+				$(this).val("");
+			}
+		});
+		}
+	});
+	bindValid();
+})();
+function doWrite(o){
+	if (!LEx.isNotNull(LEx.userInfo)) {
+		LEx.alert("请先登录！");
+		return false;
+	}
+	cat=$(o).attr("cat");//2-咨询；3-投诉
+	depart_id=$(o).attr("dept_id");
+	depart_name=$(o).attr("dept_name");
+	item_id=$(o).attr("item_id");
+	item_code=$(o).attr("item_code");
+	item_name=$(o).attr("item_name");
+	if(cat=="2"){
+		$(".mail-title").text(" 我要咨询："+depart_name);
+	if(LEx.isNotNull(item_name)){
+		$(".mail-title").text(" 我要咨询："+item_name);
+		}
+	}else if(cat=="3"){
+		$(".mail-title").text(" 我要投诉："+depart_name);
+	}else if(cat=="10"){
+		$(".mail-title").text(" 意见建议："+depart_name);
+	}
+	$(".bs-modal-newmail").modal('show');
+	//如果用户已登录，自动填写相关信息
+    if(LEx.isNotNull(LEx.userInfo)){
+    	//通过deptId区分一下前后台用户
+    	if(!LEx.isNotNull(LEx.userInfo.deptId)){
+			$("input[tag=USERNAME]").val(LEx.userInfo.userName).addClass("reset-not").attr("disabled","disabled");
+			$("input[tag=PHONE]").val(LEx.userInfo.mobile);
+        }
+    }	
+}
+function submit(container){	 
+    var cmd_ins = new LEx.Command("app.icity.guestbook.WriteCmd");
+    var obj=LEx.form.get(container.substr(1,container.length-1));
+    $.each(obj,function(k,v){
+    	cmd_ins.setParameter(k,v);
+    });
+    cmd_ins.setParameter("DEPART_ID",depart_id);
+    cmd_ins.setParameter("DEPART_NAME",depart_name);
+    cmd_ins.setParameter("SXID",item_id);
+    cmd_ins.setParameter("SXBM",item_code);
+    cmd_ins.setParameter("SXMC",item_name);
+    if(LEx.isNotNull(LEx.userInfo)&&!LEx.isNotNull(LEx.userInfo.deptId)){
+ 	   cmd_ins.setParameter("USER_ID",LEx.userInfo.uid);
+	   }
+    	cmd_ins.setParameter("TYPE",cat);
+	      var ret = cmd_ins.execute("insert");
+	      if(ret.error){
+		         errorDialog("系统提示信息", ret.error);
+		        //验证码输入错误则更换验证码
+		       // changeimg();
+		        return false;
+	     }else{
+		        var id = ret.data.id;
+		        success(id,cat,container);
+	} 
+}
+
+ //更换验证码
+function changeimg(){
+	  var myimg = document.getElementById("code"); 
+	  now = new Date(); 
+	  myimg.src="{{PageContext.ContextPath}}bsp/verifyCode?time="+new Date().getTime();
+}  
+//绑定验证码发送功能
+function bindValid() {
+	$(".verify_btn").unbind("click").bind("click", function() {
+		var container=$(this).attr("container");
+		var receive = $(container+" [tag=PHONE]").val();
+		if (!LEx.isNotNull(receive)||$(container+" [tag=PHONE]").hasClass("input_validation-failed")) {
+			$(container+" #PHONE").removeClass("input_validation-failed").addClass("input_validation-failed");
+			errorDialog("系统提示", "手机号未通过系统校验");
+		} 
+		else {
+			sendValid(container,receive);
+		}
+	});
+}
+function errorDialog(t, c) {
+	LEx.dialog({
+		title : t,
+		content : c,
+		icon : 'error',
+		lock : true
+	});
+}
+// 发送验证码后倒计时，为PHONE绑定发送短信，为EMAIL绑定发送邮件
+function waitValid(container,time) {
+	if (time > 0) {
+		time--;
+		$(container+" .verify_btn").html(time + "秒后可以重新发送");
+		setTimeout(function() {
+			waitValid(container,time);
+		}, 1000);
+	} else {
+		bindValid();// 重新绑定发送短信验证码事件
+		$(container+" .verify_btn").removeClass("btn-default").addClass("btn-info");
+		$(container+" .verify_btn").html("获取短信验证码");
+		return;
+	}
+}
+
+//发送验证码
+function sendValid(container,receive) {
+	var cmd = new LEx.Command("app.icity.guestbook.SmsCmd");
+	var ret = null;
+		cmd.setParameter("PHONE", receive);
+		ret = cmd.execute("getVerifyCode");
+	if (ret.state == 1) {
+		$(container+" .verify_btn").unbind("click").removeClass("btn-info").addClass("btn-default").css("cursor", "default");
+		waitValid(container,60);// 重新发送短信倒数计时
+		return true;
+	} else {
+		errorDialog("系统提示", ret.message);
+		return false;
+	}
+}
+
+
+function success(id,type,container){
+	$(container).modal('hide');
+	$(container+" input,textarea").each(function(){
+		$(this).removeClass("input_validation-failed");
+		$(this).val("");});
+	$(".bs-modal-result").modal('show');
+	$("span#id").html(id);
+	/*var secs = 60;   
+          for(var i=secs;i>=0;i--) { 
+             window.setTimeout("doUpdate(" + i + ")", (secs-i) * 1000);   
+          }*/
+}
+//页面倒数计时跳转
+ /*function doUpdate(num){   
+           $("#totalSecond").html(num);   
+           if (num =='0'){
+        	   $(".bs-modal-result").modal('hide');
+         }  
+}*/  
+
+ function redirect() {
+	    window.location="{{PageContext.ContextPath}}queryletter";
+	}
+function hide() {
+	$(".bs-modal-result").modal('hide');
+}
+</script>

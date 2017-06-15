@@ -1,0 +1,92 @@
+<div class="navigation">
+	<ul class="navigation_ul">
+		<li>系统管理</li>
+		<li class="cur">分发列表</li>
+	</ul>
+	<ul class="navigation_button">
+         <li class="new" onClick="onNew()">分发</li>
+         <li class="del" onClick="onDel()">删除</li>
+    </ul>
+	<div class="search_bar" >
+   		<ul>
+			<li id="search_top"></li>
+			<li id="search_center"></li>
+			<li id="search_bottom"></li>
+		</ul>
+	</div>
+</div>
+
+<div id="advan_search" class="nsearch nsearch_t">
+	<table cellspacing="1" border="0" cellpadding="2" width="100%">
+	  <tbody>
+	  	<tr style="height:32px">
+	      <th style="width:90px">主题：</th>
+          <td>
+             	<input type="input" class="input" id="title" style="float:left;width:180px;" />
+	      </td>
+	      <th style="width:90px">类别：</th>
+          <td>
+             <select id="type" name="type" style="background:#FFFFFF">
+                            <option value="">全部</option>
+							<option value="0">建议</option>
+							<option value="3">投诉</option>
+							<option value="5">意见</option>
+							<option value="10">联系我们-意见建议</option>
+							<option value="11">联系我们-纠错</option>
+
+			</select>
+	      </td> 
+	    <!-- 
+	      <th >部门名称：</th>
+		  <td>
+		     <input type="text" class="depart input" readonly="readonly" id="dept" style="float: left; width: 145px;" />
+		  </td>
+		-->  
+	      <td align="right" valign="bottom" >
+	      	<input type="button" value="查询" class="nbutton "  onclick="onQuery();closeAdvanceSearch();">
+	      </td>	      
+	   </tr>
+	  </tbody>
+	</table>
+</div>
+
+<div region="north" border="false" style="height:40px;display:none;"></div>
+
+<div region="center" border="false" style="padding:0px 8px 8px;8px;">
+	<div class="lui-layout" fit="true">
+		<div class="ntabs" region="north" border="false"  style="height:40px;">
+			  <div>状态：</div>
+			  <div id="ntab1" class="ntab" style="cursor: pointer;" onclick="subCaption='已分发';changeCss(this)">已分发</div>
+			  <div id="ntab2" class="ntab" style="cursor: pointer;" onclick="subCaption='未分发';changeCss(this)">未分发</div>
+		      <div id="ntab_all" class="ntab on" style="cursor: pointer;" onclick="subCaption='所有';changeCss(this)">所有</div>
+		</div>
+		
+		<div region="center" border="false"  id="tableList" style="float: left;">
+		   <table id="datagrid1" class="lui-datagrid" fit="true" pagination="true" >
+			   	<thead frozen="true">
+			      <tr>
+			      	<th field="ID" checkbox="true"></th>
+			       	<th field="TYPE" align="center" width="100" formatter="formatType">咨询类型</th>
+			       	<th field="DEPART_NAME"  align="center" width="80" formatter="formatDeptName">选择部门</th>
+			      	<th field="OPEN" align="center" width="80" formatter="formatFlag">可否公开</th>
+			        <th field="CHECKS"  align="center" width="80" formatter="formatCheckFlag">是否审核</th>
+			        <th field="GIVE_STATUS"  align="center" width="80" formatter="formatGiveStatus">是否已分发</th>
+			        <th field="GIVE_DEPT_NAME"  align="center" width="80" formatter="formatGiveDeptName">分发部门</th>
+			      	<th field="TITLE" width="150">咨询主题</th> 
+			      </tr>
+			     </thead>
+			   	<thead>
+			      <tr>	           
+			        <th field="USERNAME" align="center" width="100">咨询人</th>
+			        <th field="PHONE" align="center" width="100">咨询人电话</th>
+			        <th field="USER_IP" align="center" width="100">咨询人IP</th>
+			        <th field="WRITE_DATE" align="center" width="140" formatter="formatDate">咨询时间</th> 
+			        <th field="REPLAYER" align="center" width="100">回复人</th>     
+			        <th field="DEAL_DATE" align="center" width="140" formatter="formatDate">回复时间</th>
+			        <th field="REPLY_IP" align="center" width="100">回复人IP</th> 			        
+			      </tr>
+			    </thead>
+		  </table>
+		</div>
+	</div>  
+</div>

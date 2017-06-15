@@ -1,0 +1,287 @@
+<!DOCTYPE header PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+</head>
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/icity.js"></script>
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/custom.css"
+	rel="stylesheet">
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/non-responsive.css"
+	rel="stylesheet">
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/font-awesome.css"
+	rel="stylesheet">
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/docs.css"
+	rel="stylesheet">
+<script
+	src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/docs.js"></script>
+<script>
+var id = "370000004502489";
+
+$(function(){
+	$('#item_type').html(LEx.processDOMTemplate('itTemplate',itemType));
+	$('.jqpagination').jqPagination({
+		paged: function(page) {
+			onQuery(page);
+		},
+		page_string:"第{current_page}页   共{max_page}页"
+	});
+	onQueryDept();
+	
+	 $('#s-t-2 > ul >li').click(function (e) {
+		 $(".active").removeClass("active");
+		 id = $(this).attr("id");
+		 $("#bmmc").html($(this).attr("name"));
+		 onQuery(1);
+	 });
+	 
+});
+function onQueryDept(){
+	var region_code=getSecurityValue("WebRegion");
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	command.setParameter("region_code",region_code);
+	var ret = command.execute("getDeptList");
+	if(!command.error){
+		$('#s-t-2').html(LEx.processDOMTemplate('bmTemplate',ret));
+		var o = $('#s-t-2 li').first();
+		if(LEx.urldata.deptid){
+			id = LEx.urldata.deptid;
+		}else{
+			id = o.attr('id');		
+		}
+		
+		//$("#zs").html("共"+ret.data.organ.length+"个部门");
+		$("#bmmc").html($("#"+id).attr("name"));
+		$("#"+id).addClass("active");
+		onQuery(1);	
+	}else{
+		LEx.dialog({
+			title : "系统提示",
+			content : command.error,
+			icon : 'error',
+			lock : true
+		});
+	}	
+}
+
+function selectByType(){
+	onQuery(1);
+}
+function onQuery(start){	
+	var limit=10;
+	serial = (start-1)*limit;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+	cmd.setParameter("CAT", "dept");
+	cmd.setParameter("ID", id);//$("#"+id).attr("name"));
+	cmd.setParameter("PAGEMODEL", "pagemodel");
+	
+	cmd.setParameter("start",(start-1)*limit);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	//alert($("#item_type").val());
+	cmd.setParameter("TYPE",$("#item_type").val());
+	cmd.setParameter("SearchName","");
+	var ret =  cmd.execute("getMattersList");
+	if(!ret.error){
+		$('#js-list-group-l2').html(LEx.processDOMTemplate('MattersListTemplate',ret));
+		 	var total=ret.total;
+			total=Math.ceil(total/limit);
+			if(total==0){
+				$("#project-none").show();
+				$('.jqpagination').hide();
+			}
+			else{
+				$("#project-none").hide();
+				$('.jqpagination').show();
+				$('.jqpagination').jqPagination('option',{current_page:start,max_page:total,trigger:false});
+			}
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+
+var serial = 0;
+function getnum(){
+	serial++;
+	return serial+"";
+}
+
+function sp(obj){
+    var id = obj.getAttribute("id");
+    var sptype = obj.getAttribute("sptype");
+    window.open("{{PageContext.ContextPath}}onlineapply/applyinfo?itemId="+id,"_blank"); 
+}
+
+</script>
+<style>
+.zl-list-unstyled-ggfu-3 {
+
+}
+.zl-list-unstyled-ggfu-3 > li {
+  padding: 4px 10px 0 10px;
+  border-bottom: 1px dashed #ddd;
+}
+.zl-list-unstyled-ggfu-3 > li p,
+.zl-list-unstyled-ggfu-3 > li span,
+.zl-list-unstyled-ggfu-3 > li time,
+.zl-list-unstyled-ggfu-3 > li em {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 5px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.zl-list-unstyled-ggfu-3 > li p {
+  width: 35%;
+  margin: 0;
+}
+.zl-list-unstyled-ggfu-3 > li span {
+  width: 15%;
+}
+.zl-list-unstyled-ggfu-3 > li time {
+  width: 10%;
+}
+.zl-list-unstyled-ggfu-3 > li em {
+  width: 9%;
+  font-style: normal;
+}
+.fl{ float:left;}
+.fr{ float:right;}
+.clear{clear: both; font-size:0px;}
+.topbg{padding:0 8px;height:36px; line-height:36px;}
+body {
+  margin: 0 auto;
+  background:url({{PageContext.ContextPath}}public/zs/zwfw/img/zsszf-bg.jpg)no-repeat top center;
+}
+.yi-list-inline-l2 > li > a {
+    display: inline-block;
+    padding: 2px 6px;
+    margin-top: 4px;
+    margin-bottom: 3px;
+    color: #555;
+}
+.yi-list-inline-l2 > li > a:hover, .yi-list-inline-l2 > li > a:focus {
+    color: white;
+    background-color: #036DC1;
+}
+.yi-list-inline-l2 > .active > a {
+    background-color:#036DC1 !important;
+    color: #FFF !important;
+}
+</style>
+<script type="text/template" id="bmTemplate">
+ <ul class="list-unstyled yi-list-inline-l2">
+{for o in data.organ}
+{if o.TYPE_NAME=="机关"}
+	{if "330901000,001008009005146,001008009005142".indexOf(o.CODE)<0}
+	{if o.IS_HALL=="1"}
+     <li class="col-xs-6" name="${o.SHORT_NAME}" id="${o.CODE}"><a href="#" title="${o.SHORT_NAME}">${formatLen(o.SHORT_NAME,0,5)}</a></li>
+	{/if}
+	{/if}
+{/if}
+{/for}
+</ul>
+</script>
+<script type="text/template" id="itTemplate">
+{for o in data}
+	<option value="${o.CODE}">${o.TYPE}</option>
+{/for}
+</script>
+<script type="text/template" id="MattersListTemplate">
+				
+					<table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                            <th>序号</th>
+                            <th>事项名称</th>
+                            <th>操作</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+					{for o in data}
+                                <tr>
+                                    <th scope="row">${getnum()}</th>
+                                    <td>${formatLen(o.NAME,0,40)} </td>
+                                    <td>
+                                        <a class="btn btn-xs btn-link" href="{{PageContext.ContextPath}}approve/guide?id=${o.ID}">办事指南</a> 
+                                        <a class="btn btn-xs btn-link" href="#" onclick="sp(this);" id="${o.ID}" sptype="${o.TYPE}">在线申报</a> 
+                                    </td>
+                                </tr>
+					{/for}
+                            </tbody>
+                    </table>
+</script>
+<div class="container">
+	<div class="fl topbg">
+	<A href="http://www.gov.cn/" target="_blank">中央人民政府</A> | <A href="http://www.zj.gov.cn/" target="_blank">浙江省人民政府</A>
+	</div>
+    <div class="fr topbg">
+		<A href="#" onclick="simpleChinese('http:','//','www.zhoushan.gov.cn');">简体中文</A> | 
+		<A href="http://220.191.202.231/gate/big5/www.zhoushan.gov.cn/web/">繁体中文</A> |  
+		<A href="http://mail.zhoushan.gov.cn/" target="_blank">公务邮箱</A>
+	</div>
+    <div>
+      <embed src="{{PageContext.ContextPath}}public/zs/zwfw/img/banner.swf" width="971" height="168"></embed>
+    </div>
+    <div class="clear"></div>
+</div>
+<div id="page" class="container">
+	<div class="row">
+        <div class="col-xs-3">
+            <div class="panel-group" id="accordion" role="tablist" >
+                <div class="panel panel-success">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                全部单位
+                            </a>
+                        </h4>
+                        <div class="pull-right" id="zs">
+                            <!-- 共42个部门 -->
+                        </div>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel">
+                        <div class="panel-body" style="background:#fafafa;" id="s-t-2">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-9">
+            <section class="panel panel-success">
+				<header class="panel-heading" style="height:40px;">
+						<h3 style="display:block;float:left" class="panel-title" id="bmmc"></h3>	
+						<span style="display:block;float:right">
+							分类查询:
+							<select id="item_type" onchange="selectByType()">
+							
+							</select>
+						</span>
+					
+				</header>
+				<div class="panel-body zl-thumbnails-ggfu-2" id="js-list-group-l2">
+					
+				</div>
+				<div id="project-none" style="display:none;font-size:30px;font-weight:bold;text-align:center;">查无相关事项</div>
+                <nav class="text-center">
+                <div class="jqpagination" style="display:none;">
+			    <a href="#" class="first" data-action="first">&laquo;</a>
+			    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+			    <input type="text" readonly="readonly"  data="max-page:23" />
+			    <a href="#" class="next" data-action="next">&rsaquo;</a>
+			    <a href="#" class="last" data-action="last">&raquo;</a>
+				</div>
+                </nav>
+			</section>
+        </div>
+    </div>
+</div>
+</html>

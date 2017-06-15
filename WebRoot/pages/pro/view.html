@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>表单页面</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script type="text/javascript">
+	var __webPath = "{{PageContext.ContextPath}}";
+	var __signature = "{{PageContext.SignatureInfo}}";
+</script>
+<link
+	href="{{PageContext.PagePath}}icity/submitsp/assets/cform/skin/css/cform.css"
+	rel="stylesheet" />
+<script type="text/javascript"
+	src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js,common.js"></script>
+<!--替换为 my97的日期选择，避免 bootstrap 影响页面样式-->
+<script
+	src="{{PageContext.PagePath}}icity/submitsp/assets/js/My97DatePicker/WdatePicker.js"></script>
+<script
+	src="{{PageContext.PagePath}}icity/submitsp/assets/cform/skin/js/cform.js"></script>
+<script
+	src="{{PageContext.PagePath}}icity/submitsp/assets/cform/skin/js/cform_jpower.js"></script>
+<script
+	src="{{PageContext.PagePath}}icity/submitsp/assets/cform/skin/js/setForm.js"></script>
+<script
+	src="{{PageContext.ContextPath}}public/scripts/jquery.xdomainrequest.min.js"></script>
+<script type="text/javascript"
+	src="{{PageContext.JsPath}}jquery.PrintArea.js"></script>
+
+<link rel="stylesheet"
+	href="{{PageContext.ContextPath}}public/scripts/artDialog-6.0.4/css/ui-dialog.css">
+<script
+	src="{{PageContext.ContextPath}}public/scripts/artDialog-6.0.4/dist/dialog-min.js"></script>
+<script type="text/javascript">
+	plugin
+			.add(
+					'dialog',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/dialog/a?t=js&m=jquery.artDialog.js,plugins/iframeTools.js',
+						type : 'js',
+						charset : 'utf-8',
+						rely : [ 'dialog_css' ]
+					});
+	plugin
+			.add(
+					'dialog_css',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/dialog/skins/default.css',
+						type : 'css',
+						charset : 'utf-8'
+					});
+	plugin
+			.add(
+					'tree',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/zTreeStyle/jquery.ztree.js',
+						type : 'js',
+						charset : 'utf-8',
+						rely : [ 'tree_css' ]
+					});
+	plugin
+			.add(
+					'tree_css',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/zTreeStyle/zTreeStyle.css',
+						type : 'css',
+						charset : 'utf-8'
+					});
+
+	plugin
+			.add(
+					'calendar',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/calendar/calendar-min.js',
+						type : 'js',
+						charset : 'utf-8',
+						rely : [ 'calendar_css' ]
+					});
+	plugin
+			.add(
+					'calendar_css',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/calendar/calendar-min.css',
+						type : 'css',
+						charset : 'utf-8'
+					});
+	plugin
+			.add(
+					'editor',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/kindeditor/kindeditor-min.js',
+						type : 'js',
+						charset : 'utf-8'
+					});
+	plugin
+			.add(
+					'fullCalendar',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/fullcalendar/fullcalendar.js',
+						type : 'js',
+						charset : 'utf-8',
+						rely : [ 'jquery_ui' ]
+					});
+
+	plugin
+			.add(
+					'jquery_ui',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/fullcalendar/jquery-ui-1.10.2.custom.min.js',
+						type : 'js',
+						charset : 'utf-8',
+						rely : [ 'fullCalendar_css' ]
+					});
+
+	plugin
+			.add(
+					'fullCalendar_css',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/fullcalendar/a?t=css&m=fullcalendar.css,fullcalendar.print.css',
+						type : 'css',
+						charset : 'utf-8'
+					});
+</script>
+
+</head>
+
+<body>
+	<!--请不要省略display:none，页面渲染不隐藏会造成不停重绘，渲染完再呈现可以提高性能-->
+	<div id="printFormInfo"
+		style="display: none; margin-left: auto; margin-right: 0px; margin-bottom: 5px; width: 65px">
+		<button type="button" onclick="printFormInfo()" class="nbutton_gray">打印</button>
+	</div>
+	<div class="cfBody" id="cfBody" style="display: none"></div>
+	<button id="btnSave" type="button" class="btn btn-sm btn-default"
+		style="display: none;">保存</button>
+	<input type="hidden" id="dataid" value=""> {%include
+	bsp/ayncTree.html%}
+</body>
+<script type="text/javascript">
+
+	LEx.alert("请确认已完成项目登记赋码（内网登记项目需在业务中心完成项目关联），再进行项目报批或联合审批申请。");
+	var path = "{{PageContext.ContextPath}}icity/cform";
+	CForm.rootDirectory = "{{PageContext.PagePath}}icity/submitsp/assets/cform";
+	CForm.getUIPath = path;
+	CForm.loadDataPath = path;
+	CForm.bindDataPath = path;
+	CForm.saveDataPath = path;
+	CForm.loadUI("cfBody", {
+		action : "getFormUI"
+	});
+	CForm.loadBindData({
+		action : "getDataBind"
+	}, function() {
+		CForm.loadMainData({
+			action : "getFormData"
+		});
+	});
+	var projectId = LEx.urldata.projectId;
+	var type = LEx.urldata.type;
+	var flowId = LEx.urldata.flowId;
+	
+	hideOrShowNo("ZhengJianHaoMa");
+	hideOrShowNo("ShouJi");
+	hideOrShowNo("LianXiRenZhengJianHaoMa");
+	hideOrShowNo("LianXiHaoMa");
+	function bSave() {
+		showNo("ZhengJianHaoMa");
+		showNo("ShouJi");
+		showNo("LianXiRenZhengJianHaoMa");
+		showNo("LianXiHaoMa");
+		CForm.saveData("cfBody", function(result) {
+			if (result.state == "200") {
+				$("#dataid").val(result.dataId);
+			} else {
+				alert("提交失败：表单返回状态码" + result.state);
+			}
+
+		}, {
+			action : "saveData"
+		});
+	}
+	$("#printFormInfo").show();
+	if (LEx.urldata.width) {
+		$("form").css("width", LEx.urldata.width + "%");
+	}
+	function printFormInfo() {
+		$("#cfBody").printArea();
+	}
+	/**
+	*提交之前显示号码
+	*/
+	function showNo(id){
+		$("#"+id).val($("#" + id + "1").val());
+	}
+	/**
+	 * 隐藏号码
+	 */
+	function hideOrShowNo(id) {
+		$("#" + id).focus(function() {
+			$(this).val($("#" + id + "1").val());
+		});
+		$("#" + id).blur(
+				function() {
+					$("#" + id + "1").val($(this).val());
+					if ($(this).val() != "") {
+						if (id == 'LianXiHaoMa' || id == 'ShouJi') {
+							$(this).val(
+									$(this).val().substr(0, 3) + "****"
+											+ $(this).val().substr(7, 11));
+						} else {
+							$(this).val(
+									"******" + $(this).val().substr(6, 8)
+											+ "****");
+						}
+					} else {
+						$(this).val("");
+					}
+				});
+		$("#" + id).parent().append(
+				"<input type='hidden' name='"+id+"1' id='"+id+"1' />");
+	}
+</script>
+</html>

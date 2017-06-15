@@ -1,0 +1,329 @@
+@charset "utf-8";
+
+.navbox li a {
+	text-decoration: none;
+	color: #000000;
+}
+
+.tab_item_left {
+	margin-right: 5px;
+	width: 200px; 
+}
+
+.tab_item_left .box {
+	margin-bottom: 5px;
+	margin-right:0px
+}
+
+.tab_item_show {
+	border-collapse: collapse;
+	border-left: 0px;
+	border-right: 0px;
+	border-spacing: 0;
+	width: 100%;
+	border-spacing: 0;
+}
+
+.tab_item_show tr {
+	border: 1px solid #CCCCCC;
+	border-left: 0px;
+	border-right: 0px;
+}
+
+.tab_item_show tr th {
+	background-color: #EDEDED;
+	border: 1px solid #CCCCCC;
+	color: #000000;
+	font-size: 13px;
+	height: 30px;
+	text-align: center;
+}
+
+.tab_item_show tr td {
+	border: 0 none;
+	overflow: hidden;
+	padding: 7px 0;
+	height: 20px;
+}
+
+.tab_item_show tr td.c1 span {
+	width: 520px;
+	display: block;
+	float: left;
+	margin: 3px 0 3px 0;
+}
+
+
+.sImg12345{
+	width: 200px;
+}
+
+.sImg01{
+	width:245px;
+	margin:0px 0px 0px 0px;
+}
+
+.sImg02{
+	width:245px;
+	margin:0px 0px 0px 0px;
+}
+
+.sImg03{
+	width:245px;
+	margin:0px 0px 0px 0px;
+}
+
+.sImg04{
+	width:245px;
+	margin:0px 0px 0px 0px;
+}
+
+#menu .mutual-tabs {
+	height: 519px;
+	width:771px;
+	padding: 0px;
+	margin-bottom:5px;
+}
+
+/************************* /weibolist.html样式 ***************************/
+
+.iweibo_box{
+	height:510px;
+	 margin-bottom:5px;
+}
+
+
+.userlist {
+	overflow: auto;
+	margin: 10px 0 0;
+}
+
+.userlist li {
+	float: left;
+	margin: 0 0 10px 0;
+	white-space: nowrap;
+	overflow: hidden;
+	display: inline-block;
+	width: 107px;
+	height: 104	px;
+	text-align: center;
+}
+
+.userlist a {
+	color: #000000;
+	text-decoration: none;
+}
+
+.userlist a:hover {
+	color: #0082CB;
+}
+
+.iweibo_box .userlist {
+	margin-left: 0px;
+}
+
+
+.iweibo_box .userlist {
+	margin: 10px 0;
+	clear: both;
+}
+
+.iweibo_box .userlist img {
+	border: 1px solid #DBDBDB;
+	padding: 2px;
+	display: block;
+}
+
+.iweibo_box .userlist h3 {
+	font: 12px normal;
+	width: 107px;
+	overflow: hidden;
+	text-align: center;
+	margin: 3px 0;
+}
+
+.iweibo_box .userlist p {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	line-height: 0;
+	overflow: hidden;
+	height: 71px;
+}
+
+
+
+/************************* /weibolist.html样式 ***************************/
+
+/*************************weiboinfo.html样式 ***************************/
+.iweibo h2 {
+	height: 19px;
+	line-height: 100%;
+	line-height: 19px\9;
+	text-align: center;
+	background: -moz-linear-gradient(center top, #BFEBFB, #9CDEF4);
+	background: -webkit-gradient(linear, left top, left bottom, from(#BFEBFB),
+		to(#9CDEF4) );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#BFEBFB',
+		endColorstr='#9CDEF4' );
+	border: 1px solid #DBDBDB;
+	border-width: 1px 0;
+	font-size: 24px;
+	text-shadow: 1px 1px 1px #5FC7EA;
+	overflow: hidden;
+}
+
+.iweibo h2 a {
+	display: block;
+	line-height: 100%;
+	color: #fff;
+}
+
+.iweibo h2 a:hover {
+	text-decoration: none;
+}
+
+.iweibo h3 a{
+	color:#000000; 
+	cursor: pointer;;
+}
+
+.iweibo .tcontainer {
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+.iweibo .tcontainer {
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+.iweibo .tcontainer ul {
+	margin: 10px;
+}
+
+.iweibo .tcontainer li {
+	border-bottom: 1px solid #DBDBDB;
+	padding: 10px 8px;
+	line-height: 20px;
+	word-wrap: break-word;
+}
+
+.iweibo .tcontainer li .source {
+	border: 1px solid #DBDBDB;
+	padding: 3px 8px;
+	margin: 6px 0 0;
+}
+
+.iweibo .tcontainer li p {
+	color: gray;
+	margin-bottom: 5px;
+}
+
+.iweibo .tcontainer li img {
+	margin: 8px 0;
+}
+
+.iweibo .tcontainer a {
+	color: #000000;
+}
+
+.iweibo .tcontainer a:hover {
+	text-decoration: none;
+	color: #0082CB;
+}
+
+.iweibo .tcontainer a.user {
+	font-weight: bold;
+}
+
+.iweibo .getmore {
+	height: 19px;
+	line-height: 18px;
+	text-align: center;
+	display: block;
+	border-top: 1px solid #DBDBDB;
+	background: -moz-linear-gradient(center top, #e1e1e1, #ffffff);
+	background: -webkit-gradient(linear, left top, left bottom, from(#e1e1e1),
+		to(#fff) );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e1e1e1',
+		endColorstr='#ffffff' );
+	color: gray;
+}
+
+.iweibo_more .tcontainer {
+	height: 514px;
+}
+.psubmit{
+	float:left;
+	margin:0 auto;
+	display:block;
+ 	background-color: #F7A900;
+    border: 0 none;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Microsoft YaHei;
+    font-size: 16px;
+    font-weight: bold;
+    height: 36px;
+    line-height:36px;
+    text-align: center;
+    width: 100px;
+   	text-decoration: none;
+}
+.psubmit:hover{
+	text-decoration: none;
+}
+/************************* /weiboinfo.html样式 ***************************/
+
+
+#menu .mutual-tabs{margin-top: -1px;}
+ul.tabs li a.active{padding: 5px 26px;}
+#menu .mutual-tabs{height: 550px}
+.mutual_button a{width: 200px;height: 67px;display: block;background: url("{{PageContext.ContextPath}}public/images/mutual/mutual.png"); margin: 3px 0px;}
+.topSquare{border:1px solid #dad7de;height:200px;background:#FFF;}
+.topSquare .describe{float:left;width:240px;height:100px;padding-top:100px;color:#d5f4fb;background:#229bb8 url(/project/sz/440342/public/images/project/mutual/describe.gif);background-repeat:no-repeat;background-position:center 30px ;text-align:center;}
+.topSquare .describe div{font-size:16px;font-weight:bold;margin:auto;padding-bottom:12px;color:#FFF;}
+.topSquare .list{float:left;width:500px;height:170px;padding:15px 25px;}
+.topSquare .message{float:right;width:188px;height:40px;padding-top:110px;text-align:center;font-size:14px;font-weight:bold;border-left:1px solid #EEE;margin-top:25px;background:url(/project/sz/440342/public/images/project/mutual/button_mail.gif);background-repeat:no-repeat;background-position:center 30px ;}
+.middleSquare{width:100%;height:678px;}
+.middleSquare .middleList{width:488px;height:260px;border:1px solid #DDD;border-top:2px solid #219bb8;}
+.middleSquare .middleListXL{width:988px;height:410px;clear:both;}
+.middleSquare .middleList .title{width:488px;background:#f4fafb;}
+.middleSquare .middleListXL .title{width:988px;}
+.middleSquare .middleList .title .bu{background:#f4fafb;width:7px;height:35px;float:left;}
+.middleSquare .middleList .title .logo{background:#219bb8;width:40px;height:40px;float:left;background-repeat:no-repeat;background-position:center;}
+.middleSquare .middleList .title .logo_appeal{background-image:url(/project/sz/440342/public/images/project/mutual/logo_appeal.gif)}
+.middleSquare .middleList .title .logo_advisory{background-image:url(/project/sz/440342/public/images/project/mutual/logo_advisory.gif)}
+.middleSquare .middleList .title .logo_miniblog{background-image:url(/project/sz/440342/public/images/project/mutual/logo_miniblog.gif)}
+.middleSquare .middleList .title .content{height:21px;width:441px;background:#f4fafb;float:left;padding:7px 0px;}
+.middleSquare .middleListXL .title .content{width:941px;}
+.middleSquare .middleList .title .content b{display:block;float:left;width:85px;font-size:14px;font-weight:bold;color:#000;text-align:center;line-height:21px;}
+.middleSquare .middleList .title .content .describe{display:block;float:left;border-left:1px solid #DDD;line-height:21px;padding-left:12px;color:#898b8b;}
+.middleSquare .middleList .title .content .more{display:block;float:right;color:#999999;padding-right:12px;}
+.iconSquare .icon_advisory{background-image:url(/project/sz/440342/public/images/project/mutual/icon_advisory.gif)}
+.iconSquare .icon_chat{background-image:url(/project/sz/440342/public/images/project/mutual/icon_chat.gif)}
+.iconSquare .icon_miniblog{background-image:url(/project/sz/440342/public/images/project/mutual/icon_miniblog.gif)}
+.iconSquare .icon_mail{background-image:url(/project/sz/440342/public/images/project/mutual/icon_mail.gif)}
+.iconSquare .icon_appeal{background-image:url(/project/sz/440342/public/images/project/mutual/icon_appeal.gif)}
+.iconSquare div{margin:0 auto;background-repeat:no-repeat;background-position:center 40px ;height:170px;width:60px;text-align:center;font-size:14px;font-weight:bold;cursor: pointer;}
+.iconSquare span{display:block;padding-top:100px;color:#000;}
+.blank{height:8px;clear:both;}
+/*.body_sz{background:url('/lh-interaction_r1_c1.png') center 100px!important;}*/
+
+.topSquare .list ul{padding-top:8px;}
+.middleSquare .middleList .list{padding-top:52px;padding-left:4px;width:95%;}
+.topSquare .list li,.middleSquare .middleList .list li{padding-top:6px;}
+.topSquare .list li .icon,.middleSquare .middleList .list li .icon{padding-left:30px;background-image:url(/project/sz/440342/public/images/project/mutual/arrow.gif);background-repeat:no-repeat;background-position:center;}
+.topSquare .list li .category{padding-right:12px;color:#888;}
+.topSquare .list li .title,.middleSquare .middleList .list li .title{}
+.topSquare .list li .date,.middleSquare .middleList .list li .date{float:right;color:#888;}
+
+.middleSquare .middleListXL .listXL {width:100%;padding-top:34px;}
+.middleSquare .middleListXL .listXL li{width:100%;border-bottom:1px solid #dddddd;height:70px;padding-top:20px;}
+.middleSquare .middleListXL .listXL li .icon{float:left;display:block;height:56px;width:86px;background: url(/project/sz/440342/public/images/project/mutual/temp.jpg) center no-repeat;}
+.middleSquare .middleListXL .listXL li .title {width:890px;display:block;float:left;background:#FFF;}
+.middleSquare .middleListXL .listXL li .title .content {clear:both;background:#FFF;width:890px;color:#000;}
+.middleSquare .middleListXL .listXL li .title .author{color:#4499b5;font-weight:bold;}
+.middleSquare .middleListXL .listXL li .title .date{display:block;float:left;width:120px;color:#AAA;}
+.middleSquare .middleListXL .listXL li .title .more{display:block;float:right;text-align:right;}

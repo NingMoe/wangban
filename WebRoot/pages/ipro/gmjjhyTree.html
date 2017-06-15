@@ -1,0 +1,149 @@
+<script  type="text/javascript" src="{% public ipro/assets/js/gmjjhy.js %}"></script>
+<script  type="text/javascript" src="{% public ipro/assets/js/theindustry.js %}"></script>
+<script  type="text/javascript" src="{% public ipro/assets/js/cyzctm.js %}"></script>
+<script  type="text/javascript" src="{% public ipro/assets/js/country.js %}"></script> 
+
+
+
+<script type="text/javascript">
+function GetQueryString(name) {
+	   var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");
+	   var r = window.location.search.substr(1).match(reg);
+	   if (r!=null) return (r[2]); return null;
+	}
+	
+	var type=GetQueryString("type");
+	
+	
+
+	var deptTreeObj = null;
+	var nodes = null;
+	function init() {
+		initTree();
+	}
+	var data = [ {
+		"CODE" : "370000000000",
+		"GRADE" : "2",
+		"NAME" : "山东省",
+		"PARENT_CODE" : "000000000000",
+		"REMARK" : "山东省",
+		"SORT_ORDER" : 1,
+		"TYPE" : "1"
+	} ];
+	
+	function initTree() {
+		var setting = {
+				check: {
+					enable:true,
+					chkStyle:"radio",
+					radioType:"all"
+				},
+				data: {
+					key: {
+						title:"name",
+						name: "name"
+					},
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+					onNodeCreated:onNodeCreated
+					}
+				
+				/*
+			view : {
+				selectedMulti : false
+			},
+			edit : {
+				enable : false
+			},
+			check : {
+				enable : true,
+				chkStyle : "radio",
+				radioType : "all"
+			},
+			data : {
+				key : {
+					title : "name",
+					name : "name"
+				},
+				keep : {
+					parent : true,
+					leaf : true
+				},
+				simpleData : {
+					enable : true,
+					idKey : "id",
+					pIdKey : "pId",
+					rootPId: null
+				}
+			}*/
+		};
+		if(type=="guobiaohy"){//国标行业
+			LEx.Control.Tree("departTree",setting,sshy,function(obj){
+				deptTreeObj = obj;
+				
+			});	
+		}
+		else if(type=="suoshuhy"){	//所属行业
+			LEx.Control.Tree("departTree",setting,theindustryarray,function(obj){
+				deptTreeObj = obj;
+				
+			});
+			
+		}
+		else if(type=="sycyzctm"){	//适用产业政策条目
+			LEx.Control.Tree("departTree",setting,cyzctmlist,function(obj){
+				deptTreeObj = obj;
+				
+			});
+			
+		}
+		else if(type=="zcgbdq"){	//注册国别地区
+			LEx.Control.Tree("departTree",setting,countryarray,function(obj){
+				deptTreeObj = obj;
+				
+			});
+			
+		}else{//默认显示国标行业
+			LEx.Control.Tree("departTree",setting,sshy,function(obj){
+				deptTreeObj = obj;
+				
+			});	
+		}
+		
+		/* LEx.Control.Tree("departTree",setting,sshy,function(obj){
+			deptTreeObj = obj;
+			
+		}); */
+
+	}
+	
+	function onNodeCreated(event, treeId, treeNode){
+		var zTree=$.fn.zTree.getZTreeObj(treeId);
+		if(treeNode.isParent){
+			treeNode.nocheck=true;
+			zTree.updateNode(treeNode);
+		}else{
+			//if(treeNode.CODE==dfval){
+				zTree.checkNode(treeNode,true);
+			//}
+		}
+	}
+
+	function getData() {
+		var selectedDept = {};
+		nodes = deptTreeObj.getCheckedNodes(true);
+		if (null != nodes && nodes.length > 0) {
+			node = nodes[0];
+			selectedDept.id = node.id;
+			selectedDept.name = node.name;
+			selectedDept.pId = node.pId;
+		}
+		return selectedDept;
+	}
+</script>
+<div>
+	<ul id="departTree" class="ztree"></ul>
+</div>

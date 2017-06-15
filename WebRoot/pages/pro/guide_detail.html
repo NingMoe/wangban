@@ -1,0 +1,168 @@
+   {% set id PageContext.Parameter.itemId %}
+{% if id %}
+	{% map "id",id as p %}
+	{% command "app.icity.ServiceCmd","getPermission",p as d %}
+	<!-- 事项信息 -->
+	{%  set item d.data %}
+	{% set itemInfo item.itemBasicInfo%}
+{% else %}
+	<script type="text/javascript">window.location.href="{{PageContext.ContextPath}}pro/";</script>
+{% endif %}
+
+<!-- 事项基本信息 -->
+{% set itemInfo item.itemBasicInfo %}
+<!-- 材料信息 -->	
+{% set materials item.material%}
+<!-- 办理流程 -->
+{% set handlingprocess item.handlingprocess %}
+<!-- 法律依据 -->
+{% set legalbasis item.legalbasis %}
+<!-- 受理条件 -->
+{% set conditions item.condition %}
+<!-- 办事地址 -->
+{% set windows item.window %}
+<!-- 收费标准 -->
+{% set charges item.charge %}
+<!-- 常见问题 -->
+{% set question itemInfo.FAQ %}
+<!-- 流程图-->
+{% set outmaps item.outmap %}
+
+<div style="">
+    <div style="background-color: #fff; padding: 20px 40px;width:1030px;margin:0px auto;">
+        <ol class="breadcrumb">
+            <li><a href="{{cp}}pro/index">首页</a></li>
+            <li><a href="{{cp}}pro/index">{{itemInfo.REGION_NAME}}办事大厅</a></li>
+            <li><a href="{{cp}}pro/guidelist?region_code={{itemInfo.REGION_CODE}}">办事指南</a></li>
+            <!-- <li><a href="{{cp}}pro/guidelist_info">其他水事工程</a></li> -->
+            <li class="active">{{itemInfo.NAME}}</li>
+        </ol>
+        <h3 class="text-center"><strong>{{itemInfo.NAME}}</strong></h3>
+        <br>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th class="text-right active">受理机构</th>
+                    <td>{{itemInfo.ORG_NAME}}</td>
+                    <th class="text-right active">决定机构</th>
+                    <td>{{itemInfo.AGENT_NAME}}</td>
+                </tr>
+                <tr>
+                    <th class="text-right active">事项类别</th>
+                    <td>承诺件</td>
+                    <th class="text-right active">办事时限</th>
+                    <td>{%if itemInfo.LAW_TIME|equal:'0' %}
+							即办
+                        {% else %}
+							{{itemInfo.LAW_TIME}}个工作日	
+						{% endif %}</td>
+                </tr>
+            </tbody>
+        </table>
+        <section class="panel panel-default">
+            <ul class="nav nav-pills font-size-16" style="margin: -1px; border-bottom: 3px solid #29588C;">
+                <li class="active"><a data-toggle="tab" href="#t-b-1"><strong>办理依据</strong></a></li>
+                <li><a data-toggle="tab" href="#t-b-2"><strong>申报材料</strong></a></li>
+                <li><a data-toggle="tab" href="#t-b-3"><strong>办事条件</strong></a></li>
+                <li><a data-toggle="tab" href="#t-b-4"><strong>办理流程</strong></a></li>
+                <li><a data-toggle="tab" href="#t-b-5"><strong>收费标准及依据</strong></a></li>
+                <li><a data-toggle="tab" href="#t-b-6"><strong>办理时间及地址</strong></a></li>
+            </ul>  
+            <div class="tab-content panel-body">
+                <div class="tab-pane fade active in" id="t-b-1">
+                    {% if legalbasis %}
+  			{% for lawinfo in legalbasis %}
+   				{% if lawinfo.URL|cut:' '|length|equal:'0'|not %}
+   					<a href="javascript:void(0);" tag="law" url="{{lawinfo.URL}}" class="htmlhref">{{lawinfo.CONTENT}}</a><br/>	
+   				{% else %}
+   					{{lawinfo.CONTENT}}<br/>
+   				{% endif %}		   					   				
+   			{% endfor %}			   				
+		{% else %}
+   			无
+   		{% endif %}
+                </div>
+                <div class="tab-pane fade" id="t-b-2">
+					{% if materials %}				   		
+		   		{% for material in materials %}
+		   		<p>	   			
+		   			{{loop.counter}}、
+		   			{% if material.LACK_FLAG|equal:'0' %}
+		   				{% if material.REASON|cut:' '|length|equal:'0'|not %}
+		   					<a href="javascript:void(0);" tag="lackreason" title="{{material.REASON}}" class="htmlhref" >[非必备]</a>
+		   				{% else %}
+		   					<a href="javascript:LEx.dialog.tips('暂无非必备说明');" style="color:#999999;">[非必备]</a>
+		   				{% endif %}
+		   			{% endif %}&nbsp;{{material.NAME}}
+		   			{% if material.DESCRIPTION|cut:' '|length|equal:'0'|not %}
+			   			<span>				   				
+				   			<a href="javascript:void(0);" title="查看材料备注" tag="material" clcode="{{material.CODE}}" class="question" hidefocus="true" style="outline:none;"></a>	   			
+			   			</span>
+			   		{% endif %}
+			   		{% if material.FILE_URL|cut:' '|length|equal:'0'|not %}
+			   			<span style="color: #999;font-size: 12px">[&nbsp;
+			   				<a href="{{PageContext.ContextPath}}{{material.FILE_URL}}" style="color: #999;font-size: 12px">下载</a>
+			   			&nbsp;]</span>
+			   		{% endif %}
+			   		<!-- <span id="dfile{{material.CODE}}"></span> -->
+			   		<div id="dprocess{{material.CODE}}" style="display: none;"></div>
+			   		<div id="ddownload{{material.CODE}}" style="display: none;"></div>
+			   	</p>		
+		   		{% endfor %}
+		   	{% else %}
+		   		无
+		   	{% endif %}
+				</div>
+                <div class="tab-pane fade" id="t-b-3">
+                	{% if conditions %}
+  			{% for condition in conditions %}
+  			<div>{{condition.NAME}}</div>
+   			{% endfor %}			   				
+		{% else %}
+   			无
+   		{% endif %}
+                </div>
+                <div class="tab-pane fade" id="t-b-4">
+                {% if handlingprocess %}
+ 					{% set length handlingprocess|length %}  							
+	   				{% for wpro in handlingprocess %}
+	   					{% if wpro.NAME %}
+	   						{{loop.counter}}、{{wpro.NAME}}
+		   					{% if loop.counter|equal:length|not %}
+		   						</br>
+		   					{% endif %}
+		   				{% else %}
+		   					{% if wpro.NAME|equal:""|not %}
+	   							{{loop.counter}}、{{wpro}}
+	   						{% endif %}
+		   				{% endif %}	   							
+	   				{% endfor %} 						
+   				{% else %}
+	   				无
+	   			{% endif %}
+                </div>
+                <div class="tab-pane fade" id="t-b-5">
+                {% if charges %}
+  				{% for chargeinfo in charges %}
+  					<div><ol>
+  							<li>收费项目：{{chargeinfo.NAME}}</li>
+  							<li>收费依据：{{chargeinfo.BASIS}}</li>
+  							<li>收费标准：{{chargeinfo.STANDARD}}</li>
+  						</ol></div>
+   				{% endfor %}			   				
+			{% else %}
+   				无
+   			{% endif %}	
+                </div>
+                <div class="tab-pane fade" id="t-b-6">
+					{% for window in windows %} 
+						<p>办理地址：{{window.ADDRESS}}</p>
+						<p>办理时间：{{window.OFFICE_HOUR}}</p>
+					
+					
+					{% endfor %}
+				</div>
+            </div>
+        </section>
+    </div>
+</div>

@@ -1,0 +1,151 @@
+<style type="text/css">
+.yi-station .dropdown-menu {
+  min-width: 800px;
+  left: -290px;
+  top: 20px;
+  padding: 15px;
+}
+</style>
+<div class="dropdown dropdown-hover yi-station i-website">
+                <a class="dropdown-toggle"  data-toggle="dropdown">
+                <img src="{%public assets/img/zwfww_003.jpg%}" />
+                </a>
+                <div class="dropdown-menu">
+                    <ul class="nav nav-tabs">
+                        <li class="active"> <a href="#s-n-t-1" data-toggle="tab">部门</a></li>
+                        <li><a href="#s-n-t-2" data-toggle="tab">省、市、县（市、区）</a></li>
+                    </ul>
+                    <br>
+                    <div class="tab-content">
+                        <div class="tab-pane fade active in" id="s-n-t-1">
+                        </div>
+                        <div class="tab-pane fade" id="s-n-t-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+<script type="text/template" id="deptTemplate">
+<ul class="list-inline phi yi-list-inline-s-1">
+{for o in data.organ}
+{if o.IS_HALL=="1"}
+<li class="col-xs-2" code="${o.CODE}" name="${o.SHORT_NAME}" phone="${o.PHONE}" home="${o.PAGE_HOME}"><a href="{{PageContext.ContextPath}}govservice/portal?id=${o.CODE}" title="${o.SHORT_NAME}">${formatLen(o.SHORT_NAME,0,6)}</a></li>
+{/if}
+{/for}
+</script>
+<script type="text/template" id="siteTemplate">
+{macro showChilds(o,level)}
+{for c in o.childs}
+<div class="row">
+<div  class="col-xs-2 omega text-right" style="width: 10%;">
+<label class="control-label" ref="/${c.name}/" onmouseover="regroupUrl(this)">
+<a  onclick="openUrl();">${c.title}</a>
+</label>
+</div>
+<div class="col-xs-10" style="width: 90%;">
+<ul class="list-inline phi yi-list-inline-s-1">
+{if c.childs }
+{for cc in c.childs}
+<li ref="/${cc.name}/" onmouseover="regroupUrl(this)">
+<a onclick="openUrl();">${cc.title}</a>
+</li>
+{/for}
+{/if}
+</ul>
+</div>
+</div>
+{/for}
+{/macro}
+{for o in data}
+<div class="row">
+<div  class="col-xs-2 omega text-right" style="width: 10%;">
+<label class="control-label" ref="/${o.name}/" onmouseover="regroupUrl(this)"><a onclick="openUrl();" title="${o.title}">${formatLen(o.title,0,4)}</a></label>
+</div>
+<div class="col-xs-10" style="width: 90%;">
+<ul class="list-inline phi yi-list-inline-s-1">
+</ul>
+</div>
+</div>
+{if o.childs }
+{var cc = showChilds(o,1)}
+${cc}
+{/if}
+{/for}
+</div>
+</script>
+
+<script type="text/javascript">
+var url;var deptList;
+$(function () {
+	 $('.i-website .nav-tabs > li > a').hover(function (e) {
+	        e.preventDefault()
+	        $(this).tab('show')
+	    })
+});
+
+$(function(){
+onQuery4Site();
+})
+function onQuery4Site() {
+	var region_code=getSecurityValue("WebRegion");
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	command.setParameter("region_code",region_code);
+	deptList = command.execute("getDeptList");
+	if(!command.error){
+		$('#s-n-t-1').html(LEx.processDOMTemplate('deptTemplate',deptList));
+	}else{
+		LEx.dialog({
+			title : "系统提示",
+			content : command.error,
+			icon : 'error',
+			lock : true
+		});
+	}	
+ command = new LEx.Command("app.pmi.config.cmd.WebsiteCmd");
+ ret = command.execute("getWebsiteConfig");
+if(!command.error){
+	$('#s-n-t-2').html(LEx.processDOMTemplate('siteTemplate',ret));
+}else{
+	LEx.dialog({
+		title : "系统提示",
+		content : command.error,
+		icon : 'error',
+		lock : true
+	});
+}	
+}
+
+function regroupUrl(o) {
+	url=$(o).attr("ref");
+	var topRef=$(".topNav li[class='active']").attr("ref");
+	var secRef=$(".secNav").attr("ref");
+	if(LEx.isNotNull(topRef)){
+		url+=topRef;
+	}
+	if(LEx.isNotNull(secRef)){
+		url+="?ref="+secRef;
+	}
+}
+function openUrl() {
+document.location.href=url;
+}
+</script>
+
+<script>
+$(function() {
+    $(".dropdown-menu").on("click", "[data-stopPropagation]", function(e) {
+        e.stopPropagation();
+    });
+});
+$(function(){
+    $(".dropdown-hover").hover(
+        function() {
+            $('.dropdown-menu', this).stop( true, true ).fadeIn("fast");
+            $(this).toggleClass('open');
+        },function() {
+            $('.dropdown-menu', this).stop( true, true ).fadeOut("fast");
+            $(this).toggleClass('open');
+        }
+    );
+});
+
+</script>

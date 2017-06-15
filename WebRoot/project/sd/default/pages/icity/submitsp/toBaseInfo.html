@@ -1,0 +1,228 @@
+<link rel="stylesheet" href="{% public assets/css/applycustom.css %}">
+<style>
+body{
+background-image: none;
+background-color: #f5f5f5;
+}
+table{width: inherit;}
+li,
+th,
+td {
+  margin: 0;
+  padding: 0;
+  font:14px/20px 微软雅黑 !important;;
+  color: #333;
+}
+.yt-content1 {
+  vertical-align: top;
+  padding: 1px;
+  width:80%;
+  margin-left:10%;
+  background-color: #fff;
+}
+.tou{
+  font-size:60px;
+  color:#fff;
+  position: absolute;
+  left: 30.5%;
+  top: -16px;
+}
+.jian{
+  font-size:60px; 
+  color:#fff; 
+  position: absolute; 
+  left: 62.5%; 
+  top: -16px;
+}
+.jiantou{
+  font-size:60px; 
+  color:#fff; 
+  position: absolute; 
+  left: 94.8%; 
+  top: -16px;
+}
+.table01 {
+  border: 0 !important;
+  border-collapse: collapse !important;
+  border-spacing: 0;
+  border-top: 1px solid #c9deef;
+  border-right: 1px solid #c9deef;
+}
+.yt-content1 table{width: 100%;}
+.table01 input[type=text],select {
+    display: block;
+    width: 99%;
+    height: 34px !important;
+    padding: 6px 10px;
+    font-size: 14px;
+    line-height: 34px;
+    background-color: #FFF;
+    border: 1px solid #C9DEEF;
+    transition: all 0.15s ease-in-out 0s;
+    box-sizing: border-box;
+}
+.table01 input:focus {
+    border-color: #3e95eb;
+    background-color: #E9F2F9;
+}
+.table01 th,
+.table01 td {
+  padding: 10px;
+  border:1px solid #c9deef !important;
+  font: 14px/20px 微软雅黑 !important;
+  color: #333;
+}
+.table01 th {
+   width: 20% !important;
+   text-align:right !important;
+  padding-left: 20px;
+  background-color: #e9f2f9 !important;
+}
+.ny-nav li {
+    display: inline-block;
+    float: left;
+    width: 78px;
+    height: 78px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-right: 42px;
+    background: #3e95eb;
+    border-radius: 5px;
+    text-align: center;
+}
+h1, .h1, h2, .h2, h3, .h3 {
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+dd{
+    margin-top:-22px;
+}
+dl {
+    margin-top: 0;
+    margin-bottom: 1px;
+}
+body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: auto;
+}
+</style>	
+<div class="yt-content1">
+<form onsubmit="return false" action="" method="post" id="yhLoginForm" name="yhLoginForm" style="display:none">
+	<input id="userType" name="userType" type="hidden" value="gm" tag="type"/>
+	<input id="type" name="type" type="hidden" value="YH" tag="type"/>
+	<input id="account" tips="" tag="account" name="account" type="text" placeholder="" class="text-name"/> 
+	<input id="pwd" name="pwd" type="hidden" tag="pwd"/>
+<!-- 	<input id="verify_code" name="verify_code" type="hidden" tag="verify_code"/> -->
+	<input id="goto" name="goto" type="hidden" value="{{PageContext.Parameter.goto}}" tag="goto"/>
+	<input id="callback" name="callback" type="hidden" value="{{PageContext.Parameter.callback}}" tag="callback"/>
+	<input id="uuid" name="uuid" type="hidden" value="{{PageContext.Parameter.uuid}}" tag="uuid"/>
+</form>
+<script type="text/javascript">
+var itemId = "";
+var urlChar = "";
+var code = LEx.urldata.itemCode;
+checkLogin();
+getData();
+getIdByItemId();
+window.open("{{cp}}icity/submitsp/baseinfo?itemId="+itemId,"_self");
+function getIdByItemId(){
+		var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+		cmd.setParameter("code", code);
+		cmd.setParameter("page",1);
+		cmd.setParameter("limit", 1);
+		var ret =  cmd.execute("getInitList");
+		if(!ret.error){
+				//$('#roll_list1').html(LEx.processDOMTemplate('MattersListTemplate',ret));
+				var total=ret.total;
+				//total=Math.ceil(total/limit);
+				//pageTotal=total;
+				if(total==0){
+					alert("该"+code+"事项编码没有查到数据");
+				}
+				else{
+					itemId = ret.data[0].ITEM_ID;
+				} 
+		}else{
+			LEx.alert(ret.error);
+		}
+}
+//提交登录信息后
+function doSumit(){
+	
+	var formData = LEx.form.get("yhLoginForm");
+	$.ajax({
+		type : "post",
+		url : LEx.webPath + "app/uc/login?action=login",
+		data:formData,  
+		success : function(data) {
+			var obj = eval('(' + data + ')');
+			if (obj.state == 1) { 
+				var tickId = obj.data.tickId;
+				var nextGo = obj.data.nextGo;
+				//location.href = nextGo;
+			} else {
+				errorDialog("系统提示", obj.message);
+				$(".btn-smb").removeClass("btn-smb-ing").removeAttr("disabled");
+				$("#password").val("");
+				var type = $(".form-tab li.on").attr("tag");// 登录类型
+				if (type == "yhdl") {
+					showVerifyCode(obj);
+				}
+			}
+		},
+		error : function(data) {
+			$(".btn-smb").removeClass("btn-smb-ing").removeAttr("disabled");
+		}
+	});
+	
+}
+function checkLogin(){
+	var uid = "{{UserInfo.uid}}";
+	var type = "{{UserInfo.type}}";
+	if(!LEx.isNotNull(uid)){
+		getData();
+	}
+}
+
+function getData(){
+	var cmd = new LEx.Command("app.icity.govservice.AESCmd");
+	alert(window.location.href);
+	var url = window.location.href;
+	var start = 0;
+	var end = 0;
+	var len = url.length;
+	var username = "";
+	var pwd = "";
+	start = url.indexOf("&username=")+10;
+	end = url.indexOf("&password=");
+	username = url.substr(start,end-start);
+	pwd = url.substr(end+10,len-end-10);
+	username = changeUrlchar(username);
+	pwd = changeUrlchar(pwd);
+	cmd.setParameter("username", username);//LEx.urldata.username
+	cmd.setParameter("password",pwd);//LEx.urldata.password
+	cmd.setParameter("expireTime",LEx.urldata.expireTime);
+	var ret =  cmd.execute("getData");
+	if(!ret.error){
+		//alert(ret.data[0]);
+		//alert(ret.data[1]);
+		$("#account").val(ret.data[0]);
+		$("#pwd").val(ret.data[1]);
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+
+function changeUrlchar(url){
+	urlChar = url.replace(/%2B/g, "+");
+	urlChar = urlChar.replace(/%20/g, " ");
+	urlChar = urlChar.replace(/%2F/g, "/");
+	urlChar = urlChar.replace(/%3F/g, "?");
+	urlChar = urlChar.replace(/%25/g, "%");
+	urlChar = urlChar.replace(/%23/g, "#");
+	urlChar = urlChar.replace(/%26/g, "&");
+	urlChar = urlChar.replace(/%3D/g, "=");
+	return urlChar;
+}
+</script>
+
+</div>

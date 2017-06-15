@@ -1,0 +1,148 @@
+<script>
+var type = "ckdh";
+var contentLiTable = null;
+$(function(){
+	if(LEx.urldata.type){
+		type = LEx.urldata.type;	
+	}	
+	$("#cname").html(($("#"+type).find("a").html()).split("》")[1]);
+	if(type=="zxdz"){
+		var zxdzUrl = "<iframe src = '{{cp}}icity/interactive/address/{{ConfigInfo.WebRegion}}?_pjax=1' style=\"width:100%;height:560px;\"/>";
+		$("#contentList").html(zxdzUrl);
+	}else{
+		contentLiTable = new LEx.Control.Table("contentLi_s","content_li");
+		contentLiTable.limit(9);
+		onQueryBase(($("#"+type).find("a").html()).split("》")[1]);
+	}
+});
+
+function onQueryBase(name){
+
+	var start=1;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("start", contentLiTable.start());
+	cmd.setParameter("limit", contentLiTable.limit());
+	cmd.setParameter("page",start);
+	cmd.setParameter("name", name);
+	var ret =  cmd.execute("getContentInfo");
+	if(!ret.error){
+		if(ret.total==1){
+    		window.location.href="{{PageContext.ContextPath}}JRPlatform/base-1?ID="+ret.data[0].ID;
+    	}else{
+    		contentLiTable.toBody(ret);
+			// 3.加载分页控件：分页div的id，Table的实例化对象名称（字符串）,总数量，查询方法（字符串）
+			contentLiTable.toPageBar("epager", "contentLiTable", ret.total,"onQueryBase()");
+    	}
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+
+function parseLength(val) {
+	if (LEx.isNotNull(val)&&val.length>40) {
+		return val.substring(0,40)+"...";
+	} else {
+		return val;
+	}
+}
+</script>
+<script type="text/template" id="ckdtTemplate">
+</script>
+<script type="text/template" id="tzggTemplate">
+
+</script>
+<div id="page" class="container" style="padding-left: 10px; padding-right: 10px; background-color:#fff;">
+		<ol class="breadcrumb">
+		<li><a href="#">所在位置：</a>
+		</li>
+		<li><a href="{{cp}}index">首页</a>
+		</li>
+		<li class="active" id="cname"></li>
+	</ol>
+	<div id="contentList" style="min-height: 400px;">
+		<table class="listTable" id="contentLi_s" style="width: 100%; background-color: #FFFFFF;" align="center">
+			<tbody></tbody>
+		</table>
+		<table>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</table>
+		<div id="epager"></div>
+	</div>
+	<div class="row">
+         <div style="display:none;">
+            <div class="panel-group" id="accordion" role="tablist">
+                <div class="panel panel-success">
+                    <div class="panel-body" style="background:#fafafa;">
+                        <ul class="nav sidenav" id="ul_list">
+                            <li id="ckdh" class="active"><a href="#">》窗口电话</a></li>
+                            <li id="lcfb"><a href="#">》楼层分布</a></li>
+                            <li id="zxdz"><a href="#">》中心地址</a></li>
+                            <li id="zzfw"><a href="#">》自助服务</a></li>
+                            <li id="yhsc"><a href="#">》用户手册</a></li>
+                            <li id="tzgg"><a href="#">》通知公告</a></li>
+                            <li id="ckdt"><a href="#">》窗口动态</a></li>
+                            <li id="wzjs"><a href="#">》网站介绍</a></li>
+                            <li id="xszn"><a href="#">》新手指南</a></li>
+                            <li id="lxwm"><a href="#">》联系我们</a></li>
+                            <li id="wzgl"><a href="#">》网站管理</a></li>
+                            <li id="wzjs"><a href="#">》网站介绍</a></li>
+                            <li id="xszn"><a href="#">》新手指南</a></li>
+                            <li id="lxwm"><a href="#">》联系我们</a></li>
+                            <li id="tsdh"><a href="#">》投诉电话</a></li>
+                            <li id="dwjj"><a href="#">》单位简介</a></li>
+                            <li id="yzbm"><a href="#">》邮政编码</a></li>
+                            <li id="zxdh"><a href="#">》咨询电话</a></li>
+                            <li id="cjwt"><a href="#">》常见问题</a></li>                            
+                            <li id="wzsm"><a href="#">》网站声明</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="col-xs-12">
+            <section class="panel panel-success">
+				<header class="panel-heading">
+					<h3 class="panel-title" id="list_name"></h3>
+				</header>
+				<div class="panel-body zl-thumbnails-ggfu-2">
+                    <div class="table table-hover" id="list_content">
+
+                    </div>
+<!--                     <ul class="pagination pull-right">
+                        <li><a class="mr10" href="#">首页</a></li>
+                        <li><a href="#"><i class="mdicon mdicon-arrow-back"></i> 上一页</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">下一页 <i class="mdicon mdicon-arrow-forward"></i></a></li>
+                        <li><a class="ml10" href="#">尾页</a></li>
+                    </ul> -->
+                    
+				</div>
+			</section>            
+        </div>
+    </div>
+</div>
+<textarea id="content_li" style="display: none;">
+{for o in data}
+	 <li class="list-group-item">
+			{if o.URL}
+				<a href="${o.URL}" title="${o.NAME}" target="_blank"><i
+			class="mdicon mdicon-play-arrow f12"></i>${parseLength(o.NAME,40)}</a>
+			{else}
+				<a href="{{cp}}JRPlatform/base-1?ID=${o.ID}" title="${o.NAME}"
+		target="_blank"><i class="mdicon mdicon-play-arrow f12"></i>${parseLength(o.NAME,40)}</a>
+			{/if}
+					<span style="float: right; margin-right: 10px;">${o.CTIME}</span>
+		</li>
+{/for}
+{if total == 0} 
+	<tr>
+		<td colspan="2" style="text-align: center;">无符合条件的数据!</td>
+	</tr>
+{/if}
+</textarea>

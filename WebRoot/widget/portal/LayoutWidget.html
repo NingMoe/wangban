@@ -1,0 +1,27 @@
+{% if __PARAMS__.data%}
+	{% for o in __PARAMS__.data %}
+		{% set _tmpLayoutData layoutData %}
+		{% set layoutData o%}
+		{% merge "portal/layout/",o.layout,".html" as layoutInfo %}
+		{% include layoutInfo %}
+		{% set layoutData _tmpLayoutData %}
+	{% endfor %}
+{% else%}
+	{% for o in __PARAMS__.portals %}
+		<div class="widget {{o.className}}" nclass="{{o.className}}" dataType="widget" nstyle="{{o.style}}" style="{{o.style}}" nid="{{o.id}}" widget="{{o.widget}}" ntitle="{{o.title}}"  cacheFlag="{{o.cacheFlag}}">
+			<textarea class="config" style="display:none">{{o.config}}</textarea>
+			<div class="header" style="{{o.headerStyle}}" nstyle="{{o.headerStyle}}">
+				<h3>
+					<span>{{o.title}}</span>
+				</h3>
+				{% if o.hasMore %}
+				<span class="more" onclick="window.open('{{PageContext.ContextPath}}{{o.hasMore}}')"></span>
+				{% endif %}
+			</div>
+			<div class="content" style="{{o.contentStyle}}" nstyle="{{o.contentStyle}}">
+				{% widget o.widget,o.config %}
+			</div>
+			<div class="handle"></div>
+		</div>
+	{% endfor %}
+{% endif%}

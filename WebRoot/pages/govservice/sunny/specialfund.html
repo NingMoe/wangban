@@ -1,0 +1,274 @@
+<script>
+var listArray=[];
+var listLen = 6;
+$(function(){
+	getDeptInfo();
+	onInitialize("DL");
+	 
+	$('.nav-stacked > li').click(function (e) {
+		onInitialize($(this).attr("id"));
+	});
+	var myar = setInterval('AutoScroll("")', 2000);
+	$(".table").hover(function() {
+    	clearInterval(myar); }, function() { 
+    		myar = setInterval('AutoScroll("")', 2000);
+    	}); //当鼠标放上去的时候，滚动停止，鼠标离开的时候滚动开始	
+});
+function onInitialize(obj){
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+	cmd.setParameter("deptid", LEx.urldata.id);
+	cmd.setParameter("ITEM_TYPE", obj);
+	cmd.setParameter("page", 1);
+	cmd.setParameter("limit",500);
+	var ret = cmd.execute("getInitList");
+	if(!ret.error){
+		$('#js-list-group-l2').html(LEx.processDOMTemplate('itemTemplate',ret));
+		listArray = $("#js-list-group-l2 > li");
+		listLen = 6;
+		var len = listArray.length;
+		if(len==0){
+			$("#station-more").show();
+			$("#station-more").html("查无相关事项");
+		}else if(len<listLen){
+			$("#station-more").hide();
+		}else{
+			for(var i=listLen;i<len;i++){
+				$(listArray[i]).attr("style","display:none");
+			}
+			$("#station-more").show();
+			$("#station-more").html("查看更多");
+			$("#station-more").attr("onclick","getMore(listLen)");
+		}
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+function onQueryProgress(obj){
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+	cmd.setParameter("deptid", LEx.urldata.id);
+	cmd.setParameter("NUM", obj+"");
+	var ret = cmd.execute("onQueryProgress");
+	if(!ret.error){
+		$('#protal-progress').html(LEx.processDOMTemplate('onQueryProgressTemplate',ret));
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+function getDeptInfo(){
+	var deptId=LEx.urldata.id;
+	var deptName=$(".i-website #s-n-t-1 li[code="+deptId+"]").attr("name");
+	$("#station_dept_name").html(deptName);
+	$(".newmail").attr("dept_name",deptName);
+	$(".newmail").attr("dept_id",deptId);
+}
+function getMore(obj){
+	if(listArray.length==0){
+		return;
+	} 
+	for(var i=obj;i<=obj+3;i++){
+		$(listArray[i]).attr("style","display:block");
+	}
+	listLen = obj+3;
+	if(listArray.length<=listLen)
+	$("#station-more").hide();
+}
+function content(obj){
+	if(obj==""){
+		return "预审";
+	}else{
+		return (obj[obj.length-1].CURRENT_NODE_NAME)==null?"":(obj[obj.length-1].CURRENT_NODE_NAME);
+	}
+}
+function sp(obj){
+    var itemId = obj.getAttribute("id");
+	window.open("{{PageContext.ContextPath}}icity/submitsp/baseinfo?itemId="+itemId,"_blank"); 
+}
+function AutoScroll(obj) {
+	var obj = 	$(".table tr:eq(1)");
+	$(".table").append(obj);
+	$(".table tr:eq(1)").hide(1000);
+	$(".table tr:eq(1)").show(3000);
+}
+function addFaveriot(o) {
+	if (LEx.userInfo == null || LEx.userInfo == "null") {
+		LEx.dialog.tips("登录后进行收藏！",1.5);
+	} else {
+		var cmd = new LEx.Command("app.icity.favorite.ProjectFavoriteCmd");
+		cmd.setParameter("SXID", $(o).attr("item_id"));
+		cmd.setParameter("SXBM", $(o).attr("item_code"));
+		cmd.setParameter("SXMC", $(o).attr("item_name"));
+		var ret = cmd.execute("addFaveriot");
+		if (!ret.error && ret.state == 1) {
+			LEx.dialog.tips("收藏成功！");
+		} else {
+			LEx.dialog.tips(ret.error);
+		}
+	}
+}
+</script>
+<script type="text/template" id="onQueryProgressTemplate">
+    <table class="table" id="table_portal">
+         <thead>
+             <tr>
+                <th style="width:17%;">序号</th>
+                <th style="width:55%;">申报名称</th>
+                <th style="width:28%;">办理状态</th>
+             </tr>
+         </thead>
+         <tbody>
+{for o in data}
+             <tr>
+                 <td>${o.ROWNUM}</td>
+                 <td>${o.SXMC}</td>
+                 <td>${content(o.CONTENT)}</td>
+             </tr>
+{/for}
+         </tbody>
+    </table>
+</script>
+<script type="text/template" id="itemTemplate">
+{for o in data}
+     <li class="list-group-item open">
+         <ul class="list-inline pull-right small">
+              <li><i class="mdicon mdicon-star f14" style="color: orange;"></i><i class="mdicon mdicon-star f14" style="color: orange;"></i><i class="mdicon mdicon-star f14" style="color: orange;"></i><i class="mdicon mdicon-star f14" style="color: gray;"></i><i class="mdicon mdicon-star f14" style="color: gray;"></i></li>
+         </ul>
+         <h5 class="list-group-item-heading phi"><a href="{{PageContext.ContextPath}}approve/guide?id=${o.ID}" target="_blank">${o.NAME}</a></h5>
+    </li>
+{/for}
+</script>
+<div class="container">
+<header id="header" class="yi-subhead" style="margin-bottom: 20px;">
+    <div>
+        <div class="row">
+            <div class="col-xs-4">
+                <h3 class="mt5" id="station_dept_name"><a href="#"></a></h3>
+                <ul class="list-inline">
+                    <li><a class="text-muted" href="#"><i class="mdicon mdicon-exit-to-app"></i> 官方网站</a></li>
+                    <li><a class="text-muted" href="#"><i class="mdicon mdicon-ring-volume"></i> 联系方式</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-8">
+                <div class="row">
+                 <div class="col-xs-2 col-xs-offset-2">
+                        <a cat="2"  class="thumbnail no-bordered text-center phi newmail" href="#" onclick="doWrite(this);">
+                            <i class="mdicon mdicon-domain f36"></i><br>
+                            <span>我要咨询</h5>
+                        </a>
+                    </div>
+                    <div class="col-xs-2">
+                        <a cat="3" class="thumbnail no-bordered text-center phi newmail" href="#" onclick="doWrite(this);">
+                            <i class="mdicon mdicon-school f36"></i><br>
+                            <span>我要投诉</span>
+                        </a>
+                    </div>
+                    <!-- <div class="col-xs-2">
+                        <a class="thumbnail no-bordered text-center phi" href="#" >
+                            <i class="mdicon mdicon-receipt f36"></i><br>
+                            <span>人工问答</span>
+                        </a>
+                    </div> -->
+                    <div class="col-xs-3">
+                        <a class="thumbnail no-bordered text-center phi" href="{{cp}}queryprogress" target="_blank" style="background-color: #0DB0E5; color: #fff;">
+                            <i class="mdicon mdicon-search f36"></i><br>
+                            <span>办事进度查询</span>
+                        </a>
+                    </div>
+                    <div class="col-xs-3">
+                        <a class="thumbnail no-bordered text-center phi" href="{{cp}}queryletter" target="_blank" style="background-color: #0DB0E5; color: #fff;">
+                            <i class="mdicon mdicon-mail f36"></i><br>
+                            <span>信件答复查询</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+    
+<div id="page" class="container" style="width:1105px;">
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel panel-default">
+                <header class="panel-heading no-bordered clearfix">
+                    <h3 class="panel-title mt5">专项资金</h3>
+                </header>
+                <div class="panel-body">
+                    <div class="row">
+                       <!--  <div class="col-xs-2 omega">
+                            <ul class="nav nav-pills nav-stacked">
+                            	  <li id="XK" class="active"><a data-toggle="tab" href="#">行政许可</a></li>
+                            	  <li id="QZ" class=""><a data-toggle="tab" href="#">行政强制</a></li>
+							      <li id="JF" class=""><a data-toggle="tab" href="#">行政给付</a></li>
+							      <li id="FW" class=""><a data-toggle="tab" href="#">行政服务</a></li>
+							      <li id="ZY" class=""><a data-toggle="tab" href="#">行政征用</a></li>
+							      <li id="JC" class=""><a data-toggle="tab" href="#">监督检查</a></li>
+							      <li id="CJ" class=""><a data-toggle="tab" href="#">行政裁决</a></li>
+							      <li id="BM" class=""><a data-toggle="tab" href="#">便民服务</a></li>
+                                  <li id="JL" class=""><a data-toggle="tab" href="#">行政奖励</a></li>
+    							  <li id="SP" class=""><a data-toggle="tab" href="#">非行政许可</a></li>
+							      <li id="FY" class=""><a data-toggle="tab" href="#">行政复议</a></li>
+							      <li id="QR" class=""><a data-toggle="tab" href="#">行政确认</a></li>
+							      <li id="QT" class=""><a data-toggle="tab" href="#">其他类权力</a></li>
+							      <li id="SFL" class=""><a data-toggle="tab" href="#">税费类</a></li>
+							      <li id="ZXL" class=""><a data-toggle="tab" href="#">执行类</a></li>
+							      <li id="BA" class=""><a data-toggle="tab" href="#">行政备案</a></li>
+							      <li id="ZS" class=""><a data-toggle="tab" href="#">行政征收</a></li>
+							      <li id="CF" class=""><a data-toggle="tab" href="#">行政处罚</a></li>							        
+							      <li id="FWL" class=""><a data-toggle="tab" href="#">房屋类</a></li>
+							      <li id="CSL" class=""><a data-toggle="tab" href="#">措施类</a></li>
+							      <li id="DL" class=""><a data-toggle="tab" href="#">专项资金</a></li>							      
+							 </ul>
+                        </div> -->
+                        <div class="col-xs-12 alpha">
+                            <ul class="list-group yi-list-group-l2" id="js-list-group-l2">
+                                
+                            </ul>
+                            <a class="btn btn-default btn-block" id="station-more">查看更多 >></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- <div class="col-xs-4">
+            <section class="panel panel-default">
+                <header class="panel-heading psi no-bordered clearfix">
+                    <ul class="nav nav-pills pull-right">
+                        <li><a data-toggle="tab" href="#">&nbsp;</a></li>
+                        <li><a data-toggle="tab" href="#"></a></li>
+                    </ul>
+                    <h3 class="panel-title mt5">办件进度</h3>
+                </header>
+                <div id="protal-all">
+	                 <div class="panel-body" id="protal-progress">
+	                    
+	                </div>
+	                <div class="panel-body" id="protal-progress_1">
+	                    
+	                </div>
+                </div>
+               
+            </section>
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+  Indicators
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img data-src="holder.js/360x160/auto/#777:#555/text:First slide" alt="">
+                    </div>
+                    <div class="item">
+                        <img data-src="holder.js/360x160/auto/#666:#444/text:Second slide" alt="">
+                    </div>
+                    <div class="item">
+                        <img data-src="holder.js/360x160/auto/#555:#333/text:Third slide" alt="">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
+</div>
+{% include govservice/newmail.html %}

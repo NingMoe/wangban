@@ -1,0 +1,80 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}project.css" />
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}print.css" media="print" />
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+
+<style type="text/css">
+.main{width: 900px}
+</style>
+	<button id="resultButton" onclick="resultprintArea()" class="nbutton_gray" style="float: right; margin-right: 20px; margin-top: 20px; margin-bottom: 5px;">打印</button>
+	<div class="busy-result" id="resultmaterials" style="margin: 15px;">
+		
+	</div>
+	<div class="busy-result" id="materials" style="margin: 15px;">
+		<table class="listTable" width="100%" cellspacing="1">
+			<tr class="tr_2">
+				<th>没有产生结果材料！</th>
+			</tr>
+		</table>
+	</div>
+<script type="text/javascript">
+function resultprintArea(){
+	$("#resultmaterials").printArea();
+}
+$(function(){
+	initMaterial();
+});
+function initMaterial(){
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("itemId",LEx.urldata.sxid);
+	cmd.setParameter("sblsh",LEx.urldata.id);
+	var ret = cmd.execute("getResultMaterial");
+	if(!ret.error){
+		if(ret.total>0){
+			$("#resultmaterials").html(LEx.processDOMTemplate('templateResultmaterials',ret));
+			$("#materials").hide();
+		}else{
+			$("#resultButton").hide();
+			$("#resultmaterials").hide();
+			$("#materials").show();			
+		}		
+	}else{
+		
+	}
+}
+function winOpen(docid,name){
+	 var opera = "downloadagent4wp&path="+docid+"&name="+encodeURIComponent(name); 
+	   	window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+		return false;
+}
+</script>
+<textarea id="templateResultmaterials" style="display: none">	
+ 		<table class="listTable" width="100%" cellspacing="1">
+			<tr class="tr_2">
+				<th width="40%">结果材料名称</th>
+				<th width="60%">实际上传材料的名称</th>
+			</tr>
+		{for o in data}
+			<tr>
+				<input type="hidden" name="DOCUMENT_ID" value="${o.CODE}" />
+				<td width="40%">${o.NAME}</td>
+				<td width="60%">
+					<table width="100%">
+					{for p in o.FILES}
+						<tr>
+							<td width="20%">${p.FILE_TYPE}</td>							
+							<td width="80%">
+							   {if p.FILE_TYPE=="电子"}
+							    <a href="javascript:void(0);" onclick="winOpen('${p.FILE_PATH}','${p.FILE_NAME}');">${p.FILE_NAME}</a>
+							   {else}
+							    ${p.FILE_NAME}
+							   {/if}
+							</td>
+						</tr>
+					{/for}
+					</table>
+				</td>
+			</tr>
+		{/for}	
+		</table>	
+</textarea>

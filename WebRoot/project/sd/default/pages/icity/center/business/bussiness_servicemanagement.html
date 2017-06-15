@@ -1,0 +1,294 @@
+<style>
+.min-div {
+	height: 320px;
+}
+</style>
+<script>
+	$(function() {
+		onQueryNews();
+		onQuery("businessList");
+		onQuery("businessBqbzList");
+		onQueryBusinessSatisfaction();
+		$("#businessInfo").click(function(){
+			window.open("{{cp}}govservice/queryprogress","_blank");
+		});
+		$("#MyLicense").click(function(){
+			window.location.href = "{{cp}}elicense/index";
+		});
+	});
+	function onQuery(obj){
+		var cmd = new LEx.Command("app.icity.govservice.ServiceManageCmd");
+		cmd.setParameter("start",0);		
+		cmd.setParameter("limit",3);
+		cmd.setParameter("key",obj=="businessList"?"7":"1000");
+		if("businessBqbzList"==obj){
+			cmd.setParameter("state@=","21");
+		}
+		var ret = cmd.execute("getBusinessRecentDo");
+		if(ret.state=="1"){
+			$("#"+obj+"Num").html(ret.total);
+			$("#"+obj).click(function() {
+				if(obj=="businessList"){
+					window.location.href = "{{PageContext.ContextPath}}uinfo?folder=business&tag=business_list&KEY=7";
+				}else if(obj=="businessBqbzList"){
+					window.location.href = "{{PageContext.ContextPath}}uinfo?folder=business&tag=business_list&BQBZ=21";
+				}
+			});
+		}		
+	}
+	function onQueryBusinessSatisfaction(){
+		var cmd = new LEx.Command("app.icity.project.ProjectIndexCmd");
+		cmd.setParameter("EVALUATE_STATUS","0");//0 待评价
+		cmd.setParameter("STATE@IN","99");//准予许可的件
+		cmd.setParameter("ucid",""+LEx.userInfo.uid);
+		var ret =  cmd.execute("getBusinessIndexList");
+		if(ret.state=="1"){
+			$("#businessSatisfactionNum").html(ret.total);
+			$("#businessSatisfaction").click(function() {
+				window.location.href = "{{PageContext.ContextPath}}uinfo?folder=active&tag=business_evaluate";
+			});
+		}else{
+			LEx.alert(ret.error);
+		}
+	}
+	function onQueryNews(){
+		var cmd = new LEx.Command("app.icity.govservice.ServiceManageCmd");
+		cmd.setParameter("status","0");
+		var ret = cmd.execute("getNewsPubmynews");
+		if(ret.state=="1"){
+			$("#MyNews").find("span").html(ret.total);
+			$("#MyNews").click(function(){
+				window.location.href = "{{PageContext.ContextPath}}uinfo?folder=business&tag=pushNews_list";
+			});
+		}else{
+			LEx.alert(ret.error);
+		}
+	}
+	BusyInfoHotStat=function(){
+		$("#Servicemanagement").hide();
+		$("#BusyInfoHotStatMore").show();
+		$("#BusyInfoHotStatMore").load(LEx.webPath+"src?m=icity/center/business/business_BusyInfoHotStat.html", function() {});
+	};                                                                          
+	relatedServices=function(){
+		$("#Servicemanagement").hide();
+		$("#relatedServicesMore").show();
+		$("#relatedServicesMore").load(LEx.webPath+"src?m=icity/center/business/business_relatedServices.html", function() {});
+	};
+</script>
+<div class="table-cell its-page">
+	<section class="panel"	style="padding: 25px 15px; border-bottom: 1px solid #ddd;margin-bottom:0;">
+	<div class="row">
+		<div class="col-xs-4">
+			<div class="media">
+				<a class="media-left media-middle" href="{{cp}}uc/accmanager" target="_blank;"><img
+					class="media-object img-circle"
+					src="https://cdn2.iconfinder.com/data/icons/users-6/100/USER10-128.png"
+					width="80" height="80" style="opacity: .3;" alt=""> </a>
+				<div class="media-body media-middle">
+					<h5 class="no-margin-t" style="margin-top: 0;"><a class="text-info" href="{{cp}}uc/accmanager">账户管理</a></h5>	
+					<h5 class="no-margin-t" style="margin-top: 0;"><a class="text-info" href="{{cp}}uc/accbind?type=4" target="_black">密码修改</a></h5>				
+				</div>
+				<div class="media-right">
+					<a class="btn btn-link" href=""><i
+						class="nc-icon-outline ui-1_settings-gear-63 lg"></i> </a>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-2 text-center" id="MyLicense" style="cursor: pointer;width:13%">
+			<i class="fa fa-id-card inline-block fa-2x"
+				style="width: 48px; height: 48px; line-height: 48px;"></i>
+			<br>证照中心
+		</div>	
+		<div class="col-xs-2 text-center" id="MyNews" style="border-left: 1px solid #eee;cursor: pointer;width:13%">
+			<i class="fa fa-info inline-block fa-2x"
+				style="width: 48px; height: 48px; line-height: 48px;"></i>
+				<span class="label label-danger absolute"
+				style="left: 50%; margin-left: 10px; top: -10px;"></span>
+			<br>我的消息
+		</div>		
+		<div class="col-xs-2 text-center" id="businessList" style="border-left: 1px solid #eee;cursor: pointer;width:13%">
+			<i class="fa fa-tasks inline-block fa-2x"
+				style="width: 48px; height: 48px; line-height: 48px;"></i>
+			<span class="label label-danger absolute"
+				style="left: 50%; margin-left: 10px; top: -10px;" id="businessListNum"></span> <br>一周办件
+		</div>
+		<div class="col-xs-2 text-center" id="businessBqbzList" style="border-left: 1px solid #eee;cursor: pointer;width:13%">
+			<i class="fa fa-plus-square inline-block fa-2x"
+				style="width: 48px; height: 48px; line-height: 48px;"></i>
+			<span class="label label-danger absolute"
+				style="left: 50%; margin-left: 10px; top: -10px;" id="businessBqbzListNum"></span> <br>补齐补正
+		</div>
+		<div class="col-xs-2 text-center" id="businessSatisfaction" style="border-left: 1px solid #eee;cursor: pointer;width:13%">
+			<i class="fa fa-thumbs-up inline-block fa-2x"
+				style="width: 48px; height: 48px; line-height: 48px;"></i>
+			<span class="label label-danger absolute"
+				style="left: 50%; margin-left: 10px; top: -10px;" id="businessSatisfactionNum"></span> <br>我的评价
+		</div>
+	</div>
+	</section>
+	<div id="Servicemanagement">
+	<div class="min-div">
+		<div class="col-xs-6">
+			<header class="panel-heading"
+				style="border-bottom: 1px solid #eee; padding:0;"> <a
+				class="pull-right text-muted" style="margin-top: 10px;"
+				href="javascript:;" onclick="BusyInfoHotStat();">更多&gt;&gt;</a>
+			<h4 class="inline-block"
+				style="margin: 0; border-bottom: 4px solid #0085c3; padding: 10px 5px;">
+				<strong>热点服务推荐</strong>
+			</h4>
+			</header>
+			{% map "key",PageContext.Parameter.key,"start","0","limit","5" as
+			p_HotStat%} {% command
+			"app.icity.project.ProjectBusinessStatCmd",'getBusyInfoHotStat',p_HotStat
+			as d_HotStat%}
+			<div class="panel-body alpha omega">
+				<table class="table table-bordered">
+					<thead>
+						<tr class="active">
+							<th class="text-center" style="width: 70%">事项名称</th>
+							<th class="text-center" style="width: 30%">受理部门</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% if d_HotStat.data %} {% for o in d_HotStat.data %}
+						<tr>
+							<td><a
+								href="{{PageContext.ContextPath}}icity/proinfo?id={{o.CODE}}"
+								title="{{o.NAME}}" target="_blank">{{o.NAME|truncate:15}}<span
+									class="text-muted">[许可]</span> </a>
+							</td>
+							<td class="text-center text-muted">{{o.DEPT_NAME_SHORT|truncate:6}}</td>
+						</tr>
+						{% endfor %} {% else %}
+						<tr>
+							<td colspan="5"><font>暂无数据</font></td>
+						</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="col-xs-6">
+			<header class="panel-heading"
+				style="border-bottom: 1px solid #eee; padding:0;"> <a
+				class="pull-right text-muted" style="margin-top: 10px;" href="javascript:;" onclick="relatedServices();">更多&gt;&gt;</a>
+			<h4 class="inline-block"
+				style="margin: 0; border-bottom: 4px solid #0085c3; padding: 10px 5px;">
+				<strong>相关服务推荐</strong>
+			</h4>
+			</header>
+			{% map "key","7","start","0","limit","5" as
+			p_HotStat%} {% command
+			"app.icity.govservice.ServiceManageCmd",'getBusyInfoRelatedServices',p_HotStat
+			as d_HotStat%}
+			<div class="panel-body alpha omega">
+				<table class="table table-bordered">
+					<thead>
+						<tr class="active">
+							<th class="text-center" style="width: 98%">事项名称</th>							
+						</tr>
+					</thead>
+					<tbody>
+						{% if d_HotStat.data %} {% for o in d_HotStat.data %}
+						<tr>
+							<td><a
+								href="{{PageContext.ContextPath}}icity/proinfo?id={{o.ITEM_ID}}"
+								title="{{o.NAME}}" target="_blank">{{o.ITEM_NAME|truncate:15}}<span
+									class="text-muted">[许可]</span> </a></td>						
+						</tr>
+						{% endfor %} {% else %}
+						<tr>
+							<td colspan="5"><font>暂无数据</font>
+							</td>
+						</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="min-div">
+		<div class="col-xs-6">
+			<header class="panel-heading"
+				style="border-bottom: 1px solid #eee; padding:0;"> <a
+				class="pull-right text-muted" style="margin-top: 10px;"
+				href="{{PageContext.ContextPath}}uinfo?folder=active&tag=business_complaint">更多&gt;&gt;</a>
+			<h4 class="inline-block"
+				style="margin: 0; border-bottom: 4px solid #0085c3; padding: 10px 5px;">
+				<strong>我的投诉</strong>
+			</h4>
+			</header>
+			{% map "key","7","type@=","3","start","0","limit","5" as p_HotStat%}
+			{% command
+			"app.icity.govservice.ServiceManageCmd",'getBusinessRecentGuestbook',p_HotStat
+			as d_HotStat%}
+			<div class="panel-body alpha omega">
+				<table class="table table-bordered">
+					<thead>
+						<tr class="active">
+							<th class="text-center" style="width: 70%">投诉主题</th>
+							<th class="text-center" style="width: 30%">受理部门</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% if d_HotStat.data %} {% for o in d_HotStat.data %}
+						<tr>
+							<td><a
+								href="{{PageContext.ContextPath}}uinfo?folder=active&tag=business_complaint&ID={{o.ID}}"
+								title="{{o.TITLE}}">{{o.TITLE|truncate:15}}</a></td>
+							<td class="text-center text-muted">{{o.DEPART_NAME|truncate:6}}</td>
+						</tr>
+						{% endfor %} {% else %}
+						<tr>
+							<td colspan="5"><font>暂无数据</font></td>
+						</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="col-xs-6">
+			<header class="panel-heading"
+				style="border-bottom: 1px solid #eee; padding:0;"> <a
+				class="pull-right text-muted" style="margin-top: 10px;"
+				href="{{PageContext.ContextPath}}uinfo?folder=active&tag=business_ask">更多&gt;&gt;</a>
+			<h4 class="inline-block"
+				style="margin: 0; border-bottom: 4px solid #0085c3; padding: 10px 5px;">
+				<strong>我的咨询</strong>
+			</h4>
+			</header>
+			{% map "key","7","type@=","2","start","0","limit","5" as
+			p_HotStat%} {% command
+			"app.icity.govservice.ServiceManageCmd",'getBusinessRecentGuestbook',p_HotStat
+			as d_HotStat%}
+			<div class="panel-body alpha omega">
+				<table class="table table-bordered">
+					<thead>
+						<tr class="active">
+							<th class="text-center" style="width: 70%">咨询主题</th>
+							<th class="text-center" style="width: 30%">受理部门</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% if d_HotStat.data %} {% for o in d_HotStat.data %}
+						<tr>
+							<td><a
+								href="{{PageContext.ContextPath}}uinfo?folder=active&tag=business_ask&ID={{o.ID}}"
+								title="{{o.TITLE}}">{{o.TITLE|truncate:15}}</a></td>
+							<td class="text-center text-muted">{{o.DEPART_NAME|truncate:6}}</td>
+						</tr>
+						{% endfor %} {% else %}
+						<tr>
+							<td colspan="5"><font>暂无数据</font></td>
+						</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	</div>
+	<div id="BusyInfoHotStatMore" style="display:none;"></div>
+	<div id="relatedServicesMore" style="display:none;"></div>
+</div>

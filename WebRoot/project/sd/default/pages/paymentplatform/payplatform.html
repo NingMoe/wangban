@@ -1,0 +1,192 @@
+<style>
+.left-distance {
+	margin-left: 20px;
+}
+
+.checked-radio {
+	background-color: khaki;
+}
+</style>
+<script>
+	var url = "";
+	$(function() {
+		$("input[name='paytype']").click(
+				function() {
+					$(this).parent().parent().parent().find(".checked-radio")
+							.removeClass("checked-radio");
+					$(this).parent().parent().parent().find(".payinfo").hide();
+					$(this).parent().parent().addClass("checked-radio");
+					$(this).parent().find(".payinfo").show();
+				});
+		$("#next")
+				.click(
+						function() {
+							if ($(this).html() == "下一步") {
+								$("#payList").hide();
+								$("#payresult").show();
+								var id = $("input[name='paytype']:checked")
+										.val();
+								$("#" + id).show();
+								var str = "登录到网上银行付款";
+								if (id == "zhongguoyinhang") {
+									url = "http://www.boc.cn/ebanking/bocnet_pb/";
+								} else if (id == "zhongguojiansheyinhang") {
+									url = "http://ebank.ccb.com/cn/ebank/wsyh_products_list.html";
+								} else if (id == "zhongguogongshangyinhang") {
+									url = "https://member.icbc.com.cn/commlog/logon.jsp";
+								} else if (id == "zhongguonongyeyinhang") {
+									url = "http://www.abchina.com/cn/wydl/grwydl/";
+								} else if (id == "zhifubao") {
+									str = "登录到支付宝付款";
+									url = "https://auth.alipay.com/login/index.htm";
+								}
+								$(this).html(str);
+							} else {
+								location.href = url;
+							}
+						});
+	});
+</script>
+<div class="its-page-body">
+	<table class="table its-tabel-filter">
+		<tbody>
+			<tr>
+				<th class="text-right">缴费事项：</th>
+				<td>山东省工商局-有限责任公司设立登记</td>
+				<th class="text-right">缴费金额：</th>
+				<td><font
+					style="color: #ff8208; font-weight: 700; font-size: 22px;">43.64
+						元 
+				</td>
+			</tr>
+			<tr>
+				<th class="text-right">缴费时间：</th>
+				<td>2016年06月17日 17:34:09</td>
+				<th class="text-right">收费主体：</th>
+				<td>山东省工商行政管理局</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="table its-tabel-filter" id="payList">
+		<tbody>
+			<tr class="checked-radio">
+				<td><input type="radio" name="paytype" id="zgyh"
+					value="zhongguoyinhang" class="left-distance"
+					style="margin-top: 0px; margin-left: 20px;" checked> <img
+					src="{%public assets/img/BOC_s.png%}" class="left-distance" /><span
+					class="left-distance"
+					style="text-align: right; margin-right: 28px;">中国银行</span> <span
+					style="text-align: right; width: 50px;" class="left-distance">储蓄卡
+						| 网银 </span> <span style="float: right;" class="left-distance payinfo">支付￥<span
+						style="color: red;">43.64 </span>元 </span></td>
+			</tr>
+			<tr>
+				<td><input type="radio" name="paytype" id="zgjsyh"
+					value="zhongguojiansheyinhang" class="left-distance"
+					style="margin-top: 0px; margin-left: 20px;"> <img
+					src="{%public assets/img/CCB_s.png%}" class="left-distance" /><span
+					class="left-distance" style="text-align: right;">中国建设银行</span> <span
+					style="text-align: right; width: 50px;" class="left-distance">储蓄卡
+						| 网银 </span> <span style="float: right; display: none;"
+					class="left-distance payinfo">支付￥<span style="color: red;">43.64</span>
+						元 </span></td>
+			</tr>
+			<tr>
+				<td><input type="radio" name="paytype" id="zggsyh"
+					value="zhongguogongshangyinhang" class="left-distance"
+					style="margin-top: 0px; margin-left: 20px;"> <img
+					src="{%public assets/img/ICBC_s.png%}" class="left-distance" /><span
+					class="left-distance" style="text-align: right;">中国工商银行</span> <span
+					style="text-align: right; width: 50px;" class="left-distance">储蓄卡
+						| 网银 </span> <span style="float: right; display: none;"
+					class="left-distance payinfo">支付￥<span style="color: red;">43.64</span>
+						元 </span></td>
+			</tr>
+			<tr>
+				<td><input type="radio" name="paytype" id="zgnyyh"
+					value="zhongguonongyeyinhang" class="left-distance"
+					style="margin-top: 0px; margin-left: 20px;"> <img
+					src="{%public assets/img/ABCSH_s.png%}" class="left-distance" /><span
+					class="left-distance" style="text-align: right;">中国农业银行</span> <span
+					style="text-align: right; width: 50px;" class="left-distance">储蓄卡
+						| 网银 </span> <span style="float: right; display: none;"
+					class="left-distance payinfo">支付￥<span style="color: red;">43.64</span>
+						元 </span></td>
+			</tr>
+			<tr>
+				<td><input type="radio" name="paytype" id="zfb"
+					value="zhifubao" class="left-distance"
+					style="margin-top: 0px; margin-left: 20px;"> <img
+					src="{%public assets/img/MONEYFUND_s.png%}" class="left-distance" /><span
+					class="left-distance"
+					style="text-align: right; margin-right: 128px;">支付宝</span> <span
+					style="text-align: right; width: 50px;" class="left-distance">
+				</span> <span style="float: right; display: none;"
+					class="left-distance payinfo">支付￥<span style="color: red;">43.64</span>
+						元 </span></td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="table its-tabel-filter" id="payresult"
+		style="display: none;">
+		<tbody>
+			<tr class="checked-radio" id="zhongguoyinhang" style="display: none;">
+				<td>支付方式：<img src="{%public assets/img/BOC_s.png%}"
+					class="left-distance" /><span class="left-distance"
+					style="text-align: right; margin-right: 28px;">中国银行</span> <span
+					style="text-align: right; width: 50px;" class="left-distance">储蓄卡
+						| 网银 </span> <span style="float: right;" class="left-distance payinfo">支付￥<span
+						style="color: red;">43.64 </span>元 </span></td>
+			</tr>
+			<tr class="checked-radio" id="zhongguojiansheyinhang"
+				style="display: none;">
+				<td>支付方式：<img src="{%public assets/img/CCB_s.png%}"
+					class="left-distance" /><span class="left-distance"
+					style="text-align: right;">中国建设银行</span> <span
+					style="text-align: right; width: 50px;" class="left-distance">储蓄卡
+						| 网银 </span> <span style="float: right;" class="left-distance payinfo">支付￥<span
+						style="color: red;">43.64</span> 元 </span></td>
+			</tr>
+			<tr class="checked-radio" id="zhongguogongshangyinhang"
+				style="display: none;">
+				<td>支付方式：<img src="{%public assets/img/ICBC_s.png%}"
+					class="left-distance" /><span class="left-distance"
+					style="text-align: right;">中国工商银行</span> <span
+					style="text-align: right; width: 50px;" class="left-distance">储蓄卡
+						| 网银 </span> <span style="float: right;" class="left-distance payinfo">支付￥<span
+						style="color: red;">43.64</span> 元 </span></td>
+			</tr>
+			<tr class="checked-radio" id="zhongguonongyeyinhang"
+				style="display: none;">
+				<td>支付方式：<img src="{%public assets/img/ABCSH_s.png%}"
+					class="left-distance" /><span class="left-distance"
+					style="text-align: right;">中国农业银行</span> <span
+					style="text-align: right; width: 50px;" class="left-distance">储蓄卡
+						| 网银 </span> <span style="float: right;" class="left-distance payinfo">支付￥<span
+						style="color: red;">43.64</span> 元 </span></td>
+			</tr>
+			<tr class="checked-radio" id="zhifubao" style="display: none;">
+				<td>支付方式： <img src="{%public assets/img/alipay.png%}"
+					class="left-distance" /><span class="left-distance"
+					style="text-align: right; margin-right: 128px;">支付宝</span> <span
+					style="text-align: right; width: 50px;" class="left-distance">
+				</span> <span style="float: right;" class="left-distance payinfo">支付￥<span
+						style="color: red;">43.64</span> 元 </span></td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="table its-tabel-filter">
+		<tbody>
+			<tr>
+				<td>
+					<button type="button" id="next"
+						class="btn btn-primary btn-sm no-bordered btn-block f16"
+						style="width: 200px; margin-left: auto; margin-right: auto;">下一步</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+

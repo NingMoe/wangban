@@ -1,0 +1,40 @@
+@charset "utf-8";
+table{border-collapse:collapse; border-spacing:0;}
+
+
+.data_info,.select_box,.flash-indicator,.section,.statist_pvuv {width: 96%; margin: 0 auto; }
+.data_info h2 { padding: 20px 0; font-size: 22px; text-align: center;}
+.listTable { border-radius: 4px;border:1px solid #ddd;}
+.listTable th,.listTable td { border:1px solid #ddd; text-align: center; }
+.listTable th { font-weight: 700; background: url(../images/statistics/sx_menu_bg.gif) repeat-x;}
+.select_box {height: 32px; margin: 10px auto 20px; line-height: 32px;background: url(../images/statistics/sele_bg.gif) repeat-x;}
+.select-time { margin: 0 30px;}
+.select-time a {padding: 0 10px; color: #0965B8}
+.select-time a:hover,.select-time a.active { text-decoration: none; color: #A90811; font-weight: 700;}
+.select-item { margin-right: 30px;}
+.select-item label{padding: 0 10px; color: #333 }
+.check_option label { padding-right: 8px;}
+.check_option strong { color: #888}
+
+
+.select-timespan { margin: 3px 10px 0 0; height: 24px;line-height: 24px; border:1px solid #C2D3E5; border-right: none; border-radius: 2px; background: #FBFBFB; }
+.select-timespan a { display: inline-block; height: 24px; float: left; line-height: 24px; padding: 0 10px; color: #0965B8; border-right: 1px solid #ddd}
+.select-timespan a:hover { color: #A90811; text-decoration: none;}
+.select-timespan a.active { color: #fff; background: #2F88FF; font-weight: 700;}
+
+.statist_pvuv { margin-bottom: 10px; padding:1px; border-top:1px solid #ddd; border-bottom:1px solid #ddd; color: #888;}
+.statist_pvuv table td { padding: 10px 0 10px 50px; color: #333; background: #f8f8f8; border-left: 1px solid #ddd}
+.statist_pvuv table td span { font-size: 22px;}
+
+.listTable tr.even td { background: #f8f8f8}
+.listTable tr:hover td {background: #F2F6F9;}
+
+.select_visit { margin: 10px auto;}
+
+.monitor_info { margin-bottom: 10px; padding: 1px 0; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;}
+.monitor_info p { border-left: 1px solid #EAEAEA; background: #f6f6f6; padding: 10px 0;}
+.monitor_info p span{ display: block; color: #A90811; font-size: 20px; line-height: 32px; font-weight: 700; }
+
+.tabs-content { border-top-style: none;padding: 0;display: block;width: 478px;margin: 0 auto;padding: 10px;border: 1px solid #BCBCBC;border-top: none;}
+.tabs-content .statisticsTable th {background: #F4F4F4;}
+.pageMain ul.tabs li a:hover { background: none; color: #00359E}

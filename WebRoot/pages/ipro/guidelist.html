@@ -1,0 +1,239 @@
+{% set region_code PageContext.Parameter.region_code %}
+{% map "region_code",region_code as p %}
+	{% command "app.icity.ipro.IproCmd","getDept",p as d %}
+{%  set region d.data %}
+
+<script>
+var region_code = "{{region.CODE}}";
+$(function(){
+	var href = LEx.urldata.href;	
+	
+	$("a[href="+href+"]").trigger("click");
+	getMatters();
+});
+function getMatters(){
+    //获取事项    
+    var command = new LEx.Command("app.icity.ipro.IproCmd");
+	var ret =  command.execute("getInvestDictList");	
+	var commandItemList = new LEx.Command("app.icity.ipro.IproCmd");
+	commandItemList.setParameter("region_code",region_code);
+// 	commandItemList.setParameter("region_type","A00002");
+    commandItemList.setParameter("projectType","A00001");
+	var retItemList1 =  commandItemList.execute("getProjectDirectory");
+	
+	var commandItemList2 = new LEx.Command("app.icity.ipro.IproCmd");
+	commandItemList2.setParameter("region_code",region_code);
+	commandItemList2.setParameter("projectType","A00002");
+	var retItemList2 =  commandItemList2.execute("getProjectDirectory");
+	
+	var commandItemList3 = new LEx.Command("app.icity.ipro.IproCmd");
+	commandItemList3.setParameter("region_code",region_code);
+	commandItemList3.setParameter("projectType","A00003");
+	var retItemList3 =  commandItemList3.execute("getProjectDirectory");
+	ret.data.matters = retItemList1.data.list;	
+	if(!retItemList1.error){
+		var length=retItemList1.data.list.length;	
+		$("#spList").html(LEx.processDOMTemplate("spListTemplate",ret));
+
+	}else{
+		alert(ret.error);//打印错误信息
+	} 
+	ret.data.matters = retItemList2.data.list;	
+	if(!retItemList2.error){
+		var length=retItemList2.data.list.length;	
+		$("#matterList").html(LEx.processDOMTemplate("MattersListTemplate",ret));
+
+
+	}else{
+		alert(ret.error);//打印错误信息
+	}
+	ret.data.matters = retItemList3.data.list;	
+	if(!retItemList3.error){
+		var length=retItemList3.data.list.length;
+		$("#baList").html(LEx.processDOMTemplate("baListTemplate",ret));
+
+	}else{
+		alert(ret.error);//打印错误信息
+	}
+}
+</script>
+
+<div class="container" style="background-color: #fff; padding: 20px 40px;">
+    <ol class="breadcrumb">
+        <li><a href="{{cp}}ipro/hall">首页</a></li>
+        <li><a href="{{cp}}ipro/hall">{{region.NAME}}办事大厅</a></li>
+        <li class="active">办事指南</li>
+    </ol>
+    <section class="panel panel-default">
+            <ul class="nav nav-pills font-size-16" style="margin: -1px; border-bottom: 3px solid #29588C;">
+                <li class="active"><a href="#x-p-1" data-toggle="tab"><strong>政府投资项目审批</strong></a></li>
+                <li><a href="#x-p-2" data-toggle="tab"><strong>企业投资项目核准</strong></a></li>
+                <li><a href="#x-p-3" data-toggle="tab"><strong>企业投资项目备案</strong></a></li>
+            </ul>
+        <div class="tab-content panel-body">
+            <div class="tab-pane fade in active" id="x-p-1">
+               
+                <section class="panel panel-default">
+                    <table class="table table-hover" id="spList">
+
+                    </table>
+                </section>
+            </div>
+            <div class="tab-pane fade" id="x-p-2">
+                <section class="panel panel-default">
+                    <table class="table table-hover" id="matterList">
+                        
+                    </table>
+                </section>
+
+            </div>
+            <div class="tab-pane fade" id="x-p-3">
+               
+                <div class="row gamma" style="display:none;">
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">北京市</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">天津市</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">河北省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">山西省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">内蒙古自治区</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">辽宁省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">吉林省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">黑龙江省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">江西省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">广西壮族自治区</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">重庆市</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">新疆建设兵团</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">北京市</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">天津市</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">河北省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">山西省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">内蒙古自治区</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">辽宁省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">吉林省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">黑龙江省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">江西省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">广西壮族自治区</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">重庆市</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">新疆建设兵团</a>
+                    </p>
+                </div>
+                <section class="panel panel-default">
+                <table class="table table-hover" id="baList">
+ 					
+                </table>
+               	</section>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/template" id="spListTemplate">
+		 {var matters=data.matters}
+			{for matter in matters}
+				{if LEx.isNotNull(matter.NAME)}	
+                {if matter.PROJECT_TYPE=='A00001'}			
+            	<tbody>
+                	<tr>
+						<td style="width:80%">${matter.NAME}</td>
+                    	<td class="text-right" type="online"><a class="btn btn-primary btn-xs" href="{{cp}}ipro/onlineapplySP?code=${matter.CODE}&region_code=${matter.DIVISION_CODE}">在线办理</a></td>
+                    	<td class="text-right"><a class="btn btn-primary btn-xs" href="{{cp}}ipro/guidelist_info?code=${matter.CODE}&region_code=${matter.DIVISION_CODE}">办事指南</a></td>
+                	</tr>
+                </tbody>
+                {/if}				
+				{/if}
+			{/for}
+</script>
+<script type="text/template" id="MattersListTemplate">
+		 {var industrys=data.TZSPXMHYFL}
+		 {var matters=data.matters}
+		 
+		 {for industry in industrys}
+			{if LEx.isNotNull(industry.NAME)}
+			{var flag = 0}
+			{for matter in matters}
+				{if LEx.isNotNull(matter.NAME)}
+				{if matter.PROJECT_TYPE=='A00002'}
+				{if industry.CODE == matter.PARENT_CODE}               
+					{if flag==0}
+						<thead>
+							<tr class="active">
+								<th class="font-size-16" colspan="3">${industry.NAME}</th>
+							</tr>
+            			</thead>
+					{var flag = 1}
+					{/if}
+            	<tbody>
+                	<tr>
+						<td style="width:80%">${matter.NAME}</td>
+                    	<td class="text-right" type="online"><a class="btn btn-primary btn-xs" href="{{cp}}ipro/onlineapply?code=${matter.CODE}&region_code=${matter.DIVISION_CODE}">在线办理</a></td>
+                    	<td class="text-right"><a class="btn btn-primary btn-xs" href="{{cp}}ipro/guidelist_info?code=${matter.CODE}&region_code=${matter.DIVISION_CODE}">办事指南</a></td>
+                	</tr>
+                </tbody>
+				{/if}
+                {/if}
+				{/if}
+			{/for}
+			{/if}
+		 {/for}
+</script>
+<script type="text/template" id="baListTemplate">
+		 {var matters=data.matters}
+			{for matter in matters}
+				{if LEx.isNotNull(matter.NAME)}	
+                {if matter.PROJECT_TYPE=='A00003'}			
+            	<tbody>
+                	<tr>
+						<td style="width:80%">${matter.NAME}</td>
+                    	<td class="text-right" type="online"><a class="btn btn-primary btn-xs" href="{{cp}}ipro/onlineapplyBA?code=${matter.CODE}&region_code=${matter.DIVISION_CODE}">在线办理</a></td>
+                    	<td class="text-right"><a class="btn btn-primary btn-xs" href="{{cp}}ipro/guidelist_info?code=${matter.CODE}&region_code=${matter.DIVISION_CODE}">办事指南</a></td>
+                	</tr>
+                </tbody>
+                {/if}				
+				{/if}
+			{/for}
+</script>

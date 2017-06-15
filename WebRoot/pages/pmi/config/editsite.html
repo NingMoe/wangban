@@ -1,0 +1,112 @@
+<style>
+<!--
+.tree-file {
+	background: url("");
+	width: 0;
+}
+
+.tree-title {
+	padding: 0px
+}
+
+.datagrid-body td,.datagrid-footer td {
+	border-bottom: 1px dotted #21A4FF
+}
+
+.ntabs .opt li {    border: 1px solid #CCCCCC;
+    border-radius: 2px 2px 2px 2px;
+    cursor: pointer;
+    float: left;
+    margin: 0 10px;
+    padding: 3px 10px;}
+.ntabs .opt li.on{color: #FFF; background: #4F95EA;border:1px solid #155BDD;font-weight: bold;}
+
+.ntabs .ntab{
+	border:1px solid #CCCCCC;
+	background: #F4F4F4
+}
+.list_table_1{
+	table-layout: fixed;
+	word-break:break-all;
+}
+.list_table_1 td{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	height: 100%;
+}
+body {
+	background: #fff;
+    min-width: 100%;
+    overflow-x: hidden;
+     overflow-y: hidden;
+    background-color: #fff;
+}
+-->
+</style>
+<div id="security" style="margin: 5px;0px;0px;0px;" align="center" >
+
+</div>
+
+<script type="text/template" id="securityTemplate">
+	<table id="tJob" class="baseform list_table_1" style="width: 98%">
+		<col width="30%">
+		<col width="30%">
+		<col>
+		<tr>
+			<th align="center" style="text-align: center;">名称</th>
+			<th align="center" style="text-align: center;">描述</th>
+			<th align="center" style="text-align: center;">操作</th>
+		</tr>
+		<tr>
+			<td>AppHall</td>
+			<td>分厅名称</td>
+			<td><textarea name="AppHall" id="AppHall" cols="5" rows="1" value="" style="width: 95%;height: 30px;">${data[0].title}</textarea></td>
+		</tr>
+		<tr>
+			<td>WebRegion</td>
+			<td>分厅区划</td>
+			<td><textarea  name="WebRegion" id="WebRegion" cols="5" rows="1" style="width: 95%;height: 30px;" >${data[0].webRegion}</textarea></td>
+		</tr>
+		<tr>
+			<td>WebRank</td>
+			<td>分厅级别</td>
+			<td>
+				<select name="WebRank" id="WebRank" style="width: 95%;height: 30px;" value="${data[0].webRank}">
+                	<option value="0" {if data[0].webRank == '0'}selected="selected"{/if}>省分厅</option>
+                	<option value="1" {if data[0].webRank == '1'}selected="selected"{/if}>市分厅</option>
+                	<option value="2" {if data[0].webRank == '2'}selected="selected"{/if}>区县分厅</option>
+                	<option value="3" {if data[0].webRank == '3'}selected="selected"{/if}>街道分厅</option>
+                	<option value="4" {if data[0].webRank == '4'}selected="selected"{/if}>居委会分厅</option>
+                </select>
+			</td>
+		</tr>	
+		<tr>
+			<td>NAME</td>
+			<td>上下文路径</td>
+			<td><textarea name="name" id="name" cols="5" rows="1" value="" style="width: 95%;height: 30px;">${data[0].name}</textarea></td>
+		</tr>	
+		<tr>
+			<td>DOMAIN</td>
+			<td>域名</td>
+			<td><textarea name="domain" id="domain" cols="5" rows="1" value="" style="width: 95%;height: 30px;">${data[0].domain}</textarea></td>
+		</tr>	
+		<tr>
+			<td>PAGE_MODE</td>
+			<td>主题</td>
+			<td>
+				<textarea name="PAGE_MODE" id="PAGE_MODE" cols="5" rows="1" value="" style="width: 95%;height: 30px;">${data[0].PAGE_MODE}</textarea>
+             </td>
+		</tr>
+		<tr>
+			<td>IS_SHOW</td>
+			<td>是否展示</td>
+			<td>
+				<select name="IS_SHOW" id="IS_SHOW" style="width: 95%;height: 30px;" >
+                	<option value="1" {if data[0].is_show == '1'}selected="selected"{/if}>是</option>
+                	<option value="0" {if data[0].is_show == '0'}selected="selected"{/if}>否</option>
+                </select>
+             </td>
+		</tr>
+	</table>
+</script>

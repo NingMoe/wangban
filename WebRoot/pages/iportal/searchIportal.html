@@ -1,0 +1,24 @@
+<style>
+.form-control {
+    width: 200px;   
+}
+</style>
+<div class="container">
+	<ol class="breadcrumb" style="margin-left: -10px; margin-right: -10px;">
+        <li><a href="#">所在位置：</a></li>
+        <li><a href="index">首页</a></li>
+        <li class="active" id="cname">搜索结果</li>
+    </ol>
+    <div class="input-group input-group-sm">
+        <input name="contentkey" id="contentkey" class="form-control key" placeholder="请输入关键字查询" type="text">
+        <span class="input-group-btn">
+            <button class="btn btn-warning" type="button" onclick="searchX();"><i class="mdicon mdicon-search f16"></i> 搜索</button>
+        </span>
+    </div>
+	<div class=page-content>
+		<div id="page" style="width:1000px;margin:0 auto;padding-top: 10px;padding-left: 10px; padding-right: 10px; background-color: #fff;">
+		{% set params  PageContext.Parameter%}
+		{% widget icity_zs/search %}
+		</div>
+	</div>
+</div>

@@ -1,0 +1,113 @@
+<script type="text/javascript" src="{{PageContext.PagePath}}uc/js/bindPhone.js"></script>
+<script type="text/javascript" src="{{PageContext.PagePath}}uc/js/common.js"></script>
+<div class="panel sec-show-panel">
+	<style>
+	.form-body dd {
+		float: left;
+		text-align: left;
+		font-weight: normal;
+	}
+	
+	.form-body .input {
+		width: 240px;
+	}
+	
+	.form-body dl {
+		padding-left: 110px;
+	}
+	
+	.form-signup-body .dd-input {
+		width: auto;
+	}
+	</style>
+	<div class="m_sum">
+		<h3 class="title">绑定手机</h3>
+		<div class="text_b sum_text">
+			把您常用的手机设为绑定手机，方便找回密码。<strong>该设置可用于安全设定，也可用于登录！</strong>
+		</div>
+	</div>
+	<div class="m_step" style="padding-left: 130px;">
+		<ol class="clearfix">
+			<li class="start">
+				<div>
+					<span class="index">1</span><span class="desc">填写手机及短信激活码</span>
+				</div>
+			</li>
+			<li class="end" style="width: 220px;">
+				<div style="width: 100%;">
+					<span class="index">2</span> <span class="desc">绑定成功</span>
+				</div>
+			</li>
+		</ol>
+	</div>
+	<div class="m_form">
+		<div id="bindphone_form">
+			<div class="form-body form-signup-body">
+				<dl id="oldPhone">
+					<dt>
+						<em></em>&nbsp;已绑定：
+					</dt>
+					<dd class="dd-input">
+						<span id="OLDMOBILE" style="color: #999;"></span>
+					</dd>
+					<dd class="form-tip"></dd>
+					<dd style="margin-bottom: 10px;"></dd>
+				</dl>
+				<dl>
+					<dt>
+						<em>*</em>&nbsp;新手机号：
+					</dt>
+					<dd class="dd-input">
+						<input id="PHONE" name="PHONE" reg="^[1][358]\d{9}$" tip="请输入正确手机号" type="text" class="input">
+					</dd>
+					<dd class="form-tip">
+						<span for="PHONE"></span>
+					</dd>
+					<dd style="margin-bottom: 18px;"></dd>
+				</dl>
+				<dl>
+					<dt>
+						<em>*</em>&nbsp;激活码：
+					</dt>
+					<dd class="dd-input">
+						<a class="opt_btn" style="float: left; margin: 0px;" href="javascript:void(0);" id="verify_btn"><span id="verify_btn_text">获取短信验证码</span></a>
+						<input id="VCODE" name="VCODE" reg="[0-9a-zA-Z]{4}" tip="请填写四位短信验证码" type="text" class="input" style="margin-left:10px;width: 90px;">
+					</dd>
+					<dd class="form-tip"><span for="VCODE"></span></dd>
+					<dd id="verifyOK" class="check_rule">请输入短信验证码</dd>
+				</dl>
+				<dl>
+					<dt>
+						<em>*</em>&nbsp;确认登录密码：
+					</dt>
+					<dd class="dd-input">
+						<input id="PASSWORD" name="PASSWORD" reg="^.+$" tip="请填写当前登录密码" type="password" class="input">
+					</dd>
+					<dd class="form-tip">
+						<span for="PASSWORD"></span>
+					</dd>
+					<dd class="check_rule">请输入您一站通账户的登录密码。</dd>
+				</dl>
+			</div>
+			<div class="form-submit">
+				<dl>
+					<dd style="text-align: center">
+						<a class="opt_btn" style="margin-right: 20px;" href="javascript:void(0);" id="submit_btn" hidefocus="hidefocus"><span>免费绑定</span></a>
+						<a class="opt_btn opt_btn_cancle" href="javascript:void(0);"
+							id="cancle_btn" hidefocus="hidefocus"><span>重新输入</span></a>
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+	<div class="m_tip">
+		<h3 class="title">小贴士</h3>
+		<h3 class="title">为什么要绑定手机？</h3>
+		<div class="tip_text">绑定手机后，您可以方便的使用所有手机服务，还可以轻松找回忘记的登录密码。</div>
+		<h3 class="title">绑定手机资费问题？</h3>
+		<div class="tip_text">绑定手机是完全免费的，您无需支付任何费用，请放心绑定！</div>
+		<h3 class="title">绑定手机后，手机号码是否会泄露给第三方？</h3>
+		<div class="tip_text">您提供的手机号将作为保密信息，不会以任何形式提供给第三方使用。</div>
+		<h3 class="title">如何解除手机绑定？</h3>
+		<div class="tip_text">解除手机绑定功能在开发中，敬请期待！</div>
+	</div>

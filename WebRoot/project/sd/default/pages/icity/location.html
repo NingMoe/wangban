@@ -1,0 +1,97 @@
+<style>
+.ui-autocomplete {
+max-height: 100px;
+overflow-y: auto;
+overflow-x: hidden;
+padding-right: 20px;
+}
+* html .ui-autocomplete {
+height: 100px;
+}
+</style> 
+<link rel="stylesheet" href="{% public assets/css/jquery-ui.css %}">
+  <script src="{% public assets/js/jquery-ui.js %}"></script>
+<div style="background: url({% public assets/img/bldd_bg1.jpg %}) top center no-repeat; height: 440px;">
+    <div class="container relative">
+        <section class="panel" style="background-color: rgba(249, 253, 255, 0.7); width: 430px; padding: 30px 45px; position: absolute; right:30px; top: 30px;">
+            <h3 class="delta"><strong style="color: #29588c;">现场办理点</strong></h3>
+            <br>
+            <form>
+                <div class="form-group">
+                    <select class="form-control" id = "dept">
+                    <option value="">请选择部门</option>
+                    {% map "region_code",ConfigInfo.WebRegion as p %}
+					{% command "app.icity.ServiceCmd","getDeptList",p as d %}
+					{%  set dept d.data %}
+                    {% for o in dept.organ %}
+                    {% if o.IS_HALL|equal:'1' %}
+					<option value="{{o.CODE}}">{{o.SHORT_NAME|truncate:'20'}}</option>
+					{% endif %}
+					{% endfor %}
+                    </select>
+                </div>
+               
+                <div class="form-group">
+				<input autocomplete="off" onclick="onfocu()" class="ui-autocomplete-input form-control" id="autocomplete" placeholder="请输入事项名称，回车或点击进行选中">	
+				<input id="code" type="hidden"/>	
+                </div>
+                <button id="submit" class="btn btn-danger btn-block f20">搜&nbsp;&nbsp;&nbsp;索</button>
+            </form>
+            <br>
+            <div class="help-block">
+                <p>使用说明：</p>
+                第一步：选择部门名称进行直接查询；<br>
+                第二步：请输入事项名称，进行直接查询；<br>
+                第三步：点击进行搜索，进入结果页面。
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+$(function(){
+	$("#submit").click(function(){
+		var dept_code = $("#dept").val();
+		var matter_id = $("#code").val();
+		if(""==dept_code && matter_id==""){
+			alert("请至少填写一项再进行搜索！");
+			return;
+		}
+		window.open("{{cp}}icity/locationinfo?matter="+matter_id+"&deptid="+dept_code);
+	});
+});
+$(document).ready(function() {
+	$( "#autocomplete" ).autocomplete({
+  		source: function( request, response ) {
+  		response(getlist(request.term));
+  		},
+      	select: function( event, ui ) {
+      		$( "#autocomplete" ).val($("<p>"+ui.item.NAME+"</p>").text());
+	    	$( "#code" ).val( ui.item.ID );
+	    	$( "#dept" ).val( ui.item.ORG_CODE);
+        	return false;
+      	}
+	}) .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li>" )
+        .append(item.NAME)
+        .appendTo( ul );
+    }
+});
+function onfocu(){
+	$( "#autocomplete" ).val("");
+	$( "#code" ).val("");
+}
+function getlist(key){
+	var dept_code = $("#dept").val();
+    var start='1';
+    var limit = '10';
+	var cmd = new LEx.Command("app.icity.search.SearchCmd");	
+	cmd.setParameter("key", key);
+	cmd.setParameter("power_type", "XK");
+	cmd.setParameter("org_code", dept_code);
+	cmd.setParameter("type","project");
+	cmd.setParameter("start",start);
+	cmd.setParameter("limit",limit);
+	var ret = cmd.execute("getIndex");
+	return ret.data;
+}
+</script>

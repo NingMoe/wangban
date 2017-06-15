@@ -1,0 +1,100 @@
+<script type="text/javascript"
+	src="{{PageContext.PagePath}}uc/js/bindAsk.js"></script>
+<script type="text/javascript"
+	src="{{PageContext.PagePath}}uc/js/common.js"></script>
+<div class="sec_div"><span>密保问题</span></div>
+<img src="{%public assets/img/1-1.png%}">
+<ul id="secAsk_form">
+	<li><span>您在网上办事大厅注册的账号信息</span></li>
+	<li><table id="oldAsk">
+			<tr>
+				<td><em></em>&nbsp;旧密保问题：</td>
+				<td style="width: 228px; word-break: keep-all; white-space: nowrap; overflow: hidden;">
+					<span id="oldQue"></span>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><em>*</em>&nbsp;旧密保答案：</td>
+				<td><input id="oldAnswer" name="oldAnswer" type="text" 
+					class="input"></td>
+				<td class="form-tip"><span id="oldmb" for="oldAnswer"></span></td>
+			</tr>
+				<tr>
+					<td><em>*</em>&nbsp;新密保问题：</td>
+					<td>
+						<select id="secAsk_select" name="secAsk_select" class="fm_slect"
+							reg="^.+$" tip="请选择密保问题" style="height: 28px; width: 206px;">
+							<option value="">--请选择--</option>
+							<option value="我手机号码的后6位？" tag="mobile">我手机号码的后6位？</option>
+							<option value="我母亲的生日？" tag="birthday">我母亲的生日？</option>
+							<option value="我父亲的生日？" tag="birthday">我父亲的生日？</option>
+							<option value="我最好朋友的生日？" tag="birthday">我最好朋友的生日？</option>
+							<option value="我儿时居住地的地址？">我儿时居住地的地址？</option>
+							<option value="我小学校名全称？">我小学校名全称？</option>
+							<option value="我中学校名全称？">我中学校名全称？</option>
+							<option value="离我家最近的医院全称？">离我家最近的医院全称？</option>
+							<option value="离我家最近的公园全称？">离我家最近的公园全称？</option>
+							<option value="我的座右铭是？">我的座右铭是？</option>
+							<option value="我最喜爱的电影？">我最喜爱的电影？</option>
+							<option value="我最喜爱的歌曲？">我最喜爱的歌曲？</option>
+							<option value="我最喜爱的食物？">我最喜爱的食物？</option>
+							<option value="我最大的爱好？">我最大的爱好？</option>
+							<option value="我最喜欢的小说？">我最喜欢的小说？</option>
+							<option value="我最喜欢的运动队？">我最喜欢的运动队？</option>
+							<option value="other" tag="other">其它</option>
+						</select>
+					</td>
+					<td class="form-tip">
+						<span for="secAsk_select"></span>
+					</td>
+				</tr>
+				<tr style="display: none" id="selfquestion">
+					<td><em>*</em>&nbsp;自定义密保问题：</td>
+					<td>
+						<input id="selfQue" name="selfQue" type="text" class="input">
+					</td>
+					<td class="form-tip">
+						<span for="selfQue"></span>
+					</td>
+				</tr>
+				<tr>
+					<td><em>*</em>&nbsp;新密保答案：</td>
+					<td>
+						<input id="newAnswer" name="newAnswer" reg="^.+$" tip="密保答案不能为空"
+							type="text" class="input">
+					</td>
+					<td class="form-tip">
+						<span for="newAnswer"></span>
+					</td>
+				</tr>
+				<tr>
+					<td><em>*</em>&nbsp;确认登录密码：</td>
+					<td>
+						<input id="password" name="password" reg="^.+$$" tip="请填写当前登录密码"
+							type="password" class="input">
+					</td>
+					<td class="form-tip">
+						<span for="password"></span>
+					</td>
+				</tr>
+				<tr><td></td><td colspan="2" class="check_rule">请输入您一站通帐户的登录密码。</td></tr>
+			</table>
+	</li>
+</ul>
+
+<div class="form-submit" style="margin-top: 20px;margin-left: 280px;">
+	<table>
+	<tr>
+				<td><a class="opt_btn" href="javascript:void(0);" style="position: relative; left: -20px;" id="submit_btn" hidefocus="hidefocus"><span>提交</span></a></td>
+				<td><a class="opt_btn opt_btn_cancle" href="javascript:void(0);" style="position: relative; left: 5px;" id="cancle_btn" hidefocus="hidefocus"><span>重新输入</span></a></td>
+	</tr>
+	</table>
+</div>
+
+<div class="m_tip">
+		<div class="sec_div"><span>小贴士</span></div>
+		<div class="tip_text" style="text-indent: 2em;">密保问题应尽量避免选择大众化问题，如劳动节是哪天等，而应该选择一些较私密的问题，如我的小学校名等。这样才能较好的起到帐号保护的作用。</div>
+		<div class="tip_text" style="text-indent: 2em;">密保答案最好能“答非所问”，如问题为：“我小学的名字？”，答案为您朋友的生日。</div>
+	</div>
+

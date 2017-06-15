@@ -1,0 +1,69 @@
+<div class="jmain">
+   <div class="container" style="background:white;width:890px;">
+       <div class="row" style="margin-top: 15px;margin-bottom: 40px;">
+           <div class="col-xs-12">
+               <section class="panel panel-default no-bordered no-shadow" style="border-top: 3px solid #00a8ec !important;">
+                    <div class="pull-right">
+                        <div class="btn-toolbar mt10">
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-xs-12">
+            	<table class="table table-bordered table-hover" id="opinionTable">
+                	<thead>
+                        <tr>
+                            <th width="30%" style="text-align:center;">部门名称</th>
+                            <th width="15%" style="text-align:center;">联合会签</th>
+                            <th width="35%" style="text-align:center;">会签意见</th>
+							<th width="20%" style="text-align:center;">踏勘人</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                
+                <span id="tishi" style="display:none"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	var receiveid = LEx.urldata.receiveid;  
+	onQuery();
+	function onQuery(){
+		
+    	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+    	command.setParameter("bizId", receiveid);
+    	var ret = command.execute("getTaKanSign");
+    	
+    	if(!command.error){
+    		if(ret.data.state == "200"){
+    			for(var i=0; i<ret.data.info.orgArray.length; i++){
+    				var item = ret.data.info.orgArray[i];
+    				
+    				$("#opinionTable tbody").append("<tr><td>"+item.orgName+"</td><td>"+formateOpinionStatus(item.opinionState)+"</td><td>"+item.opinion+"</td><td>"+item.personName+"</td></tr>");
+    			}
+    		}else{
+    			
+    			$("#opinionTable").attr("style","display:none");
+    			document.getElementById("tishi").style.display = "block";
+    			document.getElementById("tishi").innerHTML = "各部门暂时没有确认是否参与！";
+    		}
+    	}else{
+    		LEx.alert('查询失败!'+ret.message);
+   			return;
+    	}
+    }
+	
+	function formateOpinionStatus(val){
+		if(val == 0){
+			return "不适宜选址";
+		}else if(val == 1){
+			return "适宜选址";
+		}else if(val == 2){
+			return "暂时没回复会签意见";
+		}else {
+			return "";
+		}
+	}
+</script>

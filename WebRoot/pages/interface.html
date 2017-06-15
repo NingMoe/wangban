@@ -1,0 +1,1780 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<p>
+	<span style="font-size:14px;font-family:SimSun;"><strong><br />
+</strong></span>
+</p>
+<p>
+	<span style="font-size:14px;font-family:SimSun;"><strong>1&nbsp;</strong></span><span style="font-size:14px;font-family:SimSun;"><strong>网上申报数据</strong></span><span style="font-size:14px;font-family:SimSun;"><strong>—&gt;</strong></span><span style="font-size:14px;font-family:SimSun;"><strong>自建业务系统</strong></span>
+</p>
+<p>
+	<span style="font-size:14px;color:#64451D;font-family:SimSun;">推送给业务系统的数据包括基本信息basicinfo，表单信息form，材料信息material</span>
+</p>
+<p>
+	<span style="color:#E53333;font-size:18px;"><span style="color:#64451D;font-family:SimSun;font-size:14px;">推送数据以json格式进行传递，请求服务的方式post，</span><span style="font-size:14px;line-height:27px;color:#64451D;font-family:SimSun;">需要自建业务系统提供接收数据接口</span><span style="color:;"></span></span>
+</p>
+<p>
+	<span style="color:#E53333;"><span style="color:#E53333;font-size:18px;"><span style="color:#64451D;font-family:SimSun;font-size:14px;">{</span><span style="color:#64451D;font-family:SimSun;font-size:14px;">basicinfo：{projid:“申办编号”,projpwd:“查询密码”,......</span></span><span style="font-size:14px;color:#64451D;font-family:SimSun;">},</span></span>
+</p>
+<p>
+	<span style="color:#E53333;"><span style="color:#E53333;font-size:18px;"><span style="color:#64451D;font-family:SimSun;font-size:14px;">&nbsp;&nbsp;&nbsp;</span><span style="color:#64451D;font-family:SimSun;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#64451D;font-family:SimSun;font-size:16px;"><span style="font-size:14px;">form: &nbsp;{formid:“表单id”,d</span><span style="font-size:14px;">ataid:“表单数据id”},</span></span></span></span>
+</p>
+<p>
+	<span style="color:#E53333;"><span style="color:#E53333;font-size:18px;"><span style="color:#64451D;font-family:SimSun;font-size:14px;">&nbsp;&nbsp;&nbsp;</span><span style="color:#64451D;font-family:SimSun;font-size:14px;">material: [</span></span></span><span style="font-size:14px;line-height:1.5;color:#64451D;font-family:SimSun;">{</span><span style="color:#E53333;"><span style="color:#E53333;font-size:18px;"></span></span>
+</p>
+<p class="MsoNormal">
+	<span style="line-height:1.5;color:#64451D;font-family:SimSun;font-size:14px;">“DOCUMENT_ID”:”材料</span><span style="line-height:1.5;color:#64451D;font-family:SimSun;font-size:14px;">id”,</span>
+</p>
+<p class="MsoNormal">
+	<span style="color:#64451D;font-family:SimSun;font-size:14px;">“DOCUMENT_NAME”:”材料名</span><span style="color:#64451D;font-family:SimSun;font-size:14px;">”,</span>
+</p>
+<p class="MsoNormal">
+	<span style="color:#64451D;font-family:SimSun;font-size:14px;">“TYPE”:”类型</span><span style="color:#64451D;font-family:SimSun;font-size:14px;">”,</span>
+</p>
+<p class="MsoNormal">
+	<span style="color:#64451D;font-family:SimSun;font-size:14px;">“FILE_NAME”:”上传附件文件名</span><span style="color:#64451D;font-family:SimSun;font-size:14px;">”,</span>
+</p>
+<p class="MsoNormal">
+	<span style="color:#64451D;font-family:SimSun;font-size:14px;">“FILE_PATH”:”网盘</span><span style="color:#64451D;font-family:SimSun;font-size:14px;">docid”</span>
+</p>
+<span style="color:#64451D;font-family:SimSun;font-size:14px;">}......]</span><br />
+<p>
+	<strong><span style="color:#E53333;">说明：</span></strong>
+</p>
+<p>
+	表单信息
+</p>
+<p>
+	只推送表单id和表单数据id，具体表单数据的获取通过表单提供的服务<span style="line-height:1.5;">获取，具体参考表单接口</span>
+</p>
+<p>
+	<span style="line-height:1.5;">材料信息</span>
+</p>
+<p>
+	<span style="line-height:1.5;">材料实体通过网盘提供的下载接口进行获取</span>
+</p>
+<p>
+	<span style="line-height:1.5;">
+	<table class="MsoNormalTable ke-zeroborder" border="0" cellspacing="0" cellpadding="0">
+		<tbody>
+			<tr>
+				<td width="180" colspan="2" valign="top" style="border:solid black 1.0pt;background:white;">
+					<p class="MsoNormal">
+						<span style="font-family:黑体;">服务名称</span>
+					</p>
+				</td>
+				<td width="381" colspan="2" valign="top" style="border:solid black 1.0pt;background:white;">
+					<p class="MsoNormal">
+						<span><a href="http://rcservice.iop.com/doc"><span style="font-family:&quot;color:blue;">
+						<p class="MsoNormal" align="left">
+							<span><a href="http://127.0.0.1:8080/WebDiskServerDemo/doc?doc_id=33">http://127.0.0.1:8080/WebDiskServerDemo/doc?doc_id=33</a></span>
+						</p>
+</span></a></span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="561" colspan="4" valign="top" style="border:solid black 1.0pt;background:white;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;">参数说明<span></span></span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="104" valign="top" style="border:solid black 1.0pt;background:white;">
+					<p class="MsoNormal">
+						<span style="font-family:黑体;">参数名称</span>
+					</p>
+				</td>
+				<td width="76" valign="top" style="border:solid black 1.0pt;background:white;">
+					<p class="MsoNormal">
+						<span style="font-family:黑体;">类型</span>
+					</p>
+				</td>
+				<td width="76" valign="top" style="border:solid black 1.0pt;background:white;">
+					<p class="MsoNormal">
+						<span style="font-family:黑体;">是否必须</span>
+					</p>
+				</td>
+				<td width="306" valign="top" style="border:solid black 1.0pt;background:white;">
+					<p class="MsoNormal">
+						<span style="font-family:黑体;">描述</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="104" valign="top" style="border:solid black 1.0pt;background:white;">
+					<p class="MsoNormal">
+						<span style="font-family:&quot;">doc_id</span>
+					</p>
+				</td>
+				<td width="76" valign="top" style="border:solid black 1.0pt;background:white;">
+					<p class="MsoNormal">
+						<span style="font-family:&quot;">String</span>
+					</p>
+				</td>
+				<td width="76" valign="top" style="border:solid black 1.0pt;background:white;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;">是<span></span></span>
+					</p>
+				</td>
+				<td width="306" valign="top" style="border:solid black 1.0pt;background:white;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;">文件的</span><span style="font-family:&quot;">id</span>
+					</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+<br />
+</span>
+</p>
+<div>
+	<h2>
+		<span style="font-size:14px;">业</span><span style="font-size:14px;">务表单JSON定义</span>
+	</h2>
+	<table class="MsoNormalTable" border="1" cellspacing="0" cellpadding="0" style="border:none;">
+		<tbody>
+			<tr>
+				<td width="568" valign="top" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-size:14px;font-family:宋体;">{</span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:24pt;">
+						<span style="font-size:14px;font-family:宋体;">"rows":{&nbsp;&nbsp; </span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:36pt;">
+						<span style="font-size:14px;font-family:宋体;">"</span><span style="font-size:12pt;font-family:宋体;background:white;"><span style="font-size:14px;">字段名</span><span style="font-size:14px;">1</span></span><span style="font-size:14px;font-family:宋体;">":"</span><span style="font-size:12.0pt;font-family:宋体;"><span style="font-size:14px;">值</span><span style="font-size:14px;">",</span></span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:36pt;">
+						<span style="font-size:14px;font-family:宋体;">"</span><span style="font-size:12pt;font-family:宋体;background:white;"><span style="font-size:14px;">字段名</span><span style="font-size:14px;">2</span></span><span style="font-size:14px;font-family:宋体;">":"</span><span style="font-size:12.0pt;font-family:宋体;"><span style="font-size:14px;">值</span><span style="font-size:14px;">",</span></span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:36pt;">
+						<span style="font-size:14px;font-family:宋体;">"</span><span style="font-size:12pt;font-family:宋体;background:white;"><span style="font-size:14px;">字段名</span><span style="font-size:14px;">3</span></span><span style="font-size:14px;font-family:宋体;">":"</span><span style="font-size:12.0pt;font-family:宋体;"><span style="font-size:14px;">值</span><span style="font-size:14px;">",</span></span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:36pt;">
+						<span style="font-size:14px;font-family:宋体;">"</span><span style="font-size:12.0pt;font-family:宋体;"><span style="font-size:14px;">复选框</span><span style="font-size:14px;"> 1":"</span><span style="font-size:14px;">值</span><span style="font-size:14px;">1,</span><span style="font-size:14px;">值</span><span style="font-size:14px;">2",</span></span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:36pt;">
+						<span style="font-size:14px;font-family:宋体;">"</span><span style="font-size:12.0pt;font-family:宋体;"><span style="font-size:14px;">列表框</span><span style="font-size:14px;"> 1":"</span><span style="font-size:14px;">值</span><span style="font-size:14px;">1,</span><span style="font-size:14px;">值</span><span style="font-size:14px;">2",</span></span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:36pt;">
+						<span style="font-size:14px;font-family:宋体;">"</span><span style="font-size:12.0pt;font-family:宋体;"><span style="font-size:14px;">动态表格名</span><span style="font-size:14px;"> 1":[{</span></span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:60pt;">
+						<span style="font-size:14px;font-family:宋体;">"</span><span style="font-size:12.0pt;font-family:宋体;"><span style="font-size:14px;">列名</span><span style="font-size:14px;"> 1":"</span><span style="font-size:14px;">值</span><span style="font-size:14px;">"</span></span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:36pt;">
+						<span style="font-size:14px;font-family:宋体;">},{</span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:60pt;">
+						<span style="font-size:14px;font-family:宋体;">"</span><span style="font-size:12.0pt;font-family:宋体;"><span style="font-size:14px;">列名</span><span style="font-size:14px;"> 1":"</span><span style="font-size:14px;">值</span><span style="font-size:14px;">"</span></span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:36pt;">
+						<span style="font-size:14px;font-family:宋体;">}],</span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:36pt;">
+						<span style="font-size:14px;font-family:宋体;">"</span><span style="font-size:12.0pt;font-family:宋体;"><span style="font-size:14px;">动态行名</span><span style="font-size:14px;"> 1":[{</span></span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:60pt;">
+						<span style="font-size:14px;font-family:宋体;">"</span><span style="font-size:12.0pt;font-family:宋体;"><span style="font-size:14px;">列名</span><span style="font-size:14px;"> 1":"</span><span style="font-size:14px;">值</span><span style="font-size:14px;">",</span></span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:60pt;">
+						<span style="font-size:14px;font-family:宋体;">"</span><span style="font-size:12.0pt;font-family:宋体;"><span style="font-size:14px;">列名</span><span style="font-size:14px;"> 2":"</span><span style="font-size:14px;">值</span><span style="font-size:14px;">",</span></span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:60pt;">
+						<span style="font-size:14px;font-family:宋体;">"</span><span style="font-size:12.0pt;font-family:宋体;"><span style="font-size:14px;">列名</span><span style="font-size:14px;"> 3":"</span><span style="font-size:14px;">值</span><span style="font-size:14px;">"</span></span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:36pt;">
+						<span style="font-size:14px;font-family:宋体;">},{</span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:60pt;">
+						<span style="font-size:14px;font-family:宋体;">"</span><span style="font-size:12.0pt;font-family:宋体;"><span style="font-size:14px;">列名</span><span style="font-size:14px;"> 1":"</span><span style="font-size:14px;">值</span><span style="font-size:14px;">",</span></span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:60pt;">
+						<span style="font-size:14px;font-family:宋体;">"</span><span style="font-size:12.0pt;font-family:宋体;"><span style="font-size:14px;">列名</span><span style="font-size:14px;"> 2":"</span><span style="font-size:14px;">值</span><span style="font-size:14px;">",</span></span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:60pt;">
+						<span style="font-size:14px;font-family:宋体;">"</span><span style="font-size:12.0pt;font-family:宋体;"><span style="font-size:14px;">列名</span><span style="font-size:14px;"> 3":"</span><span style="font-size:14px;">值</span><span style="font-size:14px;">"</span></span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:36pt;">
+						<span style="font-size:14px;font-family:宋体;">}]</span>
+					</p>
+					<p class="MsoNormal" align="left" style="text-indent:24pt;">
+						<span style="font-size:14px;font-family:宋体;">}</span>
+					</p>
+					<p class="MsoNormal" align="left">
+						<span style="font-size:14px;font-family:宋体;">}</span>
+					</p>
+					<p class="MsoNormal">
+						<span style="font-family:宋体;color:teal;">&nbsp;</span>
+					</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+<br />
+</div>
+<p>
+	<br />
+</p>
+<p>
+	<span style="font-size:14px;font-family:SimSun;line-height:1.5;">1.1基本信息标准</span>
+</p>
+<p>
+	<table class="MsoNormalTable" border="1" cellspacing="0" cellpadding="0" style="border:none;width:800px;">
+		<tbody>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;background:#A6A6A6;">
+					<p class="MsoNormal" align="center" style="text-align:center;">
+						<b><span style="font-family:宋体;"><span style="font-size:16px;font-family:SimSun;"><span style="font-size:14px;">序</span><span style="font-size:14px;">号</span></span><span></span></span></b> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;background:#A6A6A6;">
+					<p class="MsoNormal" align="center" style="text-align:center;">
+						<b><span style="font-family:宋体;"><span style="font-size:18px;"><span style="font-size:16px;font-family:SimSun;"><span style="font-size:14px;">字</span><span style="font-size:14px;">段名</span></span><span style="color:;"></span></span><span></span></span></b> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;background:#A6A6A6;">
+					<p class="MsoNormal" align="center" style="text-align:center;">
+						<b><span style="font-family:宋体;"><span style="font-size:16px;font-family:SimSun;"><span style="font-size:14px;"></span><span style="font-size:14px;">数据类型</span></span><span></span></span></b> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;background:#A6A6A6;">
+					<p class="MsoNormal" align="center" style="text-align:center;">
+						<b><span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">数据采集项</span><span></span></span></b> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;background:#A6A6A6;">
+					<p class="MsoNormal" align="center" style="text-align:center;">
+						<b><span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">说明</span><span style="font-size:18px;"></span></span></b> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">1.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">projid</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(21)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">申办号</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-size:18px;"><span style="font-size:14px;font-family:SimSun;">有统一申报编号服务按照规则生成</span><span style="font-size:14px;font-family:SimSun;">不可为空</span></span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">2.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">projpwd</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(6)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">查询密码</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-size:14px;font-family:SimSun;">随机自动生成的数字，如：</span><span style="font-size:14px;font-family:SimSun;">234765</span><span style="font-size:14px;font-family:SimSun;">，不可空</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">3.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">itemno</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(16)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">审批事项编号</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">审批事项的唯一标示，</span><span style="font-family:SimSun;font-size:14px;">不可空</span><span style="font-family:宋体;"></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">4.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">itemversion</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">NUMBER</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">事项版本号</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">审批事项的版本号，可为空</span><span></span></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">5.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">itemname</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(200)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">审批事项名称</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">申报的事项名称，如：交通建设工程施工许可，</span><span style="font-family:SimSun;font-size:14px;">不可空</span><span style="font-family:宋体;"></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">6.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">projectname</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(200)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">申报名称</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">申请审批的项目的具体名称。如：关于</span><span style="font-size:14px;font-family:SimSun;">XXX</span><span style="font-size:14px;font-family:SimSun;">的交通建设工程施工许可，</span></span><span style="font-family:SimSun;font-size:14px;">不可空</span><span style="font-family:宋体;"></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">7.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">projectstate</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(2)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">办件状态</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">请参考字典项：办件状态</span><span></span></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">8.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">infotype</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">char(1)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">办件类型</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">不可空，</span><span style="font-family:SimSun;font-size:14px;">1-</span><span style="font-family:SimSun;font-size:14px;">即办件，</span><span style="font-family:SimSun;font-size:14px;">2-</span><span style="font-family:SimSun;font-size:14px;">承诺件，</span><span style="font-family:SimSun;font-size:14px;">3-</span><span style="font-family:SimSun;font-size:14px;">联办件，</span><span style="font-family:SimSun;font-size:14px;">4-</span><span style="font-family:SimSun;font-size:14px;">上报件。</span><span style="font-family:宋体;"></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">9.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">applyname</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(100)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">申报者名称</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">填写申报者的名称，如为个人，则填写姓名；如为法人，则填写单位名称，</span><span style="font-family:SimSun;font-size:14px;">不可空</span><span style="font-family:宋体;"></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">10.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">apply_cardtype</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(1)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">申报者证件类型</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">申报者提供的有效证件名称，包括身份证、组织机构代码证等，详见
+  数据字典中编号证件类型，可为空</span><span></span></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">11.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">apply_cardtypenumber</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(100)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">申报者证件号码</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">申报者提供的有效证件的识别号。如身份证号码：</span><span></span></span> 
+					</p>
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">340102198805059786</span><span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">，可为空</span><span></span></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">12.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">contactman</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(30)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">联系人</span><span style="font-size:14px;font-family:SimSun;">/</span><span style="font-size:14px;font-family:SimSun;">代理人姓名</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">如果无代理人，联系人就是申报者，</span><span style="font-family:SimSun;font-size:14px;">不可空</span><span style="font-family:宋体;"></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">13.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">contactman_cardtype</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(1)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">联系人</span><span style="font-size:14px;font-family:SimSun;">/</span><span style="font-size:14px;font-family:SimSun;">代理人证件类型</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">提供的有效证件名称，包括身份证、组织机构代码证等详见数据字典证件类型，可为空</span><span></span></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">14.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">contactman_cardnumber</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(100)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">联系人</span><span style="font-size:14px;font-family:SimSun;">/</span><span style="font-size:14px;font-family:SimSun;">代理人证件号码</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">提供的有效证件的识别号。如身份证号码：</span><span></span></span> 
+					</p>
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">340111199303222102</span><span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">，可为空</span><span></span></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">15.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">telphone</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(18)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">联系人手机号码</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">申报者的联系号码，可为空</span><span></span></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">16.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">postcode</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(6)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">邮编</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">申报者联系地址对应的邮政编码，</span><span style="font-family:SimSun;font-size:14px;">可为空</span><span style="font-family:宋体;"></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">17.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">address</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(100)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">通讯地址</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">申报者的联系地址，可为空</span><span></span></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">18.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">legalman</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(30)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">法人代表</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">对于企事业单位，填写对应的法人代，可为空</span><span></span></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">19.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">deptid</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(12)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">收件部门编码</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">审批事项所对应的负责部门组织机构代码，</span><span style="font-family:SimSun;font-size:14px;">不可空</span><span style="font-family:宋体;"></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">20.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">deptname</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(50)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">收件部门名称</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">审批事项所对应的负责部门名称，</span><span style="font-family:SimSun;font-size:14px;">不可空</span><span style="font-family:宋体;"></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">21.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">receive_useid&nbsp;&nbsp; </span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(50)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">创建用户标识</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">创建用户唯一标识，可为空</span><span></span></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">22.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">receive_name</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(200)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">创建用户名称</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">创建用户名称，可为空</span><span></span></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">23.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">applyfrom</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(10)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">申报来源</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">标识办件的申报源头：网上。不可空</span><span></span></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">24.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">receivetime</span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">datetime</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">申报时间</span><span></span></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">时间格式：</span><span style="font-size:14px;font-family:SimSun;">yyyy-mm-ddhh24:mi:ss</span><span style="font-size:14px;font-family:SimSun;">。不可空</span><span></span></span> 
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="45" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" style="margin-left:21.0pt;text-indent:-21.0pt;">
+						<span style="font-family:宋体;"><span style="font-size:14px;font-family:SimSun;">25.</span><span style="font-size:14px;line-height:normal;font-family:SimSun;">&nbsp; </span></span><span style="font-family:SimSun;font-size:14px;">&nbsp;</span> 
+					</p>
+				</td>
+				<td width="103" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">region_id </span> 
+					</p>
+				</td>
+				<td width="104" style="border:solid black 1.0pt;">
+					<p class="MsoNormal" align="left">
+						<span style="font-family:SimSun;font-size:14px;">varchar(6)</span> 
+					</p>
+				</td>
+				<td width="113" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">行政区划</span><span style="font-family:宋体;"></span> 
+					</p>
+				</td>
+				<td width="163" style="border:solid black 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:SimSun;font-size:14px;">可为空</span> 
+					</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</p>
+<p>
+	<br />
+</p>
+<p>
+	<br />
+</p>
+<h3>
+	<span style="font-size:14px;font-family:SimSun;">2 办件状态更新</span>
+</h3>
+<p>
+	<span style="font-size:14px;font-family:SimSun;">自建业务系统通过调用网办提供的接口实时对申报人办件状态进行更新</span>
+</p>
+<p>
+	<span style="font-size:14px;font-family:SimSun;">
+	<table class="MsoNormalTable" border="1" cellspacing="0" cellpadding="0" style="border:none;">
+		<tbody>
+			<tr>
+				<td width="189" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<b><span style="font-family:宋体;">服务名称</span><span></span></b>
+					</p>
+				</td>
+				<td width="379" colspan="2" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">icity/c/api.item/setState</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="189" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<b><span style="font-family:宋体;">服务说明</span><span></span></b>
+					</p>
+				</td>
+				<td width="379" colspan="2" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">更新办件状态</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="189" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<b><span style="font-family:宋体;">请求方式</span><span></span></b>
+					</p>
+				</td>
+				<td width="379" colspan="2" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">GET</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="189" rowspan="5" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<b><span style="font-family:宋体;">参数列表</span><span></span></b>
+					</p>
+				</td>
+				<td width="149" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">参数名称<span></span></span>
+					</p>
+				</td>
+				<td width="230" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">参数说明<span></span></span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="149" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span>projectstate</span>
+					</p>
+				</td>
+				<td width="230" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">状态代码（请参考字典项：办件状态）</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="149" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">dealtime</span>
+					</p>
+				</td>
+				<td width="230" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span>发生时间（格式：yyyy-MM-dd）</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="149" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">opinion</span>
+					</p>
+				</td>
+				<td width="230" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">描述<span></span></span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="149" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">projid</span>
+					</p>
+				</td>
+				<td width="230" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span>申办号</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="189" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<b><span style="font-family:宋体;">返回值</span></b>
+					</p>
+				</td>
+				<td width="379" colspan="2" style="border:solid windowtext 1.0pt;">
+<pre><span>{"total":0,"message":"","zip":0,"route":"","encrypt":0,"data":null,"state":1}</span></pre>
+					<p class="MsoNormal">
+						<span>&nbsp;state=1更新状态成功；state=0更新状态失败</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="189" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">备注</span>
+					</p>
+				</td>
+				<td width="379" colspan="2" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span>&nbsp;</span>
+					</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+<br />
+</span>
+</p>
+<p>
+	<br />
+</p>
+<h3>
+	<span style="font-size:14px;font-family:SimSun;">3 办件过程信息</span>
+</h3>
+<p>
+	<span style="font-size:14px;font-family:SimSun;">
+	<table class="MsoNormalTable" border="1" cellspacing="0" cellpadding="0" style="border:none;">
+		<tbody>
+			<tr>
+				<td width="189" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<b><span style="font-family:宋体;">服务名称</span><span></span></b>
+					</p>
+				</td>
+				<td width="379" colspan="2" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-size:10.0pt;font-family:&quot;color:#2A00FF;">&nbsp;</span><span style="font-size:10pt;"><span>有自建业务系统提供</span></span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="189" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<b><span style="font-family:宋体;">服务说明</span><span></span></b>
+					</p>
+				</td>
+				<td width="379" colspan="2" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:宋体;">网办通过申办号获取审批环节信息</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="189" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<b><span style="font-family:宋体;">请求方式</span><span></span></b>
+					</p>
+				</td>
+				<td width="379" colspan="2" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">GET</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="189" rowspan="5" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<b><span style="font-family:宋体;">参数列表</span><span></span></b>
+					</p>
+				</td>
+				<td width="149" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">参数名称<span></span></span>
+					</p>
+				</td>
+				<td width="230" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">参数说明<span></span></span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="149" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span>projid</span>
+					</p>
+				</td>
+				<td width="230" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">申办号<span></span></span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="149" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">&nbsp;</span>
+					</p>
+				</td>
+				<td width="230" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">&nbsp;</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="149" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">&nbsp;</span>
+					</p>
+				</td>
+				<td width="230" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">&nbsp;</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="149" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span>&nbsp;</span>
+					</p>
+				</td>
+				<td width="230" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span>&nbsp;</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="189" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<b><span style="font-family:宋体;">返回值标准</span><span></span></b>
+					</p>
+				</td>
+				<td width="379" colspan="2" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-size:10.0pt;font-family:&quot;">{"info":[</span>
+					</p>
+					<p class="MsoNormal">
+						<span style="font-size:10.0pt;font-family:&quot;">{</span>
+					</p>
+					<p class="MsoNormal">
+						<span style="font-size:10.0pt;font-family:&quot;">"CURRENT_NODE_ID":"环节id",</span>
+					</p>
+					<p class="MsoNormal">
+						<span style="font-size:10.0pt;font-family:&quot;">"CURRENT_NODE_NAME":"</span><span style="font-size:10.0pt;font-family:宋体;">环节名称</span><span style="font-size:10.0pt;font-family:&quot;">",</span>
+					</p>
+					<p class="MsoNormal">
+						<span style="font-size:10.0pt;font-family:&quot;">"NODE_TYPE":"环节类型",//（1-开始环节；2-中间环节；3-结束环节；4-只有一条审批数据，开始既是结束）</span>
+					</p>
+					<p class="MsoNormal">
+						<span style="font-size:10.0pt;font-family:&quot;">"OPINION":"</span><span style="font-size:10.0pt;font-family:宋体;">环节处理意见</span><span style="font-size:10.0pt;font-family:&quot;">",</span>
+					</p>
+					<p class="MsoNormal">
+						<span style="font-size:10.0pt;font-family:&quot;">"RECEIVE_TIME":"环节开始时间",</span>
+					</p>
+					<p class="MsoNormal">
+						<span style="font-size:10.0pt;font-family:&quot;">"SEND_TIME":"环节结束时间",</span>
+					</p>
+					<p class="MsoNormal">
+						<span style="font-size:10.0pt;font-family:&quot;">"STATUS":"环节办理状态",//</span><span style="font-size:10.0pt;font-family:宋体;">参考字典项：办件状态</span><span style="font-size:10.0pt;font-family:&quot;"></span>
+					</p>
+					<p class="MsoNormal">
+						<span style="font-size:10.0pt;font-family:&quot;">"USER_CODE":"处理人标识",</span>
+					</p>
+					<p class="MsoNormal">
+						<span style="font-size:10.0pt;font-family:&quot;">"USER_NAME":"</span><span style="font-size:10.0pt;font-family:宋体;">处理人姓名</span><span style="font-size:10.0pt;font-family:&quot;">"</span>
+					</p>
+					<p class="MsoNormal">
+						<span style="font-size:10.0pt;font-family:&quot;">}…</span>
+					</p>
+					<p class="MsoNormal">
+						<span style="font-size:10.0pt;font-family:&quot;">],"state":"200"}</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td width="189" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span style="font-family:微软雅黑, sans-serif;">备注</span>
+					</p>
+				</td>
+				<td width="379" colspan="2" style="border:solid windowtext 1.0pt;">
+					<p class="MsoNormal">
+						<span>&nbsp;</span>
+					</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</span>
+</p>
+<p>
+	<br />
+</p>
+<p>
+	<br />
+</p>
+<p>
+	<br />
+</p>
+<p>
+	<span><span style="font-size:14px;line-height:21px;"><b>4&nbsp;表单接口</b></span></span>
+</p>
+<p>
+	<span><span style="font-size:14px;line-height:21px;"><b>http接口&nbsp;</b></span></span>
+</p>
+<p>
+	<span><span style="font-size:14px;line-height:21px;"><b>通过js文件调用&nbsp;</b></span></span>
+</p>
+<p>
+	<span><span style="font-size:14px;line-height:21px;"><b>1. 首先下载客户端js文件，或者在页面中直接引用 http://表单部署地 址/static/cform/skin/js/cform.js&nbsp;</b></span></span>
+</p>
+<p>
+	<span><span style="font-size:14px;line-height:21px;"><b>2、调用示例参见:http://表单部署地址/cform/view? formId=表单ID，js客户端中也有详细注释。</b></span></span>
+</p>
+<p>
+	<span><span style="font-size:14px;line-height:21px;"><b> 通过httpClient调用 通过httpClient调用，可以适应更多使用环境，相关接口的调用在cform.js中都有使用样例，可以参考。<br />
+获取表单UI页面，返回值为HTML字符串 http://表单部署地址/cform/getFormUI?formId=表单编码<br />
+获取标准格式的表单数据，返回值为json字符串 http://表单部署地址/cform/getFormStandardData?formId=表单编码&amp;formDataId=表单数据编码<br />
+	<div>
+		<br />
+	</div>
+<br />
+</b></span></span>
+</p>
+<p>
+	<span style="font-family:SimSun;font-size:14px;line-height:1.5;"><strong><br />
+</strong></span>
+</p>
+<p>
+	<span style="font-family:SimSun;font-size:14px;line-height:1.5;"><strong>办件</strong></span><span style="font-family:SimSun;font-size:14px;line-height:1.5;"><strong>状</strong></span><span style="font-family:SimSun;font-size:14px;line-height:1.5;"><strong>态</strong></span>
+</p>
+<table class="MsoNormalTable" border="1" cellspacing="0" cellpadding="0" bordercolor="#000000" style="border:none;width:800px;">
+	<tbody>
+		<tr>
+			<td width="47" style="border:1pt solid windowtext;background:#BFBFBF;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<b><span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">序号</span></span></b>
+				</p>
+			</td>
+			<td width="88" style="border:1pt solid windowtext;background:#BFBFBF;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<b><span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">办件状态</span></span></b>
+				</p>
+			</td>
+			<td width="54" style="border:1pt solid windowtext;background:#BFBFBF;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<b><span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">编码</span></span></b>
+				</p>
+			</td>
+			<td width="85" style="border:1pt solid windowtext;background:#BFBFBF;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<b><span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">对应阶段</span></span></b>
+				</p>
+			</td>
+			<td width="305" style="border:1pt solid windowtext;background:#BFBFBF;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<b><span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">说明</span></span></b>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td width="47" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoListParagraph" align="center" style="margin-left:21pt;text-align:center;text-indent:-21pt;">
+					<span style="font-family:宋体;"><span style="font-size:12px;font-family:SimSun;">1.</span><span style="font-size:12px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp;&nbsp;</span></span><span style="line-height:21px;font-family:SimSun;font-size:12px;">&nbsp;</span>
+				</p>
+			</td>
+			<td width="88" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">草稿</span></span>
+				</p>
+			</td>
+			<td width="54" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">01</span>
+				</p>
+			</td>
+			<td width="85" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">申报阶段</span></span>
+				</p>
+			</td>
+			<td width="305" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="left">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">公众网上申报暂存到草稿箱的办件状态</span></span>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td width="47" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoListParagraph" align="center" style="margin-left:21pt;text-align:center;text-indent:-21pt;">
+					<span style="font-family:宋体;"><span style="font-size:12px;font-family:SimSun;">2.</span><span style="font-size:12px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp;&nbsp;</span></span><span style="line-height:21px;font-family:SimSun;font-size:12px;">&nbsp;</span>
+				</p>
+			</td>
+			<td width="88" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">收件</span></span>
+				</p>
+			</td>
+			<td width="54" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">02</span>
+				</p>
+			</td>
+			<td width="85" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">申报阶段</span></span>
+				</p>
+			</td>
+			<td width="305" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="left">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">公众网上申报提交成功或到部门窗口直接办理，由部门窗口申报窗口人员登记申报信息</span></span>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td width="47" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoListParagraph" align="center" style="margin-left:21pt;text-align:center;text-indent:-21pt;">
+					<span style="font-family:宋体;"><span style="font-size:12px;font-family:SimSun;">3.</span><span style="font-size:12px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp;&nbsp;</span></span><span style="line-height:21px;font-family:SimSun;font-size:12px;">&nbsp;</span>
+				</p>
+			</td>
+			<td width="88" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">预受理</span></span>
+				</p>
+			</td>
+			<td width="54" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">03</span>
+				</p>
+			</td>
+			<td width="85" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">申报阶段</span></span>
+				</p>
+			</td>
+			<td width="305" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="left">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">网上申报件，审核通过后还需申报者到大厅正式受理的办件。（直接到部门窗口申报可以跳过预受理状态）</span></span>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td width="47" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoListParagraph" align="center" style="margin-left:21pt;text-align:center;text-indent:-21pt;">
+					<span style="font-family:宋体;"><span style="font-size:12px;font-family:SimSun;">4.</span><span style="font-size:12px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp;&nbsp;</span></span><span style="line-height:21px;font-family:SimSun;font-size:12px;">&nbsp;</span>
+				</p>
+			</td>
+			<td width="88" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">预受理退回</span></span>
+				</p>
+			</td>
+			<td width="54" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">04</span>
+				</p>
+			</td>
+			<td width="85" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">申报阶段</span></span>
+				</p>
+			</td>
+			<td width="305" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="left">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">网上申报件，审核不通过后，申报者可以修改信息后，重新提交给部门进行审核。</span></span>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td width="47" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoListParagraph" align="center" style="margin-left:21pt;text-align:center;text-indent:-21pt;">
+					<span style="font-family:宋体;"><span style="font-size:12px;font-family:SimSun;">5.</span><span style="font-size:12px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp;&nbsp;</span></span><span style="line-height:21px;font-family:SimSun;font-size:12px;">&nbsp;</span>
+				</p>
+			</td>
+			<td width="88" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">受理</span></span>
+				</p>
+			</td>
+			<td width="54" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">05</span>
+				</p>
+			</td>
+			<td width="85" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">受理阶段</span></span>
+				</p>
+			</td>
+			<td width="305" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="left">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">正式受理、开始计算承诺期限</span></span>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td width="47" valign="top">
+				<p class="MsoListParagraph" align="center" style="margin-left:21pt;text-align:center;text-indent:-21pt;">
+					<span style="font-family:宋体;"><span style="font-size:12px;font-family:SimSun;">6.</span><span style="font-size:12px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp;&nbsp;</span></span><span style="line-height:21px;font-family:SimSun;font-size:12px;">&nbsp;</span>
+				</p>
+			</td>
+			<td width="88" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">补齐补正</span></span>
+				</p>
+			</td>
+			<td width="54" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">06</span>
+				</p>
+			</td>
+			<td width="85" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">受理阶段</span></span>
+				</p>
+			</td>
+			<td width="305" valign="top">
+				<p class="MsoNormal" align="left">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">对申报办件做出补齐补正材料后的状态</span></span>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td width="47" valign="top">
+				<p class="MsoListParagraph" align="center" style="margin-left:21pt;text-align:center;text-indent:-21pt;">
+					<span style="font-family:宋体;"><span style="font-size:12px;font-family:SimSun;">7.</span><span style="font-size:12px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp;&nbsp;</span></span><span style="line-height:21px;font-family:SimSun;font-size:12px;">&nbsp;</span>
+				</p>
+			</td>
+			<td width="88" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">不予受理</span></span>
+				</p>
+			</td>
+			<td width="54" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">07</span>
+				</p>
+			</td>
+			<td width="85" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">受理阶段</span></span>
+				</p>
+			</td>
+			<td width="305" valign="top">
+				<p class="MsoNormal" align="left">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">对申报办件做出不予受理操作后的状态。</span></span>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td width="47" valign="top">
+				<p class="MsoListParagraph" align="center" style="margin-left:21pt;text-align:center;text-indent:-21pt;">
+					<span style="font-family:宋体;"><span style="font-size:12px;font-family:SimSun;">8.</span><span style="font-size:12px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp;&nbsp;</span></span><span style="line-height:21px;font-family:SimSun;font-size:12px;">&nbsp;</span>
+				</p>
+			</td>
+			<td width="88" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">在办</span></span>
+				</p>
+			</td>
+			<td width="54" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">08</span>
+				</p>
+			</td>
+			<td width="85" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">审批阶段</span></span>
+				</p>
+			</td>
+			<td width="305" valign="top">
+				<p class="MsoNormal" align="left">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">对申报办件进行内部环节流转后的状态</span></span>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td width="47" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoListParagraph" align="center" style="margin-left:21pt;text-align:center;text-indent:-21pt;">
+					<span style="font-family:宋体;"><span style="font-size:12px;font-family:SimSun;">9.</span><span style="font-size:12px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp;&nbsp;</span></span><span style="line-height:21px;font-family:SimSun;font-size:12px;">&nbsp;</span>
+				</p>
+			</td>
+			<td width="88" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">挂起</span></span>
+				</p>
+			</td>
+			<td width="54" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">09</span>
+				</p>
+			</td>
+			<td width="85" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">审批阶段</span></span>
+				</p>
+			</td>
+			<td width="305" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="left">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">对申报办件做出需要现场勘查、专家会审等需要进行时限暂停的业务操作后的状态</span></span>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td width="47" valign="top">
+				<p class="MsoListParagraph" align="center" style="margin-left:21pt;text-align:center;text-indent:-21pt;">
+					<span style="font-family:宋体;"><span style="font-size:12px;font-family:SimSun;">10.</span><span style="font-size:12px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp;</span></span><span style="line-height:21px;font-family:SimSun;font-size:12px;">&nbsp;</span>
+				</p>
+			</td>
+			<td width="88" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">办结</span></span>
+				</p>
+			</td>
+			<td width="54" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">10</span>
+				</p>
+			</td>
+			<td width="85" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">办结阶段</span></span>
+				</p>
+			</td>
+			<td width="305" valign="top">
+				<p class="MsoNormal" align="left">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">对申报办件做出决定之后的状态</span></span>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td width="47" valign="top">
+				<p class="MsoListParagraph" align="center" style="margin-left:21pt;text-align:center;text-indent:-21pt;">
+					<span style="font-family:宋体;"><span style="font-size:12px;font-family:SimSun;">11.</span><span style="font-size:12px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp;</span></span><span style="line-height:21px;font-family:SimSun;font-size:12px;">&nbsp;</span>
+				</p>
+			</td>
+			<td width="88" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">转报办结</span></span>
+				</p>
+			</td>
+			<td width="54" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">11</span>
+				</p>
+			</td>
+			<td width="85" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">办结阶段</span></span>
+				</p>
+			</td>
+			<td width="305" valign="top">
+				<p class="MsoNormal" align="left">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">指转报其他单位或上级单位的办结情况</span><span style="font-family:宋体;"></span>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td width="47" valign="top">
+				<p class="MsoListParagraph" align="center" style="margin-left:21pt;text-align:center;text-indent:-21pt;">
+					<span style="font-family:宋体;"><span style="font-size:12px;font-family:SimSun;">12.</span><span style="font-size:12px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp;</span></span><span style="line-height:21px;font-family:SimSun;font-size:12px;">&nbsp;</span>
+				</p>
+			</td>
+			<td width="88" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">作废办结</span></span>
+				</p>
+			</td>
+			<td width="54" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">12</span>
+				</p>
+			</td>
+			<td width="85" valign="top">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">办结阶段</span></span>
+				</p>
+			</td>
+			<td width="305" valign="top">
+				<p class="MsoNormal" align="left">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">业务处理上无效的纪录、或者录入错误数据</span><span style="font-family:宋体;"></span>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td width="47" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoListParagraph" align="center" style="margin-left:21pt;text-align:center;text-indent:-21pt;">
+					<span style="font-family:宋体;"><span style="font-size:12px;font-family:SimSun;">13.</span><span style="font-size:12px;line-height:normal;font-family:SimSun;">&nbsp;&nbsp;</span></span><span style="line-height:21px;font-family:SimSun;font-size:12px;">&nbsp;</span>
+				</p>
+			</td>
+			<td width="88" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">退件</span></span>
+				</p>
+			</td>
+			<td width="54" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">13</span>
+				</p>
+			</td>
+			<td width="85" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="center" style="text-align:center;">
+					<span style="font-family:宋体;font-size:12px;"><span style="font-size:12px;font-family:SimSun;">办结阶段</span></span>
+				</p>
+			</td>
+			<td width="305" valign="top" style="border:1pt solid windowtext;">
+				<p class="MsoNormal" align="left">
+					<span style="line-height:21px;font-family:SimSun;font-size:12px;">当服务项目不符合申报的条件或者因为其他</span><span style="line-height:21px;font-family:SimSun;font-size:12px;">原因不能进行办理</span><span style="font-family:宋体;"></span>
+				</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<p>
+	<br />
+</p>
+<p>
+	<span style="font-size:14px;"><strong>推送申报数据</strong></span>
+</p>
+<p>
+	<span style="font-size:14px;">HttpClient client = new HttpClient();</span><br />
+<span style="font-size:14px;"> String url ="业务系统提供的接口地址"</span><span style="font-size:14px;">;</span><br />
+<span style="font-size:14px;"> PostMethod postMethod = new PostMethod(url);</span><br />
+<span style="font-size:14px;"> client.getParams().setContentCharset("UTF-8"); </span><br />
+<span style="font-size:14px;"> postMethod.setParameter("postdata", data.toString());</span><br />
+<span style="font-size:14px;"> client.executeMethod(postMethod);</span><br />
+<span style="font-size:14px;">JSONObject &nbsp;ret</span><span style="font-size:14px;">= &nbsp;JSONObject.fromObject(postMethod.getResponseBodyAsString());</span>
+</p>
+<p>
+	<span style="font-size:14px;"><strong>接收申报数据</strong></span>
+</p>
+<p>
+	<br />
+</p>
+<p>
+	<br />
+</p>
+<p>
+	<span style="font-size:14px;"><strong>获取表单ui</strong></span>
+</p>
+<p>
+	<span style="font-size:14px;">//表单获取ui'的接口地址</span>
+</p>
+<p>
+	<span style="font-size:14px;">url+="/cform/getFormUI?formId="+formId;</span><br />
+<span style="font-size:14px;"> HttpClientUtil client = new HttpClientUtil();</span><br />
+<span style="font-size:14px;"> String html= client.getResult(url,"");</span><br />
+<span style="font-size:14px;"></span>
+</p>
+<p>
+	<span style="font-size:14px;"><strong>获取表单数据</strong></span>
+</p>
+<p>
+	<span style="font-size:14px;">//表单获取数据的服务地址</span>
+</p>
+<p>
+	<span style="font-size:14px;">url+="/cform/getFormStandardData?formId="+formId+"&amp;formDataId="+formDataId;</span><br />
+<span style="font-size:14px;"> HttpClientUtil client = new HttpClientUtil();</span><br />
+<span style="font-size:14px;"> String html= client.getResult(url,"");</span><br />
+<span style="font-size:14px;"></span>
+</p>
+<p>
+	<span style="font-size:14px;"><strong>获取材料</strong></span>
+</p>
+<p>
+	<span style="font-size:14px;">String url = “网盘下载地址”</span><span style="font-size:14px;">+doc_id;</span><br />
+<span style="font-size:14px;">String dir="";//下载路径</span><br />
+<span style="font-size:14px;">DefaultHttpClient client = new DefaultHttpClient();</span><br />
+<span style="font-size:14px;">HttpGet httpget = new HttpGet(url);</span><br />
+<span style="font-size:14px;">HttpResponse httpResponse = client.execute(httpget);</span><br />
+<span style="font-size:14px;">HttpEntity entity = httpResponse.getEntity();</span><br />
+<span style="font-size:14px;">InputStream is = entity.getContent();</span><br />
+<span style="font-size:14px;">File directory = new File(dir);</span><br />
+<span style="font-size:14px;">if(!directory.exists())</span><br />
+<span style="font-size:14px;">directory.mkdirs();//创建目录</span><br />
+</p>
+<p>
+	<span style="font-size:14px;">FileOutputStream fileout = new FileOutputStream( &nbsp;dir + fileName);</span><br />
+<span style="font-size:14px;">try {</span><br />
+<span style="font-size:14px;">byte[] buffer=new byte[50];</span><br />
+<span style="font-size:14px;">int ch = 0;</span><br />
+<span style="font-size:14px;">while ((ch = is.read(buffer)) != -1) {					 &nbsp;&nbsp;</span><br />
+<span style="font-size:14px;">&nbsp; &nbsp; fileout.write(buffer, 0, ch);</span><br />
+<span style="font-size:14px;">}</span><br />
+<span style="font-size:14px;">} &nbsp;catch (Exception e) {</span><br />
+<span style="font-size:14px;">e.printStackTrace();</span><br />
+<span style="font-size:14px;">}finally{</span><br />
+<span style="font-size:14px;">fileout.close();</span><br />
+<span style="font-size:14px;">is.close();</span>
+</p>
+<p>
+	<span style="font-size:14px;">}</span><br />
+<span style="font-size:14px;"></span><br />
+<span style="font-size:14px;"><strong>获取业务流转过程信息</strong></span>
+</p>
+<p>
+	<span style="font-size:14px;"></span><span style="font-size:14px;">HttpClientUtil client = new HttpClientUtil();</span><br />
+<span style="font-size:14px;"> String url = “业务系统提供的接口地址”</span><span style="font-size:14px;">+projid;</span><br />
+<span style="font-size:14px;"> Object ret= client.getResult(url,"");</span><br />
+<span style="font-size:14px;"> JSONArray info = new JSONArray();</span><br />
+<span style="font-size:14px;"> info = JSONObject.fromObject(ret).getJSONArray("info");</span><br />
+<span style="font-size:14px;"></span>
+</p>
+</body>
+</html>

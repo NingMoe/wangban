@@ -1,0 +1,554 @@
+
+<style>
+.nav-pills>li>a {
+	padding: 5px 15px;
+}
+</style>
+<div id="subhead" class="yi-subhead bg-primary"
+	style="margin-bottom: 20px; padding-top: 20px; padding-bottom: 20px; color: #fff;">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-10">
+				<h1 style="margin: 0;">
+					<strong>2015年度</strong><br>政务服务网建设绩效考评排名情况
+				</h1>
+			</div>
+			<div class="col-xs-2">
+				<a class="btn btn-warning btn-block btn-lg" href="#">省级部门</a> <a
+					class="btn btn-warning btn-block btn-lg" href="#">设区市</a>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div id="page" class="container">
+	<div class="row" style="background-color: #fff;">
+		<div class="col-xs-4">
+			<section class="panel panel-default no-bordered no-shadow">
+			<header class="panel-heading transparent alpha omega"> <a
+				class="pull-right text-muted" href="{{cp}}jxkhContent?moreTitle=服务进驻率"  target="_blank">更多</a>
+			<h4 style="margin: 0;">
+				<button type="button" class="btn btn-primary no-bordered"
+					style="padding: 5px;">
+					<i class="mdicon mdicon-domain f32"></i>
+				</button>
+				<strong>服务进驻率</strong> <i class="mdicon mdicon-help f24 text-muted"
+					data-original-title="按各部门、各地区事项办事进度统一查询的事项占全部事项的比率"
+					data-toggle="tooltip" data-placement="top"></i>
+			</h4>
+			</header>
+			<ul class="nav nav-pills f12"
+				style="border-bottom: 1px solid #0DB0E5; margin-top: 10px;" id="fwjzl">
+				<li class="active" code="1"><a data-toggle="pill" href="#">省级部门窗口</a>
+				</li>
+				<li  code="2"><a data-toggle="pill" href="#">设区市平台</a>
+				</li>
+				<li  code="3"><a data-toggle="pill" href="#">县（区、市平台）</a>
+				</li>
+			</ul>
+			<table class="table table-hover table-condensed f12" id='fwjzl1' style="display:block;">
+				
+			</table>
+			<table class="table table-hover table-condensed f12" id='fwjzl2' style="display:none;">
+				
+			</table>
+			<table class="table table-hover table-condensed f12" id='fwjzl3' style="display:none;">
+				
+			</table>
+			</section>
+		</div>
+		<div class="col-xs-4">
+			<section class="panel panel-default no-bordered no-shadow">
+			<header class="panel-heading transparent alpha omega"> <a
+				class="pull-right text-muted" href="{{cp}}jxkhContent?moreTitle=服务整合度"  target="_blank">更多</a>
+			<h4 style="margin: 0;">
+				<button type="button" class="btn btn-primary no-bordered"
+					style="padding: 5px;">
+					<i class="mdicon mdicon-av-timer f32"></i>
+				</button>
+				<strong>服务整合度</strong> <i class="mdicon mdicon-help f24 text-muted"
+					data-original-title="按各部门、各地区事项办事进度统一查询的事项占全部事项的比率"
+					data-toggle="tooltip" data-placement="top"></i>
+			</h4>
+			</header>
+			<ul class="nav nav-pills f12"
+				style="border-bottom: 1px solid #0DB0E5; margin-top: 10px;" id="fwzhd">
+				<li class="active" code="1"><a data-toggle="pill" href="#">省级部门窗口</a>
+				</li>
+				<li code="2"><a data-toggle="pill" href="#">设区市平台</a>
+				</li>
+				<li code="3"><a data-toggle="pill" href="#">县（区、市平台）</a>
+				</li>
+			</ul>
+			<table class="table table-hover table-condensed f12" id='fwzhd1' style="display:block;">
+				
+			</table>
+			<table class="table table-hover table-condensed f12" id='fwzhd2' style="display:none;">
+				
+			</table>
+			<table class="table table-hover table-condensed f12" id='fwzhd3' style="display:none;">
+				
+			</table>
+			</section>
+		</div>
+		<div class="col-xs-4">
+			<section class="panel panel-default no-bordered no-shadow">
+			<header class="panel-heading transparent alpha omega"> <a
+				class="pull-right text-muted" href="{{cp}}jxkhContent?moreTitle=查询便捷度"  target="_blank">更多</a>
+			<h4 style="margin: 0;">
+				<button type="button" class="btn btn-primary no-bordered"
+					style="padding: 5px;">
+					<i class="mdicon mdicon-search f32"></i>
+				</button>
+				<strong>查询便捷度</strong> <i class="mdicon mdicon-help f24 text-muted"
+					data-original-title="按各部门、各地区事项办事进度统一查询的事项占全部事项的比率"
+					data-toggle="tooltip" data-placement="top"></i>
+			</h4>
+			</header>
+			<ul class="nav nav-pills f12"
+				style="border-bottom: 1px solid #0DB0E5; margin-top: 10px;" id="cxbjd">
+				<li class="active" code="1"><a data-toggle="pill" href="#">省级部门窗口</a>
+				</li>
+				<li code="2"><a data-toggle="pill" href="#">设区市平台</a>
+				</li>
+				<li code="3"><a data-toggle="pill" href="#">县（区、市平台）</a>
+				</li>				
+			</ul>
+			<table class="table table-hover table-condensed f12" id="cxbjd1"  style="display:block;">
+				
+			</table>
+			<table class="table table-hover table-condensed f12" id="cxbjd2"  style="display:none;">
+				
+			</table>
+			<table class="table table-hover table-condensed f12" id="cxbjd3"  style="display:none;">
+				
+			</table>
+			</section>
+		</div>
+		<div class="col-xs-12">
+			<section class="panel panel-default no-bordered no-shadow">
+			<header class="panel-heading transparent alpha omega"> <a
+				class="pull-right text-muted" href="#">更多</a>
+			<h4 style="margin: 0;">
+				<button type="button" class="btn btn-primary no-bordered"
+					style="padding: 5px;">
+					<i class="mdicon mdicon-equalizer f32"></i>
+				</button>
+				<strong>访问量</strong> <i class="mdicon mdicon-help f24 text-muted"
+					data-original-title="按各部门、各地区事项办事进度统一查询的事项占全部事项的比率"
+					data-toggle="tooltip" data-placement="top"></i>
+			</h4>
+			</header>
+			<ul class="nav nav-pills f12"
+				style="border-bottom: 1px solid #0DB0E5; margin-top: 10px;" id="dept_hall">
+				<li class="active" code="1"><a data-toggle="pill" href="#">省级部门窗口</a>
+				</li>
+				<li  code="2"><a data-toggle="pill" href="#">设区市平台</a>
+				</li>
+				<li  code="3"><a data-toggle="pill" href="#">县（区、市平台）</a>
+				</li>
+				<div style="float:right;"><input style="display:none;" id="lbutton" type="button" value="《" onclick="switchLR('left');"/><input  style="display:none;"  id="rbutton" type="button" value="》" onclick="switchLR('right');"/></div>
+			</ul>
+			<div class="panel-body" id="chartT">
+				<div id="chartT1"
+					style="min-width: 1000px; height: 250px; margin: 0 auto;"></div>
+				<div id="chartT2"
+					style="min-width: 1000px; height: 250px; margin: 0 auto;display:none;"></div>
+				<div id="chartT3"
+					style="min-width: 1000px; height: 250px; margin: 0 auto;display:none;overflow-x:auto;"></div>
+			</div>
+			</section>
+		</div>
+		<div class="col-xs-12">
+			<section class="panel panel-default no-bordered no-shadow">
+			<header class="panel-heading transparent alpha omega"> <a
+				class="pull-right text-muted" href="{{cp}}jxkhContent?moreTitle=关注度" target="_blank">更多</a>
+			<h4 style="margin: 0;">
+				<button type="button" class="btn btn-primary no-bordered"
+					style="padding: 5px;">
+					<i class="mdicon mdicon-equalizer f32"></i>
+				</button>
+				<strong>关注度</strong> <i class="mdicon mdicon-help f24 text-muted"
+					data-original-title="按各部门、各地区事项办事进度统一查询的事项占全部事项的比率"
+					data-toggle="tooltip" data-placement="top"></i>
+			</h4>
+			</header>
+			<div class="row" style="margin-top: 10px;">
+				<div class="col-xs-4">
+					<section class="panel panel-primary no-bordered no-shadow">
+					<header class="panel-heading"> <a
+						class="pull-right small btn-primary" href="#"></a>
+					<h5 class="panel-title f12">
+						<strong>省级部门窗口</strong>
+					</h5>
+					</header>
+					<table class="table table-hover table-condensed f12 text-center" id="gzd1">
+						<thead>
+							<tr>
+								<th class="text-center">排名</th>
+								<th class="text-center">标题</th>
+								<th class="text-center">关注度</th>
+							</tr>
+						</thead>
+						
+					</table>
+					</section>
+				</div>
+				<div class="col-xs-4">
+					<section class="panel panel-primary no-bordered no-shadow">
+					<header class="panel-heading"> <a
+						class="pull-right small btn-primary" href="#"></a>
+					<h5 class="panel-title f12">
+						<strong>市平台</strong>
+					</h5>
+					</header>
+					<table class="table table-hover table-condensed f12 text-center" id="gzd2">
+						<thead>
+							<tr>
+								<th class="text-center">排名</th>
+								<th class="text-center">标题</th>
+								<th class="text-center">关注度</th>
+							</tr>
+						</thead>
+						
+					</table>
+					</section>
+				</div>
+				<div class="col-xs-4">
+					<section class="panel panel-primary no-bordered no-shadow">
+					<header class="panel-heading"> <a
+						class="pull-right small btn-primary" href="#"></a>
+					<h5 class="panel-title f12">
+						<strong>区县平台</strong>
+					</h5>
+					</header>
+					<table class="table table-hover table-condensed f12 text-center" id="gzd3">
+						<thead>
+							<tr>
+								<th class="text-center">排名</th>
+								<th class="text-center">标题</th>
+								<th class="text-center">关注度</th>
+							</tr>
+						</thead>
+						
+					</table>
+					</section>
+				</div>
+			</div>
+			</section>
+		</div>
+	</div>
+</div>
+<!-- JavaScript -->
+<script src="{%public scripts/chart/highcharts.js%}"></script>
+<script src="{%public assets/js/docs.js%}"></script>
+<script src="{%public assets/js/apps.js%}"></script>
+<script>
+	$(function() {
+		$('[data-toggle="tooltip"]').tooltip()
+	});
+</script>
+<script>
+var deptList;
+getDeptList();
+function getDeptList(){
+   	var region_code = getSecurityValue("WebRegion");
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	command.setParameter("region_code", region_code);
+	deptList = command.execute("getDeptList");
+   	if (!command.error) {
+	} else if(type!="0"){
+		LEx.dialog({
+			title : "系统提示",
+			content : command.error,
+			icon : 'error',
+			lock : true
+		});
+	}
+  }
+$(function(){
+	setFwlDept();
+	if("{{ConfigInfo.WebRank}}"=='0'){
+		setFwlHall('1',"chartT2");
+		setFwlHall('2',"chartT3");
+	}else if("{{ConfigInfo.WebRank}}"=='1'){
+		setFwlHall('2',"chartT2");
+		setFwlHall('3',"chartT3");
+	}
+	
+	$("#dept_hall>li").click(function(){
+		var d = "chartT"+$(this).attr("code");
+		$("#chartT>div").each(function(){
+			$(this).hide();
+		});
+		$("#"+d).show();
+		if(d=="chartT3"){
+			if(jsonArray3.length>1){
+				$("#lbutton").show();
+				$("#rbutton").show();
+			}
+		}else{
+			$("#lbutton").hide();
+			$("#rbutton").hide();
+		}
+	});
+	$("#fwjzl>li").click(function(){
+		$("#fwjzl").parent().find("table").hide();
+		$("#fwjzl"+$(this).attr("code")).show();
+	});
+	$("#fwzhd>li").click(function(){
+		$("#fwzhd").parent().find("table").hide();
+		$("#fwzhd"+$(this).attr("code")).show();
+	});
+	$("#cxbjd>li").click(function(){
+		$("#cxbjd").parent().find("table").hide();
+		$("#cxbjd"+$(this).attr("code")).show();
+	});
+	addTables();
+});
+function getDeptListGrade4(region_code){
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	command.setParameter("region_code", region_code);
+	return command.execute("getDeptList");
+ }
+function addTables(){
+	var data=[];
+	data = deptList.data.organ;//document.write(LEx.encode(data));
+	var ret = {};
+	ret.data = data;
+	var ret1={};
+	var data1=[];
+	
+	var ret2={};
+	var data2=[];//document.write(LEx.encode(deptList.data.region));
+	for(var i=0;i<deptList.data.region.length;i++){
+		if(deptList.data.region[i].GRADE=="3"){
+			data1.push(deptList.data.region[i]);
+			var deptList2 = getDeptListGrade4(deptList.data.region[i].CODE);
+			for(var j=0;j<deptList2.data.region.length;j++){
+				if(deptList2.data.region[j].GRADE=="4"){
+					data2.push(deptList2.data.region[j]);
+				}
+			}
+		}
+	}
+	ret1.data=data1;
+	ret2.data=data2;	
+	
+	$('#fwjzl1').html(LEx.processDOMTemplate('Table12Template',ret));
+	
+	$('#fwjzl2').html(LEx.processDOMTemplate('Table12Template',ret1));
+
+	$('#fwjzl3').html(LEx.processDOMTemplate('Table12Template',ret2));
+
+	$('#fwzhd1').html(LEx.processDOMTemplate('Table12Template',ret));
+
+	$('#fwzhd2').html(LEx.processDOMTemplate('Table12Template',ret1));
+
+	$('#fwzhd3').html(LEx.processDOMTemplate('Table12Template',ret2));
+
+	$('#cxbjd1').html(LEx.processDOMTemplate('Table12Template',ret));
+
+	$('#cxbjd2').html(LEx.processDOMTemplate('Table12Template',ret1));
+
+	$('#cxbjd3').html(LEx.processDOMTemplate('Table12Template',ret2));
+
+}
+var jsonArray3=[];//chartT3 数组
+var lr = 0;//当前第几组
+var jsonArray3Len=0;//总共多少组
+function switchLR(obj){
+	if(obj=="left"){
+		if(lr>0){
+			setFwl(jsonArray3[lr-1],"chartT3");
+			lr--;
+		}
+	}else if(obj=="right"){
+		if(lr<jsonArray3Len-1){
+			setFwl(jsonArray3[lr+1],"chartT3");
+			lr++;
+		}		
+	}
+}
+function setFwlDept(){
+	var command = new LEx.Command("app.icity.project.ProjectIndexCmd");	
+	var ret = command.execute("getTrafficStatisticsDept");
+	if(!command.error){
+		setFwl(ret,"chartT1");
+		$('#gzd1').append(LEx.processDOMTemplate('Table12_3Template',ret));
+	}else{
+		LEx.alert(ret.message);
+	}
+}
+function setFwlHall(WebRank,id){//alert("{{ConfigInfo.WebRank}}");
+	var command = new LEx.Command("app.icity.project.ProjectIndexCmd");	
+	command.setParameter("WebRank",WebRank);
+	var ret = command.execute("getTrafficStatisticsHall");
+	if(!command.error){		
+		if(id=="chartT2"){
+			setFwl(ret,id);
+			$('#gzd2').append(LEx.processDOMTemplate('Table12_3Template',ret));
+		}else if(id=="chartT3"){
+			var len = ret.total;
+			if(len>10){
+				var _ret = {};
+				var _data=[];
+				for(var i=0;i<len;i++){
+					_data.push(ret.data[i]);
+					if(i%10==9||i==len-1){
+						_ret.data = _data;
+						_ret.total=i%10+1;						
+						
+						jsonArray3.push(_ret);
+						_ret={};
+						_data=[];
+					}
+				}				
+			}else{
+				jsonArray3.push(ret);
+			}
+			jsonArray3Len = jsonArray3.length;
+			setFwl(jsonArray3[0],id);
+			$('#gzd3').append(LEx.processDOMTemplate('Table12_3Template',ret));
+		}
+	}else{
+		LEx.alert(ret.message);
+	}
+}
+	function setFwl(ret,id) {
+		var colors = Highcharts.getOptions().colors, colors = [ '#058DC7',
+				'#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572',
+				'#058DC7' ], categories = [], name = 'Browser brands', data = [];
+		var len = ret.total;
+		for(var i=0;i<len;i++){
+			categories.push(ret.data[i].NAME);
+			var item = {};
+			item.y=ret.data[i].COUNT*1;
+			item.color=colors[i%6];
+			data.push(item);
+		}
+		function setChart(name, categories, data, color) {
+			chart.xAxis[0].setCategories(categories, false);
+			chart.series[0].remove(false);
+			chart.addSeries({
+				name : name,
+				data : data,
+				color : color || 'white'
+			}, false);
+			chart.redraw();
+		}
+
+		var chart = $('#'+id).highcharts(
+				{
+					colors : [ '#058DC7', '#50B432', '#ED561B', '#DDDF00',
+							'#24CBE5', '#64E572', '#FF9655', '#FFF263',
+							'#6AF9C4' ],
+					chart : {
+						type : 'column'
+					},
+					title : {
+						text : false
+					},
+					credits : {
+						enabled : false
+					},
+					subtitle : {
+						text : false
+					},
+					xAxis : {
+						categories : categories
+					},
+					yAxis : {
+						title : {
+							text : '访问量'
+						}
+					},
+					legend : {
+						enabled : false
+					},
+					plotOptions : {
+						column : {
+							cursor : 'pointer',
+							point : {
+								events : {
+									click : function() {
+										var drilldown = this.drilldown;
+										if (drilldown) { // drill down
+											setChart(drilldown.name,
+													drilldown.categories,
+													drilldown.data,
+													drilldown.color);
+										} else { // restore
+											setChart(name, categories, data);
+										}
+									}
+								}
+							},
+							dataLabels : {
+								enabled : true,
+
+								style : {
+									fontWeight : 'bold'
+								},
+								formatter : function() {
+									return this.y;
+								}
+							}
+						}
+					},
+					tooltip : {
+						formatter : function() {
+							var point = this.point, s = this.x + ':<b>访问量'
+									+ this.y + '</b><br/>';
+							if (point.drilldown) {
+								s += 'Click to view ' + point.category
+										+ ' versions';
+							} else {
+								s += '';
+							}
+							return s;
+						}
+					},
+					series : [ {
+						name : name,
+						data : data,
+						color : 'white'
+					} ],
+					exporting : {
+						enabled : false
+					}
+				}).highcharts(); // return chart
+	}
+</script>
+
+<script type="text/template" id="Table12Template">
+<tbody style="width:100%;">
+{var i=1}
+{for o in data}
+{if i<5}
+	<tr  style="width:100%;">
+		<td  style="width:20%;"><span class="label label-warning">${i++}</span>
+		</td>
+		<td  style="width:60%;" title="${o.NAME}">${formatLenUtf8(o.NAME,10)}</td>
+		<td  style="width:20%;">100.00%</td>
+	</tr>	
+{/if}				
+{/for}
+</tbody>
+</script>
+<script type="text/template" id="Table12_3Template">
+<tbody style="width:100%;">
+{var i=1}
+{for o in data}
+{if i<5}
+	<tr  style="width:100%;">
+		<td  style="width:20%;"><span class="label label-warning">${i++}</span>
+		</td>
+		<td  style="width:60%;" title="${o.NAME}">${formatLenUtf8(o.NAME,10)}</td>
+		<td  style="width:20%;">${o.COUNT}</td>
+	</tr>	
+{/if}				
+{/for}
+</tbody>
+</script>

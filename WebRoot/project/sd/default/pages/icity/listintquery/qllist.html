@@ -1,0 +1,216 @@
+<div class="container"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png%}"> 您当前所在的位置:</li>
+        <li><a href="{{cp}}public/index">首页</a></li>
+        <li><a href="{{cp}}icity/listintquery/qllist">行政权力清单</a></li>
+    </ol>
+</div>
+<div class="container"> 
+    <div class="table-table">
+        <div class="table-cell its-aside">
+            <nav class="sidebar its-sidebar">
+                <h4 class="sidebar-header" data-toggle="collapse" href="#collapseOne">
+                    <img src="{%public assets/img/adx_bszx.png%}"><strong>按清单类型</strong>
+                </h4>
+                <ul class="nav sidebar-nav collapse in" id="collapseOne">
+                    <li title="splist" ><a href="{{cp}}icity/listintquery/splist">行政审批清单</a></li>
+                    <li title="qllist" class="active"><a href="{{cp}}icity/listintquery/qllist">行政权力清单</a></li>
+                    <li title="zrlist"><a href="{{cp}}icity/listintquery/zrlist">部门责任清单</a></li>
+                    <li title="fmlist"><a href="javascript:void(0)">市场准入负面清单</a></li>
+                </ul>
+                <h4 class="sidebar-header">
+                    <img src="{%public assets/img/abm_bszx.png%}"><strong>按部门分类</strong>
+                </h4>
+                <ul class="nav sidebar-nav collapse in" id="collapseTwo" style="height:530px;overflow-y:scroll">
+                </ul>
+            </nav>
+        </div>
+        <div class="table-cell its-page">
+            <section class="its-page-body">
+                <table class="table its-tabel-filter">
+                    <tbody>
+                        <tr>
+                            <th width="100px" class="text-right">按权力名称：</th>
+                            <td width="300px"><input type="text" class="form-control" placeholder="请输入权力名称" id="project-text-search"></td>
+                            <th width="80px" class="text-right">权力类型：</th>
+                            <td width="150px">
+                                <select class="form-control" id="power" >
+                                    <option value="">--请选择--</option>
+              						<option value="XK">行政许可</option>
+              						<option value="QZ">行政强制</option>
+              						<option value="JF">行政给付</option>
+              						<option value="BM">行政服务</option>
+              						<option value="QT">其他权力</option>
+                                </select>
+                            </td>
+                            <td width="100px"><button class="btn btn-danger btn-sm no-bordered btn-block f16" id="project-btn-search">搜 索</button></td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                <br>
+                <table class="table table-striped its-table-backlog" id="roll_list1">
+                    
+                </table>
+<!--                  <div id="project-none" style="display:none;font-size:30px;font-weight:bold;text-align:center;">查无相关事项</div> -->
+                 <p class="text-center" id="project-none" style="display:none;">
+                    <span style="background-color: #F1F2F3; padding: 8px 200px; color: #666;">暂无数据</span>
+                 </p>
+                <!-- 分页显示位置 -->
+                <nav class="text-center" id="layer"></nav>
+            </section>
+            
+        </div>
+    </div>
+</div>
+<textarea type="text/template" id="MattersListTemplate" style="display:none">
+<thead>
+                        <tr class="bg-info">
+                            <th class="text-center text-primary" width="20%">权力编码</th>
+                            <th class="text-center text-primary" width="60%">权力名称</th>
+                            <th class="text-center text-primary" width="20%">权力类型</th>
+                        </tr>
+</thead>
+<tbody>
+{for o in data}
+	<tr>
+		<td style="width: 15%;text-align:center;">${o.INNER_CODE}</td>
+		<td style="width: 65%;text-align:left;"><a href="{{PageContext.ContextPath}}icity/proinfo?id=${o.ID}" target="_blank">${o.NAME}</a></td>
+		<td style="width: 20%;text-align:center;">${formatState(o.TYPE)}</td>
+	</tr>
+{/for}
+</tbody>
+
+</textarea>
+<script>
+var id = "";
+var deptid="",SearchName="",itemtype="";
+var limit=8;
+var pageTotal=0;
+function onQuery(start){
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("region_code", "{{ConfigInfo.WebRegion}}");
+	cmd.setParameter("deptid", deptid);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	cmd.setParameter("ITEM_TYPE", itemtype);
+	if($("#project-text-search").val()!=""){
+		cmd.setParameter("SearchName", $("#project-text-search").val());
+	}
+	var ret =  cmd.execute("getInitList");
+	if(!ret.error){
+			$('#roll_list1').html(LEx.processDOMTemplate('MattersListTemplate',ret));
+			var total=ret.total;
+			total=Math.ceil(total/limit);
+			pageTotal=total;
+			if(total==0){
+				$("#project-none").show();
+				$('#layer').hide();
+			}
+			else{
+				$("#project-none").hide();
+				$('#layer').show();
+			} 
+	}else{
+		
+		LEx.alert(ret.error);
+	}
+}
+
+function formatState(type){
+	var val="其他";
+	switch(type){
+		case 'XK':
+			val="行政许可";
+			break;
+		case 'QZ':
+			val="行政强制";
+			break;
+		case 'JF':
+			val="行政给付";
+			break;
+		case 'BM':
+			val="便民服务";
+			break;
+		default:
+			var val="其他权力";
+			break;
+	}	
+	return val;
+}
+
+$(function(){
+	onQuerydept();
+	//绑定按服务对象分类点击事件
+ 	$('#collapseOne li').click(function (e) {
+ 		$('#collapseOne li').removeClass("active");
+		$(this).addClass("active");
+  	});
+ 	//绑定按部门分类点击事件
+ 	$('#collapseTwo li').click(function (e) {
+ 		deptid=$(this).attr("tag");
+ 		$('#collapseTwo li').removeClass("active");
+		$(this).addClass("active");
+		onQuery(1);
+		layerPage();
+  });
+ 	
+ 	//搜索
+ 	$('#project-btn-search').click(function (e) {
+ 		SearchName=$("#project-text-search").val();
+ 		itemtype=$("#power").val();
+		onQuery(1);
+		layerPage();
+  });
+ 	//参数初始化
+ 	onQuery(1);
+ 	layerPage();
+}); 
+
+//创建部门列表
+function onQuerydept(){
+	var region_code=getSecurityValue("WebRegion");
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	command.setParameter("region_code",region_code);
+	var ret = command.execute("getDeptList");
+	if(!command.error){
+		creatListdept(ret.data.organ);
+	}else{
+		LEx.dialog({
+			title : "系统提示",
+			content : command.error,
+			icon : 'error',
+			lock : true
+		});
+	}	
+}
+
+function creatListdept(orgs){
+	var len = orgs.length;
+	var strHtml = "";
+	strHtml += '<li title="" tag="" class="active"><a href="#">全部</a></li>';
+	for(var i=0;i<len;i++){
+		if(orgs[i].IS_HALL=="1"){
+			strHtml += '<li title="'+orgs[i].NAME+'" tag="'+orgs[i].CODE+'"><a href="javascript:void(0)">'+orgs[i].SHORT_NAME+'</a></li>';
+		}
+	}
+	$("#collapseTwo").html(strHtml);
+};
+
+//layerPage分页
+function layerPage(){
+	laypage({
+    	cont: $("#layer"), //容器。值支持id名、原生dom对象，jquery对象,
+    	pages: pageTotal, //总页数
+    	skin: '#42a5f5', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+    	groups: 4, //连续显示分页数
+    	jump:function(obj,first){
+    			// debugger
+    			var currPage = obj.curr;
+    			if(!first){
+    				onQuery(currPage);
+    			}
+    		}
+		});	
+}
+</script>

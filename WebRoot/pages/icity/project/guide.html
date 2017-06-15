@@ -1,0 +1,326 @@
+<link rel="stylesheet" type="text/css" href="{% public themes/default/css/base.css %}" />
+	<link rel="stylesheet" type="text/css" href="{% public themes/default/css/home.css %}" />
+	<link rel="stylesheet" type="text/css" href="{% public themes/default/css/plus.css %}" />
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}project.css" />
+<script  type="text/javascript" src="{{PageContext.JsPath}}jquery.jqzoom.js"></script>
+<script type="text/javascript" src="{{PageContext.PagePath}}icity/project/common.js"></script>
+<style>
+
+/*放大镜效果*/
+.jqzoom{
+	float:left;
+	position:relative;
+	padding: 0;
+	cursor: pointer;
+}
+
+.jqzoom img{
+	float:left;
+}
+
+div.zoomdiv {
+	z-index: 100;
+	position: absolute;
+	top:0px;
+	left:0px;
+	width: 100px;
+	height: 100px;
+	background: #ffffff;
+	border:1px solid #ccc;
+	display:none;
+	text-align: center;
+	overflow: hidden;
+}
+
+div.jqZoomPup {
+	z-index: 10;
+	visibility: hidden;
+	position: absolute;
+	top:0px;
+	left:0px;
+	width: 50px;
+	height: 50px;
+	border: 1px solid #aaa;
+	background: #ffffff;
+	opacity: 0.5;
+	-moz-opacity: 0.5;
+	-khtml-opacity: 0.5;
+	filter: alpha(Opacity=50);
+}
+/*放大镜结束*/
+img.timeinfo{
+	width:145;
+	height:63;
+	margin:0 auto;
+}
+.item-share a{padding: 4px 10px}
+.process{
+	text-align:center;
+	vertical-align: -9px;
+}
+
+.guide_top_center a.nbutton_guide{
+	float: left;
+	margin-left: 10px;
+}
+.no_thumbnails a.nbutton_guide{
+	margin-left: 0;
+	margin-top: 10px;
+}
+.nbutton_orange,.nbutton_blue,.nbutton_gray{width: 100px;}
+</style>
+{% set id PageContext.Parameter.id %}
+{% if id %}
+	{% map "id",id as p %}
+	{% command "app.icity.ServiceCmd","getPermission",p as d %}
+	<!-- 事项信息 -->
+	{%  set item d.data %}
+	{% set itemInfo item.itemBasicInfo%}
+	{% set attachments item.materials%}
+	{% set online item.onlineconduct %}
+	{% merge PageContext.ContextPath,"icity/submitsp/baseinfo?itemId=",itemInfo.ID as online_service_url %}
+	{% merge PageContext.ContextPath,"project/item/consult/",itemInfo.CODE as consult_service_url %}
+	{% merge PageContext.ContextPath,"project/item/progress/",itemInfo.CODE as progress_query_url %}
+	{% merge PageContext.ContextPath,"project/item/result/",itemInfo.CODE as result_query_url %}
+{% else %}
+	<script type="text/javascript">window.location.href="{{PageContext.ContextPath}}index";</script>
+{% endif %}
+<body class="body_sz">
+<div id="container_main">
+<div class="pageMain" >
+<div id="guide-top" class="container">
+	<div class="guide-top-box">
+		<!--第一屏内容-->
+		<div class="shadow_bg">
+			<div id="guide-head">
+				<div class="name" id="guide-permission-name-title">{{itemInfo.NAME}}</div>
+				<div style="float:right;margin-top:6px;"></div> 
+			</div>
+			<div id="guide-top-center" class="guide_top_center">
+				<div id="guide-thead" class="guide_thead">
+					<div class="workflow" style="height: 300px">
+						<div class="flowimg jqzoom" style="border-bottom:none">
+							<img id="iworkflow" style="border:1px solid #f1f1f1;background:white;" border='0' alt="办事流程图" width="246" height="248" jqimg="{{PageContext.ImgPath}}project/large.jpg" src="{{PageContext.ImgPath}}project/large.jpg">
+						</div>
+						<div id="assess" class="assess"></div>
+					</div>
+					<div class="perinfo" style="height: 250px;width: 420px;">
+						<span><b>受理机构:</b>
+							<label title="{{itemInfo.ORG_NAME}}">
+								{{itemInfo.ORG_NAME|truncate:'30','...'}}
+							</label>					
+						</span>									
+						<span><b>事项类型:</b>
+							{% if itemInfo.TYPE|equal:'XK' %}
+								行政许可事项
+							{% else %}
+								{% if itemInfo.TYPE|equal:'SP' %}
+									非行政许可审批事项
+								{% else %}
+									社会事务服务事项
+								{% endif %}
+							{% endif %}
+						</span>						
+						<span><b>办理对象:</b>	
+							{% if itemInfo.SERVICE_OBJECT|equal:'0' %}
+									个人
+								{% else %}
+								{% if itemInfo.SERVICE_OBJECT|equal:'1' %}
+									企业
+								{% else %}
+									个人和企业
+								{% endif %}
+								{% endif %}								
+						</span>			
+						<span><b>承诺期限:</b>			
+							{% if itemInfo.AGREE_TIME %}
+									{{itemInfo.AGREE_TIME}}个工作日	
+							{% else %}
+								<font color="red">未承诺期限</font>	
+							{% endif %}
+						</span>		
+						<span><b>服务收费:</b>
+							{% if itemInfo.IS_CHARGE|equal:'1' %}
+								<a class="suport">&nbsp;</a>
+								<!-- <a href="javascript:void(0);" tag="charge" class="htmlhref">收费</a> -->
+								收费
+							{% else %}
+								<a class="notsuport">&nbsp;</a>不收费
+							{% endif %}
+						</span>	
+						<span><b>到现场次数:</b>
+							2次
+						</span>				
+						<div class="pcenter">
+								{% if itemInfo.STATE|equal:'5' %}
+									{% if itemInfo.IS_ONLINE|equal:'1' %}
+								
+									     {% for on in online %}
+									        {% if on.ONLINE_ADDRESS|cut:' '|length|equal:'0'|not %}
+										    <a href="{{on.ONLINE_ADDRESS}}" target="_blank"  class="nbutton_orange" style="float: left;">在线办理</a>
+									        {% else %}
+									         <a href="{{online_service_url}}" target="_blank" onclick="addHistory('{{itemInfo.CODE}}');" class="nbutton_orange" style="float: left;">在线办理</a>
+									        {% endif %}
+									     {% endfor %}
+									   
+									{% else %}
+									<a href="javascript:LEx.dialog.tips('对不起，该事项暂不支持网上办理!');" class="nbutton_gray" style="float: left;color: #444444;">在线办理</a>
+								    {% endif %}
+								{% else %}
+									<a href="javascript:LEx.dialog.tips('对不起，该事项暂不支持网上办理!');" class="nbutton_gray" style="float: left;color: #444444;">在线办理</a>
+								{% endif %}						
+								<a item_id="{{itemInfo.ID}}" item_code="{{itemInfo.CODE}}" item_name="{{itemInfo.NAME}}" onclick="addFaveriot(this);" href="#" class="nbutton_blue" style="float: left;">加入收藏</a>
+								<!-- <a type="button" class="nbutton_blue" href="#" target="_self" onclick="Getbg('{{itemInfo.ID}}')">表格下载</a>
+								<a class="nbutton_blue" href="#" target="_self" onclick="Getbg('{{itemInfo.ID}}')">表格下载</a> -->
+						</div>
+					</div>
+
+					<div class="box blueTop" style="height: 265px; width: 236px;margin-bottom: 0px;">
+						<div class="header header_blue"><h3>办件信息</h3>
+							 <!--<span class="more" onclick="window.open('{{PageContext.ContextPath}}icity/project/BusyQueryList')"></span>-->
+						</div>
+						<div >
+							{% set code PageContext.Parameter.code%}
+							{% widget "project.BusyInfoStateListDetailWidget",layout %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="guide-bottom">
+	<div class="guide-left" style="width:720px;">
+		<div class="guide-left-top" id="tab">
+			<ul class="tabs tabs-line" style="width: 720px;">
+			     <li><a href="javascript:void(0);" tag="content_guide" class="tab" hidefocus="true" style="outline:none;">办事指南</a></li>
+			     <li><a href="javascript:void(0);" tag="guide_table" class="tab" hidefocus="true" style="outline:none;">表格下载</a></li>
+			     <!-- <li><a href="javascript:void(0);" tag="guide_license" class="tab" hidefocus="true" style="outline:none;">样表下载</a></li>
+			     <li><a href="javascript:void(0);" tag="guide_evaluate" class="tab" hidefocus="true" style="outline:none;">服务评价</a></li>
+			     <li><a href="javascript:void(0);" tag="guide_consult" class="tab" hidefocus="true" style="outline:none;">咨询列表</a></li>
+			     <li><a href="javascript:void(0);" tag="guide_raiders" class="tab" hidefocus="true" style="outline:none;">办事攻略</a></li>
+			     <li><a href="javascript:void(0);" tag="guide_question" class="tab" hidefocus="true" style="outline:none;">常见问题</a></li> -->
+			</ul>			
+			<div id="content_guide" class="tabs-content projecttab">
+				{% widget "project.GuideContentWidget",item %}
+				<div class="item-body" style="border:none;display: none">
+			  		<div class="item-share">
+			  			{% if itemInfo.IS_ONLINE|equal:'1' %}		  					
+	  						<a id="can_submit" href="{{online_service_url}}" target="_blank" onclick="addHistory('{{itemInfo.CODE}}');" class="nbutton_orange" style="float: left;">在线办理</a>
+						{% else %}
+							<a href="javascript:LEx.dialog.tips('对不起，该事项暂不支持网上办理!');" class="nbutton_gray" style="float: left;color: #444444;">在线办理</a>
+						{% endif %}
+						{% if itemInfo.PROVIDE_CONSULT|equal:'2' %}
+							<a id="can_consult" href="{{consult_service_url}}" target="_blank" class="nbutton_blue" style="float: left;margin-left:10px;">网上咨询</a>
+						{% else %}
+							<a id="can_consult" href="javascript:LEx.dialog.tips('对不起，该事项暂不支持网上咨询，敬请关注!');" class="nbutton_gray" style="float: left;margin-left:10px;">网上咨询</a>
+						{% endif %}
+						{% if itemInfo.PROVIDE_PROCESS|equal:'2' %}
+							<a id="can_process" href="{{progress_query_url}}" target="_blank" class="nbutton_blue" style="float: left;margin-left:10px;">进度查询</a>
+						{% else %}
+							<a id="can_process" href="javascript:LEx.dialog.tips('对不起，该事项暂不支持进度咨询，敬请关注!');" class="nbutton_gray" style="float: left;" style="margin-left:10px;">进度查询</a>
+						{% endif %}
+						{% if itemInfo.PROVIDE_RESULT|equal:'2' %}
+							<a id="can_result" href="{{result_query_url}}" target="_blank" class="nbutton_blue" style="float: left;margin-left:10px;">结果查询</a>
+						{% else %}
+							<a id="can_result" href="javascript:LEx.dialog.tips('对不起，该事项暂不支持结果咨询，敬请关注!');" class="nbutton_gray" style="float: left;" style="margin-left:10px;">结果查询</a>
+						{% endif %}
+						<a href="javascript:correctError('{{itemInfo.CODE}}');" class="nbutton_blue" style="float: left;">我要纠错</a> 
+					</div>
+			  	</div>
+			</div>
+			<div id="guide_table" class="tabs-content projecttab">
+				{% widget "project.GuideTableWidget",attachments %}
+			</div>
+			<div id="guide_license" class="tabs-content projecttab">
+			</div>
+			<div id="guide_evaluate" class="tabs-content projecttab"></div>
+			<div id="guide_consult" class="tabs-content projecttab"></div>
+			<div id="guide_raiders" class="tabs-content projecttab"></div>		
+			<div id="guide_question" class="tabs-content projecttab">
+			</div>		
+		</div>
+	</div>
+	<div class="guide-right">
+		<div class="right-type">
+			<a class="right-type-title type-c" title="类似的相关服务。"><span>相关服务</span></a>
+			<div id="guide-right-bottom" class="fl guide-content">
+			<ul class="" id="js-list-gro" style="min-height:180px;">
+			{% widget "project.RelatedMattersListTemplate"%}                   
+            </ul>
+			</div>
+		</div>	
+	</div>	
+</div>
+<textarea id="toptemplate" style="display:none">	
+	<div class="satisfy">
+		<span><b>${getEvalueNum(evalue.EHNUM,evalue.EHNUM,evalue.EMNUM,evalue.ELNUM)}</b>%</span>
+		<span>(满意度)</span>
+	</div>
+	<div class="detail">
+		<div class="fl">
+			<div class="ddiv">
+				<label class="dlabel">满&nbsp;&nbsp;&nbsp;意</label>
+				<div class="dvalue">
+					<span class="ds" style="width:${getEvalueNum(evalue.EHNUM,evalue.EHNUM,evalue.EMNUM,evalue.ELNUM)}%;"></span>
+				</div>
+				<div class="pvalue">
+					${getEvalueNum(evalue.EHNUM,evalue.EHNUM,evalue.EMNUM,evalue.ELNUM)}%
+				</div>
+			</div>
+		</div>
+		<div class="ddiv">
+			<label class="dlabel">一&nbsp;&nbsp;&nbsp;般</label>
+			<div class="dvalue">
+				<span class="ds" style="width:${getEvalueNum(evalue.EMNUM,evalue.EHNUM,evalue.EMNUM,evalue.ELNUM)}%;"></span>
+			</div>
+			<div class="pvalue">
+				${getEvalueNum(evalue.EMNUM,evalue.EHNUM,evalue.EMNUM,evalue.ELNUM)}%
+			</div>
+		</div>
+		<div class="ddiv">
+			<label class="dlabel">不满意</label>
+			<div class="dvalue">
+				<span class="ds" style="width: ${getEvalueNum(evalue.ELNUM,evalue.EHNUM,evalue.EMNUM,evalue.ELNUM)}%;"></span>
+			</div>
+			<div class="pvalue">
+				${getEvalueNum(evalue.ELNUM,evalue.EHNUM,evalue.EMNUM,evalue.ELNUM)}%
+			</div>
+		</div>
+	</div>
+</textarea>
+<textarea id="righttoptemplate" style="display:none">
+	<ul class="right-type-list">
+		{for o in catas}
+			<li val="${o.CODE}"><a href="{{PageContext.ContextPath}}icity/project/type?tid=${o.CODE}" class="htmlhref" hidefocus="true" style="outline:none;">${o.NAME}</a></li>
+		{/for}
+		{if catas.length == 0}
+			<li style="color:#35A5EC;">暂无记录!</li>
+		{/if}
+	</ul>
+</textarea>
+<textarea id="rightbottomtemplate" style="display:none">
+	<ul class="right-link-list">
+	{for o in xgfw}
+		<li><span>${getRowNum(o_index)}</span><a href="{{PageContext.ContextPath}}icity/project/guide?code=${o.CODE}" class="htmlhref" onclick="addHistory('${o.CODE}','${o.DEPT_ID}');" target="_blank" hidefocus="true" style="outline:none;">${o.NAME}</a></li>
+	{/for}
+	{if xgfw.length == 0}
+		<li style="color:#35A5EC;">暂无记录!</li>
+	{/if}
+	</ul>
+</textarea>
+<textarea id="historytemplate" style="display:none">
+	<ul id="history" class="right-link-list">
+	{for o in history}		
+		<li><span>${getRowNum(o_index)}</span><a href="{{PageContext.ContextPath}}icity/project/guide?code=${o.CODE}" class="htmlhref" onclick="addHistory('${o.CODE}','${o.DEPT_ID}');" target="_blank" hidefocus="true" style="outline:none;">${o.NAME}</a></li>
+	{/for}
+	</ul>
+	<a id="history_a" class="history htmlhref" href="javascript:deleteHistory();">清除最近浏览</a>
+</textarea>
+<div style="display:none;">
+	<input type="hidden" id="sz-acurl">
+	<input type="hidden" id="sz-courl">
+	<input type="hidden" id="sz-prurl">
+	<input type="hidden" id="sz-rsurl">
+</div></div>
+</div></body>

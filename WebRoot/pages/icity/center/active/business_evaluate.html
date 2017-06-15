@@ -1,0 +1,80 @@
+	<div class="businessevaluate">
+		<div id="menu">
+			<ul class="tabs tabs-base">
+				<li><a href="javascript:void(0);" tag="evaluate_mine" class="tab">我的办事评价</a></li>
+				<li><a href="javascript:void(0);" tag="evaluate_tome" class="tab">对我的办事评价</a></li>
+			</ul>		
+			<div id="evaluate_mine" class="tabs-content">
+				<table id="bem_list" class="listTable  center_table" style="width:100%;">
+					<thead>
+						<tr>
+							<th width="21%">业务流水号</th>
+							<th width="12%">办理时间</th>
+							<th width="20%">被评价单位</th>
+							<th width="25%">评价事项</th>
+							<th width="10%">评价等级</th>
+							<th width="12%">评价内容</th>
+						</tr>
+					</thead>
+					<tbody>		
+					</tbody>
+				</table>
+				<div id="bemdivList" ></div>
+			</div>
+			
+			<div id="evaluate_tome" class="tabs-content">
+				<table id="bet_list" class="listTable  center_table" style="width:100%;">
+					<thead>
+						<tr>
+							<th width="21%">业务流水号</th>
+							<th width="12%">办理时间</th>
+							<th width="20%">评价人</th>
+							<th width="25%">评价事项</th>
+							<th width="10%">评价等级</th>
+							<th width="12%">评价内容</th>
+						</tr>
+					</thead>
+					<tbody>		
+					</tbody>
+				</table>
+				<div id="betdivList" ></div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	<textarea id="template1" style="display:none">
+	{for o in data}
+	 		<tr>
+			<td>${o.BID}</td>
+			<td>${formatDate(o.APPLYTIME)}</td>
+			<td  title="${o.ORGID}">${o.ORGID}</td>
+			<td title="${o.NAME}">${o.NAME}</td>	
+			<td >${formatClassFlag(o.VALUE)}</td>
+			<td title="${o.REMARK}" >${o.REMARK}</td>
+			</tr>
+		{/for}
+		{if total == 0} 
+			<tr><td colspan="6">无数据</td></tr>
+		{/if}
+	</textarea>
+	
+	
+	<textarea id="template2" style="display:none">
+	{for o in data}
+	 		<tr>
+			<td>${o.BID}</td>
+			<td>${formatDate(o.APPLYTIME)}</td>
+			<td>${o.ORGID}</td>
+			<td>${o.NAME}</td>	
+			<td>${formatClassFlag(o.VALUE)}</td>
+			<td>${o.REMARK}</td>
+			</tr>
+		{/for}
+		{if total == 0} 
+			<tr><td colspan="6">无数据</td></tr>
+		{/if}
+	</textarea>
+	
+

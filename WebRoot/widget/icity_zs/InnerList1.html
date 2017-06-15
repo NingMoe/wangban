@@ -1,0 +1,55 @@
+
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/icity.js"></script>
+<script type="text/javascript">
+</script>
+{% command "app.icity.project.ProjectBusinessStatCmd","getBusinessList" as list %}
+<section class="panel panel-success" style="margin-bottom: 10px;width:100%;height:270px;margin:0 auto">
+	<ul class="list-unstyled zl-list-unstyled-ggfu-3">
+		<li> <span style=" width:240px;"><strong>申报号</strong></span>
+			<p style=" width:240px;"><strong>申报事项</strong></p>
+			<span style=" width:140px;"><strong>受理单位</strong></span> 
+			<span style=" width:100px;"><strong>申报时间</strong></span> 
+			<span style=" width:100px;"><strong>承诺时间</strong></span>
+			<em style=" width:80px;"><strong>状态</strong></em> </li>
+	</ul>
+	<div id="roll_list1" style="height: 192px; overflow: hidden; position: relative;">
+		<ul style="position: absolute; top: 0px; left: 0px;" id="maq" class="list-unstyled zl-list-unstyled-ggfu-3">
+			{% if list.data %} {% for o iNeedFormatState_n list.data %}
+				<li>
+					<span style="width:240px;text-align:left;">{{o.receiveNumber}}</span>
+					<p title="{{o.applySubject}}" style="width:240px;text-align:left;">{{o.applySubject|truncate:18}}</p>
+					<span title="{{o.orgName}}" style="width:140px;text-align:left;">{{o.orgName}}</span>
+					<p style="width: 100px;text-align:left;"><i class="NeedFormatTime_">{{o.acceptTime}}</i></p>
+ 					<p style="width: 100px;text-align:left;"><i class="NeedFormatTime_">{{o.limitTime}}</i></p>
+					<em style="width:80px;text-align:left;"><i class="label label-success">&nbsp;</i><i>{{o.state}}</i></em>
+				</li>
+			{% endfor %} {% else %}
+			<li>
+				<div style="text-align: center;margin-top:5px;">
+					<font>暂无业务数据</font>
+				</div>
+			</li> 
+			{% endif %}
+		</ul>
+	</div>
+</section>
+<script>
+	function roll1(){
+		var speed1 = 50;
+		var MyMar1 = setInterval(Marquee1, speed1);
+		roll_list1.onmouseover = function() {
+			clearInterval(MyMar1);
+		};
+		roll_list1.onmouseout = function() {
+			MyMar1 = setInterval(Marquee1, speed1);
+		};
+	}
+	function Marquee1() {
+		if (4150 - roll_list1.scrollTop <= 0)
+			roll_list1.scrollTop -= 4150;
+		else {
+			roll_list1.scrollTop++;
+		}
+	}
+	roll1();
+</script>

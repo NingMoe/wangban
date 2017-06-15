@@ -1,0 +1,77 @@
+@charset "utf-8";
+.main{
+	width:75%;
+	margin-left:auto;
+	margin-right:auto;
+	font-size: 14px;
+}
+p{
+	height: 40px;
+}
+.detail_data{
+	color: red;
+	border:0; 
+	border-bottom:1px solid #000; 
+	text-align:center;
+}
+.title{
+	margin-left:auto;
+	margin-right:auto;
+	text-align: center;
+	font-size: 18px;
+	font-family:'Microsoft YaHei',"微软雅黑", Verdana, Arial, Helvetica, sans-serif; 
+	font-weight: bold;
+}
+.businessId{
+	margin-left:auto;
+	margin-right:auto;
+	text-align: right;
+	margin-right: 20%;
+}
+
+.businessIdValue{
+	color: red;
+}
+
+.content_third_content{
+	font-weight: bold;
+}
+
+.content_first .left{
+	width: 50%;
+	float: left;
+}
+.content_third_f .content_third_left{
+	width: 33%;
+	float: left;
+}
+.content_third_f .content_third_center{
+	width: 33%;
+	float: left;
+}
+.content_third_f .content_third_right{
+	width: 33%;
+	float: left;
+}
+.QR_CODE{
+	margin-left:auto;
+	margin-right:auto;
+	text-align: right;
+	margin-right: 20%;
+}
+.QR_CODE .QR_CODE_f{
+	font-weight:bold;
+	text-align: center;
+	margin-right: 8%;
+}
+.action{
+	margin-left:auto;
+	margin-right:auto;
+	text-align: center;
+	margin-top:50px;
+}
+.btn{
+	cursor: pointer;
+	width:60px;
+	margin-right:40px;
+}

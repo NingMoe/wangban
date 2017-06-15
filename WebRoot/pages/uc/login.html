@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html class="jq-strict">
+<head>
+	<script type="text/javascript">
+		var signupUrl="{{PageContext.ContextPath}}uc/register";
+	</script>
+	<meta charset="utf-8">
+	<title>{{ConfigInfo.AppTitle}}</title>
+    <link rel="stylesheet" type="text/css" href="{{PageContext.ContextPath}}public/themes/uc/css/a?t=css&m=base.css,layout.css,tool.css,form.css,common.css" /> 
+    <style> 
+		.disabled {opacity:0.5;filter:alpha(opacity=50);color:#999;}
+		span.emptyhint {color: #999;position:absolute;padding:3px;}
+		.common-header { position: relative;}
+	</style>
+	<script type="text/javascript">
+		var __webPath = "{{PageContext.ContextPath}}";
+		var __signature = "{{PageContext.SignatureInfo}}";
+	</script>
+	<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,LEx.form.js,common.js"></script>
+	<script type="text/javascript">
+		plugin.add('dialog', {
+			path: '{{PageContext.ContextPath}}public/scripts/dialog/a?t=js&m=jquery.artDialog.js,plugins/iframeTools.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['dialog_css']
+		});
+		plugin.add('dialog_css',{
+			path: '{{PageContext.ContextPath}}public/scripts/dialog/skins/default.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+	</script>
+	<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=md5.js"></script>	
+	<script type="text/javascript" src="{{PageContext.PagePath}}uc/js/a?t=js&m=base64.js,jquery.form.js,login.js"></script>
+<style type="text/css">
+.common-page-home-login .wrap{
+background:url({% public assets/img/login_bg.png %}) no-repeat center -40px;/*504-80-40*/
+}
+</style>
+</head>		
+<body class="page-home common-page-home common-page-home-login jq-chrome" youdao="bind">
+	<input type="hidden" id="txtGoTo" value="{{PageContext.Parameter.goto}}" />
+    <div class="wrap">
+    		<div class="header-holder" style="background:none;">
+ 				<div class="header common-header">
+ 					<div class="logo">
+ 						<img class="uc-header-logo-img" src="{% public assets/img/login_title.png %}">
+ 				</div>
+ 				<div class="nav_sub">
+ 					<a hidefocus="hidefocus" href="{{PageContext.ContextPath}}index">首页</a>&nbsp;&nbsp;|&nbsp;
+ 					<a hidefocus="hidefocus" href="{{PageContext.ContextPath}}uc/help" target="_blank">帮助</a>
+ 				</div>
+ 			</div> 			
+ 		</div>
+ 		<div class="content-holder">
+ 			<div class="content clearfix main-body">
+				<div class="show-pic">
+					<div class="login" >
+						<div class="form-ct">
+							<div class="form-tab">
+								<input id="caAuth" type="hidden" value="{{ConfigInfo.CA_auth}}"/>
+								<ul>
+									<li class="on" style="width:123px" tag="yhdl">用户名登录</li>
+								</ul>
+							</div>
+							<div class="form-body">
+							<div id="yhdl" class="tab">
+								<dl>
+									<dd>
+										<form onsubmit="return false" action="" method="post" id="yhLoginForm" name="yhLoginForm">
+											<input id="type" name="type" type="hidden" value="YH" tag="type"/>
+											<input id="account" reg="^.+$" tips="请输入用户名！" tag="account" name="account" type="text" placeholder="用户名/身份证号/手机号" class="text-name"/> 
+											<input id="pwd" name="pwd" type="hidden" tag="pwd"/>
+											<input id="verify_code" name="verify_code" type="hidden" tag="verify_code"/>
+											<input id="goto" name="goto" type="hidden" value="{{PageContext.Parameter.goto}}" tag="goto"/>
+											<input id="callback" name="callback" type="hidden" value="{{PageContext.Parameter.callback}}" tag="callback"/>
+											<input id="uuid" name="uuid" type="hidden" value="{{PageContext.Parameter.uuid}}" tag="uuid"/>
+										</form>
+									</dd>
+								</dl>
+								<dl>
+									<dd>
+										<input id="password" reg="^.+$" tips="请输入密码！" name="password" placeholder="密码" type="password" class="text-pwd" oncopy="return false;" oncut="return false;"/>
+									</dd>
+								</dl>
+								<dl id="verify_code_div" style="display: none;">
+									<dd>
+										<input id="verify" name="verify" type="text" class="text-verify" style="width: 70px;" placeholder="验证码"> 
+										<a href="javascript:changeVerify();" hidefocus="hidefocus"> 
+											<img id="verifyImg" src="{{PageContext.ContextPath}}bsp/verifyCode" alt="换一张" style="position: relative; top: 6px; left: 0px;">
+										</a>&nbsp; <a href="javascript:changeVerify();" hidefocus="hidefocus" style="font-size: 13px;">换一张</a>
+									</dd>
+								</dl>
+								<dl style=" padding: 2px;">
+									<dd>
+										<input type="checkbox" value="" id="remember_me">&nbsp;
+									</dd>
+									<dd style="font-size:13px;">
+										<label>记住用户名</label>
+									</dd>									
+									<!-- <dd>
+										&nbsp;&nbsp;&nbsp;<input type="checkbox" value="" id="remember_login_state">&nbsp;
+									</dd>
+									<dd style="font-size:13px;">
+										<label>记住登录状态</label>
+									</dd> -->
+								</dl>
+								<dl style="padding: 0px;">
+									<dd style="float: left; width: 220px; ">
+										<input style="float: left;" type="button" class="btn-smb" onclick="okSubmit()" hidefocus="hidefocus">
+										<div style="float: left;margin-left: 10px; font-size: 13px;">
+											<a href="{{PageContext.ContextPath}}uc/getPwd?step=first" target="_blank" style="margin: 0px;" hidefocus="hidefocus">忘记密码</a>
+										</div>
+									</dd>
+								</dl>	
+							</div>	
+								<dl class="otherlogin-dl">
+									<dd style="line-height:0px;">
+										<input type="button" class="btn-reg" onclick="gotoRegister()" hidefocus="hidefocus">
+									</dd>
+								</dl>
+							</div>
+						</div>
+					</div>
+	         	</div>
+        		<div class="description" style="padding: 20px 130px;">
+					<ul class="des-ul clearfix">
+						<li>
+							<div class="des-icon des-icon1"></div>
+							<p class="item-dot">
+								聚合公众服务应用，为您提供一站式互联网体验！
+							</p>
+						</li>
+						<li>
+							<div class="des-icon des-icon2"></div>
+							<p>
+								<span>支持用户名、邮箱、手机等多种登录方式</span> 
+								<span>一证通行，方便使用任一公众服务</span>
+								<span>通过手机、邮箱等多种方式快速找回密码</span> 
+							</p>
+						</li>
+					</ul>	
+				</div>
+	         </div>   		         			
+         </div>         
+       	<!--  <div class="footer-holder">
+		 	<div class="footer">
+				<div class="uc-copyright">
+					<div class="nav_sub">
+						<a hidefocus="hidefocus" href="{{PageContext.ContextPath}}home/map">网站地图</a>&nbsp;&nbsp;|&nbsp;
+						<a hidefocus="hidefocus" href="{{PageContext.ContextPath}}home/help">使用帮助 </a>&nbsp;&nbsp;|&nbsp;						
+						<a hidefocus="hidefocus" href="{{PageContext.ContextPath}}home/linker">联系我们</a>
+					</div>
+						{{ConfigInfo.CompanyName}}&nbsp;&nbsp;|&nbsp;
+						{{ConfigInfo.CompanyAuthor}}&nbsp;&nbsp;|&nbsp;
+						{{ConfigInfo.CompanyRecord}}  
+				</div>
+			</div>
+		</div>  -->
+
+		   
+	</div>
+</body>
+</html>

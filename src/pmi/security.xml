@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--- group:配置组，@groupId:配置组id， @groupName:配置组名称，@display:是否隐藏 不写默认显示 需要隐藏时赋值none，
+ param:一个配置对象，@id:配置id ，default-value:默认值, describe：描述， @enable:是否启用 不写默认启用 不启用时赋值false -->
+<security>
+	<group groupId="gourp2" groupName="应用程序类配置">
+		<param id="AppId">
+			<default-value>icity</default-value>
+			<describe>部署的系统名称，一般和页面模式保持一致，对应系统的资源文件将不一样</describe>
+		</param>
+		<param id="PAGE_MODE">
+			<default-value>icity</default-value>
+			<describe>页面模式</describe>
+		</param>
+		<param id="WebRegion">
+			<default-value>370000000000</default-value>
+			<describe>行政区划</describe>
+		</param>
+		<param id="WebRank">
+			<default-value>0</default-value>
+			<describe>0省分厅1市分厅2区县分厅3街道分厅4居委会分厅</describe>
+		</param>
+		<param id="MainPage">
+			<default-value>/public/index</default-value>
+			<describe>首页</describe>
+		</param>
+		<param id="LoginPage">
+			<default-value>login</default-value>
+			<describe>登录地址</describe>
+		</param>
+	</group>
+	<group groupId="group3" groupName="页面类配置">
+		<param id="AppTitle">
+			<default-value>政务服务网</default-value>
+			<describe>全局系统标题</describe>
+		</param>
+		<param id="ProAppTitle">
+			<default-value>投资项目在线审批监管平台</default-value>
+			<describe>投资项目全局系统标题</describe>
+		</param>
+		<param id="SubAppTitle">
+			<default-value>网上政务大厅</default-value>
+			<describe>全局系统子标题</describe>
+		</param>
+		<param id="AppProvince">
+			<default-value>页面标题</default-value>
+			<describe>前台页面标题</describe>
+		</param>
+		<param id="AppCity">
+			<default-value>城市名称</default-value>
+			<describe>前台城市名字</describe>
+		</param>
+		<param id="AppHall">
+			<default-value>分厅名称</default-value>
+			<describe>分厅名称</describe>
+		</param>
+		<param id="Welcome">
+			<default-value>欢迎访问政务服务网</default-value>
+			<describe>顶部欢迎语</describe>
+		</param>
+		<param id="Consult">
+			<default-value>http://www.zjzwfw.gov.cn/zjzw/ask/consult/consult.do?webId=78</default-value>
+			<describe>咨询链接</describe>
+		</param>
+		<param id="Complain">
+			<default-value>http://www.zjzwfw.gov.cn/zjzw/ask/complain/complain.do?webId=78</default-value>
+			<describe>投诉链接</describe>
+		</param>
+		<param id="CompanyName">
+			<default-value>主办单位：山东省人民政府办公厅</default-value>
+			<describe>主办单位</describe>
+		</param>
+		<param id="CompanyAuthor">
+			<default-value>承办单位：山东省政务服务管理办公室</default-value>
+			<describe>承办单位</describe>
+		</param>
+		<param id="Address">
+			<default-value>地址：山东省济南市市中区站前街9号</default-value>
+			<describe>地址</describe>
+		</param>
+		<param id="CompanyCopy">
+			<default-value>Copyright 2013 www.sz.gov.cn All Rights Reserved.
+			</default-value>
+			<describe>版权</describe>
+		</param>
+		<param id="CompanyRecord">
+			<default-value>粤ICP备12007387</default-value>
+			<describe>备案号</describe>
+		</param>
+		<param id="CompanyPhone">
+			<default-value>0755-82107847</default-value>
+			<describe>联系方式</describe>
+		</param>
+	</group>
+	<group groupId="group4" groupName="舟山新闻发布类配置">
+	    <param id="Gnq_isout">
+			<default-value>0</default-value>
+			<describe>是否功能区 0否1是</describe>
+		</param>
+	
+		<param id="Dtyw_isout">
+			<default-value>1</default-value>
+			<describe> 动态要闻/是否显示市级新闻1显示   0不显示  默认1</describe>
+		</param>
+		<param id="Ztzl_isout">
+			<default-value>1</default-value>
+			<describe>专题专栏/是否显示市级新闻1显示   0不显示  默认1</describe>
+		</param>
+		<param id="Ggcx_isout">
+			<default-value>1</default-value>
+			<describe> 改革创新/是否显示市级新闻1显示   0不显示  默认1</describe>
+		</param>
+		<param id="Gsgg_isout">
+			<default-value>1</default-value>
+			<describe> 公示公告/是否显示市级新闻1显示   0不显示  默认1</describe>
+		</param>
+		<param id="Ckdt_isout">
+			<default-value>1</default-value>
+			<describe> 窗口动态/是否显示市级新闻1显示   0不显示  默认1</describe>
+		</param>
+		<param id="Khkp_isout">
+			<default-value>1</default-value>
+			<describe> 考核考评/是否显示市级新闻1显示   0不显示  默认1</describe>
+		</param>
+		<param id="Tzgg_isout">
+			<default-value>1</default-value>
+			<describe> 通知公告/是否显示市级新闻1显示   0不显示  默认1</describe>
+		</param>
+		<param id="Khtb_isout">
+			<default-value>1</default-value>
+			<describe> 考核通报/是否显示市级新闻1显示   0不显示  默认1</describe>
+		</param>
+		</group>
+	<group groupId="group5" groupName="舟山审招委配置">
+	    <param id="Welcome_str">
+			<default-value>欢迎来到舟山市审批服务与招投标管理委员会网站!</default-value>
+			<describe>顶部欢迎词</describe>
+		</param>
+		<param id="Webtop_flash">
+			<default-value>public/zs/szw/fla/banner.swf</default-value>
+			<describe> 顶部flash</describe>
+		</param>
+		<param id="Quanliqd_href">
+			<default-value>http://zs.zjzwfw.gov.cn/col/col54909/index.html</default-value>
+			<describe>权力清单 连接地址</describe>
+		</param>
+        <param id="Quanliqd_pic">
+			<default-value>public/zs/szw/img/tb-1.jpg</default-value>
+			<describe>#权力清单 图片</describe>
+		</param>
+        <param id="Zerenqd_pic">
+			<default-value>public/zs/szw/img/tb-2.jpg</default-value>
+			<describe>#责任清单 图片</describe>
+        </param>
+        <param id="Zerenqd_href">
+			<default-value>http://zs.zjzwfw.gov.cn/col/col73537/index.html</default-value>
+			<describe>#责任清单连接地址</describe>
+        </param>
+        <param id="Fumianqd_pic">
+			<default-value>public/zs/szw/img/tb-3.jpg</default-value>
+			<describe>#负面清单 图片</describe>
+        </param>
+        <param id="Fumianqd_href">
+			<default-value>http://www.zjzwfw.gov.cn/col/col52668/index.html</default-value>
+			<describe>#负面清单连接地址</describe>
+        </param>
+        <param id="Zijinqd_pic">
+			<default-value>public/zs/szw/img/tb-4.jpg</default-value>
+			<describe>#专项资金清单 图片</describe>
+        </param>
+        <param id="Zijinqd_href">
+			<default-value>http://www.zjzwfw.gov.cn/col/col52806/index.html</default-value>
+			<describe>#专项资金清单连接地址</describe>
+        </param>
+        <param id="Wsbs_pic">
+			<default-value>public/zs/szw/img/tbg.jpg</default-value>
+			<describe> 网上办事分厅图片</describe>
+		</param>
+		<param id="Wsbs_href">
+			<default-value>http://zs.zjzwfw.gov.cn</default-value>
+			<describe> 网上办事分厅 地址</describe>
+		</param>
+		<param id="Xingzhengsp_href">
+			<default-value>http://www.zszwfw.gov.cn/zhoushan/index.aspx</default-value>
+			<describe>导航栏 行政审批服务</describe>
+		</param>
+		<param id="Gonggongzy_href">
+			<default-value>http://www.zsztb.gov.cn/</default-value>
+			<describe>导航公共资源交易</describe>
+		</param>
+		<param id="Zhengwugongkai_href">
+			<default-value>http://xxgk.zhoushan.gov.cn/xxgk/auto347/auto362/index2.shtml</default-value>
+			<describe>导航政务公开</describe>
+		</param>
+		<param id="Zryx_href">
+			<default-value>http://www.zjzwfw.gov.cn/zjzw/ask/complain/complain.do?webId=78</default-value>
+			<describe>主任邮箱</describe>
+		</param>
+		<param id="Dwdh">
+			<default-value>舟山市定海区海天大道681号2号楼</default-value>
+			<describe>单位导航 单位地址</describe>
+		</param>
+		<param id="Zxts_href">
+			<default-value>http://zs.zjzwfw.gov.cn/col/col44729/index.html</default-value>
+			<describe>咨询投诉</describe>
+		</param>
+		<param id="Wsdc_href">
+			<default-value>http://www.zszwfw.gov.cn/vote/vote.aspx</default-value>
+			<describe>网上调查</describe>
+		</param>
+		<param id="Yjzj_href">
+			<default-value>http://www.zszwfw.gov.cn/OnlineOpinionCollect/QueryList.aspx</default-value>
+			<describe>#意见征集</describe>
+		</param>
+		<param id="Qyweb_href">
+			<default-value>http://www.zsszw.gov.cn/zhoushan/Building.aspx</default-value>
+			<describe>#企业网页</describe>
+		</param>
+		<param id="Smweb_href">
+			<default-value>http://www.zsszw.gov.cn/zhoushan/Building.aspx</default-value>
+			<describe>#市民网页</describe>
+		</param>
+		<param id="Fwsj_picsrc">
+			<default-value>public/zs/szw/img/ti-3.png</default-value>
+			<describe>服务时间图片地址</describe>
+		</param>
+	</group>
+	<group groupId="group6" groupName="投资项目配置">
+	    <param id="KH_isout">
+			<default-value>1</default-value>
+			<describe>投资项目顶部口号显示控制：默认1，显示</describe>
+		</param>
+		<param id="IcityDomainName">
+			<default-value></default-value>
+			<describe>政务服务网域名</describe>
+		</param>
+		<param id="ProDomainName">
+			<default-value></default-value>
+			<describe>投资项目域名</describe>
+		</param>
+	</group>
+	<group groupId="group7" groupName="乡镇跳转至所属上级目录">
+	    <param id="Lslb_href">
+			<default-value></default-value>
+			<describe>联审联办跳转控制：默认""，显示本级目录</describe>
+		</param>
+	    <param id="Tzfw_href">
+			<default-value></default-value>
+			<describe>投资服务跳转控制：默认""，显示本级目录</describe>
+		</param>
+	    <param id="Zjfw_href">
+			<default-value></default-value>
+			<describe>中介服务跳转控制：默认""，显示本级目录</describe>
+		</param>
+	</group>
+	<group groupId="group8" groupName="烟台短信发送">
+	    <param id="ytMessageUrl">
+			<default-value></default-value>
+			<describe>烟台市、县短信发送地址</describe>
+		</param>
+	</group>
+	<group groupId="group9" groupName="山东省互联互通">
+	    <param id="UniteIdentifyFlag">
+			<default-value>0</default-value>
+			<describe>是否启用：1-启用、 0-不启用</describe>
+		</param>
+	    <param id="LoginUrl">
+			<default-value>http://zwfw.sd.gov.cn/sdjis/front/login.do?action=ticketLogin</default-value>
+			<describe>登录地址</describe>
+		</param>
+	    <param id="UserInfoService">
+			<default-value>http://zwfw.sd.gov.cn/sdjis/services/PerAuth?wsdl</default-value>
+			<describe>统一身份认证系统获取用户信息地址(个人)</describe>
+		</param>
+	    <param id="UserInfoServiceEnterprise">
+			<default-value>http://zwfw.sd.gov.cn/sdjis/services/CorAuth?wsdl</default-value>
+			<describe>统一身份认证系统获取用户信息地址(法人)</describe>
+		</param>
+	    <param id="UserInfoappmark">
+			<default-value>test</default-value>
+			<describe>统一身份认证系统应用标识</describe>
+		</param>
+	    <param id="UserInfoappword">
+			<default-value>LiQaQOQqFFHC</default-value>
+			<describe>统一身份认证系统应用密钥</describe>
+		</param>
+		<param id="WebSiteTitle">
+			<default-value>聊城市政府门户网站</default-value>
+			<describe>首页右上角门户网站名称</describe>
+		</param>
+		<param id="WebSiteAdress">
+			<default-value>http://www.liaocheng.gov.cn/</default-value>
+			<describe>首页右上角门户网站地址</describe>
+		</param>
+	</group>
+	<group groupId="group10" groupName="威海清单查询配置">
+	    <param id="ApprovalList_url">
+			<default-value>http://221.2.149.28:8090/qlqd/PowerList/Power_index_sp.aspx</default-value>
+			<describe>行政审批事项目录</describe>
+		</param>
+	    <param id="PowerList_url">
+			<default-value>http://221.2.149.28:8090/qlqd/PowerList/Power_index.aspx</default-value>
+			<describe>行政权力</describe>
+		</param>
+		 <param id="LiabilityList_url">
+			<default-value>http://221.2.149.28:8090/qlqd/LiabilityList/Index.aspx</default-value>
+			<describe>政府责任</describe>
+		</param>
+	</group>
+	<group groupId="group11" groupName="漳州区县配置">
+	    <param id="Address_phone">
+			<default-value>漳州市芗城区新华南路86号 总台电话:96123</default-value>
+			<describe>底部地址电话</describe>
+		</param>
+	    <param id="Fjbs_url">
+			<default-value>http://zz.fjbs.gov.cn/index.action</default-value>
+			<describe>福建省网上办事大厅分厅地址</describe>
+		</param>
+	</group>
+</security>
+

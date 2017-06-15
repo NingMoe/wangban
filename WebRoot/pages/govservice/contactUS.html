@@ -1,0 +1,304 @@
+<script src="{% public scripts/LEx.form.js %}"></script>
+<style type="text/css">
+.control-label font{color: red;}
+.control-label {font-size: 14px;}
+.input_validation-failed {border: 2px solid #FF0000;color: red;}
+.modal-lg{width: 1000px;}
+.modal-dialog{margin: 30px auto;}
+.form-horizontal .control-label {
+    text-align: right;
+    margin-bottom: 0;
+    padding-top: 7px;
+  }
+.img{float: left;padding: 10px 15px;}
+.suggest-body span{float: left;}
+</style>
+<!-- Container --> 
+<div class="container" style="min-height:400px;margin-top: 10px;">
+  <div class="col-xs-12 panel" style="padding: 50px 0;">
+    <div class="col-xs-10 suggest-body col-xs-push-2">
+     <img src="{% public assets/img/icon-1.png %}" class="img">
+     <span>
+      <h4>我有建议</h4>
+      <p>如果您对本网站提供的内容和服务有什么意见和建议，请您畅所欲言：
+      <button type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target=".bs-example-modal-sug">点击留言</button>
+
+<div id="bs-example-modal-sug" class="modal fade bs-example-modal-sug" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+   <div class="modal-content" >
+        <div class="modal-header" >
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">
+            <img src="{% public assets/img/icon-1.png %}">
+            我要建议
+            <a href="#" class="btn btn-danger pull-right" style="margin:15px 20px;display: none" >查看以往建议</a>
+          </h4>
+          
+        </div>
+        <div class="modal-body">
+          <div class="col-xs-12" >
+<div class="col-xs-10 text-center">		
+ <p>请填写建议内容(注意：带*的为必填项)</p>
+</div>
+<div class="clearfix"></div>
+     <br>
+     
+     <div class="panel-sug">
+          <div class="form-horizontal" style="width:400px; margin-left:50px; float:left;">
+          <div class="form-group ">
+            <label class="col-xs-3 control-label"><font>*</font>我的姓名:</label>
+            <div class="col-xs-6">
+                <input tag="USERNAME" type="text" reg="^.+$" class="form-control" tip="请输入姓名" >
+            </div>
+        </div>
+
+        <div class="form-group ">
+            <label class="col-xs-3 control-label"> <font>*</font>手机号码: </label>
+            <div class="col-xs-6">
+                <input tag="PHONE" reg="^\d{11}$" type="text" class="form-control" tip="请输入11位手机号码">
+                <span class=" form-control-feedback" style="margin-top: 10px;"></span>
+            </div>
+        </div>
+    </div>
+         <div class="form-horizontal" style="width:400px; float:left;">
+          <div class="form-group ">
+            <label class="col-xs-3 control-label">电子邮箱: </label>
+            <div class="col-xs-7">
+                <input tag="EMAIL" type="text" class="form-control"  >
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="col-xs-3 control-label">联系地址: </label>
+            <div class="col-xs-7">
+                <input tag="ADDRESS" type="text" class="form-control" >
+                <span class="form-control-feedback" style="margin-top: 10px;"></span>
+            </div>
+        </div>
+    </div>
+       <div class="form-horizontal" style="width:400px; margin-left:50px; float:left;display: none;">
+        <div class="form-group">
+            <label class="col-xs-3 control-label"><font>*</font>手机验证码: </label>
+            <div class="col-xs-2">
+                <input tag="VerifyCode"   type="text" class="form-control">
+            </div>
+            <div class="col-xs-4">
+                <a  href="javascript:void(0);" container=".bs-example-modal-sug" class="btn btn-info verify_btn">点击获取短信验证码</a>
+            </div>
+        </div>
+    </div>
+<div class="clearfix"></div>
+<br>
+
+<div class="col-xs-10 col-xs-push-1">		
+ <p>请您准确填写联系方式：</p>
+ <p>在您的信件处理完毕后,凭手机号码和查询码您可在网上查看相关处理结果。</p>
+</div>
+
+<div class="clearfix"></div>
+<br>
+
+<div class="form-horizontal" >
+          <div class="form-group ">
+            <label class="col-xs-3 control-label"><font>*</font>标题:</label>
+            <div class="col-xs-6">
+                <input tag="TITLE" type="text" reg="^.+$" class="form-control" tip="请输入标题" >
+            </div>
+        </div>
+      
+        <div class="form-group ">
+            <label class="col-xs-3 control-label"> <font>*</font>建议内容:</label>
+            <div class="col-xs-6">
+                <textarea tag="CONTENT" reg="^.+$" class="form-control" rows="3" id="content"></textarea>
+                <span class=" form-control-feedback" style="margin-top: 10px;"></span>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+    <br>
+         <div class="form-group">
+            <div class="col-xs-offset-4 col-xs-2">
+                <button  op="submit" cat="10"  container=".bs-example-modal-sug"  class="btn  btn-lg btn-block btn-info">提交</button>
+                </div>
+            <div class="col-xs-2 pull-left">    
+                <button op="reset"   container=".bs-example-modal-sug"  class="btn  btn-lg btn-block btn-default">重置</button>
+            </div>
+        </div>
+     <br>        
+  </div> 
+</div>
+        <div class="clearfix"></div>
+        </div>
+      </div>
+  </div>
+</div>
+      </p>
+     </span>
+     
+     
+     <div class="clearfix"></div>
+     <img src="{% public assets/img/icon-2.png %}" class="img">
+     <span>
+      <h4>我要纠错</h4>
+      <p>如果您发现本网站提供的内容和服务方面存在链接、文字、图片、附件和格式等错误，请您纠错：
+        <button type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target=".bs-example-modal-fix">点击纠错</button>
+<div id="bs-example-modal-fix" class="modal fade bs-example-modal-fix" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" >
+        <div class="modal-header" >
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">
+            <img src="{% public assets/img/icon-2.png %}">
+            我要纠错
+            <a href="#" class="btn btn-danger pull-right" style="margin:15px 20px;display: none" >查看以往纠错</a>
+          </h4>
+          
+        </div>
+        <div class="modal-body">
+          <div class="col-xs-12" >
+<div class="col-xs-10 col-xs-push-1">		
+ <p>纠错须知：</p>
+ <p>1、无法显示的网页、图片或附件等；</p>
+ <p>2、网页内容、格式上的错误，特别是各类办事服务存在内容不准确、信息不完整、更新不及时的地方；</p>
+ <p>3、任何关于网站内容和功能方面的意见和想法，您都可以告诉我们。
+请填写纠错内容(注意：带*的为必填项)</p>
+</div>
+<div class="clearfix"></div>
+     <br>
+     
+     <div class="panel-sug">
+           <div class="form-horizontal" style="width:400px; margin-left:50px; float:left;">
+          <div class="form-group ">
+            <label class="col-xs-3 control-label"><font>*</font>我的姓名:</label>
+            <div class="col-xs-6">
+                <input tag="USERNAME" type="text" reg="^.+$" class="form-control" tip="请输入姓名" >
+            </div>
+        </div>
+
+        <div class="form-group ">
+            <label class="col-xs-3 control-label"> <font>*</font>手机号码: </label>
+            <div class="col-xs-6">
+                <input tag="PHONE" reg="^\d{11}$" type="text" class="form-control" tip="请输入11位手机号码">
+                <span class=" form-control-feedback" style="margin-top: 10px;"></span>
+            </div>
+        </div>
+    </div>
+         <div class="form-horizontal" style="width:400px; float:left;">
+          <div class="form-group ">
+            <label class="col-xs-3 control-label">电子邮箱: </label>
+            <div class="col-xs-7">
+                <input tag="EMAIL" type="text" class="form-control"  >
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="col-xs-3 control-label">联系地址: </label>
+            <div class="col-xs-7">
+                <input tag="ADDRESS" type="text" class="form-control" >
+                <span class="form-control-feedback" style="margin-top: 10px;"></span>
+            </div>
+        </div>
+    </div>
+       <div class="form-horizontal" style="width:400px; margin-left:50px; float:left;display: none;">
+        <div class="form-group">
+            <label class="col-xs-3 control-label"><font>*</font>手机验证码: </label>
+            <div class="col-xs-2">
+                <input tag="VerifyCode"  type="text" class="form-control" >
+            </div>
+            <div class="col-xs-4">
+                <a  href="javascript:void(0);" container=".bs-example-modal-fix" class="btn btn-info verify_btn">点击获取短信验证码</a>
+            </div>
+        </div>
+    </div>
+<div class="clearfix"></div>
+<br>
+
+<div class="col-xs-10 col-xs-push-1">		
+ <p>请您准确填写联系方式：</p>
+ <p>在您的信件处理完毕后,凭手机号码和查询码您可在网上查看相关处理结果。</p>
+</div>
+
+<div class="clearfix"></div>
+<br>
+
+<div class="form-horizontal" >
+          <div class="form-group ">
+            <label class="col-xs-3 control-label"><font>*</font>标题:</label>
+            <div class="col-xs-6">
+                <input tag="TITLE" reg="^.+$" type="text" class="form-control" tip="请输入标题" >
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="col-xs-3 control-label"> <font>*</font>纠错网页地址: </label>
+            <div class="col-xs-6">
+                <input tag="URL" reg="^.+$" type="text" class="form-control" tip="请输入要纠错网页地址">
+                <span class="form-control-feedback" style="margin-top: 10px;"></span>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="col-xs-3 control-label"> <font>*</font>纠错内容:</label>
+            <div class="col-xs-6">
+                <textarea tag="CONTENT" reg="^.+$" class="form-control" rows="3" id="CONTENT"></textarea>
+                <span class="form-control-feedback" style="margin-top: 10px;"></span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="clearfix"></div>
+    <br>
+    <br>
+    
+         <div class="form-group">
+            <div class="col-xs-offset-4 col-xs-2">
+                <button op="submit" cat="11" container=".bs-example-modal-fix"  class="btn  btn-lg btn-block btn-info">提交</button>
+                </div>
+            <div class="col-xs-2 pull-left">    
+                <button op="reset" container=".bs-example-modal-fix"  class="btn  btn-lg btn-block btn-default">重置</button>
+            </div>
+        </div>
+     <br>        
+  </div> 
+</div>
+          
+        <div class="clearfix"></div>
+          
+        </div>
+      </div><!-- /.modal-content -->
+  </div>
+</div>
+
+       
+      </p>
+     </span>
+      <div class="clearfix"></div>
+     <img src="{% public assets/img/icon-3.png %}" class="img">
+     <span>
+      <h4>我有疑问</h4>
+      <p>如果如果您还有其他问题，请与我们联系，非常感谢您的理解和支持。</p>
+      <p>{{ConfigInfo.OrganizationName}}</p>
+      <p>{{ConfigInfo.Address}}</p>
+      <p>{{ConfigInfo.PostalCode}}</p>
+      <p>{{ConfigInfo.Email}}</p>
+     </span>
+    </div>
+    <div class="clearfix"></div>
+<div class="modal fade bs-example-modal-result" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" style="padding-bottom: 10px;">
+       <div class="modal-body">
+         <div style="width:100%;padding-top:5px;font-size:18px;text-align:center;" >
+				<p>您的唯一查询码为：<span id="id" style="font-size:20px;font-weight: bold; color:red;"></span></p>
+				<p>请务必牢记！！方便您以后查询回复结果。<span id="totalSecond" style="color:Red; font-size:20px; font-weight:bold"></span>秒后窗口将自动关闭.......             </p>
+		</div>
+		 <div class="col-xs-10 text-right col-xs-push-9">
+     	<ul class="list-inline pull-left" >
+            <li><a onclick="redirect()" href="#">【转到查询页】</a></li>
+            <li><a onclick="hide()" href="#">【关闭窗口】</a></li>
+        </ul>
+    </div>
+	</div>
+ 
+  </div>
+  </div>
+  </div>
+  </div>
+</div>

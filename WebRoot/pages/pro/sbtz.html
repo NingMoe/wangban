@@ -1,0 +1,63 @@
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/icity.js"></script>
+<script>
+	var type = LEx.urldata.type;
+	
+	function xmbp(){
+		if(type == "sp"){
+			window.location.href = "{{cp}}pro/guidelist_info?regionCode={{ConfigInfo.WebRegion}}&investType=审批";
+		}else if(type == "hz"){
+			window.location.href = "{{cp}}pro/guidelist_info?regionCode={{ConfigInfo.WebRegion}}&investType=核准";
+		}else if(type == "ba"){
+			window.location.href = "{{cp}}pro/guidelist_info?regionCode={{ConfigInfo.WebRegion}}&investType=备案";
+		}
+	}
+	function djfm(){		
+		window.location.href = "{{cp}}pro/registrationProject?type="+type;	
+	}
+	function lhsp(){		
+		if(type == "sp"){
+			window.location.href = "{{cp}}pro/unionlist?regionCode={{ConfigInfo.WebRegion}}&investType=审批";
+		}else if(type == "hz"){
+			window.location.href = "{{cp}}pro/unionlist?regionCode={{ConfigInfo.WebRegion}}&investType=核准";
+		}else if(type == "ba"){
+			window.location.href = "{{cp}}pro/unionlist?regionCode={{ConfigInfo.WebRegion}}&investType=备案";
+		}
+	}
+</script>
+<div style="padding: 0 40px 0 40px;width:1080px;margin:0px auto;">
+    <div class="row" style="background-color: #fff;">
+        <div class="col-xs-12">
+            <h4><strong>项目申报</strong></h4>
+            <div class="tab-content" style="border-top: 3px #29588c solid; padding-top: 20px; margin-bottom: 40px;">
+                <div class="tab-pane fade in active" id="k-i-1">
+                    <section class="panel panel-default" style="padding: 30px; height: 330px; overflow: hidden;">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <a class="thumbnail text-center"  href="#" onclick="djfm();">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-2.png%}" alt="">
+                                    <br>
+                                    <h3 class="delta">登记赋码</h3>
+                                </a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a class="thumbnail text-center" href="#" onclick="xmbp();">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-3.png%}" alt="">
+                                    <br>
+                                    <h3 class="delta">项目报批</h3>
+                                </a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a class="thumbnail text-center"  href="#" onclick="lhsp();">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/lhsp.png%}" alt="">
+                                    <br>
+                                    <h3 class="delta">联合审批</h3>
+                                </a>
+                            </div>
+                        </div>
+                        <hr>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

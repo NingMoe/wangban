@@ -1,0 +1,65 @@
+/*---------------以下信息提示框样式-------------------*/
+.message_width{
+	width: 420px;
+	color: #31415A;
+} 
+.message_title {
+	width: 420px;
+	background-color: #DEEAF4;
+	border-top: solid 1px #8F8F8F;
+	border-left: solid 1px #8F8F8F;
+	border-right: solid 1px #8F8F8F;
+	border-bottom: 0px;
+}
+.message_div {
+	float: left;
+	font-weight: bold;
+	padding-top: 6px;
+	padding-left: 10px;
+}
+.message_close {
+	float: right;
+	padding: 9px;
+	height: 8px;
+	width: 8px;
+}
+.message_close img {
+	border: 0px;
+	width: 8px;
+	height: 8px;
+}
+.message_close a {
+	background: url(../Image/close.gif) no-repeat; 
+}
+.message_close a:hover {
+	background: url(../Image/close_mouseon.gif) no-repeat; 
+}
+.message_contain {
+	width: 420px;
+	border-top: 0px;
+	border-left: solid 1px #8F8F8F;
+	border-right: solid 1px #8F8F8F;
+	border-bottom: solid 1px #8F8F8F;
+	background-color: #FFFFFF;
+}
+.message_leftcontain {
+	width: 100px;
+	text-align: right;
+	vertical-align: top;
+}
+.message_rightcontain 
+{
+	word-break:break-all;
+	padding: 0px 45px;
+}
+.message_button {
+	text-align:center;
+	padding: 10px;
+} 
+.list {
+	margin: 0px 20px 0px 5px;
+	padding: 0px 3px 0px 3px;
+	line-height: 20px;
+    border: 1px solid #AABACA;
+	font-size: 12px;
+}

@@ -1,0 +1,65 @@
+<style>
+.btn-danger {
+	background-color: #f44336;
+}
+</style>
+<section class="its-page-body" id="business_ask">
+<table class="table its-tabel-filter">
+	<tbody>
+		<tr>
+			<th width="90" class="text-right">事项名称：</th>
+			<td width="130"><input type="text" class="form-control"
+				placeholder="请输入事项名称" id="name"></td>
+			<th width="100" class="text-right">咨询内容：</th>
+			<td width="130"><input type="text" class="form-control"
+				placeholder="请输入咨询内容" id="title">
+			</td>
+
+			<th width="85" class="text-right">咨询时间：</th>
+			<td width="110"><input type="text" readonly="true"
+				class="form-control" id="ctime_s" name="ctime_s" placeholder="请选择"
+				onClick="jeDate({dateCell:'#ctime_s',isTime:true,format:'YYYY-MM-DD'})">
+			</td>
+			<th width="15" class="text-right">至</th>
+			<td width="110"><input type="text" readonly="true"
+				class="form-control" id="ctime_e" name="ctime_e" placeholder="请选择"
+				onClick="jeDate({dateCell:'#ctime_e',isTime:true,format:'YYYY-MM-DD'})">
+			</td>
+			<td width="130"><input type="submit" id="submit"
+				style="width: 100%;" class="btn btn-primary" value="查询"></td>
+		</tr>
+	</tbody>
+</table>
+<div id="div_business_list" cellspacing="1">
+	<table class="table table-striped its-table-backlog">
+		<thead>
+			<tr class="bg-info">
+				<th style="text-align: center; width: 5%"><input id="checkall"
+					type="checkbox" onclick="selectAll()">
+				</th>
+				<th style="width: 30%;" class="text-center text-primary">咨询主题</th>
+				<th style="width: 15%;" class="text-center text-primary">咨询时间</th>
+				<th style="width: 15%;" class="text-center text-primary">咨询部门</th>
+				<th style="width: 25%;" class="text-center text-primary">反馈信息</th>
+				<th style="width: 15%;" class="text-center text-primary">处理时间</th>
+			</tr>
+		</thead>
+		<tbody id="bodys">
+			<tr>
+				<td align="center"><input type="checkbox"
+					id="20160600000000001980">
+				</td>
+				<td title="建设项目立项联合审批"><a href="javascript:void(0);">建设项目立项联合审批</a>
+				</td>
+				<td class="text-center">2016-06-16</td>
+				<td class="text-left">山东省工商局</td>
+				<td class="text-left" title="">
+					您的审批信息没有问题，可直接办理。
+				</td>
+				<td class="text-center">2016-06-16</td>
+			</tr>			
+		</tbody>
+	</table>
+</div>
+<div id="epager" style="text-align: center;"></div>
+</section>

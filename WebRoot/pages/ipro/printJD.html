@@ -1,0 +1,215 @@
+<link rel="icon" href="{% public ipro/assets/ico/favicon.ico %}">
+<link rel="stylesheet" href="{% public ipro/assets/css/custom.css %}">
+
+<style>
+tbody {
+	font-size:12px;
+}
+th{
+	min-width:85px;
+}
+</style>
+<script type="text/javascript">
+$(function() {
+	$(".main").click(function(){
+		$(this).next(".sub").slideToggle("slow");
+	});
+});
+</script>
+<div class="container" style="background-color: #fff; padding: 20px 40px;">
+	<div class="main">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+			<tr class="active">
+	             <th class="text-center font-size-18" colspan="9"><i class="fa fa-flag"></i> 审批核准阶段</th>
+	        </tr>
+	   </table>
+   </div>
+   <div class="sub">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+	   		<thead>
+	            <tr class="info">
+	                <th class="text-center" style="width:160px">申办编号</th>
+	                <th class="text-center">业务主题</th>
+	                <th class="text-center">事项名称</th>
+	                <th class="text-center">受理时间</th>
+	                <th class="text-center">计划时间</th>
+	                <th class="text-center">受理单位</th>
+	                <th class="text-center">当前环节</th>
+	                <th class="text-center">办理状态</th>
+	                <!-- <th class="text-center">办结时间</th> -->
+	            </tr>
+	        </thead>
+	        <tbody id="table1" class="sub">          
+	            <!-- <tr>
+	                <td class="text-center">327383203DU38299</td>
+	                <td class="text-center">关于济南利民制药有限责任</td>
+	                <td class="text-center">建筑工程施工许可</td>
+	                <td class="text-center">2015-11-01</td>
+	                <td class="text-center">2015-11-27</td>
+	                <td class="text-center">济南市住房和城建</td>
+	                <td class="text-center"><span class="label label-info">审核</span></td>
+	                <td class="text-center"><span class="label label-success">正常</span></td>
+	                <td class="text-center">－</td>
+	            </tr> -->
+	        </tbody>
+	    </table>
+    </div>
+   <div class="main">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+			<tr class="active">
+	             <th class="text-center font-size-18" colspan="9"><i class="fa fa-flag"></i> 核准后开工前阶段</th>
+	        </tr>
+	   </table>
+   </div>
+   <div class="sub">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+	   		<thead>
+	            <tr class="info">
+	                <th class="text-center" style="width:160px">申办编号</th>
+	                <th class="text-center">业务主题</th>
+	                <th class="text-center">事项名称</th>
+	                <th class="text-center">受理时间</th>
+	                <th class="text-center">计划时间</th>
+	                <th class="text-center">受理单位</th>
+	                <th class="text-center">当前环节</th>
+	                <th class="text-center">办理状态</th>
+	                <!-- <th class="text-center">办结时间</th> -->
+	            </tr>
+	        </thead>
+	        <tbody id="table2" class="sub">          
+	            <!-- <tr>
+	                <td class="text-center">327383203DU38299</td>
+	                <td class="text-center">关于济南利民制药有限责任</td>
+	                <td class="text-center">建筑工程施工许可</td>
+	                <td class="text-center">2015-11-01</td>
+	                <td class="text-center">2015-11-27</td>
+	                <td class="text-center">济南市住房和城建</td>
+	                <td class="text-center"><span class="label label-info">审核</span></td>
+	                <td class="text-center"><span class="label label-success">正常</span></td>
+	                <td class="text-center">－</td>
+	            </tr> -->
+	        </tbody>
+	    </table>
+    </div>
+    <div class="main">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+			<tr class="active">
+	             <th class="text-center font-size-18" colspan="9"><i class="fa fa-flag"></i> 开工后竣工前阶段</th>
+	        </tr>
+	   </table>
+   </div>
+   <div class="sub">
+	   <table class="table table-bordered" style="border-top: 2px solid #29588C;">
+	   		<thead>
+	            <tr class="info">
+	                <th class="text-center" style="width:160px">申办编号</th>
+	                <th class="text-center">业务主题</th>
+	                <th class="text-center">事项名称</th>
+	                <th class="text-center">受理时间</th>
+	                <th class="text-center">计划时间</th>
+	                <th class="text-center">受理单位</th>
+	                <th class="text-center">当前环节</th>
+	                <th class="text-center">办理状态</th>
+	                <!-- <th class="text-center">办结时间</th> -->
+	            </tr>
+	        </thead>
+	        <tbody id="table3" class="sub">          
+	            <!-- <tr>
+	                <td class="text-center">327383203DU38299</td>
+	                <td class="text-center">关于济南利民制药有限责任</td>
+	                <td class="text-center">建筑工程施工许可</td>
+	                <td class="text-center">2015-11-01</td>
+	                <td class="text-center">2015-11-27</td>
+	                <td class="text-center">济南市住房和城建</td>
+	                <td class="text-center"><span class="label label-info">审核</span></td>
+	                <td class="text-center"><span class="label label-success">正常</span></td>
+	                <td class="text-center">－</td>
+	            </tr> -->
+	        </tbody>
+	    </table>
+    </div>
+</div>
+<script id="tableTemplate" type="text/template">
+{for o in data}
+<tr >
+<td class="text-center">${o.RECEIVE_NUMBER}</td>
+<td class="text-center">${o.APPLY_SUBJECT}</td>
+<td class="text-center">${o.ITEM_NAME}</td>
+<td class="text-center">${o.SUBMIT_TIME}</td>
+<td class="text-center">${o.TIME_LIMIT}</td>
+<td class="text-center">${o.ORG_NAME}</td>
+<td class="text-center"><span class="label label-info">${o.CURRENT_NODE_NAME}</span></td>
+<td class="text-center"><span class="label label-success">
+{if o.STATE=="01"}正常
+{/if}
+{if o.STATE=="02"}不予受理
+{/if}
+{if o.STATE=="21"}补齐补正
+{/if}
+{if o.STATE=="23"}挂起
+{/if}
+{if o.STATE=="97"}作废
+{/if}
+{if o.STATE=="98"}不予许可
+{/if}
+{if o.STATE=="99"}准予许可
+{/if}</span>
+</td>
+</tr>
+{/for}
+</script>
+
+<script>
+    
+function init(){
+	var seqId=LEx.urldata.seqId;
+	var command = new LEx.Command("app.icity.ipro.IproCmd");
+	command.setParameter("seqId", seqId);
+	var ret = command.execute("getJD");
+	if(!command.error){	
+		var busilist = ret.data.BUSILIST;
+		var itemlist = ret.data.ITEMLIST;
+		var blist1=[], blist2=[], blist3 = [];
+		for(var i=0;i<busilist.length;i++){
+			var busi = busilist[i];
+			busi.SUBMIT_TIME = formatDate(new Date(busi.SUBMIT_TIME));
+			busi.TIME_LIMIT = formatDate(new Date(busi.TIME_LIMIT));
+			for(var j=0;j< itemlist.length;j++){
+				var item = itemlist[j];
+				if(item.ITEM_ID==busi.ITEM_ID){
+					busi.PROJECT_STAGE = item.PROJECT_STAGE;
+					if(item.PROJECT_STAGE == 'A00014'||item.PROJECT_STAGE == 'A00015'||item.PROJECT_STAGE == 'A00016'){
+						blist1.push(busi);
+					} else if (item.PROJECT_STAGE == 'A00020'){
+						blist2.push(busi);
+					} else if (item.PROJECT_STAGE == 'A00030'){
+						blist3.push(busi);
+					}
+					break;
+				}
+			}
+		}
+		var o={};
+		o.data = blist1;
+		$('#table1').html(LEx.processDOMTemplate('tableTemplate',o));
+		o.data = blist2;
+		$('#table2').html(LEx.processDOMTemplate('tableTemplate',o));
+		o.data = blist3;
+		$('#table3').html(LEx.processDOMTemplate('tableTemplate',o));
+	}
+}
+
+function   formatDate(now)   {     
+    var   year=now.getFullYear();
+    var   month=now.getMonth()+1;
+    var monthStr=""+month;
+    if(month<10)   monthStr="0"+month;
+    var   date=now.getDate();
+    var dateStr=""+date;
+    if(date<10)  dateStr="0"+date;
+    var   hour=now.getHours();
+    var   minute=now.getMinutes();
+    var   second=now.getSeconds();
+    return   year+"-"+monthStr+"-"+dateStr;     
+    }
+</script>

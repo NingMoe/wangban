@@ -1,0 +1,174 @@
+<script src="{% public scripts/LEx.form.js %}"></script><style>
+.table>tbody>tr>th,.table>tbody>tr>td {
+	line-height: 2;
+}
+
+.pingyi label {
+	padding-right: 15px;
+}
+
+.pingyi label input {
+	margin-top: 7px !important;
+}
+
+.lcname {
+	padding: 0 15px;
+}
+
+.lc-message {
+	border-bottom: 1px solid #ddd;
+}
+
+.aq {
+	width: 20%;
+	float: left
+}
+
+.am-1 {
+	height: 45px;
+	line-height: 45px;
+	padding-left: 65px;
+	padding-top: 10px;
+	padding-bottom: 15px;
+	background: url('{%public assets/img/unchecked.png %}') no-repeat;
+}
+
+.am-2 {
+	height: 45px;
+	line-height: 45px;
+	padding-left: 65px;
+	padding-top: 10px;
+	padding-bottom: 15px;
+	background: url('{%public assets/img/checked.jpg %}') no-repeat;
+}
+
+.lt-line {
+	min-height: 36px;
+	border-left: 2px solid #ededed;
+	width: 65%;
+	padding-left: 10px;
+	float: left;
+}
+
+.cq-link {
+	float: left;
+	width: 15%
+}
+
+.list-group-item {
+	padding: 20px 15px;
+	margin-bottom: 0;
+	border-bottom: 1px solid #ddd;
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
+}
+</style>
+<div id="accsecurity" style="display:none" >
+<div class="container" style="width: 1030px !important;">
+	<ol class="breadcrumb">
+		<li><img src="{%public assets/img/current_home.png %}">
+			您当前所在的位置:</li>
+		<li><a href="{{cp}}public/index">首页</a>
+		</li>
+		<li><a href="{{cp}}uinfo">用户中心</a>
+		</li>
+		<li><a href="{{cp}}uc/accmanager">账户管理</a>
+		</li>
+		<li><a href="#">管理安全</a>
+		</li>
+	</ol>
+</div>
+<div class="container" style="width: 1030px !important;">
+	<section class="panel" style="padding: 10px;">
+		<div class="panel-body" style="width:80%; margin:auto">
+			<div class="anquan" style="padding-bottom:20px;">
+				<span class="pull-left lcname" style="width:15%">安全级别</span>
+				<div class="text-warning pull-left" style="width:40%">
+					<span class="pull-left">中 &nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<div class="progress pull-left"
+						style="width: 200px; height:6px; margin-top:10px;margin-left: 5px;">
+						<div class="progress-bar-warning" style="width: 15%; height:6px;">
+						</div>
+					</div>
+				</div>
+				<span class="img" style="width:10%; display:inline-block;"> <img
+					src="{%public assets/img/jingshi.png %}" style="width:15px;">
+				</span> <span style="width:35%">完成<a href="#" class="text-info">以下绑定</a>，提升用户中心安全。</span>
+
+			</div>
+			<ul class="">
+				<li class="list-group-item clearfix">
+					<div class="aq">
+						<span class="am-2">登录密码</span>
+					</div>
+					<div class="lt-line">
+						安全性高的密码可以使账号更安全。建议您定期更换密码，且设置一个包含数字和字母，并长度超过6位的密码。</div> 
+						<a href="{{cp}}uc/accbind?type=4" target="_black"
+					class="cq-link text-right text-info">修改密码</a></li>
+				<li class="list-group-item clearfix">
+					<div class="aq">
+						{% if userInfo.IS_PHONEBIND|equal:'0' %}
+						<span class="am-1">手机绑定 </span>
+						{% else %}
+						<span class="am-2">手机绑定 </span>
+						{% endif %}
+					</div>
+					<div class="lt-line">验证后可支持手机登录并且找回密码等</div>
+					<a href="{{cp}}uc/accbind?type=3" target="_black" class="cq-link text-right text-info">
+						{% if userInfo.IS_PHONEBIND|equal:'0' %}
+						立即绑定
+						{% else %}
+						更改绑定
+						{% endif %}
+					</a>
+				</li>
+				<li class="list-group-item clearfix">
+					<div class="aq">
+						{% if userInfo.IS_EMAILBIND|equal:'0'%}
+						<span class="am-1">邮箱绑定 </span>
+						{% else %}
+						<span class="am-2">邮箱绑定 </span>
+						{% endif %}
+					</div>
+					<div class="lt-line">验证后可快速找回登录密码</div>
+						{% if userInfo.IS_EMAILBIND|equal:'0'%}
+						<a href="{{cp}}uc/accbind?type=2" target="_black"  class="cq-link text-right text-info">立即绑定</a>
+						{% else %}
+						<a href="javascript:void(0);" class="cq-link text-right text-info">已绑定</a>
+						{% endif %}
+					</li>
+				<li class="list-group-item clearfix">
+					<div class="aq">
+						{% if userInfo.ANSWER|equal:''%}
+						<span class="am-1">密保问题 </span>
+						{% else %}
+						<span class="am-2">密保问题 </span>
+						{% endif %}
+					</div>
+					<div class="lt-line">
+						是您找回登录密码的方式之一，建议您使用一个容易记住，且不容易被别人获取的问题和答案，更有效保障您的用户安全。</div>
+						{% if userInfo.ANSWER|equal:''%}
+						<a href="{{cp}}uc/accbind?type=5" target="_black"  class="cq-link text-right text-info">立即设置</a>
+						{% else %}
+						<a href="javascript:void(0);" class="cq-link text-right text-info">已设置</a>
+						{% endif %}
+					</li>
+			</ul>
+		</div>
+	</section>
+</div>
+</div>
+<script>
+	$(function() {
+		$('.nav-tabs > li > a').hover(function(e) {
+			e.preventDefault()
+			$(this).tab('show')
+		})
+	});
+	$(function() {
+		$(".dropdown-menu").on("click", "[data-stopPropagation]", function(e) {
+			e.stopPropagation();
+		});
+	});
+</script>

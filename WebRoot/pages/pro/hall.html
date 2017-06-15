@@ -1,0 +1,492 @@
+<div class="container" style="padding: 0 40px 0 40px;">
+
+    <div class="row" style="margin-bottom: 20px; background-color: #fff;">
+        <div class="col-xs-7">
+            <ul class="list-inline font-size-12" style="margin-top: 20px; font-size:16px;">
+                <li style="margin-right: 15px;">2015年11月28日</li>
+                <li style="margin-right: 15px;"><a href="#">星期三</a></li>
+                <li style="margin-right: 7px;"><a href="#">天气：晴转多云</a></li>
+                <li style="margin-right: 7px;"><img src="{% public zs/pro/image/tianqi.png %}"></li>
+                <li style="margin-right: 10px;"><a href="#">2~-5</a></li>
+            </ul>
+        </div>
+        <div class="col-xs-5">
+            <div class="input-group" style="margin-top: 10px; margin-bottom: 10px;">
+                    <input type="text" class="form-control" placeholder="请输入关键字">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" style="width: auto; color: #fff; background-color: #29588c;" type="button"><i class="fa fa-search"></i> 搜索</button>
+                    </span>
+                </div>
+        </div>
+    </div>
+
+    <div class="row" style="background-color: #fff;">
+        <div class="col-xs-7">
+            <h4><strong>项目申报</strong></h4>
+            <div class="tab-content" style="border-top: 3px #29588c solid; padding-top: 20px; margin-bottom: 40px;">
+                <div class="tab-pane fade in active" id="k-i-1">
+                    <section class="panel panel-default" style="padding: 30px; height: 330px; overflow: hidden;">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <a class="thumbnail text-center" href="{{cp}}pro/guidelist?href=%23x-p-1&region_code={{ConfigInfo.WebRegion}}">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-1.png%}" alt="">
+                                    <br>
+                                    <h4 class="delta">审批类申报</h4>
+                                </a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a class="thumbnail text-center" href="{{cp}}pro/guidelist_info?regionCode={{ConfigInfo.WebRegion}}&investType=核准">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-2.png%}" alt="">
+                                    <br>
+                                    <h4 class="delta">核准类申报</h4>
+                                </a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a class="thumbnail text-center" href="{{cp}}pro/guidelist?href=%23x-p-3&region_code={{ConfigInfo.WebRegion}}">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-3.png%}" alt="">
+                                    <br>
+                                    <h4 class="delta">备案类申报</h4>
+                                </a>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="text-muted">
+                            <p>政府投资项目请选择审批项目</p>
+                            <p>企业投资项目在国务院发布<a href="#">政府核准投资项目目录(2014年本)</a>内请选择核准项目</p>
+                            <p>其他项目请选择备案项目</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <h4><strong>我的项目</strong></h4>
+            <div class="tab-content" style="border-top: 3px #29588c solid; padding-top: 20px;  margin-bottom: 40px;">
+                <div class="tab-pane fade in active" id="k-i-2">
+                    <section class="panel panel-default" style="padding: 10px; overflow: hidden;">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <a class="thumbnail text-center" href="{{cp}}pro/wdxm?href=%23x-p-1">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-4.png%}" alt="">
+                                    <br>
+                                    <h4 class="delta">进度查询</h4>
+                                </a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a class="thumbnail text-center" href="{{cp}}pro/wdxm?href=%23x-p-2">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-5.png%}" alt="">
+                                    <br>
+                                    <h4 class="delta">登记单打印</h4>
+                                </a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a class="thumbnail text-center" href="{{cp}}pro/new">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-6.png%}" alt="">
+                                    <br>
+                                    <h4 class="delta">报告上传</h4>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <h4><strong>互动专区</strong></h4>
+            <div class="tab-content" style="border-top: 3px #29588c solid; padding-top: 20px;">
+                <div class="tab-pane fade in active" id="k-i-2">
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="#">
+                                     <img src="{% public zs/pro/image/1.png%}">
+                                    <p class="fuwu-p">意见建议</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="#">
+                                <img src="{% public zs/pro/image/2.png%}">
+                                <p class="fuwu-p">网上调查</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="#">
+                                <img src="{% public zs/pro/image/3.png%}">
+                                <p class="fuwu-p">网上咨询</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="#">
+                                <img src="{% public zs/pro/image/4.png%}">
+                                <p class="fuwu-p">网上评价</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="#">
+                                <img src="{% public zs/pro/image/5.png%}">
+                                <p class="fuwu-p">用户手册</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="#">
+                                <img src="{% public zs/pro/image/6.png%}">
+                                <p class="fuwu-p">联系电话</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="#">
+                                <img src="{% public zs/pro/image/7.png%}">
+                                <p class="fuwu-p">网上投诉</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="#">
+                                <img src="{% public zs/pro/image/8.png%}">
+                                <p class="fuwu-p">回复查询</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>     
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-5" style="font-size:15px;">
+            <header class="panel-heading alpha omega clearfix" style="padding: 0;">
+                    <a class="pull-right text-muted" href="#" style="margin-top:6px;">
+                        查看更多
+                    </a>
+                    <h4><strong>动态信息</strong></h4>
+                </header>
+            <!-- <h4><strong>动态信息</strong></h4> -->
+            <div class="tab-content" style="border-top: 3px #29588c solid; padding-top: 20px; margin-bottom: 58px;">
+                <div class="tab-pane fade in active" id="u-s-1">
+                    <ul class="list-group sd-list-group-1" style="border: 0; margin-top: 20px; font-size: 15px;">
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a class="text-danger" href="#">简政放权放管结合 打造更优营商环境</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">2015年1—8月全国利用外商直接投资情况</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">深化简政放权 激活市场潜力</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">国家发改委：违规使用PPP项目前期工作专项补助资金</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">深化简政放权 激活市场潜力</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">内蒙古自治区本级行政权力精简幅度达45%</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">互联网+农业：河北怎样+</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">深化简政放权 激活市场潜力</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">内蒙古自治区本级行政权力精简幅度达45%</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="u-s-2">
+                    <ul class="list-group sd-list-group-1">
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a class="text-danger" href="#">简政放权放管结合 打造更优营商环境</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">2015年1—8月全国利用外商直接投资情况</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">深化简政放权 激活市场潜力</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">国家发改委：违规使用PPP项目前期工作专项补助资金</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">深化简政放权 激活市场潜力</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">内蒙古自治区本级行政权力精简幅度达45%</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">互联网+农业：河北怎样+</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">深化简政放权 激活市场潜力</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">内蒙古自治区本级行政权力精简幅度达45%</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="u-s-3">
+                    <ul class="list-group sd-list-group-1">
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a class="text-danger" href="#">简政放权放管结合 打造更优营商环境</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">2015年1—8月全国利用外商直接投资情况</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">深化简政放权 激活市场潜力</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">国家发改委：违规使用PPP项目前期工作专项补助资金</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">深化简政放权 激活市场潜力</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">内蒙古自治区本级行政权力精简幅度达45%</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">互联网+农业：河北怎样+</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">深化简政放权 激活市场潜力</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="pull-right">2015-11-22</span>
+                            <a href="#">内蒙古自治区本级行政权力精简幅度达45%</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <h4><strong>用户登录</strong></h4>
+            <div class="tab-content" style="border-top: 3px #29588c solid; padding-top: 20px; margin-bottom: 40px;">
+                <div class="tab-pane fade in active" id="k-i-2">
+                    <div class="row">
+                        <div class="col-xs-6"><button type="button"  onclick="doLoginfr();" class="btn btn-primary btn-active" style="width: 100%; margin-bottom: 15px;">法人登录</button></div>
+                        <div class="col-xs-6"><button type="button"  onclick="doLogin();" class="btn btn-primary btn-active" style="width: 100%; margin-bottom: 15px;">个人登录</button></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6"><button type="button" class="btn btn-primary" style="width: 100%; margin-bottom: 15px;">法人注册</button></div>
+                        <div class="col-xs-6"><button type="button" class="btn btn-primary" style="width: 100%; margin-bottom: 15px;">个人注册</button></div>
+                    </div>      
+                </div>
+            </div>
+
+            <h4><strong>为您服务</strong></h4>
+            <div class="tab-content" style="border-top: 3px #29588c solid; padding-top: 20px;">
+                <div class="tab-pane fade in active" id="k-i-2">
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-6">
+                            <div class="fuwu">
+                                <a href="#" style="text-decoration: none;">
+                                <img src="{% public zs/pro/image/项目咨询.png%}">
+                                <span class="fuwu-span">咨询服务</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="fuwu">
+                                <a href="#" style="text-decoration: none;">
+                                <img src="{% public zs/pro/image/项目代理.png%}">
+                                <span class="fuwu-span">无偿代理</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-6">
+                            <div class="fuwu">
+                                <a href="#" style="text-decoration: none;">
+                                <img src="{% public zs/pro/image/办事指南.png%}">
+                                <span class="fuwu-span">办事指南</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="fuwu">
+                                <a href="#" style="text-decoration: none;">
+                                <img src="{% public zs/pro/image/常见问题.png%}">
+                                <span class="fuwu-span">常见问题</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-6">
+                            <div class="fuwu">
+                                <a href="#" style="text-decoration: none;">
+                                <img src="{% public zs/pro/image/下载.png%}">
+                                <span class="fuwu-span">下载专区</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="fuwu">
+                                <a href="#" style="text-decoration: none;">
+                                <img src="{% public zs/pro/image/流程指引.png%}">
+                                <span class="fuwu-span">流程指引</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-6">
+                            <div class="fuwu">
+                                <a href="#">
+                                <img src="{% public zs/pro/image/文件资料.png%}">
+                                <span class="fuwu-span">文件资料</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="fuwu">
+                                <a href="#" style="text-decoration: none;">
+                                <img src="{% public zs/pro/image/企业网页.png%}">
+                                <span class="fuwu-span">企业网页</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="background-color: #fff;">
+        <div class="col-xs-12" style="margin-top:15px;">
+           <section class="panel panel-default">
+               <header class="panel-heading alpha omega clearfix" style="background-color: #fff; margin: -1px; border-bottom: 5px solid #29588C;">
+                    <a class="pull-right text-muted" href="#">
+                        查看更多
+                    </a>
+                    <h3 style="margin-top: 0;"><strong>办理结果公示</strong></h3>
+                </header>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>项目名称</th>
+                            <th>审批事项</th>
+                            <th>受理部门</th>
+                            <th>受审时间</th>
+                            <th>承诺时间</th>
+                            <th>审批结果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>海洋环境分析</td>
+                            <td>海洋环境影响报告书编制</td>
+                            <td>地质局</td>
+                            <td>2015-11-23</td>
+                            <td>2015-11-23</td>
+                            <td>批复</td>
+                        </tr>
+                        <tr>
+                            <td>海洋环境分析</td>
+                            <td>海洋环境影响报告书编制</td>
+                            <td>地质局</td>
+                            <td>2015-11-23</td>
+                            <td>2015-11-23</td>
+                            <td>批复</td>
+                        </tr>
+                        <tr>
+                            <td>海洋环境分析</td>
+                            <td>海洋环境影响报告书编制</td>
+                            <td>地质局</td>
+                            <td>2015-11-23</td>
+                            <td>2015-11-23</td>
+                            <td>批复</td>
+                        </tr>
+                        <tr>
+                            <td>海洋环境分析</td>
+                            <td>海洋环境影响报告书编制</td>
+                            <td>地质局</td>
+                            <td>2015-11-23</td>
+                            <td>2015-11-23</td>
+                            <td>批复</td>
+                        </tr>
+                        <tr>
+                            <td>海洋环境分析</td>
+                            <td>海洋环境影响报告书编制</td>
+                            <td>地质局</td>
+                            <td>2015-11-23</td>
+                            <td>2015-11-23</td>
+                            <td>批复</td>
+                        </tr>
+                        <tr>
+                            <td>海洋环境分析</td>
+                            <td>海洋环境影响报告书编制</td>
+                            <td>地质局</td>
+                            <td>2015-11-23</td>
+                            <td>2015-11-23</td>
+                            <td>批复</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+
+        <div class="col-xs-12">
+           <section class="panel panel-default" style="border: 0; margin-bottom: 0;">
+               <header class="panel-heading alpha omega clearfix" style="background-color: #fff; margin: -1px; border-bottom: 3px solid #29588C;">
+                    <h4><strong>平台导航</strong></h4>
+                </header>
+                    <div class="panel-body" style="padding: 20px 30px;">
+                        <select style="margin-right: 45px;">
+                            <option value="">&nbsp;&nbsp;&nbsp;--国家平台--&nbsp;&nbsp;&nbsp;</option>
+                             <option value="">&nbsp;&nbsp;&nbsp;--国家平台--&nbsp;&nbsp;&nbsp;</option>
+                              <option value="">&nbsp;&nbsp;&nbsp;--国家平台--&nbsp;&nbsp;&nbsp;</option>
+                        </select>
+                        <select style="margin-right: 45px;">
+                            <option value="">&nbsp;&nbsp;&nbsp;--省级平台--&nbsp;&nbsp;&nbsp;</option>
+                        </select>
+                        <select style="margin-right: 45px;">
+                            <option value="">&nbsp;&nbsp;&nbsp;--县区平台--&nbsp;&nbsp;&nbsp;</option>
+                        </select>
+                        <select style="margin-right: 45px;">
+                            <option value="">&nbsp;&nbsp;&nbsp;--功能区平台--&nbsp;&nbsp;&nbsp;</option>
+                        </select>
+                        <select style="margin-right: 45px;">
+                            <option value="">&nbsp;&nbsp;&nbsp;--市级部门--&nbsp;&nbsp;&nbsp;</option>
+                        </select>
+                    </div>
+            </section>
+        </div>
+    </div>
+</div>

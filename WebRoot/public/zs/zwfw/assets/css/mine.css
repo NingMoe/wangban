@@ -1,0 +1,213 @@
+@charset "utf-8";
+/* CSS Document */
+.navbar-static-top {
+    border-radius: 0;
+  }
+  .navbar-nav {
+    float: left;
+    margin: 0;
+  }
+  .navbar-nav > li {
+    float: left;
+  }
+  .navbar-nav > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+body{ font-family:"Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif !important;}
+.container{ width:1020px !important;}
+.banner{ background-image:url(../../img/banner-bg.jpg); height:124px;}
+
+.nav-tabs li{ font-weight:bold;}
+.xz-panel{ background-image:url(../../img/map2.jpg); height:717px;}
+
+.xz-panel .zs-button a{ margin-top:10px; color:#FFFFFF;}
+
+
+.bs-docs-sidebar li{ font-family:Microsoft YaHei Bold ; list-style:none;}
+.bs-docs-sidebar{ position:absolute; left:60%; margin-top:50px;}
+.bs-docs-sidebar ul li a span{ color:#232323; font-weight:bold; margin-bottom:5px;  }
+.location a{ color:#3A3A3A; font-weight:bold;}
+.location a:hover,
+.location a:focus{ color:#F34E03;}
+.bs-docs-sidebar p{font-size:14px; font-weight:bold;}
+.bs-docs-sidebar p:hover,
+.bs-docs-sidebar p:focue{ color:#FF9600;}
+.bs-docs-sidebar .dh-button { position:absolute; top:260px; right:730px; width:100px; text-align:center; }
+.bs-docs-sidebar .pt-button { position:absolute; top:270px; right:590px; width:100px; text-align:center; }
+.bs-docs-sidebar .ds-button { position:absolute; top:70px; right:655px; width:100px; text-align:center; }
+.bs-docs-sidebar .ss-button { position:absolute; top:-120px; right:520px; width:100px; text-align:center; }
+.bs-docs-sidebar .hy-button { position:absolute; top:95px; right:625px; width:100px; text-align:center; }
+.bs-docs-sidebar .xc-button { position:absolute; top:100px; right:655px; width:100px; text-align:center; }
+.bs-docs-sidebar .pts-button { position:absolute; top:80px; right:530px; width:100px; text-align:center; }
+.bs-docs-sidebar .jt-button { position:absolute; top:0px; right:820px; width:100px; text-align:center; }
+.bs-docs-sidebar .lh-button { position:absolute; top:110px; right:680px; width:100px; text-align:center; }
+
+
+.dh-button  i span { position:absolute; top:25px; left:13px;}
+
+.zss-button {position:absolute; top:385px; left:245px;}
+.zss-button span{position:absolute; top:25px; left:13px;}
+
+
+
+
+.dh-button:hover .li biz{ display:block;}
+
+
+.ds-but { position:absolute;
+top:245px; left:285px;}
+.ds-but span{ position:absolute;
+top:20px; left:15px;}
+
+
+.dh-but { position:absolute; top:345px; left:210px;}
+.dh-but span{ position:absolute; top:20px; left:15px;}
+
+.zs-but {position:absolute; top:385px; left:255px;}
+.zs-but span{position:absolute; top:20px; left:15px;}
+
+.pt-but {position:absolute; top:400px; left:340px;}
+.pt-but span{position:absolute; top:20px; left:15px;}
+
+.ss-but {position:absolute; top:90px; left:420px;}
+.ss-but span{position:absolute; top:20px; left:15px;}
+
+
+
+
+.bs-docs-sidebar {
+    width: 220px;
+}
+.bs-docs-sidebar table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.bs-docs-sidebar a {
+    text-decoration: none;
+    color: #333;
+    
+}
+.bs-docs-sidebar a:hover {
+    color: #f60;
+}
+.bs-docs-sidebar ul ul {
+    position:absolute;
+    visibility: hidden;
+    right: 215px;
+    top:-2px;
+    width:100px;
+    background-color:#effcfe;
+}
+
+.bs-docs-sidebar li {
+   
+    position: relative;
+    _position: static;
+    float: left;
+    width: 100%;
+    padding:5px 0px;
+    
+    
+}
+.bs-docs-sidebar a.li {
+    position: relative;
+}
+.bs-docs-sidebar li .option {
+    display: block;
+    line-height: 20px;
+    padding: 5px 5px 5px 5px;
+    background: no-repeat 5px 4px;
+    cursor: pointer;
+    font: 12px "Microsoft YaHei";
+    font-family: 
+    zoom: 1;
+    
+   
+}
+.bs-docs-sidebar li .option ul{
+    position:absolute;
+    top
+    }
+.bs-docs-sidebar li .option:hover {
+    color: #f60;
+    
+}
+.bs-docs-sidebar li .option span {
+    display: block;
+    padding-right: 15px;
+    background: url
+}
+.bs-docs-sidebar li .option:hover span,
+.bs-docs-sidebar li .option:focus span
+ {
+    background-position: right -15px;
+    color:#0672D7;
+    
+    
+}
+.bs-docs-sidebar li .option:hover span img,
+.bs-docs-sidebar li .option:focus span img
+{ background-image:url(../../img/j-d-t-2.png);} 
+.bs-docs-sidebar .li:hover {
+    z-index: 2;
+    background: transparent;
+}
+.bs-docs-sidebar .li:hover ul {
+    visibility: visible;
+}
+.bs-docs-sidebar .li:hover ul ul {
+    visibility: hidden;
+    
+}
+.bs-docs-sidebar .li:hover ul {
+    
+    border-width: 1px 2px 2px 1px;
+    width: 80px;
+    background: #fff;
+    padding: 1px;
+}
+.bs-docs-sidebar .li:hover li {
+    border-bottom: none;
+}
+.bs-docs-sidebar .li:hover li .option {
+    padding: 2px 5px;
+    background: transparent;
+}
+.bs-docs-sidebar .li:hover li .option:hover,
+.bs-docs-sidebar .li:hover li .option:focus {
+    background: #0096ff;
+    color: #fff;
+    
+}
+.bs-docs-sidebar .li:hover li .option:hover span {
+    background-position: right -30px;
+}
+.bs-docs-sidebar .li:hover .li:hover ul {
+    visibility: visible;
+    left: -80px;
+    top: -2px;
+    background:none !important;
+}
+/*---图标差异---*/
+.bs-docs-sidebar .charges .option {
+    background-position: 4px -45px;
+}
+.bs-docs-sidebar .biz .option {
+    background-position: 4px -70px;
+}
+.bs-docs-sidebar .change .option {
+    background-position: 4px -95px;
+}
+.bs-docs-sidebar .score .option {
+    background-position: 4px -120px;
+}
+.bs-docs-sidebar .server .option {
+    background-position: 4px -145px;
+}
+.bs-docs-sidebar .edit .option {
+    background-position: 4px -170px;
+}
+.bs-docs-sidebar .sms .option {
+    background-position: 4px -195px;
+}

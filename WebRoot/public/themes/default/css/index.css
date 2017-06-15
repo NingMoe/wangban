@@ -1,0 +1,86 @@
+
+html,body{ font-size:14px;margin:0px;padding:0px}
+
+#desktopHeader{ z-index:9999; height:98px; width:100%;left:0; right:0; background:#CBEBF6 url(../images/X_index/top_bg.jpg) no-repeat right top}
+#desktopTitlebar{ width:100%; height:68px; padding:0px;}
+#desktopMenubar{ width:100%; height:28px;  background:url(../images/X_index/top_menu_bg.png) repeat-x;  text-shadow: 1px 1px #0051BA; }
+#desktopTitlebar .title{ font-size:30px; font-weight:bold; color:#FFF; margin-left:10px; padding-top:15px; }
+
+#desktopHeader #logoDIV{ border:2px solid #FFF; height:64px; width:64px; position:absolute; top:10px; left:10px;cursor:pointer}
+#desktopHeader #logoDIV_List{height:79px; position:absolute; top:20px; right:10px;cursor:pointer}
+#desktopHeader #logoDIV_List dl{ float:left; padding:0px 18px; /*opacity: 0.6;*/background:url(../images/X_index/spin.gif) no-repeat right bottom}
+#desktopHeader #logoDIV_List dl dt{ margin:0px; padding:0px; text-align:center;height: 47px;overflow:hidden;}
+#desktopHeader #logoDIV_List dl dt img{ margin-top:28px;opacity: 0.4;}
+#desktopHeader #logoDIV_List dl dd{ margin:0px; padding:0px; text-align:center; color:#FFF; font-size: 16px;line-height: 32px;}
+#desktopMenubar #subTitle{ color:#054B78; font-size:12px; float:left; line-height:25px; padding-left:5px; padding-top:5px;}
+/*#desktopMenubar #subTitle span{ background:url(../images/index/sub_title.png) no-repeat; display:block; width:375px; height:16px;}*/
+#desktopMenubar #subTitle span{ padding-left:36px;line-height:20px;text-shadow: 0 0 5px #FFFFFF; font-weight: bold;}
+
+
+#index_navigation{background: url("../images/index/nav_bg.jpg") no-repeat scroll center top #C5E3FB;height: 100%;position: absolute;width: 100%;z-index: 9;}
+#index_navigation .sub_nav{
+	cursor:pointer;
+	border: 1px solid #CCCCCC;
+    font-size: 20px;
+    font-weight: bold;
+    height: 100px;
+    text-align: center;
+    vertical-align: middle;
+    width: 150px;
+    margin: 0 22px;
+    box-shadow: 2px 2px 2px #CCCCCC;
+    border: 2px solid #095170;
+    background-color:#35b3e9;
+    color: #FFF;
+    }
+    
+#index_navigation .index_canvas{width: 800px; height: 400px;position: absolute;left: 50%;top: 50%;margin-top: -200px; margin-left: -400px}
+#index_navigation .sub_nav span{line-height: 90px;}
+#platform{height:40px; position:absolute; right:0px; top:50px; z-index:0;/*background: url(../images/index/apps_plat.png) no-repeat;*/}
+
+.shadow{width:21px; height:376px; position:absolute; z-index:2; overflow:hidden;left:118px;background:url(../images/shadow.png) no-repeat;}
+.menu_selected{ display:none;background: url("../images/menu_selected.png") no-repeat scroll 0 0 transparent;float: right;height: 40px;margin-left: 154px;margin-right: -1px;margin-top: -40px;position: absolute;width: 20px;z-index: 9999;}
+
+.submenu li.selected .menu_selected{ display:block;display:none;}
+.submenu li dl dt.selected .menu_selected{ display:block; margin-left: 133px;}
+.submenu li dl.lvl3 dt.selected .menu_selected{display:block; margin-left: 111px;}
+#menuPanel{font-size:14px;background:#e9eef5; width:100%;border-right:1px solid #BCBCBC; overflow: hidden; }
+.submenu{ list-style:none; padding-top:8px; margin:0px; margin-top: 32px; /**/ }
+.submenu li{ color:#777;list-style:none; cursor:pointer; line-height:40px; /*border-bottom:#CCC 1px solid;*/ padding-left:20px;background:url('../images/X_index/spin_.gif') 20px bottom  no-repeat;}
+.submenu li.selected{ padding-left:20px;/**/color:#3A7DC8;font-weight:bold;background-position:15px bottom;/*background-color:#c1dcf7;*/}
+.submenu li dl{background:#F9F9F9; padding:0px; margin:0px;}
+.submenu li dl dt{cursor:pointer;line-height:40px; border-top:1px dotted #CCC; padding-left:20px;border-left:1px dotted #CCC;}
+.submenu li dl dt.selected{ border-left:5px solid #3A7DC8;color:#3A7DC8; font-weight:bold}
+.submenu li span.no-expend{float:right;display:block; background:url(../images/expend.png) no-repeat; width:15px; height:15px; margin:13px;}
+.submenu li span.expend{float:right;display:block; background:url(../images/expend_2.png) no-repeat; width:15px; height:15px; margin:13px;}
+.submenu li dl.lvl3{background:#FEFEFE;}
+
+/*三级菜单样式 2014-11-11 for zj start*/
+.submenu li .sub_menu { display: none; margin-left: 20px;}
+.submenu li.selected .sub_menu { display: block}
+.submenu li.selected { padding: 0;}
+.submenu li.selected span.blockspan { display: block; padding-left: 15px; border-left:5px solid #3A7DC8;color:#3A7DC8;}
+.submenu li.selected .sub_menu p { padding-left: 15px; margin-right: 10px; line-height: 30px; background: none; border-bottom: 1px solid #CBCFD5; position: relative; bottom: 1px;}
+.submenu li.selected .sub_menu p a { font-weight: 500; font-size: 12px; color: #888; text-shadow: 0 1px 0 #fff;}
+.submenu li.selected .sub_menu p.selected_li a,.submenu li.selected .sub_menu p a:hover{ color: #3A7DC8}
+.submenu li.selected .sub_menu p.selected_li { background:url(../images/list_item_v2.gif) no-repeat 5px center;}
+/*三级菜单样式 2014-11-11 for zj end*/
+.top_blank{ height:6px; overflow:hidden;background:#004cae}
+.toptitle{ height:32px; background:#004cae ; color:#FFF; font-weight:bold; text-align:right; position: fixed;width: 127px;text-align:left;padding-left:12px;}
+.toptitle span{margin-right: 20px}
+/*
+.navigation{height:42px; width:100%; background:#F6F6F6; border-bottom:1px solid #EEE;}
+.navigation ul{ margin:0px; padding:0px; list-style:none}
+.navigation ul li{ margin:0px; padding:0 40px 0px 30px; height:42px; line-height:42px; float:left; background:url(../images/navigation_right.gif) no-repeat right;}
+.navigation ul li.cur{background:url(../images/navigation_right.gif)  no-repeat right; font-weight:bold; color:#3A7DC8;}
+.navigation .search_bar{float:right;padding:1px 8px;border-left:1px solid #FFF;width:70px;cursor: pointer;height:20px; line-height:20px; margin:6px;}
+*/
+.subsys{position: absolute;top: -5px;width: 180px;z-index: 9999999; display: none}
+.subsysImg{cursor: pointer;left: 18px;position: absolute;top: 3px;z-index: 999999999;}
+.subsys .subUL{width: 195px;padding: 0px; margin: 0px;}
+.subsys #sub_t{background: url(../images/index/sub_t.png)  no-repeat;width:195px;height:48px }
+.subsys #sub_m{background: url(../images/index/sub_m.png) repeat-y;;width:195px}
+.subsys #sub_b{background: url(../images/index/sub_b.png)  no-repeat;;width:195px;height:21px}
+
+.subsys dl{padding:0px 20px}
+.subsys dd{line-height: 35px; color: #FFF;cursor:pointer;}

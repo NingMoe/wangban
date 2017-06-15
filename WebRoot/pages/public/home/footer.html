@@ -1,0 +1,108 @@
+<style type="text/css">
+	.index_foot  .statistics a{color: #82F3FF;margin-right: 5px;text-decoration: none;}
+
+    .fotbottom_warp .move_box { height: 100px;}
+    .fotbottom_warp .move_box .move_warp { height: 90px; padding: 10px 0;}
+    .fotbottom_warp .move_box span.test { padding-top: 13px;}
+    .fotbottom_warp .move_box a.test{position: absolute;bottom: 15px; right: 0;}
+</style>
+<!-- footer bottom start -->
+<div class="clear"></div>
+<div class="fot_bottom_box" style="display: none">
+    <div class="fotbottom_warp">
+        <ul>
+            <li class="consulting move_li">
+                <a href='{% if ConfigInfo.WebRank|equal:"1" %}http://www.szol.gov.cn/SZXFManager/xfhall/xfdtdh.jsp{% else %}{{PageContext.ContextPath}}mutual/consult{% endif %}'><strong>我要咨询</strong><span>在办事过程中，有什么不清楚吗？ 请点击我要咨询。</span></a>
+                <div class="move_box">
+                    <div class="move_warp">
+                        <span class="test">在办事过程中，有什么不清楚吗？ 请点击我要咨询。</span><a class="test" href='{% if ConfigInfo.WebRank|equal:"1" %}http://www.szol.gov.cn/SZXFManager/xfhall/xfdtdh.jsp{% else %}{{PageContext.ContextPath}}mutual/consult{% endif %}' target="_blank">我要咨询</a>
+
+                    </div>
+                    <b class="bg"></b>
+                </div>
+            </li>
+            <li class="line"></li>
+            <li class="inquiry move_li">
+                <a href="{{PageContext.ContextPath}}project/BusyQuery?type=CX"><strong>我要查询</strong><span>你可根据受理流水号和办事人名称查询 办事进度和结果</span></a>
+                <div class="move_box">
+                    <div class="move_warp">
+                        <span class="test">在办事过程中，有什么不清楚吗？ 请点击我要查询。</span><a class="test" href="{{PageContext.ContextPath}}project/BusyQuery?type=CX" target="_blank">我要查询</a>
+                    </div>
+                    <b class="bg"></b>
+                </div>
+            </li>
+            <li class="line"></li>
+            <li class="comment move_li">
+                <a href='http://wsbs.sz.gov.cn/star'><strong>我要评议</strong><span>欢迎办事后对我们的服务进行打分</span></a>
+                <div class="move_box">
+                    <div class="move_warp">
+                      <span class="test">在办事过程中，有什么不清楚吗？ 请点击我要评议。</span><a class="test" href='http://wsbs.sz.gov.cn/star' target="_blank">我要评议</a>
+
+                    </div>
+                    <b class="bg"></b>
+                </div>
+            </li>
+            <li class="line"></li>
+            <li class="complaints move_li">
+                <a href='{% if ConfigInfo.WebRank|equal:"1" %}http://www.szol.gov.cn/SZXFManager/xfhall/xfdtdh.jsp{% else %}{{PageContext.ContextPath}}mutual/complaint{% endif %}'><strong>我要投诉</strong><span>你可根据指引向相关部门投诉</span></a>
+                <div class="move_box">
+                    <div class="move_warp">
+                        <span class="test">在办事过程中，有什么不清楚吗？ 请点击我要投诉。</span><a class="test" href='{% if ConfigInfo.WebRank|equal:"1" %}http://www.szol.gov.cn/SZXFManager/xfhall/xfdtdh.jsp{% else %}{{PageContext.ContextPath}}mutual/complaint{% endif %}' target="_blank">我要投诉</a>
+
+                    </div>
+                    <b class="bg"></b>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- footer bottom end -->
+<script type="text/javascript">
+(function(){
+	bottomMove('fotbottom_warp')
+})(jQuery)
+</script>
+	
+<div id="footer" class="index_foot">
+  		<div class="footer_copy">
+			<div class="fl">
+				<div class="logo"></div>
+				<div class="logo_line"></div>
+			</div>
+			<div class="fl" style="margin-left:10px;width:500px;">
+				<div class="fl" style="height:25px;width:100%;">
+					<div class="fl" >
+						{{ConfigInfo.CompanyName}}	
+					</div>
+					<div class="fr" style="text-align:right;">
+						{{ConfigInfo.CompanyAuthor}}
+					</div>
+				</div>
+				<div class="fl" style="width:100%;color:#82F3FF;">
+					<div class="fl statistics" >
+						{{ConfigInfo.CompanyCopy}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<script type="text/javascript">
+						//var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+						//document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7b1421b564e467ecc44e3c404b371fc0' type='text/javascript'%3E%3C/script%3E"));
+					</script>
+					</div>
+					<div class="fr">
+						{{ConfigInfo.CompanyRecord}}
+					</div>
+				</div>
+			</div>
+			<div class="navigator">
+				<div class="fl" style="width:300px;height:25px;">
+					<a href="{{PageContext.ContextPath}}home/map">网站地图</a>
+					<a href="{{PageContext.ContextPath}}home/help">使用帮助</a>
+					<a href="{{PageContext.ContextPath}}home/linker">联系我们</a>
+					<a style="text-decoration: none;"><font color="#eee712">中文</font></a>
+				</div>
+				<div class="bottom">
+					建议使用1024×768分辨率 IE7.0 以上版本浏览器
+				</div>
+				
+			</div>
+		</div>
+		</div>
+</div>

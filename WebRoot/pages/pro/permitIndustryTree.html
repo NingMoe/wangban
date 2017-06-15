@@ -1,0 +1,103 @@
+<script type="text/javascript">	
+	var data = [];
+	$(function(){
+		initDict();
+	});
+	//初始化字典
+	function initDict(){
+		var command = new LEx.Command("app.icity.pro.ProCmd");
+		command.setParameter("dictCode", "TZXMHYFL");
+		var ret = command.execute("getDictInfo");
+		if(!command.error){					
+			data = ret.data.info[0].TZXMHYFL;	
+			$.each(data,function(i){
+				if(data[i].code.length==6){
+					data[i].id=data[i].code;
+					data[i].pId='';
+				}else{
+					data[i].id=data[i].code;
+					data[i].pId=formatLen(data[i].code,0,6);
+				}
+			});
+		}
+	}	
+	var industryTreeObj = null;
+	var nodes = null;
+	var rootId = null;
+	var chkStyle = "radio";
+	function init(){
+		if(LEx.urldata.checkbox){
+			chkStyle = "checkbox";
+		}
+		initTree();
+	}
+	
+	function initTree(){		
+			var setting = {
+					view: {
+						selectedMulti: false
+					},
+					edit: {
+						enable: false
+					},
+					check: {
+						enable: true,
+						chkStyle: chkStyle,
+						chkboxType: { "Y": "", "N": "" },
+						radioType: "all"
+					},
+					data: {
+						key: {
+							title:"name",
+							name: "name"
+							
+						},
+						keep: {
+							parent:true,
+							leaf:true
+						},
+						simpleData: {
+							enable: true,
+							idKey:"id",
+							pIdKey:"pId",
+							rootPId:rootId
+						}
+					}
+				};
+				
+			LEx.Control.Tree("IndustryTree",setting,data,function(obj){
+				industryTreeObj = obj;
+			});		
+	}
+	
+	function getData(){
+		var selectedIndustry = {};
+		nodes = industryTreeObj.getCheckedNodes(true);
+		if(null != nodes && nodes.length >0){
+			node=nodes[0];
+			selectedIndustry.id =node.id;
+			selectedIndustry.name=node.name;
+			selectedIndustry.pid = node.pid;			
+		}
+		return selectedIndustry;
+	}
+	
+	function getDatas(){		
+		var selectedIndustrys = [];
+		nodes = industryTreeObj.getCheckedNodes(true);
+		if(null != nodes && nodes.length >0){
+			for(var i=0;i<nodes.length;i++){
+				node = nodes[i];
+				var selectedIndustry = {};
+				selectedIndustry.id =node.id;
+				selectedIndustry.name=node.name;
+				selectedIndustry.pid = node.pid;		
+				selectedIndustrys.push(selectedIndustry);
+			}
+		}
+		return selectedIndustrys;
+	}
+</script>
+<div>
+	<ul id="IndustryTree" class="ztree"></ul>
+</div>

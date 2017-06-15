@@ -1,0 +1,59 @@
+<style>
+/*强制不显示横向滚动条，纵向滚动条会在内容过多时自动显示*/
+html { /*overflow:hidden;*/
+	background: #F5F6F7;
+	overflow-x: hidden;
+}
+</style>
+{% map "key","","start","0","limit","5" as p_HotStat%}
+{% command "app.icity.project.ProjectBusinessStatCmd",'getBusyInfoHotStat',p_HotStat as d_HotStat%}
+<section class="panel panel-primary" style="border-color: #ddd;" id="form">
+	<header class="panel-heading no-bordered"
+		style="margin: -1px; padding: 15px; background-color:#4f719c;">
+		<a class="btn btn-primary pull-right"
+			style="background-color:#728db0; margin-top: -8px;" href="javascript:void(0);" onclick="Servicemanagement();">返回服务管理
+			&rarr;</a>
+		<h3 class="panel-title">
+			<strong id="serviceTitle">热点服务</strong>
+		</h3>
+	</header>
+	<table class="table table-striped its-table-backlog">
+                        <thead>
+                            <tr class="bg-info">
+                            	<th class="text-center text-primary" width="8%">热度排名</th>
+                            	<th class="text-center text-primary" width="40%">事项名称</th>
+                                <th class="text-center text-primary" width="20%">所属部门</th>
+                                <th class="text-center text-primary" width="8%">申报次数</th>
+                                <th class="text-center text-primary" width="8%">点击次数</th>
+                                <th class="text-center text-primary" width="8%">办理深度</th>
+                                <th class="text-center text-primary" width="8%">收藏</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% if d_HotStat.data %}
+						{% for o in d_HotStat.data %}
+                            <tr>
+                            	<td class="text-center"><a class="btn btn-danger">{{loop.counter}}</a></td>
+                                <td><a href="{{PageContext.ContextPath}}icity/proinfo?id={{o.CODE}}" title="{{o.NAME}}">{{o.NAME|truncate:15}} <span class="text-primary">[许可]</span></a></td>
+                                <td class="text-left">{{o.DEPT_NAME_SHORT}}</td>
+                                <td class="text-center">{{o.SUM}}</td>
+                                <td class="text-center">{{o.SUM}}</td>
+                                <td class="text-center"><a class="btn btn-primary" href="{{cp}}icity/submitsp/baseinfo?itemId={{o.CODE}}">全程网办</a></td>
+                                <td class="text-center"><a class="btn btn-link" href="#">收藏</a></td>
+                            </tr>
+                         {% endfor %}
+						 {% else %}
+					 		<tr>
+                                <td colspan="5"><font>暂无数据</font></td>
+                            </tr>
+						 {% endif %}                           
+                        </tbody>
+                    </table>
+                    <button style="display:none;" type="button" class="btn btn-default btn-block its-btn-loading-more">加载更多</button>
+</section>
+<script>
+Servicemanagement = function(){
+	$("#BusyInfoHotStatMore").hide();
+	$("#Servicemanagement").show();
+};
+</script>

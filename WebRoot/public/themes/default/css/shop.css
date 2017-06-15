@@ -1,0 +1,8 @@
+.cart {
+	background: url(../images/shop/cartBg.gif) no-repeat left top;
+	padding: 15px 10px 15px 50px;
+	color: #006bcd;
+	height: 50px;
+	_padding: 12px 10px 15px 50px;
+	margin:0px;
+}

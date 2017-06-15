@@ -1,0 +1,33 @@
+{% map "start","0","limit","5" as p_HotStat%}
+{% command "app.icity.project.ProjectBusinessStatCmd",'getBusyInfoHotStat',p_HotStat as d_HotStat%}
+ <div class="tab-pane fade active in"  id="l-b-1">
+ 	<ul class="list-inline phi yi-list-inline-s-1">
+ 	{% if d_HotStat.data %}
+		{% for o in d_HotStat.data %}
+		<li>
+			<!--  <span style="background: none repeat scroll 0 0 #759EBE; border: 1px solid #333333;box-shadow: 0 1px 2px #CCCCCC;color: #FFFFFF;margin-right: 0px;padding: 0 1px;">{{o.ID_TONGJI_INDEX}}</span>-->
+			<a href="{{PageContext.ContextPath}}icity/project/guide?id={{o.CODE}}" title="{{o.NAME}}"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /> {{o.NAME|truncate:15}}</a>		
+			<!--  <span style="float:right;text-align:right;">({{o.SUM}}次)</span>-->
+		</li>
+	    <hr>
+	   {% endfor %}
+	{% else %}
+ 		<li>
+       		<div style="text-align: center;margin-top:5px;"><font>暂无数据</font></div>
+       	</li>
+	{% endif %}	
+	</ul>
+</div>
+<br>
+<div class="btn-toolbar">
+<table>
+<tr>
+          <td height="84" align="center"><a href="{{cp}}consult"  target="_blank"><img src="{{cp}}public/assets/img/zwfww_015.jpg" width="64" height="63" /></a></td>
+          <td align="center"><a href="{{cp}}complain" target="_blank" ><img src="{{cp}}public/assets/img/zwfww_016.jpg" width="63" height="63" /></a></td>
+        </tr>
+        <tr>
+          <td height="28" align="center"><a href="{{cp}}consult"  target="_blank" class="btn btn-primary"><span class="STYLE26">我要咨询</span></a></td>
+          <td align="center"><a href="{{cp}}complain" target="_blank" class="btn btn-warning"><span class="STYLE26">我要投诉</span></a></td>
+        </tr>
+</table>
+</div>

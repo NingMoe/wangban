@@ -1,0 +1,82 @@
+<div id="subhead" class="yi-subhead">
+    <div class="container">
+        <h3>行政审批 <small></small></h3>
+    </div>
+</div>
+<br>
+<div id="page" class="container">
+    <div class="row table-row gamma chi" style="border: 1px solid #ddd; background-color:#fff;">
+        <div class="col-xs-8 table-cell">          
+            <section class="panel no-shadow transparent">
+                <header class="panel-heading transparent no-bordered psi">
+                    <ul class="nav nav-pills yi-nav-pill-s-2 nav-tabs-gr-bm">
+                        <li class="active"><a href="#n-s-t-a" data-toggle="tab">按部门</a></li>
+                        <li class=""><a href="#n-s-t-b" data-toggle="tab">按地区</a></li>
+                    </ul>
+                </header>
+                <div class="panel-body tab-content">
+                    <div class="tab-pane fade active in"  id="n-s-t-a">
+                        <div class="row thumbnails yi-thumbnails-s-2">
+                            {% widget "icity.DeptWidget" %}                             
+                        </div>                        
+                    </div>
+                    <div class="tab-pane fade"  id="n-s-t-b">                    
+                    	<div class="row thumbnails yi-thumbnails-s-2">
+                            {% widget "icity.RegionWidget" %}                               
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-xs-4 table-cell" style="background-color: #F3FBFE;">
+            <section class="panel transparent no-shadow">
+                <header class="panel-heading transparent no-bordered psi">
+                    <ul class="nav nav-pills yi-nav-pill-s-2">
+                        <li class="active"><a href="#l-b-1" data-toggle="tab">热点办事</a></li>
+                    </ul>
+                </header> 
+                <div class="panel-body">
+                    {% widget "project.BusyInfoHotStatWidget",layout %}                    
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<script>
+$(function() {
+    $(".dropdown-menu").on("click", "[data-stopPropagation]", function(e) {
+        e.stopPropagation();
+    });
+});
+$(function () {
+	 $('.nav-tabs-gr-bm > li > a').hover(function (e) {
+	        e.preventDefault();
+	        $(this).tab('show');
+	    });
+});
+$(function(){
+	 $('.title-classtype > a').click(function (e) {
+	        alert($(this).find('div').text());
+	  });
+});
+$(function(){
+	 $('.dept-classtype > a').click(function (e) {
+			window.open("{{PageContext.ContextPath}}approve/project?pagemodel=approve&cat=dept&id="+$(this).find('div').attr("id"),"_self");
+	  });
+});
+$(function(){
+    $(".dropdown-hover").hover(
+        function() {
+            $('.dropdown-menu', this).stop( true, true ).fadeIn("fast");
+            $(this).toggleClass('open');
+//            $('mdicon', this).toggleClass("mdicon-expand-less mdicon-expand-more");                
+        },function() {
+            $('.dropdown-menu', this).stop( true, true ).fadeOut("fast");
+            $(this).toggleClass('open');
+//            $('mdicon', this).toggleClass("mdicon-expand-less mdicon-expand-more");                
+        }
+    );
+});
+</script>
+<!-- </body>
+</html> -->

@@ -1,0 +1,422 @@
+<style type="text/css">
+.btn-primary {
+	width:100%;
+    color: #ffffff;
+    background-color: #607DE3;
+    border-color: transparent;
+}
+
+.dropdown-hover:hover .dropdown-menu {
+	display: block;
+}
+
+.dropdown-toggle:focus {
+  outline: 0;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  background: url({%public zs/pro/image/pop_up.png %}) no-repeat;
+  height: 95px;
+  width: 158px;
+  display: none;
+  float: left;
+  z-index:10;
+  min-width: 150px;
+  padding: 5px 0;
+  list-style: none;
+  font-size: 14px;
+  text-align: left;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-clip: padding-box;
+}
+.dropdown-menu.pull-right {
+  right: 0;
+  left: auto;
+}
+.dropdown-menu .divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
+.dropdown-menu > li > a {
+  text-align: center;
+  display: block;
+  padding: 1px 1px 0px 1px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  white-space: nowrap;
+}
+.dropdown-menu li:hover a{
+	color:#1492ff;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  text-decoration: none;
+  color: #1492ff;
+  background-color: #f5f5f5;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  color: #1492ff;
+  text-decoration: none;
+  outline: 0;
+  background-color: #29588c;
+}
+.dropdown-menu > .disabled > a,
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus {
+  color: #777777;
+}
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus {
+  text-decoration: none;
+  background-color: transparent;
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  cursor: not-allowed;
+}
+</style>
+<script>
+function doLoginfr(c) {
+	var str = encodeURIComponent(window.location.href);
+	if(c=="c"){
+		str = check_goto;
+	}
+	var redirectTo = "{{ConfigInfo.login_fr}}?goto="+str;
+	window.location.href = redirectTo;
+    return false;
+}	
+function doLogin(c) {	
+	var str = encodeURIComponent(window.location.href);
+	if(c=="c"){
+		str = check_goto;
+	}
+    var redirectTo=null;
+    redirectTo = "{{ConfigInfo.login_gr}}&goto="+str;
+	window.location.href = redirectTo;
+    return false;
+}
+function doLogout(ucPath) {
+	var logout_url=null;
+	var surl="{{ConfigInfo.logout_gr}}";
+	if({{UserInfo}}.type==21){
+		surl = "{{ConfigInfo.logout_fr}}?goto={{PageContext.WebSite}}public/index";
+	}
+	logout_url = "{{PageContext.ContextPath}}zs/logout?goto="+encodeURIComponent(surl);
+	window.location.href = logout_url;
+    return false;
+}
+
+function doRegisterfr(){
+ 	var redirectTo = null;
+    redirectTo = "{{ConfigInfo.register_fr}}";
+	window.location.href = redirectTo;
+    return false;
+}
+
+function doRegistergr(){
+ 	var redirectTo = null;
+    redirectTo = "{{ConfigInfo.register_gr}}";
+	window.location.href = redirectTo;
+    return false;
+}
+
+function contentQuery1(type){
+	var str = "{{PageContext.ContextPath}}icity/interactive/base?type="+type;	
+	window.open(str);
+}
+function searchX(){
+	 var key=$(".key").val();
+	 if(!LEx.isNotNull(key)){
+		 return false;
+	 }
+	 window.open("{{cp}}icity/project/searchZS?websitetype=0&key="+ encodeURIComponent(key));
+}
+
+function gotointermediary(){
+	var url = getSecurityValue('intermediary_service_url');
+	var reg_code = getSecurityValue('WebRegion').substr(0,6);
+	window.open(url+"?reg_code="+ reg_code);
+}
+//字典
+//项目类型
+var TZSPXMLX=[{"code":"A00001","name":"审批"},{"code":"A00002","name":"核准"},{"code":"A00003","name":"备案"}];
+//项目法人证照类型
+var ZSTZXMFRZZLX=[{"code":"0","name":"企业营业执照"},{"code":"1","name":"组织机构代码证（企业法人）"}];
+//建设性质
+var TZSPJSXZ=[{"code":"0","name":"新建"},{"code":"1","name":"扩建"}];
+//所属行业
+var TZXMLX=[{"code":"A01XXX","name":"农业"},{"code":"A011XX","name":"谷物及其他作物的种植"}];
+//投资项目行业分类
+var TZXMHYFL=[{"code":"A00001","name":"农业水利"},{"code":"A0000101","name":"农业"}];
+//省级编码
+var TZSPSJBM=[{"code":"330000","name":"浙江省"}];
+//市级编码
+var TZSPSBM=[{"code":"330900","name":"舟山市"}];
+//县级编码
+var TZSPXJBM=[{"code":"310107","name":"普陀区"}];
+//事项所属阶段
+var TZSPSSJD=[{"code":"0","name":"审批阶段"},{"code":"1","name":"开工阶段"},{"code":"2","name":"竣工验收"}];
+//审批事项所属阶段
+var TZXMSPLXMJD=[];
+//核准所属阶段
+var TZXMHZLXMJD=[];
+//备案所属阶段
+var TZXMBALXMJD=[];
+
+//审批事项所属阶段(登记赋码专用)
+var TZXMSBXMJD=[];
+//核准事项所属阶段(登记赋码专用)
+var TZXMSBHZJD=[];
+//备案事项所属阶段(登记赋码专用)
+var TZXMSBBAJD=[];
+
+var SECTYPE=[];
+//审批二级分类
+var SPSECTYPE=[];
+//核准二级分类
+var HZSECTYPE=[];
+//备案二级分类
+var BASECTYPE=[];
+
+//项目阶段
+var TZSPXMJD=[{"code":"0","name":"在建"},{"code":"1","name":"竣工"},{"code":"2","name":"撤销"}];
+//项目阶段节点
+var TZSPJDJD=[{"code":"0","name":"开工"},{"code":"1","name":"季度进展"},{"code":"2","name":"年度进展"},{"code":"3","name":"竣工"},{"code":"4","name":"撤销"}];
+//装载select
+function addOption(sid,dict){
+	var len = dict.length;
+	for(var i=0;i<len;i++){
+		$("#"+sid).append("<option value='"+dict[i].code+"'>"+dict[i].name+"</option>");
+	}	
+}
+//初始化字典
+function initDict(){
+	var command = new LEx.Command("app.icity.pro.ProCmd");
+	command.setParameter("dictCode", "TZSPJDJD,TZSPXMJD,TZSPXMLX,ZSTZXMFRZZLX,TZSPJSXZ,TZXMLX,TZXMHYFL,TZSPSJBM,TZSPSBM,TZSPXJBM,TZXMSPLXMJD,TZXMHZLXMJD,TZXMBALXMJD,A00001,A00002,A00003,TZXMSBXMJD,TZXMSBHZJD,TZXMSBBAJD");
+	var ret = command.execute("getDictInfo");
+	if(!command.error){		
+		TZSPXMLX = ret.data.info[0].TZSPXMLX;
+		ZSTZXMFRZZLX = ret.data.info[0].ZSTZXMFRZZLX;
+		TZSPJSXZ = ret.data.info[0].TZSPJSXZ;
+		TZXMLX = ret.data.info[0].TZXMLX;
+		TZXMHYFL = ret.data.info[0].TZXMHYFL;
+		TZSPSJBM = ret.data.info[0].TZSPSJBM;
+		TZSPSBM = ret.data.info[0].TZSPSBM;
+		TZSPXJBM = ret.data.info[0].TZSPXJBM;
+		TZSPSSJD = ret.data.info[0].TZSPSSJD;
+		TZXMSPLXMJD = ret.data.info[0].TZXMSPLXMJD;
+		TZXMHZLXMJD = ret.data.info[0].TZXMHZLXMJD;
+		TZXMBALXMJD = ret.data.info[0].TZXMBALXMJD;
+		TZSPJDJD = ret.data.info[0].TZSPJDJD;
+		TZSPXMJD = ret.data.info[0].TZSPXMJD;
+		SPSECTYPE = ret.data.info[0].A00001;
+		HZSECTYPE = ret.data.info[0].A00002;
+		BASECTYPE = ret.data.info[0].A00003;
+		TZXMSBXMJD = ret.data.info[0].TZXMSBXMJD;
+		TZXMSBHZJD = ret.data.info[0].TZXMSBHZJD;
+		TZXMSBBAJD = ret.data.info[0].TZXMSBBAJD;
+	}
+}
+$(function(){
+	if({{UserInfo}}){
+		$("#k-i-2-user").hide();
+		$("a[name='k-i-2-login']").show();
+	}else{
+		$("#k-i-2-user").show();
+		$("a[name='k-i-2-login']").hide();
+	}
+});
+function checklogion(){
+	var href = location.href;
+	window.location.href="{{cp}}bsp/check?goto="+encodeURIComponent(href);
+}
+//资源服务链接
+function zyfw(){
+	var url="";
+	//舟山
+	if({{ConfigInfo.WebRegion}}==330901000000){
+		url="http://www.zsztb.gov.cn/zsztbweb";
+	}
+	//定海
+	if({{ConfigInfo.WebRegion}}==330902000000){
+		url="http://www.dhggzy.cn";
+	}
+	//普陀
+	if({{ConfigInfo.WebRegion}}==330903000000){
+		url="http://www.zsptztb.com.cn";
+	}
+	//岱山
+	if({{ConfigInfo.WebRegion}}==330921000000){
+		url="http://www.dsztb.gov.cn";
+	}
+	//嵊泗县
+	if({{ConfigInfo.WebRegion}}==330922000000){
+		url="http://www.ssztb.gov.cn";
+	}
+	//海洋产业集聚区
+	if({{ConfigInfo.WebRegion}}==000901000000){
+		url="http://www.zsmica.gov.cn/default.aspx";
+	}
+	//新城管委会
+	if({{ConfigInfo.WebRegion}}==000902000000){
+		url="http://www.zsxc.gov.cn";
+	}
+	//普陀山朱家尖管委会
+	if({{ConfigInfo.WebRegion}}==000903000000){
+		url="http://www.putuoshan.gov.cn";
+	}
+	//六横管委会
+	if({{ConfigInfo.WebRegion}}==000904000000){
+		url="http://www.liuheng.gov.cn";
+	}
+	//金塘管委会
+	if({{ConfigInfo.WebRegion}}==000905000000){
+		url="http://www.zsjtisc.com";
+	}
+	window.open(url);
+}
+
+function go(){
+	window.open("http://tzxm.zjzwfw.gov.cn");
+}
+</script>
+<div style="background: none;background-color: white;height:100px;">
+<div style="text-align:center;background-color: white;">
+<div style="height:27px;"></div>
+<table border="0" cellspacing="0" cellpadding="0" align="center" style="width:1080px;border:0px solid;margin:auto;">
+  <tr>
+    <td width="25"></td>
+    <td width="315" align="left" valign="top"><a href="http://www.zjzwfw.gov.cn/" target="_blank"><img src="../../../public/images/zwdt_bannerLogo.png" /></a></td>
+	<td align="right" valign="top" >
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  		<tr>
+    	<td align="right" valign="top" style="width:92%;font-family:'微软雅黑';font-size:10.5pt; color:#3D3D3D;line-height:20px">
+    			{% if UserInfo %}
+				<div class="fr" style="margin-bottom: 10px;">
+					&nbsp;<font color="#7acbf4;">{{UserInfo.userName}}</font>,&nbsp;您好!&nbsp;
+					[
+					<a href="{{PageContext.ContextPath}}center/index" target="_self">用户中心</a>&nbsp;|
+					<a  href="javascript:void();" onclick="doLogout('{{ConfigInfo.WebUcPath}}')">退&nbsp;出</a>
+					]
+				</div>
+				{% else %}
+				
+				<div style="margin-left: 10px;">
+					<ul class="list-inline pull-right">
+						<li class="dropdown dropdown-hover">
+							<a href="javascript:void(0);" class="dropdown-toggle" style="text-shadow: 1px 1px #FFFFFF;" data-toggle="dropdown"><img src="{% public zs/pro/image/yhzx.png %}" >&nbsp;用户中心<i class="mdicon mdicon-expand-more f18"></i></a>
+			                <ul class="dropdown-menu" style="margin-right:10px;margin-left: -66px;margin-top:15px;background-color: transparent;box-shadow: none;border: none;">
+			                    <li style="padding-left:2px;"><a href="javascript:void(0);" onclick="doLogin();" style="margin-top:11px;text-shadow: 1px 1px #FFFFFF;width:154px;height:38px;line-height:38px;">个人登录</a></li>
+			                    <li style="padding-left:2px;"><a href="javascript:void(0);" onclick="doLoginfr();" style="text-shadow: 1px 1px #FFFFFF;width:154px;height:38px;line-height:38px;">法人登录</a></li>
+			                </ul>
+						</li><br/>
+						<li class="dropdown dropdown-hover">
+							<a href="javascript:void(0);" class="dropdown-toggle" style="color:#1492FF;text-shadow: 1px 1px #FFFFFF;font-size:12px;" data-toggle="dropdown">登录<i class="mdicon mdicon-expand-more f18"></i></a>
+			                <ul class="dropdown-menu" style="margin-right:10px;margin-left: -56px;margin-top:-5px;background-color: transparent;box-shadow: none;border: none;">
+			                    <li style="padding-left:2px;"><a href="javascript:void(0);" onclick="doLogin();" style="margin-top:11px;text-shadow: 1px 1px #FFFFFF;width:154px;height:38px;line-height:38px;font-size:14px">个人登录</a></li>
+			                    <li style="padding-left:2px;"><a href="javascript:void(0);" onclick="doLoginfr();" style="text-shadow: 1px 1px #FFFFFF;width:154px;height:38px;line-height:38px;font-size:14px">法人登录</a></li>
+			                </ul>
+						</li>
+						<li class="dropdown dropdown-hover">
+							<a href="javascript:void(0);" class="dropdown-toggle" style="color:#1492FF;text-shadow: 1px 1px #FFFFFF;font-size:12px;" data-toggle="dropdown">/&nbsp;&nbsp;注册</a>
+							<ul class="dropdown-menu" style="margin-right:10px;margin-left: -50px;margin-top:-5px;background-color: transparent;box-shadow: none;border: none;">
+			                    <li style="padding-left:2px;"><a href="http://puser.zjzwfw.gov.cn/sso/usp.do?action=register" target="_blank" style="margin-top:11px;text-shadow: 1px 1px #FFFFFF;width:154px;height:38px;line-height:38px;font-size:14px">个人注册</a></li>
+			                    <li style="padding-left:2px;"><a href="http://uuser.zjzwfw.gov.cn/jsp/client/uuuser/uuuserRegistStep1.jsp" target="_blank" style="text-shadow: 1px 1px #FFFFFF;width:154px;height:38px;line-height:38px;font-size:14px">法人注册</a></li>
+			                </ul>
+						</li>
+					</ul>
+				</div>
+				{% endif %}
+	    	</td>
+	    	<td style="width:7%;"> </td>
+  		</tr>
+	</table>
+    </td>
+  </tr>
+</table>
+</div>
+</div>
+{% widget "icity_zs.proWidget" %} 
+<div class="sd-masthead" style="width:1030px;margin:auto;background-image: url('{{PageContext.ContextPath}}public/zs/pro/image/pro_head_bg.png');margin-top:20px;">
+    <div class="alpha omega">
+        <div class="row" id="sec" style="padding-left: 20px;">
+            <div class="col-xs-7" style="padding:0px 0px 0px 20px">
+                <img src="" id="logo_img" height="80" style="margin-top: 20px;" alt="">
+            </div>
+            <!-- {% if ConfigInfo.KH_isout|equal:"1" %}
+            <div class="col-xs-5" style="text-align:center;">
+                <img src="{% public zs/pro/image/文字.png %}" style="padding: 40px 0 0 0;">
+            </div>{% endif %} -->
+        </div>
+    </div>
+</div>
+<div style="background-color: #F5F5F5">
+<header class="navbar navbar-static-top phi sd-navigation" style="width:1030px;margin:0px auto;">
+	<div class="container alpha omega">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="{{PageContext.ContextPath}}pro/index">首页</a></li>
+            <li><a href="{{PageContext.ContextPath}}icity/onlineBusiness/onlinebidding" target="_blank">网上办事</a></li>
+            <li><a href="javascript:void(0);" onclick="gotointermediary();">中介服务</a></li>
+            <li><a href="{{PageContext.ContextPath}}JRPlatform/index" target="_blank">商事登记</a></li>
+            <li><a href="{{ConfigInfo.zjzscredit}}" target="_blank">信用查询</a></li>
+            <li><a href="{{PageContext.ContextPath}}pro/base-2?cname=公示公告&websitetype=0" target="_blank">公示公告</a></li>
+            <li><a href="javascript:void(0);" onclick="zyfw();">公共资源</a></li>
+            <li><a href="{{PageContext.ContextPath}}pro/base-2?cname=政策法规&websitetype=0" target="_blank">政策法规</a></li>
+        </ul>
+	</div>
+</header>
+<div class="tab-content zl-navbar-content" style="width:1030px;margin:0 auto;background-color: #fff;padding:20px 0 0 0">
+	<div class="row tab-pane active" id="n-t-1">
+		<div class="col-xs-7">
+			<div id="curDate" style="height: 34px; width: 180px; padding-left: 20px;line-height: 34px; float: left; margin-top:-5px;">
+			</div>
+		</div>
+		<div class="col-xs-5">
+			<div style="height: 34px; width: 630px; float: right; text-align: right; margin-top: 0px; line-height: 34px;padding-right:15px;">
+				<a href="http://tzxm.zjzwfw.gov.cn" target="_blank" style="font-size: 16px; color: #1492ff; margin-top: 10px; ">省级投资项目在线审批监管平台</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<span style="font-size: 16px; color: #1492ff;">国家重大建设项目库[</span><a style="color: #1492ff;" href="http://kpp.ndrc.gov.cn/" target="_blank"><span style="font-size: 16px; color: #1492ff;">项目单位</span></a><span style="font-size: 16px; color: #1492ff;">][</span><a style="color: #1492ff;" href="http://kpp.cegn.cn/" target="_blank" id="gjzdxmk_glbm" title="" class="tooltip-f"><span style="font-size: 16px; color: #1492ff;">管理部门</span></a><span style="font-size: 16px; color: #1492ff;">]</span>
+			</div>
+		</div>
+	</div>
+	<div class="tab-pane" id="n-t-2"
+		style="float: left; padding-left: 85px;">
+		<ul class="list-inline">
+			<li><a
+				href="{{PageContext.ContextPath}}icity/onlineBusiness/guideto">办事指南</a>
+			</li>
+			<li><a
+				href="{{PageContext.ContextPath}}icity/onlineBusiness/formtodownload">表格下载</a>
+			</li>
+			<li><a
+				href="{{PageContext.ContextPath}}icity/onlineBusiness/onlinebidding">在线申办</a>
+			</li>
+		</ul>
+	</div>
+	<div class="tab-pane" id="n-t-3"
+		style="float: right; padding-left: 210px;">
+		<ul class="list-inline">
+			<li><a
+				href="{{PageContext.ContextPath}}icity/policiesRegulations/index?type=flfg">法律法规</a>
+			</li>
+			<li><a
+				href="{{PageContext.ContextPath}}icity/policiesRegulations/index?type=zcwj">政策文件</a>
+			</li>
+			<li><a
+				href="{{PageContext.ContextPath}}icity/policiesRegulations/index?type=glzd">管理制度</a>
+			</li>
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,168 @@
+<style type="text/css">
+.tr_fold{
+	background-image: url("../../../public/images/statistics.png");
+	background-position: -73px -72px;
+	width: 20px;
+	height: 15px;
+	display: block;
+	float: left;
+}
+.tr_fold_ex{
+	background-image: url("../../../public/images/layout_arrows.png");
+	background-position: 18px 34px;
+	width: 15px;
+	height: 15px;
+	display: block;
+	float: left;
+}
+
+.tr_fold_up{
+	background-image: url("../../../public/images/layout_arrows.png");
+	background-position: 18px 19px;
+	width: 15px;
+	height: 15px;
+	display: block;
+	float: left;
+}
+.listTable td{cursor: default;}
+</style>
+<div class="center">
+	<div>
+		<div class="center-center-head-top" style="background: #dff0fa; border: 1px solid #CCCCCC;border-bottom:none;width: 100%;line-height:37px;">
+			<span class="">工程建设列表</span>
+		</div>
+		<table id="bc_list" class="listTable center_table" border="0" cellpadding="0" cellspacing="1" width="100%">
+			<thead>
+				<tr>
+					<th width="">&nbsp;&nbsp;&nbsp;&nbsp;流程名称</th>
+					<th width="12%">申请时间</th>
+					<th width="12%">预审时间</th>
+					<th width="12%">办结时间</th>
+					<th width="12%">当前状态</th>
+					<th width="10%">查看</th> 
+				</tr>
+			</thead>
+			<tbody id="bodys">
+				{% set ucid UserInfo.uid %} 
+{% map "ucid",ucid, as l %} {% command "app.icity.engineering.EngineeringCmd","getEnginProject",l as m %}
+                                        {% for n in m.data %}
+			<tr id="xm{{n.PROJECT_ID}}">
+			<td title="{{n.PROJECT_NAME}}"><div class="c_s_1"><span onclick="fold(this,'xm{{n.PROJECT_ID}}')" style="cursor:pointer" tag="" index="1" class="tr_fold"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{n.PROJECT_NAME}}</div></td>
+			<td colspan="5"></td>
+		</tr>
+		{% set investType "1" %} 
+{% map "investType",investType, as g %} {% command "app.icity.ServiceCmd","getEnginState",g as h %}
+                                        {% for k in h.data.stage %}
+		<tr class="tr_2_data" tag="xm{{n.PROJECT_ID}}_tr" id="jd{{n.PROJECT_ID}}{{k.stageId}}">
+			<td title="{{k.stageName}}"><div class="c_s_2"><span onclick="fold(this,'jd{{n.PROJECT_ID}}{{k.stageId}}')" style="cursor:pointer" tag="" index="2"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{k.stageName}}</div></td>
+			<td colspan="5"></td>
+		</tr>
+			{% set PROJECT_ID n.PROJECT_ID %} 
+			{% set STAGE_ID k.stageId %} 
+{% map "PROJECT_ID",PROJECT_ID,"STAGE_ID",STAGE_ID, as o %} {% command "app.icity.engineering.EngineeringCmd","getEnginBase",o as p %}
+                                        {% for q in p.data %}
+			    <tr class="tr_3_data" tag="jd{{n.PROJECT_ID}}{{k.stageId}}_tr" id="lc{{q.BIZ_ID}}">
+			<td><div class="c_s_3"><span onclick="fold(this,'lc{{q.BIZ_ID}}')" style="cursor:pointer" tag="" index="3"></span>
+                &nbsp;&nbsp;<font>{{q.APPLY_SUBJECT}}</font></div></td>
+			<td>{{q.APPLY_TIME}}</td>
+			<td>{{q.ACCEPT_TIME}}</td>
+			<td>{{q.ACTUAL_FINISH_TIME}}</td>
+			<td><font class="NeedFormatStateType" state="{{q.BIZ_STATE}}"></font></td>
+			<td>
+				<a href="javascript:void(0);" onclick="BusinessDetail('{{q.BIZ_ID}}','{{q.APPLY_SUBJECT}}','{{q.APPLY_TIME}}','{{q.BIZ_STATE}}');" style="line-height: 30px;">业务详情</a>
+				<!-- <a href="../icity/center/business/engin_detail?id={{q.BIZ_ID}}&name={{q.APPLY_SUBJECT}}&APPLY_TIME={{q.APPLY_TIME}}&BIZ_STATE={{q.BIZ_STATE}}" target="_blank" style="line-height: 30px;">查看详情</a> -->
+			</td> 
+		</tr>
+		 {% endfor %}
+		 {% endfor %}
+		  {% endfor %}
+		  </tbody>
+		</table>
+	</div>
+</div>
+<style>
+.tr_2_data{
+	background-color: #FFFCED;
+	display: none;
+}
+.tr_3_data{
+	background-color: #E8F2FE;
+	display: none;
+}
+.tr_b{
+	background-color: #FFFCED;
+}
+.c_s_2{
+	margin-left: 20px;
+}
+.c_s_3{
+	margin-left: 50px;
+}
+.tr_no_fold{
+	margin-left: 20px;
+}
+</style>
+<script>
+$(".NeedFormatStateType").each(function() {
+			var status = $(this).attr("state");
+		//	var bState = LEx.icityBusiness.formatStatus(status);
+		var bState ="";
+			if(status=="receive"){
+				bState ="收件";
+			}else if(status=="accept"){
+				bState ="预审通过";
+			}
+            else if(status=="back"){
+            	bState ="退件";
+			} else if(status=="correction"){
+            	bState ="补齐补正";
+			}
+			else if(status=="finish"){
+            	bState ="办结";
+			}
+			$(this).html(bState);
+		});
+function fold(obj,division_code){
+	var display = $('tr[tag="'+division_code+'_tr"]:first').css('display');
+	var unfoldObj = $('tr[tag="'+division_code+'_tr"]');
+	if(display){
+		if (display == 'none') {
+			unfoldObj.slideDown();
+			$(obj).css('background-position','-90px -72px');
+			$.each(unfoldObj,function(i,n){
+				var nextObj = $('tr[tag="'+$(n).attr('id')+'_tr"]');
+				if (nextObj.length > 0) {
+					$(n).find('span').addClass('tr_fold');
+				}
+			});
+		}else{
+			unfoldObj.slideUp();
+			$(obj).css('background-position','-73px -72px');
+			$(unfoldObj).find('span').css('background-position','-73px -72px');
+			$.each(unfoldObj,function(i,n){
+				var nextObj = $('tr[tag="'+$(n).attr('id')+'_tr"]');
+				$.each(nextObj,function(i,n){
+					$(n).slideUp();
+				})
+			});
+		}
+	}else{
+		unfoldObj.slideDown();
+		$(obj).css('background-position','-90px -72px');
+	}
+}
+function BusinessDetail(id, name, applyTime, state){
+	/*
+	 * type 0:业务列表      1：企业设立        2：工程建设 
+	 */
+	var n_url = LEx.webPath+"admin?m=icity/center/business/businessengindetail.html&id="+id+"&name"+name+"&APPLY_TIME"+applyTime+"&BIZ_STATE"+state+"&type=2";
+	LEx.dialog({
+		id:'',
+		title:"业务详情",
+		url:n_url,
+		width:890,
+		height:400,
+		lock:true
+	}); 
+}
+</script>

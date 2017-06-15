@@ -1,0 +1,373 @@
+<script type="text/javascript" src="{{PageContext.JsPath}}LEx.form.js"></script>
+<style type="text/css">
+.mytable{background: #CCC;}
+
+.mytable th {
+	font: 14px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color:#00359E;
+	font-weight: bold;
+	background: none repeat scroll 0 0 #F9F9F9;
+    /*border-top: 1px solid #333333;*/
+	padding: 6px 6px 6px 12px;	
+}
+
+.mytable th.title {
+	background: url("{{PageContext.ContextPath}}public/themes/default/images/pages.png") repeat-x bottom #FFF;
+	border-left: 2px solid #47C1E6;
+}
+
+.mytable td {
+	font-size: 14px;
+	padding: 6px 6px 6px 12px;
+	background:#FFF;
+}
+
+.mytable td.content {
+	background: #F9F9F9;
+}
+
+.num {
+    font-size: 20px;
+    line-height: 33px;
+    text-align: center;
+}
+
+</style>
+
+<script type="text/javascript">
+    var find_id=LEx.urldata.id;
+    var _calendar= null;
+function init(){
+	_calendar= new LEx.Control.Calendar(function(){
+		contentHandler();
+	});
+	
+	var find_id=LEx.urldata.id;//获取通过url传递过来的参数
+	var command = new LEx.Command("app.icity.guestbook.WriteCmd");
+	command.setParameter("ID@=",find_id);
+	command.execute("getList");	
+	if (!command.error) {
+		var ret = command.returns;	
+		LEx.form.set("form",ret.data[0]);//通过tag标签向表单中填充数据，"form"为表单名
+	} else {
+		alert(command.error);
+	}
+	
+	//如果信件未处理，则隐藏评价
+	var hide = document.getElementById("hide").innerHTML;
+	if(hide==''||hide==null){
+		document.getElementById('deal').style.display='none';
+      }
+	
+	//类型状态转换
+	var hide = document.getElementById("type").innerHTML;
+	if(hide=='0'){
+		document.getElementById('type').innerHTML='建议';
+      }
+	else if(hide=='1'){
+		document.getElementById('type').innerHTML='表扬';
+      }
+	else if(hide=='2'){
+		document.getElementById('type').innerHTML='咨询';
+      }
+	else if(hide=='3'){
+		document.getElementById('type').innerHTML='投诉';
+      }
+	else if(hide=='4'){
+		document.getElementById('type').innerHTML='其他';
+      }
+	else if(hide=='5'){
+		document.getElementById('type').innerHTML='意见';
+      }
+	
+	//办理状态类型转换
+	var status = document.getElementById("status").innerHTML;
+	if(status=='0'){
+		document.getElementById('status').innerHTML='未处理';
+      }
+	else if(status=='1'){
+		document.getElementById('status').innerHTML='已处理';
+      }
+	
+}
+
+ function submit() {	 
+	            var user_phone = $("#phone").val();
+	            var stisfy = $("#Satisfy").val();
+	            var satisfy_status = document.getElementById("satisfy_status").innerHTML;
+				var command = new LEx.Command("app.icity.guestbook.WriteCmd");
+				command.setParameter("SATISFY",stisfy);
+				command.setParameter("ID",find_id);
+				command.setParameter("PHONE",user_phone);	
+				var ret = command.execute("setSatisfy");
+                if(user_phone==''||user_phone==null){
+	                LEx.dialog({
+	        		title:'系统提示',
+		           	content: '请填写您提交信件时填写的手机号！',
+		            icon: 'error',
+		            fixed: true,
+		            lock: true,
+		            button: [{
+		    		    name: "确定",
+		    		    callback: function() {},
+		    		    focus: true
+		    	   }]
+		        });
+				return false;
+			 }				
+				else if(ret.error){
+				   LEx.dialog({
+			        	title:'系统提示',
+		            	content: '评价失败,手机号填写错误!',
+		                icon: 'error',
+		                fixed: true,
+		                lock: true,
+		                time: 2,
+		               });
+				    reset(); 
+					return false;
+				}else{
+					LEx.dialog({
+			        	title:'系统提示',
+		            	content: '评价成功!',
+		                icon: 'succeed',
+		                fixed: true,
+		                lock: true,
+		                time: 2,
+		               });
+				    }
+			}
+
+ function changeNum(num_type){
+	 var ip = "";
+	 if(getCookie(find_id)!=null&&CookieValue(find_id)==ip){//判断当前用户是否发表过评价
+		 LEx.dialog({
+	         title:'系统提示',
+         	 content: '您已评价过,请勿恶意评价!',
+             icon: 'error',
+             fixed: true,
+             lock: true,
+             time: 2,
+            });		 
+	 }else{
+	 SetCookie(find_id,ip); //将当前用户ip和信件id写入cookie	 
+     var command = new LEx.Command("app.icity.guestbook.WriteCmd");
+     command.setParameter("ID",find_id);
+     if(num_type=="useful"){
+	   command.setParameter("USE","1");
+	   var ret = command.execute("setUseful");
+	   if(!ret.error){
+	      LEx.dialog({
+          title:'系统提示',
+  	      content: '评价成功!',
+          icon: 'succeed',
+          fixed: true,
+          lock: true,
+          time: 2,
+     }); 
+	 refreshPage();    
+	} else {
+	    alert(ret.error);
+	}
+ }
+ else if(num_type=="unuseful"){
+	   command.setParameter("USE","0");
+	   var ret = command.execute("setUseful");
+	   if(!ret.error){
+		      LEx.dialog({
+	          title:'系统提示',
+      	      content: '评价成功!',
+              icon: 'succeed',
+              fixed: true,
+              lock: true,
+              time: 2,
+         });
+		 refreshPage();     
+		} else {
+		    alert(ret.error);
+		}
+  }
+     
+ } 
+     
+} 
+
+ //重置函数
+ function reset(){
+	    $("#phone").attr("value",""); 
+	}
+ 
+ //取cookies函数
+ function getCookie(name){
+      var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+      if(arr != null){
+    	   return unescape(arr[2]); 
+      }
+      else {
+           return null;
+      }
+ }
+ 
+//设置cookie
+ function SetCookie(name,value){
+     var Days = 1; //此 cookie将被保存 1天
+     var exp = new Date();
+     exp.setTime(exp.getTime() + Days*24*60*60*1000);
+     document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+ }
+ 
+ //获取指定cookie的值
+ function CookieValue(name){    
+   var cookieArray=document.cookie.split("; "); //得到分割的cookie名值对    
+   var cookie=new Object();    
+   for (var i=0;i<cookieArray.length;i++){    
+      var arr=cookieArray[i].split("=");       //将名和值分开    
+      if(arr[0]==name)return unescape(arr[1]); //如果是指定的cookie，则返回它的值    
+   } 
+   return null; 
+} 
+ 
+ //延时刷新页面
+ function refreshPage(){
+	 window.setTimeout("window.location.reload()",4000); 
+ }
+</script>
+
+<div class="fl w210">
+	{% widget "other.GuestBookLeftWidget"%}
+</div>
+<div class="ml210">
+	<ul class="tabs tabs-base">
+		<li>
+			<a href="javascript:void(0);" tag="govweibo" class="tab active">详细信息</a>
+		</li>
+	</ul>
+	<div id="form" class="tabs-content" style="padding:20px 0; margin-bottom: 20px"
+		align="center">
+		<table width="93%" cellspacing="1" class="mytable">
+			<tbody>
+				<tr>
+					<td align="left" style="border-right: 0px" class="row" colspan="3">
+						<b>信件ID：</b>
+						<span tag="ID"></span>
+						<span id="viewstate" style="float: right"></span>
+					</td>
+				</tr>
+				<tr>
+					<th align="left" colspan="3" class="title">
+						部门：
+						<span tag="DEPART_NAME" style="font-weight: normal;"></span>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						类别：
+						<span id="type" tag="TYPE" style="font-weight: normal;"></span>
+						<span style="float: right;font-weight: normal;">
+						[提交日期：
+						<span tag="WRITE_DATE"></span>]
+						</span>
+					</th>
+				</tr>
+				<tr>
+					<td align="left" class="row content" colspan="3" style="padding: 20px">
+						<b>主题： <span tag="TITLE"></span></b>
+						<div style="font-size: 13px; line-height: 26px;text-indent: 2em">
+							<span tag="CONTENT"></span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" style="border-right: 0px" class="row" colspan="3">
+						<b>办理状态：</b>
+						<span id="status" tag="STATUS"></span>
+						<span id="satisfy_status" style="float:right; visibility: hidden" tag="SATISFY"></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		<div id="deal">
+			<table width="93%" cellspacing="1" class="mytable">
+				<tbody>
+					<tr>
+						<th bgcolor="#A0E7C6" align="left" class="title"
+							scope="col">
+							处理单位：
+							<span tag="DEPART_NAME" style="font-weight: normal;"></span>
+							<span style="float: right;font-weight: normal;">
+							[处理日期：
+							<span id="hide" tag="DEAL_DATE"></span>]
+							</span>
+						</th>
+					</tr>
+
+					<tr>
+						<td align="left" class="row content" colspan="2" style="padding: 20px">
+							<b>处理结果：</b>
+							<div style="font-size: 13px; line-height: 26px;text-indent: 2em">
+								<span tag="DEAL_RESULT"></span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<table width="93%" cellspacing="1" class="mytable">
+				<tbody>
+					<tr>
+						<th bgcolor="#A0E7C6" align="left" colspan="2" class="title">
+							来信人评价：
+						</th>
+					</tr>
+
+					<tr>
+						<th class="tdr" align="left" width="100px">
+							<font color="red">*&nbsp;</font>来信电话：
+						</th>
+						<td colspan="3" align="left">
+							<input name="phone" id="phone"  class="phone" type="text" style="background:#FFFFFF">							
+							<span style="color: #999; font-style: oblique;">[为防止恶意评价，请填写您提交信件时填写的手机号码。]</span>
+						</td>
+					</tr>
+					<tr>
+						<th class="tdr" align="left" width="100px">
+							<font style="" color="red">*&nbsp;</font>满 意 度：
+						</th>
+						<td colspan="3" align="left">
+							<select name="Satisfy" id="Satisfy" size="1" class="Satisfy" style="background:#FFFFFF">
+							<option selected="selected" value="2">很满意</option>
+							<option value="1">满意</option>
+							<option value="0">不满意</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4" align="center">
+							<input name="submit" id="submit" value="提   交" class="nbutton_blue" type="submit" onclick="submit()">
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input name="reset" id="reset" value="重    置" class="nbutton_gray"  type="reset" onclick="reset()">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<br />
+			<table width="93%" cellspacing="1" class="mytable">
+				<tbody >
+					<tr id="pingjia" style="">			
+                            <div style="width:190px">
+                                <div id="Divuse" onclick="changeNum('useful');" style="display:block; float:left; width:60px;height:53px;background:url({{PageContext.ContextPath}}public/images/mutual/useful.png) no-repeat;margin-left:10px; margin-top:5px;cursor:pointer;" align="center">
+                                     <a class="num" style="color:red">
+                                          <span id="usenum"  tag="USEFUL">0</span>
+                                     </a>
+                                </div>
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div id="Divunuse" onclick="changeNum('unuseful');" style=" display:block;float:left; width:60px;height:53px;background:url({{PageContext.ContextPath}}public/images/mutual/notuseful.png) no-repeat;margin-left:10px; margin-top:5px;cursor:pointer;" align="center">
+                                     <a class="num">
+                                          <span id="unusenum" tag="NOTUSEFUL">0</span>
+                                     </a>
+                                </div>
+                            </div>
+                            <span id="isuseful" style="width: auto;"><br/><br>
+							<span style="color: #999; font-style: oblique;">[如果认为该回复对您有用，请点击左边的图片评价。]</span></span>
+		            </tr>
+		        </tbody>
+		    </table>
+		</div>

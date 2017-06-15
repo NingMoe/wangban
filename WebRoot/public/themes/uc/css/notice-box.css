@@ -1,0 +1,64 @@
+/*未读消息提示框*/
+.layer_massage_box{
+    top:45px;
+    right:80px;
+    padding:10px;
+    position:fixed;
+    width:155px;
+    z-index:99999;
+    background-color:#fff;
+    border:#797979 solid 1px;
+    
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border-radius:5px;
+    
+    /*behavior:url(/mc/public/mc/css/images/ie-css3.htc); */
+    
+    /*IE6*/
+    _position:absolute;
+    _top:auto;
+    _bottom:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)-45));
+
+}
+
+/*每一行*/
+.layer_massage_box li{
+	float:left;
+	width:100%;
+	display:block;
+	font-size:12px;
+	color: #333333;
+    line-height:20px;
+    position:relative;
+    font: 12px/1.5 Arial,Helvetica,sans-serif;
+}
+.layer_massage_box li a{
+	text-decoration: none;
+}
+
+.layer_massage_box li a:hover{
+	text-decoration: underline;
+}
+
+/*删除按钮*/
+.layer_massage_box .del,
+.layer_massage_box .del:hover{
+    top:0;
+    right:0;
+    width:15px;
+    height:12px;
+    position:absolute;
+    display:inline-block;
+    overflow:hidden;
+    margin:1px 5px 0 0;
+    background: transparent url("images/close.gif") no-repeat;
+}
+.layer_massage_box .del{
+    background-position:0 -85px;
+}
+.layer_massage_box .del:hover{
+    background-position:0 -102px;
+}
+
+

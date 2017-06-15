@@ -1,0 +1,53 @@
+<!doctype html>
+
+<div style="background: url({%public /assets/img/bjgz_background_02.jpg %}) top center no-repeat; height: 440px;">
+    <div class="container relative">
+        <section class="panel" style="background-color: rgba(249, 253, 255, 0.7); width: 430px; padding: 30px 45px; position: absolute; right:160px; top: 30px;">
+            <h3 class="delta"><strong class="text-primary">办件跟踪</strong></h3>
+            <br>
+
+            <h4 class="f16"><strong><span class="text-primary">方式一：</span>进入 <a class="text-primary" href="{{cp}}uinfo?folder=business&tag=business_list">用户中心</a> 查询</strong></h4>
+            <h4 class="f16"><strong><span class="text-primary">方式二：</span>直接输入申办流水号、相应的事项密码</strong></h4>
+
+            <br>
+               <div class="form-horizontal">
+                <div class="form-group" >
+                
+                    <div class="col-xs-3 omega control-label" style="padding-left:0px;word-break:break-all;">申办流水号：</div>
+                    <div class="col-xs-9" >
+                        <input class="form-control" id="sblsh"  reg="^.+$" placeholder="请输入申办流水号" type="text">
+                    </div>
+                  
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-3 omega control-label" style="padding-left:0px;word-break:break-all;" >查询密码：</div>
+                    <div class="col-xs-9">
+                        <input class="form-control" id="sqrmc" reg="^\d+$" placeholder="请输入相应的查询密码" type="password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-9 col-xs-offset-3">
+                        <button type="submit" onclick="queryProgress();" class="btn btn-info btn-block f16">查&nbsp;&nbsp;&nbsp;询</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<div class="modal fade bs-modal-result" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+  		<div class="modal-content" >
+   			<div class="modal-header" >
+          		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+		        <h4 class="modal-title">
+		           <strong>查询结果</strong>
+		        </h4>
+        	</div>
+       		<div class="modal-body">
+       			<div class="query-result" style="margin: 20px 0px 30px">
+	       		</div>
+			</div>
+  		</div>
+  	</div>
+</div>
+ {%include govservice/progress.html%}

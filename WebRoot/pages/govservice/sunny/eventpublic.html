@@ -1,0 +1,95 @@
+<script>
+//var qwfb = "14321043617861454";
+$(function(){
+	$('#jq').jqPagination({
+		paged: function(page) {onQuery(page,qwfb);},
+		page_string:"第{current_page}页   共{max_page}页"
+	});
+});
+$(function(){
+	var cname = LEx.urldata.cname;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("cname",cname);
+	var ret = cmd.execute("getChannelName");
+	$("#thetitle").html(ret.rows[0].NAME);
+	$("#thenav").html(ret.rows[0].NAME);
+	
+	onQuery(1,ret.rows[0].ID);
+});
+function onQuery(start,cid){
+	var limit=6;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("start",(start-1)*limit);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	cmd.setParameter("cid", cid);
+
+	var ret =  cmd.execute("getContentInfoOfEventPublic");
+	if(!ret.error){
+		//if(cid==qwfb){
+			$('#js-list-group-l2').html(LEx.processDOMTemplate('MattersListTemplate',ret));
+			var total=ret.total;
+				total=Math.ceil(total/limit);
+				if(total==0){
+					$("#project-none").show();
+					$('#jq').hide();
+				}
+				else{
+					$("#project-none").hide();
+					$('#jq').show();
+					$('#jq').jqPagination('option',{current_page:start,max_page:total,trigger:false});
+				}
+		//}		
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+</script>
+<script type="text/template" id="MattersListTemplate">
+{for o in data}
+                    <li class="list-group-item open">
+                        <ul class="list-inline pull-right small">
+                            <li>${o.CTIME}</li>
+                        </ul>
+                        <ul class="list-inline pull-left small">
+							<i class="mdicon mdicon-star f14" style="color: orange;"></i>
+                        </ul>
+                        <h5 class="list-group-item-heading">
+				{if o.TYPE==3 }
+						<a href="${o.URL}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${o.NAME}</a>
+				{else}
+						<a href="{{PageContext.ContextPath}}pub/content?id=${o.ID}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${o.NAME}</a>
+				{/if}
+						</h5>
+                    </li>
+{/for}
+</script>
+<div id="page" class="container">
+    <ol class="breadcrumb alpha omega transparent">
+        <li>当前位置</li>
+        <li><a href="{{cp}}">首页</a></li>
+        <li><a href="{{cp}}sunny">阳光政务</a></li>
+        <li class="active" id="thenav">默认内容发布</li>
+    </ol>
+    <div class="row" style="border: 1px solid #ddd; background-color: #fff;">
+        <div class="col-xs-12 alpha omega ">
+            <section class="panel panel-default no-shadow no-bordered">
+                <div class="panel-body">
+					<font style="font-family: '微软雅黑';color:#407bad;font-size:25px;" id="thetitle">默认内容发布</font>
+                </div>
+                <ul class="list-group panel-body yi-list-group-l2" id="js-list-group-l2">                   
+                </ul>
+                <div id="project-none" style="display:none;font-size:30px;font-weight:bold;text-align:center;"></div>
+                <nav class="text-center">
+                <div id="jq" class="jqpagination" style="display:none;">
+			    <a href="#" class="first" data-action="first">&laquo;</a>
+			    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+			    <input type="text" readonly="readonly"/>
+			    <a href="#" class="next" data-action="next">&rsaquo;</a>
+			    <a href="#" class="last" data-action="last">&raquo;</a>
+				</div>
+                </nav>
+            </section>            
+        </div>
+    </div>
+</div>

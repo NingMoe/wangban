@@ -1,0 +1,102 @@
+<!-- 6、并联审批 填写表单-->
+{% include icity/engineering/engineeringcss.html %}
+<div class="container" style="width: 1030px !important;">
+	<section class="panel" style="padding: 10px; min-height:500px;">
+	<h4 class="text-primary"
+		style="font-size: 20px; background: #e3e7f1; padding: 15px; padding-top: 18px;">
+		<strong style="color: #4f719c;"> 请根据项目提示填写</strong>
+	</h4>
+	<div class="panel-body lc-xiangmu"
+		style="height: 500px; display: block;">
+		<iframe id="formiframe" name="formiframe" src=""
+			style="border: 0px; width: 100%; height: 100%;"></iframe>
+	</div>
+	<br />
+	<div id="submitsp" style="height: 40px; text-align: center;">
+		<input type="button" style="width: 68px; display: none;"
+			class="btn btn-info pre" onclick="pre();" value="上一步 " /> <input
+			type="button" style="width: 68px;" class="btn btn-info next"
+			onclick="next();" value="下一步" title="下一步" /> <input id="save"
+			type="button" style="width: 68px;" class="btn btn-info save"
+			onclick="saveDraft();" value="暂存" title="上一步" />
+	</div>
+	</section>
+</div>
+<script>
+	var data = LEx.urldata;
+	var _dataId = null; //表单数据id,null表示表单数据未提交。
+	var obj = null; //表单对象。
+	$(function() {
+		if(!data.dataId){
+			var command = new LEx.Command("app.icity.engineering.EngineeringCmd");
+			command.setParameter("projectId", data.projectId);//项目Id
+			var ret = command.execute("getStagingInfo");
+			if (ret.state=="1") {
+				if(ret.total>0){
+					data.dataId = ret.data[0].DATA_ID;
+					data.ID=ret.data[0].BIZ_ID;
+				}else{
+					
+				}
+			} else {
+				LEx.alert(ret.message);
+			}	
+		}		
+		$("#formiframe").attr("src","{{PageContext.ContextPath}}icity/submitsp/view?"+ LEx.urlEncode(data) + "&type=project");
+		formiframe = $("#formiframe");
+		$("#form").show();
+		$(".next").val("下一步");
+	});
+	//暂存
+	function saveDraft() {
+		//存入表单系统里，获取dataId.
+		obj = document.getElementById("formiframe").contentWindow.window;
+		obj.bSave();
+		_dataId = obj.document.getElementById("dataid").value;
+		data.dataId = _dataId;
+		if (LEx.isNotNull(_dataId)) {
+			//下边是存库
+			var command = new LEx.Command("app.icity.engineering.EngineeringCmd");
+			command.setParameter("investType", data.investType);//1：企业投资建设工程申请 0：政府投资建设工程申请
+			command.setParameter("projectId", data.projectId);//项目Id
+			command.setParameter("projectName", data.projectName);//项目Id
+			command.setParameter("stageId", data.stageId);//阶段
+			command.setParameter("stageName", data.stageName);//阶段名称
+			command.setParameter("dataId", data.dataId);
+			command.setParameter("flowId", data.flowId);
+			command.setParameter("flowName", data.flowName);
+			command.setParameter("formId", data.formId);
+			command.setParameter("APPLY_SUBJECT", "关于" + data.flowName + "的申请");
+			/*step参数用于指定为是哪一步的暂存/提交，因为不同操作入库的字段不完全一致。
+			  1为第一页面暂存，2为上传材料页面暂存。3为提交
+			 */
+			command.setParameter("STEP", "1");
+			command.setParameter("ID", data.ID);
+			var ret = command.execute("saveDraftReportDetails");
+			if (ret.state=="1") {
+				alert("暂存成功！");
+				if (ret.data != null) {
+					data.ID = ret.data;
+				}
+			} else {
+				alert("暂存失败！");
+				return;
+			}
+		} else {
+			alert("暂存出错(提交表单数据未成功)");
+			return;
+		}
+	}
+	function next() {
+		obj = document.getElementById("formiframe").contentWindow.window;
+		obj.bSave();
+		_dataId = obj.document.getElementById("dataid").value;
+		if (LEx.isNotNull(_dataId)) {
+			data.dataId = _dataId;
+			window.open("{{PageContext.ContextPath}}icity/engineering/uploadattachments?"+ LEx.urlEncode(data), "_self");
+		} else {
+			LEx.alert("表单数据未保存成功！");
+			return;
+		}
+	}
+</script>

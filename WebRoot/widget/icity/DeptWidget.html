@@ -1,0 +1,38 @@
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+{% map "region_code",region_code as p%}
+<div id="classlistdept">
+</div>
+<script type="text/javascript">
+$(function(){
+	onQuerydept();
+});
+function onQuerydept(){
+	var region_code=getSecurityValue("WebRegion");
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	command.setParameter("region_code",region_code);
+	var ret = command.execute("getDeptList");
+	if(!command.error){
+		creatListdept(ret.data.organ);
+	}else{
+		LEx.dialog({
+			title : "系统提示",
+			content : command.error,
+			icon : 'error',
+			lock : true
+		});
+	}	
+}
+function creatListdept(orgs){
+	var len = orgs.length;
+	var strHtml = "";
+	for(var i=0;i<len;i++){
+	if(orgs[i].IS_HALL=="1"){
+		strHtml += "<div class=\"col-xs-2 text-center dept-classtype\"><a class=\"thumbnail no-bordered\" href=\"#\">"
+		       /*  +"<i class=\"mdicon f36\"></i>" */
+		        +"<div class=\"caption alpha omega\" id='"+orgs[i].CODE+"'>"+orgs[i].SHORT_NAME.substring(0,8)+"</div></a></div>";
+	}
+	}
+	$("#classlistdept").html(strHtml);
+};
+</script>

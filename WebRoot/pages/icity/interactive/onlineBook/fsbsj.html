@@ -1,0 +1,174 @@
+<link rel="stylesheet" type="text/css" href="{{cp}}public/themes/default/css/base.css">
+<script type="text/javascript" src="{{cp}}public/themes/fsbsj/check.js"></script>
+<script src="{% public scripts/LEx.form.js %}"></script>
+<style type="text/css">
+.control-label font{color: red;}
+.control-label {font-size: 14px;}
+.input_validation-failed {border: 2px solid #FF0000;color: red;}
+.modal-lg{width: 1000px;}
+.modal-dialog{margin: 30px auto;}
+.form-horizontal .control-label { text-align: right; margin-bottom: 0; padding-top: 7px; }
+.form-group {
+  margin-bottom: 5px;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="{{cp}}public/themes/fsbsj/tcal.css" />
+<script type="text/javascript" src="{{cp}}public/themes/fsbsj/tcal.js"></script> 
+<script>
+$(function(){
+LEx.form.init();
+	getDeptName();
+	//$('select option').each(function(){alert($(this).attr('label'));});
+	
+});
+function getDeptName(){
+	var region_code=getSecurityValue("WebRegion");
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	command.setParameter("region_code",region_code);
+	var ret = command.execute("getDeptList");
+	if(!command.error){
+		var len = ret.data.organ.length;
+		//var dept = ret.data.region;//下级行政区划
+		var dept = ret.data.organ;//下级部门
+		for(var i=0;i<len;i++){
+			if(ret.data.organ[i].IS_HALL=="1"){
+				$("#ddlDepartment").append("<option phone='"+dept[i].PHONE+"' regioncode='"+dept[i].REGION_CODE+"' code='"+dept[i].CODE+"' value='"+dept[i].SHORT_NAME+"' title='"+dept[i].SHORT_NAME+"'>"+formatLen(dept[i].SHORT_NAME,0,20)+"</option>");
+			}
+		}
+	}else{
+		alert(command.error);//打印错误信息
+	}
+}
+
+function Setdeptphone(){
+	$("#deptphone").attr("value",$("#ddlDepartment").find("option:selected").attr("phone"));
+	$("#regioncode").attr("value",$("#ddlDepartment").find("option:selected").attr("regioncode"));
+	$("#code").attr("value",$("#ddlDepartment").find("option:selected").attr("code"));
+}
+
+function yysave(){
+	if(LEx.form.validate()){
+		//submit(container);
+		
+		var newdate=$("#yyday").val();
+	    
+		if(newdate == ""){
+			LEx.alert("请选择预约日期！");
+			return;
+		}else{
+			newdate=newdate.split("-")[0]+"/"+newdate.split("-")[1]+"/"+newdate.split("-")[2];
+		    newdate=new Date(newdate);
+		    if(newdate<new Date()){
+		    	LEx.alert("预约时间已过期，请重新选择！");
+		    	return;
+		    }
+		}
+		
+		var cmd_ins = new LEx.Command("app.icity.guestbook.WriteCmd");
+	    //var obj=LEx.form.get(container.substr(1,container.length-1));
+	    // $.each(obj,function(k,v){
+	    //cmd_ins.setParameter(k,v);
+	    //});
+	    cmd_ins.setParameter("YYDEPTNAME",$("#ddlDepartment").val());
+	    cmd_ins.setParameter("YYDAY",$("#yyday").val());
+	    cmd_ins.setParameter("YYTIME",$("#yytime").val());
+	    cmd_ins.setParameter("YYRNAME",$("#name").val());
+	    cmd_ins.setParameter("YYRCARDNO",$("#sfzno").val());
+	    cmd_ins.setParameter("YYCONTENT",$("#yycontent").val());
+	    cmd_ins.setParameter("YYRPHONE",$("#phone").val());
+	    cmd_ins.setParameter("DEPTPHONE",$("#deptphone").val());
+	    cmd_ins.setParameter("REGIONCODE",$("#regioncode").val());
+	    cmd_ins.setParameter("CODE",$("#code").val());
+		var ret = cmd_ins.execute("wsyyinsert");
+	    if(ret.error){
+			errorDialog("系统提示信息", ret.error);
+		    //验证码输入错误则更换验证码
+		    // changeimg();
+		    return false;
+	     }else{
+        	//var id = ret.data.id;
+            alert("您已预约成功，您的预约信息已通知相关窗口工作人员，相关窗口工作人员将回复确认您的预约，您也可通过您的账号用户中心的“非工作时间业务服务预约”菜单查看您预约的信息。");
+        	window.location.href="{{cp}}"+"center/index";  
+		} 
+	}else{
+		LEx.dialog.tips("请正确填写必填项",1.5);
+	}
+ 
+}
+function isnotnull(){
+	alert("no");
+}
+
+function qk(){
+	$(":input").each(function(){
+		   if($(this).attr("type")=="button"){ 
+		    
+		  
+		  }else{
+			  $(this).val("");}
+		  }
+		   
+	);
+	
+}
+</script>
+<div id="page" class="container" style="padding-left: 10px; padding-right: 10px; background-color:#fff;">
+       
+        <div >
+            <section class="panel panel-success">
+				<header class="panel-heading">
+					<h3 class="panel-title">非上班时间业务服务预约</h3>
+				</header>
+				<div class="panel-body zl-thumbnails-ggfu-2">
+                    <table class="table table-bordered table-hover">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">预约部门：</th>
+                                    <td><select name="ddlDepartment" id="ddlDepartment" reg="^.+$" onchange="Setdeptphone()">
+                                            <option  selected="selected" value="">请选择预约部门</option>
+                                        </select> </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <th scope="row">预约部门电话：</th>
+                                    <td><input id="deptphone" disabled="disabled"/> </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <th scope="row">预约日期：</th>
+                                    <td><input type="text" id="yyday" name="yyday" tag="yyday" class="tcal" /><label class="control-label"><font>*</font></label></td>
+                                    
+                                </tr>
+                                <tr>
+                                    <th scope="row">预约时间：</th>
+                                    <td><input id="yytime"/> </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <th scope="row">姓名：</th>
+                                    <td><input id="name" reg="^.+$"/><label class="control-label"><font>*</font></label></td>
+                                    
+                                </tr>
+                                <tr>
+                                    <th scope="row">身份证号码：</th>
+                                    <td><input id="sfzno" name="sfzno" tag="sfzno" tip="请按要求填写" reg="^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$" onblur="checkCardNo(this)" func="checkCardNo" /><label class="control-label"><font>*</font></label><div id="carderr"></div></td>
+                                   
+                                </tr>
+                                <tr>
+                                    <th scope="row">手机号码：</th>
+                                    <td><input id="phone" func="checkSubmitMobil" onblur="checkSubmitMobil(this)" tip="请按要求填写" reg="^\d{11}$" /><label class="control-label"><font>*</font></label><div id="moileMsg"></div></td>
+                                    
+                                </tr>
+                                <tr>
+                                    <th scope="row">预约服务内容说明：</th>
+                                    <td><textarea style="height:100px" id="yycontent"  cols="80"></textarea> </td>   
+                                </tr>
+                                <input type="hidden" id="code"/><input type="hidden" id="regioncode"/>
+                            </tbody>
+                    </table>
+                    <div align="center"><input type="button" value=" 预 约  " onclick="yysave();" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value=" 重 置  " onclick="qk();" /></div>
+				</div>
+			</section>
+            
+        </div>
+</div>

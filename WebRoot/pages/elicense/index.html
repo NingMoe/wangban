@@ -1,0 +1,391 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <title>我的证照中心</title>
+    <style>
+        #particles-js {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+    </style>
+    	<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=md5.js"></script>
+    
+</head>
+<body>
+{%include elicense/index/header.html %}
+{% map "id",UserInfo.uid as p %}
+{% command "hlj_qqheNew.app.icity.project.GrzxCmd","getUserById",p as d %}	
+{% for o in d.data %}
+{% set user o %}
+{% endfor %}
+    <div class="py-25 bg-primary relative" style="background: #2196f3 url({%public license/img/bgg.jpg%}) center right no-repeat;">
+        <div id="particles-js"></div>
+        <div class="container">
+            <h1>我的证照中心</h1>
+            <p>证照信息的网上自助录入、审核，企业、个人已有证照的网上查看，证照使用权限授权他人</p>
+        </div>
+    </div>
+    <div class="py-25 bg-faded">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="row">
+                        <div class="col-xs-7">
+                            <div class="media">
+                                <div class="media-left pr-15">
+                                    <img class="img-circle" width="105" height="105" src="{% public license/img/men.png %}" alt="">
+                                </div>
+                                <div class="media-body media-middle">
+                                    <h4 class="media-heading"><strong>欢迎您，{{user.NAME}}</strong></h4>
+                                    <span class="text-muted">登录账号：{{user.ACCOUNT}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-5 text-right pt-15">
+                            <a class="btn btn-default" data-toggle="modal" data-target="#updatePassDiv">修改密码</a>
+                            <a class="btn btn-default" href="javascript:doLogout('{{ConfigInfo.WebUcPath}}');">用户切换</a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xs-4 text-center pt-15">
+                    <div class="row">
+                        <a class="col-xs-6" href="javascript:;" data-toggle="modal" data-target="#gqtx">
+                            <i class="nc-icon-outline arrows-2_time x2 p-10 bg-deep-purple"></i>
+                            <span class="label label-danger absolute" style="top: -5px; left: 60%;">3</span>
+                            <h5 class="mb-0">证照过期提醒</h5>
+                        </a>
+                        <a class="col-xs-6" href="javascript:;" data-toggle="modal" data-target="#njtx">
+                            <i class="nc-icon-outline business_cheque x2 p-10 bg-green"></i>
+                            <span class="label label-danger absolute" style="top: -5px; left: 60%;">2</span>
+                            <h5 class="mb-0">年检提醒</h5>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container py-25" id = "userInfo">
+        <div class="row">
+            <div class="col-xs-6">
+                <ul class="list-group list-group-1610311058">
+                    <li class="list-group-item"><span class="text-muted">账号类型：</span>
+					{%if user.TYPE|equal:"11"%}
+                        	个人
+                    {% else %}
+                        	企业
+                    {%endif%}
+					</li>
+                    <li class="list-group-item"><span class="text-muted">证件类型：</span>
+                    <span id="cardtype">{{user.CARD_TYPE}}</span>
+                    </li>
+                    <li class="list-group-item"><span class="text-muted">创建时间：</span>{{user.CREATION_TIME}}</li>
+                </ul>
+            </div>
+            <div class="col-xs-6">
+                <ul class="list-group list-group-1610311058">
+                    <li class="list-group-item"><span class="text-muted">证件号码：</span>{{user.CARD_NO}}</li>
+                    <li class="list-group-item"><span class="text-muted">真实姓名：</span>{{user.NAME}}</li>
+                    <li class="list-group-item"><span class="text-muted">手机号码：</span>{{user.PHONE}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="py-25" style="border-top: 1px solid #eee;">
+        <div class="container">
+            <div class="row">
+                <a class="col-xs-4 media mt-0" href="{{cp}}elicense/zzlr" target="_self">
+                    <div class="media-left"><i class="nc-icon-outline files_edit img-circle x2 bg-purple p-20"></i></div>
+                    <div class="media-body media-middle">
+                        <h4 class="media-heading"><strong>证照录入</strong></h4>
+                        <small class="text-muted">实现证照信息的网上自助录入、审核</small>
+                    </div>
+                </a>
+                <a class="col-xs-4 media mt-0" href="{{cp}}elicense/zzck" target="_self">
+                    <div class="media-left"><i class="nc-icon-outline ui-3_search img-circle x2 bg-teal p-20"></i></div>
+                    <div class="media-body media-middle">
+                        <h4 class="media-heading"><strong>证照查询</strong></h4>
+                        <small class="text-muted">实现企业、个人已有证照的网上查看功能</small>
+                    </div>
+                </a>
+                <a class="col-xs-4 media mt-0" href="{{cp}}elicense/zzsq" target="_self">
+                    <div class="media-left"><i class="nc-icon-outline business_cheque img-circle x2 bg-blue p-20"></i></div>
+                    <div class="media-body media-middle">
+                        <h4 class="media-heading"><strong>证照授权</strong></h4>
+                        <small class="text-muted">将证照的使用权限授权给经办人</small>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- 模态框（Modal） -->
+	<div class="modal fade" id="updatePassDiv" tabindex="-1" role="dialog" 
+	   aria-labelledby="myModalLabel" aria-hidden="true">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" 
+	               data-dismiss="modal" aria-hidden="true">
+	                  &times;
+	            </button>
+	            <h4 class="modal-title" >
+	                                              修改密码
+	            </h4>
+	         </div>
+	         <div class="modal-body">
+	           <div style="padding: -20px 20px 10px 20px;">
+				   <form class="bs-example bs-example-form" role="form">
+				      <div class="input-group" >
+				         <span class="input-group-addon">&nbsp;&nbsp;&nbsp;&nbsp;旧密码：</span>
+				         <input type="password" class="form-control" placeholder="您原来的密码" id="oldPass" />
+				      </div>
+				      <br>
+				      <div class="input-group" >
+				         <span class="input-group-addon">&nbsp;&nbsp;&nbsp;&nbsp;新密码：</span>
+				         <input type="password" class="form-control" placeholder="您的新密码" id="newPass" />
+				      </div>
+				      <br>
+				      <div class="input-group" >
+				         <span class="input-group-addon">重复密码：</span>
+				         <input type="password" class="form-control" placeholder="再次输入您的新密码" id="renewPass" />
+				      </div>
+				      <br>
+				   </form>
+				</div>
+	         </div>
+	         <div class="modal-footer">
+	            <button type="button" class="btn btn-default" 
+	               data-dismiss="modal">关闭
+	            </button>
+	            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updatePass();">
+	                                                           提交
+	            </button>
+	         </div>
+	      </div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+	</div>
+	
+	<div class="modal fade" id="gqtx" tabindex="-1" role="dialog" 
+	   aria-labelledby="myModalLabel" aria-hidden="true">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" 
+	               data-dismiss="modal" aria-hidden="true">
+	                  &times;
+	            </button>
+	            <h4 class="modal-title" >
+	                                              证照过期提醒
+	            </h4>
+	         </div>
+	         <div class="modal-body">
+	           <table class="table table-striped table-1610312007">
+		            <thead>
+		                <tr>
+		                    <th class="text-center" style="width:10%">序号</th>
+		                    <th style="width:20%">部门名称</th>
+		                    <th style="width:20%">证照名称</th>
+		                </tr>
+		                <tr>
+		                    <td class="text-center" style="width:10%">1</td>
+		                    <td style="width:20%">省工商局</td>
+		                    <td style="width:20%">公司企业法人营业执照</td>
+		                </tr>
+		                <tr>
+		                    <td class="text-center" style="width:10%">2</td>
+		                    <td style="width:20%">省工商局</td>
+		                    <td style="width:20%">专业合作社分支机构营业执照</td>
+		                </tr>
+		                <tr>
+		                    <td class="text-center" style="width:10%">3</td>
+		                    <td style="width:20%">省工商局</td>
+		                    <td style="width:20%">企业营业执照</td>
+		                </tr>
+		            </thead>
+		        </table>
+	         </div>
+	      </div>
+	</div>
+	</div>
+	<div class="modal fade" id="njtx" tabindex="-1" role="dialog" 
+	   aria-labelledby="myModalLabel" aria-hidden="true">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" 
+	               data-dismiss="modal" aria-hidden="true">
+	                  &times;
+	            </button>
+	            <h4 class="modal-title" >
+	                                              证照年检提醒
+	            </h4>
+	         </div>
+	         <div class="modal-body">
+	           <table class="table table-striped table-1610312007">
+		            <thead>
+		                <tr>
+		                    <th class="text-center" style="width:10%">序号</th>
+		                    <th style="width:20%">部门名称</th>
+		                    <th style="width:20%">证照名称</th>
+		                </tr>
+		                <tr>
+		                    <td class="text-center" style="width:10%">1</td>
+		                    <td style="width:20%">省工商局</td>
+		                    <td style="width:20%">企业营业执照股东变更证明</td>
+		                </tr>
+		                <tr>
+		                    <td class="text-center" style="width:10%">2</td>
+		                    <td style="width:20%">省工商局</td>
+		                    <td style="width:20%">个人独资企业营业执照</td>
+		                </tr>
+		            </thead>
+		        </table>
+	         </div>
+	      </div>
+	</div>
+	</div>
+	
+   {%include elicense/index/footer.html %}
+    <script>
+        $(function () {
+            $('body').tooltip({
+                selector: '[data-toggle="tooltip"]',
+                container: "body"
+            })
+        });
+        $(function () {
+            particlesJS('particles-js', {
+                particles: {
+                    color: '#fff',
+                    shape: 'triangle', // "circle", "edge" or "triangle"
+                    opacity: 0.5,
+                    size: 5,
+                    size_random: true,
+                    nb: 100,
+                    line_linked: {
+                        enable_auto: true,
+                        distance: 100,
+                        color: '#fff',
+                        opacity: 0.5,
+                        width: 1,
+                        condensed_mode: {
+                            enable: false,
+                            rotateX: 600,
+                            rotateY: 600
+                        }
+                    },
+                    anim: {
+                        enable: true,
+                        speed: 2
+                    }
+                },
+                interactivity: {
+                    enable: true,
+                    mouse: {
+                        distance: 300
+                    },
+                    detect_on: 'canvas', // "canvas" or "window"
+                    mode: 'grab',
+                    line_linked: {
+                        opacity: 0.5
+                    },
+                    events: {
+                        onclick: {
+                            enable: true,
+                            mode: 'push', // "push" or "remove"
+                            nb: 4
+                        }
+                    }
+                },
+                /* Retina Display Support */
+                retina_detect: true
+            });
+        });
+    </script>
+    <script type="text/javascript">
+    $(function(){
+    	$("#cardtype").html(cardtype($("#cardtype").html()));
+    });
+function updatePass(){
+	if(!checkValidate()){
+		return false;
+	}
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	var oldPassWord=toMD5Str($("#oldPass").val());//原密码
+	cmd.setParameter("password",oldPassWord);
+	var newPassWord=$("#newPass").val();//新密码
+	cmd.setParameter("newPassWord",toMD5Str(newPassWord));
+	var ret = cmd.execute("changePwd");
+	if (ret.state == 1) {
+		LEx.dialog({title : "系统提示",content : "修改密码成功！", icon: 'succeed' ,lock : true});
+		setTimeout(function () {
+			      doLogout({{ConfigInfo.WebUcPath}});
+				  }, 1000);
+		return true;
+	} else {
+		errorDialog("系统提示","修改密码失败："+ret.message);
+	}
+	return false;
+}
+
+function checkValidate(){
+	if($.trim($("#oldPass").val())==""){
+		alert("请输入密码");
+		return false;
+	}
+	if($.trim($("#newPass").val())==""){
+		alert("请输入新密码");
+		return false;
+	}
+	if($.trim($("#renewPass").val())==""){
+		alert("请输入确认密码");
+		return false;
+	}
+	if($.trim($("#newPass").val())!=$.trim($("#renewPass").val())){
+		alert("两次密码输入不一致");
+		return false;
+	};
+	return true;
+}
+function cardtype(o){
+	if(o=="10"){
+		return "身份证";
+	}
+	if(o=="12"){
+		return "军官证";
+	}
+	if(o=="13"){
+		return "士兵证";
+	}
+	if(o=="14"){
+		return "警官证";
+	}
+	if(o=="15"){
+		return "港澳居民来往内地通行证";
+	}
+	if(o=="16"){
+		return "台湾居民来往大陆通行证";
+	}
+	if(o=="17"){
+		return "香港身份证";
+	}
+	if(o=="18"){
+		return "澳门身份证";
+	}
+	if(o=="19"){
+		return "台湾身份证";
+	}
+	if(o=="20"){
+		return "护照";
+	}
+	return "其它";
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<style>
+.btn-danger {
+	    background-color: #f44336;
+	}
+</style>
+<section class="its-page-body" id = "business_ask">
+		<table class="table its-tabel-filter">
+             <tbody>
+                 <tr>
+                     <th width="90" class="text-right">事项名称：</th>
+                     <td width="130">
+                        <input type="text" class="form-control" placeholder="请输入事项名称" id="name">
+                     </td>
+                     <th width="100" class="text-right">咨询内容：</th>
+                     <td width="160"><input type="text" class="form-control" placeholder="请输入咨询内容" id="title"></td>
+                     
+                     <th width="85" class="text-right">咨询时间：</th>
+                     <td width="110"><input type="text" readonly="true" class="form-control" id="ctime_s" name="ctime_s" placeholder="请选择"  onClick="jeDate({dateCell:'#ctime_s',isTime:true,format:'YYYY-MM-DD'})"></td>
+                     <th width="15" class="text-right">至</th>
+                     <td width="110"><input type="text" readonly="true" class="form-control" id="ctime_e" name="ctime_e" placeholder="请选择"  onClick="jeDate({dateCell:'#ctime_e',isTime:true,format:'YYYY-MM-DD'})"></td>
+                     <td width="100" >
+                     	<input type="submit" id="submit"style="width: 100%;" class="btn btn-primary  btn-sm no-bordered btn-block f16" value="搜索"> 
+                     </td>
+                 </tr>
+             </tbody>
+         </table>
+         <div id="div_business_list">
+         
+         </div>
+         <div id="epager" style="text-align:center;"></div>
+</section>
+<section class="its-page-body" id="businessAskinfo" style="display:none;">
+    
+</section>
+<textarea id="template_business_list" style="display: none">
+{if data.length > 0} 
+         <table class="table table-striped its-table-backlog">
+             <thead>
+                 <tr class="bg-info">         
+                 	 <th style="text-align:center;width:5%;display:none;"><input id="checkall" type="checkbox" onclick="selectAll()"></th>       
+                     <th style="width:30%;" class="text-center text-primary">咨询主题</th> 
+                     <th style="width:20%;" class="text-center text-primary">咨询部门</th>  
+                     <th style="width:26%;" class="text-center text-primary">事项名称</th>                  
+                     <th style="width:12%;" class="text-center text-primary">咨询时间</th>                     
+                     <th style="width:12%;" class="text-center text-primary">处理时间</th>
+                 </tr>
+             </thead>
+             <tbody id="bodys">
+             {for o in data}
+                 <tr>
+                 	 <td align="center" style="display:none;"><input type="checkbox" id="${o.ID}" onclick="select(${o.ID})"></td>
+                     <td  title="${o.TITLE}"><a href="javascript:void(0);"	onclick="BusinessAskinfo('${o.ID}')">${o.TITLE}</a></td>
+                     <td class="text-left">${o.DEPART_NAME}</td>
+                     <td class="text-left" title="${o.SXMC}"><a href="{{PageContext.ContextPath}}icity/proinfo?id=${o.SXID}" target="_blank">${formatLenStr(o.SXMC,0,15)}</a></td>
+                     <td class="text-center changeDate" >${formatDate(o.WRITE_DATE)}</td>
+                     <td class="text-center changeDate">${formatDate(o.DEAL_DATE)}</td>
+                 </tr>
+             {/for}
+             </tbody>
+         </table> 
+{/if}
+</textarea>

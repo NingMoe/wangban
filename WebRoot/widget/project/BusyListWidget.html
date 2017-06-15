@@ -1,0 +1,93 @@
+<style>
+.zl-list-unstyled-ggfu-3 > li {
+  border-bottom: 1px solid  #ddd;
+  font-family: "Microsoft YaHei";
+  font-size:12px;
+}
+.zl-list-unstyled-ggfu-3 > li p,
+.zl-list-unstyled-ggfu-3 > li span,
+.zl-list-unstyled-ggfu-3 > li time,
+.zl-list-unstyled-ggfu-3 > li em {
+  display: inline-block;
+  height: 25px;
+  line-height: 25px;
+  padding: 0 5px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.zl-list-unstyled-ggfu-3 > li p {
+  width: 25%;
+  margin: 0;
+}
+.zl-list-unstyled-ggfu-3 > li span {
+  width: 20%;
+}
+.zl-list-unstyled-ggfu-3 > li time {
+  width: 10%;
+}
+.zl-list-unstyled-ggfu-3 > li em {
+  width: 9%;
+  font-style: normal;
+}
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+</style>
+{% command "app.icity.project.ProjectBusinessStatCmd","getBusinessList" as list %}
+<table class="table height-little text-small bg-gray">
+       <tr style="text-align:center">
+           <td style="width:24%;">业务编号</td>
+           <td style="width:20%;">受理部门</td>
+           <td style="width:28%;">受理事项</td>
+           <td style="width:14%;">申报时间 </td>
+           <td style="width:11%;">办件状态 </td>
+       </tr>
+   </table>
+<div id="roll_list" style="height: 230px; overflow: hidden; position: relative;">
+	<ul style="position: absolute; top: 0px; left: 0px;" id="maq" class="list-unstyled zl-list-unstyled-ggfu-3">
+		{% if list.data %}
+			{% for o in list.data %}
+				{% if loop.counter|divisible:2 %}
+					<li class="li-striped">
+				{% else %}
+					<li class="">
+				{% endif %}
+					<span style="width:24%;text-align:left;" title="{{o.receiveNumber}}">{{o.receiveNumber}}</span>
+					<span style="width:20%;text-align:left;" title="{{o.orgName}}">{{o.orgName}}</span>
+					<p title="{{o.applySubject}}" style="width:28%;text-align:left;">{{o.applySubject|truncate:18}}</p>
+					<p style="width:14%;text-align:center;">{{o.acceptTime}}</p>
+					<em style="width:11%;text-align:center;">{{o.state}}</em>
+				</li>
+			{% endfor %}
+		{% else %}
+		<li>
+			<div style="text-align: center;margin-top:5px;">
+				<font>暂无业务数据</font>
+			</div>
+		</li> 
+		{% endif %}
+	</ul>
+</div>
+<script>
+	function roll(){
+		var speed = 50;
+		var MyMar = setInterval(Marquee, speed);
+		roll_list.onmouseover = function() {
+			clearInterval(MyMar);
+		};
+		roll_list.onmouseout = function() {
+			MyMar = setInterval(Marquee, speed);
+		};
+	}
+	function Marquee() {
+		if (4150 - roll_list.scrollTop <= 0)
+			roll_list.scrollTop -= 4150;
+		else {
+			roll_list.scrollTop++;
+		}
+	}
+	roll();
+</script>

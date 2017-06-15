@@ -1,0 +1,84 @@
+
+<script type="text/javascript">
+	$(function(){
+		onTheme(LEx.urldata.type);
+		getAllFileName();
+	});
+	function getAllFileName(){
+		var cmd = new LEx.Command("app.icity.col.WidgetCmd");
+		cmd.setParameter("count", 5);		
+		var ret =  cmd.execute("getAllFileName");
+		if(ret.state=="1"){
+			var len_data = ret.data.length;
+			if(len_data>0){
+				if(1<=len_data){
+					var t_b_1_html = "";
+					var len_1 = ret.data[0].length;
+					for(var j=0;j<len_1;j++){
+						t_b_1_html+="<img onclick=\"submit('icon-1/"+ret.data[0][j]+"')\";' src=\"{{cp}}public/assets/icon/icon-1/"+ret.data[0][j]+"\" width=\"50\" height=\"50\" />";
+					}
+					$("#t-b-1").html(t_b_1_html);
+				}
+				if(2<=len_data){
+					var t_b_2_html = "";
+					var len_2 = ret.data[1].length;
+					for(var j=0;j<len_2;j++){
+						t_b_2_html+="<img onclick=\"submit('icon-2/"+ret.data[1][j]+"')\";' src=\"{{cp}}public/assets/icon/icon-2/"+ret.data[1][j]+"\" width=\"50\" height=\"50\" />";
+					}
+					$("#t-b-2").html(t_b_2_html);
+				}
+				if(3<=len_data){
+					var t_b_3_html = "";
+					var len_3 = ret.data[2].length;
+					for(var j=0;j<len_3;j++){
+						t_b_3_html+="<img onclick=\"submit('icon-3/"+ret.data[2][j]+"')\";' src=\"{{cp}}public/assets/icon/icon-3/"+ret.data[2][j]+"\" width=\"50\" height=\"50\" />";
+					}
+					$("#t-b-3").html(t_b_3_html);
+				}
+				if(4<=len_data){
+					var t_b_4_html = "";
+					var len_4 = ret.data[3].length;
+					for(var j=0;j<len_4;j++){
+						t_b_4_html+="<img onclick=\"submit('icon-4/"+ret.data[3][j]+"')\";' src=\"{{cp}}public/assets/icon/icon-4/"+ret.data[3][j]+"\" width=\"50\" height=\"50\" />";
+					}
+					$("#t-b-4").html(t_b_4_html);
+				}
+				if(5<=len_data){
+					var t_b_5_html = "";
+					var len_5 = ret.data[4].length;
+					for(var j=0;j<len_5;j++){
+						t_b_5_html+="<img onclick=\"submit('icon-5/"+ret.data[4][j]+"')\";' src=\"{{cp}}public/assets/icon/icon-5/"+ret.data[4][j]+"\" width=\"50\" height=\"50\" />";
+					}
+					$("#t-b-5").html(t_b_5_html);
+				}
+			}			
+			//document.write(LEx.encode(ret));
+			//setHtml(ret);
+		}else{
+			LEx.alert(ret.error);
+		}
+	}
+	function onTheme(obj){//gr,fr
+		var cmd = new LEx.Command("app.icity.col.WidgetCmd");
+		cmd.setParameter("TYPE", obj);
+		var ret =  cmd.execute("getPersonalBusinessList");
+		if(!ret.error){
+			setHtml(ret);
+		}else{
+			LEx.alert(ret.error);
+		}
+	}
+	function setHtml(ret){
+		var len = ret.total;
+		var strHtml = "";
+		for(var i=0;i<len;i++){
+			strHtml += "<div style=\"height:100px;margin-bottom:10px;margin-top:10px;\"  class=\"col-xs-2 text-center title-classtype\"><a class=\"thumbnail no-bordered\" href=\"#\">"
+			        +"<img onclick='doWrite(\""+ret.data[i].CODE+"\")' src=\"{{cp}}public/assets/icon/"+ret.data[i].ICON_URL+"\" width=\"40\" height=\"40\" />"
+			        +"<div class=\"caption alpha omega\" id='"+ret.data[i].CODE+"'>"+ret.data[i].NAME+"</div></a></div>";
+		}
+		$("#pz").html(strHtml);
+	};
+</script>
+<div id="pz">
+</div>
+{% include govservice/configuration/icon.html %}

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quartz>
+	<job id="ProjectBusyInfoHotStatJob">
+		<name>定期缓存热点事项（网上办事）</name>
+		<action>app.icity.project.ProjectBusyInfoHotStatJob</action>
+		<method>execute</method>
+		<defaut_cron>0 0/60 * * * ?</defaut_cron>
+		<describe>定期缓存热点事项（网上办事）</describe>
+	</job>
+	<job id="search">
+		<name>搜索引擎</name>
+		<action>app.icity.search.SearchGenJob</action>
+		<method>execute</method>
+		<defaut_cron>0 0/60 * * * ?</defaut_cron>
+		<describe>对事项、发布内容建立搜索引擎索引</describe>
+	</job>
+	<job id="StarLevelStatJob">
+		<name>定期统计事项星级评价</name>
+		<action>app.icity.project.StarLevelStatJob</action>
+		<method>execute</method>
+		<defaut_cron>0 0/60 * * * ?</defaut_cron>
+		<describe>定期统计事项星级评价</describe>
+	</job>
+	<job id="KmReplyJob">
+		<name>昆明定期监测咨询投诉超期预警</name>
+		<action>km.app.icity.guestbook.ReplyJob</action>
+		<method>execute</method>
+		<defaut_cron>0 0/60 * * * ?</defaut_cron>
+		<describe>昆明定期监测咨询投诉超期预警</describe>
+	</job>
+	<job id="NewsPushJob">
+		<name>办件消息推送</name>
+		<action>app.icity.project.NewsPushJob</action>
+		<method>execute</method>
+		<defaut_cron>0 0/60 * * * ?</defaut_cron>
+		<describe>办件消息推送</describe>
+	</job>
+		<job id="SearchConsultingListJob">
+		<name>搜索引擎初始化咨询信息</name>
+		<action>app.icity.search.SearchConsultingListJob</action>
+		<method>execute</method>
+		<defaut_cron>0 0/60 * * * ?</defaut_cron>
+		<describe>搜索引擎初始化咨询信息</describe>
+	</job>
+</quartz>

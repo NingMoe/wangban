@@ -1,0 +1,160 @@
+html{
+	width: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+.cfBody{
+	width: 100%;
+	font-size: 14px;
+	font-family: "宋体", sans-serif;
+}
+/*标签*/
+.cfLabel {
+	border: none;
+	color: #333;
+	display: block;
+	line-height: 2em;
+	padding: 13px 0px 0px 0px;
+	text-align: left;
+}
+
+/*单行文本框*/
+.cfText {
+	width: 90%;
+	height: 25px;
+	border: 1px;
+	border-style: double solid solid solid;
+	border-color: #CCC;
+	cursor: default;
+	display: inline;
+	color: #747474;
+}
+/*多行文本*/
+.cfTextArea {
+	width: 90%;
+	height: 80px;
+	border: 1px;
+	border-style: double solid solid solid;
+	border-color: #CCC;
+	color: #747474;
+}
+/*单选框*/
+.cfRadio {
+	-webkit-appearance: none;
+	-webkit-user-select: none;
+	background: url("../images/mwidget/radiobox.png") no-repeat scroll
+		center top transparent;
+	border-radius: 0px;
+	border: 0px solid white;
+	margin: 0 5px 0 0px;
+	text-shadow: 0 1px 0 rgb(240, 240, 240);
+	top: 0px;
+	border-radius: 100%;
+	bottom: 0px;
+	height: 25px;
+	position: relative;
+	vertical-align: middle;
+	width: 25px;
+	cursor: pointer;
+}
+
+/*复选框*/
+.cfCheckBox {
+	-webkit-appearance: none;
+	-webkit-user-select: none;
+	background: url("../images/mwidget/check.png") no-repeat scroll center
+		top transparent;
+	border-radius: 0px;
+	margin: 0 5px 0 0;
+	text-shadow: 0 1px 0 rgb(240, 240, 240);
+	top: 0px;
+	border: 0px solid white;
+	bottom: 0px;
+	height: 25px;
+	position: relative;
+	vertical-align: middle;
+	width: 25px;
+	cursor: pointer;
+}
+
+/*单选框选中*/
+.cfRadio:checked::before {
+	-webkit-appearance: none;
+	-webkit-user-select: none;
+	background: url("../images/mwidget/radioed.png") no-repeat scroll center
+		bottom transparent;
+	content: '';
+	display: block;
+	height: 25px;
+	width: 25px;
+}
+/*复选框选中*/
+.cfCheckBox:checked::before {
+	-webkit-appearance: none;
+	-webkit-user-select: none;
+	background: url("../images/mwidget/checked.png") no-repeat top left
+		transparent;
+	content: '';
+	display: block;
+	height: 25px;
+	width: 25px;
+}
+/*下拉框*/
+.cfSelectOne {
+	height: 30px;
+	width: 90%;
+	border: 1px solid #CCC;
+	color: #747474;
+	background: white;
+	line-height: 25px;
+}
+/*最外层容器ul样式*/
+.cfContainer {
+	list-style: none;
+	margin: 0px;
+	padding: 0 0 0 5px;
+	text-align: left;
+}
+/*表单标题*/
+.cfTitle {
+	font-size: 22px;
+	text-align: center;
+}
+
+/*日期时间框*/
+.cfDateTime {
+	background-image: url(../images/widget/datetime.png);
+	background-position: 98% 50%;
+	background-repeat: no-repeat;
+	width: 90%;
+	height: 25px;
+	border: 1px;
+	border-style: double solid solid solid;
+	border-color: #CCC;
+	cursor: pointer;
+	color: #747474;
+}
+
+/*日期框*/
+.cfDate {
+	background-image: url(../images/widget/datetime.png);
+	background-position: 98% 50%;
+	background-repeat: no-repeat;
+	width: 90%;
+	height: 25px;
+	border: 1px;
+	border-style: double solid solid solid;
+	border-color: #CCC;
+	cursor: pointer;
+	color: #747474;
+}
+
+/*只读*/
+.cfIsReadonly {
+	background-color: #D3DCE3;
+}
+
+/*是否必填*/
+.cfIsRequired {
+	
+}

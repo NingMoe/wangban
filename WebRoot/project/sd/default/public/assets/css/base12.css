@@ -1,0 +1,42 @@
+
+body{
+    background-color: #f4f4f5;
+}
+
+/*内容区*/
+.zh_base12_con{
+	width: 60%;
+	padding: 20px;
+	margin: 20px auto;
+	background-color: #fff;
+}
+
+.zh_base12_ul{
+    border: 2px solid #f3f3f3;
+    padding: 87px 45px 10px;
+}
+
+.zh_base12_p{
+    padding-bottom: 3px;
+    margin-bottom: 3px;
+    border-bottom: 2px solid #f3f3f3;
+}
+
+.zh_base12_ul input{
+    display: inline-block;
+
+}
+
+.row{
+    padding-bottom: 50px;
+}
+
+textarea{
+    width: 100%;
+    height: 140px;
+    overflow-y: scroll;
+    outline: none;
+}
+.btn{
+    border-radius: 0;
+}

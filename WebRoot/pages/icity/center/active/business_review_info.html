@@ -1,0 +1,49 @@
+<script type="text/javascript">
+
+
+</script>
+
+<style>
+body {
+	background:#EEF5FD;
+} 
+</style>
+<div id="form" style="width:80%;padding:10px 60px;margin:10px auto" class="boxTop">
+  <div style="font-family:微软雅黑;font-size: 18px; margin:10px 0px 10px 20px"> 
+  		<b style="padding-right:2px;padding-left:12px;border-left:5px solid #56B6E0;">评议信息</b>
+        <div style=" float:right"> 
+           
+        </div>
+    </div>
+    <table class="baseform" align="center">
+        <colgroup>
+            <col style="width: 20%;"></col>
+            <col style="width: 30%;"></col>
+            <col style="width: 20%;"></col>
+            <col style="width: 30%;"></col>
+        </colgroup>
+        <tr>
+			<!-- <th>话题名称</th>
+			<td colspan="3"><input id="review_title" tag="NAME" style="width: 565px" ></td> -->
+		 </tr>	
+		 <tr>	
+			<th>关联事项</th>
+			<td colspan="3"><div tag="PNAME" style="width: 565px" ></div></td>
+		</tr>
+		<tr>	
+			<th>评议内容</th>
+			<td colspan="3">
+			<div rows="6" id="evaluate_content" cols="7" style="width:99%; height:300px;font-size: 14px" tag="EVALUATE_CONTENT"></div>
+			</td>
+		</tr>
+		
+        <tr>
+			<th>评价星级</th>
+           <td><div tag="STAR_LEVEL" style="width: 200px" id="star_level"></div> </td> 
+           <th>创建时间</th>
+		   <td>
+				<div tag="CREATOR_DATE"  style="width:175px;"  id="creator_date"></div>
+		   </td>    
+        </tr>		
+	</table>
+</div>

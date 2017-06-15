@@ -1,0 +1,219 @@
+<script src="{% public scripts/LEx.form.js %}"></script>
+<style>
+
+.yi-media-list-m2 {
+  margin-bottom: 0;
+}
+.yi-media-list-m2 time {
+  color: #ccc;
+}
+.yi-media-list-m2 .media {
+  margin-top: 10px;
+  padding-bottom: 10px;
+}
+.yi-media-list-m2 .media-body {
+  display: block;
+  position: relative;
+  overflow: visible;
+}
+.yi-media-list-m2 .bubble {
+  padding: 10px;
+  font-size: 14px;
+  display: inline-block;
+  position: relative;
+}
+.yi-media-list-m2 .pull-left + .media-body {
+  margin-left: 50px;
+}
+.yi-media-list-m2 .pull-left + .media-body .bubble {
+  background-color: #fff;
+}
+.yi-media-list-m2 .pull-left + .media-body .bubble:before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-top: 8px solid #fff;
+  border-left: 8px solid transparent;
+}
+.yi-media-list-m2 .pull-right + .media-body {
+  margin-right: 50px;
+}
+.yi-media-list-m2 .pull-right + .media-body .bubble {
+  background-color: #0DB0E5;
+    color: #fff;
+}
+.yi-media-list-m2 .pull-right + .media-body .bubble:before {
+  content: "";
+  position: absolute;
+  right: -8px;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-top: 8px solid #0DB0E5;
+  border-right: 8px solid transparent;
+}
+    
+</style>
+<div id="bs-modal-newmail" class="modal fade bs-modal-newmail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+   <div class="modal-content" style="width: 700px;margin-left:100px;">
+			<div id="jumbotron" class="jumbotron yi-jumbotron" style="padding-top: 0px; padding-bottom: 0px; margin-bottom:0;padding-left: 0;padding-right: 0;">
+			    <div class="" style="">
+			            <div class="panel panel-primary" style="margin-bottom: -20px; margin-left: -20px; margin-right: -20px;">
+			                <header class="panel-heading">        <button type="button" class="close" data-dismiss="modal" style="margin-top: -5px;"><span>&times;</span></button>
+			                
+			                    <h3 class="panel-title"><strong>智能问答机器人</strong></h3>
+			                </header>
+			                <div class="panel-body beta psi">
+			                    <div class="row">
+			                        <div class="col-xs-12 alpha">
+			                            <section class="panel phi" style="margin-right:-15px;border-right: 1px solid #ddd; background-color: #f5f5f5;">
+			                                <div class="panel-body">
+			                                <ul id="displaybox" class="media-list yi-media-list-m2" style="height: 400px; overflow-y: scroll;">
+			                                    <li class="text-center"><time></time></li>
+			                                    <li class="media">
+			                                        <a class="pull-left" href="#">
+			                                            <img class="media-object img-circle" src="{% public assets/img/avatar.jpg %}" height="35" width="35">
+			                                         </a>
+			                                        <div class="media-body">
+			                                            <h5 class="media-heading"><strong></strong></h5>
+			                                            <div class="bubble">
+			                                               	您好！我是“<font color='red'>政务服务网</font>”智能机器人，您想了解什么？请告诉我，希望我的答复能够让您满意。
+			                                            </div>
+			                                        </div>
+			                                    </li>
+			                                </ul>
+			                                </div>
+			                                <footer class="panel-footer" style="background-color:#fff;">
+			                                    
+			                                    <div class="input-group">
+			                                        <input id="inputbox" class="form-control" placeholder="" type="text">
+			                                        <span class="input-group-btn">
+			                                            <button class="btn btn-warning" type="button" onclick="submit();">发送</button>
+			                                        </span>
+			                                    </div>
+			                                </footer>
+			                            </section>
+			                        </div>
+			                    </div>
+			
+			                </div>
+			            </div>  
+			    </div>
+			</div>
+     </div>
+ </div>
+</div>
+  <script>
+(function(){
+	LEx.form.init();
+})();
+function doWrite(){	
+	$(".bs-modal-newmail").modal('show');	
+}
+
+function submit(){
+	var strInput = $("#inputbox").val();
+	$("#inputbox").val("");
+	if(!LEx.isNotNull(strInput)){
+		return;
+	}
+	var strUl = $("ul[class='media-list yi-media-list-m2']").html();
+	var dt = new Date();
+	dt = dt.getHours()+":"+dt.getMinutes()+":"+dt.getSeconds();
+	strUl+="<li class=\"text-center\"><time>"+dt+"</time></li> <li class=\"media\"> <a class=\"pull-right\" href=\"#\"><img class=\"media-object img-circle\" src=\"{% public assets/img/zwfww_014.jpg %}\" height=\"35\" width=\"35\">"
+    	+"</a><div class=\"media-body text-right\"><h5 class=\"media-heading\"><strong></strong></h5><div class=\"bubble\">"
+    	+toBreakWord(strInput)
+    	+"</div></div></li>";
+    
+    strUl+="<li class=\"text-center\"><time>"+dt+"</time></li> <li class=\"media\"> <a class=\"pull-left\" href=\"#\"><img class=\"media-object img-circle\" src=\"{% public assets/img/avatar.jpg %}\" height=\"35\" width=\"35\">"
+    	+"</a><div class=\"media-body\"><h5 class=\"media-heading\"><strong></strong></h5><div class=\"bubble\">"
+    	+searchReply(strInput)
+    	+"</div></div></li>";   
+    $("ul[class='media-list yi-media-list-m2']").html(strUl);    
+	var obj = document.getElementById("displaybox");
+    obj.scrollTop= obj.scrollHeight;
+    $("#inputbox").focus();
+}
+function searchReply(key){
+	var command = new LEx.Command("app.icity.search.SearchCmd");
+	command.setParameter("key", key);
+	command.setParameter("limit", "10");
+	var ret = command.execute("getIndex");
+	var str="您好，希望下面的答复能让您满意~<br/>";
+	if(!command.error){
+		if(ret.total>0){
+			var len = ret.data.length;
+			for(var i=0;i<len;i++){
+				 if("project" == ret.data[i].TYPE){
+				 	if(ret.data[i].NAME){
+					 	str+="<h5>[事项]<a href=\"{{cp}}approve/guide?id="+ret.data[i].ID+"\" target=\"_blank\">"+ret.data[i].NAME+"</a></h5>";
+				 	}else{
+               			str+="<h5>[主题："+ret.data[i].TITLE_NAME+"]<a href=\"{{cp}}approve/guide?id="+ret.data[i].ID+"\" target=\"_blank\">"+ret.data[i].NAME+"</a></h5>";
+				 	}
+				 }else if("content" == ret.data[i].TYPE){
+					 str+="<h5>[网站发布]<a href=\"{{cp}}content?id="+ret.data[i].ID+"\" target=\"_blank\">"+ret.data[i].NAME+"</a></h5>";
+				 }else{
+					 str+="<h5><a>"+ret.data[i].NAME+"</a></h5>";
+				 }
+				/*  if("project" == ret.data[i].TYPE){
+					 str+="<li class=\"list-group-item\" style=\"padding: 5px;\"><h5>[事项]<a href=\"{{cp}}approve/guide?id="+ret.data[i].ID+" target=\"_blank\">"+ret.data[i].HL_NAME+"</a></h5></li>";
+				 }else if("content" == ret.data[i].TYPE){
+					 str+="<li class=\"list-group-item\" style=\"padding: 5px;\"><h5>[网站发布]<a href={{cp}}content?id="+ret.data[i].ID+" target=\"_blank\">"+ret.data[i].HL_NAME+"</a></h5></li>";
+				 }else{
+					 str+="<li class=\"list-group-item\" style=\"padding: 5px;\"><h5><a>"+ret.data[i].HL_NAME+"</a></h5></li>";
+				 } */
+			}
+		}else{
+			str="真遗憾，没有为您的问题找到答案。。。";
+		}
+	}else{
+		str="真遗憾，没有为您的问题找到答案。。。";
+/* 		LEx.dialog({
+			title : "系统提示",
+			content : command.error,
+			icon : 'error',
+			lock : true
+		}); */
+	}
+	return str;
+}
+function toBreakWord(strContent){
+	var intLen = 70;
+    var strTemp="";
+    while(strContent.length>intLen){
+         strTemp+=strContent.substr(0,intLen)+"&#10;"; 
+         strContent=strContent.substr(intLen,strContent.length); 
+    }
+    strTemp+="&#10;"+strContent;
+    return strTemp;
+}
+function errorDialog(t, c) {
+	LEx.dialog({
+		title : t,
+		content : c,
+		icon : 'error',
+		lock : true
+	});
+}
+
+function hide() {
+	$(".bs-modal-result").modal('hide');
+}
+document.onkeydown=function(event){
+    var e = event || window.event || arguments.callee.caller.arguments[0];
+    if(e && e.keyCode==27){ // 按 Esc 
+        //要做的事情        
+      }
+    if(e && e.keyCode==113){ // 按 F2 
+         //要做的事情
+       }            
+     if(e && e.keyCode==13){ // enter 键
+         //要做的事情
+    	 submit();
+    }
+}; 
+</script>

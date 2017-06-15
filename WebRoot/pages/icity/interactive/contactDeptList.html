@@ -1,0 +1,322 @@
+<script src="{% public scripts/LEx.form.js %}"></script>
+<style type="text/css">
+.control-label font {
+	color: red;
+}
+
+.control-label {
+	font-size: 14px;
+}
+
+.input_validation-failed {
+	border: 2px solid #FF0000;
+	color: red;
+}
+
+.modal-lg {
+	width: 1000px;
+}
+
+.modal-dialog {
+	margin: 30px auto;
+}
+
+.form-horizontal .control-label {
+	text-align: right;
+	margin-bottom: 0;
+	padding-top: 7px;
+}
+
+.img {
+	float: left;
+	padding: 10px 15px;
+}
+
+.suggest-body span {
+	float: left;
+}
+
+.form-group {
+	margin-bottom: 5px;
+}
+.buttonli{
+	  border-style: solid;
+	  border-width: 1px;
+	  border-color: #E2E5EA;
+	  text-align:center;
+}
+.paddingli{
+	 padding: 2px 2px 2px 2px;
+}
+.zl-list-unstyled-ggfu-2 > li > a {
+  padding: 6px;
+}
+</style>
+<!-- Container -->
+<div class="container">
+	<div class="col-xs-12 panel">
+		<div class="col-xs-10 suggest-body col-xs-push-2" style="margin-bottom:10px;margin-top:10px;">
+			<div id="deptListBtn" data-toggle="modal" data-target=""></div>
+			<div id="bs-example-modal-sug"
+				class="modal fade bs-example-modal-sug" tabindex="-1" role="dialog"
+				aria-labelledby="myLargeModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">×</span>
+							</button>
+							<h4 class="modal-title">
+								<img src="{% public assets/img/icon-1.png %}"> 我要建议 <span id="jydept" style="float: inherit;" deptid="" deptname=""></span>
+								<a href="#" class="btn btn-danger pull-right"
+									style="margin: 15px 20px; display: none">查看以往建议</a>
+							</h4>
+
+						</div>
+						<div class="modal-body">
+							<div class="col-xs-12">
+								<div class="col-xs-10 text-center">
+									<p>请填写建议内容(注意：带*的为必填项)</p>
+								</div>
+								<div class="clearfix"></div>
+								<br>
+
+								<div class="panel-sug">
+									<div class="form-horizontal"
+										style="width: 400px; margin-left: 50px; float: left;">
+										<div class="form-group ">
+											<label class="col-xs-3 control-label"><font>*</font>我的姓名:</label>
+											<div class="col-xs-6">
+												<input tag="USERNAME" type="text" reg="^.+$"
+													class="form-control" tip="请输入姓名">
+											</div>
+										</div>
+
+										<div class="form-group ">
+											<label class="col-xs-3 control-label"> <font>*</font>手机号码:
+											</label>
+											<div class="col-xs-6">
+												<input tag="PHONE" reg="^\d{11}$" type="text"
+													class="form-control" tip="请输入11位手机号码"> <span
+													class=" form-control-feedback" style="margin-top: 10px;"></span>
+											</div>
+										</div>
+									</div>
+									<div class="form-horizontal" style="width: 400px; float: left;">
+										<div class="form-group ">
+											<label class="col-xs-3 control-label">电子邮箱: </label>
+											<div class="col-xs-7">
+												<input tag="EMAIL" type="text" class="form-control">
+											</div>
+										</div>
+										<div class="form-group ">
+											<label class="col-xs-3 control-label">联系地址: </label>
+											<div class="col-xs-7">
+												<input tag="ADDRESS" type="text" class="form-control">
+												<span class="form-control-feedback"
+													style="margin-top: 10px;"></span>
+											</div>
+										</div>
+									</div>
+									<div class="form-horizontal"
+										style="width: 400px; margin-left: 50px; float: left; display: none;">
+										<div class="form-group">
+											<label class="col-xs-3 control-label"><font>*</font>手机验证码:
+											</label>
+											<div class="col-xs-2">
+												<input tag="VerifyCode" type="text" class="form-control">
+											</div>
+											<div class="col-xs-4">
+												<a href="javascript:void(0);"
+													container=".bs-example-modal-sug"
+													class="btn btn-info verify_btn">点击获取短信验证码</a>
+											</div>
+										</div>
+									</div>
+									<div class="clearfix"></div>
+									<br>
+
+									<div class="col-xs-10 col-xs-push-1">
+										<p>请您准确填写联系方式：</p>
+										<p>在您的信件处理完毕后,凭手机号码和查询码您可在网上查看相关处理结果。</p>
+									</div>
+
+									<div class="clearfix"></div>
+									<br>
+
+									<div class="form-horizontal">
+										<div class="form-group ">
+											<label class="col-xs-3 control-label"><font>*</font>标题:</label>
+											<div class="col-xs-6">
+												<input tag="TITLE" type="text" reg="^.+$"
+													class="form-control" tip="请输入标题">
+											</div>
+										</div>
+
+										<div class="form-group ">
+											<label class="col-xs-3 control-label"> <font>*</font>建议内容:</label>
+											<div class="col-xs-6">
+												<textarea tag="CONTENT" reg="^.+$" class="form-control"
+													rows="3"></textarea>
+												<span class=" form-control-feedback"
+													style="margin-top: 10px;"></span>
+											</div>
+										</div>
+									</div>
+									<div class="clearfix"></div>
+									<br> <br>
+									<div class="form-group">
+										<div class="col-xs-offset-4 col-xs-2">
+											<button op="submit" cat="10"
+												container=".bs-example-modal-sug"
+												class="btn  btn-lg btn-block btn-info">提交</button>
+										</div>
+										<div class="col-xs-2 pull-left">
+											<button op="reset" container=".bs-example-modal-sug"
+												class="btn  btn-lg btn-block btn-default">重置</button>
+										</div>
+									</div>
+									<br>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="modal fade bs-example-modal-result" tabindex="-1"
+			role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-body" style="height: 115px;">
+						<div
+							style="width: 100%; padding-top: 5px; font-size: 18px; text-align: center;">
+							<p>
+								您的唯一查询码为：<span id="id"
+									style="font-size: 20px; font-weight: bold; color: red;"></span>
+							</p>
+							<p>请务必牢记！！方便您以后查询回复结果。</p>
+						</div>
+						<div class="col-xs-10 text-right col-xs-push-9">
+							<ul class="list-inline pull-left">
+								<li><a onclick="redirect()" href="#">【转到查询页】</a></li>
+								<li><a onclick="hide()" href="#">【关闭窗口】</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(function() {
+		LEx.form.init();
+		onQuery4Site();
+		$("button[op]").click(function(event) {
+			var container = $(this).attr("container");
+			var op = $(this).attr("op");
+			var cat = $(this).attr("cat");// 10-建议；11-纠错
+			if (op == "submit") {
+				if (LEx.form.validate(container)) {
+					submit(cat, container);
+				} else {
+					LEx.dialog.tips("请正确填写必填项", 1.5);
+				}
+			} else {
+				$(container + " input,text-area").each(function() {
+					$(this).removeClass("input_validation-failed");
+					if (!$(this).hasClass("reset-not")) {
+						$(this).val("");
+					}
+				});
+			}
+		});
+		
+	});
+	function onQuery4Site() {
+		var region_code = getSecurityValue("WebRegion");
+		var command = new LEx.Command("app.icity.ServiceCmd");
+		command.setParameter("region_code", region_code);
+		var deptList = command.execute("getDeptList");
+		if (!command.error) {
+			$('#deptListBtn')
+					.html(
+							LEx.processDOMTemplate('deptTemplatedeptListBtn',
+									deptList));
+			$("#deptListBtn").find("button").each(function(){
+				$(this).attr("data-target",LEx.urldata.m_class);
+			});
+			$("#deptListBtn").find("button").click(function(){
+				$("#jydept").attr("deptid",$(this).attr("dept_id"));
+				$("#jydept").attr("deptname",$(this).attr("dept_name"));
+				$("#jydept").html($(this).attr("dept_name"));
+			});
+		} else {
+			LEx.dialog({
+				title : "系统提示",
+				content : command.error,
+				icon : 'error',
+				lock : true
+			});
+		}
+	}
+	function submit(cat, container) {
+		var cmd_ins = new LEx.Command("app.icity.guestbook.WriteCmd");
+		var obj = LEx.form.get(container.substr(1, container.length - 1));
+		$.each(obj, function(k, v) {
+			cmd_ins.setParameter(k, v);
+		});
+		if (LEx.isNotNull(LEx.userInfo) && !LEx.isNotNull(LEx.userInfo.deptId)) {
+			cmd_ins.setParameter("USER_ID", LEx.userInfo.userId);
+		}
+		cmd_ins.setParameter("TYPE", cat);
+		cmd_ins.setParameter("DEPART_ID", $("#jydept").attr("deptid"));
+		cmd_ins.setParameter("DEPART_NAME", $("#jydept").attr("deptname"));
+		var ret = cmd_ins.execute("insert");
+		if (ret.error) {
+			errorDialog("系统提示信息", ret.error);
+			// 验证码输入错误则更换验证码
+			// changeimg();
+			return false;
+		} else {
+			var id = ret.data.id;
+			success(id, cat, container);
+		}
+	}
+	function success(id, type, container) {
+		$(container).modal('hide');
+		$(container + " input").each(function() {
+			$(this).removeClass("input_validation-failed");
+			$(this).val("");
+		});
+		$(container + " textarea").val("");
+		$(".bs-example-modal-result").modal('show');
+		$("span#id").html(id);
+		var secs = 60;
+		for ( var i = secs; i >= 0; i--) {
+			window.setTimeout("doUpdate(" + i + ")", (secs - i) * 1000);
+		}
+	}
+	function redirect() {
+		window.location = "{{PageContext.ContextPath}}queryletter";
+	}
+	function hide() {
+		$(".bs-example-modal-result").modal('hide');
+	}
+</script>
+
+<script type="text/template" id="deptTemplatedeptListBtn">
+{for o in data.organ}
+{if o.IS_HALL=="1"}
+	<li  class="col-xs-3" cat="2" style="padding:5px;width:100px;">
+		<button type="button" class="btn " style="width:95px;background-color:transparent;border:1px solid #C0D9D9;" title="${o.SHORT_NAME}" dept_id="${o.CODE}" 
+			dept_name="${o.SHORT_NAME}" data-toggle="modal" data-target=""><a>${formatLenStr(o.SHORT_NAME,0,5)}</a></button>
+	</li>
+{/if}
+{/for}
+</script>

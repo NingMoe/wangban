@@ -1,0 +1,389 @@
+<script type="text/template" id="persontemplate" style="display:none">
+{% set appidzb ConfigInfo.AppId|equal:"zb" %}	
+{% set appidzs ConfigInfo.AppId|equal:"zs" %}	
+<tr>
+		<th>证件类型：</th>
+		<td><select style="" class="span3" style="width:200px;" value=""
+			name="identityType" id="identityType">
+				<option value="10">身份证</option>
+				<option value="11">军官证</option>
+				<option value="12">士兵证</option>
+				<option value="13">警官证</option>
+				<option value="14">港澳居民来往内地通行证</option>
+				<option value="15">台湾居民来往大陆通行证</option>
+				<option value="16">香港身份证</option>
+				<option value="17">澳门身份证</option>
+				<option value="18">台湾身份证</option>
+				<option value="20">护照</option>
+				<option value="40">其他有效个人身份证件</option>
+				<option value="50">组织机构代码证</option>
+				<option value="51">营业执照</option>
+				<option value="52">事业单位登记证书</option>
+				<option value="53">社团登记证书</option>
+				<option value="54">民办非企业单位登记证书</option>
+				<option value="55">工会法人资格证书</option>
+				<option value="60">税务登记证</option>
+				<option value="80">其他有效机构身份证件</option>
+				<option value="90">其他</option>
+		</select></td>
+		<th><span class="redFont">*</span>证件编号：</th>
+		<td><input onblur="checkCardNo(this)"  onfocus="recVal(this)" reg="^.+$" id="idcardNo1" name="idcardNo" type="text" size="36" value=""/>
+		<input type="hidden" id="idcardNo" name="idcardNo" value="" />
+		</td>
+	</tr>
+	<tr>
+		<th><span class="redFont">*</span>姓名：</th>
+		<td><input onblur="validate(this)" reg="^[\u4E00-\u9FA5\uF900-\uFA2D]{1,20}$" name="name" type="text" id="name" size="36" />
+		</td>
+		<th><span class="redFont">*</span>联系电话：</th>
+		<td><input onblur="validate(this)" onfocus="recVal(this)" reg="^[u002A\0-9]{7,12}$" name="linkPhone" type="text" id="linkPhone1" size="36" value="" />
+		<input type="hidden" id="linkPhone"  name="linkPhone"  value="" /></td>
+	</tr>
+	<tr>
+		<th>性别：</th>
+		<td><label style="width: 40px; float: left;"> <input style="width:20px;height:15px;"
+				type="radio" checked="true" group="gender" value="男"
+				name="sex" id="sex"> <span class="lbl">男</span> </label> <label
+			style="width: 40px; float: left;"> <input style="width:20px;height:15px;"
+				type="radio" value="女" group="gender" name="sex" id="sex">
+				<span class="lbl">女</span> </label></td>
+		{% if appidzs %}
+		<th><span class="redFont">*</span>联系地址：</th>
+		<td><input onblur="validate(this)" reg="^[a-zA-Z\u4E00-\u9FA50-9\s-—]{1,48}$" name="linkAddress" type="text" id="linkAddress" size="36" />
+		</td>
+		{% else %}
+		<th>联系地址：</th>
+		<td><input onblur="validate(this)" reg="^[a-zA-Z\u4E00-\u9FA50-9\s-—]{0,48}$" name="linkAddress" type="text" id="linkAddress" size="36" />
+		</td>
+		{% endif %}
+	</tr>
+{% if appidzb %}
+	<tr>
+		<th><span class="redFont">*</span>经办人：</th>
+		<td><input name="agentPerson" type="text" id="agentPerson" size="36" />
+		</td>
+		<th><span class="redFont">*</span>经办人联系电话：</th>
+		<td><input onblur="validate(this)" onfocus="recVal(this)" reg="^$|^[u002A\0-9]{7,12}$" name="agentPhone" type="text" id="agentPhone" size="36" value="" />
+		</td>
+	</tr>
+{%endif%}
+	<tr>
+		<th>籍贯：</th>
+		<td><input name="nativePlace" type="text" id="nativePlace" size="36" />
+		</td>
+		<th>邮箱：</th>
+		<td><input name="email" type="text" id="email" reg="^$|^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$"
+			size="36" onblur="validate(this)"/>
+		</td>
+	</tr>
+	<tr>
+		<th>民族：</th>
+		<td><input name="nation" type="text" id="nation" size="36" />
+		</td>
+		<th>出生日期：</th>
+		<td><input name="birthday_str" type="text"  class="date" id="birthday_str" size="36" />
+		</td>
+	</tr>
+	<tr>
+		<th>学历：</th>
+		<td><select id="education" name="education"
+			class="span3">
+				<option value="XX">小学</option>
+				<option value="CZ">初中</option>
+				<option value="ZZ/GZ">中职/高中</option>
+				<option value="ZK/BK">专科/本科</option>
+				<option value="SS">硕士研究生</option>
+				<option value="BS">博士研究生</option>
+				<option value="QT" selected='selected'>其它</option>
+		</select>
+		</td>
+		<th>政治面貌：</th>
+		<td><select id="politicalStatus" name="politicalStatus"
+			class="span3">
+				<option value="DY">党员</option>
+				<option value="QZ" selected='selected'>群众</option>
+				<option value="TY">团员</option>
+		</select>
+		</td>
+	</tr>
+
+	<tr>
+		<th>国籍：</th>
+		<td><input name="country" type="text" id="country" size="36" />
+		</td>
+		<th>省份：</th>
+		<td><select id="province" name="province"
+			class="span3 province">
+				<option value="省份">省份</option>
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<th>市：</th>
+		<td><select id="city" name="city" class="span3 city">
+				<option>地级市</option>
+		</select>
+		</td>
+		<th>县：</th>
+		<td><select id="county" name="county"
+			class="span3 country">
+				<option>市、县级市、县</option>
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<th>户口所在地：</th>
+		<td><input name="homeAddress" type="text" id="homeAddress" size="36" />
+		</td>
+			<th>邮政编码：</th>
+			<td><input name="postCode" type="text" id="postCode" size="36" reg="^$|^[0-9]\d{5}(?!d)$" />
+			</td>
+	</tr>
+</script>
+<script type="text/template" id="companytemplate" style="display:none">
+	<tr>
+		      <th><font color="red">*</font>组织机构名称：</th>
+		      <td colspan="3"><input onblur="validate(this)" reg="^\S{2}.{0,48}$"  value="" id="orgName" name="orgName" style="width:86%" type="text" class="span3" /> 
+		      </td>
+		     </tr>
+	{% if ConfigInfo.AppId|equal:"weifang" %}
+			<tr>
+		      <th><font color="red">*</font>是否多证合一：</th>
+		      <td colspan="3">
+				<input type="radio"  name="isMultiple"  value="1"  checked="checked">是
+				<input type="radio" name="isMultiple"  value="0">否
+		      </td>
+		     </tr>
+			<tr id="creditCodeTr">
+		      <th><font color="red">*</font>统一信用社会代码：</th>
+		      <td colspan="3"><input onblur="validate(this)" reg="^\S{18}$"  value="" id="creditCode" name="creditCode" style="width:86%" type="text" class="span3" /> 
+		      </td>
+		     </tr>
+		   {% endif %} 
+		     <tr>
+		     	<th>组织机构代码：</th>
+		      	<td><input value="" id="orgCode" name="orgCode" type="text" size="36"  >
+		      	<div class="Validform_checktip"></div>
+		      	</td>
+		      	<th>组织机构代码证发证日期：</th>
+		      	<td><input value="" class="date" type="text" size="36"  name="orgCodeAwardDate_str" id="orgCodeAwardDate_str" readonly></td>
+		     </tr>
+		     
+		      <tr>
+		     	<th>组织机构代码发证机构：</th>
+		      	<td><input onblur="validate(this)" type="text" reg="^.{0,24}$" size="36" value="" class="span3" name="orgCodeAwardOrg"  id="orgCodeAwardOrg" ></td>
+		      	<th style="width:150px">组织机构代码证有效期起：</th>
+		      	<td><input value="" class="date"  type="text" name="orgCodeValidPeriodStart_str" size="36" id="orgCodeValidPeriodStart_str" readonly></td>
+		     </tr>
+		     
+		      <tr>
+		     	<th style="width:150px">组织机构代码证有效期止：</th>
+		      	<td><input class="date" type="text"  size="36" name="orgCodeValidPeriodEnd_str" id="orgCodeValidPeriodEnd_str" ></td>
+		      	<th>机构英文名称：</th>
+		      	<td><input onblur="validate(this)" type="text" size="36" reg="^.{0,50}$" value="" class="span3" id="orgEnglishName" name="orgEnglishName" ></td>
+		     </tr>
+		     
+		     <tr>
+		     	<th><font color="red">*</font>组织机构类型：</th>
+		      	<td> 
+			      	<select style="height:33px;" id="orgType" name="orgType" class="span3">	 					
+						<option value="Enterprise">企业</option>
+						<option value="GovDept">政府机关</option>
+						<option value="Institutions">事业单位</option>
+						<option value="SocialOrg">社会团体</option>
+			      	</select>
+			      	<div class="Validform_checktip"></div>
+		      	</td>
+		      	<th><font color="red">*</font>组织机构现状：</th>
+		      	<td>
+		      		<select style="height:33px;" name="orgActuality"  id="orgActuality" class="span3"  >
+						<option value="Register">设立</option>						
+						<option value="Change">变更</option>
+						<option value="Deregister">注销</option>
+						<option value="Revoke">吊销</option>
+						<option value="Other">其他</option>
+			      	</select>
+			      	<div class="Validform_checktip"></div>
+		      	</td>
+		     </tr>   	
+		  <tr>
+		     	<th>企业类别代码：</th>
+		      	<td><input onblur="validate(this)" type="text" size="36" reg="^[a-zA-Z0-9]{0,5}$" value="" class="span3" id="enterpriseSortCode"  name="enterpriseSortCode" ></td>
+		      	<th>企业类别名称：</th>
+		      	<td><input onblur="validate(this)" type="text" size="36" reg="^.{0,15}$" value="" class="span3" id="enterpriseSortName" name="enterpriseSortName" ></td>
+		     </tr>
+		     <tr>
+		     	<th><font color="red">*</font>法定代表人：</th>
+		      	<td><input onblur="validate(this)" reg="^\S{2}.{0,23}$" size="36" value="" id="legalPerson" name="legalPerson" type="text" class="span3">
+		      	<div class="Validform_checktip"></div>
+		      	</td>
+		      	<th>法定代表人类型：</th>
+		      	<td>
+		      		<select  value=""  style="" name="legalPersonType"  id="legalPersonType" class="span3">
+						<option value="Legal_Person">法人</option>
+						<option value="Charge_Person">负责人</option>
+						<option value="Owne_Person">业主</option>		
+		      	</select>
+		      	</td>
+		     </tr>
+		     
+		     <tr>
+		     	<th><font color="red">*</font>法人证件名称：</th>
+		      	<td><select  class="span3" value="" name="certificateName" id="certificateName">
+						
+						<option value="身份证">身份证</option>
+						<option value="军官证">军官证</option>
+						<option value="士兵证">士兵证</option>
+						<option value="警官证">警官证</option>
+						<option value="港澳居民来往内地通行证">港澳居民来往内地通行证</option>
+						<option value="台湾居民来往大陆通行证">台湾居民来往大陆通行证</option>
+						<option value="香港身份证">香港身份证</option>
+						<option value="澳门身份证">澳门身份证</option>
+						<option value="台湾身份证">台湾身份证</option>
+						<option value="护照">护照</option>						
+						<option value="组织机构代码证">组织机构代码证</option>
+						<option value="营业执照">营业执照</option>
+						<option value="事业单位登记证书">事业单位登记证书</option>
+						<option value="社团登记证书">社团登记证书</option>
+						<option value="民办非企业单位登记证书">民办非企业单位登记证书</option>
+						<option value="工会法人资格证书">工会法人资格证书</option>
+						<option value="税务登记证">税务登记证</option>
+						<option value="其他有效机构身份证件">其他有效机构身份证件</option>
+                        <option value="其他">其他</option>
+					</select>
+		      		<div class="Validform_checktip"></div>
+		      	</td>
+		      	<th><font color="red">*</font>法人证件号码：</th>
+		      	<td><input onblur="checkCertificateNo(this)" onfocus="recVal(this)" reg="^\S.{0,24}$"  value="" size="36"  id="certificateNo1" name="certificateNo" type="text" class="span3" >
+		      	<div class="Validform_checktip"></div>
+				<input type="hidden" id="certificateNo" name="certificateNo" value="" />
+		      	</td>
+		     </tr>
+		     <tr>
+		      	<th><font color="red">*</font>联系电话：</th>
+		      	<td><input  onblur="validate(this)" onfocus="recVal(this)" reg="^[u002A\0-9]{7,12}$" value="" size="36" class="span3" id="contactPhone1" name="contactPhone" type="text" >
+			<input type="hidden" id="contactPhone"  name="contactPhone"  value="" />
+             	<div class="Validform_checktip"></div></td>
+			{% if appidzb|or:appidzs %}
+				<th><font color="red">*</font>联系人：</th>
+		      	<td><input onblur="validate(this)" reg="^[a-zA-Z\u4E00-\u9FA5]{1,25}$" value="" size="36" class="span3" id="linkMan" name="linkMan" type="text"></td>
+		    {% else %}
+				{% if  ConfigInfo.AppId|equal:"liaocheng" %}
+				<th><font color="red">*</font>联系人：</th>
+		      	<td><input onblur="validate(this)" reg="^[a-zA-Z\u4E00-\u9FA5]{1,25}$" value="" size="36" class="span3" id="linkMan" name="linkMan" type="text"></td>
+				{% else %}
+		      	<th>联系人：</th>
+		      	<td><input onblur="validate(this)" reg="^.{0,25}$" value="" size="36" class="span3" id="linkMan" name="linkMan" type="text"></td>
+				{% endif %}	
+			{% endif %}
+			</tr>
+		      <tr>
+		     	<th><font color="red"></font>登记注册日期：</th>
+		      	<td><input  value="" name="registerDate_str" type="text" class="date" size="36"  id="registerDate_str" readonly>
+		      	<div class="Validform_checktip"></div>
+		      	</td>
+              {% if ConfigInfo.AppId|equal:"chq" %}
+		        <th><font color="red"></font>单位注册地址：</th>
+		      	<td><input onblur="validate(this)" reg="" size="36"  value="" id="registerAddress" name="registerAddress" type="text" class="span3" >
+		      	<div class="Validform_checktip"></div>
+		      	</td>
+		     </tr> 
+		      <tr>
+		     	<th><font color="red"></font>经营(生产)范围(主营）：</th>
+		      	<td colspan="3"><textarea onblur="validate(this)" reg="" id="businessScope" name="businessScope" style="width:86%" cols="104" ></textarea>
+		      	<div class="Validform_checktip"></div>
+		      	</td>
+			{% else %}
+				{% if  ConfigInfo.AppId|equal:"liaocheng" %}
+					<th>单位注册地址：</th>
+					<td><input onblur="validate(this)"  size="36"  value="" id="registerAddress" name="registerAddress" type="text" class="span3" >
+				{% else %}
+				<th><font color="red">*</font>单位注册地址：</th>
+		      	<td><input onblur="validate(this)" reg="^\S{2}.{0,253}$" size="36"  value="" id="registerAddress" name="registerAddress" type="text" class="span3" >
+		      	{% endif %}
+				<div class="Validform_checktip"></div>
+		      	</td>
+		     </tr> 
+				{% if  ConfigInfo.AppId|equal:"weifang" %}
+				<tr>
+		     		<th><font color="red">*</font>经营(生产)范围(主营）：</th>
+		      		<td colspan="3"><textarea onblur="validate(this)" reg="^\S{2}.{0,4000}$" id="businessScope" name="businessScope" style="width:86%" cols="104" ></textarea>
+		      			<div class="Validform_checktip"></div>
+		      		</td>
+				{% else %}	
+		      <tr>
+		     	<th>经营(生产)范围(主营）：</th>
+		      	<td colspan="3"><textarea onblur="validate(this)" reg="^$|^\S{2}.{0,4000}$" id="businessScope" name="businessScope" style="width:86%" cols="104" ></textarea>
+		      	<div class="Validform_checktip"></div>
+		      	</td>
+				{% endif %}
+			{% endif %}
+		     </tr>		       		 		     
+</script>
+
+<script type="text/template" id="projecttemplate">
+<tr>
+      <th><font color="red">*</font>项目名称：</th>
+      <td><input onblur="validate(this)" reg="^\S{2,50}$" size="36" value="" id="projectName"  field="projectName" name="projectName" type="text" class="span3" />
+       <div class="Validform_checktip"></div></td>
+      {% if  ConfigInfo.AppId|equal:"liaocheng" %}
+	  <th>项目编码：</th>
+      <td><input onblur="validate(this)"   size="36" value="" class="span3" id="projectCode" type="text" name="projectCode" > 
+      {% else %}
+	  <th><font color="red">*</font>项目编码：</th>
+      <td><input onblur="validate(this)" reg="^\S{1,25}$"  size="36" value="" class="span3" id="projectCode" type="text" name="projectCode" > 
+	  {% endif %}
+	 <div class="Validform_checktip"></div></td>
+     </tr>
+     <tr>
+	{% if  ConfigInfo.AppId|equal:"liaocheng" %}
+     	<th style="width:150px">项目审批核准备案文号：</th>
+      	<td colspan="3"><input style="width:86%" onblur="validate(this)"  size="36" value="" type="text" class="span3" id="projectAllowedNo" name="projectAllowedNo"></td>      
+	{% else %} 
+		<th style="width:150px"><font color="red">*</font>项目审批核准备案文号：</th>
+      	<td colspan="3"><input style="width:86%" onblur="validate(this)" reg="^\S{2,255}$" size="36" value="" type="text" class="span3" id="projectAllowedNo" name="projectAllowedNo"></td>      
+	{% endif %}  
+</tr>
+	<tr>
+	{% if  ConfigInfo.AppId|equal:"liaocheng" %}
+  		<th><font color="red">*</font>项目单位：</th>
+	{% else %} 
+		<th><font color="red">*</font>建设单位：</th>
+	{% endif %}  
+	<td><input onblur="validate(this)" reg="^\S{1,50}$" value="" id="contractor" name="contractor" type="text" size="36"  >
+	</td>
+		<th><font color="red">*</font>联系人：</th>
+        <td><input onblur="validate(this)" size="36" reg="^[a-zA-Z\u4E00-\u9FA5]{1,25}$" value="" class="span3" id="linkMan" name="linkMan" type="text"></td>
+     </tr>
+     <tr>
+        <th><font color="red">*</font>联系电话：</th>
+     <td><input  onblur="validate(this)" onfocus="recVal(this)" reg="^[u002A\0-9]{7,12}$" value="" size="36" class="span3" id="linkPhone1" name="linkPhone" type="text" >
+             	<div class="Validform_checktip"></div>
+		<input type="hidden" id="linkPhone"  name="linkPhone"  value="" />
+	 </td>
+     <th>总投资（万元）：</th>
+     <td><input onblur="validate(this)" reg="^[+|-]?\d*\.?\d*$" size="36" value=""  id="investment" name="investment" type="text" class="span3" /><div class="Validform_checktip"></div>
+     </td> 
+     </tr>
+      <tr>
+      <th>总用地面积（平方米）：</th>
+      <td><input onblur="validate(this)" size="36" reg="^[+|-]?\d*\.?\d*$" value=""  id="areaAll" name="areaAll" type="text" class="span3" /><div class="Validform_checktip"></div>
+      </td>
+      <th>建筑面积（平方米）：</th>
+      <td><input onblur="validate(this)" reg="^[+|-]?\d*\.?\d*$" size="36" value="" class="span3" id="areaBuild" type="text" name="areaBuild"   ><div class="Validform_checktip"></div> </td>
+     </tr>
+      <tr>     
+       <th><font color="red"></font>项目地址：</th>
+      <td colspan="3"><input style="width:86%" value=""  id="location" name="location" type="text" class="span3" />
+       <div class="Validform_checktip"></div></td>         
+      </tr>
+      <tr>
+      {% if  ConfigInfo.AppId|equal:"liaocheng" %}
+	  <th>建设内容：</th>
+      <td colspan="3"><textarea onblur="validate(this)"  value="" cols="100" style="width:86%" id="projectContent" name="projectContent"></textarea> </td>    
+      {% else %}	
+	   <th><font color="red">*</font>建设内容：</th>
+      <td colspan="3"><textarea onblur="validate(this)" reg="^\S{2,100}$"  value="" cols="100" style="width:86%" id="projectContent" name="projectContent"></textarea> </td>    
+	  {% endif %}   
+     </tr>
+</script>

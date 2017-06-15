@@ -1,0 +1,257 @@
+<script>
+	var id = LEx.urldata.id;
+	var pwd = LEx.urldata.pwd;
+	var flag=0;
+	$(function(){
+		queryStarLevel(id);	
+	});
+     $(".NeedFormatStateType").each(function() {
+			var status = $(this).attr("state");
+			var bState = "正常";
+			switch(status){
+			case "01":
+				bState="正常";//启动流程开始计时
+				break;
+			case "02":  //最终态处于此状态的业务为办结业务
+				bState = "不予受理";
+				break;
+			case "11":
+				bState = "待预审 ";
+				break;
+			case "21":
+				bState = "补齐补正";
+				break;
+			case "23":
+				bState = "挂起";
+				break;
+			case "24":
+				bState = "收费挂起";
+				break;
+			case "26":
+				bState = "回退";
+				break;
+			case "96":
+				bState = "退件";
+				break;
+			case "97":
+				bState = "作废";
+				break;
+			case "98":
+				bState = "不予许可";
+				break;
+			case "99":
+				bState = "准予许可";
+				break;
+			}
+			$(this).html(bState);
+		});
+     
+     function showOpinion(){
+    	 if(flag == 0){
+    		 flag=1;
+    		 $("#opinion").show();
+    	 }else{
+    		 flag=0;
+    		 $("#opinion").hide();
+    	 }
+     }
+     
+     function queryStarLevel(sblsh) {
+    		
+    		var command = new LEx.Command("app.icity.interactive.satisfaction.SatisfactionEvaluationCmd");
+    		command.setParameter("sblsh", sblsh);
+    		command.execute("queryStarLevel");
+    		
+    		//返回操作
+    		if( !command.error ){
+    			
+    			var ret = command.returns;
+    			if(ret.total>0){
+    				
+    				//提交时判断是否已评价过（只能评价一次）
+    				$("#isExistStar").val("1");
+    				
+    				var level = ret.data[0].STAR_LEVEL;
+    				var content = ret.data[0].EVALUATE_CONTENT;
+    				$("#"+level).attr("checked","checked");
+    				$("#EVALUATE_CONTENT").val(content);
+    				$("#EVALUATE_CONTENT").attr("readonly","readonly");
+    				
+    				$("#submitbtn").hide();
+    			}else{
+    				$("#isExistStar").val("0");
+    				$("#EVALUATE_CONTENT").val("");
+    				$("#EVALUATE_CONTENT").removeAttr("readonly");
+    				
+    			}
+    		}else{
+    			LEx.alert(ret.error);
+    		}
+    	}
+     
+     function submitData(){
+    	 var radioval = $('input:radio[name="fenzhi"]:checked').val();
+    	 if(radioval == undefined){
+    		 LEx.alert("未进行分值评价！");
+			return;
+    	 }
+    	 
+		var isExistStar = $("#isExistStar").val();
+   		if(isExistStar == "1"){
+   			LEx.alert("您已评价过，请勿重复评价！");
+   			return;
+   		}
+   		
+   		var STATE_CODE = $("input[tag=STATE_CODE]").val();
+   		if(STATE_CODE != "02" && STATE_CODE != "96" && STATE_CODE != "97" && STATE_CODE != "98" && STATE_CODE != "99"){
+   			LEx.alert("该件还未办结，请办结后进行评价！");
+   			return;
+   		}
+   		
+   		var cmd = new LEx.Command("app.icity.interactive.satisfaction.SatisfactionEvaluationCmd");
+   		var container = "base-message";
+   		var obj = LEx.form.get(container);
+   		$.each(obj, function(k, v) {
+   			cmd.setParameter(k, v);
+   		});
+   		cmd.setParameter("EVALUATE_TYPE", "4");
+   		cmd.setParameter("STAR_LEVEL", radioval);
+   		cmd.execute("insertEvaluation");
+   		
+   		// 返回操作
+   		if (!cmd.error) {
+   			LEx.alert('评价成功！');
+   		} else {
+   			var ret = cmd.returns;
+   			LEx.alert(ret.error);
+   		}
+     }
+     function bjts(){
+    	 var a = LEx.urldata.id;
+    	 var b = $("#sxname").text();
+    	 var c = $("#ITEM_ID").val();
+         var d = $("#ITEM_NAME").html();
+    	 document.location="{{PageContext.ContextPath}}govservice/complain?sblsh="+a+"&sbxmmc="+encodeURIComponent(b)+"&sxid="+c+"&sxmc="+encodeURIComponent(d);
+    	 //var url="complaint?id="+LEx.urldata.id+"&sx="+$("#sxname").text();
+    	 //window.open(encodeURI(url));
+     }
+ </script>
+{% map
+"sblsh",PageContext.Parameter.id,"spsxcxmm",PageContext.Parameter.pwd as
+p%} {% command
+"app.icity.project.ProjectIndexCmd","BusinessProgressQueryByPassword",p
+as d %} {% if d.data %} {% set o d.data %}
+<div class="container" style="width: 1030px !important;">
+	<ol class="breadcrumb">
+		<li><img src=""> 您当前所在的位置:</li>
+		<li><a href="#">首页</a>
+		</li>
+		<li><a href="#">投诉与评价</a>
+		</li>
+	</ol>
+</div>
+<div id="base-message" class="container" style="width: 1030px !important;">
+	<section class="panel" style="padding: 10px;">
+	<h3 class="text-center">{{o.APPLY_SUBJECT}}</h3>
+	<span id="sxname" style="display:none;">{{o.APPLY_SUBJECT}}</span>
+	<div class="panel-body">
+		<div class="btnform clearfix" style="margin-bottom: 10px;">
+			<button type="button" class="btn btn-warning pull-right" onclick="bjts()");">投诉</button>
+		</div>
+		<table class="table table-bordered">
+			<tbody>
+				<tr>
+					<th class="bg-info text-right" style="width: 20%">申报号：</th>
+					<td style="width: 80%"><span id="SBLSH" tag="SBLSH">{{o.RECEIVE_NUMBER}}</span></td>
+				</tr>
+				<tr>
+					<th class="bg-info text-right">事项名称：</th>
+					<td colspan="3"><span id="ITEM_NAME" tag="ITEM_NAME">{{o.ITEM_NAME}}</span>
+					<input type="hidden" id="ITEM_ID" value="{{o.ITEM_ID}}"/>
+					</td>
+				</tr>
+				<!-- <tr>
+                         <th class="bg-info text-right">申报名称：</th>
+                         <td colspan="3"></td>
+                     </tr> -->
+				<tr>
+					<th class="bg-info text-right">申报人：</th>
+					<td><span id="APPLYNAME" tag="APPLYNAME">{{o.APPLYNAME}}</span></td>
+				</tr>
+				<tr>
+					<th class="bg-info text-right">申报日期：</th>
+					<td><span id="SUBMIT_TIME" tag="SUBMIT_TIME">{{o.SUBMIT_TIME}}</span></td>
+				</tr>
+				<tr>
+					<th class="bg-info text-right">当前状态：</th>
+					<td>{{o.STATE}} <a href="javascript:void(0);"
+						onclick="showOpinion();" class="text-infos">【查看意见】</a>
+					</td>
+				</tr>
+				<tr id="opinion" style="display: none">
+					<th class="bg-info text-right">流转过程：
+					</td>
+					<td colspan="3">
+						<table class="table table-bordered" width="100%" height="100%">
+							<tr>
+								<th width="25%">环节名称</th>
+								<th width="20%">处理时间</th>
+								<th width="20%">处理情况</th>
+								<th width="35%">办理意见</th>
+							</tr>
+							{% if o.COURSELIST %} {% for r in o.COURSELIST %}
+							<tr>
+								<td>{{r.CURRENT_NODE_NAME}}</td>
+								<td>{{r.SEND_TIME}}</td>
+								<td class="NeedFormatStateType">{{r.STATUS}}</td>
+								<td>{{r.OPINION}}</td>
+							</tr>
+							{% endfor %} {% endif %}
+						</table></td>
+				</tr>
+				<tr>
+					<th class="bg-info text-right">请选择分值</th>
+					<td>
+						<div class="pingyi">
+							<label class="radio-inline text-success"> <input
+								type="radio" name="fenzhi" id="5" value="5"> 非常满意 </label> <label
+								class="radio-inline text-primary"> <input type="radio"
+								name="fenzhi" id="4" value="4"> 满意 </label> <label
+								class="radio-inline text-info"> <input type="radio"
+								name="fenzhi" id="3" value="3"> 基本满意 </label> <label
+								class="radio-inline text-warning"> <input type="radio"
+								name="fenzhi" id="2" value="2"> 不满意 </label> <label
+								class="radio-inline text-danger"> <input type="radio"
+								name="fenzhi" id="1" value="1"> 非常不满意 </label>
+						</div> <textarea id="EVALUATE_CONTENT" class="form-control" rows="3" tag="EVALUATE_CONTENT" 
+							placeholder="请写下您的建议或意见" type="text"></textarea>
+							<input type="hidden" id="isExistStar" value="0" />
+							<input tag="STATE_CODE" value="{{o.STATE_CODE}}" type="hidden" >
+							<input tag="DEPT_NAME" value="{{o.DEPT_NAME}}" type="hidden">
+                            <input tag="ITEM_CODE" value="{{o.ITEM_CODE}}" type="hidden" >
+                            <input tag="ITEM_ID" value="{{o.ITEM_ID}}" type="hidden" >
+                            <input tag="REGION_ID" value="{{o.REGION_ID}}" type="hidden" >
+                            <input tag="REGION_NAME" value="{{o.REGION_NAME}}" type="hidden" >
+                            <input tag="DEPT_ID" value="{{o.DEPT_ID}}" type="hidden" >
+                            <input tag="STATE_CODE" value="{{o.STATE_CODE}}" type="hidden" >
+						</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="2">
+						<form class="form form-inline text-center">
+							<button id="submitbtn" type="button" class="btn btn-success its-btn-more"
+								onclick="submitData();">
+								&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;</button>
+							<button type="button" class="btn btn-primary its-btn-closed"
+								onclick="window.close();">
+								&nbsp;&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;&nbsp;</button>
+						</form></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	</section>
+</div>
+{% endif %}

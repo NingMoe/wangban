@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <title>Template</title>
+    <link rel="icon" href="assets/ico/favicon.ico">
+    <link rel="stylesheet" href="assets/css/nucleo-outline.css">
+    <link rel="stylesheet" href="assets/css/nucleo-glyph.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <style>
+        .table {
+            margin-bottom: 0;
+            width:100%;
+        }
+        
+        .table > thead > tr > td,
+        .table > thead > tr > th,
+        .table > tbody > tr > td,
+        .table > tbody > tr > th {
+            padding: 2px 10px;
+            font-size: 12px;
+            border-color: #c2e0f1;
+        }
+        
+        .table > tbody > tr:first-child > td {
+            border-top-color: #fff;
+        }
+        
+        .table > thead > tr > td,
+        .table > thead > tr > th {
+            border-color: #fff;
+        }
+        
+        .table > thead > tr.active > th {
+            background-color: #e5f5fa;
+            padding: 5px 10px;
+        }
+        .table > tbody > tr > th,td {
+            padding: 5px 10px;
+        }
+
+    </style>
+</head>
+
+<body >
+        <section class="panel no-bordered" >
+            <table class="table table-bordered" >
+                <thead>
+                    <tr class="active">
+                  		<th width="46%"><img width="12px" height="7px" src="{%public assets/img/dot1.gif%}">事项名称</th>
+                        <th width="14%" class="text-center"><img width="12px" height="7px" src="{%public assets/img/dot1.gif%}">受理单位</th>
+                        <th width="14%" class="text-center"><img width="12px" height="7px" src="{%public assets/img/dot1.gif%}">受理日期</th>
+                        <th width="14%" class="text-center"><img width="12px" height="7px" src="{%public assets/img/dot1.gif%}">办结日期</th>
+                        <th width="12%" class="text-center"><img width="12px" height="7px" src="{%public assets/img/dot1.gif%}">办件状态</th>
+                    </tr>
+                </thead>
+            </table>
+            <div id="jsTableScroll" style="overflow:hidden;width:100%">
+                <table class="table table-bordered" id="roll_list">
+                </table>
+                <p class="text-center" id="project-none" style="display:none;">
+                    <span style="background-color: #F1F2F3; padding: 8px 200px; color: #666;">暂无数据</span>
+                 </p>
+            </div>
+            <div id ="sytleCss">
+            	行高：<input type="text"   id="lheight">
+            	字体：<input type="text"  id="fsize">  
+            	<button type="button"  onclick="submitCss();"> 确定</button>
+            	<button type="button"  onclick="hideCss();"> 隐藏</button>
+            </div>
+       </section>
+     <textarea type="text/template" id="MattersListTemplate" style="display:none">
+<tbody>
+{for o in data}
+	<tr>
+		<td width="46%" height="20px" class="text-left">${o.columns.APPLY_SUBJECT}</td>
+		<td width="14%" class="text-center">${o.columns.ORG_NAME}</td>
+		<td width="14%" class="text-center">${o.columns.SUBMIT_TIME} </td>
+		<td width="14%" class="text-center">${o.columns.FINISH_TIME} </td>
+		<td width="12%" class="text-center">{if o.columns.STATUS=="99"}准予许可 {else}不予许可{/if} </td>
+		
+	</tr>
+{/for}
+</tbody>
+</textarea>
+    <br>
+    <br>
+    <script>
+        $(function() {
+            var $this = $("#jsTableScroll");
+            var scrollTimer;
+			
+            onQuery(1);
+            $this.hover(function() {
+                clearInterval(scrollTimer);
+            }, function() {
+                scrollTimer = setInterval(function() {
+                    scrollNews($this);
+                }, 2000);
+            }).trigger("mouseleave");
+
+            function scrollNews(obj) {
+                var $self = obj.find("table");
+                var lineHeight = $self.find("tr:first").height();
+
+                $self.animate({
+                    "marginTop": -lineHeight + "px"
+                }, 600, function() {
+                    $self.css({
+                        marginTop: 0
+                    }).find("tr:first").appendTo($self);
+                })
+            }
+        });
+        function onQuery(start){
+           	var command = new LEx.Command("app.icity.govservice.GovProjectCmd");
+           	command.setParameter("region_code", "{{ConfigInfo.WebRegion}}");
+           	command.setParameter("start",start);
+           	command.setParameter("result_mark","lc");
+           	command.setParameter("order_mark","de");
+           	command.setParameter("limit", 200); 
+           	var ret= command.execute("BusinessSearchQuery");
+           	if (ret.state == 1) {
+           		$("#roll_list").html(LEx.processDOMTemplate("MattersListTemplate", ret));
+           		pageTotal=ret.total;
+           		//alert(total);
+           		if(pageTotal==0){
+           			$("#project-none").show();
+           		}
+           		else{
+           			$("#project-none").hide();
+           		}
+           	} else {
+           		LEx.dialog.tips("未获取到数据",1);
+           	}
+           }
+        function submitCss(){
+        	var a = $("#fsize").val()+"px";
+        	$(".table > thead > tr > th").css("font-size",a);
+        	$(".table > thead > tr > th").css("line-height",$("#lheight").val());
+        	$(".table").css("color","red");
+        	$(".table").css("background","black");
+        	$(".table > tbody > tr > td").css("font-size",a);
+        	$(".table > tbody > tr > td").css("line-height",$("#lheight").val());
+        	//$(".table > thead > tr > td").css("color","red");
+        	//$(".table > thead > tr > td").css("background","red");
+        }
+        function hideCss(){
+        	$("#sytleCss").hide();
+        }
+        
+    </script>
+</body>
+
+</html>
+<style type="text/css">
+        body {
+            min-width:0px;
+        }
+</style>

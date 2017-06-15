@@ -1,0 +1,328 @@
+<!-- 7、并联审批 上传附件-->
+<link href="{% public scripts/fineload/css/jquery.fileupload.css %}"
+	rel="stylesheet" />
+<script
+	src="{% public scripts/fineload/js/vendor/jquery.ui.widget.js %}"></script>
+<script
+	src="{% public scripts/fineload/js/jquery.iframe-transport.js %}"></script>
+<script src="{% public scripts/fineload/js/jquery.fileupload.js %}"></script>
+<div class="container" style="width: 1030px !important;">
+	<section class="panel" style="padding: 10px;">
+	<h4 class="text-primary"
+		style="font-size: 20px; background: #e3e7f1; padding: 15px; padding-top: 18px;">
+		<strong style="color: #4f719c;">请选择相应的项目上传附件</strong>
+	</h4>
+	<div class="panel-body">
+		<section class="panel">
+		<ul class="list-group" id="MattersList">
+
+		</ul>
+		</section>
+	</div>
+	<div id="submitsp" style="height: 40px; text-align: center;">
+		<input type="button" style="width: 68px;" class="btn btn-info pre"
+			onclick="pre();" value="上一步 " title="上一步" /> <input id="save"
+			type="button" style="width: 68px;" class="btn btn-info save"
+			onclick="saveDraft();" value="暂存" title="暂存" /> <input type="button"
+			style="width: 68px;" class="btn btn-info save" onclick="saveData();"
+			value="提交" title="提交" />
+	</div>
+	</section>
+</div>
+<script>
+	var docids = [];
+	var data = LEx.urldata;
+	var must_materials = [];
+	var n_must_materials = [];
+	$(function() {
+		onQueryList(data.flowId);
+		$('.fileupload').fileupload({
+			url : LEx.webPath+ "bsp/uploadify?action=uploadagent4wp&ucid="+ LEx.userInfo.uid,
+			dataType : 'json',
+			autoUpload : true,
+			sequentialUploads : true,
+			add : function(e, data) {
+				var check = true;
+				$.each(data.files,function(i, file) {
+					var fileSize = '1000000000';
+					if (file.size > fileSize) {
+						LEx.alert(file.name+ ":文件太大!");
+						return check = false;
+					}
+					//文件限制分类
+					var reg = /(gif|jpe?g|png|bmp|doc|docx|txt|ppt|pptx|xlsx|xls|pdf|chm|xml|rar|zip|7z|ceb)$/i;
+					var extName = file.name.substring(file.name.lastIndexOf(".") + 1);
+					if (!reg.test(extName)) {
+						LEx.alert("不支持的文件类型！");
+						return check = false;
+					}
+				});
+				if (check) {
+					data.submit();
+				}
+			},
+			done : uploadSuccess,
+			fail : function(e, data) {
+				if (ltIE9()) {
+					$('#progress_IE8').hide();
+				} else {
+					$('#progress').hide();
+				}
+				LEx.alert("上传附件失败!");
+			},
+			progressall : function(e, data) {
+				if (ltIE9()) {
+					$('#progress_IE8').show();
+				} else {
+					$('#progress').show();
+					var progress = parseInt(data.loaded/ data.total * 100, 10);
+					$('.progress-val-l').text(progress + '%');
+					$('#bar').css('width', progress + '%');
+				}
+			}
+		});
+		if (data.ID != "no") {
+			resourceList();
+		}
+	});
+	function uploadSuccess(e, serverData) {
+		if (ltIE9()) {
+			$('#progress_IE8').hide();
+		} else {
+			$('#progress').hide();
+		}
+		var material_code = $(this).attr("id");
+		var material_name = $("#apply tr[code='" + material_code + "']").attr("name");
+		for ( var i = 0; i < serverData.result.length; i++) {
+			var data = serverData.result[i];
+			if (data.scc.code != "0000") {
+				docids = [];
+				LEx.alert("上传失败,请重新上传！");
+				return;
+			}
+			$("#list_" + material_code).append("<div id=\"file_"+data.scc.docid+"\">"
+				+ formatLen(data.name, 0, 20)
+				+ "&nbsp;&nbsp;<a class='btn btn-success btn-sm' href=\"#\" onclick=\"onDownload(this);\">下载</a> | <a class='btn btn-danger btn-sm' href=\"#\" onclick=\"onDel(this);\">删除</a>"
+				+ "<br/><br/></div>");
+			$("#file_" + data.scc.docid).attr("title", data.name);
+			$("#file_" + data.scc.docid).attr("url", data.url);
+			var index = must_materials.indexOf(material_code);
+			if (index != -1) {
+				must_materials.splice(index, 1);
+			}
+			var wp_apply = {};
+			wp_apply.document_name = material_name;
+			wp_apply.filePath = data.scc.docid;
+			wp_apply.fileName = $("#file_" + data.scc.docid).attr("title");
+			wp_apply.fileType = "1";
+			wp_apply.document_id = material_code;
+			wp_apply.resourceType = "Apply";
+			wp_apply.resourceCode = material_code;
+			wp_apply.resourceName = $("#name_" + material_code).attr("title");
+			wp_apply.url = data.url;
+			wp_apply.operator_id = LEx.userInfo.userId;
+			wp_apply.operator_name = LEx.userInfo.userName;
+			wp_apply.itemId = document.getElementById("itemid_" + material_code).innerHTML;
+			wp_apply.itemName = document.getElementById("itemname_"+ material_code).innerHTML;
+			docids.push(wp_apply);
+			var bool = setBusinessAttach(data, LEx.userInfo.uid);
+			if (bool) {
+				LEx.alert("上传成功！");
+			} else {
+				LEx.alert("上传成功！写入数据库失败！");
+			}
+		}
+	}
+	function setBusinessAttach(obj, uid) {
+		var cmd = new LEx.Command("app.icity.project.WdwpCmd");
+		cmd.setParameter("obj", obj);
+		cmd.setParameter("TYPE", "0");
+		cmd.setParameter("STATE", "0");
+		cmd.setParameter("UID", uid + "");
+		var ret = cmd.execute("setBusinessAttach");
+		if (ret.state=="1") {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	function onQueryList(flowid) {
+		var cmd = new LEx.Command("app.icity.engineering.EngineeringCmd");
+		cmd.setParameter("flowId", flowid);
+		var ret = cmd.execute("getReport");
+		if (ret.state == "1") {
+			if (ret.data.retCode == "200") {
+				$('#MattersList').html(LEx.processDOMTemplate('MattersListTemplate', ret));
+			}
+		} else {
+			LEx.alert(ret.error);
+		}
+	}
+	//从数据库获取上传材料信息。
+	function resourceList() {
+		var cmd = new LEx.Command("app.icity.engineering.EngineeringCmd");
+		cmd.setParameter("BIZ_ID@=", data.ID);
+		var ret = cmd.execute("getResourceList");
+		if (!cmd.error) {
+			if (ret.state == "1") {
+				var APPLY_DATA = ret.data[0].APPLY_DATA;
+				if(APPLY_DATA=="")
+					return;
+				for ( var i = 0; i < APPLY_DATA.length; i++) {
+					var doc = {};
+					doc.resourceCode = APPLY_DATA[i].resourceCode;
+					doc.resourceType = APPLY_DATA[i].resourceType;
+					doc.resourceName = APPLY_DATA[i].resourceName;
+					doc.itemId = APPLY_DATA[i].itemId;
+					doc.itemName = APPLY_DATA[i].itemName;
+					doc.filePath = APPLY_DATA[i].filePath;
+					doc.fileType = APPLY_DATA[i].fileType;
+					doc.fileName = APPLY_DATA[i].fileName;
+					doc.url = APPLY_DATA[i].url;
+					docids.push(doc);
+					$("#list_" + APPLY_DATA[i].resourceCode).append("<div id=\"file_"+APPLY_DATA[i].filePath+"\">"
+						+ formatLen(APPLY_DATA[i].fileName, 0,20)
+						+ "&nbsp;&nbsp;<a class='btn btn-success' href=\"#\" onclick=\"onDownload(this);\">下载</a> | <a class='btn btn-danger' href=\"#\" onclick=\"onDel(this);\">删除</a>"
+						+ "<br/><br/></div>");
+					$("#file_" + APPLY_DATA[i].filePath).attr("title",APPLY_DATA[i].fileName);
+					$("#file_" + APPLY_DATA[i].filePath).attr("url",APPLY_DATA[i].url);
+					$("#type_" + APPLY_DATA[i].resourceCode).html(APPLY_DATA[i].resourceCode);
+					$("#itemid_" + APPLY_DATA[i].resourceCode).html(APPLY_DATA[i].itemId);
+				}
+			} else {
+				errorDialog("验证", "验证未通过" + ret.message);
+				return;
+			}
+		} else {
+			errorDialog("验证", "验证未通过");
+			return;
+		}
+	}
+	//删除
+	function onDel(obj) {
+		var filePath = $(obj).parent().attr("id").replace("file_", "");
+		for ( var i = 0; i < docids.length; i++) {
+			if (docids[i].filePath == filePath) {
+				docids.splice(i, 1);
+				break;
+			}
+		}
+		var opera = "delete&path=" + $(obj).parent().attr("url");
+		$.ajax({
+			type : "get",
+			url : LEx.webPath + "bsp/uploadify?action=" + opera,
+			success : function(data) {
+			},
+			error : function() {
+			}
+		});
+		$(obj).parent().remove();
+	}
+
+	//下载
+	function onDownload(obj) {
+		var title = $(obj).parent().attr("url");
+		var title = obj;
+		if (title == "") {
+			LEx.alert("请先上传附件！");
+		} else {
+			var opera = "downloadagent4wp&path=" + $(obj).parent().attr("url")+"&name="+$(obj).parent().attr("title");
+			window.open(LEx.webPath + "bsp/uploadify?action=" + opera);
+		}
+		return false;
+	}
+
+	function ltIE9() {
+		if (LEx.isIE && $.browser.version < 9) {
+			return true;
+		}
+		return false;
+	}
+	var command = null;
+	/*暂存和提交共用代码块*/
+	function saveBefore() {
+		command = new LEx.Command("app.icity.engineering.EngineeringCmd");
+		command.setParameter("investType", data.investType);//1：企业投资建设工程申请 2：政府投资建设工程申请
+		command.setParameter("projectId", data.projectId);//项目Id
+		command.setParameter("projectName", data.projectName);//项目Id
+		command.setParameter("stageId", data.stageId);//阶段
+		command.setParameter("stageName", data.stageName);//阶段名称
+		command.setParameter("dataId", data.dataId);
+		command.setParameter("flowId", data.flowId);
+		command.setParameter("flowName", data.flowName);
+		command.setParameter("formId", data.formId);
+		command.setParameter("APPLY_SUBJECT", "关于" +data.projectName+ data.flowName + "的申请");
+		command.setParameter("resource", docids);
+		command.setParameter("ID", data.ID);
+	}
+	function saveData() {
+		saveBefore();
+		var ret = command.execute("submitReportDetails");
+		if (ret.state == '1') {
+			LEx.alert("提交成功！");
+			window.location.href = "{{cp}}uinfo?folder=active&tag=parallel_biz_base_list";
+		} else {
+			errorDialog("验证", "提交失败");
+			return;
+		}
+	}
+	function saveDraft() {
+		saveBefore();
+		command.setParameter("STEP", "2");
+		var ret = command.execute("saveDraftReportDetails");
+		if (ret.state == '1') {
+			LEx.alert("暂存成功！");
+			data.ID = ret.data;
+		} else {
+			errorDialog("验证", "提交失败");
+			return;
+		}
+	}
+	//上一步(带着dataId返回上一步，读取表单数据并展示出来)
+	function pre() {
+		window.open("{{PageContext.ContextPath}}icity/engineering/formview?"+ LEx.urlEncode(data), "_self");
+	}
+</script>
+<textarea type="text/template" id="MattersListTemplate"
+	style="display: none">
+{for o in data.item}
+	{if o.itemId!=""}
+	<li><a class="btn" role="button" data-toggle="collapse"
+		href="#${o.itemId}"> 《${o.itemName}》 </a>
+		<div class="collapse" id="${o.itemId}">
+			<div class="well lc-well">
+				<table class="table table-hover">
+					<tbody>
+						{for p in o.materialArray}
+						<tr>
+							<td id="itemid_${p.resourceCode}"
+								style="width: 10%; display: none;">${o.itemId}</td>
+							<td id="itemname_${p.resourceCode}"
+								style="width: 10%; display: none;">${o.itemName}</td>
+ 							<td id="code_${p.resourceCode}"
+								style="width: 10%; display: none;">${p.resourceCode}</td>
+                    		<td id="name_${p.resourceCode}"
+								style="width: 30%;" title="${p.resourceName}">【${p_index*10/10+1}】${formatLen(p.resourceName,0,20)}</td>    
+ 							<td id="type_${p.resourceCode}"
+								style="width: 10%; display: none;">${p.resourceType}</td>              
+                    		<td style="width: 30%;"><div
+									id="list_${p.resourceCode}"></div>
+							</td>
+                    		<td style="width: 10%;">
+                    			<span
+								class="btn btn-sm btn-warning fileinput-button"
+								style="margin-left: 5px;"> 
+									<i class="icon-upload">选择附件</i> <input id="${p.resourceCode}"
+									class="fileupload" tag="0" type="file" name="files[]" multiple />
+								</span>
+							</td>							
+						</tr>
+						{/for}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</li>
+	{/if}
+{/for}
+</textarea>

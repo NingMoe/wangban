@@ -1,0 +1,424 @@
+@CHARSET "UTF-8";
+/*************************** hall公用样式*********************************************/
+.mar-top5 {
+	margin-top: 5px;
+}
+
+.h75 {
+	height: 75px;
+}
+
+.w70 {
+	width: 70px;
+}
+
+.pad5 {
+	padding: 5px;
+}
+
+.mh40 {
+	min-height: 40px;
+}
+
+.bgFAFAFA {
+	background-color: #FAFAFA;
+}
+
+.ipad-icon .app {
+    display: inline;
+    float: left;
+    height: 115px;
+    margin: 15px 18px 20px;
+    position: relative;
+    text-align: center;
+    width: 100px;
+    z-index: 3;
+    font-size:13px;
+    background:##fffeee;
+    border:1px solid #fdfdfd;
+}
+
+.tar{
+	text-align: right;
+}
+
+hr {
+	border-color: #CCCCCC;
+	border-style: solid;
+	border-width: 1px 0 0;
+	opacity: 0.5;
+}
+
+.tar {
+	height: 26px;
+	line-height: 26px;
+	font-size: 14px;
+	text-indent: 10px;
+	background: #089;
+	padding-right:20px;
+	font-weight: normal;
+	background: -moz-linear-gradient(center top, #E3E7EA, #FFFFFF);
+	background: -webkit-gradient(linear, left top, left bottom, from(#E3E7EA),
+		to(#FFFFFF) );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E3E7EA',
+		endColorstr='#FFFFFF' );
+}
+
+.tar a{
+	color:#000000; 
+	cursor: pointer;;
+}
+
+
+/*************************** index.html样式*********************************************/
+/* 按图标展现图标排列样式 */
+.hall_ct .hall-item-icons {
+	float: left;
+	margin: 4px;
+	text-align: center;
+	width: 90px;
+}
+/* 按列表展现图标排列样式 */
+.hall_ct .hall-item-lists {
+	float: left;
+	margin: 4px;
+	text-align: center;
+	width: 130px;
+}
+/* 按列表展现面板样式 */
+.hall_ct .Tab_lists {
+	padding-left: 30px;
+	min-height: 300px;
+}
+/* 部门名称字体样式 */
+.hall_ct .hall-name {
+	height: 36px;
+	margin-top: 4px;
+}
+/* 按列表展现字体样式 */
+.hall_ct .hall-name-lists {
+	display: inline-block;
+	height: 24px;
+	line-height: 24px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100px;
+}
+/* 按列表展现部门图片样式 */
+.hall_ct .hall-pic-lists {
+	border: 2px solid #FFFFFF;
+	height: 20px;
+	width: 20px;
+}
+/* 展现转换按钮所在div样式 */
+.top {
+	text-align: right;
+	margin-bottom: 20px;
+	margin-right: 25px;
+}
+
+.halls-list a {
+	text-decoration: none;
+	color: #000000;
+}
+/* /index.html样式 */
+
+
+
+/* dept.html样式*/
+/* 头像区域样式 */
+.headpic {
+	margin-top: 5px;
+	text-align: center;
+}
+/* 头像图片样式 */
+.headpic img {
+	display: inline-block;
+	height: 170px;
+	width: 170px;
+}
+/* 设置单位名称字体效果 */
+.title_big {
+	font: 20px "Microsoft Yahei";
+	padding: 5px;
+}
+/* 认证图片样式 */
+.approved {
+	background: url("../../../images/hall/icon_verified.png") no-repeat
+		scroll -16px 0 transparent;
+	display: inline-block;
+	height: 16px;
+	margin-left: 10px;
+	width: 16px;
+}
+/*菜单栏文字样式 */
+.content_title h3 {
+	font-family: "Arial";
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 20px;
+	padding: 0 10px 5px;
+}
+/*公告栏a标签样式 */
+.mailbox,.politics-online {
+	color: #666666;
+	display: block;
+	outline: medium none;
+	text-align: center;
+	width: 80px;
+}
+
+
+.mailbox span,.politics-online span {
+	display: inline-block;
+	font-size: 13px;
+	height: 20px;
+	line-height: 20px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+}
+
+.mailbox img,.politics-online img {
+	display: inline-block;
+	height: 70px;
+	width: 70px;
+}
+
+.intruduce {
+	height:207px;
+}
+
+
+.cont_words {
+	font-size: 13px;
+	line-height: 1.7;
+	word-break: break-all;
+	word-wrap: break-word;
+	margin: 10px 20px 30px 20px;
+}
+
+.contact li {
+	margin: 5px 5px 5px 10px;
+	word-wrap: break-word; 
+	word-break: break-all;
+}
+
+.content li {
+	width: 140px;
+}
+
+.map_bot{
+	margin:10px 0 0 60px;
+	position: absolute;
+}
+
+.map_top{
+	margin:0 0 20px 75px;
+	position: relative;
+}
+
+.tabs-content
+{
+	padding: 10px 0px; 
+}
+
+/*************************** /dept.html样式*********************************************/
+
+
+/*************************** deptweibo.html样式 ****************************************/
+.iweibo {
+	height: 680px;
+	border: 1px solid #DBDBDB;
+	margin-left: 0px;
+	width: -2px;
+	background-color: #FFFFFF;
+}
+
+.iweibo h2 {
+	height: 19px;
+	line-height: 100%;
+	line-height: 19px\9;
+	text-align: center;
+	background: -moz-linear-gradient(center top, #BFEBFB, #9CDEF4);
+	background: -webkit-gradient(linear, left top, left bottom, from(#BFEBFB),
+		to(#9CDEF4) );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#BFEBFB',
+		endColorstr='#9CDEF4' );
+	border: 1px solid #DBDBDB;
+	border-width: 1px 0;
+	font-size: 24px;
+	text-shadow: 1px 1px 1px #5FC7EA;
+	overflow: hidden;
+}
+
+.iweibo h2 a {
+	display: block;
+	line-height: 100%;
+	color: #fff;
+}
+
+.iweibo h2 a:hover {
+	text-decoration: none;
+}
+
+.iweibo h3 a{
+	color:#000000; 
+	cursor: pointer;;
+}
+
+.iweibo .tcontainer {
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+.iweibo .tcontainer {
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+.iweibo .tcontainer ul {
+	margin: 10px;
+}
+
+.iweibo .tcontainer li {
+	border-bottom: 1px solid #DBDBDB;
+	padding: 10px 8px;
+	line-height: 20px;
+	word-wrap: break-word;
+}
+
+.iweibo .tcontainer li .source {
+	border: 1px solid #DBDBDB;
+	padding: 3px 8px;
+	margin: 6px 0 0;
+}
+
+.iweibo .tcontainer li p {
+	color: gray;
+	margin-bottom: 5px;
+}
+
+.iweibo .tcontainer li img {
+	margin: 8px 0;
+}
+
+.iweibo .tcontainer a {
+	color: #000000;
+}
+
+.iweibo .tcontainer a:hover {
+	text-decoration: none;
+	color: #0082CB;
+}
+
+.iweibo .tcontainer a.user {
+	font-weight: bold;
+}
+
+.iweibo .getmore {
+	height: 19px;
+	line-height: 18px;
+	text-align: center;
+	display: block;
+	border-top: 1px solid #DBDBDB;
+	background: -moz-linear-gradient(center top, #e1e1e1, #ffffff);
+	background: -webkit-gradient(linear, left top, left bottom, from(#e1e1e1),
+		to(#fff) );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e1e1e1',
+		endColorstr='#ffffff' );
+	color: gray;
+}
+
+.iweibo_more .tcontainer {
+	height: 650px;
+}
+/**************************** /deptweibo.html样式 *************************************************/
+
+
+
+/*************************** projectitemlist.html样式 *********************************************/
+.projlist {
+	float: left;
+	width: 100%;
+	margin-bottom: 10px
+}
+
+.tab_item_show {
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+}
+
+.tab_item_show tr {
+	border: 1px solid #CCCCCC;
+}
+
+.tab_item_show tr.title th {
+	background-color: #EDEDED;
+	border: 1px solid #CCCCCC;
+	color: #000000;
+	font-size: 13px;
+	height: 30px;
+}
+
+.tab_item_show tr td {
+	border: 0 none;
+	overflow: hidden;
+	padding: 7px 0;
+}
+
+.tab_item_show tr td.c1 span {
+	width: 520px;
+	display: block;
+	float: left;
+	margin: 3px 0 3px 0;
+}
+
+.pltr {
+	min-height: 48px;
+	background: none repeat scroll 0 0 #FFFFFF;
+}
+
+.suport {
+	background: url("../images/img/right.png") no-repeat left center;
+	text-indent: 13px;
+	text-align: left;
+}
+
+.notsuport {
+	background: url("../images/img/error.png") no-repeat left center;
+	text-indent: 13px;
+	text-align: left;
+}
+/**************************** /projectitemlist.html样式********************************************/
+
+/****************************  consultlist.html样式 ********************************************/
+.nav-main {
+	border-style: inset;
+	border: 0.5px solid #CCCCCC;
+	height: 720px;
+}
+
+.nav-item {
+	margin: 10px 0 10px 0;
+}
+
+.nav-head {
+	width: 100px;
+	text-align: center;
+}
+
+.nav-body-left {
+	width: 12px;
+	padding: 20px 0px 0px 11px;
+}
+
+.nav-body {
+	border: 1px solid #BCBCBC;
+	width: 640px;
+	margin: 10px 0 0 120px;
+}
+/**************************** /consultlist.html样式********************************************/

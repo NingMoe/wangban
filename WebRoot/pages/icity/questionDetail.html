@@ -1,0 +1,66 @@
+<div class="container" style="width: 1030px !important;"> 
+    <section class="panel" style="padding: 0 100px;">
+
+        <h1 style="border-bottom: 2px solid #29588c; padding: 20px 5px; font-size: 26px;" >
+        <span style="display:inline-block; padding: 10px; background-color: #29588c; color: #fff; font-size: 18px; border-radius: 3px; margin-right: 10px;">
+               问</span><span id="wen"></span></h1>
+        
+        <p class="text-muted text-center" >
+        <span id="riqi">发布日期：<span id="createtime"></span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>信息来源：<span id="source"></span></span></p>
+        <br>
+        <br>
+        <h5>
+        <span style="display:inline-block; padding: 10px; background-color: #29588c; color: #fff; font-size: 18px; border-radius: 3px; margin-right: 10px;" >
+              答</span><span id="da"></span></h5>
+        <br>
+        <div class="text-right">
+            <a href="javascript:window.print()">【打印此页】</a>
+            <a href="javascript:window.opener=null;window.open('','_self');window.close();">【关闭窗口】</a>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </section>
+</div>
+<script> 
+$(function(){
+	onQueryDetail(LEx.urldata.id);
+});
+function onQueryDetail(id){
+	var ct;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+	cmd.setParameter("id", id);
+	var ret =  cmd.execute("getContentDetail");
+	if(!ret.error){
+		$("#wen").html(ret.data.NAME);
+		ct = timeStamp2String(ret.data.CTIME.time);
+		if(ct=="NaN-NaN-NaN"){
+			$("#riqi").hide();
+		}else{
+			$("#createtime").html(ct);
+		}
+		//$("#createtime").html(ret.data.CTIME);
+		$("#source").html(ret.data.SOURCE);
+		$("#da").html(ret.data.CONTENT);
+	}
+};
+//时间格式转换
+function timeStamp2String(time){
+    var datetime = new Date();
+    datetime.setTime(time);
+    var year = datetime.getFullYear();
+    var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+    var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+    var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();
+    var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+    var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+    //return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
+    return year + "-" + month + "-" + date;
+}
+
+</script>

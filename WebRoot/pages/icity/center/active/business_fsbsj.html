@@ -1,0 +1,64 @@
+<style type="text/css">
+.listTable td{cursor: default;}
+</style>
+
+<table class="table table-bordered">
+	<tr class="sec_tr">
+		<td><span><font size="2">非上班时间预约</font></span></td>
+	</tr>
+	<tr>
+		<td>				
+			<ul class="list-inline">
+				<li class="col-xs-7">预约时间:&nbsp;&nbsp; 
+					<input type="text" class="date" style="width: 100px;" id="ctime_s" name="CTIME_S" /> 
+					<img src="{%public assets/img/date.jpg%}" style="margin-left: -20px;" id="date1"> &nbsp;&nbsp;至&nbsp;&nbsp; 
+					<input type="text" class="date" style="width: 100px;" id="ctime_e" name="CTIME_E" /> 
+					<img src="{%public assets/img/date2.jpg%}" style="margin-left: -20px;" id="date2">
+				</li>
+				<li>
+					<input type="submit" id="submit" class="nbtn_orange" value="查询"> <input type="button" id="delete" class="nbtn_blue" value="删除">
+				</li>
+			</ul>
+			</td>
+	</tr>
+</table>
+
+<div class="center">	
+	<div class="center-center-head" style="margin-top:10px;border: none;width: 100%;">
+		<div class="sec_tr" style="border: 1px solid #dddddd;height: 30px;">
+			<span style="margin-left: 8px;line-height: 30px;"><font size="2">非上班时间预约列表</font></span>
+		</div>
+		 
+		<div class="center-center-head-table">
+			<table id="ba_list" class="table table-bordered">
+				<thead>
+					<tr style="background: url(../images/pages.png) 50% 100% repeat-x #FFF;">
+						<th align="center" width="37px"><input id="checkall" type="checkbox" onclick="selectAll()"></th>
+						<th width="50%">预约部门</th>
+						<th width="25%" >预约时间</th>
+						<th width="25%">处理时间</th>
+					</tr>
+				</thead>
+				<tbody id="bodys">		
+				</tbody>
+			</table>
+			<div id="divList"  ></div>
+		</div>
+	</div>
+</div>
+	
+<textarea id="template" style="display:none">
+{for o in data}
+	<tr>
+		<td align="center"><input type="checkbox" id="${o.ID}" onclick="select(${o.ID})"></td>
+		<td title="${o.TITLE}"><a href="javascript:void(0);" onclick="detail('${o.ID}')">${o.YYDEPTNAME}</a></td>
+		<td>${o.YYDAY} ${o.YYTIME}</td>
+		<td>${formatDate(o.REDAY)}</td>
+	</tr>
+{/for}
+{if total == 0} 
+	<tr>
+		<td colspan="6" style="text-align: center;color: red;">无数据</td>
+	</tr>
+{/if}
+</textarea>

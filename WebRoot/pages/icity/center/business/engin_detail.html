@@ -1,0 +1,243 @@
+<script>var id = LEx.urldata.id;  
+var name = LEx.urldata.name; 
+var APPLY_TIME = LEx.urldata.APPLY_TIME; 
+var BIZ_STATE = LEx.urldata.BIZ_STATE; 
+//动态获取id
+</script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<link rel="stylesheet" type="text/css" href="{% public assets/css/custom.css %}" />
+  <body >
+    <div class="jmain">
+        <div class="container" style="background:white;width: 880px;">
+            <div class="row" style="margin-top: 15px;margin-bottom: 20px;">
+                <div class="col-xs-12">
+                    <!-- <section class="panel panel-default no-bordered no-shadow" style="border-top: 3px solid #00a8ec !important;">
+                        <header class="panel-heading clearfix" style="">
+      
+                            <h3 class="panel-title pull-left" style="margin-top:5px;"><strong><script>document.write(name);</script></strong></h3>
+                            <div class="pull-right">
+                                 <div class="btn-toolbar mt10">
+                                    <button type="button" class="btn btn-xs btn-info">申请时间:<script>document.write(APPLY_TIME);</script></button>
+                               <button type="button" class="btn btn-xs btn-info"><font class="NeedFormatStateTypea" state=""></font></button>
+                                    <button type="button" class="btn btn-xs btn-info"></button>
+                                </div>
+                            </div>
+                        </header>
+                    </section> -->
+                </div>
+                <div class="col-xs-12">
+                    <section class="panel">
+                        <ul class="list-group">                                                    
+{% set bizId code %} 
+{% map "bizId",bizId as p %} {% command "app.icity.ServiceCmd","getEnginProcess",p as d %}
+{% for m in d.data.course %}
+                                   <li class="list-group-item">
+                              	<h4 class="pull-left"  href="#collapseExample00">【{{loop.index|add:1}}】{{m.flowNodeName}}</h4>
+                                <div class="clearfix pull-right">
+                                    <button type="button" class="btn btn-xs btn-info">接收时间：{{m.receiveTime}}</button>
+                                   <button type="button" class="btn btn-xs btn-info">办结时间：{{m.finishTime}}</font></button>
+                                    <button type="button" class="btn btn-xs btn-info"><font class="NeedFormatStateType" state="{{m.state}}"></font></button>
+                                    </div> 
+                                <div style="" aria-expanded="true" class="collapse in" id="collapseExample00">
+                                    <table class="z-menu table table-hover">
+                                        <tbody>
+
+{% set bizId PageContext.Parameter.id %} 
+{% set itemId m.itemId %} 
+{% map "bizId",bizId,"itemId",itemId, as r %} {% command "app.icity.ServiceCmd","getHandleOpinion",r as s %}
+{% for t in s.data.opinion %}
+                                                     <tr>
+                                                <td>{{t.user}}</td>
+                                                <td>{{t.approvalTime}}</td>
+                                                <td>{{t.result}}</td>
+                                                <td>{{t.detail}}</td>
+                                                </tr>
+                  {% endfor %}                
+                                    </table>
+                                </div>
+                            </li>
+                  {% endfor %}                
+                        </ul>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script> 
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.1/js/bootstrap.min.js"></script> 
+  </body>
+  <script type="text/javascript">
+	function BusyDetailInit() {
+		$(".NeedFormatState").each(function() {
+			var status = $(this).attr("state");
+		//	var bState = LEx.icityBusiness.formatStatus(status);
+		var bState ="";
+			if(status=="00"){
+				bState ="暂存";
+			}else if(status=="01"){
+				bState ="提交";
+			}else if(status=="02"){
+				bState ="预审通过";
+			}
+            else if(status=="99"){
+            	bState ="办结";
+			}
+			$(this).html(bState);
+		});
+		
+		$(".NeedFormatStateType").each(function() {
+			var status = $(this).attr("state");
+		//	var bState = LEx.icityBusiness.formatStatus(status);
+		var bState ="null";
+			if(status=="-1"){
+				bState ="不流转";
+			}else if(status=="0"){
+				bState ="未办理";
+			}
+            else if(status=="1"){
+            	bState ="已办结";
+			} else if(status=="2"){
+            	bState ="在办";
+			}
+			$(this).html(bState);
+		});
+		
+$(".NeedFormatStateTypea").each(function() {
+			var status = BIZ_STATE;
+		//	var bState = LEx.icityBusiness.formatStatus(status);
+		var bState ="null";
+			if(status=="receive"){
+				bState ="收件";
+			}else if(status=="accept"){
+				bState ="预审通过";
+			}
+            else if(status=="back"){
+            	bState ="退件";
+			} else if(status=="correction"){
+            	bState ="补齐补正";
+			}
+			else if(status=="finish"){
+            	bState ="办结";
+			}
+			$(this).html(bState);
+		});
+		$(".NeedFormatTimeDetail,.NeedFormatTime").each(function() {
+			var shtml = $(this).html()+"";
+			if(LEx.isNotNull(shtml)){
+				var stime = eval('(' + shtml + ')');
+				var rtime = formatTime(stime);
+				$(this).html(rtime).show();
+			}else{
+				$(this).html("—").show();
+			}
+		});
+		$(".NeedFormatTimeType").each(function() {
+			var shtml = $(this).html()+"";
+			if(LEx.isNotNull(shtml)){
+				var stime = eval('(' + shtml + ')');
+				var t = (new Date(stime)).pattern("yyyy-MM-dd HH:mm");
+				$(this).html(t).show();
+			}else{
+				$(this).html("—").show();
+			}
+		});
+	/**	$(".NeedFormatStateType").each(function() {
+			var status = $(this).attr("state");
+			var bState = "正常";
+			switch(status){
+			case "01":
+				bState="正常";//启动流程开始计时
+				break;
+			case "02":  //最终态处于此状态的业务为办结业务
+				bState = "不予受理";
+				break;
+			case "11":
+				bState = "待预审 ";
+				break;
+			case "21":
+				bState = "补齐补正";
+				break;
+			case "23":
+				bState = "挂起";
+				break;
+			case "24":
+				bState = "收费挂起";
+				break;
+			case "26":
+				bState = "回退";
+				break;
+			case "96":
+				bState = "退件";
+				break;
+			case "97":
+				bState = "作废";
+				break;
+			case "98":
+				bState = "不予许可";
+				break;
+			case "99":
+				bState = "准予许可";
+				break;
+			}
+			$(this).html(bState);
+		});*/
+		
+		$(".NeedFormatType").each(function() {
+			var status = $(this).attr("type");
+			var bState = "设立";
+			switch(status){
+			case "Change":
+				bState="变更";//启动流程开始计时
+				break;
+			case "Deregister":  //最终态处于此状态的业务为办结业务
+				bState = "注销";
+				break;
+			case "Revoke":
+				bState = "吊销 ";
+				break;
+			}
+			$(this).html(bState);
+		});
+		
+		formatBJStatus();
+	}
+
+	function formatTime(obj) {
+		try {
+			return LEx.util.Format.formatDate(parseInt(obj.time) / 1000, "yyyy-MM-dd HH:mm");
+		} catch(e){
+			return "—"; 
+		}
+	}
+
+	function formatBJStatus() {
+		var status = $("#BJJGDM").html();
+		if (status == '0') {
+			$("#BJJGDM").html("出证办结");
+			return false;
+		} else if (status == '1') {
+			$("#BJJGDM").html("退回办结");
+			return false;
+		} else if (status == '2') {
+			$("#BJJGDM").html("废置办结");
+			return false;
+		} else if (status == '3') {
+			$("#BJJGDM").html("删除办结");
+			return false;
+		} else if (status == '4') {
+			$("#BJJGDM").html("转报办结");
+			return false;
+		} else if (status == '5') {
+			$("#BJJGDM").html("补正不来办结");
+			return false;
+		} else if (status == '6') {
+			$("#BJJGDM").html("办结");
+			return false;
+		}
+	}
+
+	//初始化业务详细信息
+	BusyDetailInit();
+</script>
+</html>

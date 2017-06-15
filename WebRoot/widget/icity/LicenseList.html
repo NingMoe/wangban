@@ -1,0 +1,137 @@
+<div style="" class="modal fade bs-modal-result-license" tabindex="-1"
+	role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" style="margin-top: 20px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title">
+					<strong>证照列表</strong>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div id="div_business_list" style="height:425px;overflow:auto;"></div>
+				<div id="epager" style="text-align: center;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+var bltable = null;
+var __material_code = "";
+var __material_name = "";
+$(function(){
+	checkLoginLicense();
+	//1.实例化分页table控件：table的id，模版的id
+	bltable = new LEx.Control.Table("div_business_list","template_business_list");
+	bltable.limit(1000);
+});
+function initOpenLicense(code, name){
+	__material_code = code;
+	__material_name = name;
+	m_initOpenLicense();
+}
+function m_initOpenLicense(){	
+	var start = bltable.start();
+	var limit=bltable.limit();
+	var cmd = new LEx.Command("app.icity.govservice.LicenseCmd");
+	cmd.setParameter("start",start);
+	cmd.setParameter("limit", limit);	
+	cmd.setParameter("ucid","{{UserInfo.uid}}");
+	var ret =  cmd.execute("getLicenceListByCertificateTypeAndCertificateNo");
+	debugger;
+	if(ret.state=="1"){
+		if(ret.total>0){
+			$(".bs-modal-result-license").modal('show');			
+			//2.将数据传递给table对象
+			bltable.toBody(ret);
+			//3.加载分页控件：分页div的id，Table的实例化对象名称（字符串）,总数量，查询方法（字符串）
+			bltable.toPageBar("epager","bltable",ret.total,"m_initOpenLicense()");
+			$("#div_business_list").html(LEx.processDOMTemplate("template_business_list",ret));
+		}else{
+			LEx.alert("证照列表为空！");
+		}
+	}else{		
+		LEx.alert(ret.error);
+	}
+}
+function checkLoginLicense() {
+	var uid = "{{UserInfo.uid}}";
+	var type = "{{UserInfo.type}}";
+	if (!LEx.isNotNull(uid)) {
+		window.location.href = LEx.webPath + "uc/login?goto="
+				+ encodeURIComponent(window.location.href);
+	}
+}
+function checkLicenseSuc(LicenseNo,LicenseName) {
+	$("#list_" + __material_code)
+			.append(
+					"<div id=\"file_"+LicenseNo+"\">"
+							+ formatLen(LicenseName, 0, 20)
+							+ "&nbsp;&nbsp; <a class='btn btn-danger btn-sm' href=\"#\" onclick=\"onDel(this);\">删除</a>"
+							+ "<br/><br/></div>");
+	$("#file_" + LicenseNo).attr("title", LicenseName);
+	$("#file_" + LicenseNo).attr("url", "");
+	$("#doc_" + __material_code).html(LicenseName);
+
+	var index = must_materials.indexOf(__material_code);
+	console.log(__material_code);
+	if (index != -1) {
+		must_materials.splice(index, 1);
+	}
+	var wp_apply = {};
+	wp_apply.DOCUMENT_NAME = __material_name;
+	wp_apply.FILE_PATH = LicenseNo;
+	wp_apply.FILE_NAME = LicenseName;
+	wp_apply.DOCUMENT_ID = __material_code;
+	wp_apply.URL = "";
+	wp_apply.TYPE = "3";
+	wp_apply.OPERATOR_ID = LEx.userInfo.userId;
+	wp_apply.OPERATOR_NAME = LEx.userInfo.userName;
+	docids.push(wp_apply);
+	LEx.alert("上传成功！");
+}
+function formateType(obj) {
+	if (obj == "1") {
+		return "本地维护";
+	} else if (obj == "3") {
+		return "证照系统";
+	} else {
+		return "证照系统";
+	}
+}
+</script>
+<textarea id="template_business_list" style="display: none">
+{if data.length > 0} 
+         <table class="table table-striped its-table-backlog">
+             <thead>
+                 <tr class="bg-info">         
+                     <th style="width: 15%;"
+					class="text-center text-primary">序号</th>                     
+                     <th style="width: 40%;"
+					class="text-center text-primary">证照名称</th>
+                     <th style="width: 20%;"
+					class="text-center text-primary">证照编码</th>                     
+                     <th style="width: 25%;"
+					class="text-center text-primary">操作</th>
+                 </tr>
+             </thead>
+             <tbody id="bodys">
+             {for d in data}
+                 <tr>
+                	<td style="text-align: center;">${d_index*10/10+1}</td>
+              		<td style="text-align: left;">${d.licenseName}</td>
+		   			<td style="text-align: center;">${d.licenseNo}</td>
+              		<td style="text-align: center;">
+              			<input id="xzwj" type="button"
+				class="btn btn-success"
+				onclick="checkLicenseSuc('${d.licenseNo}','${d.licenseName}');"
+				value="选择" />
+              		</td>
+                 </tr>
+             {/for}
+             </tbody>
+         </table> 
+{/if}
+</textarea>

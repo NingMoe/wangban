@@ -1,0 +1,60 @@
+{% set deptid PageContext.Parameter.org_code %} 
+{% set id PageContext.Parameter.id %} 
+{% map "deptid",deptid,"id",id,"page","1","limit","1" as d%} 
+{% command "app.icity.ServiceCmd","getDuty",d as p%} 
+{% set info p.data%}
+<div class="container" style="width: 1030px !important;"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png%}"> 您当前所在的位置:</li>
+        <li>部门主要职责</li>
+    </ol>
+</div>
+<div class="container" style="width: 1030px !important;"> 
+    <section class="panel" style="padding: 10px;">
+        <header class="panel-heading">
+            <button type="button" class="btn btn-info pull-right" onclick="javascript:window.opener=null;window.open('','_self');window.close();">关闭</button>
+            <h4 style="border-bottom: solid 1px #e5e5e5; margin:0; padding-bottom: 5px;">
+                <img src="{%public assets/img/zhcx_title_pic3.jpg%}">&nbsp;&nbsp;<strong>部门主要职责</strong>
+            </h4>
+        </header>
+        <div class="panel-body">
+            <h3 class="text-center"><strong>{% for o in info%}{{o.ORG_NAME}} {% endfor%}</strong></h3>
+            <br>
+            
+            <table class="table">
+                <tbody>
+                    <tr class="bg-info f16">
+                        <th class="text-primary">主要职责</th>
+                    </tr>
+                    <tr>
+                        <td>{% for o in info%} 
+									{% if o.DUTY_CONTENT%} 
+										{{o.DUTY_CONTENT}} 
+									{% else %} 
+										暂无数据！ 
+									{% endif %}
+							    {% endfor%}</td>
+                    </tr>
+                    <tr class="bg-info f16">
+                        <th class="text-primary">具体责任事项</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {% for o in info%} {% if
+									o.WORK_CONTENT%} {{o.WORK_CONTENT}} {% else %} 暂无数据！ {% endif
+									%} {% endfor%}
+                        </td>
+                    </tr>
+                    <!-- <tr class="bg-info f16">
+                        <th class="text-primary">追责依据及追责情形</th>
+                    </tr>
+                    <tr>
+                        <td>
+                           向有关市县党委、政府和省直部门（单位）转送、交办来信案件，并负责催办、检查、协调
+                        </td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

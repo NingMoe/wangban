@@ -1,0 +1,14 @@
+{% if itemInfo.SERVICE_OBJECT|equal:0%}
+{%set pagemode "person"%}
+{%else%}
+{% set pagemode "ent"%}
+{%endif%}
+{% map "limit","30","page","1","PAGEMODEL",pagemode,"CAT","dept","ID",itemInfo.ORG_CODE as d %}
+{% command "app.icity.govservice.GovProjectCmd","getPartList",d as p%}
+{% for o in p.data%}
+{% if itemInfo.ID|equal:o.ITEM_ID|not %}
+<li style="height:30px;">
+          <h5 class="list-group-item-heading"><a href="{{PageContext.ContextPath}}approve/guide?id={{o.ITEM_ID}}" target="_blank">{{o.NAME|truncate:15}}</a></h5>
+</li>
+{% endif %}
+{% endfor%}

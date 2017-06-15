@@ -1,0 +1,673 @@
+ <script>
+function doLogout() {
+	var logout_url=null;	 
+		logout_url = LEx.webPath+"iportal/logout";
+		window.location.href = logout_url;
+    return false;
+}
+</script> 
+<style>
+.zl-list-unstyled-ggfu-3 {
+
+}
+.zl-list-unstyled-ggfu-3 > li {
+  padding: 4px 10px 0 10px;
+  border-bottom: 1px dashed #ddd;
+}
+.zl-list-unstyled-ggfu-3 > li p,
+.zl-list-unstyled-ggfu-3 > li span,
+.zl-list-unstyled-ggfu-3 > li time,
+.zl-list-unstyled-ggfu-3 > li em {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 5px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.zl-list-unstyled-ggfu-3 > li p {
+  width: 35%;
+  margin: 0;
+}
+.zl-list-unstyled-ggfu-3 > li span {
+  width: 15%;
+}
+.zl-list-unstyled-ggfu-3 > li time {
+  width: 10%;
+}
+.zl-list-unstyled-ggfu-3 > li em {
+  width: 9%;
+  font-style: normal;
+}
+.panel-success{
+	margin:0 auto;
+}
+#zjfw1{
+	width:100%;
+	height:270px;
+}
+#zjxx1{
+	width:100%;
+	height:270px;
+}
+</style>
+    
+            <div class="container" style="background-color:#fff;border:1px;">
+                <div class="row shortcu">
+                    <div class="col-xs-8" style="width: 72%;">
+                        <section class="" style="height: 25px; overflow: hidden; margin-top:3px;">
+                            <iframe width="450" scrolling="no" height="25" frameborder="0" allowtransparency="true" src="http://i.tianqi.com/index.php?c=code&id=34&icon=1&num=3&py=zhoushan"></iframe>
+                            <div style="float: right;height: 25px;width: 200px;">
+                            {% if UserInfo %}
+                			欢迎您,{{UserInfo.userName}}
+                			<a href="#" onclick="doLogout()">退&nbsp;出</a>
+							{% endif %}</div>
+                            
+                        </section>
+                    </div>
+                    <div class="col-xs-4" style="width: 28%;">
+                        <div class="input-group input-group-sm">
+                            <input name="contentkey" id="contentkey"   class="form-control key" placeholder="请输入关键字查询" type="text">
+                            <span class="input-group-btn">
+                                <button class="btn btn-warning" type="button" onclick="searchX();"><i class="mdicon mdicon-search f16"></i> 搜索</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8 left" style="width: 72%;">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <section class="panel no-bordered">
+                                    <div id="carouselNews" class="carousel slide carousel-news" data-ride="carousel">
+                                        <ol class="carousel-indicators" id="p1">
+                                            <li data-target="#carouselNews" data-slide-to="0" class="active"></li>
+                                            <li data-target="#carouselNews" data-slide-to="1"></li>
+                                            <li data-target="#carouselNews" data-slide-to="2"></li>
+                                            <li data-target="#carouselNews" data-slide-to="3"></li>
+                                            <li data-target="#carouselNews" data-slide-to="4"></li>
+                                        </ol>
+
+                                        <div class="carousel-inner"   id="tpc">
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="col-xs-6">
+                                <section class="panel no-bordered">
+                                    <header class="panel-heading no-bordered background-blue-50 a-p-h-1">
+                                        <ul id="myTab"  class="nav nav-pills a-n-p-1">
+                                       <a class="pull-right f12"  href="javascript:void(0);" onclick="javascript:getMore('myTab');" style="padding-right:10px; padding-top:10px;">更多>></a>     
+                                            <li class="active" tid="动态要闻"><a href="#q-f-1" data-toggle="tab">动态要闻</a></li>
+                                            <li tid="改革创新"><a href="#q-f-2" data-toggle="tab">改革创新</a></li>
+                                            <li tid="专题专栏"><a href="#q-f-3" data-toggle="tab">专题专栏</a></li>
+                                        </ul>
+                                    </header>
+                                    <div class="tab-content panel-body alpha omega">
+                                        <div class="tab-pane fade in active" id="q-f-1" style="height: 204px;">
+                                            <ul class="list-group phi a-l-g-1" id="动态要闻">
+                                            </ul>
+                                        </div>
+                                        <div class="tab-pane fade" id="q-f-2" style="height: 204px;"><ul class="list-group phi a-l-g-1" id="改革创新"></ul></div>
+                                        <div class="tab-pane fade" id="q-f-3" style="height: 204px;"><ul class="list-group phi a-l-g-1" id="专题专栏"></ul></div>
+                                    </div>
+                                </section>
+                            </div>
+                             <div class="col-xs-12">
+                                <section class="panel no-bordered">
+                                    <a href="honorRoll"><img src="{{PageContext.ContextPath}}public/images/iportal/a-d-1.png" alt="#"></a>
+                                </section>
+                            </div>
+                            <div class="col-xs-6">
+                                <section class="panel no-bordered">
+                                    <header class="panel-heading no-bordered background-blue-50 a-p-h-1">
+                                        <ul class="nav nav-pills a-n-p-1" id="mytab1">
+                                         <a class="pull-right f12"  href="javascript:void(0);" onclick="javascript:getMore('mytab1');" style="padding-right:10px; padding-top:10px;">更多>></a>
+                                            <li tid="简报" class="active"><a href="#q-z-1" data-toggle="tab">简报</a></li>
+                                            <li tid="通报" ><a href="#q-z-2" data-toggle="tab">通报</a></li>
+                                            <li tid="会议纪要" ><a href="#q-z-4" data-toggle="tab">会议纪要</a></li>
+                                            <!-- <li tid=">调查研究" ><a href="#q-z-3" data-toggle="tab">调查研究</a></li> -->
+                                        </ul>
+                                    </header>
+                                    <div class="tab-content panel-body bordered-blue-200 a-p-b-1">
+                                        <div class="tab-pane fade in active" id="q-z-1" style="height: 175px;">
+                                            <ul class="list-group phi a-l-g-1" id="简报">
+                                            </ul>
+                                        </div>
+                                        <div class="tab-pane fade" id="q-z-2" style="height: 175px;"><ul class="list-group phi a-l-g-1" id="通报"></ul></div>
+                                        <div class="tab-pane fade" id="q-z-4" style="height: 175px;"><ul class="list-group phi a-l-g-1" id="会议纪要"></ul></div>
+                                        <!-- <div class="tab-pane fade" id="q-z-3" style="height: 175px;"><ul class="list-group phi a-l-g-1" id="调查研究"></ul></div> -->
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="col-xs-6">
+                                <section class="panel no-bordered">
+                                    <header class="panel-heading no-bordered background-blue-50 a-p-h-1">
+                                        <ul class="nav nav-pills a-n-p-1" id="mytab2">
+                                        <a class="pull-right f12"  href="javascript:void(0);" onclick="javascript:getMore('mytab2');" style="padding-right:10px; padding-top:10px;">更多>></a>
+                                            <li tid="工作交流"  class="active"><a href="#y-q-1" data-toggle="tab">工作交流</a></li>
+                                            <li tid="外地经验"><a href="#y-q-2" data-toggle="tab">外地经验</a></li>
+                                        </ul>
+                                    </header>
+                                    <div class="tab-content panel-body bordered-blue-200 a-p-b-1">
+                                        <div class="tab-pane fade in active" id="y-q-1" style="height: 175px;"><ul class="list-group phi a-l-g-1" id="工作交流"></ul></div>
+                                        <div class="tab-pane fade" id="y-q-2" style="height: 175px;"><ul class="list-group phi a-l-g-1" id="外地经验"></ul></div>
+                                    </div>
+                                </section>
+                            </div>
+                          <div class="col-xs-6">
+                                <section class="panel no-bordered">
+                                    <header class="panel-heading no-bordered background-blue-50 a-p-h-2">
+                                        <i class="panel-heading-ico"></i>
+                                        <a class="pull-right f12" href="base-2?CNAME=内设机构动态信息" style="padding-right:10px; padding-top:10px;">更多>></a>  
+                                        <ul class="nav nav-pills a-n-p-2">
+                                            <li tid="内设机构动态" class="active"><a href="#r-u-1" data-toggle="tab">内设机构动态</a></li>
+                                        </ul>
+                                    </header>
+                                    <div class="tab-content panel-body bordered-blue-200 a-p-b-2">
+                                        <div class="tab-pane fade active in" id="r-u-1">
+                                            <div class="row">
+                                                <div class="col-xs-12" style="height: 240px;">
+                                                    <ul class="list-group phi a-l-g-1" id="内设机构动态信息">
+                                                       
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="col-xs-6">
+                                <section class="panel no-bordered">
+                                    <header class="panel-heading no-bordered background-blue-50 a-p-h-1">
+                                        <ul class="nav nav-pills a-n-p-1" id="mytab7">
+                                        	<a class="pull-right f12"  href="javascript:void(0);" onclick="javascript:getMore('mytab7');" style="padding-right:10px; padding-top:10px;">更多>></a>
+                                            <li tid="调查研究" class="active"><a href="#y-q-1-1" data-toggle="tab">调查研究</a></li>
+                                            <li tid="数据分析"><a href="#y-q-2-1" data-toggle="tab">数据分析</a></li>
+                                        </ul>
+                                    </header>
+                                    <div class="tab-content panel-body bordered-blue-200 a-p-b-1">
+                                        <div class="tab-pane fade in active" id="y-q-1-1" style="height: 240px;">
+                                            <ul class="list-group phi a-l-g-1" id="调查研究">
+                                                
+                                            </ul>
+                                        </div>
+                                        <div class="tab-pane fade" id="y-q-2-1" style="height: 240px;">
+                                           <ul class="list-group phi a-l-g-1" id="数据分析">
+                                                
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div> 
+                    <!--        <div class="col-xs-12">
+                                <section class="panel no-bordered">
+                                    <header class="panel-heading no-bordered background-blue-50 a-p-h-2">
+                                        <i class="panel-heading-ico"></i>
+                                          <a class="pull-right f12" href="base-2?CNAME=业务处室动态信息" style="padding-right:10px; padding-top:10px;">更多>></a>  
+                                        <ul class="nav nav-pills a-n-p-2">
+                                            <li class="active"><a href="#r-u-1" data-toggle="tab">业务处室动态信息</a></li>
+                                        </ul>
+                                    </header>
+                                    <div class="tab-content panel-body bordered-blue-200 a-p-b-2">
+                                        <div class="tab-pane fade active in" id="r-u-1">
+                                            <div class="panel-body-divider"></div>
+                                            <div class="row">
+                                                <div class="col-xs-6"  style="height: 205px;">
+                                                    <ul class="list-group phi a-l-g-1" id="业务处室动态信息">
+                                                     
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <ul class="list-group phi a-l-g-1" id="业务处室动态信息2">
+                                                       
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div> -->
+                        </div>
+                    </div>
+                    
+                    <div class="col-xs-4 right" style="width: 28%;">
+                        <section class="panel no-bordered">
+                            <header class="panel-heading no-bordered background-blue-50 a-p-h-1">
+                                <ul id="mytab3" class="nav nav-pills a-n-p-1">
+                                 <a class="pull-right f12"  href="javascript:void(0);" onclick="javascript:getMore('mytab3');" style="padding-right:10px; padding-top:10px;">更多>></a>
+                                    <li tid="通知" class="active"><a href="#q-n-1" data-toggle="tab">通知</a></li>
+                                    <li tid="公告"><a href="#q-n-2" data-toggle="tab">公告</a></li>
+                                    <li tid="公示"><a href="#q-n-3" data-toggle="tab">公示</a></li>
+                                </ul>
+                            </header>
+                            <div class="tab-content panel-body alpha omega" style="height: 224px;">
+                                <div class="tab-pane fade in active" id="q-n-1">
+                                    <ul class="list-group phi a-l-g-1" id="通知">
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade" id="q-n-2" style="height: 214px;"><ul class="list-group phi a-l-g-1" id="公告"></ul></div>
+                                <div class="tab-pane fade" id="q-n-3" style="height: 214px;"><ul class="list-group phi a-l-g-1" id="公示"></ul></div>
+                            </div>
+                        </section>
+                        <section class="panel no-bordered">
+                            <a href="{{ConfigInfo.iportal}}" target="_blank"><img src="{{PageContext.ContextPath}}public/images/iportal/j-c.png" width="270" height="85" alt=""></a>
+                        </section>
+                        <section class="panel no-bordered btn-group a-b-g-1">
+                          <a type="button" class="btn btn-block btn-default" href="base-2?CNAME=文件阅览">
+                                <img class="pull-left" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-e-2.png">
+                                <span class="pull-left f18">文件阅览</span>
+                            </a>
+                            <a type="button" class="btn btn-block btn-default" href="{{ConfigInfo.supervision}}" target="_blank">
+                                <img class="pull-left" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-e-3.png">
+                                <span class="pull-left f18">电子监察</span>
+                            </a><a type="button" class="btn btn-block btn-default" href="http://zsoa.zhoushan.gov.cn/" target="_blank">
+                                <img class="pull-left" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-e-1.png">
+                                <span class="pull-left f18">OA系统</span>
+                            </a>
+                            <a type="button" class="btn btn-block btn-default" href="{{ConfigInfo.inside_email}}" target="_blank">
+                                <img class="pull-left" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-c-1.png">
+                                <span class="pull-left f18" >内部邮箱</span>
+                            </a>
+                        </section>
+                        
+                        <section class="panel no-bordered">
+                            <div class="panel-body bordered-blue-200">
+                                <h4 class="text-muted delta">通讯录查询</h4>
+                                <div class="input-group input-group-sm">
+                                    <input class="form-control" id="txlcxdept" placeholder="请输入单位名称" type="text" style=" margin-bottom:10px;">
+                                    <input class="form-control" id="txlcx" placeholder="请输入人员姓名" type="text">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="submit" onclick="queryProgress();" style=" margin-top:40px"><i class="mdicon mdicon-search f16"></i> 搜索</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <section class="panel no-bordered btn-group a-b-g-2">
+                            <a type="button" class="btn btn-block btn-default" href="onlineSurvey?type=0">
+                                <img class="pull-left" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-c-2.png">
+                                <span class="pull-left f18">民意评测</span>
+                                <img class="pull-right gamma chi" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-r.png">
+                            </a>
+                            <a type="button" class="btn btn-block btn-default" href="onlineSurvey?type=2">
+                                <img class="pull-left" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-c-3.png">
+                                <span class="pull-left f18">意见征集</span>
+                                <img class="pull-right gamma chi" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-r.png">
+                            </a>
+                            <a type="button" class="btn btn-block btn-default" href="base-2?CNAME=规章制度">
+                                <img class="pull-left" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-c-1.png">
+                                <span class="pull-left f18">规章制度</span>
+                                <img class="pull-right gamma chi" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-r.png">
+                            </a>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-xs-6" style="padding-left: 0px;">
+                                <section class="panel bordered-blue-200">
+                                    <header class="panel-heading no-bordered a-p-h-3">
+                                        <i class="panel-heading-ico">市</i>
+                                        <h3 class="panel-title f18 background-blue-50">
+                                            <strong>内中心工作动态</strong>
+                                        </h3>
+                                    </header>
+                                    <ul id="myTab4" class="nav nav-tabs a-n-t-1" id="sndt">
+                                    <a class="pull-right f12"  href="javascript:void(0);" onclick="javascript:getMore('myTab4');" style="padding-right:10px; padding-top:10px;">更多>></a>     
+                                        <li tid="县区" class="active"><a href="#e-g-1" data-toggle="tab">县区</a></li>
+                                        <li tid="功能区"><a href="#e-g-2" data-toggle="tab">功能区</a></li>
+                                        <li tid="乡镇"><a href="#e-g-3" data-toggle="tab">乡镇</a></li>
+                                        <li tid="社区"><a href="#e-g-4" data-toggle="tab">社区</a></li>
+                                        <li tid="网格化管理"><a href="{{ConfigInfo.grid_management}}"  target="_blank">网格化管理</a></li>
+                                    </ul>
+                                    <div class="tab-content panel-body">
+                                        <div class="tab-pane fade in active" id="e-g-1" style="height: 146px;">
+                                            <ul class="list-group phi a-l-g-1" id="县区">
+                                               
+                                            </ul>
+                                        </div>
+                                         <div class="tab-pane fade" id="e-g-2" style="height: 146px;">
+                                        <ul class="list-group phi a-l-g-1" id="功能区">
+                                            </ul></div>
+                                        <div class="tab-pane fade" id="e-g-3" style="height: 146px;">
+                                        <ul class="list-group phi a-l-g-1" id="乡镇">
+                                              
+                                            </ul></div>
+                                        <div class="tab-pane fade" id="e-g-4" style="height: 146px;">
+                                        <ul class="list-group phi a-l-g-1" id="社区">    
+                                            </ul></div>
+                                    </div>
+                                </section>
+                            </div>
+                                                <div class="col-xs-6" style="padding-right: 0px;">
+                            
+                            <section class="panel bordered-blue-200">
+                            <header class="panel-heading no-bordered a-p-h-3">
+                              <a class="pull-right f12"  href="base-2?CNAME=窗口动态"  style="padding-right:10px; padding-top:5px;">更多>></a>  
+                                <i class="panel-heading-ico">窗</i>
+                                <h3 class="panel-title f18 background-blue-50">
+                                    <strong>口动态</strong>
+                                </h3>
+                            </header>
+                            <div class="panel-body" style="height: 195px;">
+                                <ul class="list-group phi a-l-g-1" id="窗口动态">
+                                    
+                                </ul>
+                            </div>
+                        </section></div>
+                <div class="row" style="width:1000px;">
+                    <div class="col-xs-6">
+                        <section class="panel bordered-blue-200" style="width:490px">
+                            <header class="panel-heading no-bordered a-p-h-3">
+                                <i class="panel-heading-ico">行</i>
+                                <h3 class="panel-title f18 background-blue-50">
+                                    <strong>政审批服务数据统计</strong>
+                                </h3>
+                            </header>
+                             <div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist"  >
+   
+   <li role="presentation" class="active"><a href="#day" aria-controls="home" role="tab" data-toggle="tab">当日</a></li>
+    <li role="presentation"><a href="#month" aria-controls="month" role="tab" data-toggle="tab">当月</a></li>
+    <li role="presentation"><a href="#year" aria-controls="year" role="tab" data-toggle="tab">当年</a></li>
+     <li role="presentation"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">全部</a></li>
+  </ul>
+  <!-- Tab panes -->
+  <div class="tab-content" >
+    <div role="tabpanel" class="tab-pane active" id="day" style="width:485px">
+<div id="container1"  data-highcharts-chart="0" style="height:180px;width:365px"><div style="position: relative; overflow: hidden; width: 363px; height: 211px; text-align: left; line-height: normal; z-index: 0; left: 0.5px; top: 0.25px;" id="highcharts-0" class="highcharts-container">
+									<svg height="175" width="363" xmlns="http://www.w3.org/2000/svg" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" version="1.1">
+									<desc>Created with Highcharts 4.0.1</desc>
+									<defs>
+										<clipPath id="highcharts-1">
+											<rect height="166" width="308" y="0" x="0"></rect>
+										</clipPath>
+									</defs>
+									<rect class=" highcharts-background" fill="#FFFFFF" strokeWidth="0" height="211" width="363" y="0" x="0"></rect>
+									</svg>
+								</div></div>    </div>
+    
+    <div role="tabpanel" class="tab-pane" id="month" style="width:485px">
+<div id="container2"  data-highcharts-chart="0" style="height:180px;width:365px"><div style="position: relative; overflow: hidden; width: 363px; height: 211px; text-align: left; line-height: normal; z-index: 0; left: 0.5px; top: 0.25px;" id="highcharts-0" class="highcharts-container">
+									<svg height="175" width="363" xmlns="http://www.w3.org/2000/svg" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" version="1.1">
+									<desc>Created with Highcharts 4.0.1</desc>
+									<defs>
+										<clipPath id="highcharts-1">
+											<rect height="166" width="308" y="0" x="0"></rect>
+										</clipPath>
+									</defs>
+									<rect class=" highcharts-background" fill="#FFFFFF" strokeWidth="0" height="211" width="363" y="0" x="0"></rect>
+									</svg>
+								</div></div>    </div>
+    
+    <div role="tabpanel" class="tab-pane" id="year" style="width:485px">
+    <div id="container3"  data-highcharts-chart="0" style="height:180px;width:365px"><div style="position: relative; overflow: hidden; width: 363px; height: 211px; text-align: left; line-height: normal; z-index: 0; left: 0.5px; top: 0.25px;" id="highcharts-0" class="highcharts-container">
+									<svg height="175" width="363" xmlns="http://www.w3.org/2000/svg" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" version="1.1">
+									<desc>Created with Highcharts 4.0.1</desc>
+									<defs>
+										<clipPath id="highcharts-1">
+											<rect height="166" width="308" y="0" x="0"></rect>
+										</clipPath>
+									</defs>
+									<rect class=" highcharts-background" fill="#FFFFFF" strokeWidth="0" height="211" width="363" y="0" x="0"></rect>
+									</svg>
+								</div></div>
+    </div>
+    
+     <div role="tabpanel" class="tab-pane" id="all" style="width:485px">
+    <div id="container4"  data-highcharts-chart="0" style="height:180px;width:365px"><div style="position: relative; overflow: hidden; width: 363px; height: 211px; text-align: left; line-height: normal; z-index: 0; left: 0.5px; top: 0.25px;" id="highcharts-0" class="highcharts-container">
+									<svg height="175" width="363" xmlns="http://www.w3.org/2000/svg" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" version="1.1">
+									<desc>Created with Highcharts 4.0.1</desc>
+									<defs>
+										<clipPath id="highcharts-1">
+											<rect height="166" width="308" y="0" x="0"></rect>
+										</clipPath>
+									</defs>
+									<rect class=" highcharts-background" fill="#FFFFFF" strokeWidth="0" height="211" width="363" y="0" x="0"></rect>
+									</svg>
+								</div></div>
+    </div>
+    
+      </div>
+  </div>
+                        </section>
+                    </div>
+                    <div class="col-xs-6" style="padding-left: 20px;">
+               
+                                <section class="panel bordered-blue-200" style="width:490px;">
+                                    <header class="panel-heading no-bordered a-p-h-3">
+                                        <i class="panel-heading-ico">招</i>
+                                        <h3 class="panel-title f18 background-blue-50">
+                                            <strong>投标数据统计</strong>
+                                        </h3>
+                                    </header>
+                                    <div id = "bidding_zs" style="display:none;">
+                                    	<iframe id="biddingdata" src="http://www.zsztb.gov.cn/zsztbweb/Ztbinfo/jyqt.aspx" style="width:488px;height:220px;"></iframe>
+                                    </div>
+                                    <div id = "bidding">
+                                    <ul class="nav nav-tabs a-n-t-1">
+                                        <li class="active"><a href="#e-g-a-1" data-toggle="tab">交易总量统计</a></li>
+                                        <li><a href="#e-g-a-2" data-toggle="tab">交易月度统计</a></li>
+                                    </ul>
+                                    <div class="tab-content panel-body">
+                                        <div class="tab-pane fade in active" id="e-g-a-1">
+                                            <ul class="list-group phi a-l-g-1">
+                                                <li class="list-group-item">
+                                                    <time class="text-muted pull-right">07-12</time>
+                                                    <a href="#">围绕重点检查由面向点纵深开展</a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <time class="text-muted pull-right">07-12</time>
+                                                    <a href="#">我县一季度实现外贸进出口快速增长</a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <time class="text-muted pull-right">07-12</time>
+                                                    <a href="#">舟山市开展以生日宣传活动</a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <time class="text-muted pull-right">07-12</time>
+                                                    <a href="#">舟山市司法局培养专业社区矫正工作</a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <time class="text-muted pull-right">07-12</time>
+                                                    <a href="#">舟山市司法局培养专业社区矫正工作</a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <time class="text-muted pull-right">07-12</time>
+                                                    <a href="#">舟山市司法局培养专业社区矫正工作</a>
+                                                </li>
+                                                
+                                                
+                                            </ul>
+                                        </div>
+                                        <div class="tab-pane fade" id="e-g-a-2">222222</div>
+                                    </div>
+                                    </div>
+                                </section>
+                            
+                    </div>
+                    <div class="col-xs-12" style="width:1020px;">
+           				<section class="panel no-bordered">
+                           <header class="panel-heading no-bordered background-blue-50 a-p-h-1">
+                               <ul class="nav nav-pills a-n-p-1">
+                                   <li class="active"><a href="#g-g-1" data-toggle="tab">行政服务办件公示</a></li>
+                                   <li><a href="#g-g-2" data-toggle="tab">联审联办办件公示</a></li>
+                                   <li><a href="#g-g-3" data-toggle="tab">投资项目公示</a></li>
+                                   <li><a href="#g-g-4" data-toggle="tab" id="zjfw" >中介服务公示</a></li>
+                                   <li><a href="#g-g-5" data-toggle="tab" id="zjxx">中介信息公示</a></li>
+                               </ul>
+                           </header>
+                           <div class="tab-content panel-body bordered-blue-200 a-p-b-1">
+                               <div class="tab-pane fade in active" id="g-g-1">
+                               		{% widget "icity_zs.InnerList1" %} 
+                               </div>
+                               <div class="tab-pane fade" id="g-g-2">
+                               		{% widget "icity_zs.InnerList2" %}
+                               </div>
+                               <div class="tab-pane fade" id="g-g-3"> 
+                               		{% widget "icity_zs.InnerList3" %}
+                               </div>
+                               <div class="tab-pane fade panel panel-success" id="g-g-4">
+                               		<iframe id ="zjfw1" src="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0">
+									</iframe>
+                               </div>
+                               <div class="tab-pane fade panel panel-success" id="g-g-5">
+                               		<iframe id ="zjxx1" src="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0">
+									</iframe>
+                               </div>
+                           </div>
+                         </section>
+                     </div>            
+                </div>
+            </div>
+{% include iportal/addressbookquery.html %}
+<div id="lzgy" style="position:fixed;Z-INDEX: 100;left:1%;top:280px;background-image:url({{PageContext.ContextPath}}public/zs/iportal/assets/img/lzgy_1.jpg);width: 200px;min-height:200px;">
+	<header class="panel-heading">
+		<button type="button" class="close" onclick="hideLzgy()" style="margin-top: -5px;">
+			<span>&times;</span>
+		</button>
+		<h3 class="panel-title">廉政格言</h3>
+	</header>
+	<ul class="list-group" id="tzgg"></ul>
+</div>
+<script type="text/template" id="tips">
+	{for o in data}
+		<li class="list-group-item" style="border: 0px">${o.CONTENT}</li>
+	{/for}
+</script>
+<!-- 中介公示展示 -->
+<script>
+	$(function(){
+		$("#zjfw").click(function(){
+			$(this).show();
+			$("#zjfw1").attr("src","http://www.zszjfw.gov.cn/imng/icity/wb/wba");
+		});
+		$("#zjxx").click(function(){
+			$(this).show();
+			$("#zjxx1").attr("src","http://www.zszjfw.gov.cn/imng/icity/wb/wbb");
+		});
+	});
+	
+</script>
+       <!-- 以下为新闻列表模块 -->
+               <script type="text/template" id="MattersListTemplate1_ywcs">
+{for o in data}
+                    <li class="list-group-item alpha omega">
+                         <time class="text-muted pull-right">${o.CTIME.substring(5,10)}</time>
+                         <i class="mdicon mdicon-play-arrow f12"></i>
+				{if o.TYPE==3 }
+						<a href="${o.URL}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>[${formatLen(o.AGENT_NAME,0,4)}]${parseLength(o.NAME,15)}</a>
+				{else}
+						<a href="{{cp}}iportal/base-1?ID=${o.ID}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>[${formatLen(o.AGENT_NAME,0,4)}]${parseLength(o.NAME,15)}</a>
+				{/if}
+                    </li>
+{/for}
+</script>
+
+               <script type="text/template" id="MattersListTemplate1_ckdt">
+{for o in data}
+                    <li class="list-group-item alpha omega">
+                         <time class="text-muted pull-right">${o.CTIME.substring(5,10)}</time>
+                         <i class="mdicon mdicon-play-arrow f12"></i>
+				{if o.TYPE==3 }
+						<a href="${o.URL}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>[${formatLen(o.DEPT_NAME,0,4)}]${parseLength(o.NAME,22)}</a>
+				{else}
+						<a href="{{cp}}iportal/base-1?ID=${o.ID}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>[${formatLen(o.DEPT_NAME,0,4)}]${parseLength(o.NAME,22)}</a>
+				{/if}
+                    </li>
+{/for}
+</script>
+       
+        <script type="text/template" id="MattersListTemplate1">
+{for o in data}
+                    <li class="list-group-item alpha omega">
+                         <time class="text-muted pull-right">${o.CTIME.substring(5,10)}</time>
+                         <i class="mdicon mdicon-play-arrow f12"></i>
+				{if o.TYPE==3 }
+						<a href="${o.URL}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${parseLength(o.NAME,18)}</a>
+				{else}
+						<a href="{{cp}}iportal/base-1?ID=${o.ID}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${parseLength(o.NAME,18)}</a>
+				{/if}
+                    </li>
+{/for}
+</script>
+ <script type="text/template" id="MattersListTemplate2">
+{for o in data}
+                    <li class="list-group-item alpha omega">
+                         <time class="text-muted pull-right">${o.CTIME.substring(5,10)}</time>
+                         <i class="mdicon mdicon-play-arrow f12"></i>
+				{if o.TYPE==3 }
+						<a href="${o.URL}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${parseLength(o.NAME,12)}</a>
+				{else}
+						<a href="{{cp}}iportal/base-1?ID=${o.ID}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${parseLength(o.NAME,12)}</a>
+				{/if}
+                    </li>
+{/for}
+</script>
+<script type="text/template" id="MattersListTemplate3">
+{for o in data}
+                    <li class="list-group-item alpha omega">
+                         <time class="text-muted pull-right">${o.CTIME.substring(5,10)}</time>
+                         <i class="mdicon mdicon-play-arrow f12"></i>
+				{if o.TYPE==3 }
+						<a href="${o.URL}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>[${o.RID_NAME}]${parseLength(o.NAME,22)}</a>
+				{else}
+						<a href="{{cp}}iportal/base-1?ID=${o.ID}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>[${o.RID_NAME}]${parseLength(o.NAME,22)}</a>
+				{/if}
+                    </li>
+{/for}
+</script>
+<!-- 以下为首页图片切换模块（图片、标题） -->
+   <script type="text/template" id="MattersListTemplatep">
+{var i=0} 
+{for o in data }
+{var i=i+1}
+{if i==1}
+                   <div class="item active">
+				{if o.TYPE==3 }
+						<a href="${o.URL}"  style="color:#ffffff" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}> <img style="width: 349px;height: 260px;" src="{{cp}}file/upload/${o.PICNAME}" alt=""></a>
+				{else}
+						<a href="{{cp}}iportal/base-1?ID=${o.ID}" style="color:#ffffff"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}> <img style="width: 349px;height: 260px;" src="{{cp}}file/upload/${o.PICNAME}" alt=""></a>
+				{/if}
+                  
+                   <div class="carousel-caption">
+                   <h4>{if o.TYPE==3 }
+						<a href="${o.URL}"  style="color:#ffffff" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${parseLength(o.NAME,14)}</a>
+				{else}
+						<a href="{{cp}}iportal/base-1?ID=${o.ID}" style="color:#ffffff"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${parseLength(o.NAME,14)}</a>
+				{/if}</h4>
+                   </div>
+                   </div>
+{else}
+                   <div class="item">
+				{if o.TYPE==3 }
+						<a href="${o.URL}" style="color:#ffffff" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}> <img style="width: 349px;height: 260px;" src="{{cp}}file/upload/${o.PICNAME}" alt=""></a>
+				{else}
+						<a href="{{cp}}iportal/base-1?ID=${o.ID}" style="color:#ffffff" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}> <img style="width: 349px;height: 260px;" src="{{cp}}file/upload/${o.PICNAME}" alt=""></a>
+				{/if}
+                  
+                   <div class="carousel-caption">
+                   <h4>{if o.TYPE==3 }
+						<a href="${o.URL}" style="color:#ffffff" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${parseLength(o.NAME,14)}</a>
+				{else}
+						<a href="{{cp}}iportal/base-1?ID=${o.ID}" style="color:#ffffff" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${parseLength(o.NAME,14)}</a>
+				{/if}</h4>
+                   </div>
+                   </div>
+{/if}
+{/for}
+</script>
+<!-- 以下为首页图片切换模块(白点) -->
+<script type="text/template" id="MattersListTemplatep1">
+{var i=0} 
+{for o in data }
+{if i==0}<li data-target="#carouselNews" data-slide-to="${i}" class="active"></li>
+{else}
+<li data-target="#carouselNews" data-slide-to="${i}"></li>
+{/if}
+{var i=i+1}
+{/for}
+</script>

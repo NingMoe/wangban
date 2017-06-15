@@ -1,0 +1,59 @@
+<style type="text/css">
+.yi-topbar {background-color:transparent;}
+</style>
+<header class="navbar  phi no-bordered yi-topbar" style="width:99%">
+        <ul class="nav navbar-nav navbar-right">
+        {% if UserInfo %}
+            <li class="dropdown dropdown-hover">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">欢迎您,{{UserInfo.userName}} <i class="mdicon mdicon-expand-more f18"></i></a>
+                <ul class="dropdown-menu">
+                    <li>
+					<a href="{{cp}}uc/index" target="_self">用户中心</a>
+					</li>
+                    <li><a href="{{cp}}center/index" target="_self">业务中心</a></li>
+                    <li><a href="#" onclick="doLogout('{{ConfigInfo.WebUcPath}}')">退&nbsp;出</a></li>
+                </ul>
+            </li>
+            {% else %}
+            <li class="dropdown dropdown-hover">
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown">登录 <i class="mdicon mdicon-expand-more f18"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" onclick="doLogin('{{ConfigInfo.WebUcPath}}','o')" style="color: #2CA1E9;font-weight: bold;text-shadow: 1px 1px #FFFFFF;">个人/企业入口</a></li>
+                </ul>
+            <li>
+            <a href="#" onclick="register()"  style="color: #2CA1E9;font-weight: bold;text-shadow: 1px 1px #FFFFFF;">注&nbsp;册</a>
+			</li>
+			{% endif %}
+            <li class="dropdown dropdown-hover">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">分享 <i class="mdicon mdicon-expand-more f18"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">腾讯微博</a></li>
+                    <li><a href="#">新浪微博</a></li>
+                    <li><a href="#">微信</a></li>
+                </ul>
+            </li>
+            <li><a href="#">移动客户端</a></li>
+            <li><a href="#">省政府门户网站</a></li>
+        </ul>
+</header>
+<script type="text/javascript">
+function doLogin(ucPath,loginType) {	
+    var redirectTo=null;
+		if(loginType=="o")
+		{redirectTo = LEx.webPath+"uc/login?goto="+encodeURIComponent(window.location.href);}
+		if(loginType=="i")
+		{redirectTo = LEx.webPath+"public/login?goto="+encodeURIComponent(window.location.href);}
+	window.location.href = redirectTo;
+    return false;
+}
+function doLogout(ucPath) {
+	var logout_url=null;	 
+		logout_url = LEx.webPath+"logout?goto="+encodeURIComponent(window.location.href);
+	window.location.href = logout_url;
+    return false;
+}
+function register(){
+	window.location.href=LEx.webPath+"uc/register?goto="+encodeURIComponent(window.location.href);
+}
+
+</script>

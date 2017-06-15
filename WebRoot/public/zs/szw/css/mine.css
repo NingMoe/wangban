@@ -1,0 +1,168 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{ background:url(../img/bg.jpg);
+font-family:"Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+}
+.container{ width:1020px !important;}
+.ex-navbar-topbar {
+  min-height: 30px;
+  background-color:#F3F3F3;
+  border: none;
+}
+.ex-navbar-topbar .navbar-nav > li > a {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  font-size: 12px;
+  color:#565656;
+}
+.ex-navbar-navigation .navbar-nav li a{ 
+                        color:#FFFFFF;
+						font-size:14px;
+						font-weight:bold;}
+.ex-navbar-navigation li{ 
+width:120px;
+text-align:center;
+display:table-cell;
+float:none;
+}						
+.navbar-content{ background-color:#FFFFFF;
+height:44px; padding:5px;}
+.navbar-content span{ margin:10px;
+ font-size:12px;}
+.navbar-content form{ float:right;}
+.navbar-content form button{ 
+
+ 
+}
+.panel{ margin-bottom:0px !important;
+border:solid 1px #DFDFDF;}
+
+.navbar-content form input{}
+
+.page-content{ margin-top:0px;background-color:#FFFFFF; height:970px; padding:15px 0px;}
+.ex-trends{}
+.ex-carousel-news .carousel-caption{ left:0px; right:0px;
+bottom:0px;}
+.ex-carousel-news ol{ float:right;}
+.ex-trends .nav-tabs{ background-color:#f3f3f3; border-top: solid 2px #31abd5; }
+.ex-trends .nav-tabs li a:hover,
+.ex-trends .nav-tabs li a:focus{ border-radius: none;}
+.list-unstyled li{ margin:10px 0;padding-bottom:10px;}
+ .list-unstyled li a{ color:#2F2F2F;}
+.list-unstyled time{ float:right; margin-right:15px;}
+.panel-body{ padding:opx!important; }
+.ex-area ul{margin-bottom:10px;}
+.ex-area img{ margin-bottom:10px;}
+.ex-area img:hover{ border:solid 2px #31abd5;}
+.panel-content{ margin-top:5px;}
+.panel-content img{ margin-top:5px;}
+.zl-list-group-zwhd-1 .list-group-item{ padding:10px; border-radius:none;}
+
+.list-inline li select{}
+.zl-footer{ background-color:#e4e4e4; text-align:center; padding:10px 0; }
+#ex-carousel-news{}
+#ex-carousel-news .carousel-caption{left:0px;
+right: 0px;
+padding: 0px;
+bottom: 0px;
+background-color: rgba(0, 0, 0, 0.6);
+color:#FFFFFF;}
+carousel-caption a{ color:#FFFFFF;}
+
+..ex-navbar-navigation .navbar-nav li a{ color:#5A5A5A !important;}
+.dropdown-menu{-webkit-background-clip:padding-box;
+position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);}
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover{color: #0f5fb1;
+  background-color: #22a7f0;}
+  
+  
+  .ex-navbar-navigation .navbar-nav .dropdown-menu li a{ color:#8F8E8E;}
+  
+  
+  
+  .navbar-inverse{background-color: #22A7F0;
+margin: -5px 0px 0px;}
+  
+  
+  
+  
+  
+  
+ .navbar-nav {
+    float: left;
+    margin: 0;
+  }
+  .navbar-nav > li {
+    float: left;
+  }
+  
+  
+  
+  
+  .container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;}
+	.container {
+    width: 1170px;
+	}
+	
+	
+	
+	
+	.ui-sidenav-tree{ border: solid 1px #C3C3C3; background-color:#D1E5F3; color:#0956A7; text-align:center; font-size:14px; font-weight:bold; margin-bottom:10px;}
+	
+	
+	
+	.content-body{ padding:15px 50px; border:solid #169BE5 2px;}
+	content-body h3{ color:#005fa7; font-weight:bold;}
+	
+	
+	
+	
+	
+.bs-example-js-navbar-collapse li{ width:130px; text-align:center;}
+.bs-example-js-navbar-collapse li a:hover{ background-color:#FFFFFF;}
+
+
+#navbar-example{ margin-bottom:0px; margin-top:-5px;}
+
+
+
+.ex-chart ul li a{ font-size:12px; font-weight:400; color:#7C7C7C;  }
+.ex-chart .nav-tabs{ background-color:#FFFFFF; border-bottom:#A6A6A6 solid 1px; border-top:none !important;}
+.ex-chart .nav-tabs > li.active > a, 
+.ex-chart .nav-tabs > li.active > a:hover, 
+.ex-chart .nav-tabs > li.active > a:focus {font-weight:400;}

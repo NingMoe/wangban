@@ -1,0 +1,69 @@
+<style type="text/css">
+.listTable td{cursor: default;}
+</style>
+
+<table class="table table-bordered">
+	<tr class="sec_tr">
+		<td><span><font size="2">我的收藏</font></span></td>
+	</tr>
+	<tr>
+		<td>				
+				<ul class="list-inline">
+					<li class="col-xs-7">
+						事项名称:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="name" name="NAME" size="30">
+					</li>
+					<li>
+						<input   type="submit" id="submit" class="nbtn_orange" value="查询"> <input type="button" id="delete" class="nbtn_blue" value="删除">
+					</li>
+				</ul>
+			</td>
+	</tr>
+</table>
+
+<div class="center">	
+	<div class="center-center-head" style="margin-top:10px;border: none;width: 100%;">
+		<div class="sec_tr" style="border: 1px solid #dddddd;height: 30px;">
+			<span style="margin-left: 8px;line-height: 30px;"><font size="2">收藏列表</font></span>
+		</div>
+		 
+		<div class="center-center-head-table">
+			<table id="bf_list" class="table table-bordered">
+				<thead>
+					<tr style="background: url(../images/pages.png) 50% 100% repeat-x #FFF;">
+						<th align="center" width="37px"><input id="checkall" type="checkbox" onclick="selectAll()"></th>
+						<th width="50%">事项名称</th>
+						<th width="90px" >收藏时间</th>
+						<th>备注信息</th>
+						<th align="center">操作</th>
+					</tr>
+				</thead>
+				<tbody id="bodys">		
+				</tbody>
+			</table>
+			<div id="divList"></div> 
+		</div>
+	</div>
+</div>
+
+	<textarea id="template" style="display:none">
+	{for o in data}
+	 		<tr>
+	 		<td align="center"><input  type="checkbox" tag="${o.ID}" onclick="select(this)"></td>
+			<td title="${o.SXMC}"><a href="{{PageContext.ContextPath}}icity/project/guide?id=${o.SXID}" target="_blank">${o.SXMC}</a></td>
+			<td>${formatDate(o.FTIME)}</td>
+			<td title="单击修改备注" onclick="EditRemark('${o.ID}','${o.REMARK}')">${o.REMARK}</td>	
+			<td>${getProject(o.SXID)}
+			</td>
+			</tr>
+		{/for}
+		{if total == 0} 
+			<tr><td colspan="5" style="text-align: center; color: red;">无数据</td></tr>
+		{/if}
+	</textarea>
+	
+	
+
+	
+
+	
+

@@ -1,0 +1,64 @@
+<script type="text/javascript">
+function tz(type){
+	var WebRegion = "{{ConfigInfo.WebRegion}}";
+	if(WebRegion == "330901000000"){
+		window.open("http://zszwfw.gov.cn/icity/pro/sbtz?type="+type);
+	}else if(WebRegion == "330902000000"){
+		window.open("http://www.dh.zszwfw.gov.cn/zsdh/pro/sbtz?type="+type);
+	}else if(WebRegion == "330903000000"){
+		window.open("http://www.pt.zszwfw.gov.cn/zspt/pro/sbtz?type="+type);
+	}else if(WebRegion == "330921000000"){
+		window.open("http://www.ds.zszwfw.gov.cn/zsds/pro/sbtz?type="+type);
+	}else if(WebRegion == "330922000000"){
+		window.open("http://www.ss.zszwfw.gov.cn/zsss/pro/sbtz?type="+type);
+	}else if(WebRegion == "000901000000"){
+		window.open("http://www.hycy.zszwfw.gov.cn/zshycy/pro/sbtz?type="+type);
+	}else if(WebRegion == "000902000000"){
+		window.open("http://www.xc.zszwfw.gov.cn/zsxc/pro/sbtz?type="+type);
+	}else if(WebRegion == "000903000000"){
+		window.open("http://www.pts.zszwfw.gov.cn/zsptszjj/pro/sbtz?type="+type);
+	}else if(WebRegion == "000904000000"){
+		window.open("http://www.lh.zszwfw.gov.cn/zslh/pro/sbtz?type="+type);
+	}else if(WebRegion == "000905000000"){
+		window.open("http://www.jt.zszwfw.gov.cn/zsjt/pro/sbtz?type="+type);
+	}
+};
+</script>
+<style>
+.content-body {
+	padding: 15px 50px;
+}
+</style>
+<div class="container" style="background-color:#fff;">
+    <ol class="breadcrumb">
+        <li><a href="#">所在位置：</a></li>
+        <li><a href="{{cp}}index">首页</a></li>
+        <li class="active" id="a2">投资项目</li>
+    </ol>
+    <div class="row" style="padding:15px 15px;">
+         <div class="col-xs-12 content-body">
+            <article style="padding: 0 20px; line-height: 2;">
+                <div align="center" id="Player">
+                	<div class="panel" >
+					    <div class="panel-body text-center">
+					        <div class="col-xs-6">
+		                        <a class="thumbnail text-center" onclick="tz('sp');">
+		                            <img class="img-circle" src="{% public zs/pro/assets/img/i-c-1.png%}" alt="">
+		                            <br>
+		                            <h4 class="delta">审批类申报</h4>
+		                        </a>
+		                    </div>
+		                    <div class="col-xs-6">
+		                        <a class="thumbnail text-center" onclick="tz('hz');">
+		                            <img class="img-circle" src="{% public zs/pro/assets/img/i-c-2.png%}" alt="">
+		                            <br>
+		                            <h4 class="delta">核准类申报</h4>
+		                        </a>
+		                    </div> 
+			    		</div>
+		    		</div>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>

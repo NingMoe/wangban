@@ -1,0 +1,177 @@
+<script src="{% public scripts/LEx.form.js %}"></script>
+<style>
+
+.yi-media-list-m2 {
+  margin-bottom: 0;
+}
+.yi-media-list-m2 time {
+  color: #ccc;
+}
+.yi-media-list-m2 .media {
+  margin-top: 10px;
+  padding-bottom: 10px;
+}
+.yi-media-list-m2 .media-body {
+  display: block;
+  position: relative;
+  overflow: visible;
+}
+.yi-media-list-m2 .bubble {
+  padding: 10px;
+  font-size: 14px;
+  display: inline-block;
+  position: relative;
+}
+.yi-media-list-m2 .pull-left + .media-body {
+  margin-left: 50px;
+}
+.yi-media-list-m2 .pull-left + .media-body .bubble {
+  background-color: #fff;
+}
+.yi-media-list-m2 .pull-left + .media-body .bubble:before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-top: 8px solid #fff;
+  border-left: 8px solid transparent;
+}
+.yi-media-list-m2 .pull-right + .media-body {
+  margin-right: 50px;
+}
+.yi-media-list-m2 .pull-right + .media-body .bubble {
+  background-color: #0DB0E5;
+    color: #fff;
+}
+.yi-media-list-m2 .pull-right + .media-body .bubble:before {
+  content: "";
+  position: absolute;
+  right: -8px;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-top: 8px solid #0DB0E5;
+  border-right: 8px solid transparent;
+}
+    
+</style>
+<div id="bs-modal-newmail" class="modal fade bs-modal-newmail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="width: 400px;height:200px;">
+   <div class="modal-content" style="width: 400px;">
+			<div id="jumbotron" class="jumbotron yi-jumbotron" style="padding-top: 0px; padding-bottom: 0px; margin-bottom:0;">
+			    <div class="container" style="">
+			            <div class="panel panel-primary" style="margin-bottom: -20px; margin-left: -20px; margin-right: -20px;">
+			                <header class="panel-heading">
+			                    <h3 class="panel-title"><strong>名称预核准信息加载</strong></h3>
+			                </header>
+			                <div class="panel-body beta psi">
+			                    <div class="row">
+			                        <div class="col-xs-12 alpha">
+			                            <section class="panel phi" style="margin-right:-15px;border-right: 1px solid #ddd; background-color: #f5f5f5;">
+			                                <div class="panel-body">
+			                                    	企业预核准通知书编号:<input id="inputNum" class="form-control" placeholder="企业预核准通知书编号" type="text">
+			                                    	<!-- 企业名称:<input id="inputName" class="form-control" placeholder="企业名称" type="text"> -->
+			                                </div>
+			                                <footer class="panel-footer" style="background-color:#fff;">
+			                                    
+			                                    <div class="input-group">			                                        
+			                                        <span class="input-group-btn">
+			                                            <button class="btn btn-warning" type="button" onclick="submit();" style="float:right;">验证</button>
+			                                        </span>
+			                                    </div>
+			                                </footer>
+			                            </section>
+			                        </div>
+			                    </div>
+			
+			                </div>
+			            </div>  
+			    </div>
+			</div>
+     </div>
+ </div>
+</div>
+  <script>
+(function(){
+	LEx.form.init();
+})();
+function doWrite(){	
+	$(".bs-modal-newmail").modal('show');	
+}
+//enterpriseType	申报类型企业申报类型
+//1注册登记(内资)
+//2注册登记(外资)
+//3全流程注册登记(内资)
+//4全流程注册登记(外资)
+function submit(){
+	var enterpriseType = "1";
+	var js = getFormId(enterpriseType);
+	var formId = js.formId;
+	var flowId = js.flowId;
+	var num = $("#inputNum").val();
+	if(num==""){
+		errorDialog("验证","企业预核准通知书编号不可为空");
+		return;
+	}else{
+		var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+		command.setParameter("num", num);
+		var ret = command.execute("namePreCheckLoad");
+		if(!command.error){
+			if(ret.state=='1'){
+				num = ret.data[0].pripid;
+				name = ret.data[0].entname;
+				var data = {};
+				data.num = num;
+				data.name = name;
+				data.formId = formId;
+				data.flowId = flowId;
+				data.enterpriseType = enterpriseType;
+				window.open("{{PageContext.ContextPath}}icity/enterprises/onlineDeal?data="+LEx.encode(data),"_self"); 
+			}else{
+				errorDialog("验证","验证未通过"+ret.message);
+				return;
+			}
+		}else{
+			errorDialog("验证","验证未通过");
+			return;
+		}
+	}
+}
+function getFormId(enterpriseType){
+	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+	command.setParameter("enterpriseType", enterpriseType);
+	var ret = command.execute("getApplicationInfo");
+	if(!command.error){
+		if(ret.state=='1'){
+			var js = {};
+			js.formId = ret.data.formId;
+			js.flowId = ret.data.flowId;
+			return js;
+		}else{
+			errorDialog("验证","验证未通过"+ret.message);
+			return;
+		}
+	}else{
+		errorDialog("验证","验证未通过");
+		return;
+	}
+}
+function hide() {
+	$(".bs-modal-result").modal('hide');
+}
+document.onkeydown=function(event){
+    var e = event || window.event || arguments.callee.caller.arguments[0];
+    if(e && e.keyCode==27){ // 按 Esc 
+        //要做的事情        
+      }
+    if(e && e.keyCode==113){ // 按 F2 
+         //要做的事情
+       }            
+     if(e && e.keyCode==13){ // enter 键
+         //要做的事情
+    	 submit();
+    }
+}; 
+</script>

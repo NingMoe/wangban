@@ -1,0 +1,223 @@
+<!DOCTYPE header PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+</head>
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/icity.js"></script>
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/chart/highcharts.js"></script>
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/custom.css"
+	rel="stylesheet">
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/non-responsive.css"
+	rel="stylesheet">
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/font-awesome.css"
+	rel="stylesheet">
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/docs.css"
+	rel="stylesheet">
+<script
+	src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/docs.js"></script>
+<script>
+
+	$(function () {
+		
+		queryProgress(); 
+	    
+	});
+	
+  	function queryProgress(sblsh,spsxcxmm) {
+	 	var command = new LEx.Command("app.icity.project.ProjectIndexCmd");
+	  	command.setParameter("spsxcxmm",LEx.urldata.psd);
+		command.setParameter("sblsh",LEx.urldata.busino);
+		var ret= command.execute("BusinessProgressQueryByPassword");
+		if (ret.state == 1) {
+			$(".query-result").html(LEx.processDOMTemplate("template4progress", ret.data));
+			formatInProgress();
+		} else {
+			$(".query-result").html("没有找到对应的业务信息！");
+		}
+	}
+	 
+  	function formatState(state_code){
+		if(state_code != "02" && state_code != "96" && state_code != "97" && state_code != "98" && state_code != "99"){
+			return "在办";
+		}else{
+			return "办结";
+		}
+	}
+  	
+  	function formatInProgress(){
+	  	$(".NeedFormatStateType").each(function() {
+			var status = $(this).attr("state");
+			var bState = "正常";
+			switch(status){
+			case "01":
+				bState="正常";//启动流程开始计时
+				break;
+			case "02":  //最终态处于此状态的业务为办结业务
+				bState = "不予受理";
+				break;
+			case "11":
+				bState = "待预审 ";
+				break;
+			case "21":
+				bState = "补齐补正";
+				break;
+			case "23":
+				bState = "挂起";
+				break;
+			case "24":
+				bState = "收费挂起";
+				break;
+			case "26":
+				bState = "回退";
+				break;
+			case "96":
+				bState = "退件";
+				break;
+			case "97":
+				bState = "作废";
+				break;
+			case "98":
+				bState = "不予许可";
+				break;
+			case "99":
+				bState = "准予许可";
+				break;
+			}
+			$(this).html(bState);
+		});
+	  	$(".NeedFormatTimeType").each(function() {
+			var shtml = $(this).html()+"";
+			if(LEx.isNotNull(shtml)){
+				var stime = eval('(' + shtml + ')');
+				var t = (new Date(stime)).pattern("yyyy-MM-dd HH:mm");
+				$(this).html(t).show();
+			}else{
+				$(this).html("—").show();
+			}
+		});
+  	}
+</script>
+<style>
+.zl-list-unstyled-ggfu-3 {
+
+}
+.zl-list-unstyled-ggfu-3 > li {
+  padding: 4px 10px 0 10px;
+  border-bottom: 1px dashed #ddd;
+}
+.zl-list-unstyled-ggfu-3 > li p,
+.zl-list-unstyled-ggfu-3 > li span,
+.zl-list-unstyled-ggfu-3 > li time,
+.zl-list-unstyled-ggfu-3 > li em {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 5px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.zl-list-unstyled-ggfu-3 > li p {
+  width: 35%;
+  margin: 0;
+}
+.zl-list-unstyled-ggfu-3 > li span {
+  width: 15%;
+}
+.zl-list-unstyled-ggfu-3 > li time {
+  width: 10%;
+}
+.zl-list-unstyled-ggfu-3 > li em {
+  width: 9%;
+  font-style: normal;
+}
+.fl{ float:left;}
+.fr{ float:right;}
+.clear{clear: both; font-size:0px;}
+.topbg{padding:0 8px;height:36px; line-height:36px;}
+body {
+  margin: 0;
+  background:url({{PageContext.ContextPath}}public/zs/zwfw/img/zsszf-bg.jpg)no-repeat top center;
+}
+</style>
+<div class="container">
+	<div class="fl topbg">
+	<A href="http://www.gov.cn/" target="_blank">中央人民政府</A> | <A href="http://www.zj.gov.cn/" target="_blank">浙江省人民政府</A>
+	</div>
+    <div class="fr topbg">
+		<A href="#" onclick="simpleChinese('http:','//','www.zhoushan.gov.cn');">简体中文</A> | 
+		<A href="http://220.191.202.231/gate/big5/www.zhoushan.gov.cn/web/">繁体中文</A> |  
+		<A href="http://mail.zhoushan.gov.cn/" target="_blank">公务邮箱</A>
+	</div>
+    <div style="padding-top:20px;">
+      <embed src="{{PageContext.ContextPath}}public/zs/zwfw/img/banner.swf" width="971" height="168"></embed>
+    </div>
+    <div class="clear"></div>
+</div>
+  <div class="modal-content" style="margin-bottom: 10px;width:920px;height:590px;overflow-y:auto;margin:0 auto">
+   <div class="modal-header" >
+          <h4 class="modal-title">
+           	 <strong>查询结果</strong>
+          </h4>
+        </div>
+       <div class="modal-body">
+       <div class="query-result" style="margin: 20px 0px 30px">
+       </div>
+	</div>
+  </div>
+  </div>
+  <textarea id="template4progress" style="display: none">
+		<table class="table table-bordered" style="width:100%;height:400px;overflow:auto;">
+		<tr class="tr_1">
+			<th class="th_1">申办流水号:</th>
+			<td class="td_1" colspan="3"><font>${RECEIVE_NUMBER}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">项目名称:</th>
+			<td class="td_1" colspan="3"><font>${APPLY_SUBJECT}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">事项名称:</th>
+			<td class="td_1" colspan="3"><font>${ITEM_NAME}</font>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{PageContext.ContextPath}}approve/guide?id=${ITEM_ID}" target="blank"><span style="font-weight:bold;font-size: 14px;color: blue;">查看办事指南</span></a> </td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1" width="20%">申请人或单位:</th>
+			<td class="td_1" width="30%" colspan="3"><font>${APPLYNAME}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1" width="20%">申办时间:</th>
+			<td class="td_1" width="30%"><font>${LEx.util.Format.formatDate(SUBMIT_TIME,'yyyy-MM-dd HH:mm')}</font></td>
+			<th class="th_1" width="20%">当前状态:</th>
+			<td class="td_1" width="30%"><font>${formatState(STATE_CODE)}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">流转过程</th>
+			<td class="td_1" colspan="3">
+				<table class="table table-bordered" width="100%" height="100%">
+					<tr class="tr_2">
+						<th width="25%">环节名称</th>
+						<th width="20%">处理时间</th>
+						<th width="20%">处理情况</th>
+						<th width="35%">办理意见</th>
+					</tr>
+					 {if COURSELIST}
+						{for r in COURSELIST}
+						<tr>
+							<td>${r.CURRENT_NODE_NAME}</td>
+							<td>${r.SEND_TIME}</td>
+							<td class="NeedFormatStateType">${r.STATUS}</td>
+							<td>${r.OPINION}</td>							
+						</tr>
+						{/for}
+					{/if} 
+				</table>
+			</td>
+		</tr>
+	</table>
+</textarea>

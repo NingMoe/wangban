@@ -1,0 +1,58 @@
+<style>
+.btn-danger {
+	    background-color: #f44336;
+	}
+</style>
+<section class="its-page-body" id ="business_complaint">
+		<table class="table its-tabel-filter">
+             <tbody>
+                 <tr>
+                     <th width="90" class="text-right">投诉编号：</th>
+                     <td width="130">
+                        <input type="text" class="form-control" placeholder="请输入投诉编号" id="id">
+                     </td>
+                     <th width="100" class="text-right">投诉内容：</th>
+                     <td width="160"><input type="text" class="form-control" placeholder="请输入投诉内容" id="title"></td>
+                     
+                     <th width="85" class="text-right">投诉时间：</th>
+                     <td width="110"><input type="text" class="form-control" id="ctime_s" name="ctime_s" placeholder="请选择"  onClick="jeDate({dateCell:'#ctime_s',isTime:true,format:'YYYY-MM-DD'})"></td>
+                     <th width="15" class="text-right">至</th>
+                     <td width="110"><input type="text" class="form-control" id="ctime_e" name="ctime_e" placeholder="请选择"  onClick="jeDate({dateCell:'#ctime_e',isTime:true,format:'YYYY-MM-DD'})"></td>
+                     <td width="100" >
+                     	<input type="submit" style="width: 100%;" id="submit" class="btn btn-primary btn-sm no-bordered btn-block f16" value="搜索">                      	
+                     </td>
+                 </tr>
+             </tbody>
+         </table>
+         <div id="div_business_list">
+         
+         </div>
+         <div id="epager" style="text-align:center;"></div>
+</section>
+<section class="its-page-body" id="businessComplaintinfo" style="display:none;">
+    
+</section>
+<textarea id="template_business_list" style="display: none">
+{if data.length > 0} 
+         <table class="table table-striped its-table-backlog">
+             <thead>
+                 <tr class="bg-info">
+                     <th style="width:35%;" class="text-center text-primary">投诉主题</th> 
+                     <th style="width:35%;" class="text-center text-primary">投诉部门</th>
+                     <th style="width:15%;" class="text-center text-primary">投诉时间</th>                     
+                     <th style="width:15%;" class="text-center text-primary">处理时间</th>
+                 </tr>
+             </thead>
+             <tbody id="bodys">
+             {for o in data}
+                 <tr>
+                     <td  title="${o.TITLE}"><a href="javascript:void(0);"	onclick="BusinessComplaintinfo('${o.ID}')">${o.TITLE}</a></td>
+                     <td class="text-left">${o.DEPART_NAME}</td>
+                     <td class="text-center changeDate">${formatDate(o.WRITE_DATE)}</td>                     
+                     <td class="text-center changeDate">${formatDate(o.DEAL_DATE)}</td>
+                 </tr>
+             {/for}
+             </tbody>
+         </table> 
+{/if}
+</textarea>

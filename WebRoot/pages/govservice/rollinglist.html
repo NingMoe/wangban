@@ -1,0 +1,179 @@
+<style type="text/css">
+.table{margin-bottom:0px; }
+</style>
+<div class="container" style="width:970px;">
+<header id="header" style="margin: 10px;">
+<h4><strong>办件公告</strong></h4>
+</header>
+ <!--<div class="form-horizontal" >
+         <div class="form-group">
+           <label class="col-xs-offset-2 col-xs-2 control-label"><font style="color: red;"></font>关键字:</label>
+            <div class="col-xs-5">
+                <div class="input-group">
+  <input id="keyword" type="text" class="form-control" placeholder="请输入关键字查询" aria-describedby="basic-addon2">
+  <span class="input-group-btn"><a class="btn btn-primary"  onclick="query4dolist(1);">搜索</a></span>
+</div>
+</div> 
+</div>
+    </div>-->
+	  <div class="spjggs">
+	  	<table align="center" class="table table-bordered table-condensed">
+	  	<tr>    <td align="center" style="width: 87px;height:32px;">办件类型</td>
+		        <td align="center" style="width: 293px;height:32px;">监管码</td>
+		        <td align="center" style="width: 101px;height:32px;">申请人(单位)</td>
+		        <td align="center" style="width: 420px; height:32px;">办件名称</td>
+		        <td align="center" style="width: 99px;height:32px;">办理状态</td>
+		      </tr>
+	  	</table>
+	  	<div id="project-none" style="display:none;font-size:14px;font-weight:bold;text-align:center;">查无相关数据</div>
+	     <div class="spjggs_list" style="display: none;">
+	    </div>
+		<div id="roll_list" class="clear" style="height:300px;overflow:hidden;position: relative;">
+		<div id="roll_list1">	  
+		</div>
+		<div id="roll_list2">	  
+		</div>
+		</div>
+		<nav class="text-center">
+                <div class="jqpagination" style="display:none;">
+			    <a href="#" class="first" data-action="first">&laquo;</a>
+			    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+			    <input type="text" readonly="readonly"/>
+			    <a href="#" class="next" data-action="next">&rsaquo;</a>
+			    <a href="#" class="last" data-action="last">&raquo;</a>
+				</div>
+                </nav>
+	  </div>
+	</div>
+	<div class="modal fade bs-modal-result" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" >
+   <div class="modal-header" >
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">
+           	 <strong>办理情况</strong>
+          </h4>
+        </div>
+       <div class="modal-body">
+       <div class="query-result" style="margin: 20px 0px 30px">
+       </div>
+	</div>
+  </div>
+  </div>
+  </div>
+	<script type="text/javascript">
+	$(function(){$('.jqpagination').jqPagination({
+		paged: function(page) {query4dolist(page);},
+		page_string:"第{current_page}页   共{max_page}页"
+	});})
+	$(function(){
+		  var command = new LEx.Command("app.icity.project.ProjectIndexCmd");
+		  command.setParameter("start", -1);
+		  command.setParameter("limit", -1);
+			var ret= command.execute("GetRollingList");
+			if (ret.state == 1&&ret.total>0) {
+				$("#roll_list1").html(LEx.processDOMTemplate("template4dolist", ret));
+				roll_list2.innerHTML = roll_list1.innerHTML;
+			} else {
+				LEx.dialog.tips("未获取到数据",1);
+			}
+			var speed = 50;
+			var MyMar = setInterval(Marquee, speed);
+			roll_list.onmouseover = function() {
+				clearInterval(MyMar);
+			};
+			roll_list.onmouseout = function() {
+				MyMar = setInterval(Marquee, speed);
+			};
+	});
+	
+	function query4dolist(start){
+		var limit=9;
+		 var command = new LEx.Command("app.icity.project.ProjectIndexCmd");
+		 command.setParameter("start",(start-1)*limit);
+		 command.setParameter("limit", limit);
+		 command.setParameter("type@like",$("#keyword").val());
+			var ret= command.execute("GetRollingList");
+			if(!ret.error){
+				$('.spjggs_list').html(LEx.processDOMTemplate('template4dolist',ret));
+				var total=ret.total;
+					total=Math.ceil(total/limit);
+					if(total==0){
+						$("#project-none").show();
+						$('.jqpagination').hide();
+						$('.spjggs_list').hide();
+						$("#roll_list").hide();
+					}
+					else{
+						$("#roll_list").hide();
+						$("#project-none").hide();
+						$('.spjggs_list').show();
+						$('.jqpagination').show();
+						$('.jqpagination').jqPagination('option',{current_page:start,max_page:total,trigger:false});
+					}
+			}else{
+				LEx.alert(ret.error);
+			}
+	}
+	
+	function businessInfo(o){
+		 var command = new LEx.Command("app.icity.project.ProjectIndexCmd");
+		 command.setParameter("jgm",$(o).attr("jgm"));
+			var ret= command.execute("GetRollingList");
+			if (ret.state == 1&&ret.total>0) {
+				$(".bs-modal-result").modal('show');
+				$(".query-result").html(LEx.processDOMTemplate("template4progress", ret.data[0]));
+			} else {
+				LEx.alert("没有找到对应的业务信息！");
+			}
+	}
+	function Marquee() {
+		if (415 - roll_list.scrollTop <= 0)
+			roll_list.scrollTop -= 415;
+		else {
+			roll_list.scrollTop++;
+		}
+	}
+	</script>
+	<script type="text/template" id="template4dolist" >
+	<table align="left" class="table table-bordered table-condensed">
+    <tbody>
+{for o in data}
+	<tr>
+      <td  align="center"  style="width: 89px;height:32px;">${o.TYPE}</td>
+      <td  align="center"  style="width: 277px;height:32px;">${o.JGM}</td>
+      <td  align="center"  style="width: 100px;height:32px;">${o.SQRMC}</td>
+      <td  style="width: 420px; height:32px;">${o.TITLE}</td>
+      <td  align="center"  style="width: 100px;height:32px;">${LEx.icityBusiness.formatStatus(o.STATE)}</td>
+    </tr>
+{/for}
+	</tbody></table>
+	</script>
+	<textarea id="template4progress" style="display: none">
+		<table class="table table-bordered" width="100%" height="100%">
+		<tr class="tr_1">
+			<th class="th_1">申办流水号:</th>
+			<td class="td_1" colspan="3"><font>${SBLSH}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">项目名称:</th>
+			<td class="td_1" colspan="3"><font>${SBXMMC}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">事项名称:</th>
+			<td class="td_1" colspan="3"><font>${SXMC}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1" width="20%">申请人或单位:</th>
+			<td class="td_1" width="30%"><font>${SQRMC}</font></td>
+			<th class="th_1" width="20%">收件单位:</th>
+			<td class="td_1" width="30%"><font>${SJDW}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1" width="20%">申办时间:</th>
+			<td class="td_1" width="30%"><font>${LEx.util.Format.formatDate(SBSJ,'yyyy-MM-dd HH:mm')}</font></td>
+			<th class="th_1" width="20%">当前状态:</th>
+			<td class="td_1" width="30%"><font>${LEx.icityBusiness.formatStatus(STATE)}</font></td>
+		</tr>
+	</table>
+</textarea>

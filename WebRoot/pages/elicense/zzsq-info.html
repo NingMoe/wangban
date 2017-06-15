@@ -1,0 +1,330 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<title>我的证照中心</title>
+<style type="text/css">
+</style>
+</head>
+
+<body>
+	{%include elicense/index/header.html %}
+	<div class="py-25 mb-20 bg-faded">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-8">
+					<div class="media">
+						<div class="media-left media-middle pr-15">
+							<i
+								class="nc-icon-outline business_cheque x2l img-circle bg-blue p-20"></i>
+						</div>
+						<div class="media-body media-middle">
+							<h4 class="media-heading">
+								<strong>证照委托授权</strong>
+							</h4>
+							<small class="text-muted" id="licenseName"></small>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<ol class="breadcrumb small pull-right mt-25" style="opacity: .6;">
+						<li><a href="{{cp}}public/index">首页</a></li>
+						<li><a href="{{cp}}elicense/index">证照中心</a></li>
+						<li><a href="{{cp}}elicense/zzsq">证照委托授权</a></li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<section class="panel panel-default">
+			<form id="zzsq_form">
+				<table class="table table-1610312007">
+					<tbody>
+						<tr>
+							<th class="text-right"><strong style="color: red;">*</strong>
+								授权给：</th>
+							<td>
+								<div class="input-group">
+									<input class="form-control" placeholder="被授权人身份证号"
+										id="AUTHORIZEENO" value="" type="text" style="width: 300px;"
+										data-rule="身份证号:required;"> <span
+										class="input-group-btn" style="width: 50px;">
+										<button class="btn btn-primary ml-5" style="z-index: 0;"
+											onclick="validationAuthorityInfo();" type="button">验证</button>
+									</span>
+								</div>
+							</td>
+							<th class="text-right"><strong style="color: red;">*</strong>
+								选择被授权人：</th>
+							<td><select class="form-control" id="AUTHORIZEEACCOUNT"
+								data-rule="被授权人:required;">
+									<option>被授权人信息待验证</option>
+							</select></td>
+						</tr>
+						<tr>
+							<th class="text-right">授权事项名称：</th>
+							<td><input class="form-control ui-autocomplete-input" autocomplete="off" value="" type="text"
+								style="width: 360px;" placeholder="请输入事项名称" id="APPROVEITEMNAME">
+								<input type="hidden" class="form-control" id="APPROVEITEMCODE"></td>
+							<th class="text-right"><strong style="color: red;">*</strong>
+								授权期限：</th>
+							<td><input class="form-control" value="" type="text"
+								id="VALIDTIME" placeholder="请选择" data-rule="授权期限:required;">
+							</td>
+						</tr>
+						<tr>
+							<td class="text-center" colspan="4"><button type="submit"
+									class="btn btn-danger">
+									<i class="nc-icon-outline ui-3_filter-check lg"></i> 授权
+								</button></td>
+
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</section>
+		<section class="panel panel-default">
+			<div id="div_agentauthority_list" style="min-height: 400px;"></div>
+			<div id="epager_agentauthority" style="text-align: center;"></div>
+		</section>
+	</div>
+	{%include elicense/index/footer.html %}
+<textarea id="template_agentauthority_list" style="display: none">
+{if data.length > 0} 
+<table class="table table-striped table-1610312007">
+	<thead>
+		<th class="text-center">序号</th>
+		<th>证照名称</th>
+		<th class="text-center">被授权人姓名</th>
+		<th>授权事项名称</th>
+		<th>授权有效期</th>
+		<th>授权状态</th>
+	</thead>
+	<tbody id="bodys">
+           {for d in data}
+               <tr>
+              	<td class="text-center">${d_index*10/10+1}</td>
+            		<td>${d.LICENSENAME}</td>
+            		<td class="text-center">${d.AUTHORIZEENAME}</td>
+            		<td>${d.APPROVEITEMNAME}</td>
+            		<td>${LEx.util.Format.formatDate(d.VALIDTIME,"yyyy-MM-dd")}</td>
+            		<td>${formatStatus(d.STATUS)}</td>
+               </tr>
+           {/for}
+          </tbody>
+	</table>
+{/if}
+</textarea>
+	<script type="text/javascript">
+var licenseName = LEx.urldata.licenseName;
+var licenseNo = LEx.urldata.licenseNo;
+$(function() {
+	$("#licenseName").html("[" + licenseName + "]:" + licenseNo);
+	onQueryLicense();
+	getLicenseAgentAuthorityState();
+	 $("#VALIDTIME").datepicker({
+			format: 'yyyy-mm-dd',
+			language: "zh-CN",
+			autoclose: true
+		}).on('hide', function(e) {
+			 $("#VALIDTIME").blur();
+	    });
+});
+$(document).ready(function() {
+	$( "#APPROVEITEMNAME" ).autocomplete({
+  		source: function( request, response ) {
+  			response(getlist(request.term));
+  		},
+  		minLength:0,
+      	select: function( event, ui ) {
+      		$( "#APPROVEITEMNAME" ).val($("<p>"+ui.item.NAME+"</p>").text());
+      		$( "#APPROVEITEMCODE" ).val($("<p>"+ui.item.CODE+"</p>").text());
+        	return false;
+      	}
+	}).focus(function () {
+        $(this).autocomplete("search");
+    }).autocomplete("instance")._renderItem = function(
+					ul, item) {
+				return $("<li code='"+item.ID+"' title='"+item.NAME+"'>").append(item.NAME).appendTo(ul);}
+});
+function getlist(key){
+    var start='1';
+    var limit = '10';
+	var cmd = new LEx.Command("app.icity.search.SearchCmd");
+	cmd.setParameter("key", key);
+	cmd.setParameter("start",start);
+	cmd.setParameter("limit",limit);
+	cmd.setParameter("type", "project");
+	var ret = cmd.execute("getIndex");
+	var data=[];
+	var m_count=0;
+	$.each(ret.data,function(i){	
+		if(ret.data[i].TYPE=="project"&&m_count<10){			
+			m_count++;
+			data.push(ret.data[i]);
+		}
+	});
+	return data;
+}
+//验证用户
+function validationAuthorityInfo(){
+	$("#AUTHORIZEEACCOUNT option").remove();
+	$("#AUTHORIZEEACCOUNT").append("<option value=\"\">被授权人信息待验证</option>");
+		
+	var AUTHORIZEEACCOUNT = $("#AUTHORIZEENO").val();
+	if(AUTHORIZEEACCOUNT==""){		
+		LEx.alert("被授权人身份证号不可为空！");
+		return;	
+	}
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	cmd.setParameter("CARD_NO", AUTHORIZEEACCOUNT);
+	ret = cmd.execute("getList");
+	if (ret.state == 1) {
+		if (ret.data.length > 0) {
+			bindOption("AUTHORIZEEACCOUNT",ret.data);
+			//alert(LEx.encode(ret));
+		} else {
+			LEx.alert("未查询到被授权人信息！");
+			return;
+		}
+	} else {
+		errorDialog("系统提示", "调用服务出错：" + ret.message);
+	}
+}
+//绑定select
+function bindOption(key, val) {
+	$("#"+key+" option").remove();
+	var len = val.length;
+	if (len > 0) {
+		for ( var i = 0; i < len; i++) {
+			if (val[i].NAME) {
+				var option = "<option value='"+val[i].ID+"'  title='"+val[i].NAME+"'  type='"+val[i].TYPE+"'  card_no='"+val[i].CARD_NO+"'  account='"+val[i].ACCOUNT+"'>";
+				$("#"+key).append(option+"【"+formatLen(val[i].NAME, 0, 9)+"】"+val[i].ACCOUNT+"</option>");
+			}
+		}
+	}
+}
+//证照授权
+function submitAgentAuthorityInfo(){
+	var AUTHORIZEEACCOUNT = $("#AUTHORIZEENO").val();
+	if(AUTHORIZEEACCOUNT==""){		
+		LEx.alert("被授权人身份证号不可为空！");
+		return;	
+	}
+	if($("#AUTHORIZEEACCOUNT option:selected").val()==""){
+		LEx.alert("未查询到被授权人信息！");
+		return;	
+	}
+	var VALIDTIME = $("#VALIDTIME").val()+" 23:59:59";
+	if(VALIDTIME!=""){
+		if (new Date() >= Date.parse(VALIDTIME)) {
+			LEx.alert("授权期限必须大于当前日期！");
+			return;
+		}
+	}else{
+		LEx.alert("请选择授权期限！");
+		return;
+	}
+	var userInfo = {{UserInfo}};
+	LEx.dialog({
+        id: 'Confirm',
+        title:'提示',
+        fixed: true,
+        lock: true,
+        opacity: .1,
+        content: "您将【"+licenseName+"】授权给【"+$("#AUTHORIZEEACCOUNT option:selected").attr("title")+"】使用，授权在【"+VALIDTIME+"】前有效！",
+        ok: function () {
+        	cmd = new LEx.Command("app.icity.govservice.LicenseCmd");
+        	cmd.setParameter("UCID",userInfo.uid+"");
+        	cmd.setParameter("licenseNo",licenseNo);//被委托授权电子证照id（电子证照唯一标识）
+        	cmd.setParameter("licenseName",licenseName);//被委托授权电子证照名称
+        	cmd.setParameter("authorizerName",userInfo.userName);//授权者名称
+        	cmd.setParameter("authorizerNo",userInfo.no);//授权者证件号码
+        	cmd.setParameter("approveitemCode",$("#APPROVEITEMCODE").val());//办理事项编码
+        	cmd.setParameter("approveitemName",$("#APPROVEITEMNAME").val());//办理事项名称
+        	cmd.setParameter("authorizeeName",$("#AUTHORIZEEACCOUNT option:selected").attr("title"));
+        	cmd.setParameter("authorizeeNo",$("#AUTHORIZEEACCOUNT option:selected").attr("card_no"));
+        	cmd.setParameter("validTime",VALIDTIME);
+        	cmd.setParameter("authorizeeucid",$("#AUTHORIZEEACCOUNT option:selected").val());
+        	cmd.setParameter("authorizeeaccount",$("#AUTHORIZEEACCOUNT option:selected").attr("account"));        	
+        	var ret =  cmd.execute("submitAgentAuthorityInfo");
+        	if(ret.state=="1"){
+        		onQueryLicense();
+        	}else{		
+        		LEx.alert(ret.error);
+        	}
+        },
+        cancel: function () {
+        	return;
+        }
+    });
+}
+//搜索证照授权列表
+function onQueryLicense(){
+	var m_bltable = new LEx.Control.Table("div_agentauthority_list","template_agentauthority_list");
+	m_bltable.limit(10);
+	var start = m_bltable.start();
+	var limit=m_bltable.limit();
+	var cmd = new LEx.Command("app.icity.govservice.LicenseCmd");
+	cmd.setParameter("start",start);
+	cmd.setParameter("limit", limit);	
+	cmd.setParameter("ucid","{{UserInfo.uid}}");
+	var ret =  cmd.execute("getAgentAuthorityInfoList");
+	if(ret.state=="1"){
+		//2.将数据传递给table对象
+		m_bltable.toBody(ret);
+		//3.加载分页控件：分页div的id，Table的实例化对象名称（字符串）,总数量，查询方法（字符串）
+		m_bltable.toPageBar("epager_agentauthority","m_bltable",ret.total,"onQueryLicense()");
+		$("#div_agentauthority_list").html(LEx.processDOMTemplate("template_agentauthority_list",ret));
+	}else{		
+		LEx.alert(ret.error);
+	}
+}
+//查询证照委托授权信息
+function getLicenseAgentAuthorityState(){	
+	var cmd = new LEx.Command("app.icity.govservice.LicenseCmd");
+	cmd.setParameter("licenseNo",licenseNo);
+	var ret =  cmd.execute("getLicenseAgentAuthorityState");
+	if(ret.state=="1"){
+		
+	}else{		
+		//LEx.alert(ret.error);
+	}
+}
+$("#zzsq_form").validator({
+	theme:"yellow_right_effect",
+	rules: {
+        item: function(element) {
+        	if($("#APPROVEITEMCODE").val()==""){
+        		$("#APPROVEITEMNAME").val("");
+				return "请查询后选择你要咨询的事项";
+			}
+        }
+    },
+    fields: {
+    	APPROVEITEMNAME: "事项:item;"
+    },
+	valid: function(form) {//成功
+		submitAgentAuthorityInfo();
+	 }
+});
+function formatStatus(obj){
+	if(obj=="-1"){
+		return "提交失败";
+	}else if(obj=="0"){
+		return "提交成功";
+	}else if(obj=="1"){
+		return "授权成功";
+	}else if(obj=="2"){
+		return "授权失败";
+	}else{
+		return "--";
+	}
+}
+	</script>
+</body>
+</html>

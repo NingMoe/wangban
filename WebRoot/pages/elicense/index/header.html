@@ -1,0 +1,56 @@
+<script type="text/javascript">
+	{% set cp PageContext.ContextPath %}
+	var __webPath = "{{cp}}";
+	var __signature = "{{PageContext.SignatureInfo}}";
+</script>
+<link href="{% public license/css/nucleo-outline.css %}" rel="stylesheet">
+<link rel="stylesheet" href="{%public license/css/custom.css %}">
+<script src="{% public license/js/particles.min.js%}"></script>
+<script src="{% public scripts/laypage/laypage.js %}"></script>
+<link rel="stylesheet" href="{%public scripts/laypage/skin/laypage.css %}">
+<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+<script  type="text/javascript" src="{% public scripts/common.js %}"></script>
+<script  type="text/javascript" src="{% public scripts/LEx.form.js %}"></script>
+<script src="{% public license/js/jquery.slimscroll.min.js%}"></script>
+<link rel="stylesheet" href="{% public assets/css/jquery-ui.css %}">
+<script src="{% public assets/js/jquery-ui.js %}"></script>
+<link href="{% public scripts/bootstrap/css/bootstrap-datepicker.css%}" rel="stylesheet">
+<script src="{% public scripts/bootstrap/js/bootstrap-datepicker.js%}"></script>
+<script src="{{cp}}public/scripts/validator/jquery.validator.min.js?local=zh-CN"></script>
+
+    <script src="{% public scripts/fineload/js/vendor/jquery.ui.widget.js %}"></script>
+	<script src="{% public scripts/fineload/js/jquery.iframe-transport.js %}"></script>
+    <link 	href="{% public scripts/fineload/css/jquery.fileupload.css %}"  rel="stylesheet"/>
+	<script src="{% public scripts/fineload/js/jquery.fileupload.js %}"></script>
+<!--[if lt IE 9]>
+    <script src="{%public assets/js/html5.min.js %}"></script>
+    <script src="{%public assets/js/respond.min.js%}"></script>
+<![endif]-->
+    <script type="text/javascript">
+		plugin.add('dialog', {
+			path: '{{PageContext.ContextPath}}public/scripts/dialog/a?t=js&m=jquery.artDialog.js,plugins/iframeTools.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['dialog_css']
+		});
+		plugin.add('dialog_css', {
+			path: '{{PageContext.ContextPath}}public/scripts/dialog/skins/simple.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+	</script>
+<nav class="topbar clearfix topbar-1611011105">
+	<div class="container">
+		<a class="btn btn-link btn-sm px-0 pull-left" href="{{cp}}public/index"><i
+			class="nc-icon-outline arrows-1_tail-left lg"></i> 返回政务服务网</a>
+		<div class="pull-right">
+        {% if UserInfo %}
+        	<a class="btn btn-link btn-sm" href="{{cp}}uinfo">{{UserInfo.userName}}</a>
+        	<a class="btn btn-link btn-sm" href="javascript:;" onclick="doLogout();">退出</a>
+        {% else %}
+            <a class="btn btn-success btn-sm" href="javascript:;" onclick="doLogin();">登录</a>
+            <a class="btn btn-link btn-sm" href="javascript:;" onclick="doLogin();">注册</a>
+        {% endif %}
+		</div>
+	</div>
+</nav>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>       
+<root>
+	<defaultDataSource>icityDataSource</defaultDataSource>
+	<list>
+		<proxy name="PUB_DICT_ITEM_GetCollection" title="获取字典">
+			<sql>
+				select #field from PUB_DICT_ITEM t where t.in_use =1
+			</sql>
+			<constants>
+				<constant name="field" type="string" must="false" def="*" />
+			</constants>
+			<other> order by t.dict_code,t.xh asc</other>
+		</proxy>
+	</list>
+</root>

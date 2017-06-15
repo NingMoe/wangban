@@ -1,0 +1,65 @@
+<div id="subhead" class="yi-subhead" style="margin-bottom: 20px;">
+    <div class="container">
+        <ul class="nav nav-pills">
+            <li ref="hysy"><a>婚育收养</a></li>
+            <li ref="zjbl"><a>证件办理</a></li>
+            <li ref="0"><a>教育培训</a></li>
+            <li ref="1"><a>求职执业</a></li>
+            <li ref="2"><a>纳税缴费</a></li>
+            <li ref="3"><a>就医保障</a></li>
+            <li ref="4"><a>社会保险</a></li>
+            <li ref="5"><a>福利救助</a></li>
+            <li ref="6"><a>房屋租售</a></li>
+            <li ref="7"><a>交通旅游</a></li>
+            <li ref="9"><a>场馆设施</a></li>
+            <li ref="10"><a>公共安全</a></li>
+            <li ref="11"><a>司法公证</a></li>
+            <li ref="12"><a>环境气象</a></li>
+            <li ref="13"><a>三农服务</a></li>
+        </ul>
+    </div>
+</div>
+<div class="icontent">
+</div> 
+<div class="secNav" ref="hysy"></div>
+<script type="text/javascript">
+$(function(){
+	var ref=LEx.urldata.ref;
+	if(LEx.isNotNull(ref)){
+		$(".secNav").attr("ref",ref)
+	}
+	$("#subhead li").each(function(){
+		if($(this).attr('ref')==$(".secNav").attr("ref")){
+			$(this).addClass('active');
+		}
+	});
+	$("#subhead li ").click(function(){
+		$("#subhead li").removeClass("active");
+		$(this).addClass("active");
+		$(".secNav").attr("ref",$(this).attr("ref"));
+		if("hysy,zjbl".indexOf($(".secNav").attr("ref"))>-1){
+			$(".icontent").load(LEx.webPath+"src?m=govservice/convenience/"+$(".secNav").attr("ref")+".html");
+		}
+		else
+			$(".icontent").html("<div id=\"page\" class=\"container\"><span style='color:red;font-weight:bold;font-size:30px;'>"+$(this).find('a').html()+"</span>页面正在开发中！敬请期待</div>");
+	});
+	$("#subhead li").mouseover(function(){
+		$("#subhead li").removeClass("active");
+		$(this).addClass("active");
+	});
+	$("#subhead li").mouseout(function(){
+		$("#subhead li").removeClass("active");
+		var ref=$(".secNav").attr("ref");
+		$("#subhead li").each(function(){
+			if($(this).attr('ref')==ref){
+				$(this).addClass('active');
+			}
+		});
+	});
+	if("hysy,zjbl".indexOf($(".secNav").attr("ref"))>-1){
+		$(".icontent").load(LEx.webPath+"src?m=govservice/convenience/"+$(".secNav").attr("ref")+".html");
+	}
+	else
+		$(".icontent").html("<div id=\"page\" class=\"container\"><span style='color:red;font-weight:bold;font-size:30px;'>"+$("#subhead li[ref='"+$(".secNav").attr("ref")+"']").find('a').html()+"</span>页面正在开发中！敬请期待</div>");
+})
+</script>

@@ -1,0 +1,81 @@
+<style>
+body {
+	background:#EEF5FD;
+} 
+</style>
+<div id="form" style="width:80%;height:auto;padding:10px 60px;margin:0px auto" class="boxTop">
+  <div style="font-family:微软雅黑;font-size: 18px; margin:10px 0px 10px 20px"> 
+  		<b style="padding-right:2px;padding-left:12px;border-left:5px solid #56B6E0;">咨询详情信息</b>
+        <div style=" float:right"></div>
+    </div>
+    <table class="baseform" align="center">
+        <colgroup>
+            <col style="width: 20%;"></col>
+            <col style="width: 30%;"></col>
+            <col style="width: 20%;"></col>
+            <col style="width: 30%;"></col>
+        </colgroup>        
+		<tr>	
+			<th>关联事项</th>
+			<td colspan="3">
+				<div tag="SXMC" style="width: 565px"></div>
+			</td>
+		</tr>
+		<tr>
+			<th>联系电话</th>
+            <td>
+            	<div tag="PHONE" style="width: 200px;"></div>
+            </td> 
+            <th>电子邮箱</th>
+            <td>
+            	<div tag="EMAIL" style="width: 200px;"></div>
+            </td>
+        </tr>
+        <tr>
+        	<th>咨询时间</th>
+            <td colspan="3">
+           		<div tag="WRITE_DATE" style="width: 200px;" id="WRITE_DATE"></div>
+            </td>
+            <!-- <th>可公开讨论</th>
+            <td>
+            	<div id="openDiv">
+	            	<select tag="OPEN" style="width: 200px;" id="OPEN">
+						<option value="1">是</option>
+						<option value="0">否</option>	           		     		
+		         	</select>
+	        	</div>
+            </td>  -->
+        </tr>
+        <tr>			
+          	<th>超期未回复</th>
+           	<td colspan="3"><div tag="WARN" style="width: 200px;" id="WARN"></div></td>
+        </tr>	
+		<tr>	
+			<th>咨询标题</th>
+			<td colspan="3"><div id="TITLE" tag="TITLE"></div></td>
+		</tr>
+		<tr>	
+			<th>咨询内容</th>
+			<td colspan="3"><div id="CONTENT"></div></td>
+		</tr>
+		<tr>	
+			<th colspan="4" style="text-align:center;">咨询回复</th>
+		</tr>
+		<tr>	
+			<th>咨询回复</th>
+			<td colspan="3">
+				<div tag="DEAL_RESULT" style="width: 565px" id="DEAL_RESULT"></div>
+			</td>
+		</tr>		
+        <tr>
+			<th>回复时间</th>
+            <td>
+           		<div tag="DEAL_DATE"  style="width: 200px;" id="DEAL_DATE"></div>
+            </td>
+            <th>在线回复状态</th>
+            <td>
+            	<div tag="REPLY" style="width: 200px;" id="REPLY"></div>
+            </td>
+        </tr>		
+	</table>
+</div>

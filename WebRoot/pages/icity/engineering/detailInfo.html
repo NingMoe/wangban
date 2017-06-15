@@ -1,0 +1,201 @@
+<script src="{% public scripts/LEx.form.js %}"></script>
+<script>
+var stageId = LEx.urldata.stageId;
+var stageName = LEx.urldata.stageName;
+var type=LEx.urldata.type;
+var lcid;
+$(function(){
+	getLc(stageId,type);
+	getSxbd(lcid);
+});
+$(function(){
+//选择阶段
+	$(".j-liucheng table tbody tr th").click(function() {
+		stageId=$(this).attr("id");
+		stageName=$("#"+stageId+" a span").html();
+		getLc(stageId,type);
+		getSxbd(lcid);
+		//alert($(this).attr("target"));
+		//$(".tabpanel").hide();
+		//$("#" + $(this).attr("target")).show();
+	});
+	
+});
+</script>
+
+<script>
+//获取流程信息
+function getLc(stageId,type){
+	var cmd = new LEx.Command("app.icity.engineering.EngineeringCmd");
+    cmd.setParameter("stageId",stageId);
+    cmd.setParameter("investType",type)
+	var ret =  cmd.execute("getFlow");
+	if(ret.data.retCode=="200"){
+       $('#lcname').html(ret.data.flow[0].flowName);
+		lcid=ret.data.flow[0].flowId;
+		$('#CC2').html(LEx.processDOMTemplate('MattersListTemplate2',ret));
+		//绑定流程点击事件
+		$("#CC2 li a").click(function(){
+ 			$('#lcname').html($(this).html());
+			getSxbd($(this).attr("id"));
+		})	
+	}else{
+		LEx.alert("未获取到流程信息！");
+	}
+}
+//获取事项表单
+function getSxbd(lcid){
+	$("#flowid").val(lcid);
+	var cmd = new LEx.Command("app.icity.engineering.EngineeringCmd");
+	    cmd.setParameter("flowId",lcid);
+		var ret =  cmd.execute("getReport");
+		if(!ret.error){
+		if(ret.total>=0){
+		$("#formid").val(ret.data.formId);
+		//$("#bjsl").html(ret.data.item.length);
+		$('#sxbd').html(LEx.processDOMTemplate('MattersListTemplate',ret));
+		}
+		}else{
+				LEx.alert(ret.error);
+			}
+		}
+		
+		
+function doWrite(){
+	var formId = $("#formid").val();
+	var flowId = $("#flowid").val();
+	var flowName=$('#lcname').html();
+	var data = {};
+	data.type= type;
+	data.stageId  = stageId;
+	data.stageName = stageName;
+	data.flowId = flowId;
+	data.flowName=flowName;
+	data.formId = formId;
+	window.open("{{PageContext.ContextPath}}icity/engineering/select?"+LEx.urlEncode(data),"_self");
+    }
+
+</script>
+
+<!-- 阶段 流程 -->
+<script type="text/template" id="MattersListTemplate2">
+			
+{var i=1}
+{for o in data.flow}
+{if i==1}
+<li class="active"style="width: 170px" ><a style="color:black" id="${o.flowId}" role="tab" data-toggle="tab">${o.flowName}</a></li>	
+{else}
+<li  style="width: 170px" ><a style="color:black" id="${o.flowId}" role="tab" data-toggle="tab" >${o.flowName}</a></li>
+{/if}
+{var i=i+1}
+{/for}
+</script>
+
+<!-- 获取申报信息(表单、事项) -->
+<script type="text/template" id="MattersListTemplate">
+{for o in data.item}
+{if o.itemName}
+	<li class="list-group-item">
+		<h4 class="clearfix">
+			<button type="button" class="btn btn-default btn-sm pull-right" data-toggle="collapse" href="#${o.itemId}">材料列表</button>
+            <div>
+				<label>${o.itemName}</label>
+			</div>
+		</h4>
+		<div class="collapse" id="${o.itemId}">
+		  <span>办理以上事项需要准备以下材料</span>
+           {for cl in o.materialArray}
+           <div>
+			 <label>${cl.resourceName}</label>
+		</div>
+{/for}
+</div>
+</li>
+{/if}
+{/for}					
+</script>
+
+<!-- 获取阶段信息 -->
+{% map "investType",type as p %} {% command
+"app.icity.engineering.EngineeringCmd","getStage",p as d %}
+<div class="jmain">
+	<div class="container" style="background: white;">
+		<div class="row">
+			<div class="xiangmushenpi">
+				<span class="xiangmu">工程建设领域项目审批： {% if type|equal:"1" %} 企业
+					{%else%} 政府 {%endif%} </span>
+			</div>
+			<div class="j-liucheng" style="text-align: center;">
+				<table style="margin: 20px 100px;">
+					<tbody>
+						<tr>
+							{% for o in d.data.stage %} {% if loop.last %}
+							<th style="width: 100px;" id="{{o.stageId}}" target="d"><a><img
+									src="{{PageContext.ContextPath}}public/cq/img/icon{{o.stageId}}.png"><br>
+								<span style="line-height: 35px;">{{o.stageName}}</span>
+							</a></th> {% else %}
+							<th style="width: 100px;" id="{{o.stageId}}" target="d"><a><img
+									src="{{PageContext.ContextPath}}public/cq/img/icon{{o.stageId}}.png"><br>
+								<span style="line-height: 35px;">{{o.stageName}}</span>
+							</a></th>
+							<th><img
+								src="{{PageContext.ContextPath}}public/cq/img/icon-x.png"></span>
+							</th> {% endif %} {% endfor %}
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="tabpanel" id="d">
+
+					<ul id="CC2" class="nav nav-tabs" role="tablist"
+						style="background: #eeeeee; border-top: 2px solid #00A8EC;">
+					</ul>
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane active" id="sx">
+							<div class="row">
+								<div class="col-xs-4" style="text-align: center;">
+									<div class="top-head">
+										<h4 style="font-weight: bolder; color: #00a8ec;"></h4>
+									</div>
+									<div class="bg">
+										<img src="{{PageContext.ContextPath}}public/cq/img/build.png">
+									</div>
+								</div>
+								<div class="col-xs-8">
+									<section class="panel " style="margin-top: 15px;"> <header
+										class="panel-heading" style="border-bottom: 2px solid #DDD;">
+									<h3 class="panel-title" style="font-weight: bold;">
+										<label id="lcname"></label>将办理以下<span style="color: red;"><label
+											id="bjsl"></label>
+										</span>事项
+									</h3>
+									</header>
+									<ul class="list-group" id="sxbd">
+
+
+									</ul>
+									</section>
+									<input type="hidden" id="stageName"> <input
+										type="hidden" id="formid"> <input type="hidden"
+										id="flowid">
+									<div class="jbutton pull-right"
+										style="text-align: center; margin-bottom: 20px; margin-right: 20px;">
+										<button type="button" class="btn btn-primary"
+											onclick="doWrite();">我要办理</button>
+										<div id="href"></div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

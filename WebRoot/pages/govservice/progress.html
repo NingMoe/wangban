@@ -1,0 +1,137 @@
+  <script>
+  (function(){
+	  LEx.form.init(".query");
+  })();
+  function queryProgress() {
+	  if($("#sblsh").val()==""||$("#sblsh").val()=="请输入受理编号"){
+		  LEx.dialog.tips("请输入受理编号",1);
+		  return false;
+		}
+		
+		if($("#sqrmc").val() == ""){
+			  LEx.dialog.tips("请输入申请人名称",1);
+			  return false;
+			}
+	  var command = new LEx.Command("app.icity.project.ProjectIndexCmd");
+	  	command.setParameter("sqrmc",$("#sqrmc").val());
+		command.setParameter("sblsh",$("#sblsh").val());
+		var ret= command.execute("BusinessProgressQuery");
+		if (ret.rows.state == 200) {
+			$(".bs-modal-result").modal('show');//document.write(LEx.encode(ret.data));
+			$(".query-result").html(LEx.processDOMTemplate("template4progress", ret.data));
+			formatInProgress();
+		} else {
+			LEx.alert("没有找到对应的业务信息！");
+		}
+		
+	}
+		
+  function formatInProgress(){
+	  $(".NeedFormatStateType").each(function() {
+			var status = $(this).attr("state");
+			var bState = "正常";
+			switch(status){
+			case "01":
+				bState="正常";//启动流程开始计时
+				break;
+			case "02":  //最终态处于此状态的业务为办结业务
+				bState = "不予受理";
+				break;
+			case "11":
+				bState = "待预审 ";
+				break;
+			case "21":
+				bState = "补齐补正";
+				break;
+			case "23":
+				bState = "挂起";
+				break;
+			case "24":
+				bState = "收费挂起";
+				break;
+			case "26":
+				bState = "回退";
+				break;
+			case "96":
+				bState = "退件";
+				break;
+			case "97":
+				bState = "作废";
+				break;
+			case "98":
+				bState = "不予许可";
+				break;
+			case "99":
+				bState = "准予许可";
+				break;
+			}
+			$(this).html(bState);
+		});
+	  $(".NeedFormatTimeType").each(function() {
+			var shtml = $(this).html()+"";
+			if(LEx.isNotNull(shtml)){
+				var stime = eval('(' + shtml + ')');
+				var t = (new Date(stime)).pattern("yyyy-MM-dd HH:mm");
+				$(this).html(t).show();
+			}else{
+				$(this).html("—").show();
+			}
+		});
+  }
+  function formatState(state_code){
+		if(state_code != "02" && state_code != "96" && state_code != "97" && state_code != "98" && state_code != "99"){
+			return "在办";
+		}else{
+			return "办结";
+		}
+	}
+  </script>
+  <textarea id="template4progress" style="display: none">
+		<table class="table table-bordered" style="width:100%;height:400px;overflow:auto;">
+		<tr class="tr_1">
+			<th class="th_1">申办流水号:</th>
+			<td class="td_1" colspan="3"><font>${RECEIVE_NUMBER}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">项目名称:</th>
+			<td class="td_1" colspan="3"><font>${APPLY_SUBJECT}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">事项名称:</th>
+			<td class="td_1" colspan="3"><font>${ITEM_NAME}</font>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{PageContext.ContextPath}}icity/project/guide?id=${ITEM_ID}" target="blank"><span style="font-weight:bold;font-size: 14px;color: blue;">查看办事指南</span></a> </td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1" width="20%">申请人或单位:</th>
+			<td class="td_1" width="30%" colspan="3"><font>${APPLYNAME}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1" width="20%">申办时间:</th>
+			<td class="td_1" width="30%"><font>${SUBMIT_TIME}</font></td>
+			<th class="th_1" width="20%">当前状态:</th>
+			<td class="td_1" width="30%"><font>${STATE}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">流转过程</th>
+			<td class="td_1" colspan="3">
+				<table class="table table-bordered" width="100%" height="100%">
+					<tr class="tr_2">
+						<th width="25%">环节名称</th>
+						<th width="20%">处理时间</th>
+						<th width="20%">处理情况</th>
+						<th width="35%">办理意见</th>
+					</tr>
+					 {if COURSELIST}
+						{for r in COURSELIST}
+						<tr>
+							<td>${r.CURRENT_NODE_NAME}</td>
+							<td>${r.SEND_TIME}</td>
+							<td class="NeedFormatStateType">${r.STATUS}</td>
+							<td>${r.OPINION}</td>							
+						</tr>
+						{/for}
+					{/if} 
+				</table>
+			</td>
+		</tr>
+	</table>
+</textarea>

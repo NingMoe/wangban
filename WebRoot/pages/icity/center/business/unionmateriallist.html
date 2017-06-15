@@ -1,0 +1,205 @@
+<link rel="icon" href="{% public zs/pro/assets/ico/favicon.ico %}">
+<link rel="stylesheet" href="{% public zs/pro/assets/css/custom.css %}">
+<link rel="stylesheet" href="{% public zs/pro/assets/css/bootstrap-datetimepicker.min.css %}">
+<link href="http://cdn.bootcss.com/simple-line-icons/2.2.2/css/simple-line-icons.min.css" rel="stylesheet">
+<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.form.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+<script  type="text/javascript" src="{% public scripts/common.js %}"></script>
+<script  type="text/javascript" src="{% public assets/js/holder.js %}"></script>
+<script  type="text/javascript" src="{% public zs/pro/assets/js/jquery.page.js %}"></script>
+<script  type="text/javascript" src="{% public zs/pro/assets/js/bootstrap-datetimepicker.min.js %}"></script>
+<script  type="text/javascript" src="{% public zs/pro/assets/js/bootstrap-datetimepicker.zh-CN.js %}"></script>
+<script>
+var docids=[];
+
+$(function(){
+	querylist();
+});
+
+function checkdata(){
+	
+	var command = new LEx.Command("app.icity.pro.ProCmd");
+	command.setParameter("bizId", LEx.urldata.bizId);
+	command.setParameter("itemList", docids);
+	var ret = command.execute("submitUnionCailiao");
+	if(!command.error){	
+		if(ret.state==1){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	return true;
+}
+
+function querylist(){
+	var command = new LEx.Command("app.icity.pro.ProCmd");
+	command.setParameter("bizId", LEx.urldata.bizId);
+	var ret = command.execute("queryUnionIsHandle");
+	if(!command.error){	
+		$('#list1').html(LEx.processDOMTemplate('itemTemplate',ret));
+	}
+}
+
+function formateState(val){
+	if(val == "0"){
+		return "不参与";
+	}else if(val == "1"){
+		return "参与";
+	}else if(val == "2"){
+		return "未回复";
+	}else if(val == "3"){
+		return "材料已提交";
+	}
+}
+
+function uploadmaterial(itemId,itemCode,itemName){
+	
+	var n_url = LEx.webPath+"admin?m=icity/center/business/unionfilelist.html&itemId="+itemId;
+	
+	LEx.dialog({
+		id: "", title: "材料列表",
+		url: n_url,
+		width: 900, height: 420,
+		lock:true,
+		button: [
+		         {
+		        	name: '保存',
+		        	callback: function() {
+		        		var iframe = this.iframe.contentWindow;
+		        		if (!iframe.document.body) {
+		        			LEx.alert('内容还没加载完毕呢');
+		        			return false;
+		        		}
+		        		
+		        		iframe.savedata();
+		        		var array = iframe.$("#materialArray").val();
+		        		var apply = {};
+		        		apply.itemId = itemId;
+		        		apply.itemName = itemName;
+		        		apply.itemCode = itemCode;
+		        		apply.materialArray = array;
+		        		docids.push(apply);
+		        		
+	        			LEx.alert("保存成功！");
+		        	 	/* if(iframe.checkdata()){
+		        	 		LEx.alert("保存成功！");
+		        	 	}else{
+		        	 		LEx.alert("保存失败！");
+		        	 	} */
+		         	},
+		         	focus: true
+		         },
+		         {
+		        	 name: '返回'
+		         }
+		         ]
+	});
+}
+
+function formateBizState(val){
+	
+	if(val=="1"){
+		return "草稿";
+	}else if(val=="2"){
+		return "收件";
+	}else if(val=="3"){
+		return "预受理";
+	}else if(val=="4"){
+		return "预受理退回";
+	}else if(val=="5"){
+		return "受理";
+	}else if(val=="6"){
+		return "补齐补正";
+	}else if(val=="7"){
+		return "不予受理";
+	}else if(val=="8"){
+		return "在办";
+	}else if(val=="9"){
+		return "挂起";
+	}else if(val=="10"){
+		return "办结";
+	}else if(val=="11"){
+		return "转报办结";
+	}else if(val=="12"){
+		return "作废办结";
+	}else if(val=="13"){
+		return "退件";
+	}else if(val=="14"){
+		return "不予行政许可";
+	}else if(val=="99"){
+		return "预审批";
+	}else if(val=="100"){
+		return "豁免";
+	}else if(val=="101"){
+		return "备案";
+	}
+}
+</script>
+<style>
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1px;
+}
+.btn-primary {
+  color: #ffffff;
+  background-color: #29588c;
+  border-color: transparent;
+}
+.btn-primary:focus,
+.btn-primary.focus {
+  color: #ffffff;
+  background-color: #1d3f65;
+  border-color: rgba(0, 0, 0, 0);
+}
+.btn-primary:hover {
+  color: #ffffff;
+  background-color: #1d3f65;
+  border-color: rgba(0, 0, 0, 0);
+}
+</style>
+<div style="background-color: #fff;overflow-y:auto;" id="div1">
+    <section class="">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="w-d-x-1">
+                <table class="listTable" cellspacing="1" style="width:850px;margin:25px;" id="apply">
+                    <thead>
+                        <tr class="active">
+                        	<th class="text-center" style="width:15%;">部门名称</th>
+                            <th class="text-center" style="width:30%;">事项名称</th>
+                            <th class="text-center" style="width:10%;">回复状态</th>
+                            <th class="text-center" style="width:28%;">已上传附件</th>
+                            <th class="text-center" style="width:8%;">业务状态</th>
+                            <th class="text-center" style="width:10%;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="list1">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/template" id="itemTemplate">
+{for o in data.info}
+	<tr>
+		<td class="text-left" style="width:15%;">${o.orgName}</td>
+        <td class="text-left" style="width:30%;">${o.itemName}</td>
+		<td class="text-center" style="width:10%;">${formateState(o.isHandle)}</td>
+		<td class="text-left" style="width:28%;">
+			{for p in o.fileArray}
+				<a href="javascript:void(0);" style="color: blue;" onclick="winOpen('${p.filePath}','${p.fileName}');">${formatLenStr(p.fileName,0,15)}</a><br/><br/>
+			{/for}
+		</td>
+		<td class="text-center" style="width:8%;">
+			${formateBizState(o.bizState)}
+		</td>
+		<td class="text-center" style="width:10%;">
+				{if o.isHandle == 1 || o.isHandle == 3}
+					<button type="button" class="btn btn-success btn-sm" onclick="uploadmaterial('${o.itemId}','${o.itemCode}','${o.itemName}')">上传附件</button>
+				{/if}
+		</td>						
+     </tr>
+{/for}
+</script>
+

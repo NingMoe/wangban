@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+<wb-module deploy-name="icity">
+<wb-resource deploy-path="/" source-path="/WebRoot" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src1"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/icity"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/uc"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/pmi"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/icp"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/icore"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/project"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+<property name="context-root" value="icity"/>
+<property name="java-output-path" value="/ICity/WebRoot/WEB-INF/classes"/>
+</wb-module>
+</project-modules>

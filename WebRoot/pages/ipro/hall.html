@@ -1,0 +1,155 @@
+<div style="padding: 30px 0; background-color: #222;">
+   <div class="container alpha omega">
+        <div class="row gamma chi">
+             <div class="col-xs-4 alpha omega">
+                <a href="{{cp}}ipro/lczy"><div class="btn-danger clearfix" style="padding: 15px;">
+                    <div class="pull-left">
+                        <h3 class="delta">01</h3>
+                        <h4>流程指引</h4>
+                        <p>+</p>
+                    </div>
+                    <div class="pull-right" style="width: 250px; padding-left: 15px;"><p>1.用户注册 - 2.项目申报 - 3.打印登记单 - 4.跟踪办理进度 - 5.上传开工报告 - 6.上传企业年报 - 7.上传竣工报告</p></div>
+                </div></a>
+            </div>
+            <div class="col-xs-4 alpha omega">
+                <a href="{{cp}}ipro/fmyz"><div class="btn-success clearfix" style="padding: 15px;">
+                    <div class="pull-left">
+                        <h3 class="delta">02</h3>
+                        <h4>申报规则</h4>
+                        <p>+</p>
+                    </div>
+                    <div class="pull-right" style="width: 250px; padding-left: 25px;">
+                        <p class="phi">“谁的项目谁赋码”</p>
+                    </div>
+                </div></a>
+            </div>
+            <div class="col-xs-4 alpha omega">
+                <a href="{{cp}}ipro/cjwt"><div class="btn-warning clearfix" style="padding: 15px;">
+                    <div class="pull-left">
+                        <h3 class="delta">03</h3>
+                        <h4>常见问题</h4>
+                        <p>+</p>
+                    </div>
+                    <div class="pull-right" style="width: 250px; padding-left: 25px;">
+                        <p class="phi">1、什么是项目代码及用途？</p>
+                        <p class="phi">2、如何收到提醒通知？</p>
+                    </div>
+                </div></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container alpha omega" style="padding: 30px 0;">
+    <div class="row">
+        <div class="col-xs-6">
+            <section class="panel panel-default" style="padding: 15px; height: 250px; overflow: hidden;">
+                <h4><strong>项目申报</strong></h4>
+                <hr>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <a class="thumbnail text-center" href="{{cp}}ipro/guidelist?href=%23x-p-2&region_code=370000000000">
+                            <img class="img-circle" src="{{cp}}public/ipro/assets/img/i-c-4.png" alt="">
+                            <br> 
+                            <h5 class="delta"><strong>省级联合办事大厅</strong></h5>
+                        </a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a class="thumbnail text-center" href="region">
+                            <img class="img-circle" src="{{cp}}public/ipro/assets/img/i-c-5.png" alt="">
+                            <br>
+                            <h5 class="delta"><strong>市级联合办事大厅</strong></h5>
+                        </a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a class="thumbnail text-center" href="regiondetail">
+                            <img class="img-circle" src="{{cp}}public/ipro/assets/img/i-c-6.png" alt="">
+                            <br>
+                            <h5 class="delta"><strong>县(市)级联合办事大厅</strong></h5>
+                        </a>
+                    </div>
+            </section>
+        </div>
+        <div class="col-xs-6">
+            <section class="panel panel-default" style="padding: 15px; height: 250px; overflow: hidden;">
+                <h4><strong>我的项目</strong></h4>
+                <hr>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <a class="thumbnail text-center" href="{{cp}}ipro/wdxm?href=%23x-p-1">
+                            <img class="img-circle" src="{{cp}}public/ipro/assets/img/i-c-1.png" alt="">
+                            <br>
+                            <h5 class="delta"><strong>进度查询</strong></h5>
+                        </a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a class="thumbnail text-center" href="{{cp}}ipro/wdxm?href=%23x-p-2">
+                            <img class="img-circle" src="{{cp}}public/ipro/assets/img/i-c-2.png" alt="">
+                            <br>
+                            <h5 class="delta"><strong>登记单打印</strong></h5>
+                        </a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a class="thumbnail text-center" href="{{cp}}ipro/new">
+                            <img class="img-circle" src="{{cp}}public/ipro/assets/img/i-c-3.png" alt="">
+                            <br>
+                            <h5 class="delta"><strong>项目年报</strong></h5>
+                        </a>
+                    </div>
+<!--                     <br> -->
+<!--                     <div class="small text-muted"> -->
+<!--                       <p>请 <a href="javascript:void(0)" onclick="doLogin()">登录</a>  -->
+<!--                                                           您的账号，如果没有请先<a href="http://zwfw.sd.gov.cn/sdjis/front/register/corregister.do"> 注册新用户</a></p> -->
+<!--                     </div> -->
+<!--                     <div class="small text-muted" id="hallLogin" style="display:none"> -->
+<!--                       <p>欢迎您，<span id="hallLoginname"></span></p> -->
+<!--                     </div> -->
+                </div>
+            </section>
+        </div> 
+    </div>
+</div>
+<script>
+$(function(){
+	if (loginInfo != "" && loginInfo != null){
+		$("#hallLogout").hide();
+		$("#hallLogin").show();
+		$("#hallLoginname").html(loginInfo.name);
+	}
+});
+
+function selectRegion(type){
+	
+	LEx.dialog({
+		id: "selectRegion", 
+		title: "选择区划",
+		url: LEx.webPath+"ipro/deptTree",
+		width: 400, height: 450,
+		lock:true,
+		button: [
+		         {
+		        	 name: '选择',
+		        	 callback: function() {
+		        	 var iframe = this.iframe.contentWindow;
+		        	 if (!iframe.document.body) {
+		        		 LEx.alert('内容还没加载完毕呢');
+		        		 return false;
+		        	 }
+		        	 var region = {};
+		        	 if((region=iframe.getData())){		        		
+		        		 if(region.CODE){
+		        			 window.location.href = "{{cp}}ipro/guidelist?href=%23x-p-2&region_code="+region.CODE;
+		        		 }
+		        		 return true;
+		        	 }else{
+		        		 return false;
+		        	 }
+		         },
+		         focus: true
+		         },
+		         {
+		        	 name: '关闭'
+		         }
+		         ]
+	});
+}
+</script>

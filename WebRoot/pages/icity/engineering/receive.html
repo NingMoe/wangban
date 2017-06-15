@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <style type="text/css">
+  .mydiv {
+	width: 1100px;
+	height: 44px;
+	position: fixed;
+	bottom: 5px;
+	right: 15px;
+	background-color: #F5F5F5;
+	border: 1px solid;
+	border-color: #DDD;
+}
+.input_validation-invalid {border: 1px solid #F00;color: #F00;}
+.input_validation-valid {border: 1px solid #333;color: #333;}
+.span3 {
+display:block; /*将tr设置为块体元素*/
+	margin:2px 0;  /*设置tr间距为2px*/
+}
+
+  </style>
+  <script src="{% public scripts/LEx.form.js %}"></script>
+
+</head>
+<body class="page-body">
+<div class="page" align="center">
+        <div style="overflow-y:auto" id="formdiv">   
+	        <div id="baseInfoTag" class="panel-heading">
+						 <span class="panel-title blue" style="margin-top: 0px; margin-bottom: 0px;"> 
+						 <i class="fa fa-file-text-o fa-1x blue"></i> &nbsp;<span style="font-size:18px">项目信息</span></span>
+					</div>
+			<div id="projectDiv" class="" role="tabpanel" style="margin-top: 0px; margin-bottom: 0px;">
+			<form id="project-frm" method="post">
+			<input id="id" hidden name="id">
+				<table class="gritter-with-table " cellspacing="1" id="projectTable">
+				<tbody>
+				<tr>
+				      <th style="font-size: 14px;">项目名称：</th>
+				      <td colspan=3><input id="projectName"  name="projectName" type="text" style="width:98%" class="span3" nullmsg="此项不能为空"/>
+				      <div class="Validform_checktip"></div></td>
+				     </tr>
+				     <tr>
+				      <th style="font-size: 14px;">投资项目编码：</th>
+				      <td><input id="investmentId"  onblur="validate(this)" reg="^.{0,10}$"  name="investmentId" type="text" style="width:95%" class="span3" nullmsg="此项不能为空" />
+				       <div class="Validform_checktip"></div></td>
+				     
+				      <th style="font-size: 14px;">总投资(万元)：</th>
+				      <td>
+				      <input id="totalInvestment" name="totalInvestment" type="text" style="width:95%" class="span3" />
+				   <!--    <input id="projectno" name="projectno" type="text" style="width:95%;display:none" class="span3"/> -->
+				      <input id="UCID" name="UCID" type="hidden" value="{{UserInfo.uid}}"/>
+				      </td>
+				     				     </tr>
+				     
+				     <tr>
+				      <th style="font-size: 14px;">行政区划：</th>
+				      <td><select id="region" name="region" style="width:95%" class="form-control span3">
+                               <!-- <option value="CQS,500000">重庆市</option>
+                               <option value="NAQ,500108">南岸区</option>
+                               <option value="BBQ,500109">北碚区</option>
+                               <option value="JBQ,500105">江北区</option>
+                               <option value="JLPQ,500107">九龙坡区</option>
+                               <option value="YZQ,500103">渝中区</option>
+                               <option value="YBQ,500112">渝北区</option>
+                               <option value="DDKQ,500104">大渡口区</option>
+                               <option value="SPBQ,500106 ">沙坪坝区</option> -->                               					       		<option value="JN,370100000000">济南市</option>					       		<option value="LX,370102000000">历下区</option>					       		<option value="LC,370112000000">历城区</option>					       		<option value="TQ,370105000000">天桥区</option>					       		<option value="GX,370114000000">济南高新区管委会</option>					       		<option value="ZQ,370181000000">章丘市</option>					       		<option value="JY,370125000000">济阳县</option>					       		<option value="CQ,370113000000">长清区</option>					       		<option value="SZH,370103000000">市中区</option>					       		<option value="PY,370124000000">平阴县</option>					       		<option value="SH,370126000000">商河县</option>					       		<option value="HY,370104000000">槐荫区</option>
+                               </select>
+
+				       <div class="Validform_checktip"></div> <!--  gaodeli 因ie8 兼容屏蔽此处 -->
+				     </td>
+				      <th style="font-size: 14px;">用地面积(平方米)：</th>
+				      <td>
+				      <input id="langArea"  name="langArea" type="text" style="width:95%" class="span3" nullmsg="此项不能为空" />
+				       <div class="Validform_checktip"></div>
+				       </td>
+				     </tr>
+				    <tr>
+				      <th style="font-size: 14px;">项目类别：</th>
+				      <td><select id="projectCategory" name="projectCategory" style="width:95%" class="form-control span3">
+                            <option value="1">建筑工程</option>
+                            <option value="2">装饰装修工程</option>
+                            <option value="3">安装工程</option>
+                            <option value="4">市政工程</option>
+                            <option value="5">园林绿化工程</option>
+                            <option value="6">矿山工程</option>
+                            </select>
+				      <div class="Validform_checktip"></div> 
+				        </td>  <!--gaodeli 因ie8 兼容屏蔽此处 -->
+				      <th style="font-size: 14px;">投资来源：</th>
+				      <td>
+				      
+				      <select id="investmentSource" name="investmentSource" style="width:95%" class="form-control span3">
+                         <option value="0">政府</option>
+                       <option value="1">企业</option>
+                       </select>
+                       <div class="Validform_checktip"></div>   <!--gaodeli 因ie8 兼容屏蔽此处 -->
+				      </td>
+				     </tr>
+				      <tr>
+				      <th style="font-size: 14px;">建设单位全称：</th>
+				      <td><input id="constructionUnit"  name="constructionUnit" type="text" style="width:95%" class="span3" datatype="*2-255" nullmsg="此项不能为空" />
+				       <div class="Validform_checktip"></div></td>
+				      <th style="font-size: 14px;">单位电话：</th>
+				      <td><input id="unitPhone"  name="unitPhone" type="text" style="width:95%" class="span3" datatype="n7-16" nullmsg="此项不能为空" errormsg="填写正确的电话号码" />
+				      <div class="Validform_checktip"></div></td>
+				     </tr>
+				     <tr>
+				      <th style="font-size: 14px;">组织机构代码：</th>
+				      <td><input id="unitCode"  name="unitCode" type="text" style="width:95%" class="span3" datatype="*2-20" nullmsg="此项不能为空" />
+				       <div class="Validform_checktip"></div></td>
+				      <th style="font-size: 14px;">注册资金(万元)：</th>
+				      <td><input id="registeredCapital"  name="registeredCapital" type="text" style="width:95%" class="span3" datatype="*1-10" nullmsg="此项不能为空" />
+				      <div class="Validform_checktip"></div></td>
+				     </tr>
+				    <tr>
+				      <th style="font-size: 14px;">法人代表：</th>
+				      <td><input id="legalMan"  name="legalMan" type="text" style="width:95%" class="span3" datatype="*2-255" nullmsg="此项不能为空" />
+				       <div class="Validform_checktip"></div></td>
+				      <th style="font-size: 14px;">联系人姓名：</th>
+				      <td><input id="contactMan"  name="contactMan" type="text" style="width:95%" class="span3" datatype="*2-255" nullmsg="此项不能为空" />
+				      <div class="Validform_checktip"></div></td>
+				    </tr>
+				    <tr>
+				      <th style="font-size: 14px;">身份证号：</th>
+				      <td><input id="contactManId"  name="contactManId" type="text"  style="width:95%" class="span3" datatype="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" nullmsg="此项不能为空" errormsg="请填写正确的身份证号" />
+				       <div class="Validform_checktip"></div></td>
+				      <th style="font-size: 14px;">手机：</th>
+				      <td><input id="contacts"  name="contacts"  onblur="validate(this)" reg="^.{11,11}$" type="text" style="width:95%" class="span3" datatype="m" nullmsg="此项不能为空" errormsg="请填写正确的手机号" />
+				      <div class="Validform_checktip"></div></td>
+				    </tr>
+				    <tr>
+				      <th style="font-size: 14px;">项目地址：</th>
+				      <td colspan=3><input id="projectaddress"  name="projectaddress" type="text" style="width:98%" class="span3" datatype="*2-255" nullmsg="此项不能为空" />
+				      <div class="Validform_checktip"></div></td>
+				    </tr>
+				</tbody>
+				</table>
+				</form>
+			</div>
+        </div>
+        	<div style="margin-top: 10px; margin-bottom: 10px;">
+        <!-- 	<button class="btn btn-prev btn-mini" id="printCode" onclick="acceptNotice()">
+            <i class="icon-arrow-left"></i> 打印二维码
+          </button>
+          <button class="btn btn-prev btn-mini" id="prevStep">
+            <i class="icon-arrow-left"></i> 上一步
+          </button>
+          <button class="btn btn-info btn-mini" type="reset" id="reConfig">
+            <i class="icon-arrow-left"></i> 重置
+          </button>
+          <button class="btn btn-success btn-next btn-mini" id="nextStep" >
+           	下一步 <i class="icon-arrow-right icon-on-right"></i>
+          </button> -->
+           <button class="btn btn-success btn-next btn-mini" data-last="完成" onclick="subProjectInfo()">
+                                  提交<i class="icon-arrow-right icon-on-right"></i>
+          </button>
+		</div>
+        </div>
+<script type="text/javascript">
+// var vl_frm = Power.form.validate("project-frm","11");
+ /* var bbb = "";
+var biz_id = '${biz_id!}';
+var dataid = "";
+var flag=0;
+$("#prevStep").hide();
+$("#printCode").hide();
+$("#doneStep").hide();
+//$(function(){
+	//var obj = $("#projectTable th");
+//	var txt='<span style= "color:red;">*</span>';
+//	for(var t=2;t<17;t++){
+//		$(obj[t]).prepend(txt);
+//	}
+//	if(biz_id!=null && biz_id!=""){
+//		document.getElementById("forminfo").src= "${root!}/parallel/business/forminfo/index?formId="+'${formId!}'+"&flow_id="+'${FLOW_ID!}'+"&flow_node_id="+'${flow_node_id!}'+"&dataId="+'${data_id!}'; 
+//	}else{
+//		document.getElementById("forminfo").src= "${root!}/parallel/business/forminfo/index?formId="+'${formId!}'+"&flow_id="+'${FLOW_ID!}'+"&flow_node_id="+'${flow_node_id!}'; 
+//	}
+//	mappingdata();
+//});
+
+//下一步操作
+$("#nextStep").click(function(){
+	if(subProjectInfo()){
+		$(".wizard-steps li").each(function(i){
+			var step=$(this).attr("class");//判断当前状态
+			//alert(step);
+			var isorno = document.getElementById("forminfo").contentWindow.clickbtnsave(); 		
+			if(isorno[0]!="1"){		
+				return false;
+				}
+			dataid=isorno[1];
+			if(biz_id!=null && biz_id!=""){
+				if(isorno[0]=="1"){
+					var cmd = new Power.command("${root!}/parallel/business/draftbox", "post");
+					cmd.setParameter("biz_id",biz_id);
+					cmd.setParameter("flow_id", '${FLOW_ID!}');
+					cmd.setParameter("form_id", '${formId!}');
+					cmd.setParameter("data_id", isorno[1]);
+					var ret = cmd.execute("update");
+					if ( ret.state == 1) {			
+						bbb = biz_id;			
+					} else {
+						Power.dialog.alertError("添加失败!</br>失败原因:数据库异常,可能是由于您填写的数据不规范造成的!");
+						return false;
+					}
+				}
+			}else if(flag==0){	
+					if(isorno[0]=="1"){
+						var cmd = new Power.command("${root!}/parallel/business/forminfo", "post");
+						cmd.setParameter("flow_id", '${FLOW_ID!}');
+						cmd.setParameter("form_id", '${formId!}');
+						cmd.setParameter("data_id", isorno[1]);
+						var ret = cmd.execute("save");
+						if ( ret.state == 1) {			
+						 bbb= ret.bizid;					
+						} else {
+							Power.dialog.alertError("添加失败!</br>失败原因:数据库异常,可能是由于您填写的数据不规范造成的!");
+							return false;
+						}
+					}	
+			}
+			if(step=="active"){ 	
+				var target=$(this).attr("data-target");//获取当前节点target
+				var id=target.substring(1,target.length);//获取当前节点ID
+				var nexttarget=$(this).next().attr("data-target");//获取下一节点target
+				var nextid=nexttarget.substring(1,nexttarget.length);//获取下一节点ID
+				if(flag==0)
+					document.getElementById("stuffframe").src="${root!}/parallel/business/taskcenter/todotask/searchCaiLiaoys?FLOW_ID="+'${FLOW_ID!}'+"&biz_id="+bbb;	
+
+				$("#nextStep").hide();
+				$("#doneStep").show();
+				$("#prevStep").show();
+				$("#printCode").show();
+				$("#reConfig").hide();
+				$(this).removeAttr("class");
+				$(this).attr("class","complete");//将状态改为完成
+				$(this).next().attr("class","active");//将下一页面激活
+				$("#formdiv").hide();
+				$("#uploaddiv").show();
+				return false;
+			}
+		});
+	}
+});
+
+$("#prevStep").click(function(){
+	flag=1;
+	mappingdata();
+	$(".wizard-steps li").each(function(i){
+		var step=$(this).attr("class");//判断当前状态
+		if(step=="active"){
+			var target=$(this).attr("data-target");//获取当前节点target
+			var id=target.substring(1,target.length);//获取当前节点ID
+			var prevtarget=$(this).prev().attr("data-target");//获取上一节点target
+			var previd=prevtarget.substring(1,prevtarget.length);//获取上一节点ID
+			//加载上一步页面【不需要保存数据】
+			//document.getElementById("forminfo").src= "${root!}/parallel/business/forminfo/index?formId="+'${formId!}'+"&flow_id="+'${FLOW_ID!}'+"&flow_node_id="+'${flow_node_id!}'+"&dataId="+dataid; 
+			
+			$("#formdiv").show();
+			$("#uploaddiv").hide();
+			if(i==1){
+				$("#prevStep").hide();
+			}
+			$("#printCode").hide();
+			$("#doneStep").hide();
+			$("#nextStep").show();
+			$("#reConfig").show();
+			$(this).removeAttr("class");//修改当前节点状态
+			$(this).prev().attr("class","active");//将上一节点状态激活
+			return false;
+		}
+	});
+});
+//重置
+$("#reConfig").click(function(){
+	$("input").val("");
+	$("input",window.frames["forminfo"].document).val("");
+
+});
+function doneStep(){
+ 	var cmd = new Power.command("${root!}/parallel/business/draftbox", "post");
+	cmd.setParameter("biz_id",bbb);
+	var ret = cmd.execute("updateRecieve");
+	if ( ret.state == 1) {
+		Power.dialog.alertSuccess("收件成功！")
+		$(parent.document).find("#dzzw-webfinal-iframe").attr("src","/parallel/business/todotask/index?jump=true")
+		
+	} else {
+		return false;
+	}
+}
+var unit = '${unit!}';
+if(unit.length > 0){
+	var unitList = Power.util.format.formatJson('${unit!}');
+	$.each(unitList,function(i,item){
+		var obj=document.getElementById('unit');
+		obj.add(new Option(item.NAME,item.CODE+","+item.REMARK)); 
+	});
+}
+
+var category = '${category!}';
+if(category.length > 0){
+	var categoryList = Power.util.format.formatJson('${category!}');
+	$.each(categoryList,function(i,item){
+		var obj=document.getElementById('projecttype');
+		obj.add(new Option(item.NAME,item.CODE)); 
+	});
+}
+var investsrc = '${investsrc!}';
+if(investsrc.length > 0){
+	var investsrcList = Power.util.format.formatJson('${investsrc!}');
+	$.each(investsrcList,function(i,item){
+		var obj=document.getElementById('investsource');
+		obj.add(new Option(item.NAME,item.CODE)); 
+	});
+}
+var projectinfo = '${projectinfo!}';
+if(projectinfo!=null&&projectinfo!=""){
+	var temp=Power.util.format.formatJson('${projectinfo!}');
+	$("#id").val(temp.ID);
+	$("#projectno").val(temp.PROJECT_ID);
+	$("#investno").val(temp.GOVERNMENT_INVESTMET_ID);
+	$("#projectname").val(temp.PROJECT_NAME);
+	$("#unit").val(temp.UNIT_IN_SHORT+","+temp.REGION);
+	$("#landarea").val(temp.LAND_AREA);
+	$("#projecttype").val(temp.PROJECT_CATEGORY);
+	$("#investsource").val(temp.INVESTMENT_SOURCE);
+	$("#totalinvest").val(temp.TOTAL_INVESTMENT);
+	$("#constructname").val(temp.CONSTRUCTION_UNIT);
+	$("#phone").val(temp.UNIT_PHONE);
+	$("#capital").val(temp.REGISTERED_CAPITAL);
+	$("#legalperson").val(temp.LEGAL_MAN);
+	$("#contact").val(temp.CONTACT_MAN);
+	$("#unitcode").val(temp.UNIT_CODE);
+	$("#idcard").val(temp.CONTACT_MAN_ID);
+	$("#telephone").val(temp.CONTACTS);
+	$("#projectaddress").val(temp.PROJECT_ADDRESS?temp.PROJECT_ADDRESS:temp.UNIT_ADDRESS);
+	//---add 重庆添加
+	$("#first_code").val(temp.FIRST_CODE);
+}
+
+
+
+function mappingdata(){
+	$("#XiangMuBianHao",window.frames["forminfo"].document).val($("#projectno").val());
+	$("#YeWuZhuTi",window.frames["forminfo"].document).val($("#projectname").val());
+	$("#LianXiRenXingMing",window.frames["forminfo"].document).val($("#contact").val());
+	$("#LianXiRenShouJi",window.frames["forminfo"].document).val($("#telephone").val());
+	//新增加的映射关系
+	$("#QiYeBianHao",window.frames["forminfo"].document).val($("#unitcode").val());
+	$("#ShenQingDanWeiRen",window.frames["forminfo"].document).val($("#constructname").val());
+	//不可新增到产品
+	$("#ZongTouZiWanYuan",window.frames["forminfo"].document).val($("#totalinvest").val());
+	$("#LianXiRenShenFenZhengHao",window.frames["forminfo"].document).val($("#idcard").val());	
+	
+	$("#XiangMuDiZhi",window.frames["forminfo"].document).val($("#projectaddress").val());
+	$("#DanWeiDianHua",window.frames["forminfo"].document).val($("#phone").val());
+	$("#FaRenDaiBiao",window.frames["forminfo"].document).val($("#legalperson").val());
+	$("#FaRenShenFenZhengHaoMa",window.frames["forminfo"].document).val($("#idcard").val());
+	$("#ZhuCeZiJinWanYuan",window.frames["forminfo"].document).val($("#capital").val());
+	//---add  20150507 全部映射
+	$("#YongDiMianJiPingFangMi",window.frames["forminfo"].document).val($("#landarea").val());
+	$("#TouZiXiangMuBianMa",window.frames["forminfo"].document).val($("#investno").val());
+	$("#TouZiZongEWanYuan",window.frames["forminfo"].document).val($("#totalinvest").val());
+	//---add 重庆添加
+	$("#YiMaZhi",window.frames["forminfo"].document).val($("#first_code").val());
+}
+*/
+function subProjectInfo(){
+	//if(vl_frm.check()){
+	//	var id = $("#id").val();
+	if($("#projectName").val()==''){
+alert("请输入项目名称！");
+return;
+		}else{
+		var ret;
+		var cmd = new LEx.Command("app.icity.engineering.EngineeringCmd");
+	 	var o = LEx.form.get("project-frm","id");
+	 	cmd.setParameter("project", o);
+//	 	if(id!=null&&id!=""){
+	// 		cmd.setParameter("id", encodeURIComponent($("#id").val()));
+	 //		cmd.setParameter("projectno", encodeURIComponent($("#projectno").val()));
+	 	//	ret = cmd.execute("update");
+	 	//}else{
+	 		ret = cmd.execute("saveProject");
+	 //	}		if(ret.state==1){	 		//if(id==null||id==""){
+	 			//$("#id").val(ret.id);
+	 	 		//$("#projectno").val(ret.project_id);
+	 	 		//$("#XiangMuBianHao",window.frames["forminfo"].document).val(ret.project_id);
+  //    window.location.href="aaa?projectid="+ret.data+"&projectname="+$("#projectName").val();
+      var data = LEx.urldata;          	 data.projectName =  $("#projectName").val();    	 data.projectId = ret.data;    	 window.location="{{PageContext.ContextPath}}icity/engineering/onlineDeal?"+LEx.urlEncode(data); 
+    	  
+      
+	 		 	//}else{
+	 		//return false;
+	 	}
+	else{
+		return false;
+	}
+		}}
+/*function acceptNotice(){
+	var first_code=$("#first_code").val();
+	var addButtons = [ {
+		id : 'pub-item-add',
+		name : '打印二维码',
+		callback : function() {
+			submitCode();
+			return false;
+		},
+		focus : true
+	}, 
+	{
+		name : '取消'
+	} ];
+	Power.dialog({
+		title : "受理通知书",
+		width:200,
+		url : "/parallel/business/forminfo/acceptNotice?first_code="+first_code,
+		button : addButtons,
+		init : function() {
+
+		}
+	});
+	//window.open(Power.rootPath+"/enterprise/business/parallelreceive/acceptNotice",'_blank');
+}*/
+function validate(o) {
+	var reg = new RegExp($(o).attr("reg"));
+	var val=$(o).val();
+	if(!reg.test(val)){
+		$(o).removeClass("input_validation-valid").addClass("input_validation-invalid");
+		return false;
+	}else{
+		$(o).removeClass("input_validation-invalid").addClass("input_validation-valid");
+		return true;
+	}
+	
+}
+
+$("#contactManId").blur(function(event){ 
+    var idCard = $(this).val(); 
+     
+    var checkFlag = new clsIDCard(idCard);    
+    if( !checkFlag.IsValid() ){ 
+		$(this).removeClass("input_validation-valid").addClass("input_validation-invalid");
+		return false; 
+    }else{ 
+		$(this).removeClass("input_validation-invalid").addClass("input_validation-valid");
+		return true;
+    }     
+  });
+
+
+
+//以下全部为身份证验证代码
+// 构造函数，变量为15位或者18位的身份证号码 
+function clsIDCard(CardNo) { 
+  this.Valid = false; 
+  this.ID15 = ''; 
+  this.ID18 = ''; 
+  this.Local = ''; 
+  if (CardNo != null) 
+    this.SetCardNo(CardNo); 
+} 
+
+
+// 设置身份证号码，15位或者18位 
+clsIDCard.prototype.SetCardNo = function(CardNo) { 
+  this.ID15 = ''; 
+  this.ID18 = ''; 
+  this.Local = ''; 
+  CardNo = CardNo.replace(" ", ""); 
+  var strCardNo; 
+  if (CardNo.length == 18) { 
+    pattern = /^\d{17}(\d|x|X)$/; 
+    if (pattern.exec(CardNo) == null) 
+      return; 
+    strCardNo = CardNo.toUpperCase(); 
+  } else { 
+    pattern = /^\d{15}$/; 
+    if (pattern.exec(CardNo) == null) 
+      return; 
+    strCardNo = CardNo.substr(0, 6) + '19' + CardNo.substr(6, 9) 
+    strCardNo += this.GetVCode(strCardNo); 
+  } 
+  this.Valid = this.CheckValid(strCardNo); 
+} 
+// 校验身份证有效性 
+clsIDCard.prototype.IsValid = function() { 
+  return this.Valid; 
+} 
+// 返回生日字符串，格式如下，1981-10-10 
+clsIDCard.prototype.GetBirthDate = function() { 
+  var BirthDate = ''; 
+  if (this.Valid) 
+    BirthDate = this.GetBirthYear() + '-' + this.GetBirthMonth() + '-' 
+        + this.GetBirthDay(); 
+  return BirthDate; 
+} 
+// 返回生日中的年，格式如下，1981 
+clsIDCard.prototype.GetBirthYear = function() { 
+  var BirthYear = ''; 
+  if (this.Valid) 
+    BirthYear = this.ID18.substr(6, 4); 
+  return BirthYear; 
+} 
+// 返回生日中的月，格式如下，10 
+clsIDCard.prototype.GetBirthMonth = function() { 
+  var BirthMonth = ''; 
+  if (this.Valid) 
+    BirthMonth = this.ID18.substr(10, 2); 
+  if (BirthMonth.charAt(0) == '0') 
+    BirthMonth = BirthMonth.charAt(1); 
+  return BirthMonth; 
+} 
+// 返回生日中的日，格式如下，10 
+clsIDCard.prototype.GetBirthDay = function() { 
+  var BirthDay = ''; 
+  if (this.Valid) 
+    BirthDay = this.ID18.substr(12, 2); 
+  return BirthDay; 
+} 
+
+// 返回性别，1：男，0：女 
+clsIDCard.prototype.GetSex = function() { 
+  var Sex = ''; 
+  if (this.Valid) 
+    Sex = this.ID18.charAt(16) % 2; 
+  return Sex; 
+} 
+
+// 返回15位身份证号码 
+clsIDCard.prototype.Get15 = function() { 
+  var ID15 = ''; 
+  if (this.Valid) 
+    ID15 = this.ID15; 
+  return ID15; 
+} 
+
+// 返回18位身份证号码 
+clsIDCard.prototype.Get18 = function() { 
+  var ID18 = ''; 
+  if (this.Valid) 
+    ID18 = this.ID18; 
+  return ID18; 
+} 
+
+// 返回所在省，例如：上海市、浙江省 
+clsIDCard.prototype.GetLocal = function() { 
+  var Local = ''; 
+  if (this.Valid) 
+    Local = this.Local; 
+  return Local; 
+} 
+
+clsIDCard.prototype.GetVCode = function(CardNo17) { 
+  var Wi = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2, 1); 
+  var Ai = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'); 
+  var cardNoSum = 0; 
+  for (var i = 0; i < CardNo17.length; i++) 
+    cardNoSum += CardNo17.charAt(i) * Wi[i]; 
+  var seq = cardNoSum % 11; 
+  return Ai[seq]; 
+} 
+
+clsIDCard.prototype.CheckValid = function(CardNo18) { 
+  if (this.GetVCode(CardNo18.substr(0, 17)) != CardNo18.charAt(17)) 
+    return false; 
+  if (!this.IsDate(CardNo18.substr(6, 8))) 
+    return false; 
+  var aCity = { 
+    11 : "北京", 
+    12 : "天津", 
+    13 : "河北", 
+    14 : "山西", 
+    15 : "内蒙古", 
+    21 : "辽宁", 
+    22 : "吉林", 
+    23 : "黑龙江 ", 
+    31 : "上海", 
+    32 : "江苏", 
+    33 : "浙江", 
+    34 : "安徽", 
+    35 : "福建", 
+    36 : "江西", 
+    37 : "山东", 
+    41 : "河南", 
+    42 : "湖北 ", 
+    43 : "湖南", 
+    44 : "广东", 
+    45 : "广西", 
+    46 : "海南", 
+    50 : "重庆", 
+    51 : "四川", 
+    52 : "贵州", 
+    53 : "云南", 
+    54 : "西藏 ", 
+    61 : "陕西", 
+    62 : "甘肃", 
+    63 : "青海", 
+    64 : "宁夏", 
+    65 : "新疆", 
+    71 : "台湾", 
+    81 : "香港", 
+    82 : "澳门", 
+    91 : "国外" 
+  }; 
+  if (aCity[parseInt(CardNo18.substr(0, 2))] == null) 
+    return false; 
+  this.ID18 = CardNo18; 
+  this.ID15 = CardNo18.substr(0, 6) + CardNo18.substr(8, 9); 
+  this.Local = aCity[parseInt(CardNo18.substr(0, 2))]; 
+  return true; 
+} 
+
+clsIDCard.prototype.IsDate = function(strDate) { 
+  var r = strDate.match(/^(\d{1,4})(\d{1,2})(\d{1,2})$/); 
+  if (r == null) 
+    return false; 
+  var d = new Date(r[1], r[2] - 1, r[3]); 
+  return (d.getFullYear() == r[1] && (d.getMonth() + 1) == r[2] && d 
+      .getDate() == r[3]); 
+}
+
+
+
+
+
+</script>
+</body>
+</html>
+

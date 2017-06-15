@@ -1,0 +1,12 @@
+<script>
+$(function(){
+	type = LEx.urldata.type;
+	if(type=="szwdwdz"){
+		//审招委单位
+		var zxdzUrl = "<iframe src = '{{cp}}szw/address/{{ConfigInfo.WebRegion}}' style=\"width:100%;height:560px;\"/>";
+		$("#list_content").html(zxdzUrl);
+	}
+});
+</script>
+<div class="container" id="list_content">
+</div>

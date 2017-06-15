@@ -1,0 +1,156 @@
+@CHARSET "UTF-8";
+.effect_header{
+	height:50px;
+	padding-left:15px;
+}
+
+.effect_header_left{
+	font-size:24px;
+}
+
+.TabOn{
+	overflow: hidden;
+	text-align: center;
+	vertical-align: middle;
+	background-image: url(../../../images/effect/btn_title_effetc.gif);
+	background-position: 0px 0px;
+	width: 161px;
+	height: 25px;
+	cursor:pointer;
+	font-size:11pt;
+	padding-top:2px;
+}
+
+.TabOn span{
+	color:white;
+}
+
+.TabOff{
+	color: #6688CC;
+	vertical-align: middle;
+	font-size: 11pt;
+	text-align: center;
+	width:161px;
+	height:25px;
+	display:block;
+	padding-top:2px;
+}
+
+
+
+.TabOff:hover {
+color: red;
+
+}
+
+.TabOff{
+color: #6688CC;
+cursor: pointer;
+}
+
+.effect_header_right a,a:link,a:visited,a:hover,a:active,a:focus{
+	outline: none;
+	-moz-outline-style: none;
+	text-decoration: none;
+}
+
+
+.effect_main_div{
+	float:left;
+	width:100%;
+	height:100%;
+	margin-top:3px;
+}
+
+.effect_tab_header{
+	height:50px;
+	margin-top:7px;
+	padding-left:15px;
+}
+
+.effect_tab_header_left{
+	white-space: normal; 
+	word-break: break-all;
+	width:550px;
+	font-size:21px;
+}
+
+.effect_tab_header_right{
+	height:31px;
+}
+
+
+
+
+.tab_title {
+	margin-top:5px;
+	overflow: hidden;
+	text-align: center;
+	vertical-align: middle;
+	background-position: 0px 0px;
+	width: 114px;
+	height: 31px;
+	cursor: hand;
+	font-size:11pt;
+}
+
+.tab_title:hover {
+	margin-top:5px;
+	overflow: hidden;
+	text-align: center;
+	vertical-align: middle;
+	background-position: 0px 0px;
+	width: 114px;
+	height: 31px;
+	cursor:pointer;
+	color:red;
+	font-size:11pt;
+}
+
+.tab_title_select {
+	margin-top:5px;
+	overflow: hidden;
+	text-align: center;
+	vertical-align: middle;
+	background-position: 0px 0px;
+	width: 114px;
+	height: 31px;
+	cursor:pointer;
+	color:red;
+	font-size:11pt;
+}
+
+.effect_line{
+	width:0px;
+	height:20px;
+	border:#ccc solid 1px;
+	margin-top:3px;
+}
+
+.tab_bl{
+	text-align:right;
+	padding-right: 20px;
+	font-size: 15px;
+	line-height: 25px;
+	width:100%;
+}
+
+.effect_font{
+	width:70px;
+}
+
+li{
+	font-size:12px;
+	height:28px;
+}
+
+
+
+
+
+
+
+
+
+
+

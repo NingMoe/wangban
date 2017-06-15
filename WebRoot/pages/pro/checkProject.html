@@ -1,0 +1,59 @@
+<script type="text/javascript">
+		{% set cp PageContext.ContextPath %}
+		var __webPath = "{{cp}}";
+		var __signature = "{{PageContext.SignatureInfo}}";
+</script>
+<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+<script>
+var typename = LEx.urldata.typename;
+//PROJECT_TYPE类型:A00001审批类,A00002核准类,A00003备案类
+var type = "";
+if("审批"== typename){
+	type = "A00001";
+}else if("核准"== typename){
+	type = "A00002";
+}else if("备案"== typename){
+	type = "A00003";
+}
+$(function(){
+	initProject();
+});
+function initProject(){
+	var command = new LEx.Command("app.icity.pro.ProCmd");
+	command.setParameter("userInfo", {{UserInfo}});
+	var ret = command.execute("getProjectList");
+	if(!command.error){
+		$('#projectList').html(LEx.processDOMTemplate('projectListTemplate',ret));
+    }else{
+    }
+}
+function checkdata(){
+	var projectcode = "";
+	projectcode = $("input[name=radioprojectList]:checked").val();
+	if(projectcode==""||projectcode==undefined){
+		return "未选择";
+	}else{
+		return projectcode;
+	}
+}
+</script>
+<div id="projectList"></div>
+<script type="text/template" id="projectListTemplate">
+	<table class="table table-hover" style="margin-left:auto;margin-right:auto;width:80%;">
+	    <thead>
+{for o in data}
+{if type == o.PROJECT_TYPE}
+	        <tr class="active">
+	            <td class="font-size-16" style="width:50px;text-align:left;">
+					<input type="radio" name="radioprojectList" value="${o.SBLSH}">
+				</td>
+				<td class="font-size-16" style="text-align:left;">
+					${o.PROJECTNAME}
+				</td>
+	        </tr>
+{/if}
+{/for}
+	    </thead>
+	</table>
+
+</script>

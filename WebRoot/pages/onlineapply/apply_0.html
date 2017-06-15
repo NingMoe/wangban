@@ -1,0 +1,462 @@
+<link rel="stylesheet" type="text/css"
+	href="{{PageContext.CssPath}}govservice.css" />
+<link rel="stylesheet" type="text/css" href="{{PageContext.PagePath}}icity/submitsp/all.css" /> 
+<script src="{% public scripts/LEx.form.js %}"></script>
+<link 	href="{% public scripts/fineload/css/jquery.fileupload.css %}"  rel="stylesheet"/>
+<script src="{% public scripts/fineload/js/vendor/jquery.ui.widget.js %}"></script>
+<script src="{% public scripts/fineload/js/jquery.iframe-transport.js %}"></script>
+<script src="{% public scripts/fineload/js/jquery.fileupload.js %}"></script>
+<style type="text/css">
+.btn-warning {
+    color: #ffffff;
+    background-color: #FF9D0C;
+    border-color: #FF9D0C;
+}
+.sbTableStyle01 tbody tr td i, .sbTableStyle02 tbody tr td i {
+    font-weight: normal;
+    color: #F3EFEF;
+    font-style: normal;
+    float: right;
+}
+input.date{background: #fff url({% public images/input_date.png %}) no-repeat right 3px;border:1px solid #848484;height:28px;width:100%; margin:0 5px 0 0;padding:2px 0 2px 5px; font-family: Verdana, Geneva, sans-serif,"宋体";font-size:12px;}
+.input_validation-invalid,.input_validation-failed {border: 1px solid #F00;color: #F00;}
+.input_validation-valid {border: 1px solid #333;color: #333;}
+.DynarchCalendar-topCont{width:200px;}
+table.t1 {width: 900px;}
+.progress-l {
+	overflow: hidden;
+	margin: 100px auto;
+	padding: 0 15px;
+	width: 220px;
+	height: 34px;
+	background: #d3d5d9;
+	border-radius: 17px;
+	background-image: -webkit-linear-gradient(top, #ebecef, #bfc3c7);
+	background-image: -moz-linear-gradient(top, #ebecef, #bfc3c7);
+	background-image: -o-linear-gradient(top, #ebecef, #bfc3c7);
+	background-image: linear-gradient(to bottom, #ebecef, #bfc3c7);
+	-webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.8), 0 2px 4px
+		rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 0 6px #b6babe,
+		0 7px rgba(255, 255, 255, 0.1);
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.8), 0 2px 4px
+		rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 0 6px #b6babe,
+		0 7px rgba(255, 255, 255, 0.1);
+}
+
+.progress-val-l {
+	float: right;
+	margin-left: 15px;
+	font: bold 15px/34px Helvetica, Arial, sans-serif;
+	color: #333;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.6);
+}
+
+.progress-bar-l {
+	display: block;
+	overflow: hidden;
+	height: 8px;
+	margin: 13px 0;
+	background: #b8b8b8;
+	border-radius: 4px;
+	background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2),
+		transparent 60%);
+	background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.2),
+		transparent 60%);
+	background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.2),
+		transparent 60%);
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2),
+		transparent 60%);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px
+		rgba(255, 255, 255, 0.6);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px
+		rgba(255, 255, 255, 0.6);
+}
+
+.progress-in-l {
+	display: block;
+	min-width: 8px;
+	height: 8px;
+	background: #1997e6;
+	background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.3),
+		rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0) 61%, rgba(0, 0, 0, 0.2)),
+		-webkit-linear-gradient(left, #147cd6, #24c1fc);
+	background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.3),
+		rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0) 61%, rgba(0, 0, 0, 0.2)),
+		-moz-linear-gradient(left, #147cd6, #24c1fc);
+	background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.3),
+		rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0) 61%, rgba(0, 0, 0, 0.2)),
+		-o-linear-gradient(left, #147cd6, #24c1fc);
+	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3),
+		rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0) 61%, rgba(0, 0, 0, 0.2)),
+		linear-gradient(to right, #147cd6, #24c1fc);
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px rgba(0, 0, 0, 0.2), inset 0 0 0 1px
+		rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0 1px rgba(0, 0, 0, 0.2), inset 0 0 0 1px
+		rgba(0, 0, 0, 0.2);
+}
+#base input,#base select{
+	width: 98%;
+	height:30px;
+}
+</style>
+<div id="guide-top">
+	<div id="baseinfo"  class="guide-top-box" style="display:none;min-height: 400px;">
+	<table class="t1" cellspacing="1">
+			<colgroup>
+				<col width="20%">
+				<col width="30%">
+				<col width="20%">
+				<col width="30%">
+			</colgroup>
+				<tbody>
+					<tr><th>审批办件类型</th><td colspan="3"><label style="width: 60px; float: left;"> <input
+								type="radio" class="gr" onclick="loadForm(this)" id="sptype"  name="sptype" value="1" group="gen"
+								checked="true"> <span class="lbl">个人</span>
+						</label> <label style="width: 60px; float: left;"> <input
+								type="radio" class="qy"  onclick="loadForm(this)" id="sptype" name="sptype" group="gen" value="3"> <span
+								class="lbl">企业</span>
+						</label><label style="width: 60px; float: left;"> <input
+								type="radio" class="xm" onclick="loadForm(this)"  id="sptype" name="sptype" group="gen" value="2"> <span
+								class="lbl">项目</span>
+						</label></td>
+					</tr>
+				</tbody>
+				<tbody id="base"></tbody>
+	</table>
+	</div>
+	<div id="form" style="height:500px;display:none;">
+		<iframe id="formiframe" name="formiframe" src="" style="border:0px;width:100%;height:100%;"></iframe>	
+	</div>
+	<div id = "apply" style="display:none;">
+	<table style="border:1px;width:100%" class="t1" id="tableID">
+	<tr>
+		<th style="width:8%;text-align: left;">编号</th>
+		<th style="width:45%;text-align: left;">文件名称</th>
+		<th style="width:30%;text-align: left;">附件名称</th>
+		<th style="width:17%;text-align: left;"><input id="select_all" type="checkbox" value="checkbox" />操作</th></tr>
+		<script type="text/javascript">
+			var must_materials = [];
+			var n_must_materials = [];
+		</script>
+	   {% for material in materials %}
+		<tr code="{{material.CODE}}" name="{{material.NAME}}">
+			<td width="10%">{{loop.counter}}</td>
+			<td width="22%">
+			{% if material.MUST|equal:"1" %}
+				<script type="text/javascript">
+					must_materials.push('{{material.CODE}}');
+				</script>
+					<img
+				src="{{PageContext.ContextPath}}public/images/star_icon_1.gif"
+				width=15 height=14 " />
+			{% else %}
+				<script type="text/javascript">
+					n_must_materials.push('{{material.CODE}}');
+				</script>
+				<img
+				src="{{PageContext.ContextPath}}public/images/star_icon_2.gif"
+				width=15 height=14 " />
+			{% endif %}
+			{{material.NAME}}
+			
+			</td>
+			<td  width="30%"><div id="list_{{material.CODE}}" bqbz="{{material.BQBZ}}"></div></td>
+			<td  width="38%">
+			{% if state|equal:"21"%}
+			{% if material.BQBZ|equal:"1" %}
+			
+			<input name="checkbox" type="checkbox" id="ck_{{material.CODE}}">窗口提交&nbsp;&nbsp;
+			<span class="btn btn-sm btn-warning fileinput-button" style="margin-left: 5px;"> 
+			<i class="icon-upload">选择附件</i> <input id="{{material.CODE}}" class="fileupload" tag="0" type="file" name="files[]" multiple />
+			</span>
+			{%endif%}
+			{% else %}
+			<input name="checkbox" type="checkbox" id="ck_{{material.CODE}}">窗口提交&nbsp;&nbsp;
+			<span class="btn btn-sm btn-warning fileinput-button" style="margin-left: 5px;"> 
+			<i class="icon-upload">选择附件</i> <input id="{{material.CODE}}" class="fileupload" tag="0" type="file" name="files[]" multiple />
+			</span>
+			{%endif%}
+			</td>
+		</tr>
+	{% endfor %}
+	</table>
+	</div>
+	<br/>
+	 <div id = "submitsp" style="height:40px;text-align:center;">
+	 <input type="button" style="width: 68px;"  class="btn btn-info pre" onclick="pre();" value="上一步 "/>
+	 <input type="button" style="width: 68px;"  class="btn btn-info next" onclick="next();" value="下一步" />
+	 <input type="button" style="width: 68px;"  class="btn btn-info save" onclick="saveData();" value="暂存" />
+	 {%if ConfigInfo.DEMONSTRATE_MODE|equal:"1"%}
+	 <input type="button" style="width: 68px;"  class='btn btn-info add'  value="盖章">
+	{% endif %}
+	</div>
+</div>
+	<input type="hidden" id="_path"/>
+	<input type="hidden" id="_name"/>
+	<div id="progress_IE8"
+	style="display: none; position: absolute; left: 40%; top: 30%; width: 200px; heigth: 130px; background-color: #5cb85c; border-radius: 5px; z-index: 11999;">
+	<!--页面载入显示-->
+	<table width=80% height=80% border=0 align=center valign=middle>
+		<tr>
+			<td align=center>&nbsp;</td>
+		</tr>
+		<tr>
+			<td align=center><img
+				src="{%public scripts/fineload/img/loading.gif %}" width="60px"
+				height="60px" /></td>
+		</tr>
+		<tr>
+			<td align=center>文件正在上传，请稍后......</td>
+		</tr>
+		<tr>
+			<td align=center>&nbsp;</td>
+		</tr>
+	</table>
+</div>
+<div id="progress" class="progress-l"
+	style="display: none; position: absolute; top: 40%; right: 40%;">
+	<span class="progress-val-l">0%</span> <span class="progress-bar-l"><span
+		id="bar" class="progress-in-l" style="width: 0%"></span></span>
+</div>
+	{% widget "icity.Material" %}
+<script>
+var docids = [];
+var apply_data={};//申报数据
+var formInfo={};//服务对象基本信息
+var checked_materials = [];
+var current_step = 1;
+var object_types = [];//办理对象
+var type = "1";
+var _calendar=null;
+var _dataId="{{_dataId}}";
+var dataId="{{dataId}}";
+var sblsh="{{sblsh}}";
+var state="{{state}}";
+
+var formSettingInfo = {{formSettingInfo}};
+var companyMap = [];
+var personMap = [];
+var projectMap = [];
+
+var service_object_type = 1;
+var formMapObj = {};
+
+//是否需要基本信息
+var isSetUp = 0;//0 需要 1 不需要
+
+var userInfo ={{userInfo}};
+$(document).ready(function(){
+	if(state!="00"){
+		$(".save").hide();
+	}
+	if(state=="21"){
+		current_step=3;
+		$("#apply").show();
+		$(".next").val("提交");
+	}
+	else{$("#baseinfo").show();}
+	$(".pre").hide();//首次加载的时候，隐藏上一步
+	isSetUp = (formSettingInfo.isSetUp == null) ? 0 : formSettingInfo.isSetUp;
+		
+	apply_data["formId"]="{{formid}}";
+	apply_data["dataId"]="{{_dataId}}";
+	var OBJECT_TYPE = "{{OBJECT_TYPE}}";
+	object_types = OBJECT_TYPE.split(",");
+	OBJECT_TYPE = OBJECT_TYPE.split(",")[0];
+	if(isSetUp == 0) {
+		if(OBJECT_TYPE=="1"){
+			$(".gr").click();
+		}else if(OBJECT_TYPE=="3"){
+			$(".qy").click();
+		}else if(OBJECT_TYPE=="2"){
+			$(".xm").click();
+		}else{$(".gr").click();}
+		LEx.form.init("#baseinfo");
+	} else {
+		next();
+	}
+	
+	bindData();
+	initMap();
+	initFileUpload();
+	$("#select_all").on('click', function(e) {
+		if (this.checked) {
+			$("[name='checkbox']").each(function() {
+				$(this).attr('checked', true);
+			});
+		} else {
+			$("[name='checkbox']").each(function() {
+				$(this).attr('checked', false);
+			});
+		}
+	});
+	$("input[name='checkbox']").on('click', function(e) {
+		var checkd_length = $("input[name='checkbox']:checked").length;
+		var length = $("input[name='checkbox']").length;
+
+		if (checkd_length == length) {
+			$("#select_all").attr('checked', true);
+		} else {
+			$("#select_all").attr('checked', false);
+		}
+	});
+	//暂存后，点击修改跳到第二页
+	if(sblsh!=null&&sblsh!=""){
+		$("#two").removeClass("li_two");
+		$("#two").addClass("li_one");
+		$(".pre").show();
+		step=2;
+		toggleIcon(step);
+	}
+});
+/**
+ * 初始化映射map
+ *
+ **/
+function initMap(object_types) {
+	formMapObj['3'] = formSettingInfo.companyMap;
+	formMapObj['1'] = formSettingInfo.personMap;
+	formMapObj['2'] = formSettingInfo.projectMap;
+	
+	//是否需要第一步
+	if(isSetUp == 0) {
+		
+	}
+}
+/**
+ *映射表单值
+ *@param option 1或者2 1为正向映射，2为逆向映射
+ *       idoc iframe 的document
+ **/
+function changeFormValue(option,formMap,idoc) {
+	for(var i in formMap) {
+		var obj = formMap[i];
+		var $source = $("#" + obj.SOURCE_FIELD_ID,idoc);
+		var $target = $("#" + obj.TARGET_FIELD_ID,$("#baseinfo"));
+		if($source.length != 0 && $target.length != 0) {
+			if(option == 1) {
+				$source.val($target.val());
+			} else {
+				$target.val($source.val());
+			}
+		}
+	}
+}
+	function pre(){
+		//当前第二步 且 存在第一步
+		if(current_step==2){		
+			formiframe.window.bSave();
+			var obj = parent.frames["formiframe"].window;
+			_dataId = obj.document.getElementById("dataid").value;
+			if(_dataId!=""){
+				dataId="&dataId="+_dataId;
+				apply_data["dataId"] = _dataId;
+				current_step-=1;
+				changeFormValue(2, formMapObj[service_object_type] ,obj.document);
+				
+				$("#baseinfo").show();
+				$("#form").hide();
+				$(".pre").hide();
+			}else{
+				current_step = 2;
+				LEx.alert("表单数据未提交成功，请重新办理事项！");
+				return;
+			}
+		}else if(current_step==3){
+			current_step-=1;
+			$("#formiframe").attr("src","{{PageContext.ContextPath}}icity/submitsp/view?itemId={{itemInfo.ID}}&formId={{formid}}"+dataId);
+			$("#form").show();
+			$("#apply").hide();
+			if(isSetUp==0){
+				$(".pre").show();
+			}
+			$(".next").val("下一步");
+		}
+	}
+function next(){
+	if(current_step==2){
+		
+		formiframe.window.bSave();
+		var obj = parent.frames["formiframe"].window;
+		_dataId = obj.document.getElementById("dataid").value;
+		//逆向
+		//changeFormValue(2, formMapObj[service_object_type] ,obj.document);
+		
+		if(_dataId!=""){
+			dataId="&dataId="+_dataId;
+			apply_data["dataId"] = _dataId;
+			current_step+=1;
+			$("#form").hide();
+			$("#apply").show();
+			$(".pre").show();
+			$(".next").val("提交");
+			if ($("#tableID tr").length == 1) {
+				LEx.alert("没有需要提交的资料。");
+			}
+		}else{
+			current_step = 2;
+			LEx.alert("表单未提交成功，请重新办理事项！");
+			return;
+		}
+	}else if(current_step==1){
+		if(isSetUp==0){
+			if(!LEx.form.validate("#baseinfo")){
+				var r = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+				if(!r.test($("#name").val())){        
+					LEx.alert("姓名只能填写中文。");   
+		        }else{
+		        	LEx.alert("请正确填写必填项");
+		        }
+				return;
+			}
+		}
+		current_step+=1;
+		$("#baseinfo").hide();
+		$("#formiframe").attr("src","{{PageContext.ContextPath}}icity/submitsp/view?itemId={{itemInfo.ID}}&itemName={{itemInfo.NAME}}&formId={{formid}}"+dataId);
+		
+		//自动映射信息
+		if(isSetUp == 0) {
+			$("#formiframe").load(function(){
+				changeFormValue(1, formMapObj[service_object_type] ,$("#formiframe")[0].contentWindow.document);
+			});
+			$(".pre").show();
+		}
+		$("#form").show();
+	}else if(current_step==3){
+		submitData();
+	}
+}
+function submitData(){
+	buildData();
+	//提交数据时，如果为草稿状态，state=sp；驳回、撤销state=bqbz；补齐补正state=clbqbz
+	if(state=="00"){
+		apply_data.state="sp";}
+	else if(state=="21"){
+		apply_data.state="clbqbz";
+		apply_data.clqd="{{bzclqd}}";}
+	else{apply_data.state="bqbz";}
+	apply_data.isSetUp = isSetUp;
+	apply_data.ly="icity";
+	var command = new LEx.Command("app.icity.onlineapply.ApplyCmd");
+	command.setParameter("data",apply_data);
+	command.execute("submitSP");
+	if(!command.error){
+		current_step=3;
+		LEx.alert("提交成功！");
+		window.location.href="{{cp}}center/index";
+    }else{
+    	current_step=3;
+    	LEx.alert("提交失败！");
+    }
+}
+</script>
+
+{% include onlineapply/form.html%}
+<script type="text/javascript" src="{% public zsign/jquery.zsign.js%}"></script>
+    <link href="{% public zsign/jquery.zsign.css %}"  rel="stylesheet"/>
+<script>
+{% if ConfigInfo.DEMONSTRATE_MODE|equal:"1"%}
+$("#baseinfo").zSign({img: '{% public zsign/1.gif %}'});
+{% endif %}
+</script>

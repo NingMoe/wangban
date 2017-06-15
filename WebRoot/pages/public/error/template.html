@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{{Status}} {{ReasonPhrase}}</title>
+<link rel="stylesheet" type="text/css" href="{{PageContext.PagePath}}public/error/css/custom.css">
+</head>
+<body>
+            <div class="text-center" style="width: 480px; margin: 0 auto;">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <img src="{{PageContext.PagePath}}public/error/img/lost.png" width="168">
+                <h3 style="line-height: 1.5; color: #666;">{{Error|escape}}</h3>
+                <br>
+                <a class="btn btn-success" href="{{PageContext.ContextPath}}">返回首页</a>
+                <a class="btn btn-success" href="javascript:void();" onclick="history.go(-1);return true;">返回前一页</a>
+            </div>
+</body>
+</html>

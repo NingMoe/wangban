@@ -1,0 +1,238 @@
+<script>
+var dept_id = "";
+var item_type = "";
+var region_code=getSecurityValue("WebRegion");
+$(function(){$('.jqpagination').jqPagination({
+	paged: function(page) {onQuery(page);},
+	page_string:"第{current_page}页   共{max_page}页"
+});})
+$(function(){
+	onQueryDept();
+	onQuery(1);
+	$("#power_search").val("");
+	$("#power_select").val("");
+});
+function search(){
+	if($("#power_search").val()!=""){
+		onQuery(1);
+	}else{
+		LEx.dialog({title : "系统提示",content : "搜索内容不能为空！", icon: 'error' ,lock : true});	
+}
+}
+function onQuery(page){
+	var limit=10;
+	var item_ty = $("#power_select").val();
+	var SearchName = $("#power_search").val();
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+	cmd.setParameter("deptid", dept_id);
+	if(SearchName!=""){
+		if(item_ty=="请选择" ){
+			cmd.setParameter("ITEM_TYPE", "");
+			item_type="";
+		}else{
+			cmd.setParameter("ITEM_TYPE", item_ty);
+			item_type = item_ty;
+		}
+		cmd.setParameter("SearchName", SearchName);
+	}else{
+		cmd.setParameter("ITEM_TYPE", item_type);
+	}
+	changeSeclect(item_type);
+	cmd.setParameter("region_code", region_code);
+	cmd.setParameter("page",page);
+	cmd.setParameter("limit", limit);
+	var ret = cmd.execute("getInitList");
+	if(!ret.error){
+		$('#s-j-1').html(LEx.processDOMTemplate('powerTemplate',ret));
+		var total=ret.total;
+		total=Math.ceil(total/limit);
+		if(total==0){
+			$("#project-none").show();
+			$('.jqpagination').hide();
+		}
+		else{
+			$("#project-none").hide();
+			$('.jqpagination').show();
+			$('.jqpagination').jqPagination('option',{current_page:page,max_page:total,trigger:false});
+		}
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+$(function(){
+	 $('#s-t-1 > ul > li').click(function (e) {
+		 item_type = $(this).attr("code");
+		 $("#power_search").val("");
+		 dept_id="";
+		 $('#s-t-1 > ul >li').removeClass("active");
+		 $('#s-t-2 > ul >li').removeClass("active");
+		 $(this).addClass("active");
+		 $('.panel-title > strong').html($(this).text());
+		 onQuery(1);
+	 });
+	 $('#s-t-2 > ul >li').click(function (e) {
+		 dept_id = $(this).attr("id");
+		 item_type="";
+		 $('#s-t-1 > ul >li').removeClass("active");
+		 $('#s-t-2 > ul >li').removeClass("active");
+		 $(this).addClass("active");
+		 $('.panel-title > strong').html($(this).text());
+		 onQuery(1);
+	 });
+});
+function onQueryDept(){
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	command.setParameter("region_code",region_code);
+	var ret = command.execute("getDeptList");
+	if(!command.error){
+		$('#s-t-2').html(LEx.processDOMTemplate('bmTemplate',ret));
+	}else{
+		LEx.dialog({
+			title : "系统提示",
+			content : command.error,
+			icon : 'error',
+			lock : true
+		});
+	}	
+}
+function formatType(o){
+	return $("#s-t-1 > ul >li[code="+o+"]").text();
+}
+
+	function changeSeclect(item_type) {
+		var objSelect = document.getElementById("power_select");
+		var len = objSelect.options.length;
+		for (var i = 0; i < len; i++) {
+			if (objSelect.options[i].value == item_type) {
+				objSelect.options[i].selected = true;
+				return true;
+			}
+
+		}
+		objSelect.options[0].selected = true;
+	}
+
+</script>
+</script>
+<script type="text/template" id="bmTemplate">
+<ul class="row list-unstyled lh25">
+{for o in data.organ}
+{if o.IS_HALL=="1"}
+<li class="col-xs-6" name="${o.CODE}" id="${o.CODE}"><a href="#" data-toggle="tab" title="${o.SHORT_NAME}">${formatLen(o.SHORT_NAME,0,5)}</a></li>
+{/if}
+{/for}
+</ul>
+</script>
+<script type="text/template" id="powerTemplate">
+<div class="well alpha omega psi no-bordered no-shadow transparent" style="text-indent: 2em;">“省级保留”的行政权力，是指省级部门直接行使和委托（含部分委托）下放市、县（市、区）政府主管部门行使的行政权力政府主管部门行使的行政权力。</div>
+<table class="table table-hover no-bordered">
+    <tbody>
+{for o in data}
+        <tr>
+            <td class="text-muted">${formatType(o.TYPE)}</td>
+            <td><a href="{{PageContext.ContextPath}}approve/guide?id=${o.ID}" target="_blank">${formatLen(o.NAME,0,50)}</a></td>
+        </tr>
+{/for}
+    </tbody>
+</table>
+</div>
+</script>
+<style>
+.table.no-bordered > tbody > tr > td {
+    border: 0;
+}
+</style>
+<div class="container">
+    <ol class="breadcrumb alpha omega transparent">
+        <li>当前位置</li>
+        <li><a href="{{cp}}sunny">阳光政务</a></li>
+        <li class="active">行政权力清单</li>
+    </ol>
+    <div class="row">
+        <div class="col-xs-3">
+            <section class="panel panel-default no-bordered no-shadow" style="background-color: #f5f5f5; border-top: 2px solid #0DB0E5 !important; height:680px;">
+                <header class="panel-heading alpha omega beta psi">
+                    <ul class="nav nav-pills nav-justified">
+                        <li class="active"><a data-toggle="tab" href="#s-t-1"><strong><i class="mdicon mdicon-receipt f24"></i><br>按类别</strong></a></li>
+                        <li><a data-toggle="tab" href="#s-t-2" href="#"><strong><i class="mdicon mdicon-domain f24"></i><br>按部门</strong></a></li>
+                    </ul>
+                </header>
+                <div class="tab-content panel-body">
+                    <div class="tab-pane fade in active" id="s-t-1">
+                        <ul class="row list-unstyled lh25">
+                            <li class="col-xs-6" code="XK"><a href="#">行政许可</a></li>
+                            <li class="col-xs-6" code="SP"><a href="#">非行政许可</a></li>
+                            <li class="col-xs-6" code="CF"><a href="#">行政处罚</a></li>
+                            <li class="col-xs-6" code="QZ"><a href="#">行政强制</a></li>
+                            <li class="col-xs-6" code="ZS"><a href="#">行政征收</a></li>
+                            <li class="col-xs-6" code="ZY"><a href="#">行政征用</a></li>
+                            <li class="col-xs-6" code="JF"><a href="#">行政给付</a></li>
+                            <li class="col-xs-6" code="CJ"><a href="#">行政裁决</a></li>
+                            <li class="col-xs-6" code="QR"><a href="#">行政确认</a></li>
+                            <li class="col-xs-6" code="JL"><a href="#">行政奖励</a></li>
+                            <li class="col-xs-6" code="BA"><a href="#">行政备案</a></li>
+                            <li class="col-xs-6" code="JC"><a href="#">监督检查</a></li>
+                       		<li class="col-xs-6" code="QT"><a href="#">其他类权力</a></li>
+                       		<li class="col-xs-6" code="FW"><a href="#">行政服务</a></li>
+                       		<li class="col-xs-6" code="BM"><a href="#">便民服务</a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="s-t-2">
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-xs-9 alpha">
+            <section class="panel panel-default no-bordered no-shadow" style="border-top: 2px solid #0DB0E5 !important; height: 700px;">
+                <header class="panel-heading clearfix" style="padding: 15px; ">
+                    <form class="form-inline pull-right">
+                        <div class="form-group">
+                            <select id="power_select" class="form-control">
+                                <option value="请选择" selected="selected">请选择</option>
+                                <option value="XK">行政许可</option>
+                                <option value="SP">非行政许可</option>
+                                <option value="CF">行政处罚</option>
+                                <option value="QZ">行政强制</option>
+                                <option value="ZS">行政征收</option>
+                                <option value="ZY">行政征用</option>
+                                <option value="JF">行政给付</option>
+                                <option value="CJ">行政裁决</option>
+                                <option value="QR">行政确认</option>
+                                <option value="JL">行政奖励</option>
+                                <option value="BA">行政备案</option>
+                                <option value="JC">监督检查</option>
+                                <option value="QT">其他类权力</option>
+                                <option value="FW">行政服务</option>
+                                <option value="BM">便民服务</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input id="power_search" type="text" class="form-control" placeholder="输入关键字">
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="search();">搜索</button>
+                    </form>
+                    <h3 class="panel-title" style="margin-top:8px;"><strong>全部</strong></h3>
+                </header>
+                
+                <div class="panel-body psi">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="s-j-1">
+                    </div>
+                </div>
+                <nav class="text-center">
+                <div class="jqpagination" style="display:none;">
+			    <a href="#" class="first" data-action="first">&laquo;</a>
+			    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+			    <input type="text" readonly="readonly"  data="max-page:23" />
+			    <a href="#" class="next" data-action="next">&rsaquo;</a>
+			    <a href="#" class="last" data-action="last">&raquo;</a>
+				</div>
+				<div class="project-none" id="project-none" style="font-size:24px;font-weight:bold; display:none;">
+			   		查无相关事项
+				</div>
+                </nav>
+            </section>
+        </div>
+    </div>
+</div>
+<hr>

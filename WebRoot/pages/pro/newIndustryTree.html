@@ -1,0 +1,186 @@
+<script type="text/javascript">
+	var data=[{id:'A00001',pId:'',name:'农林水利'},
+	          {id:'A0000101',pId:'A00001',name:'水利'},
+	          {id:'A0000102',pId:'A00001',name:'农业'},
+	          {id:'A0000103',pId:'A00001',name:'林业'},
+	          {id:'A0000104',pId:'A00001',name:'气象'},
+	          {id:'A0000105',pId:'A00001',name:'森工'},
+	          {id:'A00002',pId:'',name:'交通运输'},
+	          {id:'A0000201',pId:'A00002',name:'公路水路港口'},
+	          {id:'A0000202',pId:'A00002',name:'铁路'},
+	          {id:'A0000203',pId:'A00002',name:'民航'},
+	          {id:'A0000204',pId:'A00002',name:'邮电'},
+	          {id:'A00003',pId:'',name:'能源'},
+	          {id:'A0000301',pId:'A00003',name:'油气'},
+	          {id:'A0000302',pId:'A00003',name:'煤炭'},
+	          {id:'A0000303',pId:'A00003',name:'电力'},
+	          {id:'A0000304',pId:'A00003',name:'生物能源'},
+	          {id:'A0000305',pId:'A00003',name:'油气管网'},
+	          {id:'A00004',pId:'',name:'城市基础设施'},
+	          {id:'A0000401',pId:'A00004',name:'城建'},
+	          {id:'A0000402',pId:'A00004',name:'城市轨道交通'},
+	          {id:'A00005',pId:'',name:'社会事业'},
+	          {id:'A0000501',pId:'A00005',name:'教育'},
+	          {id:'A0000502',pId:'A00005',name:'卫生'},
+	          {id:'A0000503',pId:'A00005',name:'文化'},
+	          {id:'A0000504',pId:'A00005',name:'体育'},
+	          {id:'A0000505',pId:'A00005',name:'广播出版'},
+	          {id:'A0000506',pId:'A00005',name:'人口'},
+	          {id:'A0000507',pId:'A00005',name:'民政'},
+	          {id:'A0000508',pId:'A00005',name:'旅游'},
+	          {id:'A00006',pId:'',name:'科学'},
+	          {id:'A00007',pId:'',name:'公检法司'},
+	          {id:'A00008',pId:'',name:'高技术'},
+	          {id:'A00009',pId:'',name:'信息化'},
+	          {id:'A00010',pId:'',name:'环保'},
+	          {id:'A00011',pId:'',name:'工业'},
+	          {id:'A0001101',pId:'A00011',name:'钢铁'},
+	          {id:'A0001102',pId:'A00011',name:'有色'},
+	          {id:'A0001103',pId:'A00011',name:'黄金'},
+	          {id:'A0001104',pId:'A00011',name:'化工'},
+	          {id:'A0001105',pId:'A00011',name:'石化'},
+	          {id:'A0001106',pId:'A00011',name:'建材'},
+	          {id:'A0001107',pId:'A00011',name:'机械'},
+	          {id:'A0001108',pId:'A00011',name:'汽车'},
+	          {id:'A0001109',pId:'A00011',name:'电子'},
+	          {id:'A0001110',pId:'A00011',name:'纺织'},
+	          {id:'A0001111',pId:'A00011',name:'轻工'},
+	          {id:'A0001112',pId:'A00011',name:'烟草'},
+	          {id:'A00012',pId:'',name:'地质'},
+	          {id:'A00013',pId:'',name:'医药'},
+	          {id:'A00014',pId:'',name:'仓储物流'},
+	          {id:'A0001401',pId:'A00014',name:'商业、供销、外贸'},
+	          {id:'A0001402',pId:'A00014',name:'仓储物流'},
+	          {id:'A0001403',pId:'A00014',name:'经贸'},
+	          {id:'A00015',pId:'',name:'境外投资'}];
+	var industryTreeObj = null;
+	var nodes = null;
+	var rootId = null;
+	var chkStyle = "radio";
+	
+	var zNodes = data;
+	var dfval = "${dfval!}";
+	
+	$(function(){
+		var regx=/^\d+$/;
+		for(var i=0;i<zNodes.length;i++){
+			if(regx.test(zNodes[i].pId)){
+				zNodes[i].id="A"+zNodes[i].id;
+				/* while(zNodes[i].id.length<6){
+					zNodes[i].id;
+				} */
+				zNodes[i].pId="A"+zNodes[i].pId;
+				/* while(zNodes[i].pId.length<6){
+					zNodes[i].pId;
+				} */
+			}else if(regx.test(zNodes[i].id)){
+				zNodes[i].id="A"+zNodes[i].id;
+				/* while(zNodes[i].id.length<6){
+					zNodes[i].id;
+				} */
+			}
+		}
+	}); 
+	
+	function init(){
+		if(LEx.urldata.checkbox){
+			chkStyle = "checkbox";
+		}
+		
+		initTree();
+	}
+	
+	function initTree(){		
+			var setting = {
+					view: {
+						selectedMulti: false
+					},
+					edit: {
+						enable: false
+					},
+					check: {
+						enable: true,
+						chkStyle: chkStyle,
+						chkboxType: { "Y": "", "N": "" },
+						radioType: "all"
+					},
+					data: {
+						key: {
+							title:"name",
+							name: "name"
+							
+						},
+						keep: {
+							parent:true,
+							leaf:true
+						},
+						simpleData: {
+							enable: true,
+							idKey:"id",
+							pIdKey:"pId",
+							rootPId:rootId
+						}
+					},
+					callback: {
+						onClick:onClick,
+						onNodeCreated:onNodeCreated
+						}
+				};
+				
+			LEx.Control.Tree("newIndustryTree",setting,data,function(obj){
+				industryTreeObj = obj;
+			});		
+	}
+	
+	function getData(){
+		var selectedIndustry = {};
+		nodes = industryTreeObj.getCheckedNodes(true);
+		if(null != nodes && nodes.length >0){
+			node=nodes[0];
+			selectedIndustry.id =node.id;
+			selectedIndustry.name=node.name;
+			selectedIndustry.pid = node.pid;			
+		}
+		return selectedIndustry;
+	}
+	
+	function onClick(event,treeId,treeNode){
+		var zTree=$.fn.zTree.getZTreeObj(treeId);
+		if(!treeNode.nocheck){
+			zTree.checkNode(treeNode);
+		}else{
+			zTree.expandNode(treeNode);
+		}
+	}
+	
+	function onNodeCreated(event, treeId, treeNode){
+		var zTree=$.fn.zTree.getZTreeObj(treeId);
+		if(treeNode.isParent){
+			treeNode.nocheck=true;
+			zTree.updateNode(treeNode);
+		}else{
+			if(treeNode.CODE==dfval){
+				zTree.checkNode(treeNode,true);
+			}
+		}
+	}
+	
+	function getDatas(){		
+		var selectedIndustrys = [];
+		nodes = industryTreeObj.getCheckedNodes(true);
+		if(null != nodes && nodes.length >0){
+			for(var i=0;i<nodes.length;i++){
+				node = nodes[i];
+				var selectedIndustry = {};
+				selectedIndustry.id =node.id;
+				selectedIndustry.name=node.name;
+				selectedIndustry.pid = node.pid;		
+				selectedIndustrys.push(selectedIndustry);
+			}
+		}
+		return selectedIndustrys;
+	}
+</script>
+<div>
+	<ul id="newIndustryTree" class="ztree"></ul>
+</div>

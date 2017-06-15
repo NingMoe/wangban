@@ -1,0 +1,415 @@
+<style>
+.list-unstyled li {
+margin: 5px 0;
+padding-bottom: 0px;
+}
+
+#p1{
+    margin-left: -5px;
+    margin-bottom: 205px;
+}
+
+
+.carousel-indicators {
+    position: absolute;
+    bottom: -11px;
+    left: 58%;
+    z-index: 15;
+    width: 60%;
+    padding-left: 0;
+    margin-left: -30%;
+    text-align: center;
+    list-style: none;
+}
+
+#ex-carousel-news .carousel-caption{
+   background-color:rgba(0, 0, 0, -0.6);
+}
+
+
+ .carousel-indicators span {
+    background-color: #000;
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 1px solid #fff;
+    border-radius: 0;
+    font-size: 10px;
+    padding: 0px 3px;
+}
+    .carousel-indicators span:hover{
+        cursor: pointer;
+        
+    }
+    .carousel-indicators .active {
+    width: 12px;
+    height: 12px;
+    margin: 0;
+    background-color: #22a7f0;
+    color: #fff;
+}
+.carousel-caption p{
+  margin:0 0 3px;
+}
+
+#form1{
+  margin-top:-42px;
+}
+</style>
+
+<div id="ad1" onclick="hidepfc()">
+
+</div>
+
+<!------content---->
+<div class="container" >
+<div class="page-content">
+ 
+<div class="col-xs-4" style="margin-bottom:0;width:300px;" >
+    <div class="carousel slide ex-carousel-news" data-ride="carousel" id="ex-carousel-news" style="margin-right: -15px;position:relative;">
+                <!--  <ol class="carousel-indicators" id="p1" style="position:absolute;top:5px;">
+                                            <li data-target="#ex-carousel-news" data-slide-to="0" class="active"></li>
+                                            <li data-target="#ex-carousel-news" data-slide-to="1"></li>
+                                            <li data-target="#ex-carousel-news" data-slide-to="2"></li>
+                                            <li data-target="#ex-carousel-news" data-slide-to="3"></li>
+                                       </ol> -->
+                     <div class="carousel-indicators" id="p1" style="margin-bottom: 0px;margin-left: -11px; position:absolute; top:5px;height:25px;"> 
+			            <span data-target="#ex-carousel-news" data-slide-to="0" class="">1</span>
+			            <span class="active" data-target="#ex-carousel-news" data-slide-to="1">2</span>
+			            <span class="" data-target="#ex-carousel-news" data-slide-to="2">3</span>
+			            <span class="" data-target="#ex-carousel-news" data-slide-to="3">4</span>
+			        </div>
+                      
+                <div class="carousel-inner" id="indexpic">
+                首页图片切换                 
+                </div>
+  </div>
+    <div class="item">
+		
+	</div>
+</div>
+ <!-- Controls -->
+<!---</div>--------->
+
+     
+<div class="col-xs-5" style="width:442px;margin-bottom:0">
+    
+   <div class="tabs ex-trends" role="tabpanel" data-example-id="togglable-tabs" style="border:solid 1px #DFDFDF">
+    <ul id="myTab" class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active" tid="动态要闻"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">动态要闻</a></li>
+      <li class="" role="presentation" tid="考核考评"><a aria-expanded="false" href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">考核考评</a></li>
+      <li role="presentation" tid="改革创新"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">改革创新</a></li>
+    <span style="margin-top:15px; float:right; margin-right:20px" ><a href="javascript:void(0);" onclick="javascript:getMore();">更多</a></span>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+    
+      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+         <ul class="list-unstyled " style="margin-bottom:0px;height:180px" id="dtywul">
+         <li>暂无数据</li>
+        </ul>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
+      <ul class="list-unstyled " style="margin-bottom:0px;height:180px" id="khkpul">
+      <li>暂无数据</li>
+        </ul>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="messages">
+      <ul class="list-unstyled " style="margin-bottom:0px;height:180px" id="ggcxul">
+      <li>暂无数据</li>
+        </ul>
+      </div>
+      
+    </div>
+  </div> 
+</div>      
+     
+     
+<div class="col-xs-3">
+     <div class="panel" >
+    <div class="panel-heading">
+    <span style="margin-top:13px; float:right; margin-right:20px; font-weight:400" ><a href="javascript:void(0);" onclick='javascript:getList("公示公告");'>更多</a></span>
+    <div class="panel-title">
+    公示公告</div></div>
+    <div class="panel-body" width="160px">
+    <ul class="list-unstyled " id="gsggul" style="height:175px"><li style="margin-bottom:-10px;height:175px">暂无数据</li>
+    </ul>
+    </div>
+  
+  </div>   
+  </div>
+<!-------通知公告end----->
+<!--------通版 清单 办上办事厅------>
+<ul id="qdul">
+<div class="col-xs-3"><a href="{{ConfigInfo.Quanliqd_href}}" target="_blank"><img src="{{cp}}{{ConfigInfo.Quanliqd_pic}}" width="220" height="72" alt=""/></a></div>
+<div class="col-xs-3"><a href="{{ConfigInfo.Zerenqd_href}}" target="_blank"><img src="{{cp}}{{ConfigInfo.Zerenqd_pic}}" width="220" height="72" alt=""/></a> </div>
+<div class="col-xs-3"><a href="{{ConfigInfo.Fumianqd_href}}" target="_blank"><img src="{{cp}}{{ConfigInfo.Fumianqd_pic}}" width="220" height="72" alt=""/></a> </div>
+<div class="col-xs-3"><a href="{{ConfigInfo.Zijinqd_href}}" target="_blank"><img src="{{cp}}{{ConfigInfo.Zijinqd_pic}}" width="220" height="72" alt=""/></a> </div>
+</ul>
+<ul id="wsbsftul">
+<div class="col-xs-12"><a href="{{ConfigInfo.Wsbs_href}}" target="_blank"><img src="{{cp}}{{ConfigInfo.Wsbs_pic}}" width="960" height="98" alt=""/></a></div>
+</ul>
+<!----通版-end---------->
+<div class="col-xs-1">
+<div class="panel-title" style="font-size:16px; height:165px; background-color:#ECECEC; width:70px">行<br>政<br>审<br>批<br>服<br>务</div></div>
+<div class="col-xs-5">
+{% widget "szw.xzspfw"%}
+</div>
+
+<div class="col-xs-1">
+<div class="panel-title" style="font-size:16px; height:165px;background-color:#ECECEC; width:70px" >公<br>共<br>资<br>源<br>交<br>易</div></div>
+<div class="col-xs-5">
+{% widget "szw.ggzyjy"%}
+</div>
+<div class="col-xs-6" style="margin-bottom:0px">
+    
+   <div class="tabs ex-trends" role="tabpanel" data-example-id="togglable-tabs">
+    <ul id="myTab" class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#acceptance" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">行政服务数据统计</a></li>
+       {% if ConfigInfo.WebRegion|equal:"330903000000" %}
+        <li class="" ><a target="_blank" href="http://www.ptztb.com/list.asp?classid=18" role="tab" id="profile-tab"  aria-controls="profile">招投标数据统计</a></li>
+      {% else %}
+      <li class="" role="presentation"><a aria-expanded="false" href="#trading" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">招投标数据统计</a></li>
+      {% endif %}
+    </ul>
+    <div id="myTabContent" class="tab-content">
+      <div role="tabpanel" class="tab-pane fade active in" id="acceptance" aria-labelledby="home-tab">
+ <!----------------------------------标签------------>     
+      
+    <div class="ex-chart">
+          <div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist"  >
+   
+   <li role="presentation" class="active"><a href="#today" aria-controls="home" role="tab" data-toggle="tab">当日</a></li>
+    <li role="presentation"><a href="#month" aria-controls="month" role="tab" data-toggle="tab">当月</a></li>
+    <li role="presentation"><a href="#year" aria-controls="year" role="tab" data-toggle="tab">当年</a></li>
+    <li role="presentation"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">全部</a></li>
+  </ul>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="today">
+         <div id="container" style="height:180px"></div>
+    </div>
+    
+    <div role="tabpanel" class="tab-pane" id="month">
+    <div id="container2" style="height:180px;width:465px"></div>
+    </div>
+    
+    <div role="tabpanel" class="tab-pane" id="year">
+    <div id="container3" style="height:180px;width:465px"></div>
+    </div>
+    
+    <div role="tabpanel" class="tab-pane" id="all">
+    <div id="container4" style="height:180px;width:465px"></div>
+    </div>
+    
+      </div>
+  </div>
+
+</div>
+</div>
+      <div role="tabpanel" class="tab-pane fade" id="trading" aria-labelledby="profile-tab">
+        {% if ConfigInfo.WebRegion|equal:"330901000000" %}
+          <iframe width="100%" height="185px" style="border:0px;" scrolling="true" src="http://www.zsztb.gov.cn/zsztbweb/Ztbinfo/jyqt.aspx"></iframe>
+        {% else %}
+        111
+        {% endif %}
+      </div>
+   </div>
+  </div>
+</div>
+
+<div class="col-xs-3" style="margin-bottom:0px">
+     <div class="panel" style="margin-bottom:0px; border:none">
+    <div class="panel-heading">
+    <div class="panel-title">
+    我要参与</div></div>
+    <div class="panel-content">
+    <div class="row">
+   <div class="col-xs-4" style="text-align:center">
+   <a  class="thumbnail" href="{{ConfigInfo.Complain}}" target="_blank">
+   <img src="{{cp}}public/zs/szw/img/mail.png" width="60" height="52" alt=""/>网上<br>投诉</a>
+   <a  class="thumbnail" href="{{ConfigInfo.Consult}}" target="_blank">
+   <img src="{{cp}}public/zs/szw/img/zizun.png" width="60" height="52" alt=""/>网上<br>咨询</a></div>
+   <div class="col-xs-4" style="text-align:center">
+   <a  class="thumbnail" href="#" onclick='javascript:getList("机构电话");'>
+   <img src="{{cp}}public/zs/szw/img/phone.png" width="60" height="52" alt=""/>机构<br>电话</a>
+    <a  class="thumbnail" href="{{ConfigInfo.Wsdc_href}}" target="_blank">
+   <img src="{{cp}}public/zs/szw/img/wang.png" width="60" height="52" alt=""/>网上<br>调查</a></div>
+   <div class="col-xs-4" style="text-align:center">
+   <a  class="thumbnail" href="{{PageContext.ContextPath}}szw/base?type=szwdwdz" target="_blank">
+   <img src="{{cp}}public/zs/szw/img/map.png" width="60" height="52" alt=""/>单位<br>导航</a>
+   <a  class="thumbnail" href="{{ConfigInfo.Yjzj_href}}" target="_blank">
+   <img src="{{cp}}public/zs/szw/img/zheng.png" width="60" height="52" alt=""/>意见<br>征集</a></div>
+    </div>
+  </div>
+  </div>
+  </div>
+
+<div class="col-xs-3" style="margin-bottom:0px">
+<nav class="list-group zl-list-group-zwhd-1">
+  <a href="{{cp}}center/index" target="_blank" class="list-group-item"><img src="{{cp}}public/zs/szw/img/qiye.jpg" width="195" height="95" alt=""/></a>
+  <a href="{{cp}}center/index" target="_blank" class="list-group-item"><img src="{{cp}}public/zs/szw/img/shimin.jpg" width="195" height="95" alt=""/></a>
+  </nav>
+  </div>
+ 
+ <div class="col-xs-9" style="margin-bottom: -10px"  >
+    <div class="panel" style="border:none">
+    {% merge "szw.Links5_",ConfigInfo.WebRegion as link %}
+    <div class="panel-heading"><div class="panel-title">友情链接</div></div><div style=" margin-top: -13px">{% widget link%}</div></div>
+</div>
+
+<div class="col-xs-3" style="margin-top:-18px;margin-bottom: -10px;" id="work_time">
+ <a href="#"> <img src="{{cp}}{{ConfigInfo.Fwsj_picsrc}}" width="220"  ></a></div>
+</div>
+</div>
+
+
+<!-- 新闻类显示 -->
+<script type="text/template" id="MattersListTemplate">
+{for o in data}
+<li>
+     <time class="text-muted pull-right">${formatDate(o.CTIME)}</time>
+     <i class="mdicon mdicon-play-arrow f12"></i>
+{if o.TYPE==3 }
+	&nbsp;&nbsp;&nbsp;&nbsp;<a href="${o.URL}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if} title="${o.NAME}">${parseLength(o.NAME,17)}</a>
+{else}
+	&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{cp}}szw/content?id=${o.ID}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if} title="${o.NAME}">${parseLength(o.NAME,17)}</a>
+{/if}
+</li>
+{/for}
+</script>
+<!-- 
+<script type="text/template" id="MattersListTemplate2">
+{for o in data}
+<li>
+     <time class="text-muted pull-right">${o.CTIME.substring(5,10)}</time>
+     <i class="mdicon mdicon-play-arrow f12"></i>
+{if o.TYPE==3 }
+						<a href="${o.URL}" title="${o.NAME}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${formatLen(o.NAME,0,7)}</a>
+				{else}
+						<a href="{{cp}}szw/content?id=${o.ID}" title="${o.NAME}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${parseLength(o.NAME,11)}</a>
+				{/if}
+</li>
+{/for}
+</script>
+ -->
+<script type="text/template" id="MattersListTemplate1">
+{for o in data}
+<li>
+	&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{cp}}szw/content?id=${o.ID}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if} title="${o.NAME}">${parseLength(o.NAME,12)}</a>
+</li>
+{/for}
+</script>
+<!-- 新闻类显示图片及连接 -->
+<script type="text/template" id="MattersListTemplate_tp">
+{for o in data}
+	<div class="col-xs-3"><a href="${o.URL}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}><img src="{{cp}}${o.ATTACH}"></img></a></div>
+{/for}
+</script>
+<!-- 漂浮窗  -->
+<script type="text/template" id="MattersListTemplatepfc">
+{var i=0} 
+{for o in data }
+{if o.DOCID != ''}
+{var i=i+1}
+{if i==1}
+           <div style="position:fixed;Z-INDEX: 100;left:1%;top:220px;">
+            <button type="button" class="close" style="margin-top: -5px;">
+			<span>&times;</span>
+		</button>
+          <a href="${o.URL}" target=_blank>
+         <img src="{{cp}}file/upload/${o.PICNAME}" />
+          </a>
+           </div>
+{else i==2}    
+           <div style="position:fixed;Z-INDEX: 100;right:1%;top:220px;">
+       <button type="button" class="close" style="margin-top: -5px;">
+			<span>&times;</span>
+		</button>
+          <a href="${o.URL}" target=_blank>
+         <img src="{{cp}}file/upload/${o.PICNAME}" />
+          </a>
+           </div>
+{/if}
+{/if}
+{/for}
+</script>
+
+<!-- 以下为首页图片切换模块 -->
+   <script type="text/template" id="MattersListTemplatep">
+{var i=0} 
+{for o in data }
+{if o.DOCID != ''}
+{var i=i+1}
+{if i==1}
+                   <div class="item active" style="width:310px;height:230px">
+                   <a style="color:#FFFFFF;" href="{{cp}}szw/content?id=${o.ID}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>
+                   <img src="{{cp}}file/upload/${o.PICNAME}" title="${o.NAME}" style="width:310px;height:230px;">
+                   </a>
+                   <div class="carousel-caption" style="margin-bottom:0px;">
+                   <p><a style="color:#FFFFFF; margin-left:5px;" href="{{cp}}szw/content?id=${o.ID}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${o.attach}${parseLength(o.NAME,18)}</a></p>
+                   </div>
+                   </div>
+{else}
+                   <div class="item" style="width:310px;height:230px">
+                   <a style="color:#FFFFFF;" href="{{cp}}szw/content?id=${o.ID}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>
+                   <img src="{{cp}}file/upload/${o.PICNAME}" title="${o.NAME}" style="width:310px;height:230px;">
+                   </a>
+          		   <div class="carousel-caption" style="margin-bottom:0px;">
+                   <p><a style="color:#FFFFFF; margin-left:5px" href="{{cp}}szw/content?id=${o.ID}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${parseLength(o.NAME,18)}</a></p>
+                   </div>
+                   </div>
+{/if}
+{/if}
+{/for}
+</script>
+<!-- 以上为首页图片切换模块 -->
+<!--以下是 工作时间模块 -->
+<script type="text/template" id="worktime">
+{var i=0} 
+{for o in data }
+{var i=i+1}
+{if i==1}
+<img style="width: 230px;height: 80px;" src="{{cp}}file/upload/${o.PICNAME}" alt="">
+
+{/if}
+{/for}
+</script>
+
+</body></html>
+
+<script type="text/javascript">                        
+function hidepfc(){
+	$("#ad1").hide();
+	 }	 
+
+function a_dz() {             
+	var str = '{{ConfigInfo.Dwdh}}';             
+	//var str = encodeURI($("#hidAddress").val());             
+	window.open("http://map.haosou.com/?k=" + str + "&src=tab_image");         
+	}
+function workT(){
+	
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+	cmd.setParameter("name",'工作时间');
+	cmd.setParameter("picModel",'1');
+	var ret = cmd.execute("getContentInfo");
+	var worktime="<img style=\"width: 220px;height: 75px;\" src=\"{{cp}}file/upload/";
+	if(!ret.error&&ret.total!=0){
+		$("#work_time").html(worktime+ret.data[0].PICNAME+"\" />");
+	}
+}
+</script>
+<!-- 以下为首页图片切换模块(白点) -->
+<script type="text/template" id="MattersListTemplatep1">
+{var i=0} 
+{for o in data }
+{var a=i+1}
+{if i==0}
+<span data-target="#ex-carousel-news" data-slide-to="${i}" class="active">${a}</span>
+{else}
+<span data-target="#ex-carousel-news" data-slide-to="${i}">${a}</span>
+{/if}
+{var i=i+1}
+{/for}
+</script>

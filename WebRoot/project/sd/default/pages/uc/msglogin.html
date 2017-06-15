@@ -1,0 +1,110 @@
+	<script type="text/javascript">
+		{% set cp PageContext.ContextPath %}
+		var __webPath = "{{cp}}";
+		var __signature = "{{PageContext.SignatureInfo}}";
+		var signupUrl="{{PageContext.ContextPath}}uc/register";
+	</script>
+	<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.form.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js,md5.js"></script>
+	<script  type="text/javascript" src="{% public scripts/common.js %}"></script>
+	<script  type="text/javascript" src="{{PageContext.JsPath}}laypage/laypage.js"></script>
+	<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/jeDate/jedate.js"></script>
+	<link rel="stylesheet" type="text/css" href="{% public assets/css/custom.css%}">
+	<script type="text/javascript">
+		plugin.add('dialog', {
+			path: '{{cp}}public/scripts/dialog/a?t=js&m=jquery.artDialog.js,plugins/iframeTools.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['dialog_css']
+		});
+		plugin.add('dialog_css', {
+			path: '{{cp}}public/scripts/dialog/skins/simple.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		plugin.add('tree', {
+			path: '{{cp}}public/scripts/zTreeStyle/jquery.ztree.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['tree_css']
+		});
+		plugin.add('tree_css', {
+			path: '{{cp}}public/scripts/zTreeStyle/zTreeStyle.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		
+		plugin.add('calendar', {
+			path: '{{cp}}public/scripts/calendar/calendar-min.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['calendar_css']
+		});
+		plugin.add('calendar_css', {
+			path: '{{cp}}public/scripts/calendar/calendar-min.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		plugin.add('editor',{path:'{{cp}}public/scripts/kindeditor/kindeditor-min.js',type:'js',charset:'utf-8'});
+		plugin.add('fullCalendar',{
+			path:'{{cp}}public/scripts/fullcalendar/fullcalendar.js',
+			type:'js',
+			charset:'utf-8',
+			rely: ['jquery_ui']
+		});
+		
+		plugin.add('jquery_ui',{
+			path:'{{cp}}public/scripts/fullcalendar/jquery-ui-1.10.2.custom.min.js',
+			type:'js',
+			charset:'utf-8',
+			rely: ['fullCalendar_css']
+		});
+		
+		plugin.add('fullCalendar_css',{
+			path:'{{cp}}public/scripts/fullcalendar/a?t=css&m=fullcalendar.css,fullcalendar.print.css',
+			type:'css',
+			charset:'utf-8'
+		});
+	</script>
+ {% include public/index/header.html %}
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=md5.js"></script>	
+<script type="text/javascript" src="{{PageContext.PagePath}}uc/js/a?t=js&m=base64.js,jquery.form.js"></script>
+<script type="text/javascript" src="{{PageContext.ContextPath}}project/sd/default/pages/uc/js/a?t=js&m=msglogin.js"></script>
+<style type="text/css">
+.input_validation-failed {border: 2px solid #FF0000;color: red;}
+</style>
+<div class="container"> 
+        <div class="row" id="register_form_per">
+            <div class="col-xs-12">
+                <section class="panel its-login">
+                    <h3 class="delta"><strong style="color: #29588c;">短信验证登录</strong></h3>
+                    <br>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-xs-3 omega control-label" style="width: 25%;">手机号码：</div>
+                            <div class="col-xs-9 alpha" style="width: 75%;">
+                                <input type="text" class="form-control" placeholder="请输入用户名" tag="PHONE" name="PHONE" id="PHONE" reg="^[1][0-9][0-9]{9}$" tip="请输入正确的手机号码" func="check_phone" onkeypress="if(event.keyCode==13) { $('#verifycode').focus();return false;}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-3 omega control-label" style="width: 25%;">验&nbsp;&nbsp;证&nbsp;&nbsp;码：</div>
+                            <div class="col-xs-9 alpha" style="width: 75%;">
+                                <input type="text" style="width:45%;float:left;" class="form-control" placeholder="请输入验证码" tag="VCODE" name="VCODE" id="VCODE" onkeypress="if(event.keyCode==13) { login();return false;}"><span style="width:5%;float:left;">&nbsp;&nbsp;</span>
+                            	<a id="verify_btn" name="verify_btn" href="javascript:void(0);" style="width:50%;float: left;height:38px;" class="btn btn-primary"> <span id="verify_btn_text" name="verify_btn_text">获取短信验证码</span></a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12" style="top: 22px;">
+                                <button class="btn btn-danger btn-block f20" onclick="login()">登录</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+<script>
+function login(){
+	okSubmit();
+}
+</script>
+	{% include "public/index/footer.html" %}

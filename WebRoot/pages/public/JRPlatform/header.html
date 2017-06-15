@@ -1,0 +1,168 @@
+
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/custom.css"
+	rel="stylesheet">
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/non-responsive.css"
+	rel="stylesheet">
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/font-awesome.css"
+	rel="stylesheet">
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/docs.css"
+	rel="stylesheet">
+<script
+	src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/docs.js"></script>
+
+<script>
+
+function gotoJRPlatform(){
+	window.open("{{PageContext.ContextPath}}JRPlatform/index","_blank"); 
+}
+
+function gotointermediary(){
+	var url = getSecurityValue('intermediary_service_url');
+	var reg_code = getSecurityValue('WebRegion').substr(0,6);
+	window.open(url+"?reg_code="+ reg_code);
+}
+
+function gotopro(){
+	window.open("{{PageContext.ContextPath}}pro/index","_blank"); 
+}
+
+</script>
+{% widget "icity_zs.jrplatformWidget" %} 
+<style type="text/css">
+.container {
+	width: 1020px;
+}
+
+#ul_cjs a:hover {
+	text-decoration: none;
+}
+
+#div_spfzx img {
+	
+}
+
+#div_spfzx a {
+	margin: 0px;
+}
+</style>
+<div id="masthead" class="container" style="height: 200px;">
+	<div class="zl-masthead">
+		<section id="zl-carousel-landmark"
+			class="carousel slide zl-carousel-landmark opacity"
+			data-ride="carousel">
+ 			<img src="" id="logo_img"  style=" position:absolute; top:50px;margin-left:30px;z-index:1;width:480px;height:100px;">
+			<div class="carousel-inner">
+			<object id="FlashID" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="1020px" height="200px">
+        <param name="movie" value="{{PageContext.ContextPath}}public/zs/JRPlatform/template_files/联审联办.swf" />
+        <param name="quality" value="high" />
+        <param name="wmode" value="transparent" />
+        <param name="swfversion" value="8.0.35.0" />
+        <!-- 此 param 标签提示使用 Flash Player 6.0 r65 和更高版本的用户下载最新版本的 Flash Player。如果您不想让用户看到该提示，请将其删除。 -->
+        <param name="expressinstall" value="Scripts/expressInstall.swf" />
+        <!-- 下一个对象标签用于非 IE 浏览器。所以使用 IECC 将其从 IE 隐藏。 -->
+        <!--[if !IE]>-->
+        <object type="application/x-shockwave-flash" data="{{PageContext.ContextPath}}public/zs/JRPlatform/template_files/联审联办.swf" width="1020px" height="200px">
+          <!--<![endif]-->
+          <param name="quality" value="high" />
+          <param name="wmode" value="transparent" />
+          <param name="swfversion" value="8.0.35.0" />         
+          <!--[if !IE]>-->
+        </object>
+        <!--<![endif]-->
+      </object>
+			</div>
+		</section>
+	</div>
+</div>
+<div id="navigation" class="container">
+	<div class="navbar navbar-inverse zl-navbar">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#n-t-1" data-toggle="tab"
+				goto="{{PageContext.ContextPath}}index">首页</a>
+			</li>
+			<li><a href="#n-t-2" data-toggle="tab"
+				goto="{{PageContext.ContextPath}}icity/onlineBusiness/onlinebidding">网上办事</a>
+			</li>
+			<li><a href="#n-t-1" data-toggle="tab" onclick="gotoJRPlatform();">一窗受理</a>
+			</li>
+			<li><a href="#n-t-1" data-toggle="tab" onclick="gotopro();">投资服务</a>
+			</li>
+			<li><a href="#n-t-1" data-toggle="tab" onclick="gotointermediary();">中介服务</a>
+			</li>
+			<li><a href="#n-t-4" data-toggle="tab"
+				goto="{{PageContext.ContextPath}}icity/convenienceService/index">便民服务</a>
+			</li>
+			<li><a href="#n-t-1" data-toggle="tab" gotonew="http://www.zjcredit.gov.cn/xyzj2015/html/index.htm"
+				 >信用查询</a>
+			</li>
+			<li><a href="#n-t-3" data-toggle="tab"
+				goto="{{PageContext.ContextPath}}icity/policiesRegulations/index">政策法规</a>
+			</li>
+		</ul>
+	</div>
+	<div class="tab-content zl-navbar-content">
+		<div class="row tab-pane active" id="n-t-1">
+			<div class="col-xs-7">
+				<div id="curDate" style="height: 34px; width: 180px; line-height: 34px; float: left; margin-top:-5px;">
+					
+				</div>
+				<div style="height: 34px;padding-left: 20px; float: left;">
+					<iframe scrolling="no" allowtransparency="true"
+						src="http://i.tianqi.com/index.php?c=code&id=34&icon=1&num=3&py=zhoushan"
+						frameborder="0" height="20" width="280"></iframe>
+				</div>
+			</div>
+			<div class="col-xs-5">
+				<div
+					style="height: 34px; width: 530px; float: right; text-align: right; margin-top: -5px; line-height: 34px;">
+					审批事项查询：&nbsp;&nbsp;&nbsp;&nbsp; <input
+						style="width: 180px; display: inline;" id="ItemName"
+						onblur="if(this.value==''){this.value='请输入要查询事项关键字';}"
+						onfocus="if(this.value=='请输入要查询事项关键字'){this.value='';}"
+						value="请输入要查询事项关键字" class="form-control key" type="text">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" style="cursor: pointer; width: 80px;"
+						onclick="javascript:searchX();" class="btn btn-warning">查询</button>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane" id="n-t-2"
+			style="float: left; padding-left: 85px;">
+			<ul class="list-inline">
+				<li><a
+					href="{{PageContext.ContextPath}}icity/onlineBusiness/guideto">办事指南</a>
+				</li>
+				<li><a
+					href="{{PageContext.ContextPath}}icity/onlineBusiness/formtodownload">表格下载</a>
+				</li>
+				<li><a
+					href="{{PageContext.ContextPath}}icity/onlineBusiness/onlinebidding">在线申办</a>
+				</li>
+			</ul>
+		</div>
+		<div class="tab-pane" id="n-t-3"
+			style="float: right; padding-left: 210px;">
+			<ul class="list-inline">
+				<li><a
+					href="{{PageContext.ContextPath}}icity/policiesRegulations/index?type=flfg">法律法规</a>
+				</li>
+				<li><a
+					href="{{PageContext.ContextPath}}icity/policiesRegulations/index?type=zcwj">政策文件</a>
+				</li>
+				<li><a
+					href="{{PageContext.ContextPath}}icity/policiesRegulations/index?type=glzd">管理制度</a>
+				</li>
+			</ul>
+		</div>
+	    <div class="tab-pane" id="n-t-4"
+			style="float: right; padding-left: 210px;">
+			<ul class="list-inline">
+				
+			</ul>
+		</div>
+	</div>
+</div>

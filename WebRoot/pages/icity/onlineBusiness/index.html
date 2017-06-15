@@ -1,0 +1,240 @@
+<style>
+.isHide{display:none;}
+</style>
+<script type="text/javascript">
+var theme="";
+$(function(){
+	$('.jqpagination').jqPagination({
+		paged: function(page) {
+			onQuery(page);
+		},
+		page_string:"第{current_page}页   共{max_page}页"
+	});
+	theme = LEx.urldata.theme;
+	if(LEx.urldata.obj=="gr"){
+		$("#collapseOne").addClass("in");
+		$("#headingTwo").addClass("isHide");
+	}else{
+		$("#collapseTwo").addClass("in");
+		$("#headingOne").addClass("isHide");
+	}
+	
+	//onQueryTheme(LEx.urldata.obj);
+	onQueryTheme(LEx.urldata.obj=="fr"?"fr":"gr");
+	$("li[name='"+theme+"']").addClass("active");
+	onQuery(1);
+
+	$("#ztmc").html(LEx.urldata.theme);
+	 $('#s-t-2 > ul >li').click(function (e) {
+		 $(".active").removeClass("active");
+		 theme = $(this).attr("name");
+	 	 $("#ztmc").html($($(this).html()).html());
+		 onQuery(1);
+	 });
+	 $('#s-t-1 > ul >li').click(function (e) {
+		 $(".active").removeClass("active");
+		 theme = $(this).attr("name");
+		 $("#ztmc").html($($(this).html()).html());
+		 onQuery(1);
+	 });
+});
+function onQueryTheme(obj){
+	var cmd = new LEx.Command("app.icity.col.WidgetCmd");
+	cmd.setParameter("TYPE", obj);
+	var ret =  cmd.execute("getPersonalBusinessList");
+	if(!ret.error){
+		if(obj=="gr"){
+			$('#s-t-1').html(LEx.processDOMTemplate('titleTemplate',ret));
+		}else if(obj=="fr"){
+			$('#s-t-2').html(LEx.processDOMTemplate('titleTemplate',ret));
+		}
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+function onQuery(start){	
+	var limit=10;
+	serial = (start-1)*limit;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+	cmd.setParameter("CAT", "theme");
+	cmd.setParameter("ID", theme);//$("#"+id).attr("name"));
+	cmd.setParameter("PAGEMODEL", LEx.urldata.obj=="gr"?"person":"ent");
+	cmd.setParameter("start",(start-1)*limit);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	cmd.setParameter("SearchName",$("#project-text-search").val());
+	var ret =  cmd.execute("getMattersList");
+	if(!ret.error){
+		$('#js-list-group-l2').html(LEx.processDOMTemplate('MattersListTemplate',ret));
+		 	var total=ret.total;
+			total=Math.ceil(total/limit);
+			if(total==0){
+				$("#project-none").show();
+				$('.jqpagination').hide();
+			}
+			else{
+				$("#project-none").hide();
+				$('.jqpagination').show();
+				$('.jqpagination').jqPagination('option',{current_page:start,max_page:total,trigger:false});
+			}
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+
+var serial = 0;
+function getnum(){
+	serial++;
+	return serial+"";
+}
+function sp(obj){
+    var id = obj.getAttribute("id");
+    var sptype = obj.getAttribute("sptype");
+    var protype = obj.getAttribute("protype");
+    var onaddress = obj.getAttribute("onaddress");
+    id1 = id;
+    onaddress1 = onaddress;
+    if(protype == "0" || protype == ""){
+    	if(onaddress==""){
+    	    window.open("{{PageContext.ContextPath}}onlineapply/applyinfo?itemId="+id+"&mark=1","_blank");
+        }else{
+        	window.open(onaddress); 
+        }
+    }else{
+    	LEx.alert("是否属于投资项目？<br/><br/><a type='button' class='btn btn-xs btn-primary' onclick='tz(1)'>&nbsp;&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;&nbsp;</a><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a type='button' class='btn btn-xs btn-primary' onclick='tz(0)'>&nbsp;&nbsp;&nbsp;&nbsp;否&nbsp;&nbsp;&nbsp;&nbsp;</a>");
+    }
+}
+
+function tz(flag){
+	if(flag == "1"){
+		var WebRegion = "{{ConfigInfo.WebRegion}}";
+		
+		if(WebRegion == "330901000000"){
+			window.open("http://zszwfw.gov.cn/icity/pro/index");
+		}else if(WebRegion == "330902000000"){
+			window.open("http://www.dh.zszwfw.gov.cn/zsdh/pro/index");
+		}else if(WebRegion == "330903000000"){
+			window.open("http://www.pt.zszwfw.gov.cn/zspt/pro/index");
+		}else if(WebRegion == "330921000000"){
+			window.open("http://www.ds.zszwfw.gov.cn/zsds/pro/index");
+		}else if(WebRegion == "330922000000"){
+			window.open("http://www.ss.zszwfw.gov.cn/zsss/pro/index");
+		}else if(WebRegion == "000901000000"){
+			window.open("http://www.hycy.zszwfw.gov.cn/zshycy/pro/index");
+		}else if(WebRegion == "000902000000"){
+			window.open("http://www.xc.zszwfw.gov.cn/zsxc/pro/index");
+		}else if(WebRegion == "000903000000"){
+			window.open("http://www.pts.zszwfw.gov.cn/zsptszjj/pro/index");
+		}else if(WebRegion == "000904000000"){
+			window.open("http://www.lh.zszwfw.gov.cn/zslh/pro/index");
+		}else if(WebRegion == "000905000000"){
+			window.open("http://www.jt.zszwfw.gov.cn/zsjt/pro/index");
+		}
+	}else{
+		if(onaddress1==""){
+    	    window.open("{{PageContext.ContextPath}}onlineapply/applyinfo?itemId="+id1+"&mark=1","_blank");
+        }else{
+        	window.open(onaddress1); 
+        }
+	}
+   window.location.reload();　　
+
+};
+
+</script>
+<script type="text/template" id="titleTemplate">
+<ul class="list-unstyled yi-list-inline-l2">
+{for o in data}
+     <li class="col-xs-6"  name="${o.NAME}" id="${o.ID}"><a href="#" data-toggle="tab" title="${o.NAME}">${o.NAME}</a></li>
+{/for}
+</ul>
+</script>
+<script type="text/template" id="MattersListTemplate">
+					<table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                            <th>序号</th>
+                            <th>事项名称</th>
+                            <th>操作</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+					{for o in data}
+                                <tr>
+                                    <th scope="row">${getnum()}</th>
+                                    <td>${formatLen(o.NAME,0,40)} </td>
+                                    <td>
+                                        <a class="btn btn-xs btn-link" href="#" onaddress="${o.ONLINE_ADDRESS}" onclick="sp(this);" id="${o.ID}" sptype="${o.TYPE}" protype="${o.IS_INVESTMENT}">在线申报</a> 
+										<a class="btn btn-xs btn-link" href="{{PageContext.ContextPath}}approve/guide?id=${o.ID}" target="_blank">办事指南</a> 
+                                    </td>
+                                </tr>
+					{/for}
+                            </tbody>
+                    </table>
+</script>
+<div id="page" class="container" style="padding-left: 10px; padding-right: 10px; background-color: #fff;">
+	<div class="row">
+        <div class="col-xs-3">
+            <div class="panel-group" id="accordion" role="tablist" >
+                <div class="panel panel-success">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                个人办事
+                            </a>
+                        </h4>
+                        <div class="pull-right">
+                        </div>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel">
+                        <div class="panel-body" style="background:#fafafa;" id="s-t-1">
+
+                        </div>
+                    </div>
+                </div>
+              <div class="panel panel-success">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                  <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        法人办事
+                    </a>
+                  </h4>
+                    <div class="pull-right">
+                    </div>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel">
+                    <div class="panel-body" style="background:#fafafa;" id="s-t-2">
+ 
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="col-xs-9">
+            <section class="panel panel-success">
+				<header class="panel-heading" style="height:40px;">
+						<h3 style="display:block;float:left" class="panel-title" id="ztmc"></h3>	
+						
+					<span style="display:block;padding-left:200px;">
+						事项查询：
+						<input id="project-text-search" type="text"  placeholder="请输入事项名称">
+						 <button type="button"  onclick="onQuery(1);layerPage();"><i class="nc-icon-outline ui-1_zoom-split"></i>查询</button>
+						</span>
+				</header>
+				<div class="panel-body zl-thumbnails-ggfu-2" id="js-list-group-l2">
+
+				</div>
+				<div id="project-none" style="display:none;font-size:30px;font-weight:bold;text-align:center;">查无相关事项</div>
+                <nav class="text-center">
+                <div class="jqpagination" style="display:none;">
+			    <a href="#" class="first" data-action="first">&laquo;</a>
+			    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+			    <input type="text" readonly="readonly"  data="max-page:23" />
+			    <a href="#" class="next" data-action="next">&rsaquo;</a>
+			    <a href="#" class="last" data-action="last">&raquo;</a>
+				</div>
+                </nav>
+			</section>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,176 @@
+<div class="modal fade bs-modal-result" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" >
+   <div class="modal-header" >
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">
+           	 <strong class="pull-left">材料列表</strong>
+          </h4>
+        </div>
+       <div class="modal-body">
+       <div class="query-result" style="margin: 0 0 30px">
+       </div>
+         <div id="project-none" style="display:none;font-size:30px;font-weight:bold;text-align:center;">查无相关材料</div>
+         <nav class="text-center">
+         <div class="jqpagination" style="display:none;">
+		   <a href="#" class="first" data-action="first">&laquo;</a>
+		   <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+		   <input type="text" readonly="readonly"  data="max-page:23" />
+		   <a href="#" class="next" data-action="next">&rsaquo;</a>
+		   <a href="#" class="last" data-action="last">&raquo;</a>
+		   </div>
+          </nav>
+	</div>
+  </div>
+  </div>
+  </div>
+<script>
+  $(function(){$('.jqpagination').jqPagination({
+		paged: function(page) {onQueryMaterial(page);},
+		page_string:"第{current_page}页   共{max_page}页"
+	});})
+   var __material_code = "";
+   var __material_name = "";
+	function initOpen(code,name){
+		__material_code = code;
+		__material_name = name;
+		checkLogin();
+		onQueryMaterial(1);
+	}
+	function checkLogin(){
+		var uid = "{{UserInfo.uid}}";
+		var type = "{{UserInfo.type}}";
+		if(!LEx.isNotNull(uid)){
+			window.location.href=LEx.webPath+"uc/login?goto="+encodeURIComponent(window.location.href);
+		}
+	}
+
+	function onQueryMaterial(start){
+		var limit = 8;
+		var cmd = new LEx.Command("app.icity.project.WdwpCmd");
+		cmd.setParameter("start", (start-1)*limit);
+		cmd.setParameter("limit", limit);
+		cmd.setParameter("ucid","{{UserInfo.uid}}");
+		var ret =  cmd.execute("getAttachList");
+		if(!ret.error){	
+			$(".bs-modal-result").modal('show');
+			$(".query-result").html(LEx.processDOMTemplate("template4progress",ret));
+			var total=ret.total;
+			total=Math.ceil(total/limit);
+			if(total==0){
+				$("#project-none").show();
+				$('.jqpagination').hide();
+			}else{
+				$("#project-none").hide();
+				$('.jqpagination').show();
+				$('.jqpagination').jqPagination('option',{current_page:start,max_page:total,trigger:false});
+			}
+		}else{	
+			LEx.dialog.tips(ret.error,5);	
+		}
+	} 
+
+	function delete_disk(doc_id,disk_id){
+		var cmd = new LEx.Command("app.icity.project.WdwpCmd");
+			cmd.setParameter("ucid","{{UserInfo.uid}}");
+			cmd.setParameter("doc_id",doc_id);
+			cmd.setParameter("disk_id",disk_id);
+			cmd.setParameter("folderids","0");
+			var ret =  cmd.execute("deleteNetDiskDoc");
+			if(!ret.error){
+				if(ret.state==1){
+					LEx.alert("删除成功");
+					onQueryMaterial(1);
+				}				
+			}else{
+				LEx.alert(ret.error);
+			}
+	}
+	function checkSuc(url,name,docid){
+			if(document.getElementById("file_"+docid)){ LEx.alert("此附件已经上传!"); return;}
+			$("#list_"+__material_code).append("<div id=\"file_"+docid+"\">"+formatLenStr(name,0,5)+"<a  onclick=\"onDownload(this);\">【下载】</a> | <a class='btn btn-danger btn-sm'  onclick=\"onDel(this);\">删除</a>"+"<br/><br/></div>");
+	    	$("#file_"+docid).attr("title",name);
+	    	$("#file_"+docid).attr("url",url);			
+	    	$("#doc_"+__material_code).html(name);
+			
+			var wp_apply = {};
+			   wp_apply.DOCUMENT_NAME =__material_name;
+			   wp_apply.FILE_PATH = docid;
+			   wp_apply.FILE_NAME = name;
+			   wp_apply.DOCUMENT_ID = __material_code;
+			   wp_apply.URL = url;
+			   wp_apply.TYPE = "1";
+			   wp_apply.OPERATOR_ID = LEx.userInfo.userId;
+			   wp_apply.OPERATOR_NAME = LEx.userInfo.userName;
+			   docids.push(wp_apply);
+			   LEx.alert("上传成功");
+			   $(".bs-modal-result").modal("hide");
+	}
+	function checkSucArry(){
+		var flag = false;
+		var count = 0;
+		$("input[name='checkbox_material2']:checked").each(
+			function(){
+				var url = $(this).attr("dname");
+				var name = $(this).attr("yname");
+				var docid = $(this).attr("cid");
+				flag = true;
+				count++;
+				if(document.getElementById("file_"+docid)){ 
+					LEx.alert("您选择的附件包含已上传文件!"); 
+					flag=false;
+					return;
+				}
+			}
+		);
+		if(count==0){
+			LEx.alert("您还未选择任何文件!"); 
+			flag=false;
+		}
+		if(flag){
+			$("input[name='checkbox_material2']:checked").each(function(){
+				var url = $(this).attr("dname");
+				var name = $(this).attr("yname");
+				var docid = $(this).attr("cid");
+				if(document.getElementById("file_"+docid)){ LEx.alert("您选择的附件包含已上传文件!"); return;}
+				$("#list_"+__material_code).append("<div style=\"text-align:right;margin-bottom:10px;\" id=\"file_"+docid+"\">"+formatLenStr(name,0,14)+"<a class='btn btn-success btn-xs'  onclick=\"onDownload(this);\">下载</a> | <a class='btn btn-danger btn-xs'  onclick=\"onDel(this);\">删除</a>"+"</div>");
+		    	$("#file_"+docid).attr("title",name);
+		    	$("#file_"+docid).attr("url",url);			
+		    	$("#doc_"+__material_code).html(name);
+				var wp_apply = {};
+				   wp_apply.DOCUMENT_NAME =__material_name;
+				   wp_apply.FILE_PATH = docid;
+				   wp_apply.FILE_NAME = name;
+				   wp_apply.DOCUMENT_ID = __material_code;
+				   wp_apply.URL = url;
+				   wp_apply.TYPE = "1";
+				   wp_apply.OPERATOR_ID = LEx.userInfo.userId;
+				   wp_apply.OPERATOR_NAME = LEx.userInfo.userName;
+				   docids.push(wp_apply);
+				$(this).attr('checked', false);
+			});
+			LEx.alert("上传成功");
+			$(".bs-modal-result").modal("hide");
+		}
+	}
+  </script>
+<textarea id="template4progress" style="display: none">
+<div class="alert alert-danger" style="padding: 8px;margin-bottom: 10px;">
+							请勾选您要上传的文件，然后点击确定按钮
+						</div>
+		<table class="table table-bordered" style="width:100%;max-height:400px;overflow:auto;">
+		<th style="height:30px;">
+               <td style="text-align:center;">材料名称</td>
+			   <td style="text-align:center;">上传日期</td>
+        </th>
+		{for d in data}
+           <tr style="height:30px;">
+		       <td style="text-align:center;">
+		           <input name="checkbox_material2" type="checkbox" dname="${d.URL}" yname="${d.YNAME}" cid="${d.DOCID}" value="checkbox_material2" /></td>
+               <td style="text-align:left;">${d.YNAME}</td>
+			   <td style="text-align:center;">${d.UPLOADTIME}</td>
+           </tr>
+           {/for}
+	</table>
+	<input type="button" value="确定" class="btn btn-success pull-right" style="margin-top:-20px;" onclick="checkSucArry();">
+</textarea>

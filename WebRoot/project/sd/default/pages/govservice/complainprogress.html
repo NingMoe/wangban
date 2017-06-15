@@ -1,0 +1,49 @@
+<!doctype html>
+
+<div style="background: url({%public /assets/img/bjgz_background_02.jpg %}) top center no-repeat; height: 440px;">
+    <div class="container relative">
+        <section class="panel" style="background-color: rgba(249, 253, 255, 0.7); width: 430px; padding: 30px 45px; position: absolute; right:160px; top: 30px;">
+            <h3 class="delta"><strong class="text-primary">投诉跟踪</strong></h3>
+            <br>
+
+            <h4 class="f16"><strong><span class="text-primary">方式一：</span>进入 <a class="text-primary" href="{{cp}}uinfo?folder=active&tag=business_complaint">用户中心</a> 查询</strong></h4>
+            <h4 class="f16"><strong><span class="text-primary">方式二：</span>直接输入投诉编号、查询密码</strong></h4>
+
+            <br>
+               <div class="form-horizontal">
+                <div class="form-group" >
+                
+                    <div class="col-xs-3 omega control-label" style="padding-left:0px;word-break:break-all;">投诉编号：</div>
+                    <div class="col-xs-9" >
+                        <input class="form-control" id="id"  reg="^.+$" placeholder="请输入投诉编号" type="text">
+                    </div>
+                  
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-3 omega control-label" style="padding-left:0px;word-break:break-all;" >查询密码：</div>
+                    <div class="col-xs-9">
+                        <input class="form-control" id="pw" reg="^\d+$" placeholder="请输入相应的查询密码" type="password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-9 col-xs-offset-3">
+                        <button type="submit" onclick="queryProgress();" class="btn btn-info btn-block f16">查&nbsp;&nbsp;&nbsp;询</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+	function queryProgress() {
+		if ($("#id").val() == "" || $("#id").val() == "请输入投诉编号") {
+			LEx.dialog.tips("请输入流水号", 1);
+			return false;
+		}
+		if ($("#pw").val() == "") {
+			LEx.dialog.tips("请输入查询密码", 1);
+			return false;
+		}
+		window.open("{{PageContext.ContextPath}}icity/assessInfo?id="+$("#id").val(), "_blank")
+	}
+</script>

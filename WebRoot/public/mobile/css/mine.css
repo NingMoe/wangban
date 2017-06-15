@@ -1,0 +1,10 @@
+@charset "utf-8";
+/* CSS Document */
+.panel{ margin-bottom:0px;}
+.panel-heading{ background-color:#e8f3f6; text-align:center;}
+.panel-body{ background-color:#edf8e5;}
+.m-tt{ color:#7e84df;}
+a{ color:#000000;}
+a:hover{ text-decoration:none; }
+.list-group{list-style: outside none none; }
+.list-group li{ margin-bottom:20px;}

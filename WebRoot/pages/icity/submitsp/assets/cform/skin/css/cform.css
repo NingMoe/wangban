@@ -1,0 +1,405 @@
+/*表单*/
+form{
+	text-align: center;
+}
+fieldset{
+	margin: 0;
+	padding: 0;
+}
+table tr {
+	line-height: 20px;
+	min-height: 28px;
+}
+.cfBody{
+	width: 100%;
+	font-size: 14px;
+	font-family: "宋体", sans-serif;
+}
+/*Tab页*/
+.cfTab .cfTabHeader {
+	position: relative;
+	margin: 0;
+	padding: 0 1px 0 0;
+	list-style: none;
+	z-index: 25;
+}
+
+/*.cfTab .cfTabHeader li {*/
+	/*float: left;*/
+	/*position: relative;*/
+	/*margin: 0px 5px 1px 0px;*/
+	/*padding: 0 15px;*/
+	/*border: none;*/
+	/*height: 26px;*/
+	/*background: url(../images/widget/tab.png) repeat-x 0px -26px;*/
+	/*color: #363636;*/
+	/*line-height: 25px;*/
+	/*text-align: center;*/
+	/*z-index: 50;*/
+	/*top: 1px;*/
+	/*cursor: pointer;*/
+/*}*/
+
+/*.cfTab .tabLeft {*/
+	/*position: absolute;*/
+	/*top: 0px;*/
+	/*left: 0px;*/
+	/*height: 26px;*/
+	/*width: 10px;*/
+	/*background: url(../images/widget/tab.png) no-repeat 0px 0px;*/
+/*}*/
+
+/*.cfTab .tabLeftSelected {*/
+	/*background: url(../images/widget/tab.png) no-repeat 0px -78px;*/
+/*}*/
+
+/*.cfTab .tabMid,.cfTab .tabmid{*/
+	/*padding: 0 10px;*/
+	/*font-family: '宋体',serif;*/
+	/*font-size: 14px;*/
+	/*font-weight: bold;*/
+/*}*/
+
+/*.cfTab .tabRight {*/
+	/*position: absolute;*/
+	/*top: 0px;*/
+	/*right: 0px;*/
+	/*height: 26px;*/
+	/*width: 10px;*/
+	/*background: url(../images/widget/tab.png) no-repeat 0px -52px;*/
+/*}*/
+
+/*.cfTab .tabRightSelected {*/
+	/*background: url(../images/widget/tab.png) no-repeat 0px -130px;*/
+/*}*/
+
+/*.cfTab .cfTabBody {*/
+	/*clear: left;*/
+	/*width: 100%;*/
+	/*height: 100%;*/
+/*}*/
+
+/*.cfTab .cfTabHeader li.selected {*/
+	/*background: url(../images/widget/tab.png) #ffffff repeat-x 0px -104px;*/
+	/*元素向下偏移2个像素，将边框覆盖*/
+	/*top: 2px !important;*/
+	/*IE偏移1个像素*/
+	/*top: 1px;*/
+/*}*/
+
+.cfTab .hide {
+	display: none;
+}
+
+/*表格，动态行，动态表格居中*/
+.cfTable, .cfDynRow, .cfDynTable{
+	margin: 10px auto;
+}
+
+/*表格*/
+.cfTable {
+	width: 100%;
+	table-layout: fixed;
+	border-collapse: collapse;
+	font-size: 14px;
+}
+
+.cfTable td {
+	height: 25px;
+	margin: 0;
+	padding: 4px;
+}
+
+/* 动态行样式*/
+.cfDynRow, .cfDynTable{
+	border: none;
+	text-align: left;
+}
+
+.cfDynRow table, .cfDynTable table{
+	width: 100%;
+	table-layout: fixed;
+	border-collapse : collapse;
+	font-size: 14px;
+}
+
+.cfDynTable .cfDynTableTbl{
+	margin-bottom: 10px;
+}
+
+.cfDynRow thead tr th {
+	filter: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#acd1f8,endColorStr=#7fbefe);/*ie渐变*/
+	line-height: 1.7em;
+	overflow: hidden;
+	font-weight: normal;
+	font-size: 14px;
+	text-align: center;
+}
+
+.cfDynRow tbody td, .cfDynTable tbody td, .cfDynRow tfoot td {
+	padding: 4px;
+	border: none;
+	height: 30px;
+	vertical-align: middle;
+}
+.cfDynRow tbody td, .cfDynRow tfoot td {
+	border-bottom: 1px solid #d1d1d1;
+}
+
+.cfDynRow tbody tr.erow{
+	background-color: #d9ebf5;
+}
+
+.cfDynTable tbody td{
+	border: 1px solid #999;
+	height: 25px;
+	margin: 0;
+	padding: 4px;
+}
+
+.cfDynRowTrHover {
+	background-color: #d9ebf5;
+}
+
+.cfAddAndDelTd{
+	text-align: center;
+	background-color: #f0f0f0;
+}
+
+.cfAddRow {
+	border: 0 none;
+	cursor: pointer;
+	margin: 0;
+	overflow: visible;
+	-moz-outline: 0 none;
+	outline: 0 none;
+	background: url(../images/widget/add.png) no-repeat;
+	background-position: 0 50%;
+	margin-right: 2px;
+	padding-left: 13px;
+}
+
+.cfDelRow {
+	border: 0 none;
+	cursor: pointer;
+	margin: 0;
+	overflow: visible;
+	-moz-outline: 0 none;
+	outline: 0 none;
+	background: url(../images/widget/delete.png) no-repeat;
+	background-position: 0 50%;
+	padding-left: 13px;
+}
+
+.cfChangeRow {
+	border: 0 none;
+	cursor: pointer;
+	margin: 0;
+	overflow: visible;
+	-moz-outline: 0 none;
+	outline: 0 none;
+	background: url(../images/widget/changerow.png) no-repeat;
+	background-position: 0 50%;
+	margin-right: 2px;
+	padding-left: 13px;
+}
+
+.cfAddTable, .cfDelTable {
+	display: inline-block;
+	width: 68px;
+	height: 24px;
+	background-image: url(../images/widget/dyntableaction.png);
+	background-repeat: no-repeat;
+	margin: 2px;
+	cursor: pointer;
+}
+
+.cfAddTable{
+	background-position: 0 0;
+}
+
+.cfAddTable:hover{
+	background-position: -68px 0;
+}
+
+.cfDelTable{
+	background-position: 0 -24px;
+}
+
+.cfDelTable:hover{
+	background-position: -68px -24px;
+}
+/*节*/
+.cfFieldSet {
+	min-height: 150px;
+	border: 1px solid #cfcfcf;
+	margin-bottom: 30px;
+}
+.cfFieldSet legend {
+	align: left;
+}
+/*表单标题*/
+.cfTitle {
+	font-size: 22px;
+	text-align: center;
+	margin-top: 10px;
+}
+.cfFieldLabel {
+	text-align: right;
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
+.cfFieldInput {
+	text-align: left;
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
+/*日期时间框*/
+.cfDateTime {
+	background-image: url("../images/widget/datetime.png");
+	background-position: 98% 50%;
+	background-repeat: no-repeat;
+	width: 90%;
+	cursor: pointer;
+}
+
+/*日期框*/
+.cfDate {
+	background-image: url("../images/widget/datetime.png");
+	background-position: 98% 50%;
+	background-repeat: no-repeat;
+	width: 90%;
+	cursor: pointer;
+}
+
+/*加粗*/
+.cfBold {
+	font-weight: bold;
+}
+
+/*斜体*/
+.cfItalic {
+	font-style: italic;
+}
+
+/*下划线*/
+.cfUnderline {
+	text-decoration: underline;
+}
+
+/*单行文本*/
+.cfText,.cfRowSum,.cfColSum {
+	width: 90%;
+}
+
+/*多行文本*/
+.cfTextArea, .cfLargeText {
+	width: 90%;
+	height: 80px;
+}
+
+/*单选框*/
+.cfRadio {
+
+}
+
+/*多选框*/
+.cfCheckBox {
+
+}
+
+/*下拉框*/
+.cfSelectOne {
+	width: 90%;
+}
+
+/*列表框*/
+.cfSelectMultiple {
+	width: 90%;
+}
+
+/*隐藏域*/
+.cfHidden {
+	display: none;
+}
+
+/*按钮*/
+.cfButton {
+
+}
+
+/*只读*/
+.cfIsReadonly {
+	background-color: #D3DCE3;
+}
+
+/*是否必填*/
+.cfIsRequired {
+
+}
+
+.cfOrganCommonHelp{
+
+}
+
+/*兼容ie，隐藏行时出现多余横线*/
+.cfHideTr td{
+	border-top-style:none;
+	border-bottom-style:none;
+}
+.cfColSumBg {
+	background-color: #f0f0f0;
+}
+.cfColSumTd{
+	font-weight: bold;
+	padding-left:5px;
+}
+/** 换行div */
+.cfChangeRowDiv {
+	display: none;
+	width: 160px;
+	height: 80px;
+	padding: 5px;
+	position: absolute;
+	filter: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#eff7ff,endColorStr=#d0e6fb);/*ie渐变*/
+	background-image: -moz-linear-gradient(top, #eff7ff, #d0e6fb);/*以firefox为代表的mozilla内核的浏览器*/
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eff7ff),to(#d0e6fb) ); /*以chrome为代表的webkit内核的浏览器*/
+	border: 1px solid #a5c2e1;
+}
+.cfChangeRowDiv label {
+	float: left;
+	margin-left: 3px;
+	margin-bottom: 5px;
+	font-size: 13px;
+}
+#cfRowNumIn {
+	border: 1px solid #a4a4a4;
+	border-bottom: 1px solid #f6fafe;
+	padding-left: 2px;
+	background-color: #eaeaea;
+}
+.cfConfirmBtn, .cfCancelBtn {
+	display: inline-block;
+	margin: 5px;
+	padding: 2px;
+	color: black;
+	background-color: #f6f8fa;
+	text-decoration: none;
+	border: 1px solid #c3c5c7;
+	float: right;
+}
+.cfTipLabel {
+	color: red;
+	font-size: 12px;
+}
+
+.btn_center { border-top: none; text-align: center; padding:0 0 15px;}
+.btn_center a { display:inline-block; width: 80px; height: 22px;
+	 margin: 0 10px; line-height: 22px; text-align: center;
+	 background: url(../images/btn.gif) no-repeat;
+	 color: #fff; text-shadow:0 1px 0 #666;
+	 outline:none;text-decoration: none;
+}
+.btn_center a:hover {filter:alpha(opacity=80); opacity:0.8;}

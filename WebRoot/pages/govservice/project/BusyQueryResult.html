@@ -1,0 +1,334 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}project.css" />
+<style type="text/css">
+	.busy-result table,.busy-result table tr th,.busy-result table tr td { border:1px solid #ddd;}
+.busy-main .busy-header-tab {
+  overflow: hidden;
+  border-bottom: 1px solid #d3d3d3;
+  height: 37px;
+  background-position: 0 -24px;
+  background-repeat: repeat-x;
+}
+.busy-main .busy-content-tab li input {
+  border: 1px solid #d3d3d3;
+  height: 28px;
+  padding: 4px;
+  margin: 0 6px;
+}
+</style>
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=common.js,icity.js"></script>
+<div class="busy-main">
+	<div id="divList">
+		<div class="busy-header-tab">
+			<h1  style="margin-top:-1px;">查询结果</h1>
+			<a style="float: right;height: 41px;line-height: 40px;padding: 0 32px;font-size: 14px;color: #00f;" id="" href="http://61.144.227.188:5900/wsbs/wsjc/tgdbsreport.htm?sblsh={{result.SBLSH}}&sqr={{result.SQRMC}}" class="fl">我要投诉</a> 
+		</div>	
+		<div class="busy-result" style="margin: 20px 0px 30px">
+			<input type="hidden" id="type" value="{{type}}"  />
+			{% if result %}
+					<table class="tab_1" width="95%" height="100%" cellspacing="1">
+						<tr class="tr_1">
+							<th class="th_1">申办流水号：</th>
+							<td class="td_1" colspan="3"><font id="sblsh">{{result.SBLSH}}</font></td>
+						</tr>
+						<tr class="tr_1">
+							<th class="th_1">项目名称：</th>
+							<td class="td_1" colspan="3"><font id="sbxmmc">{{result.SBXMMC}}</font></td>
+						</tr>
+						<tr class="tr_1">
+							<th class="th_1">事项名称：</th>
+							<td class="td_1" colspan="3"><font id="sxmc">{{result.NAME}}</font></td>
+						</tr>
+						<tr class="tr_1">
+							<th class="th_1" width="20%">申请人或单位：</th>
+							<td class="td_1" width="30%"><font id="sqrmc">{{result.SQRMC}}</font></td>
+							<th class="th_1" width="20%">受理部门：</th>
+							<td class="td_1" width="30%"><font id="bmzzjgdm">{{result.DEPT_NAME}}</font></td>
+						</tr>
+						<tr class="tr_1">
+							<th class="th_1" width="20%">申请时间：</th>
+							<td class="td_1" width="30%" >{{result.SBSJ}}</td>
+							<th class="th_1" width="20%">办件状态：</th>
+							<td class="td_1" width="30%" id="bjzt" state="{{result.STATE}}"></td>
+						</tr>
+						{% if type|equal:"CX" %}
+							<tr class="tr_1">
+								<th class="th_1">流转过程：</th>
+								<td class="td_1" colspan="3" style="padding: 20px;">
+									<table class="listTable" width="100%" height="100%" cellspacing="1">
+										<tr class="tr_2">
+											<th width="25%">环节名称</th>
+											<th width="15%">处理时间</th>
+											<th width="30%">处理状态</th>
+											<th width="30%">说明</th>
+										</tr>
+										{% if result.SBSJ|length %}
+											<tr class="tr_2">
+												<td>业务申办</td>
+												<td>{{result.SBSJ}}</td>
+												<td>已提交申办</td>
+												<td></td>
+											</tr>
+										{% endif %}
+										{% if result.YSLSJ|length %}
+											<tr class="tr_2">
+												<td>网上预受理</td>
+												<td>{{result.YSLSJ}}</td>
+												{% if result.YSLZTDM|equal:'1' %}
+													<td>审核通过</td>
+													<td></td>
+												{% else %}
+													{% if result.YSLZTDM|equal:'2' %}
+														<td>不受理</td>
+														<td>{{result.YSLSBYY}}</td>
+													{% else %}
+														<td>补交补正材料</td>
+													{% endif %}
+												{% endif %}											
+											</tr>
+										{% endif %}
+										{% if result.SLSJ|length %}
+											<tr class="tr_2">
+												<td>业务受理</td>
+												<td>{{result.SLSJ}}</td>
+												{% if result.SLZTDM|equal:'1' %}
+													<td>已受理 </td>
+													<td></td>
+												{% else %}
+													<td>不受理</td>
+													<td>{{result.BSLYY}}</td>
+												{% endif %}
+											</tr>
+										{% endif %}
+										{% if result.TBCXKSRQ|length %}
+											<tr class="tr_2">
+											<td>启动特别程序</td>
+											<td>{{result.TBCXKSRQ}}</td>
+											<td>已启动</td>
+											<td>{{result.TBCXQDLY}}</td>
+										{% endif %}
+										{% if result.TBCXJSRQ|length %}
+											<tr class="tr_2">
+											<td>特别程序处理</td>
+											<td>{{result.TBCXJSRQ}}</td>
+											<td>已处理</td>
+											<td>{{result.TBCXJG}}</td>
+										{% endif %}										
+										{% if result.BZGZSJ|length %}
+											<tr class="tr_2">
+											<td>补交告知</td>
+											<td>{{result.BZGZSJ}}</td>
+											<td>补交告知</td>
+											<td>{{result.BZGZYY}}</td>
+										{% endif %}
+										{% if result.BZSJ|length %}
+											<tr class="tr_2">
+											<td>补交材料</td>
+											<td>{{result.BZSJ}}</td>
+											<td>补交材料</td>
+											<td>{{result.BZCLQD}}</td>
+										{% endif %}
+										{% if result.SPSJ|length %}
+											<tr class="tr_2">
+											<td>审批处理</td>
+											<td>{{result.SPSJ}}</td>
+											{% if result.BJSJ|length %}
+												<td>审批完成 </td>
+												<td></td>
+											{% else %}
+												<td>审批中</td>
+												<td></td>
+											{% endif %}
+											</tr>
+										{% endif %}
+										{% if result.BJSJ|length %}
+											<tr class="tr_2">
+												<td>业务办结</td>
+												<td>{{result.BJSJ}}</td>
+												<td id="BJJGDM">{{result.BJJGDM}}</td>
+												<td></td>
+											</tr>
+										{% endif %}
+										{% if result.LQSJ|length %}
+											<tr class="tr_2">
+												<td>领证登记</td>
+												<td>{{result.LQSJ}}</td>
+												<td>已登记领证</td>
+												<td></td>
+											</tr>
+										{% endif %}
+									</table>				
+								</td>
+							</tr>
+						{% else %}
+							{% if pyObj %}
+								<tr  class="tr_1" id="tr1">
+									<th class="th_1" width="20%">评议分数：</th>
+									<td class="td_1" width="80%" colspan="5">
+										<ul>
+											<li> <span  pyValue="{{pyObj.STAR_LEVEL}}" id="star"> {{pyObj.STAR_LEVEL}}分 </span></li>
+										</ul>	
+									</td>
+								</tr>
+								<tr class="tr_1"  id="tr2">
+									<th class="th_1" width="20%">评议内容：</th>
+									<td colspan="5" class="td_1" width="80%"><div style="width: 100%;min-height: 60px;font-size:14px" >{{pyObj.EVALUATE_CONTENT}}</div></td>
+								</tr>
+							{% else %}
+								<tr  class="tr_1" id="tr1">
+									<th class="th_1" width="20%">评议分数：</th>
+									<td class="td_1" width="80%" colspan="5">
+										<ul id="_py">
+											<li> <input type="radio" value="1" name="star"/> 1分 ★</li>
+											<li> <input type="radio" value="2" name="star"/> 2分 ★ ★</li>
+											<li> <input type="radio" value="3" name="star"/> 3分 ★ ★ ★</li>
+											<li> <input type="radio" value="4" name="star"/> 4分 ★ ★ ★ ★</li>
+											<li> <input type="radio" value="5" name="star" checked="checked"/> 5分 ★ ★ ★ ★ ★</li>
+										</ul>	
+									</td>
+								</tr>
+								<tr class="tr_1"  id="tr2">
+									<th class="th_1" width="20%">评议内容：</th>
+									<td colspan="5" class="td_1" width="80%" id="_pyContent"><textarea style="width: 90%;height: 60px;" id="evaluate_content"></textarea></td>
+								</tr>
+								<tr class="tr_1" id="tr3">
+									<th colspan="6" class="th_1" width="100%" style="text-align: center;"><a onclick='submit()' href="javascript:void(0);" style="border: 1px solid #bcbbcb;padding: 5px;background-color: ghostwhite;cursor: pointer;color:#42515A">确认评议</a></th>
+								</tr>
+							{% endif %}
+							<tr class="tr_1" id="tr4">
+								<th colspan="6" class="th_1" style="color: red;text-align: center;">提示：该业务尚未办结，只有已经办结的业务才能进行评议！</th>
+							</tr>
+						{% endif %}
+					</table>
+			{% endif %}
+		</div>	
+	</div>
+</div>
+<script type="text/javascript">
+	function init() {
+		formatBJStatus($("#BJJGDM").html());
+		var state = $("#bjzt").attr("state");
+		var bState = LEx.icityBusiness.formatStatus(state);
+		$("#bjzt").html(bState);
+		// if(state == "60" || state == "61" || state == "62" || state == "63" || state == "64" || state == "65" || state == "66" || state == "6" || state == "8"){
+		if(LEx.icityBusiness.getGroupIdByStatus(state) == 'processed'){
+			$("#tr4").remove();
+		}else{
+			$("#tr1").remove();
+			$("#tr2").remove();
+			$("#tr3").remove();
+		}
+
+		var type = $("#type").val();
+		if(type == 'PY'){
+			$(".busy-header-tab h1").html("基本信息");
+		}
+	}
+
+	function formatBJStatus(status) {
+		if (status == '0') {
+			$("#BJJGDM").html("出证办结");
+		} else if (status == '1') {
+			$("#BJJGDM").html("退回办结");
+		} else if (status == '2') {
+			$("#BJJGDM").html("废置办结");
+		} else if (status == '3') {
+			$("#BJJGDM").html("删除办结");
+		} else if (status == '4') {
+			$("#BJJGDM").html("转报办结");
+		} else if (status == '5') {
+			$("#BJJGDM").html("补正不来办结");
+		} else if (status == '6') {
+			$("#BJJGDM").html("办结");
+		}
+	}
+
+	function submit(){
+		var cmd = new LEx.Command("app.icity.project.ProjectQueryCmd");
+			var service_code = $("#sxbm").text();
+			if(service_code==null || service_code==""){
+				cmd.setParameter("service_code",null);
+			}else{
+				cmd.setParameter("service_code",service_code);
+			}
+			
+			var service_org_id = $("#slbmzzjddm").text();
+			if(service_org_id==null || service_org_id==""){
+				cmd.setParameter("service_org_id",null);
+			}else{
+				cmd.setParameter("service_org_id",service_org_id);
+			}
+			
+			var bsr_name = $("#sqrmc").text();
+			if(bsr_name==null || bsr_name==""){
+				cmd.setParameter("bsr_name",null);
+			}else{
+				cmd.setParameter("bsr_name",bsr_name);
+			}
+			
+			var bsr_identity_number = $("#sqrzjhm").text();
+			if(bsr_identity_number==null || bsr_identity_number==""){
+				cmd.setParameter("bsr_identity_number",null);
+			}else{
+				cmd.setParameter("bsr_identity_number",bsr_identity_number);
+			}
+			
+			var serial_number = $("#sblsh").text();
+			if(serial_number==null || serial_number==""){
+				cmd.setParameter("serial_number",null);
+			}else{
+				cmd.setParameter("serial_number",serial_number);
+			}
+			
+			var star_level = $("input[name='star']:checked").val();
+			if(star_level == null || star_level == ""){
+				cmd.setParameter("star_level",null);
+			}else{
+				cmd.setParameter("star_level",star_level);
+			}
+			
+			var evaluate_content = $("#evaluate_content").val();
+			if(evaluate_content == null || evaluate_content == ""){
+				cmd.setParameter("evaluate_content",null);
+			}else{
+				cmd.setParameter("evaluate_content",evaluate_content);
+			}
+			
+			var client_ip = $("#client_ip").text();
+			if(client_ip == null || client_ip == ""){
+				cmd.setParameter("client_ip",null);
+			}else{
+				cmd.setParameter("client_ip",client_ip);
+			}
+			var brow=$.browser; 
+	   		var bInfo=""; 
+	   		if(brow.msie){bInfo="Microsoft Internet Explorer "+brow.version;} 
+	   		if(brow.mozilla){bInfo="Mozilla Firefox "+brow.version;} 
+	   		if(brow.safari){bInfo="Apple Safari "+brow.version;} 
+	   		if(brow.opera){bInfo="Opera "+brow.version;} 
+	   		if(bInfo == null || bInfo == ""){
+	   			cmd.setParameter("client_type",null);
+	   		}else{
+	   			cmd.setParameter("client_type",bInfo);
+	   		}
+			var creator = LEx.userInfo;
+			if(creator == null || creator == ""){
+				cmd.setParameter("creator_id",null);
+			}else{
+				cmd.setParameter("creator_id",creator.id);
+			}
+			var	ret = cmd.execute("insert");
+		if(!ret.error){
+			LEx.alert("评价成功！");
+			showBusy(star_level,evaluate_content);
+		}else{
+			LEx.alert(ret.error);
+		}
+		//setTimeout("gotourl()",3000);    
+	}
+	
+	function showBusy(star_level,evaluate_content){
+		$("#_py").html("<li> <span  pyValue='"+ star_level +"' id='star'> " + star_level + "分 </span></li>");
+		$("#_pyContent").html("<div style='width: 100%;min-height: 60px;font-size:14px' >" + evaluate_content + "</div>");
+		$("#tr3").remove();
+	}
+</script>

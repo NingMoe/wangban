@@ -1,0 +1,261 @@
+
+<link rel="shortcut icon" href="{{PageContext.ContextPath}}public/themes/uc/images/favicon.ico">
+<link rel="stylesheet" type="text/css" href="{{PageContext.ContextPath}}public/themes/uc/css/a?t=css&m=base.css,layout.css,tool.css,form.css,common.css" />
+<link rel="stylesheet" type="text/css" href="{% public themes/uc/css/common.css %}" />
+<style>
+.content {
+            margin: 0 auto;
+            width: 100%;
+        }
+
+.fm_slect {
+	border-radius: 3px 3px 3px 3px;
+}
+
+.form-contain .dd-input {
+	width: 205px;
+}
+
+.form-contain {
+	width: 600px;
+	padding: 10px 0px 10px 190px;
+}
+
+a.htmlhref:link,a.htmlhref:visited {
+	color: #35A5EC;
+}
+
+a.htmlhref:hover,a.htmlhref:active {
+	color: #FF9F10;
+}
+a,.m-link a,a.m-link{ color:#333; }
+.opt_btn_gray {
+	background: 
+}
+</style>
+<script type="text/javascript">
+	var __webPath = "{{PageContext.ContextPath}}";
+	var __signature = "{{PageContext.SignatureInfo}}";
+	var validType = "{{ConfigInfo.ValidType}}";
+</script>
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,LEx.form.js,common.js,md5.js"></script>
+<script type="text/javascript">
+	plugin.add('dialog', {
+		path : '{{PageContext.ContextPath}}public/scripts/dialog/a?t=js&m=jquery.artDialog.js,plugins/iframeTools.js',
+		type : 'js',
+		charset : 'utf-8',
+		rely : [ 'dialog_css' ]
+	});
+	plugin.add('dialog_css', {
+		path : '{{PageContext.ContextPath}}public/scripts/dialog/skins/default.css',
+		type : 'css',
+		charset : 'utf-8'
+	});
+	$(document).ready(function() {
+		var step = $.getUrlParam("step");
+		$("#" + step).css("color", "red");
+	});
+	(function($) {
+		$.getUrlParam = function(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null)
+				return unescape(r[2]);
+			return null;
+		}
+	})(jQuery);
+</script>
+<script type="text/javascript" src="{{PageContext.PagePath}}uc/js/a?t=js&m=getPwd.js,common.js"></script>
+<div class="content-holder">
+	<div class="content">
+		<div class="signup-center">
+			<div class="signup-title">
+				<h1>
+					<div class="signup-header"></div>
+					<span class="signup-tip" style="color: red;">找回密码流程：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span> <span style="color: gray; font-size: 15px;" id="first">【1.输入用户名】</span> <span style="color: gray; font-size: 15px;"> &nbsp;————————&nbsp; </span> <span style="color: gray; font-size: 15px;" id="second">【2.验证身份/重设密码】</span> <span style="color: gray; font-size: 15px;"> &nbsp;————————&nbsp; </span> <span
+						style="color: gray; font-size: 15px;" id="third">【3.完成】</span>
+				</h1>
+			</div>
+			<div class="signup-main">
+				<div id="getpwd_form_first" style="display: none;">
+					<input id="pwdSecInfo" type="hidden" />
+					<div class="form-body form-signup-body form-contain">
+						<dl>
+							<dt>
+								<em>*</em>&nbsp;登录用户名：
+							</dt>
+							<dd class="dd-input">
+								<input id="login_name" name="login_name" reg="^.+$" tip="请输入登录用户名" type="text" class="input" style="width: 200px;">
+							</dd>
+							<dd class="form-tip">
+								<span for="login_name"></span>
+							</dd>
+							<dd class="check_rule">登录用户名可能是您的用户名、身份证号码或者手机号。</dd>
+						</dl>
+						<dl style="margin-bottom: 10px;">
+							<dt>
+								<em>*</em>&nbsp;验证码：
+							</dt>
+							<dd class="dd-input">
+								<input id="checknum" name="checknum" reg="^.+$" tip="请输入验证码" type="text" class="input" style="width: 200px;">
+							</dd>
+							<dd class="form-tip">
+								<span for="checknum"></span>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								<em></em>
+							</dt>
+							<dd>
+								<a href="javascript:changeVcode('first');" hidefocus="hidefocus"> <img id="verifyImgFirst" name="verifyImg" src="{{PageContext.ContextPath}}bsp/verifyCode" alt="换一张" style="margin: 4px 5px auto 2px;"></a>&nbsp;
+							</dd>
+							<dd>
+								<a href="javascript:changeVcode('first');" style="font-size: 12px;" class="htmlhref" hidefocus="hidefocus">看不清楚可以换一个</a>
+							</dd>
+						</dl>
+					</div>
+					<div class="form-submit">
+						<dl>
+							<dd style="text-align: center">
+								<a class="opt_btn" style="margin-left: -100px; margin-right: 15px;" href="javascript:void(0);" id="next_btn" hidefocus="hidefocus"><span>下一步</span></a> <a class="opt_btn opt_btn_cancle" href="javascript:void(0);" id="cancel_btn" hidefocus="hidefocus"><span>重新输入</span></a>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div id="getpwd_form_second" style="display: none;">
+					<div class="form-body form-signup-body form-contain">
+						<dl style="margin-bottom: 5px;">
+							<dt>
+								<em>*</em>&nbsp;密码找回方式：
+							</dt>
+							<dd>
+								<select id="pwdMethod" class="select" reg="^.+$" tip="清选择密码找回方式" style="width: 205px; height: 26px; border-radius: 3px;">
+
+								</select>
+							</dd>
+						</dl>
+						<div id="emailDiv" class="fmDiv" style="display: none;">
+							<dl>
+								<dt>&nbsp;已绑定邮箱：</dt>
+								<dd class="dd-input">
+									<span id="ymail" name="ymail" type="text" style="color: #999; margin-left: 5px;"></span>
+								</dd>
+							</dl>
+							<dl>
+								<dt>
+									<em>*</em>&nbsp;新密码：
+								</dt>
+								<dd class="dd-input">
+									<input id="newPassWordEmail" name="newPassWordEmail" reg="^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,15}$" tip="请按要求填写" type="password" class="input" style="width: 200px;">
+								</dd>
+								<dd class="form-tip">
+									<span for="newPassWordEmail"></span>
+								</dd>
+								<dd class="check_rule">请输入您的新密码，由6-15位字母、数字或特殊符号组成</dd>
+							</dl>
+							<dl>
+								<dt>
+									<em>*</em>&nbsp;验证码：
+								</dt>
+								<dd>
+									<input id="MailCode" type="text" style="width: 68px;" class="input" reg="^.+$" tip="请填写验证码" maxlength="4" />
+								</dd>
+								<dd style="margin-left: 8px;">
+									<a id="verify_btn_mail" name="verify_btn_mail" href="javascript:void(0);" style="float: right;margin: 0px;cursor: pointer;" class="opt_btn"><span id="verify_text_mail" name="verify_text_mail">通过邮箱获取验证码</span></a>
+								<dd>
+								<dd class="form-tip">
+									<span for="MailCode"></span>
+								</dd>
+								<dd class="check_rule">请输入验证码</dd>
+							</dl>
+						</div>
+						<div id="phoneDiv" class="fmDiv" style="display: none;">
+							<dl>
+								<dt>&nbsp;已绑定手机：</dt>
+								<dd class="dd-input">
+									<span id="yphone" name="yphone" type="text" style="color: #999; margin-left: 5px;"></span>
+								</dd>
+							</dl>
+							<dl>
+								<dt>
+									<em>*</em>&nbsp;新密码：
+								</dt>
+								<dd class="dd-input">
+									<input id="newPassWordPhone" name="newPassWordPhone" reg="^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,15}$" tip="请按要求填写" type="password" class="input" style="width: 200px;">
+								</dd>
+								<dd class="form-tip">
+									<span for="newPassWordPhone"></span>
+								</dd>
+								<dd class="check_rule">请输入您的新密码，由6-15位字母、数字或特殊符号组成</dd>
+							</dl>
+							<dl>
+								<dt>
+									<em>*</em>&nbsp;验证码：
+								</dt>
+								<dd>
+									<input type="text" style="width: 68px;" class="input" reg="^.+$" tip="请填写验证码" name="MessageCode" id="MessageCode" tag="VCODE" maxlength="4">
+								</dd>
+								<dd style="margin-left: 8px;">
+									<a id="verify_btn_sms" name="verify_btn_sms" href="javascript:void(0);" style="float: right;margin: 0px;cursor: pointer;" class="opt_btn"><span id="verify_text_sms" name="verify_text_sms">点击获取短信验证码</span></a>
+								</dd>
+								<dd class="form-tip">
+									<span for="MessageCode"></span>
+								</dd>
+								<dd class="check_rule">请输入验证码</dd>
+							</dl>
+						</div>
+						<div id="askDiv" class="fmDiv" style="display: none;">
+							<dl>
+								<dt>&nbsp;密保问题：</dt>
+								<dd class="dd-input">
+									<span id="yask" name="yask" type="text" style="color: #999; margin-left: 5px;"></span>
+								</dd>
+							</dl>
+							<dl style="margin-bottom: 8px;">
+								<dt>&nbsp;密保答案：</dt>
+								<dd class="dd-input">
+									<input id="yanswer" name="yanswer" reg="^.+$" tip="请输入密保答案" type="text" class="input" style="width: 200px;">
+								</dd>
+							</dl>
+							<dl>
+								<dt>
+									<em>*</em>&nbsp;新密码：
+								</dt>
+								<dd class="dd-input">
+									<input id="newPassWordAsk" name="newPassWordAsk" reg="^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,15}$" tip="请按要求填写" type="password" class="input" style="width: 200px;">
+								</dd>
+								<dd class="form-tip">
+									<span for="newPassWordAsk"></span>
+								</dd>
+								<dd class="check_rule">请输入您的新密码，由6-15位字母、数字或特殊符号组成</dd>
+							</dl>
+							<dl>
+								<dt>
+									<em>*</em>&nbsp;验证码：
+								</dt>
+								<p><dd>
+									<input type="text" style="width: 68px;" class="input" reg="^.+$" tip="请填写验证码" name="VCODE" id="VCODE" tag="VCODE" maxlength="4">
+									<a href="javascript:changeVcode('second');" hidefocus="hidefocus"> <img id="verifyImgSecond" name="verifyImg" src="{{PageContext.ContextPath}}bsp/verifyCode" alt="换一张" style="position: relative; top: 0px; left: 0px;">
+									</a>&nbsp; <a href="javascript:changeVcode('second');" hidefocus="hidefocus" style="font-size: 13px;">换一张</a>
+								</dd>
+								<dd class="form-tip">
+									<span for="VCODE"></span>
+								</dd></p>
+								<dd class="check_rule">请输入验证码</dd>
+							</dl>
+						</div>
+						<div></div>
+					</div>
+					<div class="form-submit">
+						<dl>
+							<dd style="text-align: center">
+								<a class="opt_btn" style="margin-left: -100px; margin-right: 15px;" href="javascript:void(0);" id="submit_btn" hidefocus="hidefocus"><span>提交</span></a> <a class="opt_btn opt_btn_cancle" href="javascript:void(0);" id="reset_btn" hidefocus="hidefocus"><span>重新输入</span></a>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

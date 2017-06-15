@@ -1,0 +1,102 @@
+<style type="text/css">
+.its-page-body { padding: 2px 35px;}
+.breadcrumb { padding: 12px 35px;}
+</style>
+{% map "key",PageContext.Parameter.key,"start","0","limit","5" as p_HotStat%}
+{% command "app.icity.project.ProjectBusinessStatCmd",'getBusyInfoHotStat',p_HotStat as d_HotStat%}
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><img src="{%public assets/img/current_home.png %}"> 您当前所在的位置:</li>
+            <li><a href="{{cp}}/public/index">首页</a></li>
+            <li><a href="#">热点服务</a></li>
+        </ol>
+    </div>
+    <div class="container">
+        <div class="table-table">
+            <div class="table-cell its-page">
+                <section class="its-page-body">
+                    <h4 class="text-primary" style="border-bottom: solid 2px #9fbdd6; font-size: 20px; background: #e3e7f1; padding: 15px; padding-top: 18px;">
+                <img src="{%public assets/img/adx_bszx.png %}" style="margin-top: -5px;">&nbsp;&nbsp;<strong style="color: #4f719c;">热点办事</strong>
+                <small>
+                	<a class="btn btn-primary " id="grsxbtn" href="javascript:;">个人事项</a>
+                	<a class="btn btn-default " id="frsxbtn" href="javascript:;">法人事项</a>
+                </small>
+            </h4>
+                    <div class="row gamma its-btn-group-help">
+                        <div class="col-xs-3 alpha">
+                            <a class="btn btn-lg btn-block robot" href="{{cp}}govservice/robot">智能机器人</a>
+                        </div>
+                        <div class="col-xs-3 alpha">
+                            <a class="btn btn-lg btn-block question" href="{{cp}}govservice/question">常见问题</a>
+                        </div>
+                        <div class="col-xs-3 alpha">
+                            <a class="btn btn-lg btn-block message" href="{{cp}}message">留言咨询</a>
+                        </div>
+                        <div class="col-xs-3 alpha">
+                            <a class="btn btn-lg btn-block phonebook" href="{{cp}}govservice/phonenum_{{ConfigInfo.WebRegion}}">部门咨询电话</a>
+                        </div>
+                    </div>
+                    <table class="table table-striped its-table-backlog">
+                        <thead>
+                            <tr class="bg-info">
+                            	<th class="text-center text-primary" width="8%">热度排名</th>
+                            	<th class="text-center text-primary" width="40%">事项名称</th>
+                                <th class="text-center text-primary" width="20%">所属部门</th>
+                                <th class="text-center text-primary" width="8%">申报次数</th>
+                                <th class="text-center text-primary" width="8%">点击次数</th>
+                                <th class="text-center text-primary" width="8%">办理深度</th>
+                                <th class="text-center text-primary" width="8%">收藏</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% if d_HotStat.data %}
+						{% for o in d_HotStat.data %}
+                            <tr>
+                            	<td class="text-center"><a class="btn btn-danger">{{loop.counter}}</a></td>
+                                <td><a href="{{PageContext.ContextPath}}icity/proinfo?id={{o.CODE}}" title="{{o.NAME}}">{{o.NAME|truncate:15}} <span class="text-primary">[许可]</span></a></td>
+                                <td class="text-left">{{o.DEPT_NAME_SHORT}}</td>
+                                <td class="text-center">{{o.SUM}}</td>
+                                <td class="text-center">{{o.SUM}}</td>
+                                <td class="text-center"><a class="btn btn-primary" href="{{cp}}icity/submitsp/baseinfo?itemId={{o.CODE}}">全程网办</a></td>
+                                <td class="text-center"><a class="btn btn-link" href="#">收藏</a></td>
+                            </tr>
+                         {% endfor %}
+						 {% else %}
+					 		<tr>
+                                <td colspan="5"><font>暂无数据</font></td>
+                            </tr>
+						 {% endif %}                           
+                        </tbody>
+                    </table>
+                    <button style="display:none;" type="button" class="btn btn-default btn-block its-btn-loading-more">加载更多</button>
+                </section>
+            </div>
+        </div>
+    </div>
+<script>
+$(function(){
+	if(LEx.urldata.key=="getBusyInfoHotStat"){
+		clickGr();
+	}else if(LEx.urldata.key=="getBusyInfoHotStatFr"){
+		clickFr();
+	}
+	$("#grsxbtn").click(function(){
+		window.location.href="{{cp}}govservice/BusyInfoHotStat?key=getBusyInfoHotStat"
+	});
+	$("#frsxbtn").click(function(){
+		window.location.href="{{cp}}govservice/BusyInfoHotStat?key=getBusyInfoHotStatFr"
+	});	
+});
+function clickGr(){
+	$("#grsxbtn").removeClass("btn-default");
+	$("#grsxbtn").addClass("btn-primary");
+	$("#frsxbtn").removeClass("btn-primary");
+	$("#frsxbtn").addClass("btn-default");
+}
+function clickFr(){
+	$("#frsxbtn").removeClass("btn-default");
+	$("#frsxbtn").addClass("btn-primary");
+	$("#grsxbtn").removeClass("btn-primary");
+	$("#grsxbtn").addClass("btn-default");
+}
+</script>

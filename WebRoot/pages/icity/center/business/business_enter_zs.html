@@ -1,0 +1,84 @@
+<style>
+</style>
+<link rel="stylesheet" type="text/css" href="{{PageContext.ContextPath}}public/themes/default/css/a?t=css&m=center.css" /> 
+{% merge PageContext.ContextPath,"icity/submitsp/baseinfo?itemId=" as online_service_url %}
+
+<div class="center">
+	<table class="table table-bordered">
+		<tr class="sec_tr">
+			<td><span>一窗受理列表</span></td>
+		</tr>
+		<tr>
+			<td>
+				<form action="" method="post">
+					<ul class="list-inline">
+						<li class="col-xs-5">申办编码: &nbsp;&nbsp; 
+							<input type="sbbh" id="sbbh" size="25" style="margin-left: 10px;height:20px;"></li>
+						<li class="col-xs-7">申办时间: &nbsp;&nbsp; 
+							<input type="text" class="date" id="APPLYTIME_S" name="APPLYTIME_S" style="width: 90px; margin-left: 10px;;height:20px;">&nbsp;至&nbsp; 
+							<input type="text" class="date" id="APPLYTIME_E" name="APPLYTIME_E" style="width: 90px;;height:20px;">&nbsp;&nbsp;
+							<input type="button" value="查询" class="btn btn-warning" onclick="bltable.pageIndex(0);onQuery();return false;" style="padding: 3px 20px">
+						</li>
+					</ul>
+				</form>
+			</td>
+		</tr>
+	</table>
+	<div class="businessList_main">
+		<div id="bldata" class="template_list"></div>
+		<div id="raiderpager_business_enter" style="float: left; padding-left: 270px;"></div>
+	</div>
+</div>
+
+<textarea id="template_business_enter" style="display: none">
+{if data.length > 0} {for o in data}
+<table class="table table-bordered">
+	<tr class="sec_tr">
+		<td style="border-right: none;" colspan="4"><span style="display: inline-block; width: 380px; padding-top: 5px;">联办号：${o.APPROVE_NUM}</span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									{if o.IS_LHTK != '0'}								 	
+										<a href="javascript:void(0);" onclick="LhtkDetail('${o.ID}','${o.RECEIVE_ID}');" style="line-height: 30px;">联合踏勘</a>
+									{/if}</td>
+		<td style="border-left: none; width: 120px">
+			<div class="other">
+				{if o.CURRENT_STATE=='00' } <a
+						href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}"
+						target="_blank" class="btn btn-success btn-sm">&nbsp;&nbsp;修&nbsp;&nbsp;改&nbsp;&nbsp;</a><BR>
+				{/if}
+				{if o.CURRENT_STATE == "10"}
+								<a href="#" target="_blank" class="nbutton_blue">重新办理</a><BR> 
+							{/if}
+							{if o.CURRENT_STATE == "12" }
+									<a href="#" target="_blank" class="nbutton_blue">补齐补正</a><BR>												
+							{/if}
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td class="col-xs-2" style="border-right: none; width: 100px;"
+				rowspan="2"><img src="{%public assets/img/1-3.png%}"></td>
+		<td style="border-left: none;" colspan="3"><span
+				style="font-size: 18px; color: #2c87b6;">${o.APPLY_SUBJECT}</span></td>
+		<td rowspan="2" align="center">
+			<span style="color: #008000; line-height: 50px;"
+				class="NeedFormatState" state="${o.CURRENT_STATE}"></span><BR />
+					{if o.CURRENT_STATE!='00'}								 	
+						<a href="javascript:void(0);"
+				onclick="BusinessDetail('${o.ID}','${o.APPLY_SUBJECT}','${o.APPLY_TIME}','');"
+				style="line-height: 25px;">业务详情</a>
+					{/if}
+		</td>
+	</tr>
+	<tr>
+		<td style="border-left: none;" colspan="3">
+			<ul class="list-inline">
+				<li><span style="display: inline-block; padding-top: 5px;">{if o.CURRENT_STATE=='00' }暂存{else}申办{/if}时间:&nbsp;${fomatterDate(o.APPLY_TIME)}</span></li>
+			</ul>
+		</td>
+	</tr>
+</table>
+{/for} {else}
+	<div style="border: 1px; solid: #DCDCDC; height: 25px; padding-top: 5px; width: 785px; text-align: center; color: red;">无业务信息！</div>
+{/if}
+</textarea>
+

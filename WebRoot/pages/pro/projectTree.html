@@ -1,0 +1,71 @@
+<script type="text/javascript">
+	var data=[{id:'A',pId:'',name:'农、林、牧、渔业'}];
+	var industryTreeObj = null;
+	var nodes = null;
+	var rootId = null;
+	var chkStyle = "radio";
+	function init(){
+		if(LEx.urldata.checkbox){
+			chkStyle = "checkbox";
+		}
+		debugger;
+		var command = new LEx.Command("app.icity.pro.ProCmd");
+		command.setParameter("regionCode", LEx.urldata.regionCode);
+		command.setParameter("projectCode", $("#selectProjectCode").val());
+		var ret = command.execute("getTZProjectList");
+		if(!command.error){
+			data = ret.data;
+		}
+		//data = [{projectCode:'A',projectName:'农、林、牧、渔业'},{projectCode:'B',projectName:'农、林、牧、渔业'}];
+		initTree();
+	}
+	
+	function initTree(){		
+			var setting = {
+					view: {
+						selectedMulti: false
+					},
+					edit: {
+						enable: false
+					},
+					check: {
+						enable: true,
+						chkStyle: chkStyle,
+						chkboxType: { "Y": "", "N": "" },
+						radioType: "all"
+					},
+					data: {
+						key: {
+							name: "projectName"
+						},
+						simpleData: {
+							enable: true,
+							idKey:"projectCode",
+							rootPId:rootId
+						}
+					}
+				};
+				
+			LEx.Control.Tree("IndustryTree",setting,data,function(obj){
+				industryTreeObj = obj;
+			});		
+	}
+	
+	function getData(){
+		var selectedIndustry = {};
+		nodes = industryTreeObj.getCheckedNodes(true);
+		if(null != nodes && nodes.length >0){
+			node=nodes[0];
+			selectedIndustry.id =node.projectCode;
+			selectedIndustry.name=node.projectName;
+		}
+		return selectedIndustry;
+	}
+</script>
+<div>
+	<div style="margin-left: 200px;">
+		<input type = "text" id="selectProjectCode" class="form-control" placeholder="请输入项目编码查询" value=""/>
+		<button value="" onclick="init()" style="background-color: #d2f3fd;" class="form-control">查询</button>
+	</div>
+	<ul id="IndustryTree" class="ztree"></ul>
+</div>

@@ -1,0 +1,320 @@
+<link href="{{PageContext.ContextPath}}public/JRPlatform/css/bootstrap.css" rel="stylesheet">
+<link href="{{PageContext.ContextPath}}public/JRPlatform/css/mine.css" rel="stylesheet">
+
+<style type="text/css">
+.tab-content {
+margin: 0px;
+line-height: 24px;
+}
+.zl-list-unstyled-ggfu-2>li>a {
+	padding: 6px;
+}
+.buttonli {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #E2E5EA;
+	text-align: center;
+}
+a:link{ text-decoration: none}
+.paddingli {
+	padding: 2px 2px 2px 2px;
+	width:120px;
+	height:30px;
+}
+
+.btn-tinyClass{
+	color: #333;
+  	background-color: #ccc;
+  	border-color: #ccc;
+  	background-image: none;
+  	border: 1px solid transparent;
+  	border-radius: 4px;
+  	display: inline-block;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+.btn-tinyClass:HOVER{
+  	background-color: #faa;
+  	border-color: #ccc;
+}
+.thumbnails {
+  display: block;
+  padding: 4px;
+  /*margin-bottom: 20px;*/
+  line-height: 1.42857143;
+  background-color: #F0F8FF;
+  border: 1px solid #ffffff;
+  border-radius: 0;
+  -webkit-transition: border 0.2s ease-in-out;
+  -o-transition: border 0.2s ease-in-out;
+  transition: border 0.2s ease-in-out;
+}
+.thumbnail {
+  display: block;
+  padding: 4px;
+  margin-bottom: 20px;
+  line-height: 1.428571429;
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  -webkit-transition: all 0.2s ease-in-out;
+          transition: all 0.2s ease-in-out;
+}
+
+.thumbnail > img,
+.thumbnail a > img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+  border-color: #428bca;
+}
+
+.thumbnail .caption {
+  padding: 9px;
+  color: #333333;
+}
+
+.col-xs-6{
+	width:32%;
+}
+.zl-list-unstyled-ggfu-3 > li p,
+.zl-list-unstyled-ggfu-3 > li span,
+.zl-list-unstyled-ggfu-3 > li time,
+.zl-list-unstyled-ggfu-3 > li em {
+  display: inline-block;
+  height: 13px;
+  line-height: 13px;
+  padding: 0 5px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.list-unstyled li{
+	padding-bottom: 14px;
+}
+</style>
+
+<script type="text/javascript">
+
+//进度查询
+function queryProcess(){
+	var acceptanceNum = $("#acceptanceNum").val();
+	var queryPsw = $("#queryPsw").val();
+	
+	window.open("{{PageContext.ContextPath}}JRPlatform/lslbdetail?acceptanceNum="+acceptanceNum+"&queryPsw="+queryPsw,"_blank"); 
+}
+function reSet(){
+	$("#acceptanceNum").val("");
+	$("#queryPsw").val("");
+}
+function formateStatus(val){
+	if(val == 10){
+		return "未办";
+	}else if(val == 11){
+		return "在办";
+	}else if(val == 99){
+		return "已办";
+	}else {
+		return "";
+	}
+}
+
+function tzlist(type){
+	window.open("{{PageContext.ContextPath}}JRPlatform/unionbusinesslist?type="+type); 
+};
+function query(){
+	$(".bs-modal-result").modal('show');
+}
+</script>
+<div class="container" >
+<div class="page-content">
+    <div class="row">
+<div class="col-xs-12">
+    <div class="panel" >
+        <div class="panel-heading">
+        	<div class="panel-title">一窗受理</div>
+        </div>
+	    <div class="panel-body text-center">
+	        <div class="col-xs-2">
+	            <a href="javasript:void(0);" id="home" role="tab" data-toggle="tab" onclick="tzlist('0')">
+	                <img src="{{PageContext.ContextPath}}public/JRPlatform/img/shangshidengji.png">
+	                <br><span>商事登记</span>
+	            </a>
+	        </div>
+	        <div class="col-xs-2">
+	            <a href="javasript:void(0);" id="union" role="tab" data-toggle="tab" onclick="tzlist('3')">
+	                <img src="{{PageContext.ContextPath}}public/JRPlatform/img/budongchan.png">
+	                <br><span>不动产权登记</span>
+	            </a>
+	        </div>
+	        <div class="col-xs-2">
+	            <a href="#">
+	                <img src="{{PageContext.ContextPath}}public/JRPlatform/img/gonganfuwu.png">
+	                <br><span>公安服务</span>
+	            </a>
+	        </div>
+	        <div class="col-xs-2">
+	            <a href="{{PageContext.ContextPath}}JRPlatform/tzpro" target="_blank">
+	                <img src="{{PageContext.ContextPath}}public/JRPlatform/img/touzixiangmu.png">
+	                <br><span>投资项目</span>
+	            </a>
+	        </div>
+	        <div class="col-xs-2">
+	            <a href="#">
+	                <img src="{{PageContext.ContextPath}}public/JRPlatform/img/qita.png">
+	                <br><span>综合事务</span>
+	            </a>
+	        </div>
+	        <div class="col-xs-2">
+	            <a href="javasript:void(0);" id="qt" role="tab" data-toggle="tab" onclick="tzlist('4')">
+	                <img src="{{PageContext.ContextPath}}public/JRPlatform/img/qtlslb.png">
+	                <br><span>其他事项</span>
+	            </a>
+	        </div>
+	    </div>
+    </div>
+</div>
+<div class="col-xs-4">
+    <div class="panel">
+        <div class="panel-heading">
+        	<a class="pull-right f12" href="{{PageContext.ContextPath}}JRPlatform/base-2?cname=一窗受理" style="padding-right:0px; padding-top:8px;">更多&gt;&gt;</a>
+            <div class="panel-title">一窗受理集成服务</div>
+        </div>
+        <ul class="list-unstyled row j-list-unstyled" style="padding-left: 15px; margin-bottom:0;min-height:230px;">
+       		{% map "channel.name@=","一窗受理","start","0","CHECKS@=","1","limit","5","sort"," CTIME DESC","content.rid@=",ConfigInfo.WebRegion,"isDtyw","1" as m %}
+   			{% command "app.icity.govservice.GovProjectCmd","getListNew",m as d %}
+   			{% for o in d.data %}
+            <li><a href="{{PageContext.ContextPath}}JRPlatform/base-1?ID={{o.ID}}"  title="{{o.NAME}}">{{o.NAME|truncate:'12','..'}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<div class="col-xs-4">
+	<section class="panel">
+		<header class="panel-heading">
+			<h3 class="panel-title">为您服务</h3>
+		</header>
+		<div class="panel-body zl-thumbnails-ggfu-2">
+			<div class="col-xs-6">
+				<a href="http://pay.zjzwfw.gov.cn/index.htm" target="_blank" class="thumbnail" title="{{ConfigInfo.servicecomplaint_telephone}}">
+				<img src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/统一支付.png" alt="">统一支付</a>
+			</div>
+			<div class="col-xs-6">
+				<a href="{{PageContext.ContextPath}}JRPlatform/base-2?cname=文件资料&websitetype=4" target="_blank" class="thumbnail">
+				<img src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/文件资料.png" alt="">文件资料</a>
+			</div>
+			<div class="col-xs-6">
+				<a href="{{PageContext.ContextPath}}JRPlatform/contentdetail?cname=操作说明" target="_blank" class="thumbnail">
+				<img src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/项目咨询.png" alt="">操作说明</a>
+			</div>
+			<div class="col-xs-6">
+				<a href="{{PageContext.ContextPath}}JRPlatform/base-2?cname=流程指引&websitetype=4"  target="_blank" class="thumbnail">
+				<img src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/流程指引.png" alt="">流程指引</a>
+			</div>
+			<div class="col-xs-6">
+				<a href="{{cp}}center/index" target="_blank" class="thumbnail">
+				<img src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/企业网页.png" alt="">企业网页</a>
+			</div>
+			<div class="col-xs-6">
+				<a href="{{cp}}center/index" target="_blank" class="thumbnail">
+				<img src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/项目代理.png" alt="">市民网页</a>
+			</div>
+		</div>
+	</section>
+</div>
+
+<div class="col-xs-4">
+	<section class="panel">
+		<header class="panel-heading">
+			<h3 class="panel-title">互动服务</h3>
+		</header>
+		<div class="panel-body zl-thumbnails-ggfu-2">
+			<div class="col-xs-4">
+				<a href="{{PageContext.ContextPath}}icity/interactive/contactUS" target="_blank" class="thumbnail">
+				<img src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/t-i-1.png" alt="">意见建议</a>
+			</div>
+			<div class="col-xs-4">
+				<a href="{{PageContext.ContextPath}}icity/interactive/onlineSurvey?type=1" target="_blank" class="thumbnail">
+				<img src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/t-i-2.png" alt="">网上调查</a>
+			</div>
+			<div class="col-xs-4">
+				<a href="{{ConfigInfo.Consult}}" target="_blank" class="thumbnail">
+				<img src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/t-i-3.png" alt="">网上咨询</a>
+			</div>
+			<div class="col-xs-4">
+				<a href="{{ConfigInfo.Complain}}" target="_blank" class="thumbnail">
+				<img src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/t-i-4.png" alt="">网上投诉</a>
+			</div>
+			<div class="col-xs-4">
+				<a href="{{PageContext.ContextPath}}icity/interactive/satisfaction" target="_blank" class="thumbnail">
+				<img src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/t-i-8.png" alt="">网上评价</a>
+			</div>
+			<div class="col-xs-4">
+				<a href="#" onclick="query();" class="thumbnail">
+				<img src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/t-i-3.png" alt="">进度查询</a>
+			</div>
+		</div>
+	</section>
+</div>
+	<div class="col-xs-12">
+	    <div class="panel" style="border:none">
+		    <div class="panel-heading">
+		    	<div class="panel-title">办件公告</div>
+	    	</div>
+			 {% widget "icity_zs.LianslbListWidget" %} 
+		</div>
+	</div> 
+	<!-- <div class="col-xs-12">
+	    <div class="panel" style="border:none">
+	    {% merge "szw.Links5_",ConfigInfo.WebRegion as link %}
+	    <div class="panel-heading"><div class="panel-title">友情链接</div></div>{% widget link%}</div>
+	</div>  -->
+</div>
+</div>
+</div>
+
+<div class="modal fade bs-modal-result" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" >
+   <div class="modal-header" >
+    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+    <h4 class="modal-title">
+     	 <strong>联办进度查询</strong>
+    </h4>
+  </div>
+  <div class="modal-body">
+   <div class="query-result" style="margin: 20px 0px 30px">
+            <form class="form-inline">
+                <div class="form-group" style="margin-left: 100px;">
+                    <label for="exampleInputName1">受理编号：</label>
+                    <input type="text" class="form-control" id="acceptanceNum" placeholder="">
+                </div><br/><br/>
+            </form>
+            <form class="form-inline">
+                <div class="form-group"  style="margin-left: 100px;">
+                    <label for="exampleInputName2">查询密码：</label>
+                    <input type="text" class="form-control" id="queryPsw" placeholder="">
+                </div><br/><br/><br/>
+            </form>
+            <div class="c-button" style="margin-left: 300px;">
+                <button type="button" class="btn btn-primary" onclick="queryProcess()">查 询</button>&nbsp;
+                <button type="button" class="btn btn-warning" onclick="reSet()">重 置</button>
+            </div>
+   </div>
+  </div>
+  </div>
+  </div>
+  </div>

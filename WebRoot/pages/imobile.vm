@@ -1,0 +1,12 @@
+<script type="text/javascript">
+	{% set cp PageContext.ContextPath %}
+	var __webPath = "{{cp}}";
+	var __signature = "{{PageContext.SignatureInfo}}";
+</script>
+<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.form.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js"></script>
+{% include PageContext.HtmlName %}
+{% if PageContext.JsName %}
+<script type="text/javascript">
+	{% include PageContext.JsName %}
+</script>
+{% endif %}

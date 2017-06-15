@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <title>我的证照中心</title>
+</head>
+<body>
+{%include elicense/index/header.html %}
+{% map "licenseNo",PageContext.Parameter.id as p %}
+{% command "app.icity.govservice.LicenseCmd","getLicencePictureFile",p as d %}
+    <div class="py-25 mb-20 bg-faded">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="media">
+                        <div class="media-left media-middle pr-15">
+                            <i class="nc-icon-outline business_cheque x2l img-circle bg-blue p-20"></i>
+                        </div>
+                        <div class="media-body media-middle">
+                            <h4 class="media-heading"><strong>证照详情</strong></h4>
+                            <span class="text-muted">{{d.data.metaData.licenseTypeName}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <ol class="breadcrumb small pull-right mt-25" style="opacity: .6;">
+                        <li><i class="nc-icon-outline location_pin lg"></i> 当前位置:</li>
+                        <li><a href="{{cp}}public/index">首页</a></li>
+                        <li><a href="{{cp}}elicense/index">证照中心</a></li>
+                        <li><a href="javascript:;">证照详情</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+
+        <section class="panel panel-default">
+            <header class="panel-heading">
+                <h4 class="my-0"><i class="nc-icon-outline ui-3_bullet-list bg-blue img-circle p-10"></i> <strong>证照详情</strong></h4>
+            </header>
+            <table class="table table-1610312007">
+                <tbody>
+                    <tr>
+                        <td class="text-right" width="18%">证照名称：</td>
+                        <td>{{d.data.metaData.licenseTypeName}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">证照编码：</td>
+                        <td>{{d.data.metaData.licenseTypeCode}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">发证单位：</td>
+                        <td>{{d.data.metaData.deptName}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">持证者证件号码:：</td>
+                        <td>{{d.data.metaData.certificateNo}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">持证者姓名：</td>
+                        <td>{{d.data.metaData.holderName}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">许可内容：</td>
+                        <td>{{d.data.metaData.permitContent}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="panel panel-default">
+            <header class="panel-heading">
+                <h4 class="my-0"><i class="nc-icon-outline ui-1_attach-87 bg-blue img-circle p-10"></i> <strong>证照详情</strong></h4>
+            </header>
+            <table class="table table-1610312007">
+                <tbody>
+				{% for o in d.data.attachment %}
+                    <tr>
+                        <td width="5%"><img src="{% public license/img/ic-pdf.png%}"></td>
+                        <td class="pl-0">
+                        <a href="javascript:showLicenseFile('{{o.fileName}}')" target="_blank">
+                        {{o.fileName}}
+                        </a>
+                        </td>
+                        <td class="text-right">
+                            <a href="javascript:downloadLicenseFile('{{o.fileName}}')" class="btn btn-success btn-sm"><i class="nc-icon-outline arrows-2_square-download lg"></i> 点击下载</a>
+                            <a href="javascript:printLicenseFile('{{o.fileName}}');" class="btn btn-default btn-sm"><i class="nc-icon-outline tech_print lg"></i> 点击打印</a>
+                        </td>
+                    </tr>
+                 {% endfor %} 
+                </tbody>
+            </table>
+        </section>
+    </div>
+{%include elicense/index/footer.html %}
+</body>
+</html>
+<script>
+/**
+ * 下载
+ */
+function downloadLicenseFile(filename){
+	var opera = "download&path="+filename+"&name="+filename+"&download=yes";
+   	window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+}
+/**
+ * 打印
+ */
+function printLicenseFile(filename){
+	var opera = "download&path="+filename+"&name="+filename+"&download=no";
+	printWindow = window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+  　    setTimeout("printWindow.print()",100);
+}
+/**
+ * 预览
+ */
+function showLicenseFile(filename){
+	var opera = "download&path="+filename+"&name="+filename+"&download=no";
+	printWindow = window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+}
+
+</script>

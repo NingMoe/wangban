@@ -1,0 +1,108 @@
+<script type="text/javascript">
+//enterpriseType	申报类型企业申报类型
+//1注册登记(内资)
+//2注册登记(外资)
+//3全流程注册登记(内资)
+//4全流程注册登记(外资)
+function submit_index(){
+	var enterpriseType = "1";
+	var js = getFormId_index(enterpriseType);
+	var formId = js.formId;
+	var flowId = js.flowId;
+	var data = {};
+	data.num = "";
+	data.name = "";
+	data.formId = formId;
+	data.flowId = flowId;
+	data.enterpriseType = enterpriseType;
+	window.open("{{PageContext.ContextPath}}icity/enterprises/onlineDeal?data="+LEx.encode(data),"_self"); 
+}
+function getFormId_index(enterpriseType){
+	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+	command.setParameter("enterpriseType", enterpriseType);
+	var ret = command.execute("getApplicationInfo");
+	if(!command.error){
+		if(ret.state=='1'){
+			var js = {};
+			js.formId = ret.data.formId;
+			js.flowId = ret.data.flowId;
+			return js;
+		}else{
+			errorDialog("验证","验证未通过"+ret.message);
+			return;
+		}
+	}else{
+		errorDialog("验证","验证未通过");
+		return;
+	}
+}
+</script>
+<div class="jmain">
+        <div class="container" style="background:white url(img/bg-3.png) no-repeat scroll 100% 100%;height:470px;">
+            <div class="row" style="margin-top: 15px;margin-bottom: 20px;">
+                <div class="col-xs-12">
+                    <section class="panel panel-default no-bordered no-shadow" style="border-top: 3px solid #00a8ec !important;">
+                        <header class="panel-heading clearfix" style="">
+                            <form class="form-inline pull-right">
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="输入关键字" type="text">
+                                </div>
+                                <button type="submit" class="btn btn-primary">搜索</button>
+                            </form>
+                            <h3 class="panel-title" style="margin-top:5px;"><strong>内资企业设立</strong></h3>
+                        </header>
+                    </section>
+                </div>
+                <div class="col-xs-4" style="text-align:center;">
+                    <div class="top-head">
+                        <h4 style="font-weight:bolder; color:#00a8ec;">企业名称预先核准<br>
+                        <span style="font-size:14px;">(承诺时限：1个工作日)</span></h4>
+                    </div>
+                    <div class="bg">
+                        <img src="{{PageContext.ContextPath}}public/cq/img/build-2.png">
+                    </div>
+                </div>
+                <div class="col-xs-8">
+                    <p>预先核准的名称有效期为6个月，请在有效期内到机关登记注册，注册后方可使用其名称。
+                        您是否已准备好以下材料：
+                    </p>
+                    <ul>
+                        <li>
+                             <div class="checkbox">
+                                <label><input value="" type="checkbox">商事登记注册账号*</label>
+                            </div>
+                        </li>
+                        <li>
+                             <div class="checkbox">
+                                <label><input value="" type="checkbox">企业名称*</label>
+                            </div>
+                        </li>
+                        <li>
+                             <div class="checkbox">
+                                <label><input value="" type="checkbox">出资人证件号码*</label>
+                            </div>
+                        </li>
+                        <li>
+                             <div class="checkbox">
+                                <label><input value="" type="checkbox">委托代表证件号码*</label>
+                            </div>
+                        </li>
+                        <li>
+                             <div class="checkbox">
+                                <label><input value="" type="checkbox">邮寄地址</label>
+                            </div>
+                        </li>
+                        <li>
+                             <div class="checkbox">
+                                <label><input value="" type="checkbox">全部准备好</label>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="jbutton" style="text-align:center;">
+                        <button type="button" class="btn btn-primary" onclick="submit_index();">我要办理</button>
+                        <button type="button" class="btn btn-success">办事指南</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

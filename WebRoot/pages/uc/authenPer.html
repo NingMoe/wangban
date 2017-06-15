@@ -1,0 +1,177 @@
+<script type="text/javascript"
+	src="{{PageContext.PagePath}}uc/js/common.js"></script>
+<div class="sec_div"><span>实名认证</span></div>
+<img src="{%public assets/img/1-1.png%}">
+<ul  id="modify-form">
+<input id="TYPE" tag="TYPE" class="input" type="hidden">
+	<li><span>您在网上办事大厅注册的账号信息</span></li>
+	<li>
+		<table class="modify">
+				<tr>
+					<td class="t1">
+						<em>*</em>&nbsp;真实姓名：
+					</td>
+					<td class="t2">
+						<input id="NAME" tag="NAME" reg="^.+$" tip="请填写真实姓名" class="input"
+							type="text">
+					</td>
+					<td class="form-tip">
+						<span for="NAME"></span>
+					</td>
+				</tr>
+				<tr>
+					<td class="t1">
+						<em>*</em>&nbsp;证件类型：
+					</td>
+					<td class="t2">
+						<select id="CARD_TYPE" tag="CARD_TYPE" reg="^.+$" tip="请按选择证件类型"
+							class="cart_type"></select>
+					</td>
+					<td class="form-tip">
+						<span for="CARD_TYPE"></span>
+					</td>
+				</tr>
+				<tr>
+					<td class="t1">
+						<em>*</em>&nbsp;证件号码：
+					</td>
+					<td class="t2">
+						<input tag="CARD_NO" id="CARD_NO" reg="^.+$" tip="请填写证件号码"
+							func="checkCardNo" for="CARD_TYPE" class="input" type="text">
+					</td>
+					<td class="form-tip">
+						<span for="CARD_NO"></span>
+					</td>
+				</tr>
+				<tr>
+					<td class="t1">
+						<em>*</em>&nbsp;登录手机号：
+					</td>
+					<td class="t2">
+						<span tag="PHONE" id="PHONE"></span>
+					</td>
+					<td style="width: 160px;"></td>
+				</tr>
+			</table>
+	</li>
+</ul>
+
+<div class="form-submit" style="margin-top: 20px;margin-left: 280px;">
+	<table>
+	<tr>
+				<td><a class="opt_btn" href="javascript:void(0);" style="position: relative; left: -20px;" id="submit" hidefocus="hidefocus"><span>提交</span></a></td>
+				<td><a class="opt_btn opt_btn_cancle" href="javascript:void(0);" style="position: relative; left: 5px;" id="cancel" hidefocus="hidefocus"><span>取消</span></a></td>
+	</tr>
+	</table>
+</div>
+
+<script type="text/javascript">
+	{% merge "[{label:'dict_code@in',value:'user_sfzjlx'}]" as pwhere %}
+	{% map "code","PUB_DICT_ITEM_GetCollection","pwhere",pwhere as params %}
+	{% command "app.db.DbProxy","collection",params as result %}
+	var CODE_MAP_SOURCE = {{result.data}};
+</script>
+<script type="text/javascript">
+//身份证件类型正则表达式
+var zjlxReg={
+	10:"(^\\d{15}$)|(^\\d{18}$)|(^\\d{17}[X|x]$)",
+	14:"^(H|h|M|m)\\d{8}\\d{2}$",
+	16:"^[a-zA-Z]{1,2}\\d{6}\\(\\d{1}\\)$",
+	17:"^\\d{7}\\(\\d\\)$",
+	18:"^[a-zA-Z]\\d{9}$"	
+}
+
+function initCodeMap() {
+	var option = "";
+	for ( var o in CODE_MAP_SOURCE) {
+		var obj = CODE_MAP_SOURCE[o];
+		if (obj.DICT_CODE == "user_sfzjlx") {
+			option += '<option value="' + obj.ITEM_CODE + '" title="' + obj.ITEM_VALUE + '">' + obj.ITEM_VALUE + '</option>';
+		}
+	}
+	$("#CARD_TYPE").html(option);
+}
+
+(function(){
+	initCodeMap();
+	
+	var cmd = new LEx.Command("app.uc.UserCmd");
+    var ret=cmd.execute("showUserInfo");
+	if (ret.state==1) {
+		if(ret.data){
+			LEx.form.set("modify-form",ret.data);
+		}    
+	} else {
+		errorDialog("系统提示","error："+ret.message);
+	}
+	
+	//提交数据
+	$("#submit").click(function(){
+		postData("modify-form");
+	});
+	
+	//取消修改
+	$("#cancel").on("click",function(){
+		$(".show_tab").load(LEx.webPath+"src?m=uc/authenPer.html");	
+	});
+		
+	$(".cart_type").change(function(){
+		var obj=$("input[for="+$(this).attr("id")+"]");
+		checkCardNo(obj);
+	});
+	
+	//检验普通项的数据
+	$("[reg]").bind("blur",function(){
+		var obj=$(this);
+		validateObj(obj);
+	});	
+})();
+
+//提交数据	
+function postData(formid){
+	if(!checkValidate(formid)){
+		errorDialog("系统提示","请填写正确的信息");
+		return false;
+	}
+	var obj = LEx.form.get(formid);
+	var data = {NAME:"",PHONE:"",CARD_TYPE:"",CARD_NO:"",}
+	$.extend(data,obj);
+	
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	for ( var property in data) {
+		cmd.setParameter(property, obj[property]);
+	}
+	var ret = cmd.execute("updateRealName");
+	if (ret.state == 1) {
+		LEx.dialog({title : "系统提示",content : "修改实名验证信息成功", icon: 'succeed' ,lock : true});
+		return true;
+	} else {
+		errorDialog("系统提示","修改实名验证信息失败："+ret.message);
+	}
+	return false;
+}
+
+//检验证件号码
+function checkCardNo(obj){
+	var c = $(".modify");
+	var t = $(".form-tip span[for="+obj.attr("id")+"]",c);
+	var reg; 
+	var f = obj.attr("for");
+	var zjlx=$("#"+f,c).val();
+	
+	//如果存在正则表达式，必须符合格式，否则可以随意填
+	if(zjlxReg[zjlx]){
+		reg=new RegExp(zjlxReg[zjlx]);
+		if (reg.test(obj.val())=== false) {
+			t.attr("class", "invalid").html("证件输入不合法");
+			return false;
+		}else{
+			t.attr("class", "valid").html("");
+			return true;
+		}
+	}else{
+		t.attr("class", "valid").html("");
+		return true;
+	}
+}	
+</script>

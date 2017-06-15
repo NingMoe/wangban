@@ -1,0 +1,202 @@
+<div class="container" style="width: 1030px !important;"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png%}"> 您当前所在的位置:</li>
+        <li><a href="{{cp}}public/index">首页</a></li>
+        <li><a href="{{cp}}icity/consult">办事咨询</a></li>
+    </ol>
+</div>
+<div class="container" style="width: 1030px !important;"> 
+    <section class="panel" style="padding: 10px;">
+        <header class="panel-heading">
+            <button type="button" class="btn btn-info pull-right" onclick="javascript:window.opener=null;window.open('','_self');window.close();">关闭</button>
+            <h4 style="border-bottom: solid 1px #e5e5e5; margin:0; padding-bottom: 5px;">
+                <img src="{%public assets/img/zhcx_title_pic3.jpg%}">&nbsp;&nbsp;<strong>办事咨询</strong>
+            </h4>
+        </header>
+        <div class="panel-body">
+            <table class="table table-bordered" id="MattersList" style="word-break: break-all;margin-bottom: 0;">
+            </table>
+            <table class="table table-bordered" id="againstList" style="word-break: break-all;">
+            </table>
+        </div>
+    </section>
+</div>
+<script>
+var editor;
+//是否需要审核-需要审核功能 1  不需要审核功能 0 或 为空
+var sh = LEx.urldata.sh;
+$(function(){
+	loaddata();
+});
+function loaddata() {
+	var id = LEx.urldata.id;
+	if(isNotNull(id)){
+		var command = new LEx.Command("app.icity.center.active.BusinessAskCmd");
+		command.setParameter("g.id@=", id);
+		var ret = command.execute("getBusinessAsk");
+		if (ret.state == 1&&ret.total>0) {
+			if(sh=="1"){//需要审核功能
+				$("#MattersList").html(LEx.processDOMTemplate("MattersListInfosh", ret));
+			}else{
+				$("#MattersList").html(LEx.processDOMTemplate("MattersListInfo", ret));
+			}
+			if(ret.data[0].STATUS=="5"||ret.data[0].STATUS=="6"){
+				//查询追问记录
+				var command1 = new LEx.Command("app.icity.center.active.BusinessAskCmd");
+				command1.setParameter("G_ID@=", id);
+				var ret1 = command1.execute("getBusinessAgainAsk");
+				if(ret1.state == 1&&ret1.data.length>0) {
+					$("#againstList").html(LEx.processDOMTemplate("AgainListInfo", ret1));
+				}
+			}
+		}else{
+			LEx.dialog.tips("没有找到对应的业务信息");
+		}
+	}
+}
+
+function editorFun(obj) {
+	editor = obj;
+}
+function formatDetailFlag(val) {
+	if(sh=="1"){//有审核功能
+		if (val == '0') {
+			return "正在办理";
+		} else if (val == '1') {
+			return "正在办理";
+		}else if (val == '3') {
+			return "已答复";
+		}else if (val == '4') {
+			return "正在办理";
+		}else {
+			return "";
+		}
+	}else{
+		if (val == '0') {
+			return "未回复";
+		} else{
+			return "已答复";
+		}
+	}
+}
+function formatAgainst(val){
+	if(val=="5"||val=="6"){
+		return "有追问";
+	}else{
+		return "无追问";
+	}
+}
+</script>
+<script type="text/template" id="MattersListInfosh" >
+<tbody>
+{for o in data}
+			<tr>
+				<td class="bg-info text-right">咨询标题：</td>
+				<td colspan="3">${o.TITLE}</td>
+			</tr>
+			<tr>
+				<td class="bg-info text-right" style="vertical-align: top;">咨询内容：</td>
+				<td colspan="3">
+				<div>事项名称：${o.SXMC}</div>
+				<div>${o.CONTENT}</div>
+				</td>
+			</tr>
+			<tr>
+				<td width="15%" class="bg-info text-right">申请人/申请单位：</td>
+				<td width="35%">${o.USERNAME}</td>
+				<td width="15%" class="bg-info text-right">提交时间：</td>
+				<td width="35%">${LEx.util.Format.formatDate(o.WRITE_DATE)}</td>
+			</tr>
+			<tr>
+				<td class="bg-info text-right">受理单位：</td>
+				<td>${o.DEPART_NAME}</td>
+				<td class="bg-info text-right">受理时间：</td>
+				<td>${LEx.util.Format.formatDate(o.DEAL_DATE)}</td>
+			</tr>
+			<tr>
+				<td class="bg-info text-right">答复状态：</td>
+				<td>${formatDetailFlag(o.STATUS)}</td>
+				<td class="bg-info text-right">答复时间：</td>
+				<td>${LEx.util.Format.formatDate(o.DEAL_DATE)}</td>
+			</tr>
+			<tr>
+				<td class="bg-info text-right">答复内容：</td>
+				<td colspan="3">
+					{if o.STATUS=="3"}					
+						${o.DEAL_RESULT}
+					{/if}
+				</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="bg-info text-right">追问状态：</td>
+				<td colspan="3">${formatAgainst(o.STATUS)}</td>
+			</tr>
+{/for}
+</tbody>
+</script>
+<script type="text/template" id="MattersListInfo" >
+<tbody>
+{for o in data}
+			<tr>
+				<td class="bg-info text-right">咨询标题：</td>
+				<td colspan="3">${o.TITLE}</td>
+			</tr>
+			<tr>
+				<td class="bg-info text-right" style="vertical-align: top;">咨询内容：</td>
+				<td colspan="3">
+				<div>事项名称：${o.SXMC}</div>
+				<div>${o.CONTENT}</div>
+				</td>
+			</tr>
+			<tr>
+				<td width="15%" class="bg-info text-right">申请人/申请单位：</td>
+				<td width="35%">${o.USERNAME}</td>
+				<td width="15%" class="bg-info text-right">提交时间：</td>
+				<td width="35%">${LEx.util.Format.formatDate(o.WRITE_DATE)}</td>
+			</tr>
+			<tr>
+				<td class="bg-info text-right">受理单位：</td>
+				<td>${o.DEPART_NAME}</td>
+				<td class="bg-info text-right">受理时间：</td>
+				<td>${LEx.util.Format.formatDate(o.DEAL_DATE)}</td>
+			</tr>
+			<tr>
+				<td class="bg-info text-right">答复状态：</td>
+				<td>${formatDetailFlag(o.STATUS)}</td>
+				<td class="bg-info text-right">答复时间：</td>
+				<td>${LEx.util.Format.formatDate(o.DEAL_DATE)}</td>
+			</tr>
+			<tr>
+				<td class="bg-info text-right">答复内容：</td>
+				<td colspan="3">${o.DEAL_RESULT}</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="bg-info text-right">追问状态：</td>
+				<td colspan="3">${formatAgainst(o.STATUS)}</td>
+			</tr>
+{/for}
+		</tbody>
+</script>
+
+<script type="text/template" id="AgainListInfo" >
+<tbody>
+{for o in data}
+ <tr>
+	<td width="15%" class="bg-info text-right">追问内容：</td>
+	<td colspan="3">
+		<div>追问内容：${o.QUESTION}</div>
+		<div>追问时间：${LEx.util.Format.formatDate(o.Q_TIME)}</div>
+	</td>
+</tr> 
+<tr>
+	<td width="15%" class="bg-info text-right">追问答复：</td>
+	<td colspan="3">
+		<div>答复内容：{if o.ANSWER!=null&&o.ANSWER!=""}${o.ANSWER}{else}未答复{/if}</div>
+		<div>答复时间：${LEx.util.Format.formatDate(o.RE_TIME)}</div>
+	</td>
+</tr>
+{/for}
+</tbody>
+</script>

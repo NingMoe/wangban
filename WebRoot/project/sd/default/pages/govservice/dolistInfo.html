@@ -1,0 +1,88 @@
+<script>
+  $(function(){
+	  var command = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	  //alert(LEx.urldata.receivenumber);
+	  command.setParameter("RECEIVE_NUMBER",LEx.urldata.receivenumber);
+	  command.setParameter("start",1);
+	  command.setParameter("limit", 10);
+	  var ret= command.execute("MatterInfo");
+	  if (ret.state == 1&&ret.total>0) {
+			$("#MattersList").html(LEx.processDOMTemplate("MattersListInfo", ret));
+		}else{
+			LEx.dialog.tips("没有找到对应的业务信息");
+		}
+			
+	});
+</script>
+<div class="container" style="width: 1030px !important;"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png%}"> 您当前所在的位置:</li>
+        <li><a href="{{cp}}public/index">首页</a></li>
+        <li><a href="{{cp}}govservice/dolist">办件公告</a></li>
+    </ol>
+</div>
+<div class="container" style="width: 1030px !important;"> 
+    <section class="panel" style="padding: 10px;">
+        <header class="panel-heading">
+            <button type="button" class="btn btn-info pull-right" onclick="javascript:window.opener=null;window.open('','_self');window.close();">关闭</button>
+            <h4 style="border-bottom: solid 1px #e5e5e5; margin:0; padding-bottom: 5px;">
+                <img src="{%public assets/img/zhcx_title_pic3.jpg%}">&nbsp;&nbsp;<strong>办件公告</strong>
+            </h4>
+        </header>
+        <div class="panel-body">
+            <table class="table table-bordered" id="MattersList">
+            </table>
+        </div>
+    </section>
+</div>
+
+<script type="text/template" id="MattersListInfo" >
+		<tbody>
+		{for o in data}
+		<tr class="tr_1">
+			<th class="bg-info text-right">申报号：</th>
+			<td colspan="3">${o.columns.RECEIVE_NUMBER}</td>
+		</tr>
+		<tr class="tr_1">
+			<th class="bg-info text-right">事项名称：</th>
+			<td colspan="3">${o.columns.ITEM_NAME}</td>
+		</tr>
+		<tr class="tr_1">
+			<th class="bg-info text-right">办件名称：</th>
+            <td colspan="3">${o.columns.APPLY_SUBJECT}</td>
+		</tr>
+		<tr class="tr_1">		
+			<th class="bg-info text-right">申请人/申请单位：</th>
+            <td>${o.columns.APPLICANT}</td>
+            <th class="bg-info text-right">受理单位：</th>
+            <td>${o.columns.ORG_NAME}</td>
+		</tr>
+		<tr class="tr_1">
+			<th class="bg-info text-right">受理经办人：</th>
+            <td>${o.columns.ACCEPT_USER_NAME}</td>
+            <th class="bg-info text-right">受理时间：</th>
+            <td >${o.columns.SUBMIT_TIME}</td>
+		</tr>
+		<tr>
+           <th class="bg-info text-right">办件类型：</th>
+           <td>
+		   {if o.columns.ASSORT=="1"}
+				承诺件
+		   {else}
+				{if o.columns.ASSORT=="2"}
+						即办件
+		   		{else}
+					{if o.columns.ASSORT=="3"}
+						 上报件
+		   			{else}
+						联报件
+					{/if}
+				{/if}
+			{/if}
+			</td>
+           <th class="bg-info text-right">办件结果：</th>
+           <td>${o.columns.STATE}</td>
+         </tr>
+		{/for}
+		</tbody>
+</script>

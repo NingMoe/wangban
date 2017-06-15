@@ -1,0 +1,70 @@
+<script  type="text/javascript" src="{{PageContext.JsPath}}LEx.form.js"></script>	
+<style type="text/css">
+#flowStep a{
+		width:183px;
+	}
+
+.mytable th {
+ font:  14px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+ color:#115918;
+ font-weight:bold;
+}
+.mytable td {
+ font-size:18px;
+}
+</style>
+
+<script type="text/javascript">
+	function goIndex(index){
+		var fp  = {};
+		fp.id = "flowStep";
+		fp.list = [
+		           {"title":"选择单位","href":LEx.webPath+"icity/guestbook/choose"},
+	               {"title":"填写内容"},
+	               {"title":"提交成功"}
+		          ];
+		//当前索引
+		fp.curIndex = index;
+		LEx.Control.flowStep(fp);
+    }
+      //页面倒数计时跳转
+     function doUpdate(num){   
+               document.getElementById("totalSecond").innerHTML = num ;   
+                  if (num == 0){
+                     window.location="{{PageContext.ContextPath}}icity/guestbook/list";
+             }  
+}  
+     
+		function init(){
+		goIndex(2);
+		
+	    var letter_id=LEx.urldata.id;//获取通过url传递过来的参数
+	    document.getElementById("id").innerHTML = letter_id;
+		//页面倒计时
+		var secs = 10;   
+        for(var i=secs;i>=0;i--) {   
+             window.setTimeout("doUpdate(" + i + ")", (secs-i) * 1000);   
+        }  		
+ }
+        
+</script>
+
+<div class="fl w210">
+	{% widget "other.GuestBookLeftWidget" %}
+</div>
+<div class="ml210">
+  <div  id="flowStep">
+	</div>
+	<div class="tabs-content" style="padding-top:8px" id="form">
+      <table width="750" hight="450" cellspacing="2" class="mytable" style="margin:8px;">
+            <td align="left" class="row" colspan="3">
+               <br>
+                您的唯一查询码为
+               <a style="color:Red; font-size:25px; font-weight:bold"><span id="id"></span></a> 
+               请务必牢记！！方便您以后查询回复结果以及对我们的服务做出评价。<a style="color:Red; font-size:20px; font-weight:bold"><span id="totalSecond"></span></a>秒后将跳转到答复列表页面.......             
+               <br>
+               <br>
+            </td>
+          </tr>
+    </table>
+  </div>

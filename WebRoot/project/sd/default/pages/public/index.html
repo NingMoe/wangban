@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+<style>
+  .zh_index_container{
+    background: url(img/bg123.jpg) no-repeat center/cover;
+  }
+  .zh_own_row .col-xs-4{
+    padding: 0;
+  }
+  .col4_zh1 img,
+  .col4_zh2 img,
+  .col4_zh3 img{
+    width: 100%;
+    height: 100%;
+    /* opacity: 0.7;
+    filter: alpha(opacity=70); */
+  }
+  .col4_zh1:hover,
+  .col4_zh2:hover,
+  .col4_zh3:hover{
+    box-shadow: 0px 0px 10px #91b7da;
+    -webkit-box-shadow: 0px 0px 10px #91b7da;
+    -moz-box-shadow: 0px 0px 10px #91b7da;
+  }
+  .col4_zh1:hover img,
+  .col4_zh2:hover img,
+  .col4_zh3:hover img{
+    opacity: 1;
+    filter: alpha(opacity=100);
+  }
+  .zh_own_row .col-xs-4.col4_zh1{
+  	padding:0;
+    padding-left: 0;
+    margin-right: 20px;
+  }
+  .zh_own_row .col-xs-4.col4_zh2{
+    padding:0;
+    padding-left: 0;
+    margin-right: 21px;
+  }
+  .zh_own_row .col-xs-4.col4_zh3{
+    padding:0;
+    padding-left: 0;
+    margin-right: 0;
+  }
+  </style>
+	<title>{{ConfigInfo.AppTitle}}&nbsp;{{ConfigInfo.AppHall}}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+	<script type="text/javascript">
+		{% set cp PageContext.ContextPath %}
+		var __webPath = "{{cp}}";
+		var __signature = "{{PageContext.SignatureInfo}}";
+		var signupUrl="{{PageContext.ContextPath}}uc/register";
+	</script>
+	<link rel="stylesheet" type="text/css" href="{% public assets/css/custom.css%}" />
+	<link rel="stylesheet" type="text/css" href="{% public assets/css/mdicon.font.css %}" />
+	<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.form.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js,md5.js"></script>
+	<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=md5.js"></script>
+	<script  type="text/javascript" src="{% public scripts/common.js %}"></script>
+	<style>
+		/*侧边栏导航 */
+        body {
+            font-family: "Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
+            background-color: #f3f3f3;
+        }
+        
+          .sy_rfloat {
+            width: 72px;
+            height: 462px;
+            position: fixed;
+            top: 167px;
+            right: 1%;
+            margin-right: auto;
+            z-index: 999;
+            display: block;
+        }
+        
+        .rfloat_sub {
+            width: 72px;
+            height: 71px;
+            position: absolute;
+            cursor: pointer;
+        }
+        
+        .rfloat_sub_tit {
+            width: 72px;
+            height: 28px;
+            position: absolute;
+            bottom: 5px;
+            font-size: 14px;
+            line-height: 28px;
+            text-align: center;
+        }
+        
+        .rfloat_sub:hover .rfloat_sub_tit {
+            color: #1492FF;
+        }
+        
+        .rfloat_sub1 {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) top no-repeat;
+        }
+        
+        .rfloat_sub1:hover {
+            background: url({% public assets/img/1-2.png%}) top no-repeat;
+        }
+        
+        .rfloat_sub2 {
+            position: absolute;
+            top: 71px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) 0px -71px no-repeat;
+        }
+        
+        .rfloat_sub2:hover {
+            background: url({% public assets/img/1-2.png%}) 0px -71px no-repeat;
+        }
+        
+        .rfloat_sub2:hover .rfloat_sub_zxts {
+            display: block;
+        }
+        
+        .rfloat_sub_zxts {
+            width: 125px;
+            height: 216px;
+            position: absolute;
+            top: -74px;
+            left: -125px;
+            background: url({% public assets/img/1-3.png%}) left no-repeat;
+            display: none;
+        }
+        
+        .rfloat_sub_zx {
+            width: 120px;
+            height: 108px;
+            padding-top: 0px;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+        
+        .rfloat_sub_zxtit {
+            width: 106px;
+            height: 40px;
+            position: absolute;
+            top: 68px;
+            left: 0px;
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
+        }
+        
+        .rfloat_sub_zx:hover {
+            background: url({% public assets/img/1-4.png%}) top left no-repeat;
+        }
+        
+        .rfloat_sub_zx:hover .rfloat_sub_zxtit {
+            color: #1492FF;
+        }
+        
+        .rfloat_sub_ts {
+            width: 120px;
+            height: 107px;
+            padding-top: 0px;
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+        }
+        
+        .rfloat_sub_tstit {
+            width: 106px;
+            height: 40px;
+            position: absolute;
+            top: 67px;
+            left: 0px;
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
+        }
+        
+        .rfloat_sub_ts:hover {
+            background: url({% public assets/img/1-4.png%}) bottom left no-repeat;
+        }
+        
+        .rfloat_sub_ts:hover .rfloat_sub_tstit {
+            color: #1492FF;
+        }
+        
+        .rfloat_sub3 {
+            position: absolute;
+            top: 142px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) 0px -142px no-repeat;
+        }
+        
+        .rfloat_sub3:hover {
+            background: url({% public assets/img/1-2.png%}) 0px -142px no-repeat;
+        }
+        
+        .rfloat_sub4 {
+            position: absolute;
+            top: 213px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) 0px -213px no-repeat;
+        }
+        
+        .rfloat_sub4:hover {
+            background: url({% public assets/img/1-2.png%}) 0px -213px no-repeat;
+        }
+        
+        .rfloat_sub_2code {
+            width: 191px;
+            height: 377px;
+            position: absolute;
+            top: -150px;
+            left: -191px;
+            background: url({% public assets/img/1-5.png%}) top no-repeat;
+            display: none;
+        }
+        
+        .rfloat_sub4:hover .rfloat_sub_2code {
+            display: block;
+        }
+        
+        .rfloat_sub5 {
+            position: absolute;
+            top: 284px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) 0px -284px no-repeat;
+        }
+        
+        .rfloat_sub5:hover {
+            background: url({% public assets/img/1-2.png%}) 0px -284px no-repeat;
+        }
+        
+        .rfloat_sub6 {
+            height: 72px;
+            position: absolute;
+            top: 355px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) 0px -355px no-repeat;
+        }
+        
+        .rfloat_sub6 .rfloat_sub_tit {
+            bottom: 8px;
+        }
+        
+        .rfloat_sub6:hover {
+            background: url({% public assets/img/1-2.png%}) 0px -355px no-repeat;
+        }
+        
+        .rfloat_sub7 {
+            height: 35px;
+            position: absolute;
+            top: 427px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) 0px -427px no-repeat;
+        }
+        
+        .rfloat_sub7 .rfloat_sub_tit {
+            bottom: 4px;
+            color: #fff;
+        }
+        
+        .rfloat_sub7:hover {
+            background: url({% public assets/img/1-2.png%}) 0px -427px no-repeat;
+        }
+        
+        .rfloat_sub7:hover .rfloat_sub_tit {
+            color: #fff;
+        }
+        
+        .rfloat_sub8 {
+            height: 73px;
+            overflow: hidden;
+            position: absolute;
+            top: 462px;
+            left: 0px;
+            cursor: default;
+        }
+        
+        .rfloat_sub8_bg {
+            width: 72px;
+            height: 73px;
+            overflow: hidden;
+            position: absolute;
+            top: -73px;
+            left: 0px;
+            background: url({% public assets/img/1-1.png%}) 0px -462px no-repeat;
+            cursor: pointer;
+        }
+        
+        .rfloat_sub8 .rfloat_sub8_bg .rfloat_sub_tit {
+            bottom: 2px;
+            color: #fff;
+        }
+        
+        .rfloat_sub8:hover .rfloat_sub8_bg .rfloat_sub_tit {
+            color: #fff;
+        }
+        .navbar-static-top {
+		    /* z-index: 1000; */
+		    border-width: 0 0 1px;
+		}
+</style>
+</head>
+<body>
+<div id="container_main">
+<!-- 登录界面 -->
+{% include public/index/header-topbar.html %}
+{% include public/index/header-top.html %}
+  <!-- 内容区 -->
+ 	
+ 	<!--  <div class="zh_index_con">111
+    <div class="container zh_index_container">   
+     <div class="nav"> -->
+     <!-- 表头第一行提示 -->
+ 	{% include public/index/header-line.html %}
+ 	<!-- </div>
+    </div>
+  </div> -->
+  <!-- 第二行的按钮 -->
+  <div class="container">
+    <div class="btn-group btn-group-justified its-user-center">
+        <a href="{{cp}}uinfo" class="btn btn-default">用户中心</a>
+        <a href="{{cp}}elicense/index" class="btn btn-default">
+        <span class="label label-danger">New</span>&nbsp;&nbsp;证照中心</a>
+        <a href="{{cp}}uinfo?folder=business&tag=business_list" class="btn btn-default"><img src="{%public assets/img/4user_icon_64.png%}" alt="">我的办件</a>
+        <a href="{{cp}}uinfo?folder=active&tag=business_evaluate" class="btn btn-default"><img src="{%public assets/img/4user_icon_66.png%}" alt="">我的评价</a>
+        <a href="{{cp}}uinfo?folder=active&tag=business_ask" class="btn btn-default"><img src="{%public assets/img/4user_icon_68.png%}" alt="">我的咨询</a>
+        <a href="{{cp}}uinfo?folder=active&tag=business_complaint" class="btn btn-default"><img src="{%public assets/img/4user_icon_70.png%}" alt="">我的投诉</a>
+        <a href="{{cp}}uinfo?folder=active&tag=business_favorite" class="btn btn-default"><img src="{%public assets/img/4user_icon_72.png%}" alt="">我的收藏</a>
+        <a href="{{cp}}uinfo?folder=active&tag=business_document" class="btn btn-default"><img src="{%public assets/img/4user_icon_62.png%}" alt="">我的资料库</a>
+    </div>
+    <div class="row its-shortcut">
+        <div class="col-xs-4">
+        	<a href="{{cp}}icity/listintquery/splist">
+            <div class="btn-info text-center">
+                <br>
+                <h4><strong>省级清单查阅</strong></h4>
+                <ul class="list-inline">
+                    <li>行政许可事项目录</li>
+                    <li>行政权力</li>
+                    <li>政府责任</li>
+                    <li>市场准入负面</li>
+                </ul>
+                <img src="{%public assets/img/en_icon_01.png%}" alt="">
+            </div>
+            </a>
+        </div>
+        <div class="col-xs-4">
+           <a href="{{cp}}icity/serviceDept">
+            <div class="btn-warning text-center">
+                <br>
+                <h4><strong>省级网上政务大厅部门分厅</strong></h4>
+                <ul class="list-inline">
+                    <li>已入驻省级<span id="deptNum">0</span>个部门</li>
+                </ul>
+                <img src="{%public assets/img/en_icon_02.png%}" alt="">
+            </div>
+           </a>
+        </div>
+        <div class="col-xs-4">
+         <a href="{{cp}}icity/engineering/index" target="_blank">
+            <div class="btn-success text-center">
+                <br>
+                <h4><strong>山东省投资项目在线审批</strong></h4>
+                <ul class="list-inline">
+                    <li>审批类申报</li>
+                    <li>核准类申报</li>
+                    <li>备案类申报</li>
+                </ul>
+                <img src="{%public assets/img/en_icon_03.png%}" alt="">
+            </div>
+           </a>
+        </div>
+    </div>
+</div>
+
+<footer class="its-footer">
+   <div class="container" style="width: 1000px !important;">
+        <div class="row its-footer-links" style="border:0px;">
+            <div class="col-xs-3">
+                <ul>
+                	<li class="text-primary"><strong>山东省政府网站群</strong></li>
+                	<li><a href="http://www.shandong.gov.cn/" title="此链接为外部链接" target="_blank">山东省人民政府</a></li>
+                	<li><a href="http://xxgk.shandong.gov.cn/" title="此链接为外部链接" target="_blank">山东省政府信息公开</a></li>
+                	<li><a href="http://www.sdrd.gov.cn/" target="_blank">山东省人大</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <ul>
+                	<li class="text-primary"><strong>相关栏目</strong></li>
+					<li><a href="http://www.sdfgw.gov.cn/col/col52/" title="此链接为外部链接" target="_blank">国民经济和社会发展规划</a></li>                
+					<li><a href="http://www.lczfcg.gov.cn" target="_blank">政府集中采购项目</a></li>
+					<li><a href="http://www.shandong.gov.cn/col/col608/" title="此链接为外部链接" target="_blank">财政预算、决算报告</a></li>            
+                </ul>
+            </div>
+            <div class="col-xs-2">
+                <ul>
+                	<li class="text-primary"><strong>新媒体</strong></li>
+					<li><a href="http://www.shandong.gov.cn/col/col1066/" title="此链接为外部链接" target="_blank">移动客户端</a></li>
+					<li><a href="http://www.shandong.gov.cn/col/col1621/" title="此链接为外部链接" target="_blank">微信公众号</a></li>
+					<li><a href="http://www.shandong.gov.cn/col/col883/" title="此链接为外部链接" target="_blank">山东政务微博圈</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-2">
+               <ul>
+                	<li class="text-primary"><strong>相关服务</strong></li>
+                	<li><a href="http://www.shandong.gov.cn/col/col1011/" title="此链接为外部链接" target="_blank">气象服务</a></li>
+                	<li><a href="http://www.shandong.gov.cn/col/col1103/" title="此链接为外部链接" target="_blank">旅游景点</a></li>
+                	<li><a href="http://www.shandong.gov.cn/col/col467/" title="此链接为外部链接" target="_blank">公共假日</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-2">
+                <ul>
+                	<li class="text-primary"><strong>扩展功能  <span class="badge" style="color: red;">6</span></strong></li>
+                 	<li><a href="{{cp}}govservice/BusyInfoHotStat" target="_blank">热点服务</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{cp}}govservice/SiteRelease" target="_blank">网站发布</a></li>
+                 	<li><a href="{{cp}}govservice/mapservice" target="_blank">地图服务</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{cp}}govservice/FocusBusiness" target="_blank">重点事项</a></li>
+                 	<li><a href="{{cp}}govservice/CreditInquiry" target="_blank">信用信息</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{cp}}govservice/dolist" target="_blank">办件公告</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>   
+      {% include public/index/footer.html %}
+      {% include public/index/hlht-notice.html%}
+  </footer>
+  </div>
+</body>
+</html>

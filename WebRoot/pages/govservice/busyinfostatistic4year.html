@@ -1,0 +1,146 @@
+<!DOCTYPE header PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/icity.js"></script>
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/chart/highcharts.js"></script>
+<script>
+
+	$(function () {
+	    tj("year");
+	});
+
+	//办件统计函数
+	function tj(t){
+		var options1={};
+	    var str1 = {};
+	    
+	    var colors = Highcharts.getOptions().colors,
+	        categoriesToday = ['预审','咨询','受理','即办','承诺','补办','挂起','办结'];
+	    options1 = {
+	        chart: { renderTo: t,type: 'column', height: '145' },
+	        title: { text: false },
+	        subtitle: { text: false },
+	        legend:{ enabled: false },
+	        credits:{ enabled:false },
+	        exporting: { enabled: false },
+	        plotOptions: {
+	            column: {
+	                dataLabels: {
+	                    enabled: true,
+	                    color: [],
+	                    style: {
+	                        fontWeight: 'bold',
+	                        fontSize: '12px'
+	                    },
+	                    formatter: function() {
+	                        return this.y;
+	                    }
+	                }
+	            }
+	        },
+	        tooltip: {
+	            formatter: function() {
+	                var point = this.point,
+	                    s = this.x +':<b>'+ this.y + '件';
+	                return s;
+	            }
+	        },
+	        
+	        yAxis: {
+	            title: { text: false }
+	        },
+	        xAxis: {
+	            categories: categoriesToday
+	        },
+	        series: []
+	    };
+	    
+	  	//办件统计
+	   	var command = new LEx.Command("app.icity.ServiceCmd");
+	   	command.setParameter("type",t);
+	   	var json = command.execute("getBjtj");
+	   	var colors = Highcharts.getOptions().colors;
+	   	
+	   	if(json==''||json==null){
+	   		var s = {y: 1,color: colors[1]};
+	   		str1 = {	data:[{y: 1,color: colors[1]},
+	   					      {y: 1,color: colors[2]},
+	   					      {y: 1,color: colors[3]},
+	   					      {y: 1,color: colors[4]},
+	   					      {y: 1,color: colors[5]},
+	   					      {y: 1,color: colors[6]},
+	   					      {y: 1,color: colors[7]},
+	   					      {y: 1,color: colors[8]}]
+	   			    };
+	   	}else{
+	   		str1 = {	  data:[{y: json[0].INTERNET,color: colors[1]},
+	   					      {y: json[0].CONSULT,color: colors[2]},
+	   					      {y: json[0].ACCEPT,color: colors[3]},
+	   					      {y: json[0].JIBAN,color: colors[4]},
+	   					      {y: json[0].CHENGNUO,color: colors[5]},
+	   					      {y: json[0].CORRECTION,color: colors[6]},
+	   					      {y: json[0].SUSPEND,color: colors[7]},
+	   					      {y: json[0].COMPLETE,color: colors[8]}]
+	   			    };
+	   	}	
+	   	options1.series.push(str1);
+	    new Highcharts.Chart(options1);	
+	}
+</script>
+<style>
+.zl-list-unstyled-ggfu-3 {
+
+}
+.zl-list-unstyled-ggfu-3 > li {
+  padding: 4px 10px 0 10px;
+  border-bottom: 1px dashed #ddd;
+}
+.zl-list-unstyled-ggfu-3 > li p,
+.zl-list-unstyled-ggfu-3 > li span,
+.zl-list-unstyled-ggfu-3 > li time,
+.zl-list-unstyled-ggfu-3 > li em {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 5px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.zl-list-unstyled-ggfu-3 > li p {
+  width: 35%;
+  margin: 0;
+}
+.zl-list-unstyled-ggfu-3 > li span {
+  width: 15%;
+}
+.zl-list-unstyled-ggfu-3 > li time {
+  width: 10%;
+}
+.zl-list-unstyled-ggfu-3 > li em {
+  width: 9%;
+  font-style: normal;
+}
+</style>
+<script type="text/javascript"></script>
+{% command "app.icity.project.ProjectBusinessStatCmd","getBusinessList" as list %}
+<section class="panel zl-tab-ggfu-1" style="margin-bottom: 5px;width:280px;height:150px;margin:0 auto">
+	<div class="tab-content">
+		<div class="tab-pane active" id="year" style="height:150px;width:278px">
+			<div data-highcharts-chart="0" style="height:150px;width:278px">
+				<div style="position: relative; overflow: hidden; width: 240px; height: 161px; text-align: left; line-height: normal; z-index: 0; left: 0.5px; top: 0.25px;" id="highcharts-0" class="highcharts-container">
+					<svg height="145" width="240" xmlns="http://www.w3.org/2000/svg" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" version="1.1">
+					<desc>Created with Highcharts 4.0.1</desc>
+					<defs>
+						<clipPath id="highcharts-1">
+							<rect height="145" width="278" y="0" x="0"></rect>
+						</clipPath>
+					</defs>
+					<rect class=" highcharts-background" fill="#FFFFFF" strokeWidth="0" height="161" width="270" y="0" x="0"></rect>
+					</svg>
+				</div>
+			</div>  
+		</div>
+	</div>
+</section>
+</html>

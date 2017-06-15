@@ -1,0 +1,37 @@
+{% map "projectId",id as p %}
+{% command "app.icity.pro.ProCmd","getProjectAgent",p as d %}
+{% set agent d.data.agent %}
+<div class="panel-body" style="min-height:500px;">
+	<table class="table table-bordered table-condensed table01">
+		<tbody id="project_body">
+			<tr>
+				<th>是否申请无偿代理：</th>
+				<th>{% if agent.dataSource|equal:"0" %}是{% else %}否{% endif %}</th>
+				<th>审核意见：</th>
+				<th>{{agent.opinion}}</th>
+			</tr>
+			<tr>
+				<th>代理员：</th>
+				<th>{{agent.agent}}</th>
+				<th>联系方式:</th>
+				<th>{{agent.agentPhone}}</th>
+			</tr>
+			{% if agent.dataSource|equal:"0" %}
+			<tr>
+				<th colspan="4">代理申请表信息</th>
+			</tr>
+			<tr rowspan="15">
+				<td colspan="4">
+					<div style ="width:700px;height:700px;"><iframe id = "zxform" style ="width:700px;height:700px;" src=""></iframe></div>
+				</td>
+			</tr>
+			{% endif %}
+		</tbody>
+	</table>
+</div>
+<script>
+$(function(){
+	 $("#zxform").attr("src","{{ConfigInfo.Form_url}}cform/view?formId={{agent.formId}}&dataId={{agent.dataId}}");
+	 $("#btnSave").css("display","none");
+});
+</script>

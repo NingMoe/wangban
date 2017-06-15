@@ -1,0 +1,181 @@
+<style>
+.its-sidebar .sidebar-nav > li > a {
+  padding: 10px 0;
+}
+</style>
+<div class="container"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png %}"> 您当前所在的位置:</li>
+        <li><a href="{{cp}}/public/index">首页</a></li>
+        <li><a href="javascript:void(0)">通知公告</a></li>
+    </ol>
+</div>
+<div class="container"> 
+    <div class="table-table">
+        <div class="table-cell its-aside">
+            <nav class="sidebar its-sidebar">
+                <h4 class="sidebar-header" >
+                    <img src="{%public assets/img/abm_bszx.png%}"><strong>按部门分类</strong>
+                </h4>
+                 <ul class="nav sidebar-nav collapse in" id="collapseTwo" style="height:530px;overflow-y:scroll">
+                </ul>
+            </nav>
+        </div>
+        <div class="table-cell its-page">
+            <section class="its-page-body">
+               <table class="table its-tabel-filter">
+                    <tbody>
+                        <tr>
+                            <th width="100" class="text-right">按公告名称：</th>
+                            <td width="140"><input type="text" class="form-control" placeholder="请输入公告名称" id="keyWord"></td>
+                            <th width="110" class="text-right">按发布时间检索：</th>
+                            <td width="110"><input type="text" class="form-control" id="startTime"></td>
+                            <th width="15" class="text-right">至</th>
+                            <td width="110"><input type="text" class="form-control" id="endTime"></td>
+                            <td width="100"><button type="botton" class="btn btn-danger btn-sm no-bordered btn-block f16" onclick="onQuery('1')">搜 索</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-striped its-table-backlog" id="roll_list1">
+                </table>
+                 <p class="text-center" id="project-none" style="display:none;">
+                    <span style="background-color: #F1F2F3; padding: 8px 200px; color: #666;">暂无数据</span>
+                 </p>
+                <!-- 分页显示位置 -->
+                <nav class="text-center" id="layer"></nav>           
+            </section>            
+        </div>
+    </div>
+</div>
+<textarea type="text/template" id="MattersListTemplate" style="display:none">
+<thead>
+    <tr class="bg-info">
+       <th class="text-center text-primary" width="50%">主题名称</th>
+       <th class="text-center text-primary" width="25%">发布部门</th>
+       <th class="text-center text-primary" width="25%">发布时间</th>
+     </tr>
+</thead>
+<tbody>
+{for o in data}
+    <tr>
+     {if o.URL!=""} 
+        <td><a href="${o.URL}"  target="_blank">${o.NAME}<span class="text-primary"></span></a></td>
+     {else}
+        <td><a href="{{PageContext.ContextPath}}icity/publishdetail?id=${o.ID}" target="_blank">${o.NAME}<span class="text-primary"></span></a></td>
+     {/if}	
+		<td class="text-center">${o.DEPT_NAME}</td>
+		<td class="text-center">${o.CTIME}</td>
+	</tr>
+{/for}
+</tbody>
+</textarea>
+<script>
+var cname = LEx.urldata.cname;
+if(cname!="使用帮助"){
+	cname = "通知公告";
+}
+var deptid="";
+var limit = 8;
+var pageTotal = 0;
+$(function(){
+	jeDate({
+			dateCell:"#startTime",
+			format:"YYYY-MM-DD",
+			isinitVal:false,
+			isTime:true, //isClear:false,
+			minDate:"2014-09-19"
+		});
+	 jeDate({
+			dateCell:"#endTime",
+			format:"YYYY-MM-DD",
+			isinitVal:false,
+			isTime:true, 
+			minDate:"2014-09-19"
+		});
+	onQuery(1);
+ 	layerPage();
+ 	creatListDept();
+ 	//给各个部门添加点击事件
+ 	$('#collapseTwo li').click(function (e) {
+ 		deptid=$(this).attr("tag");
+ 		$('#collapseTwo li').removeClass("active");
+ 		$('#startTime').val("");
+ 		$('#endTime').val("");
+		$(this).addClass("active");
+		onQuery(1);
+		layerPage();
+  });
+}); 
+function onQuery(start){
+	
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("start",(start-1)*limit);
+	cmd.setParameter("limit", limit);
+	cmd.setParameter("name", cname);
+	cmd.setParameter("open", "1");
+	cmd.setParameter("dept", deptid);
+	cmd.setParameter("keyWord", $("#keyWord").val());
+	cmd.setParameter("startTime", $("#startTime").val());
+	cmd.setParameter("endTime", $("#endTime").val());
+	var ret =  cmd.execute("getPoliciList");
+	
+	if (!ret.error) {
+		$('#roll_list1').html(LEx.processDOMTemplate('MattersListTemplate',ret));
+		var total=ret.total;
+		total=Math.ceil(total/limit);
+		pageTotal=total;
+		if(total==0){
+			$("#project-none").show();
+			$('#layer').hide();
+		}
+		else{
+			$("#project-none").hide();
+			$('#layer').show();
+		} 
+	} else {
+		LEx.alert(ret.error);	
+		}
+}
+ 	function creatListDept(){
+ 		//站点切换全局部门列表
+ 			var orgs=deptList.data.organ;
+ 			var len = orgs.length;
+ 			var strHtml = '<li tag="" class="active col-xs-12"><a href="#">全部</a></li>';
+ 			for(var i=0;i<len;i++){
+ 				if(orgs[i].IS_HALL=="1"){
+ 		 			strHtml += "<li  class=\"col-xs-12\"  title='"+orgs[i].NAME+"' tag='"+orgs[i].CODE+"'><a  href=\"javascript:void(0)\">"+orgs[i].SHORT_NAME+"</a></li>";
+ 				}
+ 			}
+ 			$("#collapseTwo").html(strHtml);
+ 		};
+//layerPage分页
+function layerPage(){
+	laypage({
+    	cont: $("#layer"), //容器。值支持id名、原生dom对象，jquery对象,
+    	pages: pageTotal, //总页数
+    	skin: '#42a5f5', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+    	groups: 4, //连续显示分页数
+    	jump:function(obj,first){
+    			// debugger
+    			var currPage = obj.curr;
+    			if(!first){
+    				onQuery(currPage);
+    			}
+    		}
+		});	
+}
+
+//时间格式转换
+function timeStamp2String(time){
+    var datetime = new Date();
+    datetime.setTime(time);
+    var year = datetime.getFullYear();
+    var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+    var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+    var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();
+    var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+    var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+    //return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
+    return year + "-" + month + "-" + date;
+}
+</script>

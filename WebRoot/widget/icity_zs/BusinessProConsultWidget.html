@@ -1,0 +1,29 @@
+{% map "type","4","projectCode",code as p %}
+{% command "app.icity.center.active.BusinessAskCmd","getBusinessTzzx",p as d %}
+<div class="panel-body" style="height:900px;overflow: auto;">
+	<table class="table table-bordered table-condensed table01">
+		<tr>
+			<th>咨询主题</th>
+			<th>咨询内容</th>
+			<th>咨询时间</th>
+		</tr>
+		{% for o in d.data%}
+		<tr>
+			<th><a style="cursor: pointer;" onclick="consultDetail('{{o.BUSI_ID}}');">{{o.TITLE}}</a></th>
+			<th>{{o.CONTENT}}</th>
+			<th>{{o.WRITE_DATE}}</th>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+
+<script>
+ function consultDetail(id){
+	var n_url = LEx.webPath+"admin?m=pro/consultDetail.html&id="+id;
+	 LEx.dialog({
+	        id: "consultDetail", title: '咨询结果',
+	        url: n_url,
+	        width: 900, height: 450
+	    });
+}
+</script>

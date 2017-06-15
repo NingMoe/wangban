@@ -1,0 +1,44 @@
+
+<div class="container" style="background-color: #fff;">
+	<ol class="breadcrumb">
+		<li><a href="#">所在位置：</a>
+		</li>
+		<li><a href="{{cp}}public/index">首页</a>
+		</li>
+		<li class="active" id="cname"></li>
+	</ol>
+	<div id="contentList" style="min-height: 400px;">
+		<table class="listTable" id="contentLi_s" style="width: 100%; background-color: #FFFFFF;" align="center">
+			<tbody></tbody>
+		</table>
+		<table>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</table>
+		<div id="epager"></div>
+	</div>
+</div>
+<textarea id="content_li" style="display: none;">
+{for o in data}
+	 <li class="list-group-item">
+			{if o.URL}
+				<a href="${o.URL}" title="${o.NAME}" target="_blank"><i
+			class="mdicon mdicon-play-arrow f12"></i>${parseLength(o.NAME,40)}</a>
+			{else}
+				<a href="{{cp}}icity/interactive/base-1?ID=${o.ID}" title="${o.NAME}"
+		target="_blank"><i class="mdicon mdicon-play-arrow f12"></i>${parseLength(o.NAME,40)}</a>
+			{/if}
+					<span style="float: right; margin-right: 10px;">${o.CTIME}</span>
+		</li>
+{/for}
+{if total == 0} 
+	<tr>
+		<td colspan="2" style="text-align: center;">无符合条件的数据!</td>
+	</tr>
+{/if}
+</textarea>
+
+</div>
+</div>
+</div>

@@ -1,0 +1,169 @@
+<style>
+/*强制不显示横向滚动条，纵向滚动条会在内容过多时自动显示*/
+html { /*overflow:hidden;*/
+	background: #F5F6F7;
+	overflow-x: hidden;
+}
+</style>
+     {% set id PageContext.Parameter.id%}
+<section class="panel panel-primary" style="border-color: #ddd;" id="form">
+	<header class="panel-heading no-bordered"
+		style="margin: -1px; padding: 15px; background-color:#4f719c;">
+		<a class="btn btn-primary pull-right"
+			style="background-color:#728db0; margin-top: -8px;" href="javascript:void(0);" onclick="ComplaintinfoList();">返回投诉列表
+			&rarr;</a>
+		<h3 class="panel-title">
+			<strong>投诉详情</strong>
+		</h3>
+	</header>
+	<table class="table table-bordered its-table-details">
+		<tbody>
+		<tr>
+			<td class="text-right" width="18%">投诉编号</td>
+			<td><div tag="ID" id="ID"></div></td>
+		</tr>
+		<tr>
+			<td class="text-right" width="18%">关联业务</td>
+			<td><div tag="sbxmmc" id="sbxmmc"></div></td>
+		</tr>
+		<tr>
+			<td class="text-right">投诉标题</td>
+			<td><div id="TITLE"></div></td>
+		</tr>
+		<tr>
+			<td class="text-right">投诉时间</td>
+			<td>
+				<div id="WRITE_DATE" tag="WRITE_DATE" style="width: 200px;" id="WRITE_DATE"></div>
+			</td>
+		</tr>
+		<tr id="complaintype" style="display:none;">
+			<td class="text-right">投诉类型</td>
+			<td>
+				<div tag="COMPLAIN_TYPE" style="width: 200px;" id="COMPLAIN_TYPE"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-right">投诉内容</td>
+			<td><div tag="CONTENT" id="CONTENT" style="height: auto;"></div></td>
+		</tr>
+		<tr>
+			<td class="text-right">处理单位</td>
+			<td>
+				<div tag="DEPART_NAME" style="width: 565px" id="DEPART_NAME"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="text-right">处理时间</th>
+			<td colspan="3"><div tag="DEAL_DATE" style="width: 200px;" id="DEAL_DATE"></div></td>
+		</tr>
+		<tr>
+			<td class="text-right">回复内容</td>	
+			<td><div tag="DEAL_RESULT" id="DEAL_RESULT" style="height: auto;"></div></td>
+		</tr>
+		</tbody>
+	</table>
+</section>
+<script>
+var editor;
+$(function(){
+	loaddata();
+});
+var editor;
+function loaddata() {
+	var id = "{{id}}";
+	if (isNotNull(id)) {
+		var command = new LEx.Command("app.icity.center.active.BusinessComplaintCmd");
+		command.setParameter("g.id@=", id);
+		var ret = command.execute("getBusinessComplaint");
+		if (ret.state == 1) {
+			if (ret.data.length > 0) {
+				var d = ret.data[0];
+				if(isNotNull(d.STATUS)){
+					if(d.STATUS!="3"){
+						var trs = $("tr[class='hid']");  
+						for(i = 0; i < trs.length; i++){   
+						    trs[i].style.display = "none"; //这里获取的trs[i]是DOM对象而不是jQuery对象，因此不能直接使用hide()方法  
+						} 	
+						
+					}
+				}
+				$("#TITLE").attr("tag","TITLE");
+				$("#CONTENT").attr("tag","CONTENT");
+				LEx.form.set("form", d);
+				if (isNotNull(d.COMPLAIN_TYPE)) {
+					$("#complaintype").show();
+				}
+				if (isNotNull(d.DEAL_DATE)) {
+					$("#OPEN").val(formatFlag(d.OPEN));
+				}
+				if (isNotNull(d.SBXMMC)) {
+					$("#sbxmmc").html(d.SBXMMC);
+				}
+				$("#WRITE_DATE").html(formatDate(d.WRITE_DATE));
+				$("#DEAL_DATE").html(formatDate(d.DEAL_DATE));
+	
+			
+			}
+		} else {
+			LEx.dialog({
+				title : "系统提示",
+				content : ret.message,
+				icon : 'error',
+				lock : true
+			});
+		}
+	}
+}
+
+function editorFun(obj) {
+	editor = obj;
+}
+
+function editorFun(obj) {
+	editor = obj;
+}
+
+function formatFlag(val) {
+	if (val == '1') {
+		return "是";
+	} else if (val == '0') {
+		return "否";
+	} else {
+		return "";
+	}
+}
+function formatDetailFlag(val) {
+	if (val == '0') {
+		return "未办理";
+	} else if (val == '1') {
+		return "已回复";
+	}else if (val == '3') {
+		return "审核通过";
+	}else if (val == '4') {
+		return "审核不通过";
+	}else {
+		return "";
+	}
+}
+
+function formatWarn(val){
+	if (val == '1') {
+		return "已超期";
+	} else {
+		return "未超期";
+	}
+}
+
+function formatCheckFlag(val) {
+	if (val == '1') {
+		return "审核通过";
+	} else if (val == '2') {
+		return "审核不通过";
+	} else {
+		return "未审核";
+	}
+}
+function formatDate(obj) {
+	return LEx.util.Format.formatDate(obj);
+}
+</script>

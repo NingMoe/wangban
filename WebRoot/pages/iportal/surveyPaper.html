@@ -1,0 +1,356 @@
+<style type="text/css">
+		.toolbar{
+			  padding: 5px;
+  			  background-color: #e7e7e7;
+              border-bottom: 1px solid #ddd;
+		}
+		/* 调查问卷样式  start*/
+		.body{
+			background: #eee;
+			padding: 5px;
+		}
+		.survey-body{
+			  border: 1px solid #E3E3E3;
+ 			  background: #FFF;
+ 			  border-radius: 5px;
+ 			  margin: 5px auto;
+ 			  width: 768px;
+ 			  line-height: 22px;
+ 			  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+ 			  font-size: 14px;
+ 			  min-height: 500px;
+ 			  padding: 10px;
+		}
+		.survey-header{
+			box-sizing: border-box;
+			padding: 10px;
+			line-height: 32px;
+  			font-size: 2em;
+  			text-align: center;
+  			margin: 5px;
+  			background-color: #ffebc7;
+		}
+		.survey-item{
+			  box-sizing: border-box;
+			  /* cursor: pointer; */
+			  border:solid 1px #d4d4d4 !important;
+			  padding: 5px 5px 5px 15px;
+			  background-color: #fff;
+			  margin: 10px;
+			  border-radius:4px;
+		}
+		/* .survey-item:hover,.survey-header:hover{
+			background-color:white !important; 
+			border:dashed 1px gray !important;
+		} */
+		.placeHolder { background-color:white !important; border:dashed 1px gray !important; }
+		.options li{
+			list-style: none;
+		}
+		/* 调查问卷样式  end*/
+		
+		/* 单选弹出框样式 start*/
+		.panel-content{
+  			font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  			font-size: 14px;
+		}
+		.panel-heading{
+			color: #333;
+  			background-color: #f5f5f5;
+  			border-color: #ddd;
+  			box-sizing: border-box;
+  			padding: 10px 15px;
+  			border-bottom: 1px solid rgb(221, 221, 221);
+  			border-top-left-radius: 3px;
+  			border-top-right-radius: 3px;
+		}
+		.index{
+			/* background: #ffeecc; */
+		}
+		.require{
+			color: red;
+			font-size: 15px;
+		}
+		.input_validation-invalid,.input_validation-failed {background: #fff3f3;}
+		.input_validation-valid {border: 1px solid #333;color: #333;}
+</style>
+<div id="page" class="container" style="padding-left: 10px; padding-right: 10px; background-color: #fff;">
+	<div class="row" style="background-color: #f5fafe;">
+        <div id="formValidate">
+            <section class="panel panel-success">
+				<header class="panel-heading">
+					<h3 class="panel-title">网上调查</h3>
+<!--
+                    <div class="pull-right">
+                        
+                    </div>
+-->
+				</header>
+				<div class="panel-body" style="background-color: #f5fafe;">
+				  	  <input type="hidden" name="id" id="id" value="">
+					  <div class="survey-header" itemValue="{&quot;type&quot;:&quot;3&quot;}" surveyId="" onclick="showSelectDialog(this)">调查问卷名称</div>
+					  
+					  <div  id="surveyContent">
+				      </div>
+				      
+				</div>
+				
+				<div id="userform" style="width:100%; border-top:#9bc8f2 solid 2px; padding-top:30px; background:#f5fafe;">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:36px;">
+					  <tbody><tr>
+					    <td width="260">&nbsp;</td>
+					    <td width="132"><img src="{{cp}}public/assets/icon/zwfwwtb_054.jpg" width="132" height="76"></td>
+					    <td width="450" valign="top">
+					    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+					      <tbody><tr>
+					        <td height="29" width="80" align="right" style="padding-right:10px; font-size:12px; color:#878a8c;">手机号</td>
+					        <td width="230" style="border:#c2e7f9 solid 1px; " bgcolor="white">
+					        <input id="phone" name="phone" reg="^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$" tip="请输入手机号" type="text" style="width:230px; border:none; height:29px;">
+					        </td>
+					      <td>&nbsp;</td>
+					</tr>
+					    </tbody></table>
+					      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px; font-size:12px; color:#878a8c;">
+					        <tbody><tr>
+					          <td align="right" width="80" height="29" style="padding-right:10px; font-size:12px; color:#878a8c;">验证码</td>
+					          <td width="140" style="border:#c2e7f9 solid 1px;" bgcolor="white" align="left">
+					          <input type="text" id="verifyCode" style="width:140px;outline:none; border:none; height:29px;">
+					          </td>
+					          <td align="left" >
+					          <image title="点击图片更换验证码" id="verifyCodeImg" src="{{PageContext.ContextPath}}bsp/verifyCode"  style="width:83px; height:29px;vertical-align:text-top;cursor: pointer;margin-left:6px;" onclick="changeVerify();"/>
+							  <span style="color: #999; font-style: oblique;"><a style="color: #9999;vertical-align: bottom;" href="javascript:changeVerify()">看不清，换一张 </a></span>
+					          </td>
+					        <td id="ltime">&nbsp;</td>
+					</tr>
+					      </tbody></table>
+					      </td>
+					    <td>&nbsp;</td>
+					  </tr>
+					</tbody></table>
+					<div style="text-align: center; margin-top: 30px;">
+						<button class="btn btn-success " type="button" onclick="submit()">提交</button>
+						<button class="btn btn-info " type="button" onclick="javascript:window.close();">关闭</button>
+					</div>
+			 </div>
+				
+			</section>
+        </div>
+    </div>
+</div>
+
+<!-- 试卷中单选、多选模板  start-->
+	<div class="part select" style="display: none; position: relative;" itemValue="" >
+		<h4 class="title"><span class="index"></span><span class="itemName">新建问题</span><span class="require">*<lable class="rules">(必填)</lable></span></h4>
+		<ul class="options">
+		</ul>
+	</div>
+<!-- 试卷中单选、多选模板 end-->
+<!-- 问答题模板   start -->
+<div class="part question" style="display: none; position: relative; margin: 10px; padding-left: 15px;" itemValue="">
+	<h4 class="title"><span class="index"></span><span class="itemName">新建问题</span><span class="require">*<lable class="rules">(必填)</lable></span></h4>
+	<span style="display: block;">
+		<textarea rows="3" cols="80" style="margin-left: 40px;" reg="" tip="" tag="survey"></textarea>
+	</span>
+</div>
+<!-- 问答题模板   end -->
+
+<script src="{{PageContext.JsPath}}Math.uuid.js"></script>
+<script src="{% public scripts/LEx.form.survey.js %}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	var ID = $.getUrlParam("ID");
+	var cmd = new LEx.Command("app.icity.interactive.OnlineSurveyCmd");
+	cmd.setParameter("ID",ID);
+	var ret =  cmd.execute("getSurveyByID");
+	if(!ret.error){
+	 	var total=ret.total;
+		var data = ret.data;
+		if(data.length > 0){
+			var survey = eval(ret.data[0]);
+			var content = survey.CONTENT;
+			$(".survey-header").text(survey.NAME);
+			$(".survey-header").attr("surveyId", ID);
+			for(var i=0; i<content.length; i++){
+  				if(content[i].type == "0" || content[i].type == "1"){
+  					var singleSelect = $(".select").clone(true, true);
+  	  				singleSelect.css("display","block");
+  	  				singleSelect.removeClass("select")
+  	  							.addClass("survey-item");       //更改样式，保证下次单击添加的时候只添加一个
+  	  				var itemDivID = "ITEM_"+Math.uuid();
+  	  				singleSelect.attr("id",itemDivID);
+  	  				singleSelect.attr("itemValue",JSON.stringify(content[i]));
+  	  				singleSelect.find(".index").text( (i+1)+"、" )
+  	  				$("#surveyContent").append(singleSelect);
+  	  				initItem(itemDivID);
+  				}else{
+	  				var singleSelect = $(".question").clone(true, true);
+	  				singleSelect.css("display","block");
+	  				singleSelect.removeClass("question")
+	  							.addClass("survey-item");       //更改样式，保证下次单击添加的时候只添加一个
+	  				var itemDivID = "ITEM_"+Math.uuid();
+	  				singleSelect.attr("id",itemDivID);
+	  				singleSelect.attr("itemValue",JSON.stringify(content[i]));
+	  				singleSelect.find(".index").text( (i+1)+"、" )
+	  				$("#surveyContent").append(singleSelect);
+	  				initItem(itemDivID);
+  				}
+  				
+  			}
+		}
+	}else{
+		LEx.alert(ret.error);
+	}
+	$("#test").mousemove(function(){
+		   alert(1);
+		}
+	);
+	//初始化验证
+	LEx.form.init("#formValidate");
+});
+(function($) {
+	$.getUrlParam = function(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null)
+			return unescape(r[2]);
+		return null;
+	}
+})(jQuery);
+
+/**
+ * 初始化每条div中的数据
+ */
+function initItem(divId){
+	var elemTemple = $("#"+ divId);
+	var itemValue = elemTemple.attr("itemValue");
+	var jsonObject = JSON.parse(itemValue);
+	if(jsonObject["type"] == "0" || jsonObject["type"] == "1"){        //单选或者多选
+		var least;
+	    var most = jsonObject["most"];
+	    var required = jsonObject["required"];
+		elemTemple.find(".itemName").text(jsonObject["itemName"]);
+		if(jsonObject["required"] == "off" || jsonObject["required"] == undefined){
+			least = 0;
+			elemTemple.find(".require").hide();
+		}else{
+			least = 1;
+			elemTemple.find(".require").show();
+		}
+		var lable = jsonObject["option"];
+		elemTemple.find("ul").html("");
+		var uuid = Math.uuid();
+		
+		for(var i=0; i<lable.length; i++){
+			if(jsonObject["type"] == 1){
+				elemTemple.find("ul").append("<li><input type='checkbox' isSurvey='survey' require='"+required+"' most='"+most+"' fun='validSelect' tag='option_"+uuid+"' name='option_"+uuid+"' tip='必选' value='"+i+"' ><lable>"+ lable[i].optionName +"</lable></li>");
+			}else{
+				elemTemple.find("ul").append("<li><input type='radio' isSurvey='survey' reg='^[0-9]{"+least+",10}$' tag='option_"+uuid+"' name='option_"+uuid+"' value='"+i+"' ><lable>"+ lable[i].optionName +"</lable></li>");
+			}
+		}
+	}else if(jsonObject["type"] == "2"){
+		var least = jsonObject["least"];
+		var most = jsonObject["most"];
+		elemTemple.find(".itemName").text(jsonObject["itemName"]);
+		if(jsonObject["required"] == "off" || jsonObject["required"] == undefined){
+			elemTemple.find(".require").hide();
+			elemTemple.find("textarea").attr("reg","^[\\S ]{0,1020}$");
+		}else{
+			elemTemple.find(".require").show();
+			elemTemple.find("textarea").attr("reg","^[\\S ]{"+least+","+most+"}$");
+			elemTemple.find("textarea").attr("tip","最少填："+least+"个字符，最多填："+most+"个字符");
+		}
+	}else if(jsonObject["type"] == "3"){
+		$(".survey-header").text(jsonObject["itemName"]);
+		$(".panel-heading span").show();
+		$(".panel-heading lable").show();
+	}
+}
+/**
+ * 提交问卷答案
+ */
+var submitCount = 0;
+function submit(){
+	if(submitCount<1){
+		if(LEx.form.validate("#formValidate")){
+			var result = getAnswer();
+			var cmd = new LEx.Command("app.icity.interactive.OnlineSurveyCmd");
+			cmd.setParameter("ID",$(".survey-header").attr("surveyId"));
+			cmd.setParameter("NAME",$(".survey-header").text());
+			cmd.setParameter("PHONE",$("#phone").val());
+			cmd.setParameter("CONTENT",result);
+			cmd.setParameter("verifyCode",$("#verifyCode").val());
+			var ret =  cmd.execute("saveAnswer");
+			if(!ret.error){
+				if(ret.state == 1){
+					LEx.alert("提交成功！");
+					submitCount++;
+				}else if(ret.state == 2){
+					LEx.alert("验证码错误！");
+				}else if(ret.state == 3){
+					LEx.alert("验证码过期！");
+				}else if(ret.state == 4){
+					LEx.alert("此手机号码已经提交过本调查！");
+				}else{
+					LEx.alert("提交失败！");
+				}
+			}else{
+				LEx.alert(ret.error);
+			}
+		}else{
+			LEx.alert("问卷还未填写完毕！");
+		}
+	}else{
+		LEx.alert("请勿重复提交！");
+	}
+	
+}
+function getAnswer(){
+	var itemsDiv = $("div .survey-item");
+	var result = new Array();
+	for(var i=0; i<itemsDiv.length; i++){
+		var jsonObject = JSON.parse( $(itemsDiv[i]).attr("itemValue"));
+		if(jsonObject.type == "0" || jsonObject.type == "1"){
+			var options = jsonObject.option;
+			var optionChecked = $(itemsDiv[i]).find("input");
+			for(var j=0; j<options.length; j++){
+				var flag = false;
+				if( $(optionChecked[j]).attr("checked") ){
+					flag = true;
+				}
+				if(flag){
+					options[j].checked = "0";
+				}else{
+					options[j].checked = "1";
+				}
+			}
+		}else{
+			var value = $(itemsDiv[i]).find("textarea").val();
+			jsonObject.answer = value;
+		}
+		result.push(jsonObject);
+	}
+	return result;
+}
+
+//更换验证码
+function changeVerify() {
+	var url = LEx.webPath + "bsp/verifyCode?time=" + new Date().getTime();
+	$("#verifyCodeImg").attr("src", url);
+}
+
+function validSelect(elem){
+	var required = $(elem).attr("require");
+	if(required == "on"){
+		var most = $(elem).attr("most");
+		var ck = $("input[name="+$(elem).attr("name")+"]:checked");
+		$(elem).attr("tip","最多选"+most+"项");
+		if(ck.length>= 1 && ck.length<=most){
+			return "success";
+		}else{
+			return "最少选1项，最多选"+most+"项";
+		}
+	}else{
+		return "success";
+	}
+}
+</script>

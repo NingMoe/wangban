@@ -1,0 +1,1354 @@
+<link rel="stylesheet" type="text/css"
+	href="{{PageContext.CssPath}}govservice.css" />
+<script src="{% public scripts/LEx.form.js %}"></script>
+<link href="{% public scripts/fineload/css/jquery.fileupload.css %}"
+	rel="stylesheet" />
+<script
+	src="{% public scripts/fineload/js/vendor/jquery.ui.widget.js %}"></script>
+<script
+	src="{% public scripts/fineload/js/jquery.iframe-transport.js %}"></script>
+<script src="{% public scripts/fineload/js/jquery.fileupload.js %}"></script>
+<link rel="stylesheet" href="{%public assets/css/nucleo-outline.css%}">
+<link rel="stylesheet" href="{%public assets/css/nucleo-glyph.css%}">
+<link rel="stylesheet" href="{%public assets/css/custom.css%}">
+<style>
+.btn-warning {
+	color: #ffffff;
+	background-color: #FF9D0C;
+	border-color: #FF9D0C;
+}
+
+.sbTableStyle01 tbody tr td i, .sbTableStyle02 tbody tr td i {
+	font-weight: normal;
+	color: #F3EFEF;
+	font-style: normal;
+	float: right;
+}
+
+.km-nav-step {
+	overflow: hidden;
+	background-color: #fff;
+}
+
+.km-nav-step>li>a {
+	padding: 15px 0;
+}
+
+.km-nav-step>li.active>a {
+	background-color: #03a9f4 !important;
+}
+
+.km-nav-step>li.active>a:before {
+	content: " ";
+	display: block;
+	width: 0;
+	height: 0;
+	border-top: 50px solid transparent;
+	/* Go big on the size, and let overflow hide */
+	border-bottom: 50px solid transparent;
+	border-left: 30px solid #03a9f4;
+	position: absolute;
+	top: 50%;
+	margin-top: -50px;
+	left: 100%;
+	z-index: 2;
+}
+
+.km-nav-step>li>a:before {
+	content: " ";
+	display: block;
+	width: 0;
+	height: 0;
+	border-top: 50px solid transparent;
+	border-bottom: 50px solid transparent;
+	border-left: 30px solid #fff;
+	position: absolute;
+	top: 50%;
+	margin-top: -50px;
+	left: 100%;
+	z-index: 2;
+}
+
+.km-nav-step>li.active>a:after {
+	content: " ";
+	display: block;
+	width: 0;
+	height: 0;
+	border-top: 50px solid transparent;
+	border-bottom: 50px solid transparent;
+	border-left: 30px solid #f5f5f5;
+	position: absolute;
+	top: 50%;
+	margin-top: -50px;
+	margin-left: 1px;
+	left: 100%;
+	z-index: 1;
+}
+
+.km-nav-step>li>a:after {
+	content: " ";
+	display: block;
+	width: 0;
+	height: 0;
+	border-top: 50px solid transparent;
+	/* Go big on the size, and let overflow hide */
+	border-bottom: 50px solid transparent;
+	border-left: 30px solid #ddd;
+	position: absolute;
+	top: 50%;
+	margin-top: -50px;
+	margin-left: 1px;
+	left: 100%;
+	z-index: 1;
+}
+
+.footer {
+	border-top: 14px solid #ddd;
+}
+
+.input_validation-invalid {
+	border: 1px solid #f00 !important;
+	color: #f00;
+}
+
+.progress-l {
+	overflow: hidden;
+	margin: 100px auto;
+	padding: 0 15px;
+	width: 220px;
+	height: 34px;
+	background: #d3d5d9;
+	border-radius: 17px;
+	background-image: -webkit-linear-gradient(top, #ebecef, #bfc3c7);
+	background-image: -moz-linear-gradient(top, #ebecef, #bfc3c7);
+	background-image: -o-linear-gradient(top, #ebecef, #bfc3c7);
+	background-image: linear-gradient(to bottom, #ebecef, #bfc3c7);
+	-webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.8), 0 2px 4px
+		rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 0 6px #b6babe,
+		0 7px rgba(255, 255, 255, 0.1);
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.8), 0 2px 4px
+		rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 0 6px #b6babe,
+		0 7px rgba(255, 255, 255, 0.1);
+}
+
+.progress-val-l {
+	float: right;
+	margin-left: 15px;
+	font: bold 15px/34px Helvetica, Arial, sans-serif;
+	color: #333;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.6);
+}
+
+.progress-bar-l {
+	display: block;
+	overflow: hidden;
+	height: 8px;
+	margin: 13px 0;
+	background: #b8b8b8;
+	border-radius: 4px;
+	background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2),
+		transparent 60%);
+	background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.2),
+		transparent 60%);
+	background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.2),
+		transparent 60%);
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2),
+		transparent 60%);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px
+		rgba(255, 255, 255, 0.6);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px
+		rgba(255, 255, 255, 0.6);
+}
+
+.progress-in-l {
+	display: block;
+	min-width: 8px;
+	height: 8px;
+	background: #1997e6;
+	background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.3),
+		rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0) 61%, rgba(0, 0, 0, 0.2)),
+		-webkit-linear-gradient(left, #147cd6, #24c1fc);
+	background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.3),
+		rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0) 61%, rgba(0, 0, 0, 0.2)),
+		-moz-linear-gradient(left, #147cd6, #24c1fc);
+	background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.3),
+		rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0) 61%, rgba(0, 0, 0, 0.2)),
+		-o-linear-gradient(left, #147cd6, #24c1fc);
+	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3),
+		rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0) 61%, rgba(0, 0, 0, 0.2)),
+		linear-gradient(to right, #147cd6, #24c1fc);
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px rgba(0, 0, 0, 0.2), inset 0 0 0 1px
+		rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0 1px rgba(0, 0, 0, 0.2), inset 0 0 0 1px
+		rgba(0, 0, 0, 0.2);
+}
+</style>
+<div class="container">
+	{% set length materials|length %}
+	<ol class="breadcrumb">
+		<li><i class="nc-icon-glyph location_position-marker f16"></i>
+			您当前的位置：</li>
+		<li><a href="#">首页</a></li>
+		<li><a href="#">在线申报</a></li>
+		<li class="active">{{itemInfo.NAME|truncate:'14','..'}}</li>
+	</ol>
+</div>
+<div class="container">
+	<div class="media">
+		<div class="media-left media-middle"
+			style="background-color: #fff; padding: 20px;">
+			<i class="nc-icon-outline education_backpack-58 f40 btn-primary"
+				style="padding: 15px; font-size: 40px;"></i>
+		</div>
+		<div class="media-body media-middle" style="background-color: #fff;">
+			<h3 class="delta" title="{{itemInfo.NAME}}">
+				<strong>{{itemInfo.NAME|truncate:'14','..'}}</strong>
+			</h3>
+			<span class="text-muted" id="itemcode" title="{{itemInfo.CODE}}">事项编码：{{itemInfo.CODE}}</span>
+		</div>
+		<br />
+		<ul class="nav nav-pills nav-justified km-nav-step f18"
+			style="background-color: #fff;">
+			<li id="one" class="active"><a href="#">1、阅读须知</a></li>
+			<li id="two" class=""><a href="#">2、申报信息</a></li>
+			<li id="three" class=""><a href="#">3、申报告知</a></li>
+		</ul>
+		<br />
+		<div class="contentBoxs">
+
+			<div id="service_step_01" style="display: none;">
+				<div class="alert alert-danger no-bordered alert-dismissible"
+					style="padding: 20px; background-color: #fedede; color: #F00;">
+					<button type="button" class="close" data-dismiss="alert"
+						style="margin-right: 20px;">
+						<i class="nc-icon-outline ui-1_simple-remove"></i>
+					</button>
+					<strong>提醒：</strong>{% if ConfigInfo.AppId|equal:"xixian" %}
+					您本次网上申报为预受理，若电子材料不完整或不符合要求，您还需在网上申办结束后，到政务服务中心受理窗口补交材料。{%else%}您本次网上申报为预受理，您还需在网上申办结束后，去您选择的地点提交材料正式办理。{%endif%}
+				</div>
+
+
+				<section class="panel no-bordered">
+					<header class="panel-heading upsilon clearfix"
+						style="border-bottom: 1px solid #eee;">
+						<span class="pull-right text-muted" style="margin-top: 20px;">办理该项业务，需满足以下申请条件，才能进行业务的办理，请自检是否满足，符合请打√</span>
+						<h4 class="text-info">
+							<i class="nc-icon-outline business_cheque f24"
+								style="border: 1px solid #03a9f4; border-radius: 50%; padding: 8px; margin-right: 10px;"></i><strong>审批条件</strong>
+						</h4>
+					</header>
+					<div class="panel-body">
+						<div class="checkbox" style="padding-bottom: 10px;">
+							<label> <input type="checkbox" id="select_all" value="">
+								全选
+							</label>
+						</div>
+						{% for con in condition %}
+						<div class="checkbox" style="padding-bottom: 10px;">
+							<label> <input type="checkbox" name="checkbox" value="">
+								{{con.NAME}}
+							</label>
+						</div>
+						{%endfor%}
+					</div>
+				</section>
+				<section class="panel no-bordered">
+					<header class="panel-heading upsilon clearfix"
+						style="border-bottom: 1px solid #eee;">
+						<span class="pull-right text-muted" style="margin-top: 20px;">办理该项业务，需提供以下申请材料，才能进行业务的办理，请自检是否具备该材料，具备请打√</span>
+						<h4 class="text-info">
+							<i class="nc-icon-outline files_single-paragraph f24"
+								style="border: 1px solid #03a9f4; border-radius: 50%; padding: 8px; margin-right: 10px;"></i><strong>收取材料</strong>
+						</h4>
+					</header>
+					<div class="panel-body">
+						<div id="caseSelect" style="display: none;">
+							<label style="float: left;margin: 10px 10px 0 0">情形</label>
+							<select style="width: 200px;" class="span3" id="casesetting">
+							</select>
+						</div>
+						<div class="checkbox" style="padding-bottom: 10px;">
+							<label> <input id="select_all_material" type="checkbox"
+								value=""> 全选
+							</label>
+						</div>
+						<div id="caseMaterial">
+						{%for __material in materials %}
+						<div class="checkbox" style="padding-bottom: 10px;">
+							<label> <input name="checkbox_material" type="checkbox"
+								value=""> {{loop.counter}}.{{__material.NAME}}
+							</label>
+						</div>
+						{% endfor %}
+						</div>
+
+						<div class="alert alert-danger no-bordered alert-dismissible">注：上述所有申报材料均须采用A4纸电脑打印
+							，并逐页加盖申报单位公章（可以是骑缝章）或法人代表（业主）私章，按以上材料的顺序装订成册（附封面、材料目录），一式二份。</div>
+					</div>
+				</section>
+
+			</div>
+
+			<!-- step2 start -->
+			<div id="service_step_02" style="display: none">
+				<div class="alert alert-danger no-bordered alert-dismissible"
+					style="padding: 20px; background-color: #fedede; color: #F00;">
+					<button type="button" class="close" data-dismiss="alert"
+						style="margin-right: 20px;">
+						<i class="nc-icon-outline ui-1_simple-remove"></i>
+					</button>
+					<strong>提醒：</strong>1.带*号为必填项，请根据实际情况进行填写。 <strong></strong> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.<img
+						src="{{PageContext.ContextPath}}public/images/star_icon_1.gif"
+						width="15" height="14" /> 为必要材料，您必须提交才能申报，<img
+						src="{{PageContext.ContextPath}}public/images/star_icon_2.gif"
+						width="15" height="14" />为容缺后补材料，您可以在网上预受理后在窗口提交，&nbsp;&nbsp;&nbsp;&nbsp;<img
+						src="{{PageContext.ContextPath}}public/images/star_icon_3.gif"
+						width="15" height="14" />&nbsp;为非必要材料，根据您实际情况选择提交。
+				</div>
+
+				<div class="condition" id="baseinfo" style="background-color: #fff;">
+					<div class="conditionTitle">
+						<img src="{{PageContext.ContextPath}}public/images/title_jbxx.gif"
+							width="120" height="42" />
+					</div>
+					<div class="conditionContent" style="padding: 20px;">
+						<ul>
+							<table width="100%" class="table01">
+								<tr>
+									<th>审批办件类型</th>
+
+									<td colspan="3"><label class="" style=""> <input
+											type="radio" value="1" name="sptype" class="gr"
+											onclick="loadForm(this)" id="sptype" style="" /> 个人
+									</label> <label class="" style=""> <input type="radio"
+											value="3" name="sptype" class="qy" onclick="loadForm(this)"
+											id="sptype" style="" /> 企业
+									</label> <label class="" style=""> <input type="radio"
+											value="2" name="sptype" class="xm" onclick="loadForm(this)"
+											id="sptype" style="" /> 项目
+									</label></td>
+								</tr>
+								<tbody id="base">
+								</tbody>
+							</table>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- step2 end -->
+			<!-- step3 start -->
+			<div id="service_step_03" style="display: none">
+				<div class="alert alert-danger no-bordered alert-dismissible"
+					style="padding: 20px; background-color: #fedede; color: #F00;">
+					<button type="button" class="close" data-dismiss="alert"
+						style="margin-right: 20px;">
+						<i class="nc-icon-outline ui-1_simple-remove"></i>
+					</button>
+					<strong>提醒：</strong>1.带*号为必填项，请根据实际情况进行填写。 <strong></strong> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.<img
+						src="{{PageContext.ContextPath}}public/images/star_icon_1.gif"
+						width="15" height="14" /> 为必要材料，您必须提交才能申报，<img
+						src="{{PageContext.ContextPath}}public/images/star_icon_2.gif"
+						width="15" height="14" />为容缺后补材料，您可以在网上预受理后在窗口提交，&nbsp;&nbsp;&nbsp;&nbsp;<img
+						src="{{PageContext.ContextPath}}public/images/star_icon_3.gif"
+						width="15" height="14" />&nbsp;为非必要材料，根据您实际情况选择提交。
+				</div>
+				<div class="condition" style="background-color: #fff;">
+					<div class="conditionTitle">
+						<img src="{{PageContext.ContextPath}}public/images/title_jbxx.gif"
+							width="120" height="42" />
+					</div>
+					<div id="form" style="display: none; height: 550px;">
+						<iframe id="formiframe" name="formiframe" src=""
+							style="border: 0px; width: 100%; height: 100%;"></iframe>
+					</div>
+
+				</div>
+			</div>
+			<!-- step3 end-->
+			<!-- step4 start -->
+			<div id="service_step_04" style="display: none">
+				<div class="condition"
+					style="background-color: #fff; padding: 20px;">
+					<header class="panel-heading upsilon clearfix"
+						style="border-bottom: 0px solid #eee;">
+						<span class="pull-right" style="margin-top: 20px; color: red;">只能上传*.jpg;
+							.png; *.jepg; *.bmp; *.doc; *.docx; *.text; *.ppt; *.pptx;
+							*.xlsx; *.xls; *.pdf; *.rar; *.zip, 大小不要超过50M </span>
+						<h4 class="text-info">
+							<i class="nc-icon-outline files_single-paragraph f24"
+								style="border: 1px solid #03a9f4; border-radius: 50%; padding: 8px; margin-right: 10px;"></i><strong>申请材料</strong>
+						</h4>
+					</header>
+					<div class="conditionContent">
+						<ul>
+
+							<table cellpadding="0" cellspacing="1" id="apply" class="table">
+								<thead>
+									<tr>
+										<td>序号</td>
+										<td>材料名称</td>
+										<td>文件名</td>
+										<td class="text-center">
+											<label style="float: left;"><input id="select_all_window" type="checkbox" value="checkbox" />全选</label>
+											<b>文件操作</b>
+										</td>
+									</tr>
+								</thead>
+								<script type="text/javascript">
+													var must_materials = [];
+													var n_must_materials = [];
+												</script>
+								<tbody id="case_material_list">
+								{% set count "0" %} {% for material in materials %} {% if
+								state|equal:"21"%} {% if material.BQBZ|equal:"1" %}
+								<tr code="{{material.CODE}}" name="{{material.NAME}}">
+									<td width="10%">{% set count count|add:"1"%}{{count}}</td>
+									<td width="22%">{% if material.MUST|equal:"1" %} <script
+											type="text/javascript">
+															must_materials.push('{{material.CODE}}');
+														</script> <img
+										src="{{PageContext.ContextPath}}public/images/star_icon_1.gif"
+										width=15 height=14 " /> {% else %} <script
+											type="text/javascript">
+															n_must_materials.push('{{material.CODE}}');
+														</script> <img
+										src="{{PageContext.ContextPath}}public/images/star_icon_2.gif"
+										width=15 height=14 " /> {% endif %} {{material.NAME}}111
+									</td>
+									<td width="30%"><div id="list_{{material.CODE}}"></div></td>
+									<td class="text-center">
+									<input type="checkbox" name="checkbox_window" code="{{material.CODE}}" id="ck_{{material.CODE}}">窗口提交 <span
+										class="btn btn-sm btn-warning fileinput-button btn-warning"
+										style="margin-left: 5px;"> <lable>选择附件</lable> <input
+											id="{{material.CODE}}" class="fileupload" tag="0" type="file"
+											name="files[]" multiple />
+									</span> <a class='btn btn-success btn-sm btn-success'
+										onclick="initOpen('{{material.CODE}}','{{material.NAME}}');">资料库</a>
+									</td>
+								</tr>
+								{%endif%} {%else%}
+								<tr code="{{material.CODE}}" name="{{material.NAME}}">
+									<td width="10%">{% set count count|add:"1"%}{{count}}</td>
+									<td width="22%">{% if material.MUST|equal:"1" %} <script
+											type="text/javascript">
+															must_materials.push('{{material.CODE}}');
+														</script> <img
+										src="{{PageContext.ContextPath}}public/images/star_icon_1.gif"
+										width=15 height=14 " /> {% else %} <script
+											type="text/javascript">
+															n_must_materials.push('{{material.CODE}}');
+														</script> <img
+										src="{{PageContext.ContextPath}}public/images/star_icon_2.gif"
+										width=15 height=14 " /> {% endif %} {{material.NAME}}222
+									</td>
+									<td width="30%"><div id="list_{{material.CODE}}"></div></td>
+									<td width="38%">{% if
+										itemInfo.CODE|equal:"530100-26x-XK-011-01" %} {% else %} 
+										<input name="checkbox_window" code="{{material.CODE}}" type="checkbox" id="ck_{{material.CODE}}">窗口提交 {%
+										endif %}<span class="btn btn-sm btn-warning fileinput-button"
+										style="margin-left: 5px;"> <lable>选择附件<lable>
+											<input id="{{material.CODE}}" class="fileupload" tag="0"
+												type="file" name="files[]" multiple /></span> <a
+										class='btn btn-success btn-sm'
+										onclick="initOpen('{{material.CODE}}','{{material.NAME}}');">资料库</a>
+									</td>
+								</tr>
+								{%endif%} {% endfor %}
+								</tbody>
+							</table>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- step4 end -->
+			<!-- step5 start -->
+			<div id="service_step_05" style="display: none">
+				<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<table>
+						<tr>
+							<td rowspan="3" valign="top" width="50">提醒：</td>
+							<td>业务办理完成后，办理结果如需自取，请选择自取，办理结果如需邮寄，请选择邮寄选项，填写收件人详细信息。</td>
+						</tr>
+					</table>
+				</div>
+				<div class="condition" id="baseinfo-05">
+					<div class="conditionTitle">
+						<img src="{{PageContext.ContextPath}}public/images/title_jbxx.gif"
+							width="120" height="42" />
+					</div>
+					<div class="conditionContent">
+						<ul>
+							<table style="width: 100%" class="table01">
+								<tr>
+									<th colspan="4" style="text-align: center !important;">个性化服务</th>
+								</tr>
+								<tr>
+									<th>收件方式</th>
+									<td colspan="3"><label class="" style=""> <input
+											type="radio" checked="true" value="0" name="CardType"
+											class="" onclick="changeCardType(this)" id="CardType0"
+											style="" /> 大厅送件
+									</label> <label class="" style=""> <input type="radio"
+											value="1" name="CardType" class=""
+											onclick="changeCardType(this)" id="CardType1" style="" />上门收件
+									</label></td>
+								</tr>
+								<tr class="CardType-1" style="display: none;">
+									<th><font style="color: red;">*</font>寄件人姓名</th>
+									<td><input type="text" onblur="validate(this)"
+										reg="^[a-zA-Z\u4E00-\u9FA5]{1,10}$" value=""
+										name="AddresseeName" id="AddresseeName" style="width: 99%;" /></td>
+									<th><font style="color: red;">*</font>寄件人手机号</th>
+									<td><input type="text" onblur="validate(this)"
+										reg="^[u002A\0-9]{7,12}$" value="" name="AddresseeMobile"
+										id="AddresseeMobile" style="width: 99%;" /></td>
+								</tr>
+								<tr class="CardType-1" style="display: none;">
+									<th><font style="color: red;"></font>城市编码</th>
+									<td><input type="text" value="" name="CityCode"
+										id="CityCode" style="width: 99%;" /></td>
+									<th><font style="color: red;">*</font>寄件地址</th>
+									<td><input type="text" onblur="validate(this)"
+										reg="^\S{2,100}$" value="" name="Addressee" id="Addressee"
+										style="width: 99%;" /></td>
+								</tr>
+								<tr>
+									<th>出证收件方式</th>
+									<td colspan="3"><label class="" style=""><input
+											type="radio" checked="true" value="0" name="SendType"
+											class="" onclick="changeSendType(this)" id="SendType0"
+											style="" /> 自取 </label> <label class="" style=""> <input
+											type="radio" value="1" name="SendType" class=""
+											onclick="changeSendType(this)" id="SendType1" style="" />投递
+									</label></td>
+								</tr>
+								<tr class="SendType-1" style="display: none;">
+									<th><font style="color: red;">*</font>收件人姓名</th>
+									<td><input type="text" onblur="validate(this)"
+										reg="^[a-zA-Z\u4E00-\u9FA5]{1,10}$" value="" name="SendName"
+										id="SendName" style="width: 99%;" /></td>
+									<th><font style="color: red;">*</font>收件人手机号</th>
+									<td><input type="text" onblur="validate(this)"
+										reg="^[u002A\0-9]{7,12}$" value="" name="SendMobile"
+										id="SendMobile" style="width: 99%;" /></td>
+								</tr>
+								<tr class="SendType-1" style="display: none;">
+									<th><font style="color: red;"></font>城市编码</th>
+									<td><input type="text" value="" name="SendCityCode"
+										id="SendCityCode" style="width: 99%;" /></td>
+									<th><font style="color: red;">*</font>收件地址</th>
+									<td><input type="text" onblur="validate(this)"
+										reg="^\S{2,100}$" value="" name="SendAddressee"
+										id="SendAddressee" style="width: 99%;" /></td>
+								</tr>
+							</table>
+							<!-- 盘龙 -->
+							{% if ConfigInfo.PAGE_MODE|equal:"panlongqu"%}
+							<table style="width: 100%" class="table01">
+								<tr>
+									<th colspan="2" style="text-align: center !important;">申报信息通知方式（通知本人是否申报成功；通知工作人员有待办件需要办理）</th>
+								</tr>
+								<tr>
+									<th>通知方式</th>
+									<td><input type="radio" name="noticeStyle" checked="true"
+										value="sms">短信通知&nbsp;&nbsp; <input type="radio"
+										name="noticeStyle" value="email">邮件通知&nbsp;&nbsp;</td>
+								</tr>
+							</table>
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- step5 end -->
+			<div id="service_step_06" style="display: none">
+				<div class="alert alert-danger no-bordered alert-dismissible"
+					style="padding: 20px; background-color: #fedede; color: #F00;">
+					<button type="button" class="close" data-dismiss="alert"
+						style="margin-right: 20px;">
+						<i class="nc-icon-outline ui-1_simple-remove"></i>
+					</button>
+					<strong>提醒：</strong>请认真阅读申报告知单内容，如有问题，可以拨打下方联系电话。
+				</div>
+				<div class="condition" style="background-color: #fff;">
+
+					<table style="height: 80px">
+						<tr>
+							<td
+								style="height: 80px; width: 100%; text-align: center; text-overflow: ellipsis; word-break: keep-all;  white-space: nowrap;"><font
+								style="font-size: 30px; font-weight: bold">申报告知单</font></td>
+							<td style="text-align: right;"></td>
+						</tr>
+					</table>
+					<div class="conditionTitle">
+						<img src="{{PageContext.ContextPath}}public/images/title_jbxx.gif"
+							width="120" height="42" />
+					</div>
+					<div class="conditionContent" style="height: 280px;">
+						<ul>
+							<div class="userReminder">
+								<span style="float:">申办流水号：<span class="userReminderT1"
+									id="bjsqh">330000001408041000009</span></span> <span style="float:">【密码】：<span
+									class="userReminderT1" id="cxmm">123456</span></span> <span
+									style="float: right;">申办时间：<span class="userReminderT1"
+									id="bjsj">2015-09-10 10:20:20</span></span>
+								<table class="t1">
+									<thead>
+										<tr>
+											<th width="10%"></th>
+											<th width="25%"></th>
+											<th width="20%"></th>
+											<th width="25%"></th>
+											<th width="20%"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th>名称：</th>
+											<td colspan="3">{{itemInfo.NAME}}</td>
+											<td rowspan="4">
+												<div id="divCode" style="width: 200px; height: 200px;">
+													<img style="width: 200px; height: 200px;" src="" id="img" />
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<th>受理单位：</th>
+											<td colspan="3"><span style="color: black" id="sldw"></span></td>
+										</tr>
+										<tr>
+											<th>申请人：</th>
+											<td colspan="3"><span class="userReminderT1"
+												style="color: black" id="user_info_name"></span></td>
+										</tr>
+										<tr>
+											<th>联系人：</th>
+											<td><span style="color: black" id="contextPerson"></span></td>
+											<th>联系电话：</th>
+											<td><span style="color: black" id="userPhone"></span></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</ul>
+					</div>
+				</div>
+				<br />
+				<div class="condition" style="background-color: #fff;">
+					<div class="conditionTitle">
+						<img src="{{PageContext.ContextPath}}public/images/title_sbcl.gif"
+							width="120" height="42" />
+					</div>
+					<div class="conditionContent" style="padding: 20px;">
+						<div class="uploadedFiles"></div>
+					</div>
+				</div>
+				{% if ConfigInfo.AppId|equal:"chq"|not%}
+				<div class="condition" style="background-color: #fff;">
+					<div class="conditionTitle">
+						<div class="menuTitle">办事指引</div>
+					</div>
+					<div class="conditionContent">
+						<ul>
+							<li><strong>办理部门：</strong>{{itemInfo.ORG_NAME}}</li>
+							<li><strong>工作时间：</strong>{{window.OFFICE_HOUR}}</li>
+							<li><strong>地 &nbsp;&nbsp;&nbsp;址：</strong>{{window.ADDRESS}}</li>
+							<li><strong> 联系电话：</strong><span id="bjjglxdh">{{window.COMPLAINT_PHONE}}</span></li>
+							{% if ConfigInfo.AppId|equal:"km" %}
+							<li title="{{window.TRAFFIC_GUIDE}}"><strong> 交通指引：</strong>{{window.TRAFFIC_GUIDE}}</li>
+							{% else %}
+							<li title="{{window.TRAFFIC_GUIDE}}"><strong> 交通指引：</strong>{{window.TRAFFIC_GUIDE|truncate:'50'}}</li>
+							{%endif%}
+						</ul>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+
+		<div class="" style="border-bottom: 50px solid transparent;"></div>
+		{% if itemInfo.CODE|equal:"530100-26x-XK-011-01" %}
+		<div class="text-center">
+			<h3>
+				施工许可证填报模板<a href="{%public assets/file/施工许可证填报模板.xls%}"
+					title="点击下载施工许可证填报模板"><font color="red">下载</font></a>
+			</h3>
+		</div>
+		{% endif %}
+		<div class="text-center">
+			<input type="button" class="btn btn-success btn-lg pre"
+				onclick="pre();"
+				value="&nbsp;&nbsp;&nbsp;&nbsp;上一步&nbsp;&nbsp;&nbsp;&nbsp; " /> <input
+				id="form_next" type="button" name="next" type="button"
+				class="btn btn-success btn-lg"
+				value="&nbsp;&nbsp;&nbsp;&nbsp;下一步&nbsp;&nbsp;&nbsp;&nbsp;">
+			<input type="button" class="btn btn-info btn-lg save"
+				onclick="saveData();"
+				value="&nbsp;&nbsp;&nbsp;&nbsp;暂存&nbsp;&nbsp;&nbsp;&nbsp;">
+		</div>
+	</div>
+</div>
+
+<div id="progress_IE8"
+	style="display: none; position: absolute; left: 40%; top: 30%; width: 200px; heigth: 130px; background-color: #5cb85c; border-radius: 5px; z-index: 11999;">
+	<!--页面载入显示-->
+	<table width=80% height=80% border=0 align=center valign=middle>
+		<tr>
+			<td align=center>&nbsp;</td>
+		</tr>
+		<tr>
+			<td align=center><img
+				src="{%public scripts/fineload/img/loading.gif %}" width="60px"
+				height="60px" /></td>
+		</tr>
+		<tr>
+			<td align=center>文件正在上传，请稍后......</td>
+		</tr>
+		<tr>
+			<td align=center>&nbsp;</td>
+		</tr>
+	</table>
+</div>
+<div id="progress" class="progress-l"
+	style="display: none; position: absolute; top: 85%; right: 40%;">
+	<span class="progress-val-l">0%</span> <span class="progress-bar-l"><span
+		id="bar" class="progress-in-l" style="width: 0%"></span></span>
+</div>
+{% widget "icity.Material" %}
+<script type="text/javascript">
+	var step = 1;//第几步
+	var checked_materials = [];
+	var docids = [];
+	var file_id="";
+	var apply_data={};
+	var formInfo={};
+	var current_step = 1;
+	var object_types = [];//办理对象
+	var type = "";
+	var _calendar=null;
+	var _dataId="{{_dataId}}";
+	var dataId="{{dataId}}";
+	var sblsh="{{sblsh}}";
+	var state="{{state}}";
+	var cxmm="";
+	var servicelist = {};
+	var userInfo ={{userInfo}};
+	//情形材料需求 处理
+	var is_casesetting = {{itemInfo.IS_CASESETTING}};//是否情形设置
+	var _caseCode="";//情形编码
+	var _caseName="";//情形名称
+	//是否需要基本信息
+	var isSetUp = 0;//0 需要 1 不需要
+	$(function() {
+		//检测浏览器版本 IE 5-8
+		if(isIElt9()){
+			LEx.dialog("你使用的浏览器版本过低，请使用IE9及其以上版本浏览器进行操作");
+		}
+		//--情形材料
+		if(is_casesetting==1){
+			$("#caseSelect").show(); 
+			var command = new LEx.Command("app.icity.onlineapply.ApplyCmd");
+			command.setParameter("itemId","{{itemInfo.ID}}");
+			var ret = command.execute("getCaseByItemId");
+			var code = "";
+			if(ret.state==1){
+				var list = ret.data.CaseList;
+				var option="";
+				code = list[0].CODE;
+				for(var i = 0;i<list.length;i++){
+					option +="<option value='"+list[i].CODE+"'>"+list[i].NAME+"</option>";
+				}
+			}
+			$("#casesetting").html(option);
+			//暂存后，选中之前的 情形
+			 if(sblsh!=null&&sblsh!=""){ 
+				var command = new LEx.Command("app.icity.onlineapply.ApplyCmd");
+				command.setParameter("sblsh",sblsh);
+				var ret = command.execute("getCaseCode");
+				if(ret.state==1&&ret.total>0){
+					code = ret.data[0].CASECODE;
+					$("#casesetting").val(code);
+				}
+			 } 
+			 getCaseMaterials(code);
+			$("#casesetting").change(function(){ 
+				$("#select_all_material").attr("checked",false);
+				var code = $(this).val();
+				getCaseMaterials(code);
+			});
+		}else{
+			$("#caseSelect").hide(); 
+		}
+		//--情形材料结束
+		$("#formiframe").attr("src","{{PageContext.ContextPath}}icity/submitsp/view?width=99&itemId={{itemInfo.ID}}&formId={{formid}}"+dataId);
+		$(".pre").hide();
+		$("#form").show();
+		if(state!="00"){
+			$(".save").hide();
+		}
+		if(state=="21"){
+			step=4;
+			//$("input[name='next']").val("提交");
+		}
+		toggleIcon(step);
+		apply_data["formId"]="{{formid}}";
+		apply_data["dataId"]="{{_dataId}}";
+		 
+		var OBJECT_TYPE = "{{OBJECT_TYPE}}";
+		object_types = OBJECT_TYPE.split(",");
+		OBJECT_TYPE = OBJECT_TYPE.split(",")[0];
+		if(OBJECT_TYPE=="1"){
+			$(".gr").click();		
+		}else if(OBJECT_TYPE=="3"){
+			$(".qy").click();
+		}else if(OBJECT_TYPE=="2"){
+			$(".xm").click();
+		}else{$(".gr").click();}
+		
+		$("#user_info_name").html(LEx.userInfo.userName);
+		$("#user_info_name2").html(LEx.userInfo.userName);
+		bindData();
+		initFileUpload();
+		$("#select_all").on('click', function(e) {
+			if (this.checked) {
+				$("[name='checkbox']").each(function() {
+					$(this).attr('checked', true);
+				});
+			} else {
+				$("[name='checkbox']").each(function() {
+					$(this).attr('checked', false);
+				});
+			}
+		});
+		//
+		$("input[name='checkbox']").on('click', function(e) {
+			var checkd_length = $("input[name='checkbox']:checked").length;
+			var length = $("input[name='checkbox']").length;
+
+			if (checkd_length == length) {
+				$("#select_all").attr('checked', true);
+			} else {
+				$("#select_all").attr('checked', false);
+			}
+		});
+		$("#select_all_material").on('click', function(e) {
+			if (this.checked) {
+				$("[name='checkbox_material']").each(function() {
+					$(this).attr('checked', true);
+				});
+			} else {
+				$("[name='checkbox_material']").each(function() {
+					$(this).attr('checked', false);
+				});
+			}
+		});
+		$("input[name='checkbox_material']").on('click', function(e) {
+			var checkd_length = $("input[name='checkbox_material']:checked").length;
+			var length = $("input[name='checkbox_material']").length;
+
+			if (checkd_length == length) {
+				$("#select_all_material").attr('checked', true);
+			} else {
+				$("#select_all_material").attr('checked', false);
+			}
+		});
+		$("#select_all_window").on('click', function(e) {
+			if (this.checked) {
+				$("[name='checkbox_window']").each(function() {
+					$(this).attr('checked', true);
+				});
+			} else {
+				$("[name='checkbox_window']").each(function() {
+					$(this).attr('checked', false);
+				});
+			}
+		});
+		$("input[name='checkbox_window']").on('click', function(e) {
+			var checkd_length = $("input[name='checkbox_window']:checked").length;
+			var length = $("input[name='checkbox_window']").length;
+
+			if (checkd_length == length) {
+				$("#select_all_window").attr('checked', true);
+			} else {
+				$("#select_all_window").attr('checked', false);
+			}
+		});
+		
+		//下一步
+		$("input[name='next']").on('click',function(e){
+			if(validate()) {
+				if(step == 1) {
+					if("chq"=="{{ConfigInfo.AppId}}"){
+							$("#two").removeClass("");
+							$("#two").addClass("active");
+							$(".pre").show();
+							step++;
+					}else{
+						var len = {{length}};
+						if(len=="0"){
+							if(!$("#select_all").is(":checked")) {
+								LEx.alert("请自检是否满足审批条件！");
+								return;
+							}
+							else{
+								$("#two").removeClass("");
+								$("#two").addClass("active");
+								$(".pre").show();
+								step++;
+							}
+						}else{
+							if(!$("#select_all_material").is(":checked") || !$("#select_all").is(":checked")) {
+								LEx.alert("请自检是否满足审批条件！");
+							} else if(!checkedIE())
+							{
+							}else {
+								$("#two").removeClass("");
+								$("#two").addClass("active");
+								$(".pre").show();
+								step++;
+							}
+						}
+					}
+				}else if(step == 2){
+					if(!LEx.form.validate("#baseinfo")){
+						LEx.alert("请正确填写必填项");
+					} else {
+						if(type=="3"){
+							$("#contextPerson").text($("#linkMan").val());
+							$("#userPhone").text($("#contactPhone").val());
+						}else if(type=="2"){
+							$("#contextPerson").text($("#linkMan").val());
+							$("#userPhone").text($("#contactPhone").val());
+						}else{
+							$("#contextPerson").text($("#name").val());
+							$("#userPhone").text($("#linkPhone").val());
+						}
+						step++;
+						current_step++;
+					}
+				}else if(step == 3){
+					//提交表单
+					var state=formiframe.window.bSave();
+					var obj = parent.frames["formiframe"].window;
+					_dataId = obj.document.getElementById("dataid").value;
+					
+					if(_dataId!=""&&state=="200"){
+						dataId="&dataId="+_dataId;
+						apply_data["dataId"] = _dataId;
+						step++;
+						$(this).val("提交");//先屏蔽 最后一步上门收件增加
+						
+					}
+				}else if(step==4){
+					var node  = $(this);
+					 //是否上传必须文件
+					if(check4Material()==false){
+						var info="<div style='padding: 0 1em;'>"+
+				        "<img src='{{PageContext.ContextPath}}public/images/star_icon_1.gif' width=15 height=14/>"
+				        +"为必要材料，请上传必需附件或勾选窗口提交！</div>"
+						LEx.alert(info);
+						return;
+					}
+					LEx.dialog({
+				        id: 'Confirm',
+				        title:'承诺书',
+				        fixed: true,
+				        lock: true,
+				        opacity: .1,
+				        content: "承诺：本人承诺已经具备以上申办条件、材料，且申办条件、材料绝对真实！",
+				        ok: function () {
+				        	if(submitData()) {
+				        		$("#three").removeClass("");
+								$("#three").addClass("active");
+								$(".pre").hide();
+								step++;
+								step++;////先屏蔽 最后一步上门收件增加
+								$(".save").hide();
+								$("input[name='next']").val("关闭 ");
+							}
+				        	//左侧图标
+							toggleIcon(step);
+				        },
+				        cancel: function () {
+				            this.close();
+				        }
+				    });
+				}else if(step == 5){
+					var ApplicantName = "";//申请人姓名
+					var AppliantID = "";//申请人身份证号
+					var AppliantMobile = "";//申请人手机号
+					var ApplicantAddress ="";//申请人地址
+					var CardType = "";//收件方式
+					var CityCode = "";//城市编码
+					var Addressee = "";//收件地址
+					var AddresseeName = "";//收件人姓名
+					var AddresseeMobile ="";//收件人联系电话
+					var SendType ="";//寄件方式
+					var SendCityCode = "";//
+					var SendAddressee = "";
+					var SendName ="";
+					var SendMobile = "";
+					var HallCode = "";
+					var HallName = "";					
+					if(apply_data.servicelist){
+						
+					}
+					servicelist["HallCode"] = "";
+					servicelist["HallName"] = "";
+					
+					servicelist["CardType"] = $("input[name='CardType']:checked").val();//0自取1邮寄
+					servicelist["SendType"] = $("input[name='SendType']:checked").val();//0自取1邮寄
+					
+					if($("input[name='CardType']:checked").val()=="1"||$("input[name='SendType']:checked").val()=="1"){
+						if(!LEx.form.validate("#baseinfo-05")){
+							LEx.alert("请正确填写必填项");
+							return;
+						}					
+						servicelist["CityCode"] = $("#CityCode").val();
+						servicelist["Addressee"] = $("#Addressee").val();
+						servicelist["AddresseeName"] = $("#AddresseeName").val();
+						servicelist["AddresseeMobile"] = $("#AddresseeMobile").val();	
+						servicelist["SendCityCode"] = $("#SendCityCode").val();
+						servicelist["SendAddressee"] = $("#SendAddressee").val();
+						servicelist["SendName"] = $("#SendName").val();
+						servicelist["SendMobile"] = $("#SendMobile").val();	
+					}
+					apply_data["servicelist"] = servicelist;
+				} else {
+					LEx.dialog.confirm("是否关闭当前页面",function(){						
+						window.close();						
+				    });
+				}
+				//左侧图标
+				toggleIcon(step);
+			}
+		});
+		//暂存后，点击修改跳到第二页
+		if(sblsh!=null&&sblsh!=""){
+			$("#two").removeClass("li_two");
+			$("#two").addClass("li_one");
+			$(".pre").show();
+			step=2;
+			toggleIcon(step);
+		}
+		//初始加载邮寄信息
+		initServiceList();
+	});
+	//情形材料
+	function getCaseMaterials(caseCode){
+		var caseName =  $("#casesetting").find("option:selected").text();
+		var command = new LEx.Command("app.icity.onlineapply.ApplyCmd");
+		command.setParameter("itemId","{{itemInfo.ID}}");
+		command.setParameter("caseCode",caseCode);
+		var ret = command.execute("getMaterilByCaseCode");
+		if(ret.state==1){
+			_caseCode = caseCode;
+			_caseName = caseName;
+			var materialList = ret.data.MaterialList;
+			var html = "";//材料检查列表
+			var case_material="";//附件上传列表
+			must_materials = [];
+			n_must_materials = [];
+			for(var i = 0;i<materialList.length;i++){
+				html +="<div class=\"checkbox\" style=\"padding-bottom: 10px;\">";
+				html +="<label> <input name=\"checkbox_material\" type=\"checkbox\" value=\"\">";
+				html +=(i+1)+"."+materialList[i].NAME+"</label></div>";
+				
+				case_material +="<tr code='"+materialList[i].CODE+"' name='"+materialList[i].NAME+"'>";
+				case_material +="<td width=\"10%\">"+(i+1)+"</td>";
+				if(materialList[i].MUST=="1"){
+					case_material +="<td width=\"22%\"><img src=\"{{PageContext.ContextPath}}public/images/star_icon_1.gif\" width=15 height=14/>"+materialList[i].NAME+"</td>";
+					must_materials.push(materialList[i].CODE);
+				}else{
+					case_material +="<td width=\"22%\"><img src=\"{{PageContext.ContextPath}}public/images/star_icon_2.gif\" width=15 height=14/>"+materialList[i].NAME+"</td>";
+					n_must_materials.push(materialList[i].CODE);
+				}
+				case_material +="<td width=\"30%\"><div id=\"list_"+materialList[i].CODE+"\"></div></td>";
+				case_material +="<td width=\"38%\"><input type=\"checkbox\" id=\"ck_"+materialList[i].CODE+"\" name=\"checkbox_window\" code=\""+materialList[i].CODE+"\">窗口提交";
+				case_material +="<span class=\"btn btn-sm btn-warning fileinput-button\" style=\"margin-left: 5px;\"> <lable>选择附件<lable>";
+				case_material +="<input id='"+materialList[i].CODE+"' class=\"fileupload\" tag=\"0\" type=\"file\" name=\"files[]\" multiple /></span> ";
+				case_material +="<a class='btn btn-success btn-sm' onclick=\"initOpen('"+materialList[i].CODE+"','"+materialList[i].NAME+"');\">资料库</a>";
+				case_material +="</td></tr>";
+			}
+			$("#caseMaterial").html(html);
+			$("#case_material_list").html(case_material);
+			initFileUpload();
+		}
+		
+			
+	}
+	//初始加载邮寄信息
+	function initServiceList(){
+		servicelist["ApplicantName"] = userInfo.NAME;
+		servicelist["ApplicantID"] = userInfo.CARD_NO;
+		servicelist["ApplicantMobile"] = userInfo.PHONE;
+		servicelist["ApplicantAddress"] = userInfo.HOMEADDRESS;
+						
+		$("#CityCode").val("");
+		$("#Addressee").val(userInfo.HOMEADDRESS);
+		$("#AddresseeName").val(userInfo.NAME);
+		$("#AddresseeMobile").val(userInfo.PHONE);	
+		$("#SendCityCode").val("");
+		$("#SendAddressee").val(userInfo.HOMEADDRESS);
+		$("#SendName").val(userInfo.NAME);
+		$("#SendMobile").val(userInfo.PHONE);	
+		apply_data["servicelist"] = servicelist;
+	}
+	//显示隐藏邮寄信息框
+	function changeCardType(obj){
+		if($("input[name='CardType']:checked").val()=="1"){
+			$(".CardType-1").each(function(){
+				$(this).show();
+			});
+		}else{
+			$(".CardType-1").each(function(){
+				$(this).hide();
+			});
+		}
+	}
+	//显示隐藏邮寄信息框
+	function changeSendType(obj){
+		if($("input[name='SendType']:checked").val()=="1"){
+			$(".SendType-1").each(function(){
+				$(this).show();
+			});
+		}else{
+			$(".SendType-1").each(function(){
+				$(this).hide();
+			});
+		}
+	}
+	/**
+	 *提交数据
+	 *
+	**/
+	function submitData(){
+		if(!LEx.form.validate("#baseinfo")){
+			LEx.alert("请正确填写必填项");
+			return;
+		}
+		//只有住建局施工许可证需要验证
+		if($("#itemcode").attr('title')=="530100-26x-XK-011-01"){
+			if(check4Material()==false){
+				LEx.alert("请上传所有必需附件！");
+				return;
+			}
+		}
+		//盘龙需求：绑定经办人信息（即登录信息）
+		bulidSubmitUserInfo();
+		//构造数据
+		buildData();
+		//盘龙-提交数据 保存查通知方式
+		 if("panlongqu"=="{{ConfigInfo.PAGE_MODE}}"){
+			var noticeStyle = $("input[name='noticeStyle']:checked").val();
+			apply_data.noticeStyle = noticeStyle;
+		} 
+		//提交数据时，如果为草稿状态，state=sp；否则state=bqbz
+		if(state=="00"){apply_data.state="sp";}
+		else if(state=="21"){
+		apply_data.state="clbqbz";
+		apply_data.clqd="{{bzclqd}}";}
+		else{apply_data.state="bqbz";}
+		apply_data.ly="icity";
+		apply_data.Case_ID = _caseCode;
+		apply_data.Case_Name = _caseName;
+		apply_data.InnerCode = "{{itemInfo.INNER_CODE}}"
+		var command = new LEx.Command("app.icity.onlineapply.ApplyCmd");
+		command.setParameter("data",apply_data);
+		var ret = command.execute("submitSP");
+		if(ret.state=="1"||ret.state=='3'||ret.state=='4'){//3为调用效能接口失败，依然显示提交成功（不影响报件）
+			$("#bjsqh").html(ret.data.receiveNum);
+			$("#bjsj").text( fomatterDate(new Date()) );
+			$("#sldw").text( apply_data.orgName );
+			$("#cxmm").text(ret.data.password);
+			if (docids.length=="0"){
+				$(".uploadedFiles").append("<span style=\"height:10px;float:left;margin-left:22px;\">没有上传任何材料。</span>");
+			}else{
+			for(var i=0;i<docids.length;i++){
+				id="list1_"+docids[i].DOCUMENT_ID;
+				if(document.getElementById(id)){ 
+				} else{
+        			$(".uploadedFiles").append("<dl id=\"list1_"+docids[i].DOCUMENT_ID+"\"><dt>"+docids[i].DOCUMENT_NAME+":");
+				}
+        			$(".uploadedFiles").append("<dd>"+docids[i].FILE_NAME+"</dd></dt></dl>");
+        	} 
+        	}
+			if($("#bjjglxdh").html()=="null"){
+				$("#bjjglxdh").html("");
+			}
+			$(function(){
+				var fileurl = "申办流水号:"+ret.data.receiveNum+"  密码:"+ret.data.password;
+				$.ajax({
+					type : "get",
+					url : LEx.webPath + "bsp/Convt2QRCode?fileUrl="+fileurl,
+					success : function(data) {
+						var src = "";
+						src = LEx.webPath+"file/dimensionImg"+data.split("file/dimensionImg")[1];
+						$("#img").attr("src",src);
+					},
+					error : function() {
+				
+					}
+				});
+			});
+			if(ret.state=='4'){
+				LEx.alert("提交失败，已暂存！");		
+			}else{
+				LEx.alert("提交成功！");		
+			}					
+			return true;
+		}else{
+			LEx.alert("提交失败！");
+			return false;
+		}
+	}
+	
+	function toggleIcon(step) {
+		switch(step) {
+			case 1:				
+				$("#service_step_01").css('display','block');
+				$("#service_step_02").css('display','none');
+				$("#service_step_03").css('display','none');
+				$("#service_step_04").css('display','none');
+				$("#service_step_05").css('display','none');
+				$("#service_step_06").css('display','none');
+				break;
+			case 2:
+				$("#service_step_02").css('display','block');
+				$("#service_step_01").css('display','none');
+				$("#service_step_03").css('display','none');
+				$("#service_step_04").css('display','none');
+				$("#service_step_05").css('display','none');
+				$("#service_step_06").css('display','none');
+				break;
+			case 3:
+				$("#service_step_03").css('display','block');
+				$("#service_step_01").css('display','none');
+				$("#service_step_02").css('display','none');
+				$("#service_step_04").css('display','none');
+				$("#service_step_05").css('display','none');
+				$("#service_step_06").css('display','none');
+				break;
+			case 4:
+				$("#service_step_04").css('display','block');
+				$("#service_step_01").css('display','none');
+				$("#service_step_02").css('display','none');
+				$("#service_step_03").css('display','none');
+				$("#service_step_05").css('display','none');
+				$("#service_step_06").css('display','none');
+				break;
+			case 5:
+				$("#service_step_05").css('display','block');
+				$("#service_step_02").css('display','none');
+				$("#service_step_01").css('display','none');
+				$("#service_step_03").css('display','none');
+				$("#service_step_04").css('display','none');
+				$("#service_step_06").css('display','none');
+				break;
+			case 6:
+				$("#service_step_06").css('display','block');
+				$("#service_step_02").css('display','none');
+				$("#service_step_01").css('display','none');
+				$("#service_step_03").css('display','none');
+				$("#service_step_04").css('display','none');
+				$("#service_step_05").css('display','none');
+				break;
+			default:
+				break;
+		}
+	}
+	function pre(){
+		if(step==2){
+			$("#two").removeClass("li_one");
+			$("#two").addClass("li_two");
+			$("#service_step_01").show();
+			$("#service_step_02").hide();
+			$(".pre").hide();
+			step-=1;
+		}else if(step==3){		
+			$("#service_step_02").show();
+			$("#service_step_03").hide();
+			$(".pre").show();
+			step-=1;
+			current_step-=1;
+		}else if(step==4){
+			$("#service_step_03").show();
+			$("#service_step_04").hide();
+			$(".pre").show();
+			$("#form_next").val("下一步");
+			step-=1;
+		}else if(step==5){
+			$("#service_step_04").show();
+			$("#service_step_05").hide();
+			$(".pre").show();
+			$("#form_next").val("下一步");
+			step-=1;
+		}
+	}
+	
+	//检测浏览器为IE10以下，则反回false
+function checkedIE(){
+		var check=true;
+	if(navigator.userAgent.indexOf("MSIE")>0){   
+	      if(navigator.userAgent.indexOf("MSIE 6.0")>0
+	    	 || navigator.userAgent.indexOf("MSIE 7.0")>0
+	    	 || navigator.userAgent.indexOf("MSIE 8.0")>0
+	    	 || navigator.userAgent.indexOf("MSIE 9.0")>0) {   
+	    	  LEx.alert("系统检测到您的浏览器不支持网上报件，建议使用IE10及以上、谷歌、火狐、360极速等浏览器！"); 
+	    	  check= false;
+	      }
+	    } 
+	return check;
+}
+function isIElt9(){
+    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+    var isOpera = userAgent.indexOf("Opera") > -1; //判断是否Opera浏览器
+    var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera; //判断是否IE浏览器
+    //var isFF = userAgent.indexOf("Firefox") > -1; //判断是否Firefox浏览器
+   	//var isSafari = userAgent.indexOf("Safari") > -1; //判断是否Safari浏览器
+    if (isIE) {
+        var IE5 = IE55 = IE6 = IE7 = IE8 = false;
+        var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+        reIE.test(userAgent);
+        var fIEVersion = parseFloat(RegExp["$1"]);
+        IE55 = fIEVersion == 5.5;
+        IE6 = fIEVersion == 6.0;
+        IE7 = fIEVersion == 7.0;
+        IE8 = fIEVersion == 8.0;
+        if (IE55) {
+            return true;//"IE55";
+        }
+        if (IE6) {
+        	 return true;//"IE6";
+        }
+        if (IE7) {
+        	 return true;//"IE7";
+        }
+        if (IE8) {
+        	 return true;//IE8";
+        }
+    }else{
+    	return false;
+    }
+}
+//绑定提交人信息
+function bulidSubmitUserInfo(){
+	var info ={};
+	info["name"]=userInfo.NAME;
+	if(userInfo.CARD_TYPE==""){
+		info["identityType"]="10";
+	}else{
+		info["identityType"]=userInfo.CARD_TYPE;
+	}
+	info["idcardNo"]=userInfo.CARD_NO;
+	info["linkPhone"]=userInfo.PHONE;
+	apply_data["operator"]=info;
+} 
+</script>
+
+{% include onlineapply/form.html%}

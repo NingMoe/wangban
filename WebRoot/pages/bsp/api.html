@@ -1,0 +1,189 @@
+
+<style type="text/css">
+
+table {
+	border-collapse: collapse;
+	border: solid #becfdd;
+	border-width: 1px 0 0 1px;
+	font-size: 11pt;
+}
+
+table th,table td {
+	border: solid #becfdd;
+	border-width: 0 1px 1px 0;
+	padding-left: 6px;
+}
+
+.code {
+	background-color: #f6faff;
+	padding: 12px;
+	border-style: dashed;
+	border-width: 1px;
+	border-color:#becfdd;
+}
+
+.key {
+	line-height: 10pt;
+	font-weight: bold;
+	margin:12px;
+}
+
+.text {
+	text-indent: 2em;
+	padding-left: 12px;
+	padding-right: 12px;
+}
+
+.table_head {
+	font-weight: bolder;
+	background-color: #f6faff;
+}
+</style>
+<p class="key" style="font-size:24px;">一、接口描述</p>
+<div class="text">
+	系统 API接口按照 REST风格设计，通过 HTTP协议的 POST方法提交请求，参数通过JSON封装以Content-Type: application/json的方式请求，返回的结果格式为json，具体包括内容为：
+</div>
+<p class="key">&nbsp;&nbsp;&nbsp;&nbsp;返回值实例：</p>
+<div class="code">
+{"state":1,"route":"","message":"","encrypt":0,"zip":0,"total":0,data:{access_token:"E45A8CF59E01439B828774B6000A86E6"}}
+</div>
+<p class="key">&nbsp;&nbsp;&nbsp;&nbsp;返回值描述：</p>
+<table width="100%">
+	<thead class="table_head">
+		<tr>
+			<td width="200px">名称</td>
+			<td width="200px">类型</td>
+			<td>说明</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>state</td>
+			<td>int</td>
+			<td>1:表示成功，0：表示失败</td>
+		</tr>
+		<tr>
+			<td>message</td>
+			<td>String</td>
+			<td>提示信息，如果state为0则为错误信息</td>
+		</tr>
+		<tr>
+			<td>total</td>
+			<td>int</td>
+			<td>信息总记录数，在分页查询中有效</td>
+		</tr>
+		<tr>
+			<td>encrypt</td>
+			<td>int</td>
+			<td>信息是否被加密，1：加密，0：未加密</td>
+		</tr>
+		<tr>
+			<td>zip</td>
+			<td>int</td>
+			<td>信息是否被压缩，1：压缩，0：未压缩</td>
+		</tr>
+		<tr>
+			<td>route</td>
+			<td>String</td>
+			<td>路由信息，在分布式程序中有效</td>
+		</tr>
+		<tr>
+			<td>data</td>
+			<td>String/json</td>
+			<td>所有的结果数据都存放在此位置，一般为对象或者数组</td>
+		</tr>
+	</tbody>
+</table>
+<p class="key" style="font-size:24px;">二、开发指引</p>
+<div class="text">
+	接口 API 调用流程一般分为三个步骤：
+</div>
+<p class="key">&nbsp;&nbsp;&nbsp;&nbsp;第一步：调用 c/api.pmi/login 创建安全会话获取 access_token</p>
+<div class="text">
+	调用接口的 login 方法，以部门管理员账户创建会话获取访问令牌access_token
+</div>
+<div class="code">
+	POST {{PageContext.WebSite}}/c/api.pmi/login <br/>
+	Content-Type: application/json <br/>
+	{"key":"key","secret":"secret","loginname":"loginname","pwd":" pwd"}
+</div>
+<div class="text">
+	返回的结果为
+</div>
+<div class="code">
+	{"state":1,"route":"","message":"","encrypt":0,"zip":0,"total":0,data:{access_token:"E45A8CF59E01439B828774B6000A86E6"}}
+</div>
+
+<p class="key">&nbsp;&nbsp;&nbsp;&nbsp;第二步：使用 access_token 调用接口 API</p>
+<div class="text">
+	以获取用户登录当前已登录用户的信息的服务/c/api.pmi/getLoginUser为例
+</div>
+<div class="code">
+	POST {{PageContext.WebSite}}/c/api.pmi/getLoginUser <br/>
+	Content-Type: application/json <br/>
+	{"access_token":"E45A8CF59E01439B828774B6000A86E6"}
+</div>
+<div class="text">
+	返回的结果为
+</div>
+<div class="code">
+	{
+	"state":1,"route":"","message":"","encrypt":0,"zip":0,"total":0,
+	data:{
+		"account":"sz_jxw"
+		,"name":"市经信委用户"
+		,"identity_num":"440301************"
+		,"division":"{{ConfigInfo.AppCity}}"
+		,"division_code":"{{ConfigInfo.WebRegion}}"
+		,"service_org":"123456789"
+		,"creator":"admin"
+		,"creation_time":"2012-5-22"
+		,"last_modificator":"admin"
+		,"last_modification_time":"2012-5-22"
+		}
+	}
+</div>
+
+<p class="key">&nbsp;&nbsp;&nbsp;&nbsp;第三步：调用 /c/api.pmi/logout 注销会话</p>
+<div class="text">
+	调用安全会话接口的 logout 方法，设置 access_token 为无效。
+</div>
+<div class="code">
+	POST {{PageContext.WebSite}}/c/api.pmi/logout <br/>
+	Content-Type: application/json <br/>
+	{"access_token":"E45A8CF59E01439B828774B6000A86E6"}
+</div>
+<div class="text">
+	返回的结果为
+</div>
+<div class="code">
+	{"state":1,"route":"","message":"","encrypt":0,"zip":0,"total":0}
+</div>
+<p class="key" style="font-size:24px;">三、接口API</p>
+<table width="100%" id="apiList">
+	<thead class="table_head">
+		<tr>
+			<td width="200px">接口分类</td>
+			<td width="200px">方法名称</td>
+			<td>方法说明</td>
+		</tr>
+	</thead>
+	<tbody>
+		{% for rowClass in apiList %}
+			{% for rowMethod in rowClass.method %}
+		<tr>
+			<td>{{rowClass.Type.descript}}</td>
+			<td><a href="api_detail?type={{rowClass.Type.name}}&method={{rowMethod.name}}" target="_blank">{{rowMethod.name}}</a></td>
+			<td>{{rowMethod.descript}}</td>
+		</tr>
+			{% endfor %}
+		{% endfor %}
+	</tbody>
+</table>
+<script type="text/javascript" src="{{PageContext.JsPath}}form/jquery.mergeCell.js"></script>
+
+<script type="text/javascript">
+	function init(){
+		$('#apiList').mergeCell({cols:[0]}); 
+	}
+</script>

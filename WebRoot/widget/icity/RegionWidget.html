@@ -1,0 +1,36 @@
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+<style>
+table{
+    table-layout:fixed;
+    empty-cells:show; 
+    border-collapse: collapse;
+    margin:0 auto;
+}
+td{
+    height:100px;
+    width:80px;
+}
+</style>
+{% map "region_code",region_code as p%}
+<div id="classlistregion">
+</div>
+<script type="text/javascript">
+$(function(){
+	onQueryregion();
+});
+function onQueryregion(){
+	 var command = new LEx.Command("app.pmi.config.cmd.WebsiteCmd");
+	 var ret = command.execute("getWebsiteConfig");
+	 if(!command.error){
+		$('#n-s-t-b').html(LEx.processDOMTemplate('siteTemplate',ret));
+	 }else{
+		LEx.dialog({
+			title : "系统提示",
+			content : command.error,
+			icon : 'error',
+			lock : true
+		});
+	 }	
+}
+</script>

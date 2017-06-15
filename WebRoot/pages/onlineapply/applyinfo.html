@@ -1,0 +1,111 @@
+<style type="text/css">
+body{background: none;background-color: white;}
+.btn-warning {
+    color: #ffffff;
+    background-color: #FF9D0C;
+    border-color: #FF9D0C;
+}
+.sbTableStyle01 tbody tr td i, .sbTableStyle02 tbody tr td i {
+    font-weight: normal;
+    color: #F3EFEF;
+    font-style: normal;
+    float: right;
+}
+</style>
+<table width="1000" border="0" cellspacing="0" cellpadding="0" align="center" style="border:0px solid ">
+  <tr>
+    <td width="5"></td>
+    <td width="315" height="105" align="left" valign="middle" ><img src="../../../public/images/zwdt_bannerLogo.png" /></td>
+    <td width="28"></td>
+    <td align="left" valign="middle" style="font-size:14pt; font-family:微软雅黑">【在线办理】</td>
+	<td align="right" valign="top" >
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  	<tr>
+    	<td align="right" style="font-family:'微软雅黑';font-size:10.5pt; color:#3D3D3D;line-height:25px">
+    			{% if UserInfo %}
+				<div class="fl">
+					&nbsp;<font color="#7acbf4;">{{UserInfo.userName}}</font>,&nbsp;您好!&nbsp;
+				</div>
+				<div class="fr">
+					[
+					<a href="{{PageContext.ContextPath}}center/index" target="_self">业务中心</a>|
+					<a  href="javascript:void();" onclick="doLogout('{{ConfigInfo.WebUcPath}}')">退&nbsp;出</a>
+					]
+				</div>
+				{% else %}
+				
+				<div class="fl" style="margin-left: 10px">
+					[<a href="#" onclick="doLogin('{{ConfigInfo.WebUcPath}}')" style="color: #2CA1E9;font-weight: bold;text-shadow: 1px 1px #FFFFFF;">登&nbsp;录</a>&nbsp;|&nbsp;
+					<a  href="{{PageContext.ContextPath}}uc/register" target="_self" style="color: #2CA1E9;font-weight: bold;text-shadow: 1px 1px #FFFFFF;">注&nbsp;册</a>
+					]
+				</div>
+				{% endif %}
+    	
+    	<!--&nbsp;&nbsp;&nbsp;<img width="18" height="24" style="vertical-align: bottom;text-decoration: none;" src="../../../public/images/1407171900068935818.gif" >
+    	<a href="http://www.zj.gov.cn" style="cursor: pointer;" target="_blank">浙江省政府门户网站</a>-->
+    	</td>
+  	</tr>
+	</table>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+    	<td height="80" align="right" ><img src="../../../public/images/sy_fuwusm.gif" /></td>
+  	</tr>
+	</table>
+    </td>
+	<td width="5"></td>
+  </tr>
+</table>
+{% include onlineapply/apply_1.html%}
+<script type="text/javascript">
+function SetHome(obj, vrl) {
+    try {
+        obj.style.behavior = 'url(#default#homepage)'; obj.setHomePage(vrl);
+        return false;
+    }
+    catch (e) {
+        alert("您的浏览器不支持一键设为首页，请到浏览器【设置】功能里操作。");
+    }
+}
+function lxwm() {
+}
+function doLogout(ucPath) {
+	var logout_url =logout_url = LEx.webPath+"logout?goto="+encodeURIComponent(window.location.href);
+	window.location.href = logout_url;
+    return false;
+}
+</script>
+<table border="0" cellspacing="0" cellpadding="0" align="center"
+	style=" margin-top:10px;">
+	<tr>
+		<td align="center" style="padding:0px 10px;"><a
+			 onclick="SetHome(this,window.location)" href="javascript:void(0)">设为首页</a>
+		</td>
+		<td width="2" align="center"><span
+			style="font-size:12px; color:#b0b0b0">|</span>
+		</td>
+		<td align="center" style="padding:0px 10px;"><a
+			href="http://115.29.3.132/col/col42273/index.html" target="_blank">网站介绍</a>
+		</td>
+		<td width="2" align="center"><span
+			style="font-size:12px; color:#b0b0b0">|</span>
+		</td>
+		<td align="center" style="padding:0px 10px;"><a
+			href="http://115.29.3.132/col/col42277/index.html" target="_blank">网站声明</a>
+		</td>
+		<td width="2" align="center"><span
+			style="font-size:12px; color:#b0b0b0">|</span>
+		</td>
+		<td align="center" style="padding:0px 10px;"><a
+			 href="javascript:void(0);" onclick="lxwm()">新手指南</a>
+		</td>
+		<td width="2" align="center"><span
+			style="font-size:12px; color:#b0b0b0">|</span>
+		</td>
+	</tr>
+
+</table>
+<table border="0" cellspacing="0" cellpadding="0" align="center">
+	<tr>
+		<td style="color:#959595; font-size:14px" height="50">主办单位：浙江省人民政府办公厅
+			备案：浙ICP备12000333号-2 中文域名：浙江政务服务.政务</td>
+</table>

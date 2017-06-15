@@ -1,0 +1,28 @@
+<div class="panel panel-primary" id="tzModal"
+	style="z-index:9999;position:fixed;top: auto;right:0px; left: auto; bottom:0; margin: 0; width: 290px;min-height:160px;display:none;">
+	<header class="panel-heading">
+		<button type="button" class="close" onclick="hidetz()" style="margin-top: -5px;">
+			<span>&times;</span>
+		</button>
+		<h3 class="panel-title">网站试运行通知</h3>
+
+	</header>
+	<ul class="list-group" id="tzgg">
+	<li class="list-group-item">
+	目前正在开展全省政务服务平台互联互通试运行，欢迎提出宝贵意见。因互联互通试运行工作给您造成的不便，敬请谅解。
+	</li>
+	<li class="list-group-item">
+	<a onclick="doLogin();" class="btn btn-sm btn-primary">立即注册</a>
+	<a href="http://zwfw.sd.gov.cn/module/voting/que_questionaire.jsp?classid=1&inlay=yes&answer=0&height=300&width=200" target="_black" class="btn btn-sm btn-primary">意见反馈</a>
+	</li>
+	</ul>
+</div>
+<script type="text/javascript">
+$(function() {
+	if({{ConfigInfo.UniteIdentifyFlag}}==1){
+		$("#tzModal").show();}
+});
+function hidetz() {
+	$('#tzModal').hide();
+}
+</script>

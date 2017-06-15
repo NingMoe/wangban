@@ -1,0 +1,66 @@
+.common-page-home .footer-holder{
+	position:relative;
+	_position:relative;
+}
+.signup-main {
+}
+
+.form-contain {
+	width: 630px;
+	float: left;
+	margin: 5px;
+}
+
+.form-contain .form-type .btn-per,.form-contain .form-type .btn-org,.form-contain .form-type .btn-org, .form-contain .form-type .btn-ca {
+	width: 100px;
+	height: 30px;
+	float: left;
+	border: 1px solid #BAD0DB;
+	margin: 0px 5px;
+	cursor: pointer;
+}
+.form-contain .form-type .btn-per:hover,.form-contain .form-type .btn-org:hover,.form-contain .form-type .btn-ca:hover,
+.form-contain .form-type .btn-per-hover,.form-contain .form-type .btn-org-hover,.form-contain .form-type .btn-ca-hover{
+	background:#55C6E4;
+	border:1px solid #55C6E4;
+}
+
+.form-contain .form-type {
+	width: 600px;
+	height: 29px;
+	margin: 5px;
+	border-bottom: 1px solid #BAD0DB;
+}
+
+.tip-box-contain {
+	width: 250px;
+	_width:200px;
+	height: 570px;
+	float: right;
+	margin: 5px;
+	border-left: 1px solid #BAD0DB;
+}
+.tip-box-contain .title,.tip-box-contain .content {
+	width: 200px;
+	_width: 150px;
+	height: 30px;
+	float: left;
+	margin: 5px;
+	padding-left:20px;
+	font: 14px/1.5 "Microsoft YaHei",Arial,Helvetica,sans-serif,Simsun;
+}
+.tip-box-contain .content li{
+	padding-top:30px;
+	color: #666;
+	font-size:12px;
+}
+.form-body dl {
+	padding: 0px;
+}
+
+.form-signup-body .input {
+	width: 270px;
+}
+.form-signup-body, .form-type {
+	padding-left: 40px;
+}

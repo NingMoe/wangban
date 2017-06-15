@@ -1,0 +1,167 @@
+<script type="text/javascript" src="{{PageContext.JsPath}}LEx.form.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<style type="text/css">
+.listTable tr th{
+ 	font:  13px "Trebuchet MS", Verdana, Arial;
+ 	font-weight:bold;
+ 	line-height:20px;
+ 	height:30px;
+}
+.listTable tr td {
+ 	font:  13px "Trebuchet MS", Verdana, Arial;
+ 	font-weight:bold;
+ 	line-height:20px;
+ 	height:30px;
+}
+ul.tabs li a{
+	border-top: 1px solid #bcbcbc;
+	border-right: 1px solid #bcbcbc;
+	border-left: 1px solid #bcbcbc;
+}
+a {
+    color: #6688CC;
+    cursor: pointer;
+    text-decoration: none;
+}
+a:hover {
+    color: #FF0000;
+}
+.tabs-content{
+	0px;
+}
+</style>
+<script type="text/javascript">
+	var xjtype="2";	//要展现的信件类型
+	var table = null;
+	var _calendar= null;
+	function init(){
+		_calendar= new LEx.Control.Calendar(function(){
+			contentHandler();
+		});
+		
+		var tabObj = {id:"tab"};
+		LEx.Control.Tab(tabObj);		
+		$(".tabs-base li").click(function(){			
+			xjtype=$(this).children("a").attr("xjtype");
+			onQuery();
+		});		
+		table = new LEx.Control.Table("list","template");
+		table.limit(10);
+		onQuery();	
+	}
+	
+	function onQuery(){	
+		var find_id=LEx.urldata.id;
+		var find_type=xjtype;
+		var find_depart=LEx.urldata.depart;
+		var find_keyword=LEx.urldata.keyword;		
+		
+		var cmd = new LEx.Command("app.icity.guestbook.WriteCmd");			
+		cmd.setParameter("start", table.start());
+		cmd.setParameter("limit", table.limit());
+		cmd.setParameter("OPEN@=", "1");
+		
+		if(LEx.isNotNull(find_id)){
+			cmd.setParameter("ID@=",find_id);
+			document.getElementById("title").innerHTML = title;
+		}
+	
+		if(LEx.isNotNull(find_type)){
+			cmd.setParameter("TYPE@in",find_type);
+			var title = find_type+"列表";
+		}
+		
+		if(LEx.isNotNull(find_depart)){
+			cmd.setParameter("DEPART_ID@=",find_depart);
+		}
+		
+		if(LEx.isNotNull(find_keyword)){
+			//var find_keyword="%"+find_keyword+"%";
+			cmd.setParameter("TITLE@like","%"+find_keyword+"%");
+		}
+		
+		var ret = cmd.execute("getList");
+		if(!ret.error){
+			//2.将数据传递给table对象
+			table.toBody(ret);
+			//将部门id转换为部门名称
+			//table.toKey("sys_dept","list",""); 
+			//3.加载分页控件：分页div的id，Table的实例化对象名称（字符串）,总数量，查询方法（字符串）
+			table.toPageBar("pager","table",ret.total,"onQuery()");
+		}else{
+			LEx.alert(ret.error);
+		}
+	}
+	
+	//效能监察自适用高度
+	function iFrameHeight() { 
+		var ifm= document.getElementById("effectFrm");
+		var subWeb = document.frames?document.frames["effectFrm"].document:ifm.contentDocument;
+		if(ifm!=null&&subWeb!=null){ 
+			ifm.height=subWeb.body.scrollHeight; 
+		}	
+	}	
+</script>
+<div class="fl w210">
+	{% widget "other.GuestBookLeftWidget" %} 
+</div>
+<div class="ml210">
+	<div id="tab">
+		<ul class="tabs tabs-base">
+			<li tag="list"><a id="zxcl" href="javascript:void(0);" tag="clqk" xjtype="2" class="tab active">咨询处理情况</a></li>
+			<li tag="list"><a id="tscl" href="javascript:void(0);" tag="clqk" xjtype="3" class="tab active">投诉处理情况</a></li>
+			<li tag="list"><a id="yjjycl" href="javascript:void(0);" tag="clqk" xjtype="0,5" class="tab active">意见建议处理情况</a></li>
+		</ul>
+	</div>
+	<div class="tabs-content" style="padding-top:8px;margin-top: -2px;">
+		<div id="clqk">
+			<table id="list" class="listTable" style="margin:8px auto;" width="93%">
+				<thead>
+					<tr>
+						<th style="width:10%;">类别</th>
+						<th style="width:19%;">信件来源</th>
+						<th style="width:45%;">主题</th>
+						<th style="width:16%;">来信时间</th>
+						<th style="width:10%;">处理状态</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+			<div id="pager"></div>
+		</div>
+	</div>
+</div>
+<textarea id="template" class="template" style="display:none"  style="margin-left:auto;margin-right: auto;">
+	{for o in data}
+ 		<tr>
+			<td align="center">
+			  {if o.TYPE=="0"}
+			       [建议]      
+			  {elseif o.TYPE=="1"}
+				   [表扬]
+			  {elseif o.TYPE=="2"}
+				   [咨询]
+			  {elseif o.TYPE=="3"}
+				   [投诉]	
+			  {elseif o.TYPE=="4"}
+				   [其他]
+			  {elseif o.TYPE=="5"}
+				   [意见]	  	         
+			  {/if} 
+			</td>
+			<td align="center"><a target="_blank" href="{{PageContext.ContextPath}}icity/guestbook/list?depart=${o.DEPART_ID}">${o.DEPART_NAME}</a></td>
+			<td ><a target="_blank" href="{{PageContext.ContextPath}}icity/guestbook/detail?id=${o.ID}">${o.TITLE}</a></td>
+			<td align="center">${LEx.util.Format.formatDate(o.WRITE_DATE)}</td>
+			<td align="center">
+			  {if o.STATUS=="0"}
+			       	未处理
+			  {elseif o.STATUS=="1"}
+				   	已处理
+			  {/if} 
+			</td>
+		</tr>
+	{/for}
+	{if total == 0} 
+		<tr><td colspan="5">无数据</td></tr>
+	{/if}
+</textarea>

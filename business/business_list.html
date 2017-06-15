@@ -1,0 +1,210 @@
+<script type="text/javascript"
+	src="{{PageContext.JsPath}}raty_master/lib/jquery.raty.js"></script>
+<style>
+.pages {
+	padding: 14px 0 10px;
+	font-family: 宋体;
+	text-align: center;
+}
+
+.pages a.a1 {
+	padding: 0 10px;
+}
+
+.pages a {
+	margin: 0 4px;
+	display: inline-block;
+	height: 22px;
+	line-height: 22px;
+	background: #fff;
+	border: 1px solid #d8d8d8;
+	text-align: center;
+	color: #333;
+	padding: 0 10px;
+	background-color: #fff;
+}
+
+.pages span {
+	margin: 0 4px;
+	display: inline-block;
+	height: 22px;
+	line-height: 22px;
+	background: #5a85b2;
+	border: 1px solid #5a85b2;
+	color: #fff;
+	text-align: center;
+	padding: 0 10px;
+}
+</style>
+<script type="text/javascript">
+	$.fn.raty.defaults.path = '{{PageContext.JsPath}}raty_master/lib/images/';
+</script>
+{% merge PageContext.ContextPath,"onlineapply/applyinfo?itemId=" as
+online_service_url %}
+<table class="table table-bordered">
+	<tr class="sec_tr">
+		<td><span>业务列表</span><span
+			style="float: right; height: 20px; line-height: 30px; margin-right: 10px;">
+				<span class="tag" style="margin: 0 15px;"> 当前状态: <select
+					id="select_status" onchange="bltable.pageIndex(0);onQuery()"
+					style="width: 100px; margin-top: -2px; padding: 2px">
+						<option value=''>全部</option>
+				</select>
+			</span> <!--<a href="" onclick="businessTrash();return false;" class="trash">业务回收站</a> -->
+		</span></td>
+	</tr>
+	<tr>
+		<td><form action="" method="post">
+				<ul class="list-inline">
+					<li class="col-xs-5">申办流水号:&nbsp;&nbsp; <input type="sblsh"
+						id="sblsh">
+
+					</li>
+					<li class="col-xs-7">申办时间:&nbsp;&nbsp; <input type="text"
+						style="width: 100px;" id="APPLYTIME_S" name="APPLYTIME_S" /> <img
+						src="{%public assets/img/date.jpg%}" style="margin-left: -20px;"
+						id="date1"> &nbsp;&nbsp;至&nbsp;&nbsp; <input type="text"
+						style="width: 100px;" id="APPLYTIME_E" name="APPLYTIME_E" /> <img
+						src="{%public assets/img/date2.jpg%}" style="margin-left: -20px;"
+						id="date2"> &nbsp;&nbsp;
+						<button type="button" class="btn btn-warning"
+							onclick="bltable.pageIndex(0);onQuery();return false;">查询</button>
+					</li>
+				</ul>
+
+			</form></td>
+	</tr>
+</table>
+<div class="businessList_main">
+	<div id="bldata" class="template_list"></div>
+	<div id="raiderpager_business_list"
+		style="float: left; padding-left: 100px;"></div>
+</div>
+<textarea id="template_business_list" style="display: none">
+{if data.length > 0} {for o in data}
+<table class="table table-bordered">
+	<tr class="sec_tr">
+		<td style="border-right: none;" colspan="2"><span
+				style="display: inline-block; width: 270px; padding-top: 5px;">申办流水号：${o.SBLSH}</span>
+		</td>
+
+		<td style="border-left: none; border-right: none;" colspan="2"><span
+				style="display: inline-block; padding-top: 5px;">{if o.STATE=='00' }暂存{else}申办{/if}时间:&nbsp;${o.SBSJ}</span>
+		</td>
+
+		<td style="border-left: none; width: 120px">
+			<div class="other">
+				{if o.STATE=='00' } <a
+						href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}"
+						target="_blank" class="btn btn-success btn-sm">&nbsp;&nbsp;修&nbsp;&nbsp;改&nbsp;&nbsp;</a><BR>
+				{/if} {if o.STATE=='11' } <a href="#"
+						onclick="chehui('${o.SBLSH}');" target="_self"
+						class="btn btn-success btn-sm">&nbsp;&nbsp;撤&nbsp;&nbsp;回&nbsp;&nbsp;</a><BR> 
+				{/if} {if o.STATE=='03' } <a
+						href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}"
+						target="_blank" class="btn btn-success btn-sm">&nbsp;&nbsp;编&nbsp;辑&nbsp;&nbsp;</a><BR> 
+				{/if} {if o.STATE=='14'} <a
+						href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}"
+						target="_blank" class="btn btn-success btn-sm">重新办理</a><BR> 
+				{/if} {if o.STATE=="21" } <a
+						href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}"
+						target="_blank" class="btn btn-success btn-sm">补齐补正</a><BR> {/if}
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td class="col-xs-2" style="border-right: none; width: 100px;"
+				rowspan="2"><img src="{%public assets/img/1-3.png%}"></td>
+		<td style="border-left: none;" colspan="3"><span
+				style="font-size: 18px; color: #2c87b6;">${o.SBXMMC}</span></td>
+		<td rowspan="2" align="center">
+			<span style="color: #008000; line-height: 50px;"
+				class="NeedFormatState" state="${o.STATE}"></span><BR />
+					{if o.CURRENT_STATE!='00'}								 	
+						<a href="javascript:void(0);"
+				onclick="BusinessDetail('${o.SBLSH}','${o.SXID}');"
+				style="line-height: 5px;">业务详情</a><BR />
+						
+					{/if}
+					{if o.STARLEVELID=="" && "{{ConfigInfo.AppId}}"=="chq"}
+					{if o.STATE=='99'}	
+						<a href="javascript:void(0);"
+				onclick="satisfaction('${o.SBLSH}','${o.SXID}','${o.SQRMC}');"
+				style="line-height: 50px; color: #008000;">星级测评</a>
+					{/if}
+					{elseif o.STARLEVELID!="" && "{{ConfigInfo.AppId}}"=="chq"}
+					<div style="line-height: 50px;" data-score="${o.STAR_LEVEL}" class="star_level"></div>
+					{/if}
+		</td>
+	</tr>
+
+	<tr>
+		<td style="border-left: none;" colspan="3">
+			<ul class="list-inline">
+				<li>事项名称：&nbsp;${o.SXMC}</li>
+				<li>办理部门：&nbsp;${o.SJDW}</li>
+			</ul>
+		</td>
+	</tr>
+</table>
+{/for} {else}
+	<div style="border: 1px; solid: #DCDCDC; height: 25px; padding-top: 5px; width: 785px; text-align: center; color: red;">无业务信息！</div>
+{/if}
+</textarea>
+
+<div class="center-center-item" style="display: none">
+
+	<div class="item" style="margin-top: 8px;">
+		<div class="itemhead">
+			<div class="fl" style="">
+				<b>申办流水号:</b>&nbsp;&nbsp;
+			</div>
+
+			<div class="fl" style="margin-left: 100px;">
+				{if o.SBFS=="1"||!LEx.isNotNull(o.SBFS)}<img
+					src="{{PageContext.ContextPath}}public/images/center/internet.png"
+					style="width: 22px; height: 22px; padding: 5px 0px;">{else}
+				<image
+					src="{{PageContext.ContextPath}}public/images/center/hall.png"
+					style="width:22px; height:22px; padding:5px 0px;">{/if}&nbsp;<span
+					style="position: relative; top: -11px;">${fomatterSBFS(o.SBFS)}</span>
+			</div>
+		</div>
+		<div class="itemdept" style="float: left;">
+			<div class="dept">
+				<img src="{{PageContext.ContextPath}}public/images/hall/headpic.png"
+					height="90" width="90"
+					style="display: block; border: 1px solid gray;">
+			</div>
+			<div class="info">
+				<div class="ititle">
+					<div
+						style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 310px; padding-top: 5px;"
+						title="${o.SBXMMC}">
+						<font color="green" title="${o.NAME}">${o.SBXMMC}</font>
+					</div>
+				</div>
+				<div class="detail-span"
+					style="margin: 20px 0 0 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 380px;">
+					事项名称:&nbsp; <a
+						href="{{PageContext.ContextPath}}icity/project/guide?id=${o.SXID}"
+						target="_blank" style="padding: 0px 0px;"><font></font></a>
+				</div>
+				<div style="margin: 8px 0 0 5px; display: none">
+					咨询电话:&nbsp; <font>${o.COMPLAINT_PHONE}</font>
+				</div>
+				<div style="margin: 8px 0 0 5px;">
+					办理部门:&nbsp; <font></font>
+				</div>
+			</div>
+			<div class="common detail-span">
+				<!-- <span style="color: #008000" class="NeedFormatState"
+					state="${o.STATE}"></span><BR /> -->
+				{if o.STATE!='00'} <a href="javascript:void(0);"
+					onclick="BusinessDetail('${o.SBLSH}','${o.SXID}');"
+					style="line-height: 30px;">业务详情</a> {/if}
+
+			</div>
+		</div>
+	</div>
+</div>

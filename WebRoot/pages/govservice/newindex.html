@@ -1,0 +1,394 @@
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/icity.js"></script>
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/chart/highcharts.js"></script>
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/custom.css"
+	rel="stylesheet">
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/non-responsive.css"
+	rel="stylesheet">
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/font-awesome.css"
+	rel="stylesheet">
+<link
+	href="{{PageContext.ContextPath}}public/zs/zwfw/template_files/docs.css"
+	rel="stylesheet">
+<script
+	src="{{PageContext.ContextPath}}public/zs/zwfw/template_files/docs.js"></script>
+<script>
+
+	$(function () {
+	    tj("year");
+	    tj("month");
+	    tj("day");	    
+	    roll();
+	    
+	    var type = LEx.urldata.type;
+	    
+	    if(type == undefined || type == ""){
+	    	$("#li_l-b-1").addClass("active");
+		    $("#l-b-1").addClass("active");
+	    }
+	    
+	    $("#li_"+type).addClass("active");
+	    $("#"+type).addClass("active");
+	});
+
+	//办件统计函数
+	function tj(t){
+		var options1={};
+	    var str1 = {};
+	    
+	    var colors = Highcharts.getOptions().colors,
+	        categoriesToday = ['预审','咨询','受理','即办','承诺','补办','挂起','办结'];
+	    options1 = {
+	        chart: { renderTo: t,type: 'column', height: '145' },
+	        title: { text: false },
+	        subtitle: { text: false },
+	        legend:{ enabled: false },
+	        credits:{ enabled:false },
+	        exporting: { enabled: false },
+	        plotOptions: {
+	            column: {
+	                dataLabels: {
+	                    enabled: true,
+	                    style: {
+	                        fontWeight: 'bold',
+	                        fontSize: '12px'
+	                    },
+            			padding: 0
+	                }
+	            }
+	        },
+	        tooltip: {
+	            formatter: function() {
+	                var point = this.point,
+	                    s = this.x +':<b>'+ this.y + '件';
+	                return s;
+	            }
+	        },
+	        
+	        yAxis: {
+	            title: { text: false }
+	        },
+	        xAxis: {
+	            categories: categoriesToday
+	        },
+	        series: []
+	    };
+	    
+	  	//办件统计
+	   	var command = new LEx.Command("app.icity.ServiceCmd");
+	   	command.setParameter("type",t);
+	   	var json = command.execute("getBjtj");
+	   	var colors = Highcharts.getOptions().colors;
+	   	
+	   	if(json==''||json==null){
+	   		str1 = {	data:[{y: 1,color: colors[9]},
+	   					      {y: 1,color: colors[2]},
+	   					      {y: 1,color: colors[3]},
+	   					      {y: 1,color: colors[4]},
+	   					      {y: 1,color: colors[5]},
+	   					      {y: 1,color: colors[6]},
+	   					      {y: 1,color: colors[7]},
+	   					      {y: 1,color: colors[11]}]
+	   			    };
+	   	}else{
+	   		str1 = {	  data:[{y: json[0].INTERNET,color: colors[9]},
+	   					      {y: json[0].CONSULT,color: colors[2]},
+	   					      {y: json[0].ACCEPT,color: colors[3]},
+	   					      {y: json[0].JIBAN,color: colors[4]},
+	   					      {y: json[0].CHENGNUO,color: colors[5]},
+	   					      {y: json[0].CORRECTION,color: colors[6]},
+	   					      {y: json[0].SUSPEND,color: colors[7]},
+	   					      {y: json[0].COMPLETE,color: colors[11]}]
+	   			    };
+	   	}	
+	   	
+	   	options1.series.push(str1);
+	    new Highcharts.Chart(options1);	
+	}
+	
+	function roll(){
+		var speed = 50;
+		var MyMar = setInterval(Marquee, speed);
+		roll_list.onmouseover = function() {
+			clearInterval(MyMar);
+		};
+		roll_list.onmouseout = function() {
+			MyMar = setInterval(Marquee, speed);
+		};
+	}
+	function Marquee() {
+		if (4150 - roll_list.scrollTop <= 0)
+			roll_list.scrollTop -= 4150;
+		else {
+			roll_list.scrollTop++;
+		}
+	}
+	function catalogonclick(val,obj){
+		if(val=="dept"){
+	        //location.href = "{{PageContext.ContextPath}}icity/onlineBusiness/guideto?deptid="+obj;
+	        window.open("{{PageContext.ContextPath}}govservice/guideto?deptid="+obj);
+		}
+		else{
+			//location.href ="{{PageContext.ContextPath}}icity/onlineBusiness/index?obj="+val+"&theme="+obj;
+			window.open("{{PageContext.ContextPath}}govservice/index?obj="+val+"&theme="+obj);
+		}
+	}
+	function show(){
+		window.open("http://www.zhoushan.gov.cn/web/");
+	}
+	function searchX(){
+		 var key=$(".key").val();
+		 if(!LEx.isNotNull(key)){
+			 return false;
+		 }
+		 window.open("{{PageContext.ContextPath}}icity/project/searchZS?websitetype=0&key="+ encodeURIComponent(key));
+	}
+</script>
+<style>
+.zl-list-unstyled-ggfu-3 > li {
+  padding: 4px 8px 0 8px;
+  border-bottom: 1px dashed #ddd;
+}
+.zl-list-unstyled-ggfu-3 > li p,
+.zl-list-unstyled-ggfu-3 > li span,
+.zl-list-unstyled-ggfu-3 > li time,
+.zl-list-unstyled-ggfu-3 > li em {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 5px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.zl-list-unstyled-ggfu-3 > li p {
+  width: 35%;
+  margin: 0;
+}
+.zl-list-unstyled-ggfu-3 > li span {
+  width: 15%;
+}
+.zl-list-unstyled-ggfu-3 > li time {
+  width: 10%;
+}
+.zl-list-unstyled-ggfu-3 > li em {
+  width: 9%;
+  font-style: normal;
+}
+.fl{ float:left;}
+.fr{ float:right;}
+.clear{clear: both; font-size:0px;}
+.topbg{padding:0 8px;height:36px; line-height:36px;}
+body {
+  margin: 0;
+  background:url({{PageContext.ContextPath}}public/zs/zwfw/img/zsszf-bg.jpg) no-repeat top center;
+}
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 30px;
+  padding-right: 10px;
+}
+.panel {
+  margin-bottom: 6px;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 0;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+.panel-heading {
+  padding: 7px 11px;
+  border-bottom: 1px solid transparent;
+  border-top-right-radius: -1;
+  border-top-left-radius: -1;
+}
+.zl-list-unstyled-ggfu-1 > li {
+  padding: 5px 10px 5px 15px;
+}
+</style>
+<div class="container">
+	<div class="fl topbg">
+	<A href="http://www.gov.cn/" target="_blank">中央人民政府</A> | <A href="http://www.zj.gov.cn/" target="_blank">浙江省人民政府</A>
+	</div>
+    <div class="fr topbg">
+		<A href="#" onclick="simpleChinese('http:','//','www.zhoushan.gov.cn');">简体中文</A> | 
+		<A href="http://220.191.202.231/gate/big5/www.zhoushan.gov.cn/web/">繁体中文</A> |  
+		<A href="http://mail.zhoushan.gov.cn/" target="_blank">公务邮箱</A>
+	</div>
+    <div style="padding-top:20px;">
+    <object id="FlashID" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="1020px" height="200px">
+        <param name="movie" value="{{PageContext.ContextPath}}public/zs/zwfw/img/banner.swf" />
+        <param name="quality" value="high" />
+        <param name="wmode" value="transparent" />
+        <param name="swfversion" value="8.0.35.0" />
+        <!-- 此 param 标签提示使用 Flash Player 6.0 r65 和更高版本的用户下载最新版本的 Flash Player。如果您不想让用户看到该提示，请将其删除。 -->
+        <param name="expressinstall" value="Scripts/expressInstall.swf" />
+        <!-- 下一个对象标签用于非 IE 浏览器。所以使用 IECC 将其从 IE 隐藏。 -->
+        <!--[if !IE]>-->
+        <object type="application/x-shockwave-flash" data="{{PageContext.ContextPath}}public/zs/zwfw/img/banner.swf" width="971px" height="168px">
+          <!--<![endif]-->
+          <param name="quality" value="high" />
+          <param name="wmode" value="transparent" />
+          <param name="swfversion" value="8.0.35.0" />         
+          <!--[if !IE]>-->
+        </object>
+        <!--<![endif]-->
+      </object>
+    </div>
+    <div class="clear"></div>
+</div>
+<div id="navigation" class="container">
+	<div class="navbar navbar-inverse zl-navbar" style="width:971px;">
+		<ul class="nav nav-tabs">
+			<li class=""><a href="#" data-toggle="tab" onclick="show();">首页</a>
+			</li>
+			<li id="li_l-b-1" class=""><a href="#l-b-1" data-toggle="tab">个人办事</a>
+			</li>
+			<li id="li_l-b-2" class=""><a href="#l-b-2" data-toggle="tab">法人办事</a>
+			</li>
+			<li id="li_l-b-3" class=""><a href="#l-b-3" data-toggle="tab">按部门办事</a>
+			</li>
+			<li><div
+					style="height: 24px; width: 430px; float: right; text-align: right; margin-top: -5px; line-height: 34px;">
+					站内搜索：&nbsp;&nbsp;&nbsp;&nbsp; <input
+						style="width: 180px; display: inline;" id="ItemName"
+						onblur="if(this.value==''){this.value='请输入查询关键字';}"
+						onfocus="if(this.value=='请输入查询关键字'){this.value='';}"
+						value="请输入查询关键字" class="form-control key" type="text">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" style="cursor: pointer; width: 80px;"
+						onclick="javascript:searchX();" class="btn btn-warning">查询</button>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="container">
+	<div style="width:640px;float:left">
+		<div class="panel panel-success zl-tab-ggfu-1"  style="width:640px;height:511px;margin:0 auto;">
+			<div class="panel-body tab-content"  style="overflow-y:auto; min-height:400px;">
+				<div class="tab-pane" id="l-b-1">					
+					{% widget "icity_zs.PersonalBusinessWidget" %}
+				</div>
+				<div class="tab-pane" id="l-b-2">
+					{% widget "icity_zs.CorporateBusinessWidget" %} 
+				</div>
+				<div class="tab-pane" id="l-b-3">
+					{% widget "icity_zs.getDeptWidget_szf" %}   
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="float:left;padding-left:8px;">
+		{% map "start","0","limit","7" as p_HotStat%}
+		{% command "app.icity.project.ProjectBusinessStatCmd",'getBusyInfoHotStat',p_HotStat as d_HotStat%}
+		<div class="panel panel-success" style="width:321px;height:252px;">
+			<div class="panel-heading">
+				<h3 class="panel-title">热点事项</h3>
+			</div>
+			<ul id="ul_srdsx" class="list-unstyled zl-list-unstyled-ggfu-1">
+			 	{% if d_HotStat.data %}
+					{% for o in d_HotStat.data %}
+					<li style="font-weight:normal;" class="col-xs-12" title="{{o.NAME}}">{{o.NAME|truncate:22}}</li>
+				   {% endfor %}
+				{% else %}
+			 		<li>
+			       		<div style="text-align: center;margin-top:5px;"><font>暂无数据</font></div>
+			       	</li>
+				{% endif %}	
+			</ul>
+		</div>
+		{% command "app.icity.project.ProjectBusinessStatCmd","getBusinessList" as list %}
+		<div class="panel panel-success zl-tab-ggfu-1" style="width:321px;height:252px;">
+				<div class="panel-heading">
+					<ul class="nav nav-tabs">
+					<li class="panel-title" style="width: 90px;">&nbsp;&nbsp;&nbsp;办件统计</li>
+					<li class="active"><a href="#day" data-toggle="tab">按日</a></li>
+					<li><a href="#month" data-toggle="tab">按月</a></li>
+					<li><a href="#year" data-toggle="tab">按年</a></li>
+				</ul>
+			</div><br/>
+			<div class="panel-body tab-content">
+				<div class="tab-pane active" id="day" style="height:168px;width:320px">
+					<div data-highcharts-chart="0" style="height:160px;width:270px"><div style="position: relative; overflow: hidden; width: 240px; height: 161px; text-align: left; line-height: normal; z-index: 0; left: 0.5px; top: 0.25px;" id="highcharts-0" class="highcharts-container">
+								<svg height="145" width="240" xmlns="http://www.w3.org/2000/svg" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" version="1.1">
+								<desc>Created with Highcharts 4.0.1</desc>
+								<defs>
+									<clipPath id="highcharts-1">
+										<rect height="136" width="270" y="0" x="0"></rect>
+									</clipPath>
+								</defs>
+								<rect class=" highcharts-background" fill="#FFFFFF" strokeWidth="0" height="161" width="270" y="0" x="0"></rect>
+								</svg>
+							</div></div>  
+				</div>
+				<div class="tab-pane" id="month" style="height:168px;width:320px">
+					<div data-highcharts-chart="0" style="height:160px;width:270px"><div style="position: relative; overflow: hidden; width: 240px; height: 161px; text-align: left; line-height: normal; z-index: 0; left: 0.5px; top: 0.25px;" id="highcharts-0" class="highcharts-container">
+								<svg height="145" width="240" xmlns="http://www.w3.org/2000/svg" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" version="1.1">
+								<desc>Created with Highcharts 4.0.1</desc>
+								<defs>
+									<clipPath id="highcharts-1">
+										<rect height="136" width="270" y="0" x="0"></rect>
+									</clipPath>
+								</defs>
+								<rect class=" highcharts-background" fill="#FFFFFF" strokeWidth="0" height="161" width="270" y="0" x="0"></rect>
+								</svg>
+							</div></div>  
+				</div>
+				<div class="tab-pane" id="year" style="height:168px;width:320px">
+					<div data-highcharts-chart="0" style="height:160px;width:270px"><div style="position: relative; overflow: hidden; width: 240px; height: 161px; text-align: left; line-height: normal; z-index: 0; left: 0.5px; top: 0.25px;" id="highcharts-0" class="highcharts-container">
+								<svg height="145" width="240" xmlns="http://www.w3.org/2000/svg" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" version="1.1">
+								<desc>Created with Highcharts 4.0.1</desc>
+								<defs>
+									<clipPath id="highcharts-1">
+										<rect height="136" width="270" y="0" x="0"></rect>
+									</clipPath>
+								</defs>
+								<rect class=" highcharts-background" fill="#FFFFFF" strokeWidth="0" height="161" width="270" y="0" x="0"></rect>
+								</svg>
+							</div></div>  
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	{% command "app.icity.project.ProjectBusinessStatCmd","getBusinessList" as list %}
+	<div class="panel panel-success" style="width:971px;height:290px;margin:0 0">
+		<div class="panel-heading">
+			<h3 class="panel-title">办件公告</h3>
+		</div>
+		<ul class="list-unstyled zl-list-unstyled-ggfu-3">
+			<li> <span style=" width:220px;"><strong>申报号</strong></span>
+				<p style=" width:270px;"><strong>申报事项</strong></p>
+				<span style=" width:160px;"><strong>受理单位</strong></span> 
+				<span style=" width:100px;"><strong>申报时间</strong></span> 
+				<span style=" width:100px;"><strong>承诺时间</strong></span>
+				<em style=" width:80px;"><strong>状态</strong></em> </li>
+		</ul>
+		<div id="roll_list" style="height: 192px; overflow: hidden; position: relative;">
+			<ul style="position: absolute; top: 0px; left: 0px;" id="maq" class="list-unstyled zl-list-unstyled-ggfu-3">
+				{% if list.data %} {% for o iNeedFormatState_n list.data %}
+					<li>
+						<span style="width:220px;text-align:left;">{{o.receiveNumber}}</span>
+						<p title="{{o.applySubject}}" style="width:270px;text-align:left;">{{o.applySubject|truncate:18}}</p>
+						<span title="{{o.orgName}}" style="width:160px;text-align:left;">{{o.orgName}}</span>
+						<p style="width: 100px;text-align:left;"><i class="NeedFormatTime_">{{o.acceptTime}}</i></p>
+	 					<p style="width: 100px;text-align:left;"><i class="NeedFormatTime_">{{o.limitTime}}</i></p>
+						<em style="width:80px;text-align:left;"><i class="label label-success">&nbsp;</i><i>{{o.state}}</i></em>
+					</li>
+				{% endfor %} {% else %}
+				<li>
+					<div style="text-align: center;margin-top:5px;">
+						<font>暂无业务数据</font>
+					</div>
+				</li> 
+				{% endif %}
+			</ul>
+		</div>
+	</div><br/>
+</div>

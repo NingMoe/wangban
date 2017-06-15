@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+
+<script src="{% public scripts/LEx.form.js %}"></script>
+<script>
+	var data = LEx.urldata;
+	function putin(o) {
+		var projectName = $(o).attr("projectname");
+		var projectId = $(o).attr("projectid");
+		data.projectName = projectName;
+		data.projectId = projectId;
+		data.ID="no";
+		window.location = "{{PageContext.ContextPath}}icity/engineering/onlineDeal?"
+				+ LEx.urlEncode(data);
+	}
+	function newproject() {
+		var url = "{{PageContext.ContextPath}}icity/engineering/receive?"
+				+ LEx.urlEncode(data);
+		window.location = url;
+	}
+</script>
+</head>
+<body class="page-body">
+	<div class="page" align="center">
+		<div style="overflow-y: auto" id="formdiv">
+			<div id="baseInfoTag" class="panel-heading">
+				<span class="panel-title blue"
+					style="margin-top: 0px; margin-bottom: 0px;"> <i
+					class="fa fa-file-text-o fa-1x blue"></i> &nbsp;<span
+					style="font-size: 18px">请选择项目</span></span>
+			</div>
+			<div role="tabpanel"
+				style="margin-top: 0px; margin-bottom: 0px; width: 700px;">
+				<table class="gritter-with-table " cellspacing="1" id="projectTable">
+					<tbody>
+						{% set ucid UserInfo.uid %} {% map "ucid",ucid, as l %} {% command
+						"app.icity.engineering.EngineeringCmd","getProject",l as m %} {%
+						for n in m.data %}
+						<div class="col-xs-6 text-center dept-classtype">
+							<a onclick="putin(this)" projectid={{n.PROJECT_ID}}
+								projectname={{n.PROJECT_NAME}} class="thumbnail no-bordered">
+								<div class="caption alpha omega">{{n.PROJECT_NAME}}</div>
+							</a>
+						</div>
+						{% endfor %}
+						<div style="height: 50px;"
+							class="col-xs-12 text-center dept-classtype">
+							<a class="btn btn-info" onclick="newproject()"> 新项目注册</a>
+						</div>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
+

@@ -1,0 +1,118 @@
+{% set deptid PageContext.Parameter.org_code %} {% set id
+PageContext.Parameter.id %} {% map
+"deptid",deptid,"id",id,"page","1","limit","1" as d%} {% command
+"app.icity.ServiceCmd","getSupervise",d as p%} {% set info p.data%}
+<div class="container">
+	<ol class="breadcrumb alpha omega transparent">
+		<li>当前位置</li>
+		<li><a href="{{cp}}sunny">阳光政务</a></li>
+		<li><a href="{{cp}}sunny/response">责任清单</a></li>
+		<li class="active">事中事后监管制度</li>
+	</ol>
+	<div id="page"
+		style="padding-left: 10px; padding-right: 10px; background-color: #fff;">
+		<div class="row">
+			<div class="col-xs-12">
+				<section class="panel panel-success">
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">部门名称：</h3>
+					</header>
+					<div id="base-message1" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">{% for o in info%} {% if
+									o.ORG_NAME%} {{o.ORG_NAME}} {% else %} 暂无数据！ {% endif %} {%
+									endfor%}</td>
+							</tr>
+						</table>
+					</div>
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">主题：</h3>
+					</header>
+					<div id="base-message1" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">{% for o in info%} {% if
+									o.TITLE%} {{o.TITLE}} {% else %} 暂无数据！ {% endif %} {% endfor%}
+
+								</td>
+							</tr>
+						</table>
+					</div>
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">描述：</h3>
+					</header>
+					<div id="base-message1" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">{% for o in info%} {% if
+									o.CONTENT%} {{o.CONTENT}} {% else %} 暂无数据！ {% endif %} {%
+									endfor%}</td>
+							</tr>
+						</table>
+					</div>
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">监督检查对象：</h3>
+					</header>
+					<div id="base-message1" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">{% for o in info%} {% if
+									o.SUPERVISE_OBJ%} {{o.SUPERVISE_OBJ}} {% else %} 暂无数据！ {% endif
+									%} {% endfor%}</td>
+							</tr>
+						</table>
+					</div>
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">监督检查方式和程序：</h3>
+					</header>
+					<div id="base-message1" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">{% for o in info%} {% if
+									o.SUPERVISE_MODE%} {{o.SUPERVISE_MODE}} {% else %} 暂无数据！ {%
+									endif %} {% endfor%}</td>
+							</tr>
+						</table>
+					</div>
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">监督检查措施：</h3>
+					</header>
+					<div id="base-message1" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">{% for o in info%} {% if
+									o.SUPERVISE_MEASURE%} {{o.SUPERVISE_MEASURE}} {% else %} 暂无数据！
+									{% endif %} {% endfor%}</td>
+							</tr>
+						</table>
+					</div>
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">监督检查处理：</h3>
+					</header>
+					<div id="base-message1" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">{% for o in info%} {% if
+									o.SUPERVISE_DISPOSE%} {{o.SUPERVISE_DISPOSE}} {% else %} 暂无数据！
+									{% endif %} {% endfor%}</td>
+							</tr>
+						</table>
+					</div>
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">监督检查内容：</h3>
+					</header>
+					<div id="base-message1" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">{% for o in info%} {% if
+									o.SUPERVISE_CONTENT%} {{o.SUPERVISE_CONTENT}} {% else %} 暂无数据！
+									{% endif %} {% endfor%}</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,130 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}print.css" media="print" />
+<script>
+var th=12;
+var td=12;
+var label=12;
+var span=12;
+var a=12;
+var h4=12;
+var div=12;
+$(function(){
+	th = ($("#printResult").find("th").css("font-size")==undefined?"12px":$("#printResult").find("th").css("font-size")+"").split("px")[0]*1;
+	td = ($("#printResult").find("td").css("font-size")==undefined?"12px":$("#printResult").find("td").css("font-size")+"").split("px")[0]*1;
+	label = ($("#printResult").find("label").css("font-size")==undefined?"12px":$("#printResult").find("label").css("font-size")+"").split("px")[0]*1;
+	span = ($("#printResult").find("span").css("font-size")==undefined?"12px":$("#printResult").find("span").css("font-size")+"").split("px")[0]*1;
+	a = ($("#printResult").find("a").css("font-size")+"")==undefined?"12px":$("#printResult").find("a").css("font-size").split("px")[0]*1;
+	h4 = ($("#printResult").find("h4").css("font-size")+"")==undefined?"12px":$("#printResult").find("h4").css("font-size").split("px")[0]*1;
+	div = ($("#printResult").find("div").css("font-size")+"")==undefined?"12px":$("#printResult").find("div").css("font-size").split("px")[0]*1;
+});
+function fontsize(obj){
+	$("#printResult").find("th").css("font-size",th+obj);
+	$("#printResult").find("td").css("font-size",td+obj);
+	$("#printResult").find("label").css("font-size",label+obj);
+	$("#printResult").find("span").css("font-size",span+obj);
+	$("#printResult").find("a").css("font-size",a+obj);
+	$("#printResult").find("h4").css("font-size",h4+obj);
+	$("#printResult").find("div").css("font-size",div+obj);
+}
+function closeWin(){
+	window.close();
+}
+</script>
+<div class="container"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png %}"> 您当前所在的位置:</li>
+        <li><a href="{{cp}}/public/index">首页</a></li>
+        <li><a href="javascript:void(0)">发布内容</a></li>
+    </ol>
+</div>
+<div class="container" style="width: 1030px !important;"> 
+	<div class="xlcontent">
+		<div class="main"><div id="printResult">
+			<h4 id="detailTitle"  style="text-align:center;margin-left:auto;margin-right:auto;line-height:40px;width:60%"></h4>
+			<h6 style="text-align:center;margin-left:auto;margin-right:auto;">
+				<label>来源：<span id="detailSource"></span></label> <label>发布日期：<span id="detailTime">2015-05-19</span></label> <label>字号：[<a
+					class="js_16" href="javascript:void(0)" onclick="fontsize(6);">大</a><a
+					class="js_14" href="javascript:void(0)" onclick="fontsize(4);">中</a><a
+					class="js_12" href="javascript:void(0)" onclick="fontsize(2);">小</a>]</label>
+			</h6>
+
+			<div id="xlnr" class="nr">
+				<br>
+				<style type='text/css'>
+table._self_table_style {
+	font-size: 12px;
+	border: 1px solid #90c7ee;
+	border-collapse: collapse;
+}
+
+table._self_table_style th,table._self_table_style td {
+	border: 1px solid #90c7ee;
+}
+
+table._self_table_style th {
+	line-height: 30px;
+	background-color: #ebf4fb;
+	font-family: '\5FAE\8F6F\96C5\9ED1';
+	color: #0076CF;
+}
+
+table._self_table_style td {
+	line-height: 25px;
+	padding: 0 5px;
+}
+.xlcontent .xl-bot {
+    border-top: 0px solid #666;
+    padding: 20px 0;
+    text-align: left;
+}
+</style>
+	<div id="contentDetail"></div>
+	<br>
+	<div id="files"></div>	
+			</div></div>
+			<div class="xl-bot clearfix">
+				<div class="dis-in-b mt20  float-left">
+					<p style="display:none;">
+						<a href="#" class="btn-a btn-ico01" onclick="resultprintArea()">打印</a><a href="#"
+							class="btn-a btn-ico03" onclick="closeWin();">关闭</a>
+					</p>
+				</div>
+				<!-- JiaThis Button BEGIN -->
+				<div class="dis-in-b mt20 float-right jiathis_style_24x24"
+					style="width: 200px;float:right;">
+					<div style="float: left; line-height: 35px;">分享到：</div>
+					<div class="bdsharebuttonbox">
+						<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a
+							href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a
+							href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信" style="display:none;"></a><a
+							href="#" class="bds_more" data-cmd="more"></a>
+					</div>	
+					<script>
+					window._bd_share_config = {
+							"common" : {
+								"bdSnsKey" : {},
+								"bdText" : "",
+								"bdMini" : "2",
+								"bdMiniList" : false,
+								"bdPic" : "",
+								"bdStyle" : "0",
+								"bdSize" : "24"
+							},
+							"share" : {},
+							"image" : {
+								"viewList" : [ "tsina", "tqq", "weixin" ],
+								"viewText" : "分享到：",
+								"viewSize" : "16"
+							}
+						};
+						with (document)
+							0[(getElementsByTagName('head')[0] || body)
+									.appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='
+									+ ~(-new Date() / 36e5)];
+					</script>				
+				</div>
+				<!-- JiaThis Button END -->
+			</div>
+
+		</div>
+	</div>
+</div>

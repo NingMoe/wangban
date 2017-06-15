@@ -1,0 +1,430 @@
+{% set id PageContext.Parameter.id %}
+{% if id %}
+	{% map "id",id as p %}
+	{% command "app.icity.ServiceCmd","getPermission",p as d %}
+	<!-- 事项信息 -->
+	{%  set item d.data %}
+	{% set itemInfo item.itemBasicInfo%}
+{% else %}
+	<script type="text/javascript">window.location.href="{{PageContext.ContextPath}}index";</script>
+{% endif %}	
+<!-- 材料信息 -->	
+{% set materials item.material%}
+<!-- 办理流程 -->
+{% set handlingprocess item.handlingprocess %}
+<!-- 法律依据 -->
+{% set legalbasis item.legalbasis %}
+<!-- 受理条件 -->
+{% set conditions item.condition %}
+<!-- 办事地址 -->
+{% set windows item.window %}
+<!-- 收费标准 -->
+{% set charges item.charge %}
+<!-- 常见问题 -->
+{% set question itemInfo.FAQ %}
+<!-- 流程图-->
+{% set outmaps item.outmap %}
+{% set onlineconducts item.onlineconduct %}
+<!-- 展现常见问题和表格下载标志  -->
+{% set show PageContext.Parameter.show %}
+<div class="container"> 
+    <ol class="breadcrumb">	
+        <li><img src="{%public assets/img/current_home.png%}"> 您当前所在的位置:</li>
+        <li><a href="{{cp}}public/index">首页</a></li>
+        <li><a href="{{cp}}icity/project">办事服务</a></li>
+        
+    </ol>
+</div>
+<div class="container"> 
+    <div class="table-table">
+        <div class="table-cell its-aside">
+            <nav class="sidebar its-sidebar text-center">
+                <h4 class="sidebar-header">
+                    <strong>事项类型</strong>
+                </h4>
+                <p style="font-size: 15px; margin-top: 10px;">{% if itemInfo.TYPE|equal:'XK' %}
+			 		行政许可
+				{% else %}
+				{% if itemInfo.TYPE|equal:'QZ' %}
+				行政强制
+				{% else %}
+					{% if itemInfo.TYPE|equal:'JF' %}
+					行政给付
+					{% else %}
+						{% if itemInfo.TYPE|equal:'FW' %}
+						行政服务
+						{% else %}
+							{% if itemInfo.TYPE|equal:'BM' %}
+							便民服务
+							{% else %}
+							非行政许可
+							{% endif %}	
+						{% endif %}	
+					{% endif %}	
+				{% endif %}
+			{% endif %}
+			</p>
+                <h4 class="sidebar-header">
+                    <strong>事项编码</strong>
+                </h4>
+                <p style="font-size: 15px; margin-top: 10px;">{{itemInfo.INNER_CODE}}</p>
+                <h4 class="sidebar-header">
+                    <strong>所属部门</strong>
+                </h4>
+                <p style="font-size: 15px; margin-top: 10px;">{{itemInfo.ORG_NAME|truncate:'30','...'}}</p>
+                <h4 class="sidebar-header">
+                    <strong>实施对象</strong>
+                </h4>
+                <p style="font-size: 15px; margin-top: 10px;">{% if itemInfo.SERVICE_OBJECT|equal:'0' %}
+			 	个人
+			{% else %}
+			{% if itemInfo.SERVICE_OBJECT|equal:'1' %}
+				企业
+			{% else %}
+				个人和企业
+			{% endif %}
+			{% endif %}</p>
+                <h4 class="sidebar-header">
+                    <strong>本事项支持</strong>
+                </h4 class="sidebar-header">
+                {%if itemInfo.IS_ONLINE|equal:'1'%}
+	               {%for onlineconduct in onlineconducts%}
+	               {%if loop.counter|equal:'1'%}
+		                {% if onlineconduct.CONDUCT_DEPTH|equal:'3' %}
+					 	<a><p style="font-size: 15px; margin-top: 10px;">事项公开 </p></a>
+						{% else %}
+							{% if onlineconduct.CONDUCT_DEPTH|equal:'2' %}
+							<a  href="javascript:;" target="_blank"><p style="font-size: 15px; margin-top: 10px;">在线预审</p></a>
+							{% else %}
+								{% if onlineconduct.CONDUCT_DEPTH|equal:'1' %}
+								<a  href="{{cp}}icity/submitsp/baseinfo?itemId={{id}}" target="_blank"><p style="font-size: 15px; margin-top: 10px;">全程网办 </p></a>
+								{% endif %}	
+							{% endif %}	
+						{% endif %}	
+					{% endif %}	
+					{% endfor %}
+				{% else %}	
+				<a><p style="font-size: 15px; margin-top: 10px;">事项公开 </p></a>	
+             	{% endif %}	
+                <a class="sidebar-header block" href="{{cp}}icity/result?itemId={{id}}" target="_blank">
+                    <strong>结果公示</strong>
+                </a>
+                <a class="sidebar-header block" href="{{cp}}message?item_id={{id}}&item_code={{itemInfo.CODE}}&item_name={{itemInfo.NAME}}&org_code={{itemInfo.ORG_CODE}}&org_name={{itemInfo.ORG_NAME}}" target="_top">
+                    <strong>我要咨询</strong>
+                </a>
+                <a class="sidebar-header block" href="{{cp}}uinfo?folder=active&tag=business_complaint_list" target="_blank">
+                    <strong>我要投诉</strong>
+                </a>
+                <a class="sidebar-header block" href="javascript:void(0)"  item_id="{{id}}" item_code="{{itemInfo.CODE}}" item_name="{{itemInfo.NAME}}" onclick="addFaveriot(this);" >
+                    <strong>我要收藏</strong>
+                </a>
+                <a class="sidebar-header block" href="{{cp}}govservice/SeeEvaluation?name={{itemInfo.NAME}}&id={{id}}" target="_blank">
+                    <strong>办件评价</strong>
+                </a>
+            </nav>
+        </div>
+        <div class="table-cell its-page">
+            <section class="its-page-body">
+                <div style="padding: 0 60px;">
+                    <h3 class="text-center" style="line-height: 1.75;">{{itemInfo.NAME}}</h3>
+                    <br>
+                    <table class="table table-bordered its-table-overview">
+                        <tbody>
+                            <tr>
+                                <th class="text-center" width="20%">实施主体</th>
+                                <td width="30%">{{itemInfo.ORG_NAME|truncate:'30','...'}}</td>
+                                <th class="text-center" width="20%">承办机构</th>
+                                <td width="30%">{{itemInfo.ORG_NAME|truncate:'30','...'}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">共同实施部门</th>
+                                <td>{{itemInfo.ORG_NAME_ITEM}}</td>
+                                <th class="text-center">办理情况公开范围</th>
+                                <td>
+                                	{% if itemInfo.IS_PUBLIC|equal:'1' %}
+										公开
+									{% else %}
+										不公开
+									{% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">法定时限</th>
+                                <td>{{itemInfo.LAW_TIME}}个工作日</td>
+                                <th class="text-center">承诺期限</th>
+                                <td>{%if itemInfo.AGREE_TIME|equal:'0' %}
+                                    		             即办
+                                    	{% else %}
+									    	{{itemInfo.AGREE_TIME}}个工作日	
+									    {% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">咨询电话</th>
+                                <td>{% for window in windows %}
+                                    {{window.PHONE}}
+                                    {% endfor %}</td>
+                                <th class="text-center">投诉电话</th>
+                                <td>{% for window in windows %} 
+                                		{{window.COMPLAINT_PHONE}}
+                                	{% endfor %}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th class="text-center">是否收费</th>
+                                <td>{% if itemInfo.IS_CHARGE|equal:'1' %}
+								收费
+							{% else %}
+								不收费
+							{% endif %}</td>
+                                <th class="text-center">是否可以在线申报</th>
+                                <td>{% if itemInfo.IS_ONLINE|equal:'1' %}
+                                	 是
+								{% else %}
+									否
+								{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">受理地点、时间</th>
+                                <td colspan="3">受理地点：{% for window in windows %} {{window.ADDRESS}}{% endfor %}  受理时间：{% for window in windows %} {{window.OFFICE_HOUR}}{% endfor %}<a href="{{cp}}icity/locationinfo?matter=&deptid={{itemInfo.ORG_CODE}}" target="_blank"> <img src="{%public assets/img/proinfo_xw.png%}"></a></td>
+                            </tr> 
+                        </tbody>
+                    </table>
+                    <br>
+                    <h5 style="border-top: solid 2px #d6d6d6;">
+                        <span style="display: inline-block; margin-top:-2px; border-top:solid 2px #2e5c8e; color: #315f91; padding: 15px 20px 5px 20px; font-size: 15px; ">实施依据</span>
+                    </h5>
+                    <div style="padding: 0 20px; line-height: 2;">
+                    	{% if legalbasis %}
+  						{% for lawinfo in legalbasis %}
+   							<strong>{{loop.counter}}、</strong>			   						   				
+   						{% if lawinfo.URL|cut:' '|length|equal:'0'|not %}
+   						<strong><a href="javascript:void(0);" tag="law" url="{{lawinfo.URL}}" class="htmlhref">{{lawinfo.NAME}}</a></strong><br/>	
+   						{% else %}
+   							<strong>{{lawinfo.NAME}}：</strong>{{lawinfo.CONTENT}}<br/>
+   						{% endif %}		   					   				
+   						{% endfor %}			   				
+					{% else %}
+   							无
+   					{% endif %}
+                    </div>
+                    <br>
+                    <h5 style="border-top: solid 2px #d6d6d6;">
+                        <span style="display: inline-block; margin-top:-2px; border-top:solid 2px #2e5c8e; color: #315f91; padding: 15px 20px 5px 20px; font-size: 15px; ">实施依据内容摘要</span>
+                    </h5>
+                   <div style="padding: 0 20px; line-height: 2;">
+                        {% if legalbasis %}
+  						{% for lawinfo in legalbasis %}
+   							<strong>{{loop.counter}}、</strong>			   						   				
+   						{% if lawinfo.URL|cut:' '|length|equal:'0'|not %}
+   						<strong><a href="javascript:void(0);" tag="law" url="{{lawinfo.URL}}" class="htmlhref">{{lawinfo.NAME}}</a></strong><br/>	
+   						{% else %}
+   							<strong>{{lawinfo.NAME}}</strong><br/>
+   						{% endif %}		   					   				
+   						{% endfor %}			   				
+					{% else %}
+   							无
+   					{% endif %}
+                    </div>
+                    <br>
+                    <h5 style="border-top: solid 2px #d6d6d6;">
+                        <span style="display: inline-block; margin-top:-2px; border-top:solid 2px #2e5c8e; color: #315f91; padding: 15px 20px 5px 20px; font-size: 15px; ">收费（征收）的标准及依据</span>
+                    </h5>
+                    <div style="padding: 0 20px; line-height: 2;">              
+                        {% if charges %}
+  						{% for charge in charges %}
+   							<strong>{{loop.counter}}、</strong>
+   						<strong>费用名称：</strong>{{charge.NAME}}
+   						<strong>收费依据：</strong>{{charge.BASIS}}
+   						<strong>收费标准：</strong>{{charge.STANDARD}}</br>
+   						{% endfor %}			   				
+					{% else %}
+   							无
+   					{% endif %}
+                    </div>
+                    <br>
+                    <h5 style="border-top: solid 2px #d6d6d6;">
+                        <span style="display: inline-block; margin-top:-2px; border-top:solid 2px #2e5c8e; color: #315f91; padding: 15px 20px 5px 20px; font-size: 15px; ">受理条件</span>
+                    </h5>
+                    <div style="padding: 0 20px; line-height: 2;">
+                    {% if conditions %}
+  						{% for condition in conditions %}
+  							<div><strong>{{loop.counter}}、{{condition.NAME}}</strong></div>
+   							{% endfor %}			   				
+						{% else %}
+   							无
+   					{% endif %}
+                    </div>
+                    <br>
+                    <h5 style="border-top: solid 2px #d6d6d6;">
+                        <span style="display: inline-block; margin-top:-2px; border-top:solid 2px #2e5c8e; color: #315f91; padding: 15px 20px 5px 20px; font-size: 15px; ">申报材料</span>
+                    </h5>
+                    <table class="table table-bordered">
+                        <tbody>
+                            
+                            {% if materials %}	
+                            <tr>
+                                <td class="text-center" width="400px;">材料名称</td>
+                                <td class="text-center" width="200px;">材料形式</td>
+                                <td class="text-center" width="100px;">材料必要性</td>
+                                <td class="text-center" width="100px;">备注</td>
+                                <td class="text-center" width="100px;">下载样表</td>
+                            </tr>			   		
+		   						{% for material in materials %}
+                            <tr>
+                                <td>{{material.NAME}}</td>
+                                <td class="text-center">
+                                {%if material.ORIGIN|equal:'0'|not %}原件{{material.ORIGIN}}份&nbsp;{%endif%}
+		   						{%if material.COPY|equal:'0'|not %}复印件{{material.COPY}}份&nbsp;{%endif%}
+		   						</td>
+                                <td class="text-center">
+                                {%if material.MUST|equal:'0'|not %}必要&nbsp;{%else%}非必要&nbsp;{%endif%}
+                                </td>
+                                <td class="text-center">{{material.REMARK}}</td>
+                                <td class="text-center">
+                                	{% if material.FILE_URL|cut:' '|length|equal:'0'|not %}
+			   						<span style="color: #999;font-size: 12px">[&nbsp;
+			   						<a href="{{PageContext.ContextPath}}{{material.FILE_URL}}" style="color: #999;font-size: 12px">下载</a>&nbsp;]</span>
+			   						{% endif %}
+			   					<input id="material_{{material.CODE}}" type="hidden" value="{{material.CODE}}" />
+                    			<input id="material_{{material.NAME}}" type="hidden" value="{{material.NAME}}" />
+                    			<input id="simple" type="hidden" value="{{itemInfo.ID}}" />
+<!-- 			   					<a type="button" id="process_{{material.CODE}}" title="{{material.CODE}}" target="_blank" class="btn btn-primary" onclick="showProcess(this);" ><i class="fa fa-check"></i> 如何办理</a> -->
+			   						{% if material.SAMPLE_NAME|cut:' '|length|equal:'0'|not %}
+			   					<a type="button" id="download_{{material.CODE}}" title="{{material.CODE}}" target="_blank" class="btn btn-primary" onclick="showDownload(this);" ><i class="fa fa-check"></i> 样表下载</a>
+			   						{% endif %}
+			   					<div id="dprocess{{material.CODE}}" style="display: none;"></div>
+			   					<div id="ddownload{{material.CODE}}" style="display: none;"></div>
+                                </td>
+                            </tr>
+                            	{% endfor %}
+		   						{% else %}
+		   							无
+		   						{% endif %}
+                        </tbody>
+                    </table>
+                    <h5 style="border-top: solid 2px #d6d6d6;">
+                        <span style="display: inline-block; margin-top:-2px; border-top:solid 2px #2e5c8e; color: #315f91; padding: 15px 20px 5px 20px; font-size: 15px; ">办理流程</span>
+                    </h5>
+                    <div style="padding: 0 20px; line-height: 2;">
+                    {% for outmap in outmaps %}
+						<img style="max-width:680px; width:expression(width>680?"680px":width+"px");max-width: 680px; overflow:hidden;border:1px solid #f1f1f1;background:white;" border='0' alt="办事流程图" src="{{cp}}bsp/uploadify?action=downloadFileToServer&path={{outmap.URL}}&name={{outmap.FILE_NAME}}&download=no">
+                    {% endfor %}
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+    </div>
+</div>
+ <script type="text/template" id="MattersListTemplate">
+	  {if LEx.isNotNull(SAMPLE_NAME)&&LEx.isNotNull(SAMPLE)}
+	  <div style="color: red;">请点击样表名称下载</div><br>
+	  {var samples=SAMPLE_NAME.split(";")}
+	  {var docids=SAMPLE.split(";")}
+		 {if samples.length>0}
+		 	{for sample in samples}
+		 	{if LEx.isNotNull(sample)}
+			<a class="btn btn-xs btn-link" href="${dick_url+'&path='+docids[sample_index]+'&name='+sample}">${sample}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		 	{/if} 
+			{/for}
+		 {/if}
+	  {/if}
+</script>
+<script type="text/template" id="ProcessTemplate">
+	    <div><h4>${NAME}</h4>
+		材料说明：<div width="100%" style="border: 1px solid #eeeeee;border-top: 2px solid #4aabf8;background-color: #f9fafb;padding: 5px 10px;">${EXPLAIN}</div><br>
+		怎么办理：<div width="100%" style="border: 1px solid #eeeeee;border-top: 2px solid #4aabf8;background-color: #f9fafb;padding: 5px 10px;">${HOW_TRANSACT}</div><br>
+		去哪办理：<div width="100%" style="border: 1px solid #eeeeee;border-top: 2px solid #4aabf8;background-color: #f9fafb;padding: 5px 10px;">${WHERE_TRANSACT}</div><br>
+		</div>
+</script>
+<script>
+var dick_url =LEx.webPath+ "bsp/uploadify?action=downloadagent4wp";
+$(function(){
+SPsxChange();
+
+});
+function showProcess(obj){
+	LEx.dialog({
+        id: 'SampleProcess',
+        title:'材料助手',
+        fixed: true,
+        lock: true,
+        opacity: .1,
+        width: 500,
+        content: $("#dprocess"+obj.title).html(),
+        ok: function () {
+        	return;
+        }
+    });
+}
+function showDownload(obj){
+	LEx.dialog({
+        id: 'SampleDownload',
+        title:'样表下载',
+        fixed: true,
+        lock: true,
+        opacity: .1,
+        content: $("#ddownload"+obj.title).html(),
+        ok: function () {
+        	return;
+        }
+    });
+}
+function SPsxChange(){
+    //获取事项材料表格
+    var limit=200;
+    var start=1;
+    var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	//cmd.setParameter("itemid",$("#simple").val());//"3DACC6AB361F40C2B50F4E6FAADC1AD8"
+	cmd.setParameter("itemid",$("#simple").val());
+	var ret =  cmd.execute("getAllItemInfoByItemID");
+	if(!ret.error){
+	    var len = ret.data.length;
+	    for(var i=0;i<len;i++){
+	    	$("#ddownload"+ret.data[i].CODE).html(LEx.processDOMTemplate("MattersListTemplate",ret.data[i]));
+	    }	   		
+	}else{
+		alert(ret.error);//打印错误信息
+	}
+}
+function addFaveriot(o) {
+	if (!LEx.isNotNull(LEx.userInfo)) {
+		LEx.dialog({
+			lock : true,
+			content:"您需要先进行登录 ",
+			width:180,
+			height:50,
+			button:[
+			        {
+	                 name:"立即前往",
+	                 callback: function(ucPath,loginType) {
+	                	 var redirectTo=LEx.webPath+"login?goto="+encodeURIComponent(window.location.href);
+	                		window.location.href = redirectTo;
+	                	    return false;
+	                 },
+	                 focus: true
+	                 },{
+	                name:"随便逛逛"
+			}]
+		})
+		return false;
+	}
+		var cmd = new LEx.Command("app.icity.favorite.ProjectFavoriteCmd");
+		cmd.setParameter("SXID", $(o).attr("item_id"));
+		cmd.setParameter("SXBM", $(o).attr("item_code"));
+		cmd.setParameter("SXMC", $(o).attr("item_name"));
+		var ret = cmd.execute("addFaveriot");
+		if (ret.state == 1) {
+			if (ret.data[0].collect==1){
+				LEx.alert("该事项已收藏！")
+			}
+			if(ret.data[0].collect==0){
+			LEx.alert("收藏成功！");
+		}
+		} else {
+			LEx.alert(ret.error);
+		}
+		
+}
+</script>

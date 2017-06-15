@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ConfigInfo.AppTitle}}</title>
+<script type="text/javascript">
+		{% set cp PageContext.ContextPath %}
+		var __webPath = "{{cp}}";
+		var __signature = "{{PageContext.SignatureInfo}}";
+	</script>
+<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+ <link href="{% public mobile/css/bootstrap.min.css %}" rel="stylesheet">
+ <link href="{% public mobile/css/mine.css %}" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>-->
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <!--<!--<script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script type="text/javascript">
+		plugin.add('dialog', {
+			path: '{{cp}}public/scripts/dialog/a?t=js&m=jquery.artDialog.js,plugins/iframeTools.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['dialog_css']
+		});
+		plugin.add('dialog_css', {
+			path: '{{cp}}public/scripts/dialog/skins/default.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		plugin.add('tree', {
+			path: '{{cp}}public/scripts/zTreeStyle/jquery.ztree.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['tree_css']
+		});
+		plugin.add('tree_css', {
+			path: '{{cp}}public/scripts/zTreeStyle/zTreeStyle.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		
+		plugin.add('calendar', {
+			path: '{{cp}}public/scripts/calendar/calendar-min.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['calendar_css']
+		});
+		plugin.add('calendar_css', {
+			path: '{{cp}}public/scripts/calendar/calendar-min.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		plugin.add('editor',{path:'{{cp}}public/scripts/kindeditor/kindeditor-min.js',type:'js',charset:'utf-8'});
+		plugin.add('fullCalendar',{
+			path:'{{cp}}public/scripts/fullcalendar/fullcalendar.js',
+			type:'js',
+			charset:'utf-8',
+			rely: ['jquery_ui']
+		});
+		
+		plugin.add('jquery_ui',{
+			path:'{{cp}}public/scripts/fullcalendar/jquery-ui-1.10.2.custom.min.js',
+			type:'js',
+			charset:'utf-8',
+			rely: ['fullCalendar_css']
+		});
+		
+		plugin.add('fullCalendar_css',{
+			path:'{{cp}}public/scripts/fullcalendar/a?t=css&m=fullcalendar.css,fullcalendar.print.css',
+			type:'css',
+			charset:'utf-8'
+		});
+	</script>
+</head>
+<body>
+	{% include PageContext.HtmlName %}
+	<script type="text/javascript">
+	{% if UserInfo %}
+	LEx.userInfo = {{UserInfo}}
+	{% else %}
+	LEx.userInfo = null;
+	{% endif %}
+	{% if PageContext.JsName %}
+	{% include PageContext.JsName %}
+	{% endif %}
+	</script>
+</body>
+</html>
+
+		

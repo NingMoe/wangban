@@ -1,0 +1,138 @@
+   <div class=" navbar-static-top ex-navbar-topbar">
+    <div class="container">
+        <ul class="nav navbar-nav" >
+            <li><a href="#">{{ConfigInfo.Welcome_str}}</a></li>
+        </ul></div></div>
+        
+ <!------banner---->   
+  <div class="container" >
+    <object id="FlashID" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="1020" height="180">
+       <param name="movie" value="{{cp}}{{ConfigInfo.Webtop_flash}}" />
+       <param name="quality" value="high" />
+       <param name="wmode" value="opaque" />
+       <param name="swfversion" value="6.0.65.0" />
+       <!-- 此 param 标签提示使用 Flash Player 6.0 r65 和更高版本的用户下载最新版本的 Flash Player。如果您不想让用户看到该提示，请将其删除。 -->
+       <param name="expressinstall" value="{{cp}}public/zs/szw/Scripts/expressInstall.swf" />
+       <!-- 下一个对象标签用于非 IE 浏览器。所以使用 IECC 将其从 IE 隐藏。 -->
+       <!--[if !IE]>-->
+       <object type="application/x-shockwave-flash" data="{{cp}}public/zs/szw/Scripts/szw.swf" width="1020" height="180">
+         <!--<![endif]-->
+         <param name="quality" value="high" />
+         <param name="wmode" value="opaque" />
+         <param name="swfversion" value="6.0.65.0" />
+         <param name="expressinstall" value="{{cp}}public/zs/szw/Scripts/expressInstall.swf" />
+         <!-- 浏览器将以下替代内容显示给使用 Flash Player 6.0 和更低版本的用户。 -->
+         <div>
+           <h4>此页面上的内容需要较新版本的 Adobe Flash Player。</h4>
+           <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="获取 Adobe Flash Player" width="112" height="33" /></a></p>
+         </div>
+         <!--[if !IE]>-->
+       </object>
+       <img src="" id="szw_logo_img"  style=" position:absolute; top:60px;margin-left:-15px;z-index:1;width:800px;height:100px;">
+       <!--<![endif]-->
+    </object>
+    
+  </div>
+ <!-------end banner----->
+ <!-------navbar----->   
+   <div class="container">
+     <nav id="navbar-example" class="navbar navbar-default navbar-static" >
+      <div class="container-fluid">
+       
+        <div class="collapse navbar-collapse bs-example-js-navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li > <a href="index" >首&nbsp;&nbsp;&nbsp;&nbsp;页 </a></li>
+            <li > <a href="javascript:void(0);" onclick='javascript:getList("单位概况");' >单位概况 </a></li>
+            <li><a href="{{ConfigInfo.Xingzhengsp_href}}" target="_blank">行政审批服务</a></li>
+            <li><a href="{{ConfigInfo.Gonggongzy_href}}" target="_blank">公共资源交易</a></li>
+            <li><a href="{{ConfigInfo.Zhengwugongkai_href}}" target="_blank">政务公开</a></li>
+            <li><a href="{{cp}}public/networknav" target="_blank">一网导航</a></li>
+          </ul>
+          
+        </div>
+      </div>
+    </nav>
+ 
+  </div>   
+    
+<div class="container">
+         <div class="navbar-content">
+         <div class="col-xs-6" style=" margin-top:5px;height:5px">
+         <div class="col-xs-3" style="width:180px">
+         <span>
+         <script type="text/javascript">
+         function showDate() { 
+             var todayDate = new Date(); 
+             var date = todayDate.getDate();
+             var month = todayDate.getMonth() + 1;
+             var year = todayDate.getYear();
+             year = (year<1900?(1900+year):year);
+            // if (navigator.appName == "Netscape") {
+                 document.write(year); 
+                 document.write("年");
+                 document.write(month);
+                 document.write("月");
+                 document.write(date);
+                 document.write("日");
+              //   }
+            
+             document.write("&nbsp;");
+             if (todayDate.getDay() == 5) document.write("星期五") 
+             if (todayDate.getDay() == 6) document.write("星期六")
+             if (todayDate.getDay() == 0) document.write("星期日")
+             if (todayDate.getDay() == 1) document.write("星期一") 
+             if (todayDate.getDay() == 2) document.write("星期二")
+             if (todayDate.getDay() == 3) document.write("星期三") 
+             if (todayDate.getDay() == 4) document.write("星期四") 
+              } 
+         showDate();
+         </script>
+         </span>
+         </div>
+         <div style="margin-left: 200px"><iframe scrolling="no" allowtransparency="true"
+						src="http://i.tianqi.com/index.php?c=code&id=34&icon=1&num=3&py=zhoushan"
+						frameborder="0" height="20" width="280"></iframe></div>
+         </div>
+         <div class="col-xs-6">
+             <form class="form-search">  
+      <div class="input-append">  
+        <input name="contentkey" id="contentkey" type="text" class="span2 search-query key" placeholder="请输入关键字查询">  
+        <button type="button" class="btn" onclick="javascript:searchX();">站内搜索</button>  
+      </div>  
+      
+    </form>  
+    </div>
+         </div> 
+</div>
+        
+<!-------end nav---->
+<script type="text/javascript">
+$(function(){
+	$("#szw_logo_img").attr("src","{{cp}}file/zs/szw/logo/logo_{{ConfigInfo.WebRegion}}.png");
+});
+</script>
+
+<script>
+function getList(str){
+	window.open("{{cp}}szw/contentlist?cid=" + str);
+}
+function getMore() {             
+	 $("#myTab li").each(function () {                 
+	 if ($(this).prop('outerHTML').indexOf("active") >= 0) {                     
+	 if ($(this).attr("tid") != undefined) {                        
+	 getList($(this).attr("tid"));                     
+	 }                
+	 }            
+	 });        
+	 } 
+function getContent(str) {             
+	window.open("{{cp}}szw/content?id=" + str);       
+	 }   
+function searchX(){
+	 var key=$(".key").val();
+	 if(!LEx.isNotNull(key)){
+		 return false;
+	 }
+	 window.open("{{cp}}szw/searchSzw?websitetype=1&key="+ encodeURIComponent(key));
+}
+</script>

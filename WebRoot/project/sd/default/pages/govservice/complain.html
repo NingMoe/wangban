@@ -1,0 +1,167 @@
+<body style="background-color: #f5f5f5;">
+<div class="container"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png %}"> 您当前所在的位置:</li>
+        <li><a href="{{cp}}/public/index">首页</a></li>
+        <li><a href="javascript:void(0)">办件投诉</a></li>
+    </ol>
+</div>
+<div class="container"> 
+    <div class="table-table">
+        <div class="table-cell its-aside">
+            <nav class="sidebar its-sidebar">
+                <h4 class="sidebar-header" data-toggle="collapse" href="#collapseOne">
+                    <img src="{%public assets/img/abm_bszx.png %}"><strong>办件投诉</strong>
+                </h4>
+                <ul class="nav sidebar-nav collapse in" id="collapseOne">
+                    <li><a href="{{cp}}govservice/robot" >智能机器人</a></li>
+                    <li><a href="{{cp}}govservice/question">常见问题</a></li>
+                    <li><a href="{{cp}}govservice/message">留言咨询</a></li>
+                    <li class="active"><a href="javascript:void(0)" >办件投诉</a></li>
+                    <li><a href="{{cp}}govservice/phonenum" >部门咨询电话</a></li>
+                </ul>
+            </nav>
+        </div>
+     
+        <div class="table-cell its-page" id="liuyan">
+          
+            <section class="its-page-body">
+                <section class="panel panel-default" style="border-color: #bacbda;">
+                    <header class="" style="border-bottom: 1px solid #bacbda;">
+                        <h3 class="panel-title inline-block" style=" padding: 15px 25px; border-bottom: 3px solid #29588c; margin-bottom: -2px;"><strong>办件投诉</strong></h3>
+                    </header>
+                    <table class="table table-form">
+                        <tbody>
+                            <tr>
+                                <td class="text-right" width="15%"><strong style="color: red;">*</strong> 我的姓名：</td>
+                                <td width="30%"><input class="form-control" id="username"  type="text" value={{UserInfo.userName}}></td>
+                                <td width="30%"></td>
+                                <td width="25"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right"><strong style="color: red;">*</strong> 电话号码：</td>
+                                <td><input class="form-control" id="phone" type="text" value={{UserInfo.mobile}}></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                             <tr>
+                                <td class="text-right"><strong style="color: red;">*</strong> 联系地址：</td>
+                                <td><input class="form-control"  id="address" type="text"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+							<tr>
+                                <td class="text-right"><strong style="color: red;">*</strong> 办件名称：</td>
+                                <td><input class="form-control" readonly="readonly" id="busi_id" code="" type="text"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right"><strong style="color: red;">*</strong> 标题：</td>
+                                <td colspan="2"><input class="form-control" id="title" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">投诉类型：</td>
+                                <td colspan="2">办事效率<input name="complaintype" type="checkbox" value="办事效率">
+                                &nbsp;&nbsp;&nbsp;服务态度<input name="complaintype" type="checkbox" value="服务态度"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right"><strong style="color: red;">*</strong> 投诉内容：</td>
+                                <td colspan="2"><textarea class="form-control" id="content" rows="8"></textarea></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right"><strong style="color: red;">*</strong>是否公开：</td>
+                                <td colspan="2">是<input name="publicity" value="1" type="radio">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;否<input name="publicity" value="0" checked="checked" type="radio"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <button type="submit" class="btn btn-primary" onclick="Onsubmit()">&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                    <button type="submit" class="btn btn-default" onclick="empty()">&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+            <input type="hidden" id="depart_name" value="" />
+        </div>    
+      </div>
+    </div>
+</div>
+$(function(){
+	$("#busi_id").val(LEx.urldata.sbxmmc);
+	$("#busi_id").attr("code",LEx.urldata.sblsh);
+	initData();
+});
+function empty(){	
+	$("#username").val("");
+	$("#phone").val("");
+	$("#address").val("");
+	$("#busi_id").val("");
+	$("#title").val("");
+	$("#content").val("");
+}
+ function Onsubmit(){	
+	    var cmd = new LEx.Command("app.icity.guestbook.WriteCmd");
+	    if($("#username").val()=="" || $("#depart_name").val()=="" || $("#title").val()=="" || $("#content").val()==""|| $("#phone").val()==""|| $("#address").val()=="")
+	    {
+	    	LEx.alert("请填入必填项");
+	    	return false;
+	    } 
+	    cmd.setParameter("USERNAME",$("#username").val());
+	    cmd.setParameter("BUSI_ID",$("#busi_id").attr("code"));
+	    cmd.setParameter("PHONE",$("#phone").val());
+	    cmd.setParameter("ADDRESS",$("#address").val());
+	    cmd.setParameter("TITLE",$("#title").val());
+	    cmd.setParameter("CONTENT",$("#content").val());
+	    cmd.setParameter("SXID",LEx.urldata.sxid);
+	    cmd.setParameter("SXMC",LEx.urldata.sxmc);
+	    cmd.setParameter("DEPART_NAME",$("#depart_name").val());
+	    cmd.setParameter("OPEN",$("input[name=publicity]:checked").val());
+	    var complaintype = '';
+	    $("input[name=complaintype]:checked").each(function(){
+	    	complaintype += $(this).val()+",";
+	    });
+	    cmd.setParameter("COMPLAIN_TYPE",complaintype.substring(0, complaintype.length-1));
+		var ret = cmd.execute("insertInfo3"); 
+	    if(ret.error){
+			errorDialog("系统提示信息", ret.error);
+			return false;
+		} else {
+	    	$("#username").val("");
+	    	$("#phone").val("");
+	    	$("#address").val("");
+	    	$("#depart_name").val("");
+	    	$("#title").val("");
+	    	$("#content").val("");
+		    LEx.alert(ret.message);
+		}
+	}
+ function checkLogin() {
+	if ($("#username_gm").val()=="" || $("#username_gm").val()== null){
+		{redirectTo = LEx.webPath+"bsp/login_lc?goto="+encodeURIComponent(window.location.href);}
+		window.location.href = redirectTo;}else{
+			window.open("{{cp}}govservice/message"); 
+	}
+}
+function initData(){
+	var cmd = new LEx.Command("app.icity.project.ProjectIndexCmd");
+	cmd.setParameter("SBLSH",LEx.urldata.sblsh);
+	var ret = cmd.execute("BusinessQueryByNameAndId"); 
+	if(ret.error){
+		errorDialog("系统提示信息", ret.error);
+		return false;
+	     }
+    else{
+    	$("#depart_name").val(ret.data.SJDW);
+	   }
+	
+}
+</script>
+</body>

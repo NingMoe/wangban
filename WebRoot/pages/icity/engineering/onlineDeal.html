@@ -1,0 +1,110 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.PagePath}}icity/submitsp/all.css" /> 
+<script src="{% public scripts/LEx.form.js %}"></script>
+<style type="text/css">
+input.date{background: #fff url({% public images/input_date.png %}) no-repeat right 3px;border:1px solid #848484;height:28px;width:100%; margin:0 5px 0 0;padding:2px 0 2px 5px; font-family: Verdana, Geneva, sans-serif,"宋体";font-size:12px;}
+.input_validation-invalid {border: 1px solid #F00;color: #F00;}
+.input_validation-valid {border: 1px solid #333;color: #333;}
+.DynarchCalendar-topCont{width:200px;}
+table.t1 {width: 900px;}
+</style>
+<hr/><br/>
+<div id="guide-top">
+	<div id="form" style="height:500px;display:block;">
+		<iframe id="formiframe" name="formiframe" src="" style="border:0px;width:100%;height:100%;"></iframe>	
+	</div>
+	<div id = "apply" style="display:none;">
+	<table style="border:1px;width:80%" class="t1">
+	<!-- <tr><th style="width:8%;text-align: left;">编号</th><th style="width:45%;text-align: left;">文件名称</th><th style="width:30%;text-align: left;">附件名称</th><th style="width:17%;text-align: left;">操作</th></tr>
+	{% for material in materials %}
+	<tr code="{{material.CODE}}" name="{{material.NAME}}"><td>{{loop.counter}}</td><td>{{material.NAME}}</td><td class ="name{{material.CODE}}"></td><td><button class="upload_file" id="{{material.CODE}}" code="upload">上传</button></td></tr>
+	{% endfor %} -->
+	</table>
+	</div>
+	<br/>
+	 <div id = "submitsp" style="height:40px;text-align:center;">
+	 <input type="button" style="width: 68px;display:none;" class="btn btn-info pre" onclick="pre();" value="上一步 "/>
+	 <input type="button" style="width: 68px;"  class="btn btn-info next" onclick="next();" value="下一步" title="下一步"/>
+ 	 <input id="save" type="button" style="width: 68px;"  class="btn btn-info save" onclick="saveDraft();" value="暂存" title="上一步"/>
+	</div>
+</div>
+<script>
+var data =LEx.urldata;
+var _dataId=null;    //表单数据id,null表示表单数据未提交。
+var obj=null;    //表单对象。
+$(document).ready(function(){
+	
+	//判断如果是补齐补正则隐藏暂存按钮.state在补齐补正超链接处设置
+	if(data.state=="BQBZ")
+	{
+	   $("#save").remove();
+	}
+	
+	$("#formiframe").attr("src","{{PageContext.ContextPath}}icity/submitsp/view?"+LEx.urlEncode(data)+"&type=project");
+	formiframe = $("#formiframe");
+	$("#form").show();
+	$(".next").val("下一步");
+});
+
+//暂存
+function saveDraft() {
+	//存入表单系统里，获取dataId.
+	obj = document.getElementById("formiframe").contentWindow.window;
+	obj.bSave();
+	_dataId = obj.document.getElementById("dataid").value;
+	data.dataId=_dataId;
+	
+	if(LEx.isNotNull(_dataId)){
+		//alert("提交表单成功！")
+		//alert(_dataId);
+		//下边是存库
+		var command = new LEx.Command("app.icity.engineering.EngineeringCmd");
+    	command.setParameter("investType", data.type);//1：企业投资建设工程申请 2：政府投资建设工程申请
+    	command.setParameter("projectId",data.projectId);//项目Id
+    	command.setParameter("projectName",data.projectName);//项目Id
+    	command.setParameter("stageId", data.stageId);//阶段
+    	command.setParameter("stageName", data.stageName);//阶段名称
+    	command.setParameter("dataId", data.dataId);
+    	command.setParameter("flowId", data.flowId);
+    	command.setParameter("flowName", data.flowName);
+    	command.setParameter("formId", data.formId);
+    	command.setParameter("APPLY_SUBJECT", "关于"+data.flowName+"的申请");
+    	/*step参数用于指定为是哪一步的暂存/提交，因为不同操作入库的字段不完全一致。
+    	  1为第一页面暂存，2为上传材料页面暂存。3为提交
+    	*/
+    	command.setParameter("STEP","1");
+    	command.setParameter("ID",data.ID);
+    	var ret = command.execute("saveDraftReportDetails");
+    	if(!command.error){
+			alert("暂存成功！");
+			//alert("返回码（index表中的ID）为"+ret.data);
+			if(ret.data!=null){
+			data.ID=ret.data;
+			}
+    	}else{
+    		alert("暂存失败！");
+    		return ;
+    	}
+
+	}else{
+		alert("暂存出错(提交表单数据未成功)");
+		return ;
+	}
+}
+
+
+
+function next(){
+	      obj = document.getElementById("formiframe").contentWindow.window;
+	      obj.bSave();
+	      _dataId = obj.document.getElementById("dataid").value;
+	if(LEx.isNotNull(_dataId)){		
+		data.dataId = _dataId;
+		window.open("{{PageContext.ContextPath}}icity/engineering/resourceList?"+LEx.urlEncode(data),"_self"); 
+	}else{
+		alert("表单数据未保存成功！");
+		return;
+	}
+	
+}
+
+</script>

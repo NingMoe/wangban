@@ -1,0 +1,99 @@
+<script type="text/javascript">
+	var deptTreeObj = null;
+	var nodes = null;
+	var deptId=null;
+	var rootId = null;
+	function init(){
+		deptId=LEx.urldata.deptId;
+		rootId = LEx.urldata.rootId;
+		initTree();
+	}
+	
+	function initTree(){
+		var command = new LEx.Command("app.db.DbProxy");
+		command.setParameter("code","SYS_DEPT_GETTREE");
+		if(!LEx.isNotNull(rootId)){
+			rootId = "0";
+		}
+		var pdata = {};
+		pdata.rootId = getDeptLevelCode(rootId);
+		command.setParameter("pdata",pdata);
+		command.execute("collection");
+		if(!command.error){
+			
+			var setting = {
+					view: {
+						selectedMulti: false
+					},
+					edit: {
+						enable: false
+					},
+					check: {
+						enable: true,
+						chkStyle: "radio",
+						radioType: "all"
+					},
+					data: {
+						key: {
+							title:"DEPTNAME",
+							name: "DEPTNAME"
+						},
+						keep: {
+							parent:true,
+							leaf:true
+						},
+						simpleData: {
+							enable: true,
+							idKey:"ID",
+							pIdKey:"PID",
+							rootPId:rootId
+						}
+					}
+				};
+				
+			LEx.Control.Tree("departTree",setting,command.returns.data,function(obj){
+				deptTreeObj = obj;
+				if(null!=deptId){
+				    node = deptTreeObj.getNodeByParam("ID", deptId, null);
+					if (node!=null) {
+						deptTreeObj.checkNode(node);
+						deptTreeObj.expandNode(node);
+					}
+				}
+	
+			});
+		}
+		else{
+			alert(command.error);
+		}
+	
+	}
+	
+	function getData(){
+		var selectedDept = {};
+		nodes = deptTreeObj.getCheckedNodes(true);
+		if(null != nodes && nodes.length >0){
+			node=nodes[0];
+			selectedDept.ID = node.ID;
+			selectedDept.DEPTNAME = node.DEPTNAME;
+			selectedDept.TYPE = node.TYPE;
+			selectedDept.DIVISION_CODE = node.DIVISION_CODE;
+			selectedDept.NO = node.DEPTNO;
+		}
+		return selectedDept;
+	}
+	
+	function postData(){
+		var result={};
+		nodes = deptTreeObj.getCheckedNodes(true);
+		if(null != nodes && nodes.length >0){
+			node=nodes[0];
+			result.dept_id= node.ID;
+			result.dept_name = node.DEPTNAME;
+		}				
+		return result;
+	}
+</script>
+<div>
+	<ul id="departTree" class="ztree"></ul>
+</div>

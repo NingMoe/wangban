@@ -1,0 +1,86 @@
+<style type="text/css">
+.listTable td{cursor: default;}
+</style>
+
+<table class="table table-bordered">
+	<tr class="sec_tr">
+		<td><span><font size="2">我的投诉</font></span></td>
+	</tr>
+	<tr>
+		<td>
+				
+				<ul class="list-inline">
+					<li class="col-xs-6">投诉编号:&nbsp;&nbsp; 
+						<input type="text" id="id" name="id" size="30">
+					</li>
+					<li class="col-xs-6">投诉内容:&nbsp;&nbsp; 
+						<input type="text" id="title" name="title" size="30">
+					</li>
+				</ul><br><br>
+				<ul class="list-inline">
+					<li class="col-xs-7">投诉时间:&nbsp;&nbsp; 
+						<input type="text" class="date" style="width: 100px;" id="ctime_s" name="ctime_s" /> 
+						<img src="{%public assets/img/date.jpg%}" style="margin-left: -20px;" id="date1"> &nbsp;&nbsp;至&nbsp;&nbsp; 
+						<input type="text" class="date" style="width: 100px;" id="ctime_e" name="ctime_e" /> 
+						<img src="{%public assets/img/date2.jpg%}" style="margin-left: -20px;" id="date2">
+					</li>
+					<li>
+						<input type="submit" id="submit" class="nbtn_orange" value="查询"> <input type="button" id="delete" class="nbtn_blue" value="删除">
+					</li>
+				</ul>
+
+		</td>
+	</tr>
+</table>
+
+<div class="center">
+	<div style="margin-top:10px;float: left;width: 100%;">
+		<div class="sec_tr" style="border: 1px solid #dddddd;height: 30px;">
+			<span style="margin-left: 8px;line-height: 30px;"><font size="2">投诉列表</font></span>
+		</div>
+
+		<table id="bc_list" class="table table-bordered">
+			<thead>
+				<tr>
+					<th align="center" width="5%"><input id="checkall" type="checkbox" onclick="selectAll()"></th>
+					<th width="">投诉主题</th>
+					<th width="15%">投诉时间</th>
+					<th width="25%">投诉部门</th>
+					<!-- <th width="12%">是否公开</th> -->
+					<th width="15%">处理时间</th> 
+				</tr>
+			</thead>
+			<tbody id="bodys">
+			</tbody>
+		</table>
+		<div id="divList"></div>
+	</div>
+</div>
+<textarea id="template" style="display:none">
+	{for o in data}
+ 		<tr>
+	 		<td align="center"><input type="checkbox" id="${o.ID}" onclick="select(${o.ID})"></td>
+			<td title="${o.TITLE}"><a href="javascript:void(0);" onclick="detail('${o.ID}')">${o.TITLE}</a></td>
+			<td>${formatDate(o.WRITE_DATE)}</td>
+			<td>${o.DEPART_NAME}</td>
+			<!-- <td align="center">
+				{if o.OPEN == 1}
+					是
+				{else}
+					否
+				{/if}
+			</td> -->
+			<td>${formatDate(o.DEAL_DATE)}</td> 
+		</tr>
+	{/for}
+	{if total == 0} 
+		<tr>
+			<td colspan="7" style="text-align: center;color: red;">无数据</td>
+		</tr>
+	{/if}
+  </textarea>
+
+
+
+
+

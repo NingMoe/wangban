@@ -1,0 +1,244 @@
+<style type="text/css">
+.tab_1 {
+	background: #CCC;
+	font-size: 14px;
+	margin: 10px auto;
+	border-top: 2px solid #37A3DB
+}
+
+.busy-result .tab_1 .tr_1 {
+	line-height: 25px;
+	padding: 5px 10px;
+	background: #F2F6F9;
+	text-align: right;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result .tab_1 .tr_1 .th_1 {
+	padding: 5px 10px;
+	background: #E2EBFF;
+	font-family: 微软雅黑;
+	font-weight: bold;
+	color: #666666;
+	text-align: right;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result .tab_1 .tr_1 .td_1 {
+	padding: 5px 10px;
+	background: #FFFFFF;
+	text-align: left;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result {
+	padding: 20px
+}
+</style>
+{% set cid PageContext.Parameter.id%}
+{% set type PageContext.Parameter.type%}
+<div id ="ckzt" class="busy-result" style="display:none;">
+
+</div>
+<div id ="tzfk" class="busy-result" style="display:none;">
+
+</div>
+<div id ="yjfk" class="busy-result" style="display:none;">
+
+</div>
+<div id ="hyjy" class="busy-result" style="display:none;">
+
+</div>
+<script type="text/template" id="ckztDetail">
+<table class="tab_1" width="100%" height="100%" cellspacing="1">
+<tr class="tr_1">
+	<th class="th_1">单位代码</th>
+	<td class="td_1">${data.info.orgCode}</td>
+	<th class="th_1">单位名称</th>
+	<td class="td_1">${data.info.orgName}</td>
+</tr>
+<tr class="tr_1">
+	<th class="th_1">通知时间</th>
+	<td class="td_1">${data.info.notifyTime}</td>
+	<th class="th_1">踏勘时间</th>
+	<td class="td_1">${data.info.reconTime}</td>
+</tr>
+<tr class="tr_1">
+	<th class="th_1">会议时间</th>
+	<td class="td_1">${data.info.meetingTime}</td>
+	<th class="th_1">踏勘地点</th>
+	<td class="td_1">${data.info.place}</td>
+</tr>
+<tr class="tr_1">
+	<th class="th_1">会议地点</th>
+	<td class="td_1">${data.info.meetPlace}</td>
+	<th class="th_1">说明</th>
+	<td class="td_1">${data.info.instruction}</td>
+</tr>
+<tr class="tr_1">
+	<th class="th_1">文件</th>
+	<td class="td_1" colspan="3"><a onclick="onDownload('${data.info.docId}','${data.info.docName}')">${data.info.docName}</a></td>
+</tr>
+</table>
+</script>
+<script type="text/template" id="tzfkDetail">
+<table class="tab_1" width="100%" height="100%" cellspacing="1">
+<tr class="tr_1">
+	<th class="th_1">单位代码</th>
+	<th class="th_1">单位名称</th>
+	<th class="th_1">状态</th>
+	<th class="th_1">反馈时间</th>
+	<th class="th_1">联系电话</th>
+	<th class="th_1">反馈人</th>
+	<th class="th_1">反馈人职务</th>
+	<th class="th_1">反馈信息</th>
+</tr>
+{for o in data.bizArray}
+	<tr class="tr_1">
+		<td class="td_1">${o.orgCode}</td>
+		<td class="td_1">${o.orgName}</td>
+		<td class="td_1">${reState(o.state)}</td>
+		<td class="td_1">${o.feedBackTime}</td>
+		<td class="td_1">${o.phone}</td>
+		<td class="td_1">${o.person}</td>
+		<td class="td_1">${o.position}</td>
+		<td class="td_1">${o.message}</td>
+	</tr>
+{/for}
+</table>
+</script>
+<script type="text/template" id="yjfkDetail">
+{for o in data.bizArray}
+<table class="tab_1" width="100%" height="100%" cellspacing="1">
+<tr class="tr_1">
+	<th style="width:8%" class="th_1">单位代码</th>
+	<td class="td_1">${o.orgCode}</td>
+	<th style="width:8%" class="th_1">单位名称</th>
+	<td class="td_1">${o.orgName}</td>
+	<th style="width:8%" class="th_1">代理员</th>
+	<td class="td_1">${o.agent}</td>
+</tr>
+<tr class="tr_1">
+	<th style="width:13%" class="th_1">出具意见人</th>
+	<td style="width:20%" class="td_1">${o.opinionPerson}</td>
+	<th style="width:13%" class="th_1">联系电话</th>
+	<td style="width:20%" class="td_1">${o.linkPhone}</td>
+	<th style="width:13%" class="th_1">本部门协办员</th>
+	<td style="width:20%" class="td_1">${o.organizer}</td>
+</tr>
+<tr class="tr_1">
+	<th class="th_1">职务</th>
+	<td class="td_1">${o.organizerJob}</td>
+	<th class="th_1">出具意见时间</th>
+	<td class="td_1">${o.opinionTime}</td>
+	<th class="th_1">手机号</th>
+	<td class="td_1">${o.organizerPhone}</td>
+</tr>
+<tr class="tr_1">
+	<th class="th_1">办公室电话</th>
+	<td class="td_1">${o.organizerTel}</td>
+	<th class="th_1">强制性意见</th>
+	<td class="td_1">${o.manOpinion}</td>
+	<th class="th_1">建议性意见</th>
+	<td class="td_1">${o.suggestOpinion}</td>
+</tr>
+<tr class="tr_1">
+	<th class="th_1">文件</th>
+	<td class="td_1" class="document" colspan="5">
+			<a style="cursor: pointer;" onclick="onDownload('${o.docId}','${o.docName}')">${o.docName}</a>
+		</td>
+</tr>
+</table>
+{/for}
+</script>
+<script type="text/template" id="hyjyDetail">
+<table class="tab_1" width="100%" height="100%" cellspacing="1">
+<tr class="tr_1">
+	<th class="th_1">文件名称</th>
+	<th class="th_1">建议性意见</th>
+	<th class="th_1">操作</th>
+</tr>
+{for o in data.bizArray}
+	<tr class="tr_1">
+		<td class="td_1">${o.docName}</td>
+		<td class="td_1">${o.remark}</td>
+		<td class="td_1"><a style="cursor: pointer;" onclick="onDownload('${o.docId}','${o.docName}')">下载</a></td>
+	</tr>
+{/for}
+</table>
+</script>
+<script type="text/javascript">
+$(function(){
+	var type = "{{type}}";
+	if(type == "查看主题"){
+		var cmd = new LEx.Command("app.icity.pro.ProCmd");
+	    cmd.setParameter("reconId","{{cid}}");
+	    var ret = cmd.execute("getReconInfoById");
+		if(ret.state=='1'){
+			$('#ckzt').html(LEx.processDOMTemplate('ckztDetail',ret));
+			$('#ckzt').show();
+			return true;
+		}else{
+		}
+	}
+	if(type == "通知反馈"){
+		var cmd = new LEx.Command("app.icity.pro.ProCmd");
+	    cmd.setParameter("reconId","{{cid}}");
+	    var ret = cmd.execute("getFeedback");
+		if(ret.state=='1'){
+			$('#tzfk').html(LEx.processDOMTemplate('tzfkDetail',ret));
+			$('#tzfk').show();
+			return true;
+		}else{
+		}
+	}
+	if(type == "意见反馈"){
+		var cmd = new LEx.Command("app.icity.pro.ProCmd");
+	    cmd.setParameter("reconId","{{cid}}");
+	    var ret = cmd.execute("getFeedbackOpinion");
+		if(ret.state=='1'){
+			$('#yjfk').html(LEx.processDOMTemplate('yjfkDetail',ret));
+			$('#yjfk').show();
+			return true;
+		}else{
+		}
+	}
+	if(type == "会议纪要"){
+		var cmd = new LEx.Command("app.icity.pro.ProCmd");
+	    cmd.setParameter("reconId","{{cid}}");
+	    var ret = cmd.execute("getSummary");
+		if(ret.state=='1'){
+			$('#hyjy').html(LEx.processDOMTemplate('hyjyDetail',ret));
+			$('#hyjy').show();
+			return true;
+		}else{
+		}
+	}
+	$(".document").each(function(){
+		var dataId = $(this).attr("id").split(";");
+		var dataName = $(this).html().split(";");
+		var content = "";
+		for(var i = 0;i<data.length;i++){
+			content = content + "<a onclick=\"onDownload('"+dataId[i]+"','"+dataName[i]+"')\">"+i+1+dataName[i]+"</a>";
+		}
+		$(this).html(content);
+	});
+});
+
+function reState(val){
+	if(val=="0"){
+		return "不参与";
+	}
+	if(val=="1"){
+		return "参与";
+	}
+	if(val=="2"){
+		return "待回复";
+	}
+}
+function onDownload(path,name){
+    var opera = "downloadagent4wp&path="+path+"&name="+encodeURIComponent(name); 
+    window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+	return false;
+}
+</script>

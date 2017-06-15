@@ -1,0 +1,31 @@
+<article class="yt-content" style="margin-left: 10%;margin-right: 10%;">
+	<header id="header" class="yi-subhead" style="margin: 10px;">
+	    <div >
+	        <h4><strong>意见建议</strong><small>&nbsp;&nbsp; 受理公民、法人和其他组织在政务服务网办事过程中有关法规、政策和程序等问题的咨询 </small></h4>
+	    </div>
+	</header>
+	<div id="page">
+	        <ul class="nav nav-tabs">
+	                        <li class="active"> <a href="#s-n-t-11" data-toggle="tab">按部门</a></li>
+	                    </ul>
+	                    <br>
+	                    <div class="tab-content">
+	                        <div class="tab-pane fade active in" id="s-n-t-11">
+	                        </div>
+	                    </div>
+	</div>
+</article>
+{% include govservice/newmail.html %}
+<script type="text/template" id="deptTemplate4NewMail">
+<ul class="list-inline phi yi-list-inline-s-1">
+{for o in data.organ}
+{if o.IS_HALL=="1"}
+<li class="col-xs-2" dept_id=${o.CODE} dept_name=${o.SHORT_NAME} cat="10" onclick="doWrite(this);"><a href="#">${o.SHORT_NAME}</a></li>
+{/if}
+{/for}
+</script>
+<script>
+$(function(){
+	$('#s-n-t-11').html(LEx.processDOMTemplate('deptTemplate4NewMail',deptList));
+})
+</script>

@@ -1,0 +1,218 @@
+<style>
+.nbtn_blue {
+    color: #ffffff;
+    background-color: #3A7DC8;
+    border: none;
+    width: 60px;
+    text-align: center;
+    margin: 0px 5px;
+    padding: 5px 20px;
+}
+.nbtn_orange {
+    color: #ffffff;
+    background-color: #f29000;
+    border: none;
+    width: 60px;
+    text-align: center;
+    margin: 0px 5px;
+    padding: 5px 20px;
+}
+    .its-usernav > li > a {
+        color: #fff;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        font-size: 16px;
+        padding-left: 60px;
+        border-bottom: 1px solid #fff;
+    }
+    .its-usernav > li > a .fa {
+        display: inline-block;
+        width: 24px;
+        margin-right: 10px;
+        text-align: center;
+    }
+    .its-usernav > li > a:hover,
+    .its-usernav > li > a:focus  {
+        background-color: transparent;
+    }
+    .its-usernav > li.active > a {
+        background-color: #fff;
+        border-left: 4px solid #ee7151;
+        color: #ee7151;
+    }
+    .row {
+      margin-left: 0px; 
+      margin-right: 0px; 
+	}
+	.pages span {
+	    margin: 0 4px;
+	    display: inline-block;
+	    height: 22px;
+	    line-height: 22px;
+	    background: #5a85b2;
+	    border: 1px solid #5a85b2;
+	    color: #fff;
+	    text-align: center;
+	    padding: 0 10px;
+	}
+.pages a {
+    margin: 0 4px;
+    display: inline-block;
+    height: 22px;
+    line-height: 22px;
+    background: #fff;
+    border: 1px solid #d8d8d8;
+    text-align: center;
+    color: #333;
+    padding: 0 10px;
+    background-color: #fff;
+}
+    .pages a.a1 {
+	    background: #fff url({%public assets/img/pages.png%}) no-repeat 0 5px;
+	    padding: 0 10px;
+	}	
+	
+	
+</style>
+{% set WebRegion ConfigInfo.WebRegion %}
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script src="{{PageContext.JsPath}}/chart/highcharts.js"></script>
+<div id="page" class="yt-content" style="background-color: #fff;">
+	<div class="breadcrumb" style="margin-bottom: 5px;">
+		您好，欢迎使用<span style="color: #6db4f6;"><a href="{{cp}}" target="_self" style="color: #2CA1E9; font-weight: bold; text-shadow: 1px 1px #FFFFFF;">{{ConfigInfo.AppTitle}}</a></span>
+			<a href="{{cp}}uc/index" style="margin-left: 46%;">[用户中心]</a>
+            <a href="{{cp}}center/index" style="margin-right:5%;">[业务中心]</a>
+            <a href="javascript:void();" onclick="doLogout('{{ConfigInfo.WebUcPath}}')" style="margin-right:0%;">[退出]</a>
+	</div>
+	
+	<section class="panel no-bordered clearfix"
+		style="padding: 15px; background-color: #dff0fa; height: auto;">
+
+
+		<div class=" sec_left" style="width: 23%; display: inline-block;">
+			<img id="userface" src="{%public assets/img/men1.png%}" onerror = "this.src = '{%public assets/img/men1.png%}'"
+				style="width: 60%; margin-top: 15px;">
+			<div style="padding: 10px; font-size: 20px;">{{UserInfo.userName}}</div>
+			
+			<div class="panel panel-primary">
+				<header class="panel-heading head1"> 用户	中心 </header>
+				<ul class="list-group grou1">
+					<li class="list-group-item"><span
+						class="glyphicon glyphicon-certificate" aria-hidden="true"
+						style="color: #e9e9e9"></span> <a href="{{cp}}uc/index?tag=account">账户信息</a></li>
+					<li class="list-group-item"><span
+						class="glyphicon glyphicon-certificate" aria-hidden="true"
+						style="color: #e9e9e9"></span> <a href="{{cp}}uc/index?tag=profile">身份资料</a></li>
+					<!-- <li class="list-group-item"><span
+						class="glyphicon glyphicon-certificate" aria-hidden="true"
+						style="color: #e9e9e9"></span> <a href="{{cp}}uc/index?tag=authenPer">实名验证</a></li> -->
+					<li class="list-group-item"><span
+						class="glyphicon glyphicon-certificate" aria-hidden="true"
+						style="color: #e9e9e9"></span> <a href="{{cp}}uc/index?tag=photo">头像设置</a></li>
+					{% if ConfigInfo.DEMONSTRATE_MODE|equal:"1" %}
+					<li class="list-group-item"><span
+						class="glyphicon glyphicon-certificate" aria-hidden="true"
+						style="color: #e9e9e9"></span> <a href="{{cp}}uc/index?tag=zzlist">证照列表</a></li>
+					{% endif %}
+				</ul>
+			</div>
+
+			<div class="panel panel-primary">
+				<header class="panel-heading head2"> 安全中心 </header>
+				<ul class="list-group grou2">
+					<li class="list-group-item"><span
+						class="glyphicon glyphicon-certificate" aria-hidden="true"
+						style="color: #e9e9e9"></span> <a href="{{cp}}uc/index?tag=secChangePwd">修改密码</a></li>
+					<li class="list-group-item"><span
+						class="glyphicon glyphicon-certificate" aria-hidden="true"
+						style="color: #e9e9e9"></span> <a href="{{cp}}uc/index?tag=secAsk">密保问题</a></li>
+				</ul>
+			</div>
+			<div class="panel panel-primary">
+				<header class="panel-heading head3"> 业务中心 </header>
+				<ul class="list-group grou3">
+					<li class="list-group-item"><span
+						class="glyphicon glyphicon-certificate" aria-hidden="true"
+						style="color: #e9e9e9"></span> <a href="javascript:void(0);" class="business_tab" folder="business" tag="business_list">业务信息</a></li>
+					<li class="list-group-item"><span
+						class="glyphicon glyphicon-certificate" aria-hidden="true"
+						style="color: #e9e9e9"></span> <a href="javascript:void(0);" class="business_tab" folder="business" tag="business_stat">业务统计</a></li>
+					<!--<li class="list-group-item"><span
+						class="glyphicon glyphicon-certificate" aria-hidden="true"
+						style="color: #e9e9e9"></span> <a href="javascript:void(0);" class="business_tab" folder="business" tag="business_enter">企业设立</a></li>-->
+					{% if ConfigInfo.AppId|equal:"chq"|not %}
+					<li class="list-group-item"><span
+						class="glyphicon glyphicon-certificate" aria-hidden="true"
+						style="color: #e9e9e9"></span> <a href="javascript:void(0);" class="business_tab" folder="business" tag="business_engin">工程建设</a></li>
+					{% endif %}
+					{% if ConfigInfo.DEMONSTRATE_MODE|equal:"1" %}
+					<li class="list-group-item"><span
+						class="glyphicon glyphicon-certificate" aria-hidden="true"
+						style="color: #e9e9e9"></span> <a href="javascript:void(0);" class="business_tab" folder="business" tag="pro_list">投资项目</a></li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+
+
+		<div class="col-xs-9 sec_right pull-right"
+			style="display: inline-block;">
+			<ul class="list-inline sec_rul clearfix">
+				<li><div><a href="javascript:void(0);" class="business_tab" folder="active" tag="business_document">
+						<img src="{%public assets/img/1-1.png%}"><span>我的资料库</span></a>
+					</div></li>
+					{% if ConfigInfo.AppId|equal:"chq" %}
+					{% else %}<li><div><a href="javascript:void(0);" class="business_tab" folder="active" tag="business_satisfaction">
+						<img src="{%public assets/img/1-2.png%}"><span>我的评价</span></a>
+					</div></li>
+				{% endif %}
+				<li><div><a href="javascript:void(0);" class="business_tab" folder="active" tag="business_complaint">
+						<img src="{%public assets/img/1-3.png%}"><span>我的投诉</span></a>
+					</div></li>
+				<li><div><a href="javascript:void(0);" class="business_tab" folder="active" tag="business_ask">
+						<img src="{%public assets/img/1-4.png%}"><span>我的咨询</span></a>
+					</div></li>
+				<li><div><a href="javascript:void(0);" class="business_tab" folder="active" tag="business_favorite">
+						<img src="{%public assets/img/1-5.png%}"><span>我的收藏</span></a>
+					</div></li>
+			</ul>
+
+			<div class="show_tab" id="center-main">
+				<table class="table table-bordered">
+					<tr class="sec_tr">
+						<td><span>业务列表</span></td>
+					</tr>
+					<tr>
+						<td>
+							<ul class="list-inline">
+								<li class="col-xs-5">申办流水号:&nbsp;&nbsp; <input type="text" />
+
+								</li>
+								<li class="col-xs-7">申办时间:&nbsp;&nbsp; <input type="text"
+									style="width: 100px;" /> <img
+									src="{%public assets/img/date.jpg%}"
+									style="margin-left: -20px;" id="date1">
+									&nbsp;&nbsp;至&nbsp;&nbsp; <input type="text"
+									style="width: 100px;" /> <img
+									src="{%public assets/img/date2.jpg%}"
+									style="margin-left: -20px;" id="date2"> &nbsp;&nbsp;
+									<button type="button" class="btn btn-warning">查询</button></li>
+							</ul>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</section>
+</div>
+<input id="region" tag="REGION" value="{{WebRegion}}" type="hidden">
+<!-- <div class="show_tab" id="center-main"></div> -->
+<textarea id="RecommendApptemplate" style="display: none">
+	<ul style="list-style: none;">
+		{if data.result.length > 0}
+			{for o in data.result}
+				<li><a href="${o.app_entry}" class="" tag="" target="_blank">${o.app_alias}</a></li>
+			{/for}
+		{/if}
+	</ul>
+</textarea>

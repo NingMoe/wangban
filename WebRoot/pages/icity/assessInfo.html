@@ -1,0 +1,70 @@
+<script>
+  $(function(){
+		var cmd = new LEx.Command("app.icity.guestbook.WriteCmd");
+		cmd.setParameter("ID", LEx.urldata.id);
+		var ret =  cmd.execute("getMatterInfo");
+		if(!ret.error){
+			$('#MattersList').html(LEx.processDOMTemplate('MattersListTemplate',ret));
+		}else{
+			LEx.alert(ret.error);
+		}
+	});
+  function formatDate(obj) {
+		return LEx.util.Format.formatDate(obj);
+	}
+</script>
+<script type="text/template" id="MattersListTemplate">
+  <tbody>
+	 {for o in data}
+		<tr class="tr_1">
+			<th class="bg-info text-right">办件名称&nbsp;:</th>
+			<td colspan="3">${o.TITLE}</td>
+		</tr>
+		<tr class="tr_1">
+			<th class="bg-info text-right">办件内容&nbsp;:</th>
+			<td colspan="3">${o.CONTENT}</td>
+		</tr>
+		<tr class="tr_1">
+			<th class="bg-info text-right">申请人/申请单位&nbsp;:</th>
+            <td colspan="3">${o.USERNAME}</td>
+		</tr>
+        <tr class="tr_1">
+           <th class="bg-info text-right">回复内容&nbsp;:</th>
+           <td colspan="3">${o.DEAL_RESULT}</td>
+        </tr>
+		<tr class="tr_1">		
+			<th class="bg-info text-right">提交时间&nbsp;:</th>
+            <td>${formatDate(o.WRITE_DATE)}</td>
+            <th class="bg-info text-right">受理时间&nbsp;:</th>
+            <td>${formatDate(o.DEAL_DATE)}</td>         
+		</tr>
+		<tr class="tr_1">
+			<th class="bg-info text-right">受理单位&nbsp;:</th>
+            <td>${o.DEPART_NAME}</td>
+            <th class="bg-info text-right">回复状态&nbsp;:</th>
+            <td >{if o.STATUS=="1"}已回复{else}未回复{/if}</td>
+		</tr>		
+   {/for}
+ </tbody>
+</script>
+<div class="container" style="width: 1030px !important;"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png%}"> 您当前所在的位置:</li>
+        <li><a href="{{cp}}public/index">首页</a></li>
+        <li><a href="{{cp}}icity/assess">监督评议</a></li>
+    </ol>
+</div>
+<div class="container" style="width: 1030px !important;"> 
+    <section class="panel" style="padding: 10px;">
+        <header class="panel-heading">
+            <button type="button" class="btn btn-info pull-right" onclick="javascript:window.opener=null;window.open('','_self');window.close();">关闭</button>
+            <h4 style="border-bottom: solid 1px #e5e5e5; margin:0; padding-bottom: 5px;">
+                <img src="{%public assets/img/zhcx_title_pic3.jpg%}">&nbsp;&nbsp;<strong>监督评议</strong>
+            </h4>
+        </header>
+        <div class="panel-body">
+            <table class="table table-bordered" id="MattersList">
+            </table>
+        </div>
+    </section>
+</div>

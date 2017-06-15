@@ -1,0 +1,24 @@
+apply_0:基础版本
+apply_1:舟山
+apply_2：聊城、重庆、烟台、新余、山东、临沂、德州、潍坊、商丘、西宁等风格
+apply_3:淄博风格
+apply_4:为昆明风格，2016-04-06
+apply_5:为威海版本
+apply_6:为漳州版本
+form:基础表单
+调用示例
+非昆明样式风格的网站，需引用以下css
+<link rel="stylesheet" href="{% public assets/css/applycustom.css %}">
+<style>
+.yt-content1 {
+  vertical-align: top;
+  padding: 1px;
+  width:80%;
+  margin-left:10%;
+  background:url({% public assets/img/yt-bg.png%}) repeat;
+  background-color: #fff;
+}
+</style>	
+<div class="yt-content1">
+{% include onlineapply/apply_2.html%}
+</div>

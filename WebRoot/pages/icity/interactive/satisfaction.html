@@ -1,0 +1,304 @@
+<script src="{% public scripts/LEx.form.js %}"></script>
+<style type="text/css">
+<!--
+/* body {background:#fff;text-align:center;margin:0 auto;padding: 0;font:12px Arial;color:#000;line-height:1.2em}
+div,form,img,ul,ol,li,dl,dt,dd {margin: 0; padding: 0; border: 0;}
+h1,h2,h3,h4,h5,h6 { margin:0; padding:0;}
+table,td,tr,th{font-size:12px;} */
+/* 星级评分 */
+.shop-rating {
+height: 25px;
+overflow: hidden;
+zoom: 1;
+padding: 2px 0px;
+position: relative;
+z-index: 999;
+}
+.shop-rating span {
+height: 23px;
+display: block;
+line-height: 23px;
+float: left;
+}
+.shop-rating span.title {
+width: 125px;
+text-align: right;
+margin-right: 5px;
+}
+.shop-rating ul {
+float: left;
+margin:0;padding:0
+}
+.shop-rating .result {
+margin-left: 20px;
+padding-top: 2px;
+}
+.shop-rating .result span {
+color: #ff6d02;
+}
+.shop-rating .result em {
+color: #f60;
+font-family: arial;
+font-weight: bold;
+}
+.shop-rating .result strong {
+color: #666666;
+font-weight: normal;
+}
+.rating-level,
+.rating-level a {
+background: url( http://a.tbcdn.cn/app/rc/img/star_v2.png) no-repeat scroll 1000px 1000px;
+}
+.rating-level {
+background-position: 0px 0px;
+width: 120px;
+height: 23px;
+position: relative;
+z-index: 1000;
+}
+.rating-level li {
+display: inline;
+}
+.rating-level a {
+line-height: 23px;
+height: 23px;
+position: absolute;
+top: 0px;
+left: 0px;
+text-indent: -999em;
+*zoom: 1;
+outline: none;
+}
+.rating-level a.one-star {
+width: 20%;
+z-index: 6;
+}
+.rating-level a.two-stars {
+width: 40%;
+z-index: 5;
+}
+.rating-level a.three-stars {
+width: 60%;
+z-index: 4;
+}
+.rating-level a.four-stars {
+width: 80%;
+z-index: 3;
+}
+.rating-level a.five-stars {
+width: 100%;
+z-index: 2;
+}
+.rating-level .current-rating,.rating-level a:hover{background-position:0 -28px;}
+.rating-level a.one-star:hover,.rating-level a.two-stars:hover,.rating-level a.one-star.current-rating,.rating-level a.two-stars.current-rating{background-position:0 -116px;}
+.rating-level .three-stars .current-rating,.rating-level .four-stars .current-rating,.rating-level .five-stars .current-rating{background-position:0 -28px;}
+-->
+</style>
+<div id="page" class="container" style="padding-left: 10px; padding-right: 10px; background-color: #fff;">
+	<div class="row">
+        <div class="col-xs-12">
+            <section class="panel panel-success">
+				<header class="panel-heading">
+					<h3 class="panel-title">服务质量反馈 </h3>
+				</header>
+				<div id="base-message" class="panel-body zl-thumbnails-ggfu-2">
+                    <table class="table table-bordered">
+                        <tbody>
+                        	<tr >
+                                <td>受理编号 </td>
+                                <td  style="text-align:left;">
+                                	<form class="form-inline">
+                                       <div class="form-group">
+	                                       <input id="SBLSH" tag="SBLSH" class="form-control" placeholder="" type="text">
+	                                       <label style="color:red;">*</label>
+                                       </div>
+                                    </form>  
+                                </td>
+                                <td>查询密码</td>
+                                <td  style="text-align:left;">
+                                	<form class="form-inline">
+                                       <div class="form-group">
+		                               	   <input id="SPSXCXMM" tag="SPSXCXMM" class="form-control" placeholder="" type="password">
+		                               	   <label style="color:red;">*</label>
+	                               	   </div>
+                                    </form>  
+                                </td>
+                                <td  colspan="3" >
+	                                <button id="query" type="button" class="btn btn-primary" onclick="queryDetail();">查询</button>
+                                </td>
+                            </tr>
+                            <!-- <tr>
+                                <td>联系人 </td>
+                                <td  style="text-align:left;">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <input tag="LXRXM" class="form-control" type="text">
+                                        </div>
+                                    </form>  
+                                </td>
+                                <td>联系电话</td>
+                                <td  colspan="2"  style="text-align:left;">
+                                   	<input tag="LXRSJ" class="form-control" type="text">
+                                </td>
+                            </tr> -->
+                            <tr>
+                                <td>申报人</td>
+                                <td colspan="4"  style="text-align:left;">
+                                    <input tag="APPLYNAME" class="form-control" type="text" readonly="readonly">
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>事项名称：</td>
+                                <td colspan="4"  style="text-align:left;">
+                                	<input tag="ITEM_NAME" class="form-control" placeholder="" type="text" readonly="readonly">
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>受理部门 </td>
+                                <td colspan="4"  style="text-align:left;">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                        	<input tag="DEPT_NAME" class="form-control" type="text" readonly="readonly">
+                                            <input tag="ITEM_CODE" class="form-control" type="hidden" >
+                                            <input tag="ITEM_ID" class="form-control" type="hidden" >
+                                            <input tag="REGION_ID" class="form-control" type="hidden" >
+                                            <input tag="REGION_NAME" class="form-control" type="hidden" >
+                                            <input tag="DEPT_ID" class="form-control" type="hidden" >
+                                            <input tag="APPLY_SUBJECT" class="form-control" type="hidden" >
+                                            <input tag="STATE_CODE" class="form-control" type="hidden" >
+                                        </div>
+                                     </form>  
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>星级评价：</td>
+                                <td colspan="4"  style="text-align:left;">  
+                                <div class="shop-rating">
+	                                <ul class="rating-level" id="stars1">
+										<li><a id="1" class="one-star" star:value="1" href="#">1</a></li>
+										<li><a id="2" class="two-stars" star:value="2" href="#">2</a></li>
+										<li><a id="3" class="three-stars" star:value="3" href="#">3</a></li>
+										<li><a id="4" class="four-stars" star:value="4" href="#">4</a></li>
+										<li><a id="5" class="five-stars" star:value="5" href="#">5</a></li>
+									</ul>	
+									<span class="result" id="stars1-tips"></span>
+									<input type="hidden" id="stars1-input" name="a" value="" size="2" />  
+								</div>								                   
+                                    <!-- <form class="form-inline">
+                                        <input tag="STAR_LEVEL" type="radio" checked="checked" value="5" name="1" />很满意
+                                        <input tag="STAR_LEVEL" type="radio"  value="4" name="1"/>满意
+                                        <input tag="STAR_LEVEL" type="radio"  value="3" name="1"/>基本满意
+                                        <input tag="STAR_LEVEL" type="radio"  value="2" name="1"/>不满意
+                                        <input tag="STAR_LEVEL" type="radio"  value="1" name="1"/>很不满意
+                                    </form> -->  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td >您的建议或意见： </td>
+                                <td colspan="4"  style="text-align:left;">
+                                     <textarea id="EVALUATE_CONTENT" tag="EVALUATE_CONTENT" class="form-control" cols="80" rows="10" ></textarea>
+                                     <input type="hidden" id="isExistStar" value="0"/>
+                                     <input type="hidden" id="isExistSx" value="0"/>  
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="bs" style="text-align: center;">
+                        <button id="submit" op="submit" type="button" class="btn btn-primary">提交</button>
+                        <button op="reset" type="button" class="btn btn-default">关闭</button>
+                    </div>
+				</div>
+			</section>
+        </div>
+    </div>
+</div>
+<script>
+			var Class = {
+			create: function() {
+			return function() { this.initialize.apply(this, arguments); }
+			}
+			}
+			var Extend = function(destination, source) {
+			for (var property in source) {
+			destination[property] = source[property];
+			}
+			}
+			function stopDefault( e ) {
+			if ( e && e.preventDefault ){
+			e.preventDefault();
+			}else{
+			window.event.returnValue = false;
+			}
+			return false;
+			}
+			/**
+			* 星星打分组件
+			*
+			* @author    Yunsd
+			* @date        2010-7-5
+			*/
+			var Stars = Class.create();
+			Stars.prototype = {
+			initialize: function(star,options) {
+			this.SetOptions(options); //默认属性
+			var flag = 999; //定义全局指针
+			var isIE = (document.all) ? true : false; //IE?
+			var starlist = document.getElementById(star).getElementsByTagName('a'); //星星列表
+			var input = document.getElementById(this.options.Input) || document.getElementById(star+"-input"); // 输出结果
+			var tips = document.getElementById(this.options.Tips) || document.getElementById(star+"-tips"); // 打印提示
+			var nowClass = " " + this.options.nowClass; // 定义选中星星样式名
+			var tipsTxt = this.options.tipsTxt; // 定义提示文案
+			var len = starlist.length; //星星数量
+
+
+			for(i=0;i<len;i++){ // 绑定事件 点击 鼠标滑过
+			starlist[i].value = i;
+			starlist[i].onclick = function(e){
+			stopDefault(e);
+			this.className = this.className + nowClass;
+			flag = this.value;
+			input.value = this.getAttribute("star:value");
+			tips.innerHTML = tipsTxt[this.value]
+			}
+			starlist[i].onmouseover = function(){
+			if (flag< 999){
+			var reg = RegExp(nowClass,"g");
+			starlist[flag].className = starlist[flag].className.replace(reg,"")
+			}
+			}
+			starlist[i].onmouseout = function(){
+			if (flag< 999){
+			starlist[flag].className = starlist[flag].className + nowClass;
+			}
+			}
+			};
+			if (isIE){ //FIX IE下样式错误
+			var li = document.getElementById(star).getElementsByTagName('li');
+			for (var i = 0, len = li.length; i < len; i++) {
+			var c = li[i];
+			if (c) {
+			c.className = c.getElementsByTagName('a')[0].className;
+			}
+			}
+			}
+			},
+			//设置默认属性
+			SetOptions: function(options) {
+			this.options = {//默认值
+			Input:            "",//设置触保存分数的INPUT
+			Tips:            "",//设置提示文案容器
+			nowClass:    "current-rating",//选中的样式名
+			tipsTxt:        ["1分-很不满意","2分-不满意","3分-基本满意","4分-满意","5分-很满意"]//提示文案
+			};
+			Extend(this.options, options || {});
+			}
+			}
+			/* For TEST */
+			function teststars(){
+			alert(document.getElementById("stars1-input").value + "|" + document.getElementById("stars2-input").value)
+			}
+			var Stars1 = new Stars("stars1",{nowClass:"current-rating",tipsTxt:["1分-很不满意","2分-不满意","3分-基本满意","4分-满意","5分-很满意"]})
+</script>

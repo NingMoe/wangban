@@ -1,0 +1,15 @@
+
+
+<form id="form1" action="https://www.tzxm.gov.cn:8081/tzxmspweb/tzxmweb/pages/portal/likes/evaluate.jsp" method="post">	<!-- 通过https协议post方式提交到中央点赞评论页面 -->
+	<input type="hidden" name="area_code" id="area_code" value="370000" />		<!-- 地方平台行政区划代码，如“630000” -->
+	<input type="hidden" name="user_account" id="user_account" value="" />		<!-- 用户在地方平台的登录用户名，该用户名在地方平台应是唯一的 -->	
+	<input type="hidden" name="user_name" id="user_name" value="" />		<!-- 用户真实姓名 -->	
+	<!-- <input type="submit" value="tijiao"> -->
+</form>
+<script language="javascript">
+	document.getElementById("user_account").value=loginInfo.loginname;
+	document.getElementById("user_name").value=loginInfo.name;
+	
+	document.forms["form1"].submit();
+</script>
+

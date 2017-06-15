@@ -1,0 +1,24 @@
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+
+{% map "TYPE","fr" as p%} {% command
+"app.icity.col.WidgetCmd",'getPersonalBusinessList',p as d%}
+
+<div id="classlistfr">
+	{% if d.data %} {% for o in d.data %}
+	<div style="height: 90px" class="col-xs-2 text-center title-classtype">
+		<a class="thumbnail no-bordered"
+			href="javascript:catalogonclick('fr','{{o.NAME}}')"> <img
+			src="{{PageContext.ContextPath}}public/assets/icon/{{o.ICON_URL}}" width="40" height="40" />
+			<div class="caption alpha omega" id='{{o.CODE}}'>{{o.NAME}}</div></a>
+	</div>
+
+	{% endfor %} {% else %}
+	<li>
+		<div style="text-align: center; margin-top: 5px;">
+			<font>暂无数据</font>
+		</div>
+	</li> {% endif %}
+
+
+</div>

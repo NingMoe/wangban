@@ -1,0 +1,281 @@
+ <div class="jmain">
+        <div class="container" style="background:white">
+            <div class="row" style="margin-top: 15px;margin-bottom: 40px;">
+                <div class="col-xs-12">
+                    <section class="panel panel-default no-bordered no-shadow" style="border-top: 3px solid #00a8ec !important;">
+                        <header class="panel-heading clearfix" style="">
+                            <h3 class="panel-title pull-left" style="margin-top:5px;"><strong>企业设立</strong></h3>
+                            <div class="pull-right">
+                                <div class="btn-toolbar mt10">
+                                </div>
+                            </div>
+                        </header>
+                    </section>
+                </div>
+                <div class="col-xs-12">
+                    <section class="panel">
+                        <div id="r_list">
+
+                        </div>
+                    </section>
+                </div>
+            	 <div id = "submitsp" style="height:40px;text-align:center;">
+					 <input type="button" style="width: 68px;" class="btn btn-info pre" onclick="pre();" value="上一步 " title="上一步"/>
+					 <input id="save" type="button"style="width: 68px;" class="btn btn-info save" onclick="saveDraft();" value="暂存" title="暂存"/>
+				 	 <input type="button" style="width: 68px;" class="btn btn-info save" onclick="saveData();" value="提交" title="提交"/>
+				 </div>            
+            </div>
+        </div>
+    </div>
+    <script>
+   
+    var docids=[];
+   var data =LEx.urldata;
+    $(document).ready(function(){
+    	if(data.state=="12")
+		{
+		   $("#save").remove();
+		}
+    	onQueryList();
+    	$(".upload_file").each(function(){
+    	 	LEx.Control.SWFUpload({
+    			id: $(this).attr('id'),
+    			text: '上传附件',
+    			upload_url:LEx.webPath+"bsp/uploadify?action=uploadagent4wp",
+    	        button_width:120,
+    	        button_height:34,
+    	        upload_success_handler:uploadSuccess,
+    	        type:"doc,file,pic"
+    		}); 
+    	});
+    	$(".uploadTipe").hide();
+    	
+    	if(data.ID_index!="no"){
+    	      resourceList();
+    	}
+
+    });
+    //上一步(带着dataId返回上一步，读取表单数据并展示出来)
+    function pre(){
+    window.open("{{PageContext.ContextPath}}icity/enterprises/onlineDeal?"+ LEx.urlEncode(data), "_self");
+    }
+    function uploadSuccess(file, serverData) {
+    	var obj=$(this);
+    	var resourceCode=obj[0].settings.id;
+    	$(".uploadTipe").hide();
+    	var _data = LEx.decode(serverData);
+    	if(_data.scc.code!="0000"){
+    		alert("上传失败,请重新上传！");
+    		return;
+    	}
+    	
+    	$("#list_"+resourceCode).append("<div id=\"file_"+_data.scc.docid+"\">"+formatLen(_data.name,0,20)+"&nbsp;&nbsp;<a class='btn btn-success' href=\"#\" onclick=\"onDownload(this);\">下载</a> | <a class='btn btn-danger' href=\"#\" onclick=\"onDel(this);\">删除</a>"+"<br/><br/></div>");
+    	$("#file_"+_data.scc.docid).attr("title",_data.name);
+    	$("#file_"+_data.scc.docid).attr("url",_data.url);
+    	
+    	$("#tag_"+resourceCode).attr("checked",false);
+    	
+    	var wp_apply = {};
+    	wp_apply.resourceCode = resourceCode;
+ 	   	wp_apply.resourceType = $("#type_"+resourceCode).html();
+ 	   	wp_apply.itemId = $("#id_"+resourceCode).html();
+ 	   	wp_apply.filePath = _data.scc.docid;
+ 	   	wp_apply.fileType = "1";
+ 	    wp_apply.tagPage = "1";//标记纸质 0选中1未选择
+ 	    wp_apply.name=_data.name;
+ 	    wp_apply.url=_data.url;
+ 	    wp_apply.subject = "关于"+data.name+"的设立申请";
+   	    docids.push(wp_apply);
+        alert("上传成功！");
+    }
+    function onQueryList(){
+    	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+    	command.setParameter("enterpriseType", data.enterpriseType);
+    	command.setParameter("companyType", data.companyType);
+    	var ret = command.execute("getMaterialByCompanyType");
+    	if(!command.error){
+    		if(ret.state=='1'){
+    			
+    			$('#r_list').html(LEx.processDOMTemplate('MattersListTemplate',ret));
+    		}else{
+    			errorDialog("验证","验证未通过"+ret.message);
+    			return;
+    		}
+    	}else{
+    		errorDialog("验证","验证未通过");
+    		return;
+    	}
+    }
+    
+  //从数据库获取上传材料信息。
+    function resourceList(){
+     var cmd = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+     cmd.setParameter("ID@=",data.ID_index);
+     var ret = cmd.execute("getResourceList");
+     if(!cmd.error){
+     if(ret.state=='1'){
+    	 var APPLY_DATA=ret.data[0].APPLY_DATA;
+    	 for(var i=0; i<APPLY_DATA.length;i++){
+    		 var doc={};
+    		 doc.resourceCode=APPLY_DATA[i].resourceCode;
+    		 doc.resourceType=APPLY_DATA[i].resourceType;
+    		 doc.itemId=APPLY_DATA[i].itemId;
+    		 doc.filePath=APPLY_DATA[i].filePath;
+    		 doc.fileType=APPLY_DATA[i].fileType;
+    		 doc.tagPage="1";
+    		 doc.name=APPLY_DATA[i].name;
+    		 doc.url=APPLY_DATA[i].url;
+    		 docids.push(doc);
+ 	 	  
+    		$("#list_"+APPLY_DATA[i].resourceCode).append("<div id=\"file_"+APPLY_DATA[i].filePath+"\">"+formatLen(APPLY_DATA[i].name,0,20)+"&nbsp;&nbsp;<a class='btn btn-success' href=\"#\" onclick=\"onDownload(this);\">下载</a> | <a class='btn btn-danger' href=\"#\" onclick=\"onDel(this);\">删除</a>"+"<br/><br/></div>");
+    		$("#file_"+APPLY_DATA[i].filePath).attr("title",APPLY_DATA[i].name);
+    	    $("#file_"+APPLY_DATA[i].filePath).attr("url",APPLY_DATA[i].url);
+    	    $("#tag_"+APPLY_DATA[i].resourceCode).attr("checked",false);
+    	    $("#type_"+APPLY_DATA[i].resourceCode).html(APPLY_DATA[i].resourceCode);
+    	    $("#id_"+APPLY_DATA[i].resourceCode).html(APPLY_DATA[i].itemId);		 
+    	 }
+     }else{
+    	 errorDialog("验证","验证未通过"+ret.message);
+			return;
+     }
+     }else{
+    	 errorDialog("验证","验证未通过");
+ 		 return;
+     }
+    }
+    
+    /*提交*/
+    function saveData(){
+    	alert("开始提交");
+    	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+    	command.setParameter("enterpriseType", data.enterpriseType);
+    	command.setParameter("dataId", data.dataId);
+    	command.setParameter("flowId", data.flowId);
+    	command.setParameter("formId", data.formId);
+    	command.setParameter("APPLY_SUBJECT", "关于"+data.name+"的设立申请");
+    	command.setParameter("material",docids);
+    	command.setParameter("state", "11")   /*标识操作类型： 00暂存  11 提交*/
+    	command.setParameter("ID_incex",data.ID_index);
+    	var ret = command.execute("submitApplicationInfo");
+    	if(!command.error){
+    		if(ret.state=='1'){
+    			alert(ret.message);
+    			window.location.href="{{cp}}center/index";
+    		}else{
+    			errorDialog("验证","提交失败"+ret.message);
+    			return;
+    		}
+    	}else{
+    		errorDialog("验证","提交失败");
+    		return;
+    	}
+    }
+    
+    /*标识操作类型： 00暂存  11 提交*/
+    /*暂存*/
+    function saveDraft(){
+    	var data =LEx.urldata;
+    	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+    	command.setParameter("enterpriseType", data.enterpriseType);
+    	command.setParameter("dataId", data.dataId);
+    	command.setParameter("flowId", data.flowId);
+    	command.setParameter("formId", data.formId);
+    	command.setParameter("APPLY_SUBJECT", "关于"+data.name+"的设立申请");
+    	command.setParameter("material",docids);
+    	command.setParameter("state", "00")   /*标识操作类型： 00暂存  11 提交*/
+    	command.setParameter("ID_index",data.ID_index);
+    	var ret = command.execute("saveDraftApplicationInfo");
+    	if(!command.error){
+    		if(ret.state=='1'){
+    			data.ID_index=ret.data;
+    			alert("暂存成功");
+    		}else{
+    			errorDialog("验证","暂存失败");
+    			return;
+    		}
+    	}else{
+    		errorDialog("验证","暂存失败");
+    		return;
+    	}
+    }
+    
+    //下载
+    function onDownload(obj){
+    	//alert($(obj).parent().attr("url"));
+    	var title = $(obj).parent().attr("url");
+    	var title =obj;
+    	if(title==""){
+    		alert("请先上传附件！");
+    	}else{
+        	var opera = "download&path="+$(obj).parent().attr("url"); 
+        	window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+    	}
+    	
+    	return false;
+    }
+    //删除
+    function onDel(obj){
+    	var filePath = $(obj).parent().attr("id").replace("file_","");
+        	for(var i=0;i<docids.length;i++){
+        		if(docids[i].filePath == filePath){
+        			docids.splice(i,1);
+        			break;
+        		}
+        	} 
+        	var opera = "delete&path="+$(obj).parent().attr("url"); 
+        	$.ajax({
+        		type : "get",
+        		url : LEx.webPath + "bsp/uploadify?action="+opera,
+        		success : function(data) {        			
+        		},
+        		error : function() {        			
+        		}
+        	});
+        	$(obj).parent().remove();
+    }
+    
+    //标记纸质
+    function checkTag(obj){
+    	var resourceCode = $(obj).attr("name").replace("tag_","");
+    	if(obj.checked){
+    		for(var i=0;i<docids.length;i++){
+        		if(docids[i].resourceCode == resourceCode){
+        			docids[i].tagPage="0";        			
+        			break;
+        		}
+        	} 
+    	}else if(!obj.checked){
+    		for(var i=0;i<docids.length;i++){
+        		if(docids[i].resourceCode == resourceCode){
+        			docids[i].tagPage="1";
+        			break;
+        		}
+        	} 
+    	}
+    }
+    </script>
+    <script type="text/template" id="MattersListTemplate">
+ <table class="table table-bordered">
+            <tbody>
+	  {var i = 0}
+      {for o in data}
+			{for p in o.resourceArray}
+			{var i = i+1}
+				<tr>
+					<td id="id_${p.resourceCode}" style="width:10%;display:none;">${o.itemId}</td>
+ 					<td id="code_${p.resourceCode}" style="width:10%;display:none;">${p.resourceCode}</td>
+
+                    <td id="name_${p.resourceCode}" style="width:30%;" title="${p.resourceName}">【${i}】${formatLen(p.resourceName,0,20)}</td>
+    
+ 					<td id="type_${p.resourceCode}" style="width:10%;display:none;">${p.resourceType}</td>
+              
+                    <td style="width:30%;"><div id="list_${p.resourceCode}"></div></td>
+
+                    <td style="width:10%;text-align:center;" title="标记纸质"><input type='checkbox' name='tag_${p.resourceCode}' id='tag_${p.resourceCode}' value=1 onclick="checkTag(this);"><br>标记纸质</td>
+                    <td style="width:10%;"> <button class="upload_file" id="${p.resourceCode}"  code="upload">上传</button></td>
+                </tr>
+			{/for}
+{/for}
+</tbody>
+</table>
+    </script>

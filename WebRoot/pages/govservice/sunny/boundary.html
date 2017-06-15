@@ -1,0 +1,89 @@
+{% set deptid PageContext.Parameter.org_code %} {% set id
+PageContext.Parameter.id %} {% map "id",id as d%} {% command
+"app.icity.ServiceCmd","getBoundaryItemInfo",d as p%} {% set info
+p.data%} {% set itemInfo info.itemInfo%} {% set dutyInfo
+info.itemBasicInfo%}
+<div class="container">
+	<ol class="breadcrumb alpha omega transparent">
+		<li>当前位置</li>
+		<li><a href="{{cp}}sunny">阳光政务</a></li>
+		<li><a href="{{cp}}sunny/response">责任清单</a></li>
+		<li class="active">与相关部门的职责边界</li>
+	</ol>
+	<div id="page"
+		style="padding-left: 10px; padding-right: 10px; background-color: #fff;">
+		<div class="row">
+			<div class="col-xs-12">
+				<section class="panel panel-success">
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">部门名称：</h3>
+					</header>
+					<div id="base-message1" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">{{itemInfo.ORG_NAME}}</td>
+							</tr>
+						</table>
+					</div>
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">边界事项名称：</h3>
+					</header>
+					<div id="base-message2" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">{{itemInfo.NAME}}</td>
+							</tr>
+						</table>
+					</div>
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">职责分工：</h3>
+					</header>
+					<div id="base-message3" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							{% if dutyInfo%}
+							<tr>
+								<td style="text-align: center; width: 20%">部门名称</td>
+								<td style="text-align: center; width: 15%">牵头部门</td>
+								<td style="text-align: center; width: 65%">职责分工</td>
+							</tr>
+							{% for o in dutyInfo%}
+							<tr>
+								<td style="text-indent: 1em; vertical-align: middle">{{o.ORG_NAME}}</td>
+								<td style="text-align: center; vertical-align: middle">{%
+									if o.IS_MAIN|equal:'1' %}是{% else%}否{% endif%}</td>
+								<td style="text-indent: 2em;">{{o.DIVIDE_WORK}}</td>
+							</tr>
+							{% endfor%} {% else %}
+							<tr>
+								<td style="text-indent: 2em;">暂无相关数据！</td>
+							</tr>
+							{% endif%}
+						</table>
+					</div>
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">相关依据：</h3>
+					</header>
+					<div id="base-message3" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">{% if itemInfo.BASIS%}
+									{{itemInfo.BASIS}} {% else%} 暂无相关数据！ {% endif %}</td>
+							</tr>
+						</table>
+					</div>
+					<header class="panel-heading" style="background-color: #b3d9ff">
+						<h3 class="panel-title">案例：</h3>
+					</header>
+					<div id="base-message3" class="panel-body zl-thumbnails-ggfu-2">
+						<table class="table table-bordered">
+							<tr>
+								<td style="text-indent: 2em;">{% if itemInfo.EXAMPLE%}
+									{{itemInfo.EXAMPLE}} {% else%} 暂无相关数据！ {% endif %}</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>

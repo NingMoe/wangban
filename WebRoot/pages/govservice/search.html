@@ -1,0 +1,241 @@
+<style type="text/css">
+.input_validation-failed {border: 2px solid #FF0000;color: red;}
+</style>
+<script src="{% public scripts/LEx.form.js %}"></script>
+<header id="header" class="yi-subhead" style="margin: 10px;">
+    <div class="container">
+        <h4><strong>办事进度</strong><small>&nbsp;&nbsp; 可在此查询政务服务网上办理的行政审批事项的办事进度。<a href="rollinglist">查看办件公告</a></small></h4>
+    </div>
+</header>
+<div id="page" class="container">
+<div style="padding: 10px 200px;">
+<div class="h4"><span style="color: red;"></span>输入监管码，查询办件信息</div>
+<div class="form-horizontal query" style="margin-left:50px;">
+              <div class="form-group">
+            <label class="col-xs-3 control-label"> <font style="color: red;">*</font>监管码:</label>
+            <div class="col-xs-4">
+                <input tag="2" id="jgm" type="text" reg="^\d+$"  class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-3 col-xs-4">
+                <button onclick="queryProgress();" class="btn btn-primary">查询</button>
+                </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade bs-modal-result" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" >
+   <div class="modal-header" >
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">
+           	 <strong>查询结果</strong>
+          </h4>
+        </div>
+       <div class="modal-body">
+       <div class="query-result" style="margin: 20px 0px 30px">
+       </div>
+	</div>
+  </div>
+  </div>
+  </div>
+  <script>
+  (function(){
+	  LEx.form.init(".query");
+  })();
+  function queryProgress() {
+	  if(!LEx.form.validate(".query")){
+		  LEx.dialog.tips("请正确填写查询条件",1);
+		  return false;
+		}
+	  var command = new LEx.Command("app.icity.project.ProjectIndexCmd");
+		command.setParameter("jgm",$("#jgm").val());
+		var ret= command.execute("UnionSearch");
+		if (ret.state == 1&&ret.total>0) {
+			if(ret.message=="企业设立"){
+				var n_url = LEx.webPath+"admin?m=icity/center/business/businessenterdetaila.html&id="+ret.data.ID+"&type=1";
+		LEx.dialog({
+			id:'',
+			title:"业务详情",
+			url:n_url,
+			width:890,
+			height:400,
+			lock:true
+		}); 		}else if(ret.message=="工程建设"){
+						var n_url = LEx.webPath+"admin?m=icity/center/business/business_engina.html&id="+ret.data.JGM+"&type=1";
+		LEx.dialog({
+			id:'',
+			title:"业务详情",
+			url:n_url,
+			width:798,
+			height:400,
+			lock:true
+		}); 				}else if(ret.message=="单体事项"){
+var n_url = LEx.webPath+"admin?m=icity/center/business/business_detail.html&id="+ret.data.JGM+"&type=0";
+		LEx.dialog({
+			id:'',
+			title:"办件信息",
+			url:n_url,
+			width:890,
+			height:400,
+			lock:true
+		}); 			}
+			
+			formatInProgress();
+		} else {
+			LEx.alert("没有找到对应的业务信息！");
+		}
+		
+	}
+  function formatInProgress(){
+	  $(".NeedFormatStateType").each(function() {
+			var status = $(this).attr("state");
+			var bState = "正常";
+			switch(status){
+			case "01":
+				bState="正常";//启动流程开始计时
+				break;
+			case "02":  //最终态处于此状态的业务为办结业务
+				bState = "不予受理";
+				break;
+			case "11":
+				bState = "待预审 ";
+				break;
+			case "21":
+				bState = "补齐补正";
+				break;
+			case "23":
+				bState = "挂起";
+				break;
+			case "24":
+				bState = "收费挂起";
+				break;
+			case "26":
+				bState = "回退";
+				break;
+			case "96":
+				bState = "退件";
+				break;
+			case "97":
+				bState = "作废";
+				break;
+			case "98":
+				bState = "不予许可";
+				break;
+			case "99":
+				bState = "准予许可";
+				break;
+			}
+			$(this).html(bState);
+		});
+	  $(".NeedFormatTimeType").each(function() {
+			var shtml = $(this).html()+"";
+			if(LEx.isNotNull(shtml)){
+				var stime = eval('(' + shtml + ')');
+				var t = (new Date(stime)).pattern("yyyy-MM-dd HH:mm");
+				$(this).html(t).show();
+			}else{
+				$(this).html("—").show();
+			}
+		});
+  }
+  </script>
+  <textarea id="template4progress1" style="display: none">
+		<table class="table table-bordered" width="100%" height="100%">
+		<tr class="tr_1">
+			<th class="th_1">申办流水号:</th>
+			<td class="td_1" colspan="3"><font>111111</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">项目名称:</th>
+			<td class="td_1" colspan="3"><font>22222222</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">事项名称:</th>
+			<td class="td_1" colspan="3"><font>33333333</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1" width="20%">申请人或单位:</th>
+			<td class="td_1" width="30%" colspan="3"><font>${SQRMC}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1" width="20%">申办时间:</th>
+			<td class="td_1" width="30%"><font>${LEx.util.Format.formatDate(SBSJ,'yyyy-MM-dd HH:mm')}</font></td>
+			<th class="th_1" width="20%">当前状态:</th>
+			<td class="td_1" width="30%"><font>${LEx.icityBusiness.formatStatus(STATE)}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">流转过程</th>
+			<td class="td_1" colspan="3">
+				<table class="table table-bordered" width="100%" height="100%">
+					<tr class="tr_2">
+						<th width="25%">环节名称</th>
+						<th width="20%">处理时间</th>
+						<th width="20%">处理情况</th>
+						<th width="35%">办理意见</th>
+					</tr>
+					 {if CONTENT}
+						{for r in CONTENT}
+						<tr>
+							<td>${r.CURRENT_NODE_NAME}</td>
+							<td class="NeedFormatTimeType">${r.SEND_TIME}</td>
+							<td class="NeedFormatStateType">${r.STATUS}</td>
+							<td>${r.OPINION}</td>							
+						</tr>
+						{/for}
+					{/if} 
+				</table>
+			</td>
+		</tr>
+	</table>
+</textarea>
+ <textarea id="template4progress2" style="display: none">
+		<table class="table table-bordered" width="100%" height="100%">
+		<tr class="tr_1">
+			<th class="th_1">申办流水号:</th>
+			<td class="td_1" colspan="3"><font>111111111</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">项目名称:</th>
+			<td class="td_1" colspan="3"><font>2222222</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">事项名称:</th>
+			<td class="td_1" colspan="3"><font>333333333333</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1" width="20%">申请人或单位:</th>
+			<td class="td_1" width="30%" colspan="3"><font>4444444</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1" width="20%">申办时间:</th>
+			<td class="td_1" width="30%"><font>55555555555</font></td>
+			<th class="th_1" width="20%">当前状态:</th>
+			<td class="td_1" width="30%"><font>6666666666</font></td>
+		</tr>
+		
+	</table>
+</textarea>
+<textarea id="template4progress3" style="display: none">
+		<table class="table table-bordered" width="100%" height="100%">
+		<tr class="tr_1">
+			<th class="th_1">申办流水号:</th>
+			<td class="td_1" colspan="3"><font>${JGM}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">项目名称:</th>
+			<td class="td_1" colspan="3"><font>${TITLE}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">事项名称:</th>
+			<td class="td_1" colspan="3"><font>${TITLE}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1" width="20%">申请人或单位:</th>
+			<td class="td_1" width="30%" colspan="3"><font>${TITLE}</font></td>
+		</tr>
+		
+	</table>
+</textarea>

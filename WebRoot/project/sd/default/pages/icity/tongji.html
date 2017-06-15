@@ -1,0 +1,61 @@
+  <style>
+  body {
+            min-width:0px;
+			min-height:0px;
+        }
+  div {
+	font-size:14px;
+	width:100%;
+	text-align:center;
+	margin-top: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	line-height:10px
+  }
+  font {
+    text-align:left;
+	float:left;
+  }
+  </style>
+<body>
+    <div style="width:80%;">
+     <p style="padding-bottom:3%;padding-top:3%"><font face="宋体" style="color:#ff6600;font-weight:bold;font-size:13px;text-align:center;"><span id="Date"></span></font></p><br>
+ 	<p><font face="宋体">累计收件:</font><font style="color:red">&nbsp;&nbsp;&nbsp;<span id="TotalGET"></span></font>件</p>
+	<p><font face="宋体">累计办结:</font><font style="color:red">&nbsp;&nbsp;&nbsp;<span id="TotalFinish"></span></font>件</p>
+	<p><font face="宋体">昨日收件:</font><font style="color:red">&nbsp;&nbsp;&nbsp;<span id="YGET"></span></font>件</p>
+	<p><font face="宋体">昨日办结:</font><font style="color:red">&nbsp;&nbsp;&nbsp;<span id="YFinish"></span></font>件</p>
+  </div>                           
+</body>
+<script>
+function onQuery(t){
+	var cmd = new LEx.Command("app.icity.ServiceCmd");
+	cmd.setParameter("type",t);
+	var json =cmd.execute("getBjtj2");	
+	if(json!=''||json!=null){
+		if(t == "day"){
+   			document.getElementById("YGET").innerHTML = json[0].ACCEPT;
+   			document.getElementById("YFinish").innerHTML = json[0].COMPLETE;
+   		}else if(t == "year"){
+   			document.getElementById("TotalGET").innerHTML = json[0].ACCEPT;
+   			document.getElementById("TotalFinish").innerHTML = json[0].COMPLETE;
+   		}	
+	}else{
+		alert("暂未有办件统计信息！")
+	}
+}
+
+function time(){
+	var now= new Date();
+	var year=now.getFullYear();
+	var month=now.getMonth();
+	var date=now.getDate();
+	document.getElementById("Date").innerHTML="截至     "+year+"年"+(month+1)+"月"+date+"日";
+}
+	$(function(){
+		time();
+		onQuery("year");
+		onQuery("day");
+	});
+	
+	
+</script>

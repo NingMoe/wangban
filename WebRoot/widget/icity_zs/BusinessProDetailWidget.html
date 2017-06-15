@@ -1,0 +1,108 @@
+<ul class="nav nav-tabs nav-justified its-nav-tabs-business">
+	<li class="active"><a data-toggle="tab" href="#t-b-11"
+		aria-expanded="true">审批事项进度</a>
+	</li>
+	<li class=""><a data-toggle="tab" href="#t-b-12"
+		aria-expanded="false">中介服务进度</a>
+	</li>
+</ul>
+<div class="tab-content panel-body" style="min-height:500px;">
+	<div class="tab-pane active" id="t-b-11" style="height:1080px;overflow: auto" >
+		<table class="table table-bordered table-condensed table01">
+				<tbody id="project_body">
+					<tr>									
+						<th style="width:6%;">序号</th>
+						<!-- <th style="width:6%;">预警</th> -->
+						<th style="width:17%;">审批部门</th>						   
+						<th style="width:16%;">审批事项</th>
+						<th style="width:12%;">申报日期</th>						   
+						<th style="width:12%;">办结日期</th>
+						<th style="width:12%;">承诺日期</th>						   
+						<th style="width:9%;">状态</th>
+						<th style="width:10%;">操作</th>
+					 </tr>
+					{% map "projectCode",code as p %}
+					{% command "app.icity.pro.ProCmd","queryBusiness",p as d %}
+					{% for o in d.data.business%}
+						<tr>									
+						<th>{{loop.counter}}</th>
+						<!-- <th class="warn">否</th> -->
+						<th>{{o.orgName}}</th>						   
+						<th>{{o.itemName}}</th>
+						<th class="time">{{o.receiveTime}}</th>					   
+						<th class="time">{{o.finishTime}}</th>
+						<th class="time">{{o.promiseTime}}</th>
+						<th class="state">{{o.state}}</th>
+						<th><a href="javascript:void(0);" onclick="showReport('{{o.bizId}}','{{o.itemId}}');">下载</a></th>
+					 </tr>
+					{% endfor %}
+				</tbody>
+		</table>
+	</div>
+	<div class="tab-pane" id="t-b-12">
+		<table class="table table-bordered table-condensed table01">
+				<tbody id="project_body">
+					<tr>									
+						<th>中介事项</th>						   
+						<th>委托方</th>
+						<th>承办方</th>						   
+						<th>主管部门</th>
+						<th>协议开始时间</th>						   
+						<th>协议结束时间</th>
+						<th>合同金额</th>						   
+						<th>合同文本</th>
+						<th>中介报告</th>
+					 </tr>
+					<tr>									
+						<th></th>						   
+						<th></th>
+						<th></th>						   
+						<th></th>
+						<th></th>						   
+						<th></th>
+						<th></th>						   
+						<th>下载</th>
+						<th>下载</th>
+					 </tr>
+				</tbody>
+		</table>
+	</div>
+</div>
+<script>
+$(function (){
+	$(".time").each(function(){
+		var time = $(this).html();
+		if(time!=""){
+			$(this).html(timeStamp2String(time));
+		}
+	});
+	$(".state").each(function(){
+		$(this).html(formatHandleState($(this).html()));
+	});
+	
+});
+function timeStamp2String(time){
+    var datetime = new Date();
+    datetime.setTime(time);
+    var year = datetime.getFullYear();
+    var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+    var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+    var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();
+    var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+    var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+    //return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
+    return year + "-" + month + "-" + date;
+}
+function showReport(bizId,itemId){
+	
+	var n_url = LEx.webPath+"admin?m=icity/center/business/report_detail.html&bizId="+bizId+"&itemId="+itemId;
+	LEx.dialog({
+		id:'',
+		title:"业务详情",
+		url:n_url,
+		width:890,
+		height:400,
+		lock:true
+	}); 
+}
+</script>

@@ -1,0 +1,77 @@
+{% merge PageContext.ContextPath,"icity/submitsp/baseinfo?itemId=" as online_service_url %}
+<script type="text/javascript" src="{{PageContext.JsPath}}raty_master/lib/jquery.raty.js"></script>
+<style>
+.btn-danger {
+	    background-color: #f44336;
+	}
+</style>
+ 
+<section class="its-page-body" id="businessList" style="display:block;">
+		<table class="table its-tabel-filter">
+             <tbody>
+                 <tr>
+                     <th width="90" class="text-right">当前状态：</th>
+                     <td width="110">
+                        <select	id="select_status" class="form-control" onchange="bltable.pageIndex(0);onQuery()">
+								<option value=''>全部</option>
+						</select>
+                     </td>
+                     <th width="100" class="text-right">办件名称：</th>
+                     <td width="160"><input type="text" class="form-control" placeholder="请输入办件名称" id="sbxmmc"></td>
+                     
+                     <th width="85" class="text-right">申办时间：</th>
+                     <td width="110"><input type="text" class="form-control" id="APPLYTIME_S" placeholder="请选择"  onClick="jeDate({dateCell:'#APPLYTIME_S',isTime:true,format:'YYYY-MM-DD'})"></td>
+                     <th width="15" class="text-right">至</th>
+                     <td width="110"><input type="text" class="form-control" id="APPLYTIME_E" placeholder="请选择"  onClick="jeDate({dateCell:'#APPLYTIME_E',isTime:true,format:'YYYY-MM-DD'})"></td>
+                     <td width="100"><button type="button" 	onclick="bltable.pageIndex(0);onQuery();return false;" class="btn btn-primary btn-sm no-bordered btn-block f16">搜 索</button></td>
+                 </tr>
+             </tbody>
+         </table>
+         <div id="div_business_list">
+         
+         </div>
+         <div id="epager" style="text-align:center;"></div>
+</section>
+<section class="its-page-body" id="businessDetail" style="display:none;">
+</section>
+
+<textarea id="template_business_list" style="display: none">
+{if data.length > 0} 
+         <table class="table table-striped its-table-backlog">
+             <thead>
+                 <tr class="bg-info">                
+                     <th style="width:45%;" class="text-center text-primary">办件名称</th>                     
+                     <th style="width:25%;" class="text-center text-primary">申报时间</th>
+                     <th style="width:15%;" class="text-center text-primary">办理状态</th>
+                     <th style="width:15%;" class="text-center text-primary">操作</th>
+                 </tr>
+             </thead>
+             <tbody>
+             {for o in data}
+                 <tr>
+                     <td><a href="javascript:void(0);"	onclick="BusinessDetail('${o.SBLSH}','${o.SXID}');">${o.SBXMMC}<span class="text-primary"></span></a></td>
+                     <td class="text-center" >${formatDate(o.SBSJ)}</td>
+                     <td class="text-center"><span class="NeedFormatState"  state='${o.STATE}'></span></td>
+                     <td class="text-left">
+                     	{if o.STATE=='00'} 
+                     	<a	href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}" style="background-color:#0085c3;" target="_self" class="btn btn-primary">修改</a>
+                     	<!-- 暂存件 可以删除 -->
+                     	<a href="#" onclick="deleteProject('${o.SBLSH}');"  style="background-color:#f44336;"  class="btn btn-danger">删除</a>
+						{elseif o.STATE=='03' }
+						<a	href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}" style="background-color:#0085c3;" target="_self" class="btn btn-primary">修改</a>
+						{elseif o.STATE=='11' } 
+						<a href="#" onclick="chehui('${o.SBLSH}');" target="_self" style="background-color:#0085c3;" class="btn btn-primary">撤回</a>
+						{elseif o.STATE=='14'} 
+						<a	href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}" style="background-color:#0085c3;" target="_self" class="btn btn-primary">重新办理</a>
+						{elseif o.STATE=="21" } 
+						<a	href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}" style="background-color:#0085c3;" target="_self" class="btn btn-primary">补齐补正</a>
+						{else}
+							&nbsp;&nbsp;--
+						{/if}
+                     </td>
+                 </tr>
+             {/for}
+             </tbody>
+         </table> 
+{/if}
+</textarea>

@@ -1,0 +1,37 @@
+<script>
+$(function(){
+	onQueryGgcx(1);
+});
+function onQueryGgcx(start){
+	var limit=7;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("start",(start-1)*limit);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	cmd.setParameter("name", "改革创新");
+	cmd.setParameter("open", '{{ConfigInfo.Ggcx_isout}}')
+
+	var ret =  cmd.execute("getContentInfo");
+	if(!ret.error){
+		$("#ul_sspdw_ggcx").html(LEx.processDOMTemplate('GgcxContentTemplate',ret));
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+</script>
+<ul id="ul_sspdw_ggcx" class="list-unstyled " style="margin-bottom:0px">
+</ul> 
+
+<script type="text/template" id="GgcxContentTemplate">
+{for o in data}
+<li>
+				{if o.TYPE==3 }
+                        <time class="text-muted pull-right">${LEx.util.Format.formatDate(o.CTIME)}</time>
+						<a href="${o.URL}" title="${o.NAME}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${formatLen(o.NAME,0,14)}</a>
+				{else}
+                        <time class="text-muted pull-right">${LEx.util.Format.formatDate(o.CTIME)}</time>
+						<a href="{{PageContext.ContextPath}}govservice/pub/contentDetail?id=${o.ID}" title="${o.NAME}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${formatLen(o.NAME,0,14)}</a>
+				{/if}
+</li>
+{/for}
+</script>

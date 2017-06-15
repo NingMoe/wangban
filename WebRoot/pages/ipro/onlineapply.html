@@ -1,0 +1,972 @@
+ {% set code PageContext.Parameter.code %} {% set region_code
+PageContext.Parameter.region_code %} {% map "code",code as p %} {%
+command "app.icity.ipro.IproCmd","getItemListByPermitCode",p as d %}
+<!-- 目录信息-->
+{% set itemInfo d.data.info%}
+<script type="text/javascript"
+	src="{% public scripts/ajaxfileupload.js %}"></script>
+<script type="text/javascript"
+	src="{% public scripts/calendar/calendar-min.js %}"></script>
+<link rel="stylesheet" type="text/css"
+	href="{% public scripts/calendar/calendar-min.css %}" />
+<link rel="stylesheet" type="text/css"
+	href="{{PageContext.CssPath}}govservice.css" />
+<script src="{% public scripts/LEx.form.js %}"></script>
+<style type="text/css">
+.input_validation-invalid {
+	border: 1px solid #f00 !important;
+	color: #f00;
+}
+
+#sub_form  .bordered {
+	border: 1px solid red;
+}
+
+input {
+	font-family: "RobotoDraft", "Roboto", "Helvetica Neue", Helvetica,
+		Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
+	font-size: 14px;
+}
+/* add by cys */
+#cover {
+	position: fixed;
+	z-index: 101;
+	top: 0;
+	left: 0;
+	display: none;
+	width: 100%;
+	height: 100%;
+	opacity: 0.1;
+	background: #000 none repeat scroll 0% 0%;
+}
+
+#showdiv {
+	position: absolute;
+	display: none;
+	z-index: 101;
+	top: 40px;
+	min-height: 300px !important;
+	height: auto;
+	overflow: hidden;
+	width: 760px !important;
+	background-color: #eee;
+	border: 1px solid #EEEEEE;
+	border-radius: 0.3em;
+	position: fixed;
+}
+
+#contrInfodiv {
+	position: absolute;
+	display: none;
+	z-index: 101;
+	top: 40px;
+	min-height: 200px !important;
+	height: auto;
+	overflow: hidden;
+	width: 589px !important;
+	background-color: #eee;
+	border: 1px solid #EEEEEE;
+	border-radius: 0.3em;
+	position: fixed;
+}
+
+#lerepInfo_form_show .bordered {
+	border: 1px solid red;
+}
+
+#contrInfo_form_show .bordered {
+	border: 1px solid red;
+}
+/* end by cys */
+</style>
+<div class="container"
+	style="background-color: #fff; padding: 20px 40px;">
+	<ol class="breadcrumb">
+		<li><a href="{{cp}}ipro/hall">首页</a></li>
+		<li><a href="{{cp}}ipro/hall">{{itemInfo.DIVISION_NAME}}办事大厅</a></li>
+		<li><a
+			href="{{cp}}ipro/guidelist?region_code={{itemInfo.DIVISION_CODE}}">办事指南</a></li>
+		<li class="active">在线办理</li>
+	</ol>
+
+	<br>
+	<section class="panel panel-default">
+		<div class="panel-body" style="padding-left: 20px">
+			<br>
+			<table class="table table-bordered table-condensed table01"
+				cellspacing="1" id="sub_form"
+				style="display: block; border-width: 0px">
+				<colgroup>
+					<col width="20%">
+					<col width="30%">
+					<col width="20%">
+					<col width="30%">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th style="width: 150px"><font color="red">*</font>项目所属行政区划：</th>
+						<td><input value="" id="divisionName" readonly="readonly"
+							field="divisionName" name="divisionName" type="text"
+							class="span3" style="display: block;" /><input value=""
+							id="divisionCode" field="divisionCode" name="divisionCode"
+							type="text" class="span3" datatype="n6-6" readonly="readonly"
+							maxlength="12" nullmsg="此项不能为空" sucmsg=" "
+							style="cursor: pointer; display: none;" /> <input type="hidden"
+							id="code" value="{{code}}" />
+							<div class="Validform_checktip"></div>
+							<!--  onclick="openRegion('division');" divisionName里的onclick属性-->
+						</td>
+						<th style="width: 150px;"><font color="red"></font>投资项目行业分类：</th>
+						<td><select id="permitIndustry" name="permitIndustry"
+							disabled="disabled" class="span3" datatype="*1-100"
+							nullmsg="此项不能为空" sucmsg=" ">
+								<!-- <option value="">请选择投资项目行业分类</option>	 -->
+						</select>
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<tr>
+
+						<th><font color="red">*</font>行业核准目录：</th>
+						<td id="permitItemCode" name="permitItemCode" colspan="3"></td>
+					</tr>
+					<tr>
+						<th><font color="red">*</font>项目类型：</th>
+						<td><select id="projectType" name="projectType" class="span3"
+							datatype="*1-100" nullmsg="此项不能为空" sucmsg="" disabled="disabled">
+								<!-- <option value="">请选择项目类型</option>	 -->
+						</select>
+							<div class="Validform_checktip"></div></td>
+						<th><font color="red">*</font>建设性质：</th>
+						<td><select id="constructPer" name="constructPer"
+							class="span3" datatype="*1-100" nullmsg="此项不能为空"
+							style="width: 100px" sucmsg=" ">
+						</select>
+							<div class="Validform_checktip"></div></td>
+
+					</tr>
+					<tr>
+						<th><font color="red">*</font>项目名称：</th>
+						<td colspan="3"><input value="" id="projectName"
+							field="projectName" name="projectName" type="text" class="span3"
+							datatype="*1-100" nullmsg="此项不能为空" sucmsg=" " style="width: 86%;" />
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<tr>
+									<th><font color="red">*</font>项目负责人：</th>
+									<td><input value="" id="linkMan"
+										field="linkMan" name="linkMan" type="text"
+										class="span3" datatype="*1-100" nullmsg="此项不能为空"
+										sucmsg=" "  style="width: 86%;"/>
+										<div class="Validform_checktip"></div>
+									</td>
+									<th style="width: 150px"><font color="red">*</font>负责人联系电话：</th>
+									<td><input value="" id="linkPhone"
+										field="linkPhone" name="linkPhone" type="text"
+										class="span3" datatype="*1-100" nullmsg="此项不能为空"
+										sucmsg=" "  style="width: 86%;"/>
+										<div class="Validform_checktip"></div>
+									</td>
+								</tr>
+					<!-- <tr>
+								<th style="width: 150px"><font color="red">*</font>项目（法人）单位：</th>
+									<td colspan="3"><input value="" id="contractor"
+										field="contractor" name="contractor" type="text"
+										class="span3" datatype="*1-100" nullmsg="此项不能为空"
+										sucmsg=" "  style="width: 86%;"/> 
+										<div class="Validform_checktip"></div></td>
+								</tr>
+								<tr>
+								<th><font color="red">*</font>项目法人证照类型：</th>
+									<td> <select id="lerepCerttype" name="lerepCerttype" class="span3"  datatype="*1-100" nullmsg="此项不能为空">
+											<option value="">请选择法人证照类型</option>
+										</select> 
+										<div class="Validform_checktip"></div></td>
+									<th style="width: 150px"><font color="red">*</font>项目法人证照号码：</th>
+									<td><input value="" id="lerepCertno"
+										field="lerepCertno" name="lerepCertno" type="text"
+										class="span3" datatype="*1-100" nullmsg="此项不能为空"
+										sucmsg=" " /> 
+										<div class="Validform_checktip"></div></td>
+								</tr> -->
+					<tr>
+						<th><font color="red">*</font>拟开工时间：</th>
+						<td><input value="" id="startYear" name="startYear"
+							type="text" class="date" datatype="" readonly="readonly" />
+							<div class="Validform_checktip"></div></td>
+						<th style="width: 150px"><font color="red">*</font>拟建成时间：</th>
+						<td><input value="" id="endYear" field="endYear"
+							name="endYear" type="text" class="date" datatype=""
+							nullmsg="此项不能为空" readonly="readonly" sucmsg=" " />
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<tr>
+						<th><font color="red">*</font>总投资（万元）：</th>
+						<td><input value="" id="investment"
+							onkeyup="value=value.replace(/[^\d+\.?\d*]/g,'') "
+							onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^/d{1,}[.]{0,1}/d{0,}]/g,''))"
+							field="investment" name="investment" type="text" class="span3"
+							datatype="" nullmsg="此项不能为空" sucmsg=" " />
+							<div class="Validform_checktip"></div></td>
+						<th style="width: 150px"><font color="red"></font><font
+							color="red">*</font>建设地点：</th>
+						<td>
+							<!-- <input type="radio"  name="radPlace" id="ks" value="000000" /><label for="ks">跨省区</label>
+									<input type="radio"  name="radPlace" id="kj" value="000001" /><label for="kj">跨境</label>
+									<input type="radio"  name="radPlace" id="jw" value="000002" /><label for="jw">境外</label>
+									<input type="radio"  name="radPlace" id="sn" value="no" /><label for="sn">省内</label><br/> -->
+							<input value="" id="placeName" readonly="readonly"
+							field="placeName" name="placeName" type="text" class="span3"
+							style="display: block;" onclick="openRegion('place');" /> <input
+							value="" id="placeCode" style="display: none;" field="placeCode"
+							name="placeCode" type="text" class="span3" datatype="*1-6"
+							maxlength="6" nullmsg="此项不能为空" sucmsg=" "
+							style="cursor: pointer;" readonly="readonly" />
+							<div class="Validform_checktip"></div>
+
+
+						</td>
+					</tr>
+					<tr>
+						<th><font color="red">*</font>建设地点详情：</th>
+						<td colspan="3"><textarea value="" cols="100"
+								readonly="readonly" onclick="openRegionChecks('placeDetail');"
+								style="width: 86%" datatype="*1-100" id="placeDetailName"
+								name="placeDetailName" sucmsg=" " nullmsg="此项不能为空"></textarea> <input
+							value="" id="placeDetailCode" style="display: none;"
+							field="placeDetailCode" name="placeDetailCode" type="text"
+							class="span3" datatype="*1-6" nullmsg="此项不能为空" sucmsg=" "
+							style="cursor: pointer;" readonly="readonly" />
+
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<tr style="display:none;">
+						<th>是否开发区项目：</th>
+						<td><select id="isDeArea" name="isDeArea" class="span3">
+								<option value="0">非开发区项目</option>
+								<option value="1">开发区项目</option>
+						</select>
+							<div class="Validform_checktip"></div></td>
+						<th style="width: 150px"><font id="kfqmc" color="red"
+							style="display: none;">*</font>开发区名称：</th>
+						<td><input value="" id="deAreaName" field="deAreaName"
+							name="deAreaName" type="text" class="span3" datatype="*0-80"
+							nullmsg="此项不能为空" sucmsg=" " />
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<!-- modify by cys,修改国标行业和所属行业 ----------BEGIN---------------->
+					<tr>
+						<th><font color="red">*</font>国标行业：</th>
+						<td><input value="" id="industryName" readonly="readonly"
+							field="industryName" name="industryName" type="text"
+							class="span3" style="display: block;"
+							onclick="opengmjjhy('industry');" /> <input
+							value="" id="industry" style="display: none;" field="industry"
+							name="industry" type="text" class="span3" datatype="*1-6"
+							maxlength="6" nullmsg="此项不能为空" sucmsg=" "
+							style="cursor: pointer;" readonly="readonly" />
+							<div class="Validform_checktip"></div>
+
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<tr>
+						<th><font color="red">*</font>所属行业：</th>
+						<!-- <td>
+									<input value="" id="industryName" readonly="readonly"
+										field="industryName" name="industryName" type="text"
+										class="span3"   style="display: block;" onclick="opengmjjhy('industry');"/>
+									<input value="" id="industry" style="display: none;"
+										field="industry" name="industry" type="text"
+										class="span3" datatype="*1-6" maxlength="6" nullmsg="此项不能为空"
+										sucmsg=" "  style="cursor: pointer;" readonly="readonly"  />
+										<div class="Validform_checktip"></div>
+									
+										<div class="Validform_checktip"></div></td> -->
+						<td><input value="" id="theIndustryName" readonly="readonly"
+							field="theIndustryName" name="theIndustryName" type="text"
+							class="span3" style="display: block;"
+							onclick="opencyzctm('theIndustry','suoshuhy','所属行业');" /> <input
+							value="" id="theIndustry" style="display: none;"
+							field="theIndustry" name="theIndustry" type="text" class="span3"
+							datatype="*1-6" maxlength="6" nullmsg="此项不能为空" sucmsg=" "
+							style="cursor: pointer;" readonly="readonly" />
+							<div class="Validform_checktip"></div> <!-- <select id="industry" name="industry" class="span3" datatype="*1-100" nullmsg="此项不能为空"
+										sucmsg=" " >	
+											<option value="">请选择所属行业</option>										
+										</select> -->
+							<div class="Validform_checktip"></div></td>
+						<th style="width: 150px"><font color="red">*</font>申报日期：</th>
+						<td><input value="" id="applyDate" field="applyDate"
+							name="applyDate" type="text" class="date" datatype="*8-100"
+							readonly="readonly" nullmsg="此项不能为空" sucmsg=" "
+							style="cursor: pointer;" />
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<!-- modify by cys,修改国标行业和所属行业 ----END---------------------->
+					<tr>
+						<th><font color="red">*</font>建设规模及内容：</th>
+						<td colspan="3"><textarea value="" cols="100"
+								style="width: 86%" id="projectContent" name="projectContent"
+								sucmsg=" " datatype="*1-100"></textarea>
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<!-- <tr>
+									<th><font color="red">*</font>联系人名称：</th>
+									<td><input value="" id="linkMan"
+										field="linkMan" name="linkMan" type="text"
+										class="span3" datatype="*1-100" nullmsg="此项不能为空"
+										sucmsg=" " /> 
+										<div class="Validform_checktip"></div></td>
+									<th style="width: 150px"><font color="red">*</font>手机号码：</th>
+									<td><input value="" id="linkPhone" onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+										field="linkPhone" name="linkPhone" type="text"
+										class="span3" datatype="" nullmsg="此项不能为空"
+										sucmsg=" " />
+										<div class="Validform_checktip"></div></td>
+								</tr> -->
+					<tr>
+						<!-- <th><font color="red">*</font>联系人邮箱：</th>
+									<td><input value="" id="contactEmail"
+										field="contactEmail" name="contactEmail" type="text"
+										class="span3" datatype="" nullmsg="此项不能为空"
+										sucmsg=" " />
+										<div class="Validform_checktip"></div></td> -->
+						<th style="width: 150px"><font color="red"></font>项目阶段：</th>
+						<td colspan="3"><select id="projectStage"
+							name="projectStage" class="span3">
+								<!-- <option value="">请选择项目阶段</option>	 -->
+						</select></td>
+					</tr>
+					<!--2 add by cys,data:2016-8-2,for:增加境外投资项目信息 *************************-->
+					<tr class="jw">
+						<th colspan="4" style="“text-align: left;"><font color="red">*</font>境
+							外 投 资 项 目 信 息 <!-- <input value="" id="contrInfo"
+										field="contrInfo" name="contrInfo" type="text"
+										style="display:none" class="span3" datatype="*1-1000" nullmsg="此项不能为空"
+										sucmsg=" "/> --></th>
+					</tr>
+					<tr class="jw">
+						<th><font color="red">*</font>项目所在地：</th>
+						<td colspan="3"><textarea value="" cols="100"
+								style="width: 86%" datatype="*1-100" id="projectSite"
+								name="projectSite" sucmsg=" " nullmsg="此项不能为空"></textarea></td>
+
+					</tr>
+					<tr class="jw">
+						<th><font color="red">*</font>中方投资额(万元)：</th>
+						<td colspan="3"><input value="" id="chinaTotalMoney"
+							field="chinaTotalMoney" name="chinaTotalMoney" type="text"
+							class="span3" datatype="/^\d{0,14}(\.\d{1,4})?$/"
+							nullmsg="此项不能为空" sucmsg=" " />
+							<div class="Validform_checktip"></div></td>
+
+					</tr>
+					<tr class='touzi'>
+						<th style="width: 150px"><font color="red">*</font>投资方式：</th>
+						<td><select id="investmentMode" name="investmentMode"
+							class="span3" datatype="*1-100" nullmsg="此项不能为空" onchange="selinvestmentMode()">
+								<!-- <option value="">请选择投资方式</option> -->
+						</select></td>
+					</tr>
+					<!--2 end by cys ,增加境外投资项目信息***********************************************************-->
+
+					<!--3  add by cys ,【外商增加基本投资信息】！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！-->
+					<tr class="ws">
+						<th colspan="4" style="“text-align: left;"><font color="red">*</font>外商投
+							资 项 目 信 息</th>
+					</tr>
+					<tr class="ws">
+						<th>是否涉及国家安全：</th>
+						<td colspan="3"><select id="isCountrySecurity"
+							name="isCountrySecurity" class="span3" onchange="selisCountrySecurity(this.options[this.options.selectedIndex].value)">
+								<option value="0">否</option>
+								<option value="1">是</option>
+						</select>
+							<div class="Validform_checktip"></div></td>
+					</tr>
+	<tr id="tr_securityApprovalNumber" style="display:none;">
+						<th>安全审查决定文号：</th>
+						<td colspan="3">
+						<input id="securityApprovalNumber" field="securityApprovalNumber" name="securityApprovalNumber" type="text" value="" 
+						class="span3" datatype="*1-30" nullmsg="此项不能为空" sucmsg=" ">
+						
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<tr class="ws">
+						<th><font color="red">*</font>总投资额折合美元(万元)：</th>
+						<td colspan="3"><input value="" id="totalMoneyDollar"
+							field="totalMoneyDollar" name="totalMoneyDollar" type="text"
+							class="span3" datatype="/^\d{1,14}(\.\d{1,4})?$/"
+							nullmsg="此项不能为空" sucmsg=" " />
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<tr class="ws">
+						<th><font color="red">*</font>总投资额使用的汇率（人民币/美元）：</th>
+						<td><input value="" id="totalMoneyDollarRate"
+							field="totalMoneyDollarRate" name="totalMoneyDollarRate"
+							type="text" class="span3" datatype="/^\d{1,14}(\.\d{1,4})?$/"
+							nullmsg="此项不能为空" sucmsg=" " />
+							<div class="Validform_checktip"></div></td>
+						<th style="width: 150px"><font color="red">*</font>项目资本金(万元)：</th>
+						<td><input name="projectCapitalMoney" class="span3"
+							id="projectCapitalMoney" type="text" sucmsg=" " nullmsg="此项不能为空"
+							datatype="/^\d{1,14}(\.\d{1,4})?$/" field="projectCapitalMoney"
+							value="" />
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<tr class="ws">
+						<th><font color="red">*</font>项目资本金折合美元(万元)：</th>
+						<td><input value="" id="projectCapitalMoneyDollar"
+							field="projectCapitalMoneyDollar"
+							name="projectCapitalMoneyDollar" type="text" class="span3"
+							datatype="/^\d{1,14}(\.\d{1,4})?$/" nullmsg="此项不能为空" sucmsg=" " />
+							<div class="Validform_checktip"></div></td>
+						<th style="width: 150px"><font color="red">*</font>项目资本金使用的汇率（人民币/美元）：</th>
+						<td><input name="capitalMoneyDollarRate" class="span3"
+							id="capitalMoneyDollarRate" type="text" sucmsg=" "
+							nullmsg="此项不能为空" datatype="/^\d{1,14}(\.\d{1,4})?$/"
+							field="capitalMoneyDollarRate" value="" />
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<tr class="ws">
+						<th>适用产业政策条目：</th>
+
+						<td><input value="" id="industrialPolicyName"
+							readonly="readonly" field="industrialPolicyName"
+							name="industrialPolicyName" type="text" class="span3"
+							style="display: block;"
+							onclick="opencyzctm('industrialPolicy','sycyzctm','适用产业政策条目');" />
+							<input value="" id="industrialPolicy" style="display: none;"
+							field="industrialPolicy" name="industrialPolicy" type="text"
+							class="span3" datatype="*1-100" maxlength="100" nullmsg="此项不能为空"
+							sucmsg=" " style="cursor: pointer;" readonly="readonly" />
+							<div class="Validform_checktip"></div></td>
+
+						<th style="width: 150px"><font color="red">*</font>适用产业政策条目类型：</th>
+						<td><select id="industrialPolicyType"
+							name="industrialPolicyType" class="span3" datatype="*1-100"
+							nullmsg="此项不能为空">
+								<!-- <option value="">请选择条目类型</option> -->
+						</select></td>
+					</tr>
+					<tr class="ws">
+						<th><font color="red">*</font>其他投资方式需予以申报的情况：</th>
+						<td colspan="3"><textarea value="" cols="100"
+								style="width: 86%" id="otherInvestmentApplyInfo"
+								name="otherInvestmentApplyInfo" sucmsg=" " datatype="*1-300"></textarea>
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<!-- 只有投资方式是并购项目，才显示一下项 BEGIN-->
+					<tr class="bingou" style="display:none;">
+						<th><font color="red">*</font>提供交易双方情况：</th>
+						<td colspan="3">
+								<textarea value="" cols="100" style="width: 86%" id="transactionBothInfo" name="transactionBothInfo" sucmsg=" " 
+								datatype="*1-1500" nullmsg="请填写信息" class="Validform_error"></textarea>
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<tr class="bingou" style="display:none;" >
+						<th><font color="red">*</font>并购安排：</th>
+						<td colspan="3">
+						<textarea value="" cols="100" style="width: 86%" id="mergerPlan" name="mergerPlan" sucmsg=" " 
+						datatype="*1-1500" nullmsg="请填写信息" class="Validform_error"></textarea>
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<tr class="bingou" style="display:none;" >
+						<th><font color="red">*</font>并购后经营方式及经营范围：</th>
+						<td colspan="3">
+						<textarea value="" cols="100" style="width: 86%" id="mergerManagementModeScope" name="mergerManagementModeScope" sucmsg=" " 
+						datatype="*1-1500" nullmsg="请填写信息" class="Validform_error"></textarea>
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<!-- 只有投资方式是并购项目，才显示一下项 END-->
+					<tr class="ws">
+
+						<th style="width: 150px"><font color="red">*</font>土地获取方式：</th>
+						<td><select id="getLandMode" name="getLandMode" class="span3"
+							datatype="*1-100" nullmsg="此项不能为空">
+								<!-- <option value="">请选择土地获取方式</option>  -->
+						</select></td>
+						<th><font color="red">*</font>总用地面积（平方米）：</th>
+						<td><input value="" id="landArea" field="landArea"
+							name="landArea" type="text" class="span3"
+							datatype="/^\d{1,14}(\.\d{1,4})?$/" nullmsg="此项不能为空" sucmsg=" " />
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<tr class="ws">
+						<th><font color="red">*</font>总建筑面积（平方米）：</th>
+						<td><input value="" id="builtArea" field="builtArea"
+							name="builtArea" type="text" class="span3"
+							datatype="/^\d{1,14}(\.\d{1,4})?$/" nullmsg="此项不能为空" sucmsg=" " />
+							<div class="Validform_checktip"></div></td>
+						<th>是否新增设备：</th>
+						<td><select id="isAddDevice" name="isAddDevice" class="span3">
+								<option value="0">否</option>
+								<option value="1">是</option>
+						</select>
+							<div class="Validform_checktip"></div></td>
+					</tr>
+					<tr class="ws">
+						<th><font color="red">*</font>其中：拟进口设备数量及金额：</th>
+						<td colspan="3"><textarea value="" cols="100"
+								style="width: 86%" id="importDeviceNumberMoney"
+								name="importDeviceNumberMoney" sucmsg=" " datatype="*0-96"></textarea>
+							<div class="Validform_checktip"></div></td>
+					</tr>
+
+					<!-- 3 end by cys ,【外商增加基本投资信息】！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！-->
+				</tbody>
+			</table>
+			<!-- -++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+			<div style="display: none;" id="cover"></div>
+			<!-- 2 add by cys，for：项目（法人）单位信息 ---------BEGIN--------------------------------------->
+			<div id="showdiv" class="aui_state_focus aui_state_lock" style="">
+				<div class="aui_outer">
+					<table class="aui_border">
+						<tbody>
+							<tr>
+								<td class="aui_nw"></td>
+								<td class="aui_n"></td>
+								<td class="aui_ne"></td>
+							</tr>
+							<tr>
+								<td class="aui_w"></td>
+								<td class="aui_c">
+									<div class="aui_inner">
+										<table class="aui_dialog">
+											<tbody>
+												<tr>
+													<td colspan="2" class="aui_header"><div
+															class="aui_titleBar">
+															<div class="aui_title" style="cursor: move;">添加项目法人单位信息</div>
+															<a class="aui_close" href="javascript:void(0)"
+																onclick='javascript:$("#showdiv").hide();$("#cover").hide();'>×</a>
+														</div></td>
+												</tr>
+												<tr>
+													<td class="aui_icon" style="display: none;"><div
+															class="aui_iconBg" style="background: none;"></div></td>
+													<td class="aui_main"><div
+															class="aui_content aui_state_full"
+															style="padding: 20px 25px;">
+
+															<table
+																class="table table-bordered table-condensed table01"
+																cellspacing="1" id="lerepInfo_form_show"
+																style="margin-bottom: 0px;">
+																<colgroup>
+																	<col width="20%">
+																	<col width="30%">
+																	<col width="20%">
+																	<col width="30%">
+																</colgroup>
+																<tbody>
+																	<tr>
+																		<th><font color="red">*</font>项目（法人）单位：</th>
+																		<td colspan="3"><input class="span3"
+																			name="enterpriseName" type="text" value=""
+																			id="enterpriseName" style="width: 80%;"
+																			datatype="*5-100" nullmsg="此项不能为空" sucmsg=" ">
+																			<div class="Validform_checktip"></div></td>
+																	</tr>
+																	<tr>
+																		<th><font color="red">*</font>项目法人证照类型：</th>
+																		<td><select id="lerepCerttype"
+																			name="lerepCerttype" class="span3"
+																			style="height: 33px;" datatype="*1-6"
+																			nullmsg="此项不能为空">
+
+																		</select>
+																			<div class="Validform_checktip"></div></td>
+																		<th><font color="red">*</font>项目法人证照号码：</th>
+																		<td><input class="span3" name="lerepCertno"
+																			type="text" id="lerepCertno" value=""
+																			datatype="*5-40" nullmsg="此项不能为空" sucmsg=" ">
+																			<div class="Validform_checktip"></div></td>
+																	</tr>
+																	<tr>
+																		<th><font color="red">*</font>项目单位性质：</th>
+																		<td colspan="3"><select id="enterpriseNature"
+																			name="enterpriseNature" class="span3"
+																			style="height: 33px;" datatype="*1-6"
+																			nullmsg="此项不能为空">
+
+																		</select>
+																			<div class="Validform_checktip"></div></td>
+																	</tr>
+
+																	<tr class="ws" style="display: none;">
+																		<th><font color="red">*</font>项目单位注册地址：</th>
+																		<td colspan="3"><input class="span3"
+																			name="enterprisePlace" type="text" value=""
+																			id="enterprisePlace" datatype="*0-10"
+																			nullmsg="此项不能为空" sucmsg=" " style="width: 80%;">
+																			<div class="Validform_checktip"></div></td>
+																	</tr>
+																	<tr class="ws" style="display: none;">
+																		<th><font color="red">*</font>项目单位中、外方各股东及持股比例是否与项目资本金相同：</th>
+																		<td colspan="3"><select
+																			id="chinaForeignShareRatio"
+																			name="chinaForeignShareRatio" class="span3"
+																			style="height: 33px;" datatype="*0-6"
+																			nullmsg="此项不能为空">
+																				<option value="0">与项目资本金出资结构相同</option>
+																				<option value="1">与项目资本金出资结构不同</option>
+																		</select>
+																			<div class="Validform_checktip"></div></td>
+																	</tr>
+																	<tr class="ws" style="display: none;">
+																		<th><font color="red">*</font>主要经营范围：</th>
+																		<td colspan="3"><textarea value="" cols="100"
+																				style="width: 95%" id="businessScope"
+																				name="businessScope" sucmsg=" " datatype="*0-10"
+																				nullmsg="请填写信息"></textarea>
+																			<div class="Validform_checktip"></div></td>
+																	</tr>
+																	<tr>
+																		<th><font color="red">*</font>法定代表人：</th>
+																		<td colspan="3"><input class="span3"
+																			name="contactName" type="text" value=""
+																			id="contactName" datatype="*2-100" nullmsg="此项不能为空"
+																			sucmsg=" ">
+																			<div class="Validform_checktip"></div></td>
+																	</tr>
+																	<tr>
+																		<th>联系电话：</th>
+																		<td><input class="span3" name="contactTel"
+																			type="text" value="" id="contactTel"
+																			datatype="phone|telphone" maxlength="16"
+																			nullmsg="此项不能为空" sucmsg=" " errormsg="请填写正确的手机或电话号码">
+																			<div class="Validform_checktip"></div></td>
+																		<th>联系人邮箱：</th>
+																		<td><input class="span3" name="contactEmail"
+																			type="text" value="" id="contactEmail" datatype="e"
+																			nullmsg="此项不能为空" sucmsg=" " errormsg="请填写正确的邮箱">
+																			<div class="Validform_checktip"></div></td>
+																	</tr>
+																	<tr>
+																		<th>联系手机：</th>
+																		<td><input class="span3" name="contactPhone"
+																			type="text" value="" id="contactPhone"
+																			datatype="phone" nullmsg="此项不能为空" sucmsg=" "
+																			errormsg="请填写正确的手机号码">
+																			<div class="Validform_checktip"></div></td>
+																		<th>传真：</th>
+																		<td><input class="span3" name="contactFax"
+																			type="text" value="" id="contactFax" datatype="*7-16"
+																			nullmsg="此项不能为空" sucmsg=" ">
+																			<div class="Validform_checktip"></div></td>
+																	</tr>
+																	<tr>
+																		<th><font color="red">*</font>单位注册地址：</th>
+																		<td colspan="3"><input class="span3"
+																			name="correspondenceAddress" type="text" value=""
+																			id="correspondenceAddress" datatype="*5-125"
+																			nullmsg="此项不能为空" sucmsg=" " style="width: 80%;">
+																			<div class="Validform_checktip"></div></td>
+																	</tr>
+																	<tr>
+																		<th colspan="4" align="center"><input value="确定"
+																			id="btnoklerepIfo" readonly="readonly"
+																			field="btnoklerepIfo" name="btnoklerepIfo"
+																			type="button" class="aui_state_highlight"
+																			style="height: 30px; background-color: #1582DC; padding: 3px; color: white;"
+																			onclick="btnoklerepIfo('lerepInfo_form')" /></th>
+																	</tr>
+																</tbody>
+															</table>
+
+
+														</div></td>
+												</tr>
+
+											</tbody>
+										</table>
+									</div>
+								</td>
+								<td class="aui_e"></td>
+							</tr>
+							<tr>
+								<td class="aui_sw"></td>
+								<td class="aui_s"></td>
+								<td class="aui_se" style="cursor: se-resize;"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+
+
+
+			<table class="table table-bordered table-condensed table01"
+				cellspacing="1" id="lerepInfo_form"
+				style="display: block; border-width: 0px">
+				<colgroup>
+
+					<col width="25%">
+					<col width="20%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<col width="15%">
+					<col width="10%">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th colspan="8">项目（法人）单位信息 <input value="新增" id="addlerepIfo"
+							readonly="readonly" field="addlerepIfo" name="addlerepIfo"
+							type="button" class="span3"
+							style="height: 30px; display: block; float: right; margin-right: 20px; background-color: #1582DC; padding: 3px; color: white;"
+							onclick="addlerepInfo()" />
+
+						</th>
+					</tr>
+					<tr>
+
+						<th>项目法人单位</th>
+						<th>法人证照类型</th>
+						<th>法人证照号码</th>
+						<th>法定代表人</th>
+						<th>联系电话</th>
+						<th>项目单位性质</th>
+						<th>操作</th>
+					</tr>
+				</tbody>
+			</table>
+
+			<!-- 2 add by cys，for：项目（法人）单位信息 ---------END--------------------------------------->
+
+			<!-- 3 add by cys，for： 项目外商出资信息 +++++++++++++++++++++++++++++++++++++++++++++-->
+			<div id="contrInfodiv" class="aui_state_focus aui_state_lock"
+				style="">
+				<div class="aui_outer">
+					<table class="aui_border">
+						<tbody>
+							<tr>
+								<td class="aui_nw"></td>
+								<td class="aui_n"></td>
+								<td class="aui_ne"></td>
+							</tr>
+							<tr>
+								<td class="aui_w"></td>
+								<td class="aui_c">
+									<div class="aui_inner">
+										<table class="aui_dialog">
+											<tbody>
+												<tr>
+													<td colspan="2" class="aui_header"><div
+															class="aui_titleBar">
+															<div class="aui_title" style="cursor: move;">添加项目外商出资情况信息</div>
+															<a class="aui_close" href="javascript:void(0)"
+																onclick='javascript:$("#contrInfodiv").hide();$("#cover").hide();'>×</a>
+														</div></td>
+												</tr>
+												<tr>
+													<td class="aui_icon" style="display: none;"><div
+															class="aui_iconBg" style="background: none;"></div></td>
+													<td class="aui_main"><div
+															class="aui_content aui_state_full"
+															style="padding: 20px 25px;">
+
+															<table
+																class="table table-bordered table-condensed table01"
+																cellspacing="1" id="contrInfo_form_show" style="">
+																<colgroup>
+																	<col width="20%">
+																	<col width="30%">
+																	<col width="20%">
+																	<col width="30%">
+																</colgroup>
+																<tbody>
+																	<tr>
+																		<th><font color="red">*</font>出资类型：</th>
+																		<td colspan="3"><select id="businessType"
+																			name="businessType" class="span3"
+																			style="height: 33px;" datatype="*0-20"
+																			nullmsg="此项不能为空">
+																				<option value="0">项目单位中、外方出资情况</option>
+																				<option value="1">项目资本金出资情况</option>
+																		</select></td>
+																	</tr>
+																	<tr>
+																		<th><font color="red">*</font>投资者名称：</th>
+																		<td colspan="3"><input class="span3"
+																			name="investmentName" type="text" value=""
+																			id="investmentName" datatype="*1-125"
+																			nullmsg="此项不能为空" sucmsg=" ">
+																			<div class="Validform_checktip"></div></td>
+
+																	</tr>
+																	<tr>
+																		<th><font color="red">*</font>注册国别地区：</th>
+																		<td><input value="" id="regCountryName"
+																			readonly="readonly" field="regCountryName"
+																			name="regCountryName" type="text" class="span3"
+																			style="display: block;"
+																			onclick="opencyzctm('regCountry','zcgbdq','注册国别地区');" />
+																			<input value="" id="regCountry"
+																			style="display: none;" field="regCountry"
+																			name="regCountry" type="text" class="span3"
+																			datatype="*1-100" maxlength="100" nullmsg="此项不能为空"
+																			sucmsg=" " style="cursor: pointer;"
+																			readonly="readonly" />
+																			<div class="Validform_checktip"></div></td>
+																		<th><font color="red">*</font>出资方式：</th>
+																		<td><select id="contributionMode"
+																			name="contributionMode" class="span3" datatype="*1-6"
+																			nullmsg="此项不能为空">
+																		</select>
+																			<div class="Validform_checktip"></div></td>
+																	</tr>
+																	<tr>
+																		<th><font color="red">*</font>出资额(万元)：</th>
+																		<td><input class="span3" name="contributionLimit"
+																			type="text" value="" id="contributionLimit"
+																			datatype="/^\d{1,14}(\.\d{1,4})?$/" maxlength="16"
+																			nullmsg="此项不能为空" sucmsg=" ">
+																			<div class="Validform_checktip"></div></td>
+																		<th><font color="red">*</font>出资比例：</th>
+																		<td><input class="span3" name="contributionRatio"
+																			type="text" value="" id="contributionRatio"
+																			datatype="/^\d{1,14}(\.\d{1,2})?$/" nullmsg="此项不能为空"
+																			sucmsg=" ">
+																			<div class="Validform_checktip"></div></td>
+																	</tr>
+
+																	<tr>
+																		<th colspan="4" align="center"><input value="确定"
+																			id="btnokcontrInfo" readonly="readonly"
+																			field="btnokcontrInfo" name="btnokcontrInfo"
+																			type="button" class="aui_state_highlight"
+																			style="height: 30px; background-color: #1582DC; padding: 3px; color: white;"
+																			onclick="btnokcontrInfo('contrInfo_form')" /></th>
+																	</tr>
+																</tbody>
+															</table>
+
+														</div></td>
+												</tr>
+
+											</tbody>
+										</table>
+									</div>
+								</td>
+								<td class="aui_e"></td>
+							</tr>
+							<tr>
+								<td class="aui_sw"></td>
+								<td class="aui_s"></td>
+								<td class="aui_se" style="cursor: se-resize;"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<table class="table table-bordered table-condensed table01"
+				cellspacing="1" id="contrInfo_form"
+				style="display: none; border-width: 0px">
+				<colgroup>
+					<col width="25%">
+					<col width="20%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<col width="15%">
+					<col width="10%">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th colspan="8">项目（外商投资）出资信息 <input value="新增"
+							id="addlerepIfo" readonly="readonly" field="addlerepIfo"
+							name="addlerepIfo" type="button" class="span3"
+							style="height: 30px; display: block; float: right; margin-right: 20px; background-color: #1582DC; padding: 3px; color: white;"
+							onclick="addcontrInfo()" />
+						</th>
+					</tr>
+					<tr>
+						<th>出资类型</th>
+						<th>投资者名称</th>
+						<th>注册国别地区</th>
+						<th>出资额(万元)</th>
+						<th>出资比例%</th>
+						<th>出资方式</th>
+						<th>操作</th>
+					</tr>
+				</tbody>
+			</table>
+
+			<!-- 3 end by cys，for： 项目外商出资信息 +++++++++++++++++++++++++++++++++++++++++++++-->
+
+			<!-- -+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+
+			<div id="service_step_03" style="display: none">
+				<div class="condition">
+					<table style="height: 80px">
+						<tr>
+							<td style="height: 80px; width: 90%; text-align: center;"><font
+								style="font-size: 30px; font-weight: bold">申报告知单</font></td>
+							<td style="text-align: right;"><img
+								src="{{PageContext.ContextPath}}public/images/CACCA1D7C0364DCBF173074E1600FB27.png"
+								width="85" height="85" /></td>
+						</tr>
+					</table>
+					<div class="conditionContent">
+						<ul>
+							<div class="userReminder" id="suc">
+								尊敬的<span class="userReminderT1" style="color: black"
+									id="user_info_name">****</span>用户：<br />
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您好，您申报的【<span
+									id="sb_item_name"></span>】办件已经申报成功。办件申报号为【 <span
+									class="userReminderT1" id="bjsqh">330000001408041000009</span>】
+								<!--查询密码为：【
+											<span class="userReminderT1">634663</span>】-->
+								。
+							</div>
+							<div class="userReminder" id="fa">
+								尊敬的<span class="userReminderT1" style="color: black"
+									id="user_info_name">****</span>用户：<br />
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您好，您申报的【<span
+									id="sb_item_name">{{itemInfo.NAME}}</span>】办件提交失败。请重新办理！
+							</div>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" id="sub_button">
+				<div class="col-xs-offset-5 col-xs-7">
+					<button class="btn btn-warning" onclick="checkit()">提交</button>
+				</div>
+			</div>
+	</section>
+</div>
+<script>
+	$(function() {
+		$('footer').find('p').eq(1).dblclick(function() {
+			demo_do();
+		});
+	});
+
+	function demo_do() {
+		$("#projectName").val("XXX水库增容工程");
+		$("#lerepCertno").val("01133656-X");
+		$("#startYear").val("2015");
+		$("#endYear").val("2016");
+		$("#investment").val("355.65");
+		$("#placeName").val("济南市");
+		$("#placeCode").val("370100");
+		$("#placeDetailName").val("平阴县");
+		$("#placeDetailCode").val("370124");
+		var d = new Date();
+		var str = d.getFullYear() + "-" + (d.getMonth() + 1) + "-"
+				+ d.getDate();
+
+		$("#applyDate").val(str);
+		$("#industryName").val("防洪除涝设施管理");
+		$("#industry").val("A7610X");
+		$("#projectContent")
+				.val(
+						"抬高水库兴利水位至83.00。主要建设内容：引孝济范工程 本次工程主要沿干渠展开，包括渠道维修加固、渠系建筑物维修加固、新建泄水工程及管理设施");
+
+	}
+</script>

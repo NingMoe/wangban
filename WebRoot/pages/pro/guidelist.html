@@ -1,0 +1,206 @@
+{% set region_code PageContext.Parameter.region_code %}
+{% map "region_code",region_code as p %}
+	{% command "app.icity.ipro.IproCmd","getDept",p as d %}
+{%  set region d.data %}
+
+<script>
+var region_code = "{{region.CODE}}";
+$(function(){
+	var href = LEx.urldata.href;	
+
+	$("a[href="+href+"]").trigger("click");
+	getMatters();
+});
+function getMatters(){
+    //获取事项    
+    var command = new LEx.Command("app.icity.ipro.IproCmd");
+	var ret =  command.execute("getInvestDictList");
+	
+	//var region_code = LEx.urldata.region_code;
+	var commandItemList = new LEx.Command("app.icity.ipro.IproCmd");
+	commandItemList.setParameter("region_code",region_code);
+	var retItemList =  commandItemList.execute("getProjectDirectory");
+	ret.data.matters = retItemList.data.list;
+	
+	if(!ret.error){
+		$("#matterList").html(LEx.processDOMTemplate("MattersListTemplate",ret));
+	}else{
+		alert(ret.error);//打印错误信息
+	}
+}
+</script>
+
+<div style="background-color: #fff; padding: 20px 40px;width:1030px;margin:0px auto;">
+    <ol class="breadcrumb">
+        <li><a href="{{cp}}pro/index">首页</a></li>
+        <li><a href="{{cp}}pro/index">{{region.NAME}}办事大厅</a></li>
+        <li class="active">办事指南</li>
+    </ol>
+    <section class="panel panel-default">
+            <ul class="nav nav-pills font-size-16" style="margin: -1px; border-bottom: 3px solid #29588C;">
+                <li class="active"><a href="#x-p-1" data-toggle="tab"><strong>政府投资项目审批</strong></a></li>
+                <li><a href="#x-p-2" data-toggle="tab"><strong>企业投资项目核准</strong></a></li>
+                <li><a href="#x-p-3" data-toggle="tab"><strong>企业投资项目备案</strong></a></li>
+            </ul>
+        <div class="tab-content panel-body">
+            <div class="tab-pane fade in active" id="x-p-1">
+                <!-- <div class="alert alert-warning alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+                    <strong>温馨提示：</strong>政府投资项目审批，请您前往相关单位办理。 
+                </div> -->
+                <section class="panel panel-default">
+                    <table class="table table-hover" id="spList">
+                        <tbody>
+                        	<tr>
+                        	<td  style="width:80%">权限内政府投资项目审批（含初步设计概算审批）</td>
+                        	<td class="text-right" type="online">
+                        		<a class="btn btn-primary btn-xs" href="{{cp}}pro/onlineapplySP?code=0103607FC8E545CAAF821D8696367B56&region_code={{region_code}}">在线办理</a>
+                        	</td>
+                        	<td class="text-right">
+                        		<a class="btn btn-primary btn-xs" href="{{cp}}pro/guide_detail?itemId=0103607FC8E545CAAF821D8696367B56&region_code={{region_code}}">办事指南</a>
+                        	</td>
+                        	</tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+            <div class="tab-pane fade" id="x-p-2">
+                <section class="panel panel-default">
+                    <table class="table table-hover" id="matterList">
+                        
+                    </table>
+                </section>
+
+            </div>
+            <div class="tab-pane fade" id="x-p-3">
+                <!--<div class="alert alert-warning alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+                    <strong>温馨提示：</strong>企业投资备案项目已下放到地方，请您前往地方平台办理。
+                </div>  -->
+                <div class="row gamma" style="display:none;">
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">北京市</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">天津市</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">河北省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">山西省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">内蒙古自治区</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">辽宁省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">吉林省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">黑龙江省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">江西省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">广西壮族自治区</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">重庆市</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">新疆建设兵团</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">北京市</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">天津市</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">河北省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">山西省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">内蒙古自治区</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">辽宁省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">吉林省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">黑龙江省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">江西省</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">广西壮族自治区</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">重庆市</a>
+                    </p>
+                    <p class="col-xs-2 alpha">
+                        <a class="btn btn-default btn-block" href="javascript:void(0)">新疆建设兵团</a>
+                    </p>
+                </div>
+                <section class="panel panel-default">
+                <table class="table table-hover" id="baList">
+					<tbody>
+                        	<tr>
+                        	<td style="width:80%">《政府核准的投资项目目录》以外的企业投资项目备案</td>
+                        	<td class="text-right" type="online">
+                        		 <a class="btn btn-primary btn-xs" href="{{cp}}pro/onlineapplyBA?code=3C3086F0FB6A4C08A15FDCF30DBEB902&region_code={{region_code}}">在线办理</a>
+                        		<!-- <a class="btn btn-primary btn-xs disabled" href="javascript:void(0)">在线办理</a> -->
+                        	</td>
+                        	<td class="text-right">
+                        		<a class="btn btn-primary btn-xs" href="{{cp}}pro/guide_detail?itemId=3C3086F0FB6A4C08A15FDCF30DBEB902&region_code={{region_code}}">办事指南</a>
+                        	</td>
+                        	</tr>
+                    	</tbody>
+                	</table>
+               	</section>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/template" id="MattersListTemplate">
+		 {var industrys=data.TZSPXMHYFL}
+		 {var matters=data.matters}
+		 
+		 {for industry in industrys}
+			{if LEx.isNotNull(industry.NAME)}
+			{var flag = 0}
+			{for matter in matters}
+				
+				{if LEx.isNotNull(matter.NAME)}
+				
+				{if industry.CODE == matter.PARENT_CODE}
+					{if flag==0}
+						<thead>
+							<tr class="active">
+								<th class="font-size-16" colspan="3">${industry.NAME}</th>
+							</tr>
+            			</thead>
+					{var flag = 1}
+					{/if}
+            	<tbody>
+                	<tr>
+						<td style="width:80%">${matter.NAME}</td>
+                    	<td class="text-right" type="online"><a class="btn btn-primary btn-xs" href="{{cp}}pro/onlineapply?code=${matter.CODE}">在线办理</a></td>
+                    	<td class="text-right"><a class="btn btn-primary btn-xs" href="{{cp}}pro/guidelist_info?code=${matter.CODE}&region_code=${matter.DIVISION_CODE}">办事指南</a></td>
+                	</tr>
+                </tbody>
+				{/if}
+				{/if}
+			{/for}
+			{/if}
+		 {/for}
+</script>

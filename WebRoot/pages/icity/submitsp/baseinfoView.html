@@ -1,0 +1,290 @@
+{% merge PageContext.ContextPath,"icity/submitsp/baseinfo?itemId=" as online_service_url %}
+<style>
+/*强制不显示横向滚动条，纵向滚动条会在内容过多时自动显示*/
+html{
+    /*overflow:hidden;*/
+    background:#F5F6F7;
+    overflow-x:hidden;
+}
+</style>
+     {% set code PageContext.Parameter.sblsh%}
+     {% set type "0"%}
+     {% set sxid PageContext.Parameter.rowguid%}
+     
+{% map "SBLSH",code as p%} {% command "app.icity.project.ProjectIndexCmd","BusinessQueryByNameAndId",p as d %}
+{% if d.data %}
+{% set o  d.data %}
+{% endif %}
+<div class="container"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png %}"> 您当前所在的位置:</li>
+        <li><a href="#">首页</a></li>
+        <li><a href="#">业务详情</a></li>
+    </ol>
+</div>
+<div class="panel panel-primary" style="border-color: #ddd; padding: 0px 60px;">
+    <header class="panel-heading no-bordered" style="margin: -1px; margin-bottom:0; padding: 15px; background-color:#4f719c;">
+          {% if o.STATE|equal:"00" %}
+                     	<a	href="{{online_service_url}}{{o.SXID}}&sblsh={{o.SBLSH}}" class="btn btn-primary pull-right" style="background-color:#728db0; margin-top: -8px;">修改</a>
+						 {% endif %}
+						 {% if o.STATE|equal:"03" %}
+						<a	href="{{online_service_url}}{{o.SXID}}&sblsh={{o.SBLSH}}" class="btn btn-primary pull-right" style="background-color:#728db0; margin-top: -8px;">修改</a>
+						{% endif %}
+						{% if o.STATE|equal:"11" %}
+						<a href="#" onclick="chehui('{{o.SBLSH}}');" class="btn btn-primary pull-right" style="background-color:#728db0; margin-top: -8px;">撤回</a>
+						{% endif %}
+						{% if o.STATE|equal:"14" %}
+						<a	href="{{online_service_url}}{{o.SXID}}&sblsh={{o.SBLSH}}" class="btn btn-primary pull-right" style="background-color:#728db0; margin-top: -8px;">重新办理</a>
+						{% endif %}
+						{% if o.STATE|equal:"21" %} 
+						<a	href="{{online_service_url}}{{o.SXID}}&sblsh={{o.SBLSH}}" class="btn btn-primary pull-right" style="background-color:#728db0; margin-top: -8px;">补齐补正</a>
+						 {% endif %}
+    
+    
+        <!-- <a class="btn btn-primary pull-right" style="background-color:#728db0; margin-top: -8px;" href="javascript:;" onclick="BusinessList();">{{o.STATE}}</a>
+          -->
+          <h3 class="panel-title"><strong>业务详情</strong></h3>
+     </header>
+     <ul class="nav nav-tabs nav-justified its-nav-tabs-business">
+         <li class="active"><a data-toggle="tab" href="#t-b-1" aria-expanded="true">基本信息</a></li>
+         <li class=""><a data-toggle="tab" href="#t-b-2" aria-expanded="false">表单信息</a></li>
+         <li class=""><a data-toggle="tab" href="#t-b-3" aria-expanded="false">申请材料</a></li>
+         <li class=""><a data-toggle="tab" href="#t-b-4" aria-expanded="false">结果材料</a></li>
+     </ul>
+     
+
+     <div class="tab-content panel-body"  style="min-height:500px;">
+         <div class="tab-pane active" id="t-b-1" >
+         <table class="table table-bordered its-table-backlog" style="width:100%;">
+         <tbody style="width:100%;">
+             <tr>
+                 <th class="text-right active">申办流水号：</th>
+                 <td colspan="3"><font id="sblsh">{{o.SBLSH}}</font></td>
+             </tr>
+             <tr style="width:100%;">
+                 <th class="text-right active"  style="width:15%;">事项名称：</th>
+                 <td style="width:55%;"><font id="sxmc">{{o.SXMC}}</font></td>
+                 <th class="text-right active"  style="width:15%;">申请人或单位：</th>
+                 <td style="width:15%;"><font id="sqrmc">{{o.SQRMC}}</font></td>
+             </tr>
+              <tr style="width:100%;">
+                 <th class="text-right active"  style="width:15%;">申办项目名称：</th>
+                 <td style="width:55%;"><font id="sxmc">{{o.SBXMMC}}</font></td>
+                 <th class="text-right active"  style="width:15%;">联系电话：</th>
+                 <td style="width:15%;"><font id="sqrmc">{{o.LXRSJ}}</font></td>
+             </tr>
+             
+             <tr>
+                 <th class="text-right active">申办时间：</th>
+                 <td><font class="NeedFormatTimeDetail" style="display: none;">{{o.SBSJ}}</font></td>
+                 <th class="text-right active">当前状态：</th>
+                 <td><font class="NeedFormatState" state="{{o.STATE}}"></font></td>
+             </tr>
+             {% set a o.STATE|equal:"14"%}
+			{% set b o.STATE|equal:"13"%}
+			{% set c o.STATE|equal:"02"%}
+			{% if a|or:b,c %}
+			<tr class="tr_1">
+				<th class="text-right active">预审时间：</th>
+				<td><font class="NeedFormatTimeDetail" style="display: none;">{{o.YSLSJ}}</font></td>
+				<th class="text-right active">预审意见：</th>
+				<td><font id="sbxmmc">{{o.YSLJGMS}}</font></td>
+			</tr>
+			{% endif %}
+           
+	</table>
+         </div>
+         <div class="tab-pane" id="t-b-2">
+            {% map "SBLSH",code,"TYPE",type as p%} {% command "app.icity.project.ProjectIndexCmd","formInfoQueryByNameAndId",p as d %}
+	{% if d.data %}
+		<div class="" id="FormInfo">
+		<iframe id="formiframe" name="formiframe" src="{{PageContext.ContextPath}}icity/submitsp/view?itemId={{d.data.itemId}}&formId={{d.data.formId}}&dataId={{d.data.dataId}}&width=95" style="border:0px;width:100%;min-height:500px;"></iframe>
+		</div>
+	{% endif %}
+         </div>
+         <div class="tab-pane" id="t-b-3">
+         {% map "SBLSH",code,"TYPE",type as p%} {% command "app.icity.project.ProjectIndexCmd","materialListQueryByNameAndId",p as d %}
+{% if d.data %}
+	{% if d.data.metail %} 
+	<button onclick="printArea()" class="nbutton_gray" style="float: right; margin-right: 20px; margin-top: 0px; margin-bottom: 5px;">打印</button>
+	<div class="" id="sqcllist" style="margin: 0px;">
+		<table class="table table-bordered">
+           <thead>
+               <tr class="active">
+                   <th>申请材料名称</th>
+                   <th>实际上传材料的名称</th>
+               </tr>
+           </thead>
+           <tbody>
+           {% for o in d.data.metail %}
+			<tr>
+				<input type="hidden" name="DOCUMENT_ID" value="{{o.DOCUMENT_ID}}" />
+				<td width="35%">{{o.DOCUMENT_NAME}}</td>
+				<td width="65%"><a href="#" onclick="opena('{{o.FILE_PATH}}','{{o.FILE_NAME}}');">{{o.FILE_NAME}}</a></td>
+			</tr>
+		   {% endfor %}           
+           </tbody>
+       </table>
+	</div>
+	{% else %}
+	<div class=""  style="margin: 15px;">
+		<table class="listTable" width="100%" cellspacing="1">
+			<tr class="tr_2">
+				<th>无任何实际上传材料！</th>
+			</tr>
+		</table>
+	</div>
+	{% endif %}
+{% endif %}           
+         </div>
+         <div class="tab-pane" id="t-b-4">
+         <div id="ml">
+	<button id="resultButton" onclick="resultprintArea()" class="nbutton_gray" style="float: right; margin-right: 20px; margin-top: 0px; margin-bottom: 5px;">打印</button>
+	<div class="busy-result" id="resultmaterials" style="margin: 0px;">
+		
+	</div>
+</div>
+	<div class="" id="materials" style="margin: 15px;">
+		<table class="listTable" width="100%" cellspacing="1">
+			<tr class="tr_2">
+				<th>没有产生结果材料！</th>
+			</tr>
+		</table>
+	</div>
+	<input type="hidden" id="sxid" value="{{sxid}}"/>
+	<input type="hidden" id="id" value="{{id}}"/>
+<script type="text/javascript">
+function chehui(obj){
+	var cmd = new LEx.Command("app.icity.project.ProjectIndexCmd");
+	cmd.setParameter("SBLSH", obj);	
+	var ret =  cmd.execute("updateBusinessIndex");
+	if(!ret.error){	
+		 location.assign(location);
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+function resultprintArea(){
+	$("#resultmaterials").printArea();
+}
+$(function(){
+	initMaterial();
+});
+function initMaterial(){
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("itemId",$("#sxid").val());
+	cmd.setParameter("sblsh",$("#id").val());
+	var ret = cmd.execute("getResultMaterial");
+	if(!ret.error){
+		if(ret.total>0){
+			$("#ml").show();
+			$("#resultmaterials").html(LEx.processDOMTemplate('templateResultmaterials',ret));
+			$("#materials").hide();			
+		}else{
+			$("#ml").hide();
+			$("#materials").show();			
+		}		
+	}else{
+		$("#ml").hide();
+		$("#materials").show();	
+	}
+}
+function winOpen(docid,name){
+	 var opera = "downloadagent4wp&path="+docid+"&name="+encodeURIComponent(name); 
+	 window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+     return false;
+}
+</script>
+<textarea id="templateResultmaterials" style="display: none">	
+ 		<table class="table table-bordered">
+           <thead>
+               <tr class="active">
+                   <th>结果材料名称</th>
+                   <th>实际上传材料的名称</th>
+               </tr>
+           </thead>
+           <tbody>
+           		{for o in data}
+			<tr>
+				<input type="hidden" name="DOCUMENT_ID" value="${o.CODE}" />
+				<td width="40%">${o.NAME}</td>
+				<td width="60%">
+					<table width="100%">
+					{for p in o.FILES}
+						<tr>
+							<td width="20%">${p.FILE_TYPE}</td>							
+							<td width="80%">
+							   {if p.FILE_TYPE=="电子"}
+							    <a href="javascript:void(0);" onclick="winOpen('${p.FILE_PATH}','${p.FILE_NAME}');">${p.FILE_NAME}</a>
+							   {else}
+							    ${p.FILE_NAME}
+							   {/if}
+							</td>
+						</tr>
+					{/for}
+					</table>
+				</td>
+			</tr>
+		{/for}      
+           </tbody>
+       </table>
+</textarea>
+
+         </div>
+     </div>
+ </div>
+ <script type="text/javascript">
+	function BusyDetailInit() {
+		$(".NeedFormatState").each(function() {
+			var status = $(this).attr("state");
+			var bState = LEx.icityBusiness.formatStatus(status);
+			$(this).html(bState);
+		});
+
+		$(".NeedFormatTimeDetail,.NeedFormatTime").each(function() {
+			var shtml = $(this).html()+"";
+			if(LEx.isNotNull(shtml)){
+				var stime = eval('(' + shtml + ')');
+				var rtime = formatTime(stime);
+				$(this).html(rtime).show();
+			}else{
+				$(this).html("—").show();
+			}
+		});
+		$(".NeedFormatTimeType").each(function() {
+			var shtml = $(this).html()+"";
+			if(LEx.isNotNull(shtml)){
+				var stime = eval('(' + shtml + ')');
+				var t = (new Date(stime)).pattern("yyyy-MM-dd HH:mm");
+				$(this).html(t).show();
+			}else{
+				$(this).html("—").show();
+			}
+		});
+	}
+
+	function formatTime(obj) {
+		try {
+			return LEx.util.Format.formatDate(parseInt(obj.time) / 1000, "yyyy-MM-dd HH:mm");
+		} catch(e){
+			return "—"; 
+		}
+	}
+
+	//初始化业务详细信息
+	BusyDetailInit();
+	
+	function printArea(){
+		$("#sqcllist").printArea();
+	}
+	function opena(docid,name){
+		if(docid==""||docid==undefined||docid=="undefined"){
+			return;
+		}
+	    var opera = "downloadagent4wp&path="+docid+"&name="+encodeURIComponent(name); 
+	   	window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+		return false;
+	}
+	
+	
+</script>

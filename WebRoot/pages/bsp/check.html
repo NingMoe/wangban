@@ -1,0 +1,26 @@
+<div id="page" class="container" style="padding-left: 10px; padding-right: 10px; background-color: #fff;">
+	<div class="row">
+		<div class="col-xs-4">
+		</div>
+		<div class="col-xs-4">
+			<div id="div_login" class="panel-body">
+			<ul class="list-unstyled zl-list-unstyled-ggfu-4">
+				<li class="col-xs-12"><a href="javascript:void(0);" onclick="doLogin('c');">个人登录</a></li>
+				<li class="col-xs-12"><a href="javascript:void(0);" onclick="doLoginfr('c');">法人登录</a></li>
+			</ul>
+		</div>
+		</div>
+		<div class="col-xs-4">
+		</div>
+	</div>
+</div>
+<script>
+	var check_goto = LEx.getUrldata.goto;
+	var __href = window.location.href;
+	if("{{ConfigInfo.ProDomainName}}"){
+		if(__href.indexOf("{{ConfigInfo.ProDomainName}}")>-1){	
+			var href = __href.replace("{{ConfigInfo.ProDomainName}}","{{ConfigInfo.IcityDomainName}}");
+			window.location.href=href;
+		}
+	}	
+</script>

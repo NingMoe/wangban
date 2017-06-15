@@ -1,0 +1,162 @@
+<script type="text/javascript" src="{{PageContext.JsPath}}raty_master/lib/jquery.raty.js"></script>
+<style>
+
+</style>
+ 
+<section class="its-page-body" id="businessList" style="display:block;">
+		 <ul id="myTab" class="nav nav-tabs" style="margin-bottom: 5px;">
+			<li class="active text-center" onclick="changeState('0')" style="cursor: pointer;"><a
+				data-toggle="tab" style="height: 36px">待评价</a></li>
+			<li class="text-center" onclick="changeState('1')" style="cursor: pointer;"><a
+				data-toggle="tab" style="height: 36px">已评价</a></li>
+		</ul>
+		<table class="table its-tabel-filter" style="margin-bottom: 10px;">
+             <tbody>
+                 <tr>
+                     <th width="80" class="text-right">办件名称：</th>
+                     <td width="240"><input type="text" class="form-control" placeholder="请输入办件名称" id="sbxmmc"></td>
+                     <th width="80" class="text-right">申报时间：</th>
+                     <td width="130"><input type="text" class="form-control" id="APPLYTIME_S" placeholder="请选择"  onClick="jeDate({dateCell:'#APPLYTIME_S',isTime:true,format:'YYYY-MM-DD'})"></td>
+                     <th width="15" class="text-right">至</th>
+                     <td width="130"><input type="text" class="form-control" id="APPLYTIME_E" placeholder="请选择"  onClick="jeDate({dateCell:'#APPLYTIME_E',isTime:true,format:'YYYY-MM-DD'})"></td>
+                     <td width="50"><button type="button" 	onclick="bltable.pageIndex(0);onQuery();return false;" class="btn btn-primary btn-sm no-bordered btn-block f16">搜 索</button></td>
+                 </tr>
+             </tbody>
+         </table>
+        
+         <div id="div_business_list">
+         </div>
+         <div id="epager" style="text-align:center;"></div>
+</section>
+<section class="its-page-body" id="businessDetail" style="display:none;">
+</section>
+<!-- 待评价列表 -->
+<textarea id="template_evaluate_list" style="display: none">
+{if data.length > 0} 
+         <table class="table table-striped its-table-backlog">
+             <thead>
+                 <tr class="bg-info">                
+                     <th style="width:55%;" class="text-center text-primary">办件名称</th>                     
+                     <th style="width:20%;" class="text-center text-primary">申报时间</th>
+                      <th style="width:10%;" class="text-center text-primary">办件状态</th>
+                     <th style="width:15%;" class="text-center text-primary">操作</th>
+                 </tr>
+             </thead>
+             <tbody>
+			{for o in data}
+             <tr>
+                     <td><a href="javascript:void(0);"	onclick="BusinessDetail('${o.SBLSH}','${o.SXID}');">${o.SBXMMC}<span class="text-primary"></span></a></td>
+                     <td class="text-center" >${formatDate(o.SBSJ)}</td>
+                     <td class="text-left"><span class="NeedFormatState"  state='${o.STATE}'></span></td>
+                     <td class="text-center">
+						<!-- 99准予许可的件 评价功能 -->
+                     	{if o.STAR_LEVEL==""} 
+                     	<a onclick="evaluateShow('${o.SBLSH}','${o.SBXMMC}')"  style="background-color:#0085c3;margin-bottom:5px;"  class="btn btn-primary">&nbsp;&nbsp;评&nbsp;&nbsp;价&nbsp;&nbsp;</a>
+						{/if}
+                     </td>
+                 </tr>
+             {/for}
+             </tbody>
+         </table> 
+{/if}
+</textarea>
+<!-- 已评价列表 -->
+<textarea id="template_have_evaluate_list" style="display: none">
+{if data.length > 0} 
+         <table class="table table-striped its-table-backlog">
+             <thead>
+                 <tr class="bg-info">                
+                     <th style="width:35%;" class="text-center text-primary">办件名称</th>                     
+                     <th style="width:15%;" class="text-center text-primary">申报时间</th>
+                     <th style="width:10%;" class="text-center text-primary">办件状态</th>
+                     <th style="width:15%;" class="text-center text-primary">评价时间</th>
+                     <th style="width:15%;" class="text-center text-primary">评价星级</th>
+                     <th style="width:10%;" class="text-center text-primary">操作</th>
+                 </tr>
+             </thead>
+             <tbody>
+			{for o in data}
+             <tr>
+                     <td><a href="javascript:void(0);"	onclick="BusinessDetail('${o.SBLSH}','${o.SXID}');">${o.SBXMMC}<span class="text-primary"></span></a></td>
+                     <td class="text-center" >${formatDate(o.SBSJ)}</td>
+                     <td class="text-left"><span class="NeedFormatState"  state='${o.STATE}'></span></td>
+                    <td class="text-center" >${formatDate(o.CREATOR_DATE)}</td>
+                     <td class="text-left">
+						<!-- 99准予许可的件 评价功能 -->
+						{if o.STAR_LEVEL!=""} 
+						<div  data-score="${o.STAR_LEVEL}" class="star_level_data"></div>
+						{/if}
+                     </td>
+                     <td class="text-center"><a onclick="lookEvaluate('${o.SBXMMC}','${o.STAR_LEVEL}','${o.QUALITY_STAR_LEVEL}','${o.TIME_STAR_LEVEL}','${o.MAJOR_STAR_LEVEL}','${o.EVALUATE_CONTENT}')"  style="background-color:#0085c3;margin-bottom:5px;"  class="btn btn-primary">查看详情</a></td>
+                 </tr>
+             {/for}
+             </tbody>
+         </table> 
+{/if}
+</textarea>
+<section id="evaluate" class="panel panel-primary" style="border-color: #ddd; margin-top:10px;margin-left:10px;  display: none;">
+    <header class="panel-heading no-bordered" style="margin: -1px; margin-bottom:0; padding: 15px; background-color:#4f719c;">
+        <a class="btn btn-primary pull-right" style="background-color:#728db0; margin-top: -8px;" href="javascript:;" onclick="hideshow();">返回业务列表 →</a>
+         <h3 class="panel-title"><strong>办件评价</strong></h3>
+     </header>
+     	<div style="margin-top: 10px;margin-left:20px;" class="evaluatelabel">
+				  <h4 class="panel-title">请填写您对此办件的评价!</h4>
+		</div>
+       <div class="tab-content panel-body"  style="min-height:300px;">
+         <table  class="table table-bordered its-table-backlog">
+				<tr style="height: 60px;">
+				<th class="text-right active" style="width:15%;">办件名称</th>
+					<td colspan="2" style="border-right: none;">
+							<div id="bjmc"></div>
+					</td>
+				</tr>
+				<tr style="height: 60px;">
+				<th class="text-right active" style="width:15%;"><label class="evaluatelabel" style="color: red">*</label>&nbsp;办件总体评价</th>
+					<td style="width:20%;border-right: none;">
+							<div class="star" data-score="" id="star_level"></div>
+					</td>
+					<td style="width:60%;border-left: none;">
+							<div id="star_level_info" class="level_info"></div>
+					</td>
+				</tr>
+				<tr style="height: 60px;">
+					<th class="text-right active"><label class="evaluatelabel" style="color: red">*</label>&nbsp;服务质量评价</th>
+					<td style="border-right: none;">
+				 	<div class="star" data-score="" id="quality_star_level"></div>
+					</td>
+					<td style="border-left: none;">
+				 	<div  id="quality_star_level_info" class="level_info"></div>
+					</td>
+				</tr>
+				<tr style="height: 60px;">
+					<th class="text-right active"><label class="evaluatelabel" style="color: red">*</label>&nbsp;办件时间评价</th>
+					<td style="border-right: none;">
+					<div class="star" data-score="" id="time_star_level"></div>
+					</td>
+					<td style="border-left: none;">
+					<div id="time_star_level_info" class="level_info"></div>
+					</td>
+				</tr>
+				<tr style="height: 60px;">
+					<th class="text-right active"><label class="evaluatelabel" style="color: red">*</label>&nbsp;业务专业评价</th>
+					<td style="border-right: none;">
+					<div class="star" data-score="" id="major_star_level"></div>
+					</td>
+					<td style="border-left: none;">
+					<div  id="major_star_level_info" class="level_info"></div>
+					</td>
+				</tr>
+				<tr>
+					<th class="text-right active"><label class="evaluatelabel" style="color: red">*</label>&nbsp;评价内容</th>
+					<td colspan="2">
+						<textarea id="EVALUATE_CONTENT" class="form-control evaluatelabel" rows="5"
+									 placeholder="请写下您对此事项办件的评价内容"
+									type="text" maxlength="1000"></textarea> 
+						<div id="divcontent"></div>
+					</td>
+				</tr>
+			</table>
+			<button type="button" class="btn btn-default pull-right" style="margin-right: 20px;" onclick="hideshow();">返回</button>
+			<button type="button" class="btn btn-primary pull-right evaluatelabel" style="margin-right: 20px;" onclick="evaluateProject();">提交</button>
+         </div>
+     </section>  

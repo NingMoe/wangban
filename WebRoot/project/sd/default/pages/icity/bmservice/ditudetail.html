@@ -1,0 +1,76 @@
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=smshgu2v27tWx3pwMtACQAjGvz8DP7Zg"></script>
+<body style="background-color: #f5f5f5;">
+<div class="container" style="width: 1030px !important;"> 
+    <section class="panel" style="padding: 20px;">
+        <header class="panel-heading" style=" padding: 0; border-color: #f1f1f1;">
+            <h4 class="panel-title inline-block" style="margin-top: 0; margin-bottom:-1px; border-bottom: 2px solid #0088c1; padding: 0 30px 10px 5px;">
+                <img src="http://zwfw.sd.gov.cn/images/2/tit-src.png">&nbsp;&nbsp;&nbsp;<span class="text-primary" id="mattername">外籍人员子女学校名录</span>
+            </h4>
+        </header>
+        <br>
+        <div class="row">
+            <div class="col-xs-3 omega" id ="matterList">
+            </div>
+            <div class="col-xs-9 alpha">
+            	<div class="col-xs-5" id="l-map" style="z-index: 9; overflow: hidden; -webkit-user-select: none; width: 706px; height: 446px;"></div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+	var map = new BMap.Map("l-map");
+	map.enableScrollWheelZoom(true);
+	var id = LEx.urldata.id;
+	$(function(){
+		matterInfo(id)
+	});
+	function matterInfo(id) {
+		var index = 0;
+		var myGeo = new BMap.Geocoder();
+		var adds = [];
+		var cmd = new LEx.Command("app.icity.ServiceCmd");
+		cmd.setParameter("id", id);
+		var ret = cmd.execute("getPermission");
+		debugger;
+		var address = [];
+		if (ret.state==1) {
+			$("#mattername").html(ret.data.ItemInfo[0].NAME);
+			$("#matterList").html(LEx.processDOMTemplate("matterListTemplate",ret));
+			var len = ret.data.window.length;
+			address = ret.data.window;
+			if(len>0){
+				map.centerAndZoom(new BMap.Point(parseInt(address[0].LONGITUDE),
+						parseInt(address[0].LATITUDE)), 13);
+			}
+			for ( var i = 0; i < len; i++) {
+				adds.push(new BMap.Point(parseInt(address[i].LONGITUDE),
+						parseInt(address[i].LATITUDE)));
+			}
+		}
+		for ( var i = 0; i < adds.length; i++) {
+			var marker = new BMap.Marker(adds[i]);
+			map.addOverlay(marker);
+			marker.setLabel(new BMap.Label("地址:"+(i + 1) , {
+				offset : new BMap.Size(20, -10)
+			}));
+		}
+	}
+	// 用经纬度设置地图中心点
+	function theLocation(latitude,longitude){
+		if(longitude != "" && latitude != ""){
+			map.clearOverlays(); 
+			var new_point = new BMap.Point(longitude,latitude);
+			var marker = new BMap.Marker(new_point);
+			map.addOverlay(marker);
+			map.panTo(new_point);
+		}
+	}
+</script>
+<script type="text/template" id="matterListTemplate">
+<ul class="list-group its-list-group-3">
+{for o in data.window}
+     <li onclick="theLocation(${o.LATITUDE},${o.LONGITUDE})" class="list-group-item"><img src="http://sdmap.gov.cn:8081/locate/images/loc/${parseInt(o_index)+1}.png">${o.WINDOW_NAME}</li>
+{/for}
+</ul>
+</script>

@@ -1,0 +1,107 @@
+
+<style type="text/css">
+
+table {
+	border-collapse: collapse;
+	border: solid #becfdd;
+	border-width: 1px 0 0 1px;
+	font-size: 11pt;
+}
+
+table th,table td {
+	border: solid #becfdd;
+	border-width: 0 1px 1px 0;
+	padding-left: 6px;
+}
+
+.code {
+	background-color: #f6faff;
+	padding: 12px;
+	border-style: dashed;
+	border-width: 1px;
+	border-color:#becfdd;
+}
+
+.key {
+	line-height: 10pt;
+	font-weight: bold;
+	margin:12px;
+}
+
+.text {
+	text-indent: 2em;
+	padding-left: 12px;
+	padding-right: 12px;
+}
+
+.table_head {
+	font-weight: bolder;
+	background-color: #f6faff;
+}
+</style>
+
+
+<p class="key">服务分类</p>
+<p class="code">{{type.descript}}</p>
+<p class="key">服务地址</p>
+<p class="code">/c/{{type.name}}/{{method.name}}</p>
+<p class="key">服务描述</p>
+<div class="text">
+	{{method.descript}}
+</div>
+
+<p class="key">请求参数</p>
+{% if method.params|length%}
+<table width="100%">
+	<thead class="table_head">
+		<tr>
+              <td width="200px">参数名</td>
+              <td width="60px" style="text-align:center">必选</td>
+              <td width="200px" style="text-align:center">类型</td>
+              <td>描述</td>
+		</tr>
+	</thead>
+	<tbody>
+		{% for row in method.params %}
+		<tr>
+			<td>{{row.name|escape}}</td>
+			<td  style="text-align:center">{% if row.must|equal:"true" %}是{%else%}否{%endif%}</td>
+			<td style="text-align:center">{{row.type|escape}}</td>
+			<td>{{row.des|escape}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{%else%}
+<div class="text">
+	无
+</div>
+{%endif%}
+
+<p class="key">返回结果</p>
+{% if method.returns|length%}
+<table width="100%">
+	<thead class="table_head">
+		<tr>
+              <td width="200px">参数名</td>
+              <td width="60px" style="text-align:center">必选</td>
+              <td width="200px" style="text-align:center">类型</td>
+              <td>描述</td>
+		</tr>
+	</thead>
+	<tbody>
+		{% for row in method.returns %}
+		<tr>
+			<td>{{row.name|escape}}</td>
+			<td  style="text-align:center">{% if row.must|equal:"true" %}是{%else%}否{%endif%}</td>
+			<td style="text-align:center">{{row.type|escape}}</td>
+			<td>{{row.des|escape}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{%else%}
+<div class="text">
+	无
+</div>
+{%endif%}

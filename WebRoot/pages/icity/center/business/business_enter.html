@@ -1,0 +1,151 @@
+<style>
+<!--
+.center-center-item a {
+	padding: 4px 7px;
+	font-size: 12px;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+.detail-span a {
+	color: #42515A;
+	text-decoration: none;
+}
+
+.detail-span a:hover {
+	color: #F60;
+	text-decoration: none;
+}
+-->
+</style>
+{% merge PageContext.ContextPath,"icity/submitsp/baseinfo?itemId=" as online_service_url %}
+
+<table class="table table-bordered">
+	<tr class="sec_tr">
+		<td><span>企业设立列表</span></td>
+	</tr>
+	<tr>
+		<td><form action="" method="post">
+				<ul class="list-inline">
+					<li class="col-xs-5">一级码: &nbsp;&nbsp; <input type="sbbh"
+						id="sbbh">
+
+					</li>
+					<li class="col-xs-7">申办时间:&nbsp;&nbsp; <input type="text"
+						style="width: 100px;" id="APPLYTIME_S" name="APPLYTIME_S" /> <img
+						src="{%public assets/img/date.jpg%}" style="margin-left: -20px;"
+						id="date1"> &nbsp;&nbsp;至&nbsp;&nbsp; <input type="text"
+						style="width: 100px;" id="APPLYTIME_E" name="APPLYTIME_E" /> <img
+						src="{%public assets/img/date2.jpg%}" style="margin-left: -20px;"
+						id="date2"> &nbsp;&nbsp;
+						<button type="button" class="nbutton_orange"
+							onclick="bltable.pageIndex(0);onQuery();return false;">查询</button>
+					</li>
+					<li style="display: none"><span
+						style="float: right; height: 20px; line-height: 30px; margin-right: 10px;">
+							<span class="tag" style="margin: 0 15px;"> 当前状态: <select
+								id="select_status" onchange="bltable.pageIndex(0);onQuery()"
+								style="width: 100px; margin-top: -2px; padding: 2px">
+									<option value=''>全部</option>
+							</select>
+						</span> <!--<a href="" onclick="businessTrash();return false;" class="trash">业务回收站</a> -->
+					</span></li>
+				</ul>
+
+			</form></td>
+	</tr>
+</table>
+<div class="businessList_main">
+	<div id="bldata" class="template_list"></div>
+	<div id="raiderpager_business_enter"
+		style="float: left; padding-left: 100px;"></div>
+</div>
+
+<textarea id="template_business_enter" style="display: none">
+{if data.length > 0} {for o in data}
+<table class="table table-bordered">
+	<tr class="sec_tr">
+		<td style="border-right: none;" colspan="2"><span
+				style="display: inline-block; width: 300px; padding-top: 5px;">一级码: ${o.FIRST_GRADE_CODE}</span>
+		</td>
+
+		<td style="border-left: none; border-right: none;" colspan="2"><span
+				style="display: inline-block; padding-top: 5px;">{if o.CURRENT_STATE=='00' }暂存{else}申办{/if}时间:</b>&nbsp;${fomatterDate(o.APPLY_TIME)}</span>
+		</td>
+
+		<td style="border-left: none;">
+			<div class="other">
+				{if o.CURRENT_STATE=='00' } <a
+						href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}"
+						target="_blank" class="btn btn-success btn-sm">&nbsp;&nbsp;修&nbsp;&nbsp;改&nbsp;&nbsp;</a><BR>
+				{/if} {if o.CURRENT_STATE=='10'} <a
+						href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}"
+						target="_blank" class="btn btn-success btn-sm">重新办理</a><BR> 
+				{/if} {if o.CURRENT_STATE=="12" } <a
+						href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}"
+						target="_blank" class="btn btn-success btn-sm">补齐补正</a><BR> {/if}
+			</div>
+		</td>
+	</tr>
+
+	<tr>
+		<td class="col-xs-2" style="border-right: none; width: 100px;"
+				rowspan="2"><img src="{%public assets/img/1-3.png%}"></td>
+		<td style="border-left: none;" colspan="3"><span
+				style="font-size: 18px; color: #2c87b6;">${o.APPLY_SUBJECT}</span></td>
+		<td rowspan="2" align="center">
+			<span style="color: #008000;line-height: 50px;" class="NeedFormatState" state="${o.STATE}"></span><BR />
+					{if o.CURRENT_STATE!='00'}								 	
+						<a href="javascript:void(0);" onclick="BusinessDetail('${o.ID}');" style="line-height: 5px;">业务详情</a>
+						<!-- <a href="../icity/center/business/enter_detail?id=${o.ID}" target="_blank" style="line-height: 30px;">业务详情</a> -->								
+					{/if}</td>
+	</tr>
+
+	<tr>
+		<td style="border-left: none;" colspan="3">
+			<ul class="list-inline">
+				<li>申办时间：&nbsp;${fomatterDate(o.APPLY_TIME)}</li>
+			</ul>
+		</td>
+	</tr>
+</table>
+{/for}<script type="text/javascript">showQR();</script>{else}
+	<div
+		style="border: 1px solid #DCDCDC; height: 25px; padding-top: 5px; width: 785px; text-align: center; color: red;">无业务信息！</div>
+{/if}
+</textarea>
+
+
+<script type="text/javascript" src="{{PageContext.JsPath}}jquery.qrcode.min.js"></script>
+<script type="text/javascript">
+function showQR(){
+	$("div[id^='YJM_']").each(function(i,elem){
+		if($(this).attr("id").length > 6 && $(this).attr("state") == "02"){
+			var content = $(this).attr("id").substring(6,$(this).attr("id").length);
+			$(this).qrcode({width:50,height:50,correctLevel:1,text:toUtf8(content)});
+		}
+	});
+};
+/**
+ * 将Unicode 字符串转化为utf-8格式
+ */
+function toUtf8(str) { 
+    var out, i, len, c;    
+    out = "";    
+    len = str.length;    
+    for(i = 0; i < len; i++) {    
+        c = str.charCodeAt(i);    
+        if ((c >= 0x0001) && (c <= 0x007F)) {    
+            out += str.charAt(i);    
+        } else if (c > 0x07FF) {    
+            out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+            out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));
+            out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+        } else {    
+            out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));
+            out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+        }    
+    }    
+    return out;    
+} 
+</script>

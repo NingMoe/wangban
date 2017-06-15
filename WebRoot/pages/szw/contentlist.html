@@ -1,0 +1,40 @@
+<DIV class=container><DIV class=page-content>
+<!-- <DIV class=col-xs-3 id=left>
+<DIV class="ui-sidenav ui-sidenav-tree">
+<UL class=nav>
+<LI id="动态要闻"><A href="#">单位简介<EM class="fa fa-chevron-right"></EM></A> </LI>
+<LI id="专题专栏"><A href="contentlist?cid=专题专栏">管理机构<EM class="fa fa-chevron-right"></EM></A> </LI>
+<LI><A href="#">领导介绍<EM class="fa fa-chevron-right"></EM></A> </LI>
+<LI><A href="#t1-03">联系我们<EM class="fa fa-chevron-right"></EM></A> </LI></UL></DIV></DIV>-->
+<DIV class=col-xs-12 style="background-color: #FFFFFF;margin-bottom:0px;">
+<DIV class=panel style="height:970px; overflow-y:scroll;" >
+<DIV class=panel-heading>
+<DIV class=panel-title id="er-title"></DIV></DIV>
+<DIV class=panel-content style="background-color: #FFFFFF;" id="content">
+<UL class="list-unstyled ">
+<div class="main">	  	
+	<div id="contentList"  style="min-height: 200px; width:710px">
+		
+		<table class="listTable" id="contentLi_s" style="width:800px; background-color: #FFFFFF;" align="center">
+			<tbody></tbody>
+		</table>
+		<div id="epager"></div>
+	</div>
+</div>
+<textarea id="content_li" style="display: none;">
+{for o in data}
+	<LI style="margin-left: 10px">
+	{if o.URL}
+	<a href="${o.URL}" title="${o.NAME}" target="_blank" style=" float: left;cursor: pointer;" class="htmlhref">${parseLength(o.NAME,40)}</a>
+	{else}
+	<a href="{{PageContext.ContextPath}}szw/content?id=${o.ID}" title="${o.NAME}" target="_blank" style=" float: left;cursor: pointer;" class="htmlhref">${parseLength(o.NAME,40)}</a>
+	{/if}
+	<TIME>${formatDate(o.CTIME)}</TIME>
+	</LI>
+	<li></li>
+{/for}
+{if total == 0} 
+	<li style="text-align:center; ">无符合条件的数据!</li>
+{/if}
+</textarea>
+</UL></DIV></DIV></DIV></DIV></DIV>

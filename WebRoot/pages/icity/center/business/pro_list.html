@@ -1,0 +1,163 @@
+<script type="text/javascript"
+	src="{{PageContext.JsPath}}raty_master/lib/jquery.raty.js"></script>
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/layer.js"></script>
+<style>
+.paycontent{
+	border-style：solid;
+	border-width: 1px;
+	border-color:red;
+	margin-top:-70px;
+	margin-left:-90px;
+	background-color:#42a5f5;
+ 	max-width: 400px;
+ 	position: absolute;
+ 	text-align: center;
+ 	padding: 20px 30px 10px 10px;
+ 	font-style: normal;
+ 	z-index: 2;
+ 	display: none;
+ 	color:#FFFFFF;
+ 	border-radius: 10px;
+}
+.div0{
+display: none;
+}
+li{
+list-style: inherit;
+}
+</style>
+<script>
+$(function(){
+	querylist();
+});
+
+function querylist(){
+	
+	var projectCode = $("#projectCode").val();
+	var projectName = $("#projectName").val(); 
+	
+	var userinfo = {};
+	userinfo.uuid = {{UserInfo}}.uid;
+	var command = new LEx.Command("app.icity.pro.ProCmd");
+	command.setParameter("userInfo", userinfo);
+	command.setParameter("projectCode", projectCode);
+	command.setParameter("projectName", projectName);
+	var ret = command.execute("getMyProjectList");
+	
+	if(!command.error){	
+		total = ret.total;
+		
+		for(var i=0;i<ret.data.length;i++){
+			
+			var command1 = new LEx.Command("app.icity.pro.ProCmd");
+			command1.setParameter("projectCode", ret.data[i].SBLSH);
+			var ret1 = command1.execute("getItemGroupList");
+			
+			ret.data[i].itemlist = ret1.data;
+		}
+		
+		$('#user-jdcx-list1').html(LEx.processDOMTemplate('itemTemplate',ret));
+	}
+}
+
+//提交申请
+function applymaterial(bizId){
+	
+	var n_url = LEx.webPath+"admin?m=icity/center/business/itemmateriallist.html&bizId="+bizId;
+	
+	LEx.dialog({
+		id: "", title: "事项列表",
+		url: n_url,
+		width: 900, height: 420,
+		lock:true,
+		button: [
+		         {
+		        	name: '提交',
+		        	callback: function() {
+		        		var iframe = this.iframe.contentWindow;
+		        		if (!iframe.document.body) {
+		        			LEx.alert('内容还没加载完毕呢');
+		        			return false;
+		        		}		        		
+		        	 	if(iframe.checkdata()){
+		        	 		LEx.alert("提交成功！");
+		        	 	}else{
+		        	 		LEx.alert("提交失败！");
+		        	 	}
+		         	},
+		         	focus: true
+		         },
+		         {
+		        	 name: '关闭'
+		         }
+		         ]
+	});
+}
+</script>
+<script type="text/template" id="itemTemplate">
+{for o in data}
+	<tr>
+		<td class="text-right" style="width:2%;">—</td>
+		<td class="text-center" style="width:28%;">${o.SBLSH}</td>
+        <td class="text-left" style="width:70%;">
+            ${o.PROJECTNAME}
+			{if LEx.isNotNull(o.PROJECT_TYPE)}
+			{if o.PROJECT_TYPE=='A00002'}(核准类项目){/if}
+			{if o.PROJECT_TYPE=='A00001'}(审批类项目){/if}
+			{if o.PROJECT_TYPE=='A00003'}(备案类项目){/if}{/if}
+			<br>
+        </td>		
+	</tr>
+	<tr>
+		<td class="text-right" style="width:2%;">&nbsp;</td>
+		<td class="text-right" colspan="2">
+			<table class="table">
+				{for p in o.itemlist}
+				<tr>
+					<td class="text-center" style="width:20%;">${p.GROUPNAME}</td>
+        			<td class="text-left" style="width:60%;">
+            			${p.ORGNAME}
+        			</td>
+					<td class="text-left" style="width:20%;">
+            			<button type="button" class="btn btn-success btn-sm" onclick="applymaterial('${p.BIZID}')">材料申报</button>
+        			</td>			
+      			</tr>
+				{/for}
+         </table>
+		</td>
+	</tr>
+{/for}
+</script>
+<table class="table table-bordered">
+	<tr class="sec_tr">
+		<td><span>业务列表</span></td>
+	</tr>
+	<tr>
+		<td><form action="" method="post">
+				<ul class="list-inline">
+					<li class="col-xs-5">
+					项目编码：&nbsp;&nbsp; <input type="projectCode"	id="projectCode">
+					</li>
+					<li class="col-xs-7">项目名称：&nbsp;&nbsp; <input type="projectName"	id="projectName">
+						<button type="button" class="btn btn-warning"
+							onclick="bltable.pageIndex(0);querylist();return false;">&nbsp;&nbsp;查询</button>
+					</li>
+				</ul>
+			</form></td>
+	</tr>
+</table>
+<div class="tab-content">
+   <div class="tab-pane fade in active" id="w-d-x-1">
+        <table class="table table-hover">
+            <thead>
+                <tr class="active">
+                	<th class="text-center" style="width:2%;">&nbsp;</th>
+                	<th class="text-center" style="width:28%;">项目编码</th>
+                    <th class="text-center" style="width:70%;">项目名称（项目类型）</th>
+                 </tr>
+             </thead>
+             <tbody id="user-jdcx-list1">
+             </tbody>
+         </table>
+    </div>
+</div>

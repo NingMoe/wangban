@@ -1,0 +1,23 @@
+<style>
+/*强制不显示横向滚动条，纵向滚动条会在内容过多时自动显示*/
+html{
+    /*overflow:hidden;*/
+    background:#F5F6F7;
+    overflow-x:hidden;
+}
+</style>
+<div id="tabpannel" >
+
+	{% set code PageContext.Parameter.projid%}
+	<div id="jbxx" class="tabs-content" style="border-top: none;padding: 0px 0px 5px 0px;min-height:300px;">
+		{% widget "project.BusinessDetailWidget_SIMPLE" %}
+	</div>
+</div>
+<script>
+function inittabs(){
+	var tabObj = {};
+	tabObj.id = "tabpannel";
+	LEx.Control.Tab(tabObj);
+}
+inittabs();
+</script>

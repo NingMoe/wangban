@@ -1,0 +1,314 @@
+<script type="text/javascript"
+	src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js,common.js"></script>
+<script src="{% public scripts/LEx.form.js %}"></script>
+<script type="text/javascript"
+	src="{% public scripts/calendar/calendar-min.js %}"></script>
+<link rel="stylesheet" type="text/css"
+	href="{% public scripts/calendar/calendar-min.css %}" />
+<link rel="stylesheet" type="text/css"
+	href="{{PageContext.CssPath}}govservice.css" />
+<script src="{% public scripts/LEx.form.js %}"></script>
+<script
+	src="{{PageContext.PagePath}}icity/submitsp/assets/cform/skin/js/cform.js"></script>
+<script
+	src="{{PageContext.PagePath}}icity/submitsp/assets/cform/skin/js/cform_jpower.js"></script>
+<script
+	src="{{PageContext.PagePath}}icity/submitsp/assets/cform/skin/js/setForm.js"></script>
+<script
+	src="{{PageContext.ContextPath}}public/scripts/jquery.xdomainrequest.min.js"></script>
+<link rel="stylesheet"
+	href="{{PageContext.ContextPath}}public/scripts/artDialog-6.0.4/css/ui-dialog.css">
+<script
+	src="{{PageContext.ContextPath}}public/scripts/artDialog-6.0.4/dist/dialog-min.js"></script>
+<script type="text/javascript"
+	src="{{PageContext.JsPath}}jquery.PrintArea.js"></script>
+<script type="text/javascript">
+	plugin
+			.add(
+					'dialog',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/dialog/a?t=js&m=jquery.artDialog.js,plugins/iframeTools.js',
+						type : 'js',
+						charset : 'utf-8',
+						rely : [ 'dialog_css' ]
+					});
+	plugin
+			.add(
+					'dialog_css',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/dialog/skins/default.css',
+						type : 'css',
+						charset : 'utf-8'
+					});
+
+	plugin
+			.add(
+					'calendar',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/calendar/calendar-min.js',
+						type : 'js',
+						charset : 'utf-8',
+						rely : [ 'calendar_css' ]
+					});
+	plugin
+			.add(
+					'calendar_css',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/calendar/calendar-min.css',
+						type : 'css',
+						charset : 'utf-8'
+					});
+	plugin
+			.add(
+					'editor',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/kindeditor/kindeditor-min.js',
+						type : 'js',
+						charset : 'utf-8'
+					});
+	plugin
+			.add(
+					'fullCalendar',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/fullcalendar/fullcalendar.js',
+						type : 'js',
+						charset : 'utf-8',
+						rely : [ 'jquery_ui' ]
+					});
+
+	plugin
+			.add(
+					'jquery_ui',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/fullcalendar/jquery-ui-1.10.2.custom.min.js',
+						type : 'js',
+						charset : 'utf-8',
+						rely : [ 'fullCalendar_css' ]
+					});
+
+	plugin
+			.add(
+					'fullCalendar_css',
+					{
+						path : '{{PageContext.ContextPath}}public/scripts/fullcalendar/a?t=css&m=fullcalendar.css,fullcalendar.print.css',
+						type : 'css',
+						charset : 'utf-8'
+					});
+</script>
+<style type="text/css">
+#sub_form  .bordered {
+	border: 1px solid red;
+}
+
+input {
+	font-family: "RobotoDraft", "Roboto", "Helvetica Neue", Helvetica,
+		Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
+	font-size: 14px;
+}
+
+input.date {
+	background: #fff url({% public images/input_date.png %}) no-repeat right
+		3px;
+	border: 1px solid #848484;
+	height: 28px;
+	width: 100%;
+	margin: 0 5px 0 0;
+	padding: 2px 0 2px 5px;
+	font-family: Verdana, Geneva, sans-serif, "宋体";
+	font-size: 12px;
+}
+
+.input_validation-invalid {
+	border: 1px solid #F00;
+	color: #F00;
+}
+
+.input_validation-valid {
+	border: 1px solid #333;
+	color: #333;
+}
+
+.DynarchCalendar-topCont {
+	width: 200px;
+}
+
+table.t1 {
+	width: 900px;
+}
+
+#guide-top {
+	width: 1030px;
+}
+</style>
+<div
+	style="background-color: #fff; padding: 20px 40px; width: 1030px; margin: 0px auto; height: 60px">
+	<ol class="breadcrumb">
+		<li><a href="{{cp}}pro/index">首页</a>
+		</li>
+		<li><a href="{{cp}}pro/index">办事大厅</a>
+		</li>
+		<li class="active">无偿代理</li>
+	</ol>
+</div>
+<div id="page"
+	style="padding-right: 10px; background-color: #fff; width: 1030px; margin: 0 auto;">
+	<div id="guide-top">
+		<div id="form" style="height: 500px; display: block;">
+			<iframe id="formiframe" name="formiframe"
+				src="{{PageContext.ContextPath}}icity/submitsp/view?formId=TouZiXiangMuShenPiDaiLiFuWuShe"
+				style="border: 0px; width: 100%; height: 100%;"></iframe>
+		</div>
+		<br />
+		<div id="submitsp" style="height: 40px; text-align: center;">
+			<input id="save" type="button" style="width: 68px;"
+				class="btn btn-info save" onclick="submitWCDL();" value="提交"
+				title="提交" />
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+<script type="text/javascript">
+	var flag = true;
+	var json = {};
+	function emptyWCDLForm() {
+		var zdoc = window.frames["formiframe"].document;
+		zdoc.getElementById("projectName").value = "";
+		zdoc.getElementById("placeAreaDetail").value = "";
+		zdoc.getElementById("projectManagerName").value = "";
+		zdoc.getElementById("position").value = "";
+		zdoc.getElementById("projectManagerPhone").value = "";
+		zdoc.getElementById("projectManagerEmail").value = "";
+		zdoc.getElementById("linkMan").value = "";
+		zdoc.getElementById("linkPhone").value = "";
+		zdoc.getElementById("contactEmail").value = "";
+		zdoc.getElementById("contactQq").value = "";
+		zdoc.getElementById("contractor").value = "";
+	}
+	//提交表单
+	function submitWCDL() {
+		if (!flag) {
+			alert("该项目已代理，无法发起无偿代理！");
+			return;
+		}
+		buildData();
+		var command = new LEx.Command("app.icity.pro.ProCmd");
+		command.setParameter("projectCode", json.projectCode);
+		command.setParameter("formId", json.formId);
+		command.setParameter("dataId", json.dataId);
+		var ret = command.execute("submitWCDL");
+		if (!command.error) {
+			if (ret.state == 1) {
+				LEx.alert("申请成功");
+				window.location.href = "{{cp}}public/index";
+			} else {
+				LEx.alert("申请失败");
+			}
+		} else {
+			LEx.alert("申请失败");
+		}
+
+	}
+
+	function buildData() {
+		var formId = "TouZiXiangMuShenPiDaiLiFuWuShe";
+		formiframe.window.bSave();
+		var zdoc = window.frames["formiframe"].document;
+		json.projectCode = zdoc.getElementById("projectCode").value;
+		json.dataId = zdoc.getElementById("dataid").value;
+		json.formId = formId;
+	}
+	//通过项目编号 查询项目状态
+	function getprojectinfobyprojectCode(bindControl) {
+		emptyWCDLForm();
+		var command = new LEx.Command("app.icity.pro.ProCmd");
+		command.setParameter("projectCode", bindControl);
+		var ret = command.execute("getInfoByProjectCode");
+		var zdoc = window.frames["formiframe"].document;
+		if (ret.data.state == "300") {
+			$(zdoc).find("#projectName").removeAttr("readonly");
+			$(zdoc).find("#placeAreaDetail").removeAttr("readonly");
+			$(zdoc).find("#projectManagerName").removeAttr("readonly");
+			$(zdoc).find("#position").removeAttr("readonly");
+			$(zdoc).find("#projectManagerPhone").removeAttr("readonly");
+			$(zdoc).find("#projectManagerEmail").removeAttr("readonly");
+			$(zdoc).find("#linkMan").removeAttr("readonly");
+			$(zdoc).find("#linkPhone").removeAttr("readonly");
+			$(zdoc).find("#contactEmail").removeAttr("readonly");
+			$(zdoc).find("#contactQq").removeAttr("readonly");
+			$(zdoc).find("#contractor").removeAttr("readonly");
+			/*  
+			 $(zdoc).find("#investment").removeAttr("readonly"); */
+		} else {
+
+			var cmd = new LEx.Command("app.icity.pro.ProCmd");
+			cmd.setParameter("projectId", ret.data.projectInfo.projectId);
+			var r = cmd.execute("getProjectAgent");
+			
+			if(r.state == 1){
+				if(r.data.state == "200"){
+					flag = false;
+				}
+			}
+			
+			if (ret.data.projectInfo.projectName != null) {
+				zdoc.getElementById("projectName").value = ret.data.projectInfo.projectName;
+				$(zdoc).find("#projectName").attr("readonly", true);
+			}
+			if (ret.data.projectInfo.placeAreaDetail != null) {
+				zdoc.getElementById("placeAreaDetail").value = ret.data.projectInfo.placeAreaDetail;
+				$(zdoc).find("#placeAreaDetail").attr("readonly", true);
+			}
+			if (ret.data.contectInfo.projectManagerName != null) {
+				zdoc.getElementById("projectManagerName").value = ret.data.contectInfo.projectManagerName;
+				$(zdoc).find("#projectManagerName").attr("readonly", true);
+			}
+			if (ret.data.contectInfo.position != null) {
+				zdoc.getElementById("position").value = ret.data.contectInfo.position;
+				$(zdoc).find("#position").attr("readonly", true);
+			}
+			if (ret.data.contectInfo.projectManagerPhone != null) {
+				zdoc.getElementById("projectManagerPhone").value = ret.data.contectInfo.projectManagerPhone;
+				$(zdoc).find("#projectManagerPhone").attr("readonly", true);
+			}
+			if (ret.data.contectInfo.projectManagerEmail != null) {
+				zdoc.getElementById("projectManagerEmail").value = ret.data.contectInfo.projectManagerEmail;
+				$(zdoc).find("#projectManagerEmail").attr("readonly", true);
+			}
+			if (ret.data.contectInfo.linkMan != null) {
+				zdoc.getElementById("linkMan").value = ret.data.contectInfo.linkMan;
+				$(zdoc).find("#linkMan").attr("readonly", true);
+			}
+			if (ret.data.contectInfo.linkPhone != null) {
+				zdoc.getElementById("linkPhone").value = ret.data.contectInfo.linkPhone;
+				$(zdoc).find("#linkPhone").attr("readonly", true);
+			}
+			if (ret.data.contectInfo.contactEmail != null) {
+				zdoc.getElementById("contactEmail").value = ret.data.contectInfo.contactEmail;
+				$(zdoc).find("#contactEmail").attr("readonly", true);
+			}
+			if (ret.data.contectInfo.contactQq != null) {
+				zdoc.getElementById("contactQq").value = ret.data.contectInfo.contactQq;
+				$(zdoc).find("#contactQq").attr("readonly", true);
+			}
+			if (ret.data.dcCompany.contractor != null) {
+				zdoc.getElementById("contractor").value = ret.data.dcCompany.contractor;
+				$(zdoc).find("#contractor").attr("readonly", true);
+			}
+			if (ret.data.projectInfo.projectType == "A00001") {
+				zdoc.getElementById("projectType").value = "A00001";
+				$(zdoc).find("#projectType").attr("disabled", true);
+			} else if (ret.data.projectInfo.projectType == "A00002") {
+				zdoc.getElementById("projectType").value = "A00002";
+				$(zdoc).find("#projectType").attr("disabled", true);
+			} else if (ret.data.projectInfo.projectType == "A00003") {
+				zdoc.getElementById("projectType").value = "A00003";
+				$(zdoc).find("#projectType").attr("disabled", true);
+			}
+		}
+	}
+</script>

@@ -1,0 +1,186 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}project.css" />
+<style>
+.ui-tooltip {
+	font-family: "微软雅黑", 'Microsoft YaHei', "Times New Roman", Georgia, Serif;
+	font-size: 13px;
+	color: #2D2D2D;
+	padding: 5px 10px;
+}
+
+a.verfiy {
+	color: #066996;
+	margin-left: 5px;
+	vertical-align: middle;
+	font-size: 14px;
+	text-decoration: none;
+}
+
+a.verfiy:hover {
+	text-decoration: underline;
+}
+.busy-main .busy-header-tab {
+  overflow: hidden;
+  border-bottom: 1px solid #d3d3d3;
+  height: 37px;
+  background-position: 0 -24px;
+  background-repeat: repeat-x;
+}
+.busy-main .busy-content-tab li input {
+  border: 1px solid #d3d3d3;
+  height: 28px;
+  padding: 4px;
+  margin: 0 6px;
+}
+</style>
+<div class="busy-main h330">
+	<div class="busy-header-tab">
+		<h1 style="margin-top:-1px;">我要查询</h1>
+	</div>
+	<div class="busy-title-tab">
+		<h1 id="tip">请输入申请人和申办流水号，查询办件信息：</h1>
+		<form id="busyQueryForm" method="post">
+			<div class="busy-content-tab">
+				<ul id="list">
+					<input id="CURL" name="CURL" type="hidden" />
+					<input id="SQRMC" name="SQRMC" type="hidden" />
+					<input id="type" name="type" type="hidden" />
+					<li style="list-style-type:none;">
+						<h2>
+							<a style="color: red;font-size:13px;">*</a>申请人或单位：
+						</h2> 
+							<input id="SQR" name="SQR" type="text" size="35" style="margin-top:20px;"/>
+					</li>
+					<li style="list-style-type:none;">
+						<h2>
+							<span style="padding-left: 13px;"><a style="color: Red;font-size:13px;">*</a></span>申办流水号：
+						</h2> 
+							<input id="SBLSH" name="SBLSH" type="text" size="35" autocomplete="on"  style="margin-top:20px;">
+					</li>
+					<li  class="validateCode" style="display:none">
+			                  		<h2><a style="color: red;font-size:13px;">*</a>验证码：</h2>
+			                  		<input type="text"  id="validateCode" name="validateCode" size="35"  >
+			                  </li>
+			                  <li class="validateCode" style="margin-top:0px;display:none">
+			                  		<h2></h2>
+			                  		<image title="点击图片更换验证码" id="verifyCode" src="{{PageContext.ContextPath}}bsp/verifyCode" style="width:80px; height:22px;vertical-align:text-top;cursor: pointer;margin-left:6px;" onclick="changeVerify();"/>
+						<span style="color: #999; font-style: oblique;margin-top:7px;">[<a style="color: #9999;" href="javascript:changeVerify()">看不清，换一张 </a>]</span>
+			                  </li>
+				</ul>
+			</div>
+		</form>
+		<div class="busy-content-tab" style="margin-left:370px;">
+			<a id="submit" class="submit fl">提&nbsp;&nbsp;交</a> <a id="reset" class="reset"  style="margin-top:-36px;">重&nbsp;&nbsp;置</a>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function init() {
+		var type = LEx.urldata.type;
+		if(LEx.isNotNull(type)){
+			$("#type").val(type);
+			if(type == 'PY'){
+				$(".busy-header-tab h1").html("我要评议");
+				$("#tip").html("您可凭申请人名称和申办流水号查询办事状态和办事结果，已办结办事可评议。");
+			}
+		}
+	    var sblsh = LEx.urldata.SBLSH;
+	    var sqrmc = LEx.urldata.SQRMC;
+		var result = LEx.urldata.result;
+		if (result == "0") {
+			LEx.dialog({
+				title : "系统提示",
+				content:"输入的信息没有找到对应的业务信息，请重新输入！<div align=\"center\"><a href=\"http://61.144.227.188:5900/wsbs/wsjc/tgdbsreport.htm?sblsh="+sblsh+"&sqr="+sqrmc+"\">我要投诉</a></div>",
+				icon : 'error',
+			});
+		}
+
+		var isValidate = LEx.urldata.isValidate;
+		if(LEx.isNotNull(isValidate)){
+			$("#busyQueryForm .validateCode").css("display","");
+		}
+
+		var validate = LEx.urldata.validate;
+		if(LEx.isNotNull(validate)){
+			var message = "";
+			if(validate == '1'){
+				message = "验证码已超时失效，请重新输入！";
+			}else{
+				message = "验证码输入错误，请重新输入！";
+			}
+			LEx.dialog({
+				title : "系统提示",
+				content : message,
+				icon : 'error'
+			});
+		}
+
+		//存在申办流水号
+		var sblsh = LEx.urldata.SBLSH;
+		if (LEx.isNotNull(sblsh)) {
+			$("#SBLSH").val(sblsh);
+		}
+		
+		//对应action
+		var action = "{{PageContext.ContextPath}}govservice/project";
+		var url = window.location.href;
+		if (url.indexOf("Phone") != -1) {			
+			action += "/BusyQueryResultPhone";
+		} else {
+			action += "/BusyQueryResult";
+		}
+		$("#CURL").val(url);
+		$("#busyQueryForm").attr("action", action);
+
+		$("#submit").click(function() {
+			var sqrmc = $("#SQR").val();
+			$("#SQRMC").val(sqrmc);
+			if (!LEx.isNotNull(sqrmc)) {
+				LEx.dialog({
+					title : "系统提示",
+					content : "申请人或单位不能为空，请重新输入！",
+					icon : 'error'
+				});
+				$("#SQR").focus();
+				return false;
+			}
+
+			var sblsh = $("#SBLSH").val();
+			if (!LEx.isNotNull(sblsh)) {
+				LEx.dialog({
+					title : "系统提示",
+					content : "申办流水号不能为空，请重新输入！",
+					icon : 'error'
+				});
+				$("#SBLSH").focus();
+				return false;
+			}
+
+			var validateCode = $("#validateCode").val();
+			if(LEx.isNotNull(isValidate) && !LEx.isNotNull(validateCode)){
+				LEx.dialog({content:"验证码不能为空，请重新输入！",icon : 'error'});
+				$("#validateCode").focus();
+				return false;
+			}
+
+			var type = LEx.urldata.type;
+			// if (type == "PY") {
+			// 	location.href = LEx.webPath + "project/BusyPingYi_noLogin?SBLSH=" + sblsh + "&SQRMC=" + encodeURIComponent(sqrmc);
+			// } else {
+			// 	$("#SQRMC").val(encodeURIComponent(sqrmc));
+			// 	$("#busyQueryForm").submit();
+			// }
+			$("#SQRMC").val(encodeURIComponent(sqrmc));
+			$("#busyQueryForm").submit();
+		});
+
+		$("#reset").click(function() {
+			$("#SQR,#SBLSH,#validateCode").val("");
+		});
+		
+		//更换验证码
+		function changeVerify() {
+			var url = LEx.webPath + "bsp/verifyCode?time=" + new Date().getTime();
+			$("#verifyCode").attr("src", url);
+		}
+	}
+</script>

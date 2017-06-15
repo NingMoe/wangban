@@ -1,0 +1,129 @@
+<style>
+    <!--
+    .tree-file {
+        background: url("");
+        width: 0;
+    }
+
+    .tree-title {
+        padding: 0px
+    }
+
+    .datagrid-body td,.datagrid-footer td {
+        border-bottom: 1px dotted #21A4FF
+    }
+
+    .ntabs .opt li {    border: 1px solid #CCCCCC;
+        border-radius: 2px 2px 2px 2px;
+        cursor: pointer;
+        float: left;
+        margin: 0 10px;
+        padding: 3px 10px;}
+    .ntabs .opt li.on{color: #FFF; background: #4F95EA;border:1px solid #155BDD;font-weight: bold;}
+
+    .ntabs .ntab{
+        border:1px solid #CCCCCC;
+        background: #F4F4F4
+    }
+    .list_table_1{
+        table-layout: fixed;
+        word-break:break-all;
+    }
+    .list_table_1 td{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        height: 100%;
+    }
+    .opt a{
+        display: inline-block;
+        float: left;
+        height: 22px;
+        line-height: 22px;
+        color: #000;
+        margin-right: 4px;
+        padding: 0 8px;
+    }
+    .opt a:hover{
+        opacity: 0.8;
+        text-decoration: none;
+    }
+    .opt a.add-btn{
+        background: #FFDD41;
+        background: -webkit-gradient(linear, 0 0, 0 100%, from(#FFDD41), to(#FAB823));
+        background: -moz-linear-gradient(top, #FFDD41, #FAB823);
+        border-radius: 2px;
+        border: 1px solid #EF940A;
+    }
+    .opt a.delete-btn {
+        background: #B6CEF0;
+        background: -webkit-gradient(linear, 0 0, 0 100%, from(#D6E8FF), to(#B6CEF0));
+        background: -moz-linear-gradient(top, #D6E8FF, #B6CEF0);
+        border-radius: 2px;
+        border: 1px solid #6D9DCB;
+    }
+    -->
+</style>
+<div class="navigation">
+    <ul class="navigation_ul">
+        <li class="cur">自定义菜单</li>
+    </ul>
+    <ul class="navigation_button">
+        <li class="new" onClick="onAdd('root')" id="_addsite">添加顶级菜单</li>
+    </ul>
+</div>
+<div id="_menu" style="margin: 5px;0px;0px;0px;" align="center" ></div>
+<script type="text/template" id="menuTemplate">
+    {macro showChilds(pId,data,level)}
+        {for c in data}
+            {if pId==c.PARENT_ID}
+                <tr class="on"  iname="${c.ID}">
+                    <input type="hidden" name="pid" value="${pId}" />
+                    <td >
+                        <span style="margin-left: ${level*30}px;">${c.NAME}</span>
+                    </td>
+                    <td style="text-align: center; vertical-align: middle">
+                        <span style="float:left">${formatType(c)}</span>
+                        <a href="${formatUrl(c)}" target="_blank" title="预览">
+                            <span style="float: right;">
+                                <img src="{{PageContext.ContextPath}}public/images/next_blue.png" width="18px" height="18px" />
+                            </span>
+                        </a>
+                    </td>
+                    <td  style="text-align: center;">
+                        {if c.IS_NAV == '1'}
+                        <span class="selectedOn" onclick="cmd(this)"></span>
+                        {else}
+                        <span class="selectedOff" onclick="cmd(this)"></span>
+                        {/if}
+                    </td>
+                    <td  style="text-align: center;">
+                        {if c.IS_USE == '1'}
+                        <span class="selectedOn" onclick="cmd(this)"></span>
+                        {else}
+                        <span class="selectedOff" onclick="cmd(this)"></span>
+                        {/if}
+                    </td>
+                    <td style="text-align: center;" class="opt">
+                        <a href="javascript:;" class="add-btn" onclick="onAdd('${c.ID}')">增加子菜单</a>
+                        <a href="javascript:;" class="delete-btn" onclick="onDelete('${c.ID}','${c.WEBSITE_ID}')">删除</a>
+                    </td>
+                </tr>
+                {var cc = showChilds(c.ID,data,level+1)}
+                ${cc}
+            {/if}
+        {/for}
+    {/macro}
+    <table id="tJob" class="baseform list_table_1" style="width: 98%">
+
+        <tr>
+            <th align="center" style="text-align: center;">菜单名称</th>
+            <th align="center" style="text-align: center; vertical-align: middle" width="100px">类型</th>
+            <th align="center" style="text-align: center;" width="40px">导航</th>
+            <th align="center" style="text-align: center;" width="40px">状态</th>
+            <th align="center" style="text-align: center;" width="135px">操作</th>
+        </tr>
+        {var cc = showChilds("root",data,0)}
+        ${cc}
+    </table>
+</script>

@@ -1,0 +1,239 @@
+<!-- <header class="navbar navbar-static-top phi sd-topbar">
+	<div class="container alpha omega">
+        <p class="navbar-text gamma">2015年10月8日 星期四</p>
+        <ul class="nav navbar-nav pull-right">
+            <li><a href="#">登录</a></li>
+            <li><a href="#">注册</a></li>
+            <li><a href="#">山东省政府门户网站</a></li>
+        </ul>
+	</div>
+</header> -->
+	{% set ticket PageContext.Parameter.ticket %}
+	{% set userType PageContext.Parameter.userType %}
+<header class="navbar  phi no-bordered yi-topbar" style="width:99%">
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown dropdown-hover" id="islogin" style="display:none">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown">欢迎您,<span id="welcome"></span> <i class="mdicon mdicon-expand-more f18"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{cp}}ipro/wdxm?href=%23x-p-3" target="_self">业务中心</a></li>
+                    <li><a href="#" onclick="doLogout('{{ConfigInfo.WebUcPath}}')">退&nbsp;出</a></li>
+                </ul>
+                
+            </li>
+            <li id="islogin1" style="display:none"><a href="javascript:openLikesPage()" >本平台评价</a></li>
+            <li class="dropdown dropdown-hover" id="islogout" style="">
+             <a href="http://zwfw.sd.gov.cn/sdjis/front/perlogin.do?action=ticketLogin&appmark=sdzw&gotoUrl&region_code=370000000000" onclick="doLogin()" class="dropdown-toggle" data-toggle="dropdown">登录 <i class="mdicon mdicon-expand-more f18"></i></a>
+                <!-- <ul class="dropdown-menu">
+                    <li><a href="http://124.133.38.248:81/sdjis/front/perlogin.do?action=ticketLogin&gotoUrl=&appmark=sdzw" style="color: #2CA1E9;font-weight: bold;text-shadow: 1px 1px #FFFFFF;">个人/企业入口</a></li>
+                	 onclick="doLogin('{{ConfigInfo.WebUcPath}}','o')"
+                </ul> -->
+            </li>
+            <li id="islogout2" style="">
+            <a href="http://zwfw.sd.gov.cn/sdjis/front/register/corregister.do?appmark=sdzw"  onclick="doregister()" style="color: #2CA1E9;font-weight: bold;text-shadow: 1px 1px #FFFFFF;" data-toggle="dropdown">注&nbsp;册</a>
+			<!--  onclick="register()" -->
+			</li>
+            <!--<li class="dropdown dropdown-hover">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">分享 <i class="mdicon mdicon-expand-more f18"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">腾讯微博</a></li>
+                    <li><a href="#">新浪微博</a></li>
+                    <li><a href="#">微信</a></li>
+                </ul>
+            </li>  -->
+            <!--<li><a href="#">移动客户端</a></li>  -->
+            <li><a href="http://zwfw.shandong.gov.cn/">山东省政务服务网站</a></li>
+            
+        </ul>
+</header>
+<div class="sd-masthead">
+    <div class="container alpha omega">
+        <div class="row">
+            <div class="col-xs-8">
+                <a href="{{cp}}ipro/hall" ><img src="{{cp}}public/ipro/assets/img/mainlogo.png" height="80" style="margin-top: 20px;" alt=""></a>
+            </div>
+            <div class="col-xs-4" style="height:100px;">
+                <div class="input-group" style="margin-top: 42px;">
+                    <input type="text" class="form-control" placeholder="请输入关键字">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" onclick="searchW();"><i class="fa fa-search"></i> 搜索</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 统一身份认证需要的字段 -->
+<div id="uniteUserLogin" style="display:none">
+	<span id="userObj" style="display:none"></span>
+	<input type="hidden" id="ticket" value="{{ticket}}"/>
+	<input type="hidden" id="token" value="{{token}}"/>
+	<span id="testa" style="display:none">{{PageContext.Parameter}}</span>
+</div>
+<!--<header class="navbar navbar-static-top phi sd-navigation">
+	<div class="container alpha omega">
+         <ul class="nav navbar-nav" id="hideheader">
+            <li class="active"><a href="{{cp}}ipro/index">首页</a></li>
+            <li><a href="{{cp}}ipro/newsinformation">新闻资讯</a></li>
+            <li><a href="{{cp}}ipro/hall">办事大厅</a></li>
+            <li><a href="#">公示信息</a></li>
+            <li><a href="{{cp}}ipro/zjfw">中介服务</a></li>
+            <li><a href="#">政策法规</a></li>
+            <li><a href="#">下载专区</a></li>
+        </ul> 
+	</div>
+</header>-->
+
+<script type="text/javascript">
+function clickFunc(){
+}
+function getUrlString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); 
+    return null;
+    }
+function doLogin() {
+	var command = new LEx.Command("app.icity.sync.UniteUserLogin");
+	var ret = command.execute("getLoginUrl");
+	var redirectTo = ret.data.loginUrl;
+	redirectTo += "&region_code=370000000000&gotoUrl="+encodeURIComponent(geturlnoticket());
+	window.location.href = redirectTo;	
+    return false;
+}
+function doregister() {
+	var command = new LEx.Command("app.icity.sync.UniteUserLogin");
+	var ret = command.execute("getRegisterUrl");
+	var redirectTo = ret.data.registerUrl;
+	window.location.href = redirectTo;	
+    return false;
+}
+
+
+function doLogout(ucPath) {
+	sessionStorage.clear();
+	$("#islogin").show();
+	$("#islogin1").show();
+	$("#islogout").hide();
+	$("#islogout2").hide();
+	window.location.href = geturlnoticket();
+    //return false;
+}
+function register(){
+	//window.location.href=LEx.webPath+"uc/register?goto="+encodeURIComponent(window.location.href);
+	window.location.href="http://124.133.38.248:81/sdjis/front/register/corregister.do";
+}
+var ticket, token, loginInfo;
+loginInfo = JSON.parse(sessionStorage.getItem('loginInfo'));
+if (loginInfo != "" && loginInfo != null) {
+	$("#islogin").show();
+	$("#islogin1").show();
+	$("#islogout").hide();
+	$("#islogout2").hide();
+	$("#welcome").html(loginInfo.name);
+}else if($("#ticket").val()){
+	//alert($("#ticket").val());
+    var userTypeValue=getUrlString("userType");  
+    if(userTypeValue=="1"||userTypeValue=="gr"){
+    	LEx.alert("您好：\r\r"+"    "+"请选择“法人/其他组织用户登录”,本\r系统暂不提供“公民用户登录”功能!");
+        doLogin();
+    }else if(userTypeValue=="2"||userTypeValue=="fr"){
+	    var command = new LEx.Command("app.icity.sync.UniteUserLogin");
+	    ticket = $("#ticket").val();
+	    command.setParameter("ticket", ticket);	
+	    command.setParameter("userType", "fr");
+	    var ret = command.execute("loginByTicket");	
+	    if (!command.error && ret.state==1) {
+		    loginInfo = ret.data;	
+		if(loginInfo.errormsg){
+			alert("登录失败，错误信息："+loginInfo.errormsg);
+			window.location.href="{{cp}}ipro/hall";
+		}else{
+			sessionStorage.setItem('loginInfo', JSON.stringify(loginInfo));
+			$("#islogin").show();
+			$("#islogin1").show();
+			$("#islogout").hide();
+			$("#islogout2").hide();
+			$("#welcome").html(loginInfo.name);
+		}
+     }else{
+     
+     }
+
+	} else {
+		
+	}
+	
+	
+}
+
+
+//检查用户是否登录，未登录则跳转至登录页面，跳转到需要强制登录的页面时调用
+function checkLogin()
+{
+	if (loginInfo == "" || loginInfo == null)
+		doLogin();
+}
+
+
+//遍历url参数
+function geturlnoticket()
+{
+	var strCurUrl = window.location.href;
+	//过滤#号
+	var sIndex = strCurUrl.indexOf("#");
+	if(sIndex>0){
+		strCurUrl = strCurUrl.substring(0, sIndex);
+	}
+	
+	var intIndex = strCurUrl.indexOf("?");
+	var urlpath, param;
+	if(intIndex>0){
+		urlpath=strCurUrl.substring(0, intIndex);
+		param = strCurUrl.substring(intIndex+1, strCurUrl.length);
+	}
+	else return strCurUrl;
+    var obj={};
+    var keyvalue=[];
+    var key="",value="";       
+    var paraString = param.split("&");
+    var newparam = "";
+    for(var i in paraString)
+    {
+        keyvalue=paraString[i].split("=");
+        if(keyvalue[0]=="ticket"){
+        	continue;
+        }
+        if(keyvalue[0]=="userType"){
+        	continue;
+        }
+        if(newparam!=""){
+        	newparam+="&";
+        }
+        newparam+=paraString[i];
+    }
+    if(newparam!=""){
+    	urlpath += "?"+newparam;
+    }
+    return urlpath;
+}
+
+function searchW(){
+	var key=$(".form-control").val();
+	if(!LEx.isNotNull(key)){
+		alert("请输入要查询的内容~");
+		return false;
+	}
+	document.location="/icity/ipro/search?key="+encodeURIComponent(key);
+}
+
+//评价到国家发改委网站
+function openLikesPage() {
+	var url = "gotoevaluate";
+	var iWidth = 830; //弹出窗口的宽度;
+	var iHeight = 530; //弹出窗口的高度;
+	var iTop = (window.screen.availHeight-30-iHeight)/2; //获得窗口的垂直位置;
+	var iLeft = (window.screen.availWidth-10-iWidth)/2; //获得窗口的水平位置;
+	window.open(url, 'newwindow', 'height=' + iHeight + ',width=' + iWidth + ',top=' + iTop + ',left=' + iLeft 
+		+ ',toolbar=no,menubar=no,scrollbars=yes, resizable=no,location=no, status=no');
+}
+</script>

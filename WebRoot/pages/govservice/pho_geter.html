@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>进度查询</title>
+    <meta name="description" content="An interactive getting started guide for Brackets.">
+    <style>
+        @media screen and (min-width: 240px) {
+            html {
+                font-size: 14px;
+            }
+        }
+        
+        @media screen and (min-width: 320px) {
+            html {
+                font-size: 16px;
+            }
+        }
+        
+        @media screen and (min-width: 360px) {
+            html {
+                font-size: 16px;
+            }
+        }
+        
+        @media screen and (min-width: 480px) {
+            html {
+                font-size: 24px;
+            }
+        }
+        
+        @media screen and (min-width: 540px) {
+            html {
+                font-size: 24px;
+            }
+        }
+        
+        @media screen and (min-width: 640px) {
+            html {
+                font-size: 32px;
+            }
+        }
+        
+        @media screen and (min-width: 720px) {
+            html {
+                font-size: 32px;
+            }
+        }
+        
+        @media screen and (min-width: 960px) {
+            html {
+                font-size: 48px;
+            }
+        }
+        
+        @media screen and (min-width: 1080px) {
+            html {
+                font-size: 48px;
+            }
+        }
+        
+        @media screen and (min-width: 1280px) {
+            html {
+                font-size: 64px;
+            }
+        }
+        
+        @media screen and (min-width: 1440px) {
+            html {
+                font-size: 64px;
+            }
+        }
+        
+        @media screen and (min-width: 1600px) {
+            html {
+                font-size: 80px;
+            }
+        }
+        
+        @media screen and (min-width: 1920px) {
+            html {
+                font-size: 96px;
+            }
+        }
+        
+        body {
+            background-color: #fff;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            font-family: "San Francisco Display", "RobotoDraft", "Roboto", "Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+	{% set cp PageContext.ContextPath %}
+	var __webPath = "{{cp}}";
+	var __signature = "{{cp.SignatureInfo}}";
+	</script>
+	<script type="text/javascript" src="{{cp}}public/scripts/icity.js"></script>
+    <script type="text/javascript" src="{{cp}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.form.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+</head>
+<script type="text/javascript">
+  $(function(){
+   var command = new LEx.Command("app.icity.govservice.GovProjectCmd");
+ 	command.setParameter("registernum",LEx.urldata.registernum);
+	var ret= command.execute("BusinessProgressQueryByRegisternum");
+	if (ret.state == "1") {
+		if(ret.data!=""){
+			$("#service").html(LEx.processDOMTemplate("template4progress", ret.data));
+		}else{
+			$("#service").html("没有对应的业务信息！");
+		}
+	}else{
+		$("#service").html(ret.message);
+	}
+  })
+</script>
+<body id="service">
+    
+</body>
+<script type="text/template" id="template4progress">
+	<div style="background-color:#0085c3; color: #fff;">
+	<h4 style="padding: 1rem 1.5rem; margin:0; font-size: 1.25rem;">查询结果</h4>
+	</div>
+	<div style="padding: 0.5rem 1.5rem; border-bottom: 1px solid #ddd;">
+	<p><strong>登记人姓名:</strong></p>
+	<p>${registerBean.registerName}</p>
+	</div>
+	<div style="padding: 0.5rem 1.5rem; border-bottom: 1px solid #ddd;">
+	<p><strong>登记时间:</strong></p>
+	<p>${date}</p>
+	</div>
+	<div style="padding: 0.5rem 1.5rem; border-bottom: 1px solid #ddd;">
+	<p><strong>事项名称:</strong></p>
+	<p>${registerBean.itemName}</p>
+	</div>
+	<div style="padding: 0.5rem 1.5rem; border-bottom: 1px solid #ddd;">
+	<p><strong>办理进度:</strong></p>
+	<p>${ER}</p>
+	</div>
+	<div style="padding: 0.5rem 1.5rem; border-bottom: 1px solid #ddd;">
+	<p><strong>办理流程:</strong></p>
+	<p>${FLOW_NAME}</p>
+	</div>
+	<div style="padding: 0.5rem 1.5rem; border-bottom: 1px solid #ddd;">
+	<p><strong>窗口电话:</strong></p>
+	<p>${registerBean.pHONE}</p>
+	</div>
+	<div style="padding: 0.5rem 1.5rem; font-size: 0.9rem; background-color: #eee;">
+	</div>
+</script>
+
+</html>

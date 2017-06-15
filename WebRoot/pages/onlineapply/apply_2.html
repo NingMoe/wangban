@@ -1,0 +1,1552 @@
+{% if ConfigInfo.PAGE_MODE|equal:"liaocheng"%}
+<script src="{% public assets/js/sjlbsx.js %}" charset="UTF-8"></script>
+{%endif%}
+{% if ConfigInfo.PAGE_MODE|equal:"weihai"%}
+<script src="{% public assets/js/sjlbsx.js %}" charset="UTF-8"></script>
+{%endif%}
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}govservice.css" />
+<script src="{% public scripts/LEx.form.js %}"></script>
+<link 	href="{% public scripts/fineload/css/jquery.fileupload.css %}"  rel="stylesheet"/>
+<script src="{% public scripts/fineload/js/vendor/jquery.ui.widget.js %}"></script>
+<script src="{% public scripts/fineload/js/jquery.iframe-transport.js %}"></script>
+<script src="{% public scripts/fineload/js/jquery.fileupload.js %}"></script>
+<script  type="text/javascript" src="{% public scripts/des.js %}"></script>
+{% if ConfigInfo.PAGE_MODE|equal:"chongqing"%}
+<script  type="text/javascript" src="{% public assets/js/itemlist.js %}"></script>
+{%endif%}
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}print.css" media="print" />
+<script type="text/javascript" src="{{PageContext.JsPath}}jquery.PrintArea.js"></script>
+
+<style type="text/css">
+.btn-warning {
+    color: #ffffff;
+    background-color: #FF9D0C;
+    border-color: #FF9D0C;
+}
+.sbTableStyle01 tbody tr td i, .sbTableStyle02 tbody tr td i {
+    font-weight: normal;
+    color: #F3EFEF;
+    font-style: normal;
+    float: right;
+}
+input.date{background: #fff url({% public images/input_date.png %}) no-repeat right 3px;border:1px solid #848484;height:28px;width:100%; margin:0 5px 0 0;padding:2px 0 2px 5px; font-family: Verdana, Geneva, sans-serif,"宋体";font-size:12px;}
+	.input_validation-invalid {
+		border: 1px solid #f00 !important;
+		color: #f00;
+	}
+	.STYLE9 {
+	  font-size: 30px;
+	  font-weight: bold;
+	}
+	table .t1 {
+	  border: 1px solid #cad9ea;
+	  color: #666;
+	  width: 100%;
+	}
+	.t1 td, .t1 th{
+		border: 1px solid #cad9ea;
+		padding-left: 5px;
+	}
+	.processBox {
+	  width: 96px;
+	  float: left;
+	}
+/* 	.contentBox {
+	  padding: 0px 1px 1px 14px;
+	  width: 99%;
+	  float: left;
+	} */
+	.title {
+	  font-size: 24px;
+	  font-family: "微软雅黑";
+	  border-bottom: #3f7bad 2px solid;
+	  margin-left: 12px;
+	  padding-top: 5px;
+	  width: 45%;
+	  height: 42px;
+	  float: left;
+	}
+	.itemcode {
+	  font-size: 14px;
+	  text-align: right;
+	  overflow: hidden;
+	  text-overflow: ellipsis;
+	  white-space: nowrap;
+	  float: left;
+	  width: 45%;
+	  height: 27px;
+	  padding-top: 0px;
+	  border-bottom: #3f7bad 2px solid;
+	  margin-top: 15px;
+	}
+	.progress-l {
+  overflow: hidden;
+  margin: 100px auto;
+  padding: 0 15px;
+  width: 220px;
+  height: 34px;
+  background: #d3d5d9;
+  border-radius: 17px;
+  background-image: -webkit-linear-gradient(top, #ebecef, #bfc3c7);
+  background-image: -moz-linear-gradient(top, #ebecef, #bfc3c7);
+  background-image: -o-linear-gradient(top, #ebecef, #bfc3c7);
+  background-image: linear-gradient(to bottom, #ebecef, #bfc3c7);
+  -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.8), 0 2px 4px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 0 6px #b6babe, 0 7px rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.8), 0 2px 4px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 0 6px #b6babe, 0 7px rgba(255, 255, 255, 0.1);
+}
+
+.progress-val-l {
+  float: right;
+  margin-left: 15px;
+  font: bold 15px/34px Helvetica, Arial, sans-serif;
+  color: #333;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.6);
+}
+
+.progress-bar-l {
+  display: block;
+  overflow: hidden;
+  height: 8px;
+  margin: 13px 0;
+  background: #b8b8b8;
+  border-radius: 4px;
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2), transparent 60%);
+  background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.2), transparent 60%);
+  background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.2), transparent 60%);
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent 60%);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px rgba(255, 255, 255, 0.6);
+}
+
+.progress-in-l {
+  display: block;
+  min-width: 8px;
+  height: 8px;
+  background: #1997e6;
+  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0) 61%, rgba(0, 0, 0, 0.2)), -webkit-linear-gradient(left, #147cd6, #24c1fc);
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0) 61%, rgba(0, 0, 0, 0.2)), -moz-linear-gradient(left, #147cd6, #24c1fc);
+  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0) 61%, rgba(0, 0, 0, 0.2)), -o-linear-gradient(left, #147cd6, #24c1fc);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0) 61%, rgba(0, 0, 0, 0.2)), linear-gradient(to right, #147cd6, #24c1fc);
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+}
+.uploadedFiles dl dt{
+		margin-left:30px;
+		float:left;
+	}
+	.uploadedFiles dl dd{
+		padding:1px;
+		text-align:left;
+		margin-left:30px;
+		margin-top: 3px;
+	}
+	.contentBox {
+    padding: 0px 12px 12px 14px;
+    width: 100%;
+    float: left;
+}
+.conditionContent ul li {
+    display: block;
+    height: 100%;
+    overflow: hidden; 
+    padding-left: 22px;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: normal;
+    padding-bottom: 5px;
+}
+.conditionContent ul {
+    padding-top: 10px;
+}
+</style>
+	{% set length materials|length %}
+	<table width="98%" align="center" height="412" id="one" border="0"
+		cellspacing="0" cellpadding="0"
+		style="margin-top:25px;margin-bottom:44px;">
+		<tr>
+			<td align="center" style="position:relative;">
+
+				<div class="">
+					<div class="titleBox">
+						<div class="titleIcon">
+							<img
+								src="{{PageContext.ContextPath}}public/images/icon_house.gif" />
+						</div>
+						<div class="title" title="{{itemInfo.NAME}}">{{itemInfo.NAME|truncate:'14','..'}}</div>
+						<div class="itemcode" title="{{itemInfo.CODE}}" ></div>
+					</div><br/>
+					<ul class="list-inline liucheng">
+                        <li id="one" class="li_one">
+                             <span class="glyphicon glyphicon-book glyphicon_one" aria-hidden="true"></span>
+                                <!-- <span class="glyphicon-class"></span> -->
+                            <div class="div_one">阅读须知</div>
+                        </li>
+                        <span class="glyphicon glyphicon-chevron-right tou" aria-hidden="true"></span>
+                        <li id="two" class="li_two">                          
+                                <span class="glyphicon glyphicon-list-alt glyphicon_one" aria-hidden="true"></span>
+                                <!-- <span class="glyphicon-class"></span> -->
+                            <div class="div_one">申报信息</div>                  
+                        </li>
+                        <span class="glyphicon glyphicon-chevron-right jian" aria-hidden="true"></span>
+                        <li id="three" class="li_thr">
+                                <span class="glyphicon glyphicon-exclamation-sign glyphicon_one" aria-hidden="true"></span>
+                                <!-- <span class="glyphicon-class"> -->
+                            <div class="div_one">申报告知</div>   
+                        </li>
+                        <span class="glyphicon glyphicon-chevron-right jiantou" aria-hidden="true"></span>
+                    </ul><br/>
+					<div class="contentBox">
+						<div id="service_step_01" style="display:none;">
+						<div class="alert alert-danger alert-dismissible hide" role="alert">
+  						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  						<span aria-hidden="true">&times;</span></button>
+  						提醒：您本次网上申报为预受理，您还需在网上申办结束后，去您选择的地点提交材料正式办理。
+						</div>
+							{% if ConfigInfo.AppId|equal:"chq"|not%}
+							<div class="condition">
+								<div class="conditionTitle">
+									<img
+										src="{{PageContext.ContextPath}}public/images/title_sptj.gif" />
+								</div>
+								<div class="materialContent">
+									<ul>
+										{% if ConfigInfo.AppId|equal:"xns"|not%}
+										<li><input id="select_all" type="checkbox"
+											value="checkbox" /> <span class="blueFont">全选&nbsp;</span>办理该项业务，需满足以下申请条件，才能进行业务的办理，请自检是否满足，符合请打√。</li>
+										{% else %}
+										<li>办理该项业务，需提供以下申请材料，才能进行业务的办理，请自检是否具备该材料。
+										</li>
+										{% endif %}
+										{% for con in condition %}
+										<li title="{{con.NAME}}" style="height:auto;">
+										{% if ConfigInfo.AppId|equal:"xns"|not%}
+										<input name="checkbox" type="checkbox"	value="checkbox" />
+										{%endif%}
+											<!-- 漳州审批条件 NAME:REMARK -->
+											{% if ConfigInfo.AppId|equal:"zhangzhou"%}
+												&nbsp;{{con.NAME}}:{{con.REMARK}}
+											{% else %}
+												&nbsp;{{con.NAME|truncate:'50'}}
+											{%endif%}
+										</li>
+										{%endfor%}
+									</ul>
+								</div>
+							</div>
+							{% endif %}
+							<div class="material">
+								<div class="materialTitle">
+									<img src="{{PageContext.ContextPath}}public/images/title_sqcl.gif" />
+								</div>
+								<div class="materialContent" >
+									<ul>
+										{% if length|equal:"0"|not%}
+											{% if ConfigInfo.AppId|equal:"chq"|not%}
+												{% if ConfigInfo.AppId|equal:"xns"|not%}
+												<li><input id="select_all_material" type="checkbox"
+													value="checkbox" /> <span class="blueFont">全选&nbsp;</span>办理该项业务，需提供以下申请材料，才能进行业务的办理，请自检是否具备该材料，具备请打√。
+												</li>
+												{% else %}
+												<li>办理该项业务，需提供以下申请材料，才能进行业务的办理，请自检是否具备该材料。
+												</li>
+												{% endif %}
+											{% else %}
+											<li>办理该项业务，需提供以下申请材料，才能进行业务的办理，请自检是否具备该材料。
+											</li>
+											{% endif %}
+											{% for __material in materials %}
+											<li title="{{__material.NAME}}" style="height:auto">
+												{% if ConfigInfo.AppId|equal:"chq"|not%}
+													{% if ConfigInfo.AppId|equal:"xns"|not%}
+													<input name="checkbox_material" type="checkbox"
+														value="checkbox_material" />
+													{% endif %}
+												{% endif %}
+												&nbsp;{{loop.counter}}.{{__material.NAME}}
+												{% if __material.MUST|equal:"1" %}
+												【必需材料】
+												{%else%}
+												【容缺后补材料】
+												{%endif%}
+												{% if ConfigInfo.AppId|equal:"lc"%}
+													{% if __material.REMARK|cut:' '|cut:'null'|length|equal:'0'|not %}
+														{%if __material.REMARK|contain:'http://www.lczjfw.gov.cn'%}
+														<a href="{{__material.REMARK}}" target = "_blank" style="color:red">相关中介(在聊城市网上中介超市查找)</a>
+														{%endif%}
+													{%endif%}
+													</li>
+												{%endif%}
+												</li>
+											{%endfor %}
+										{% else %}
+										<li>无提交材料</li>
+										{% endif %}
+									</ul>
+								</div>
+							</div>
+							<div class="explain hide">注：上述所有申报材料均须采用A4纸电脑打印
+								，并逐页加盖申报单位公章（可以是骑缝章）或法人代表（业主）私章，按以上材料的顺序装订成册（附封面、材料目录），一式二份。</div>
+						</div>
+
+						<!-- step2 start -->
+						<div id="service_step_02" style="display:none">
+						<div class="alert alert-danger alert-dismissible" role="alert">
+  						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  						<span aria-hidden="true">&times;</span></button>
+  						<table>
+							<tr>
+								<td rowspan="3" valign="top" width="50">提醒：</td>
+								<td>1.带*号为必填项，请根据实际情况进行填写。</td>
+							</tr>
+							<tr>
+								<td>2.<img
+									src="{{PageContext.ContextPath}}public/images/star_icon_1.gif"
+									width="15" height="14" /> 为必要材料，您必须提交才能申报，<img
+									src="{{PageContext.ContextPath}}public/images/star_icon_2.gif"
+									width="15" height="14" />为容缺后补材料，您可以在网上预受理后在窗口提交，&nbsp;&nbsp;&nbsp;&nbsp;<img
+									src="{{PageContext.ContextPath}}public/images/star_icon_3.gif"
+									width="15" height="14" />&nbsp;为非必要材料，根据您实际情况选择提交。</td>
+							</tr>
+						</table>
+						</div>
+							
+							<div class="condition" id = "baseinfo">
+								<div class="conditionTitle">
+									<img
+										src="{{PageContext.ContextPath}}public/images/title_jbxx.gif"
+										width="120" height="42" />
+								</div>
+								<div class="conditionContent">
+									<ul>
+										<table width="100%" class="table01">
+											<tr>
+												<th>审批办件类型</th>
+												<td colspan="3">
+												<label class="" style=""> 
+												<input type="radio" value="1" name="sptype" class="gr" onclick="loadForm(this)" id="sptype" style="" /> 个人 
+												</label>
+												<label class="" style=""> 
+												{% if ConfigInfo.PAGE_MODE|equal:"liaocheng"%}
+												<input type="radio" value="3" name="sptype" class="qy"  onclick="loadForm(this)"　id="sptype" style="" /> 法人
+												{% else %}
+												<input type="radio" value="3" name="sptype" class="qy"  onclick="loadForm(this)"　id="sptype" style="" /> 企业
+												{% endif %}
+												</label>
+												<label class="" style=""> 
+												<input type="radio" value="2" name="sptype"　class="xm" onclick="loadForm(this)"　id="sptype" style="" /> 项目
+												</label>
+												</td>
+											</tr>
+											<tbody id = "base">
+											</tbody>
+										</table>
+									</ul>
+								</div>
+							</div>
+							</div>
+							<!-- step2 end -->
+							<!-- step3 start -->
+							<div id="service_step_03" style="display:none">
+								<div class="alert alert-danger alert-dismissible" role="alert">
+  						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  						<span aria-hidden="true">&times;</span></button>
+  						<table>
+										<tr>
+											<td rowspan="3" valign="top" width="50">提醒：</td>
+											<td>1.带*号为必填项，请根据实际情况进行填写。</td>
+										</tr>
+										<tr>
+											<td>2.<img
+												src="{{PageContext.ContextPath}}public/images/star_icon_1.gif"
+												width="15" height="14" /> 为必要材料，您必须提交才能申报，<img
+												src="{{PageContext.ContextPath}}public/images/star_icon_2.gif"
+												width="15" height="14" />为容缺后补材料，您可以在网上预受理后在窗口提交，&nbsp;&nbsp;&nbsp;&nbsp;<img
+												src="{{PageContext.ContextPath}}public/images/star_icon_3.gif"
+												width="15" height="14" />&nbsp;为非必要材料，根据您实际情况选择提交。</td>
+										</tr>
+									</table>
+						</div>
+								<div class="condition">
+									<div class="conditionTitle">
+										<img
+											src="{{PageContext.ContextPath}}public/images/title_jbxx.gif"
+											width="120" height="42" />
+									</div>
+									<div id="form" style="display:none;height: 550px;">
+										<iframe id="formiframe" name="formiframe" src="" style="border:0px;width:100%;height:100%;"></iframe>	
+									</div>
+									
+								</div>
+							</div>
+							<!-- step3 end-->
+							<!-- step4 start -->
+							<div id="service_step_04" style="display:none">
+							<div class="condition">
+								<div class="conditionTitle">
+									<img
+										src="{{PageContext.ContextPath}}public/images/title_sbcl.gif"
+										width="120" height="42" />
+								</div>
+								<div class="conditionContent">
+									<ul>
+										{% if length|equal:"0"|not%}
+										<table cellpadding="0" cellspacing="1" id="apply"
+											class="sbTableStyle02 pdTd">
+		
+											<tbody>
+												<tr>
+													<td width="6%"><b>序号</b>
+													</td>
+													<td width="30%"><b>材料名称</b>
+													</td>
+													{% if ConfigInfo.AppId|equal:"chq"%}
+									                <td width="10%"><b>类型</b>
+													</td>
+								                 {% endif%}
+													<td width="30%"><b>文件名</b>
+													</td>
+													<td width="25%">
+													{% if ConfigInfo.AppId|equal:"xns"|not%}
+													<label style="float: left;"><input id="select_all_window" type="checkbox" value="checkbox" />全选</label>
+													{%endif%}
+													<b>文件操作</b>
+													</td>
+												</tr>
+												<script type="text/javascript">
+													var must_materials = [];
+													var n_must_materials = [];
+												</script>
+												{% set count "0" %}
+											{% set xn ConfigInfo.AppId|equal:"xns" %}
+											{% set cq ConfigInfo.AppId|equal:"chq" %}
+											{% for material in materials %}
+											{% if state|equal:"21"%}
+											
+													{% if material.BQBZ|equal:"1" %}
+												<tr code="{{material.CODE}}" name="{{material.NAME}}">
+													<td>{{count|add:"1"}}{% set count count|add:"1" %}</td>
+													<td style="text-align: left;" id="td_{{material.CODE}}">
+													{% if material.MUST|equal:"1" %}
+														<script type="text/javascript">
+															must_materials.push('{{material.CODE}}');
+														</script>
+															<img
+														src="{{PageContext.ContextPath}}public/images/star_icon_1.gif"
+														width=15 height=14 " />
+													{% else %}
+														<script type="text/javascript">
+															n_must_materials.push('{{material.CODE}}');
+														</script>
+														<img
+														src="{{PageContext.ContextPath}}public/images/star_icon_2.gif"
+														width=15 height=14 " />
+													{% endif %}
+													{{material.NAME}}
+													{% if xn|or:cq %}
+													{% if material.SAMPLE_NAME|cut:' '|length|equal:'0'|not %} 													
+													<a  id="download_{{material.CODE}}"
+														code="{{material.CODE}}" target="_blank" class="label label-primary"
+														onclick="showDownload(this);"><i class="fa fa-check"></i>样表下载</a>													
+													{% endif %}
+														<div id="dprocess{{material.CODE}}" style="display: none;"></div>
+														<div id="ddownload{{material.CODE}}" style="display: none;"></div>
+													{%endif%}
+													</td>
+													{% if ConfigInfo.AppId|equal:"chq"%}
+														{% set length material.MATERIAL_SITUATION|length %}
+														{% if length|equal:"0"|not%}
+														<td>{{material.MATERIAL_SITUATION}}</td>
+														{% else %}
+														<td>无</td>
+									                    {%endif%}
+								                     {% endif%}
+													<td><div id="list_{{material.CODE}}"></div></td>
+													<td style="text-align: left;">
+													{% if ConfigInfo.AppId|equal:"xns"|not%}
+												<div class="checkbox pull-left">
+    											<label>
+												<input type="checkbox" name="checkbox_window" code="{{material.CODE}}" materialname="{{material.NAME}}"
+													id="ck_{{material.CODE}}" title="窗口提交">窗口提交&nbsp;&nbsp;
+													</label></div>
+												{%endif%}
+													<span class="btn btn-sm btn-warning fileinput-button" style="margin-left: 5px;"> 
+													<i class="icon-upload">选择附件</i> <input id="{{material.CODE}}"  Name="{{material.NAME}}" class="fileupload" tag="0" type="file" name="files[]" multiple />
+													</span>
+													<a class='btn btn-success btn-sm'  onclick="initOpen('{{material.CODE}}','{{material.NAME}}');">资料库</a>
+													{% if material.TYPE|equal:"3" %}
+													<a class='btn btn-info btn-sm'  onclick="initOpenLicense('{{material.CODE}}','{{material.NAME}}');">电子证照</a>
+													{%endif%}										
+													</td>
+												</tr>
+												{%endif%}
+												{%else%}
+												<tr code="{{material.CODE}}" name="{{material.NAME}}">
+													<td>{{count|add:"1"}}{% set count count|add:"1" %}</td>
+													<td style="text-align: left;" id="td_{{material.CODE}}">
+													{% if material.MUST|equal:"1" %}
+														<script type="text/javascript">
+															must_materials.push('{{material.CODE}}');
+														</script>
+															<img
+														src="{{PageContext.ContextPath}}public/images/star_icon_1.gif"
+														width=15 height=14 " />
+													{% else %}
+														<script type="text/javascript">
+															n_must_materials.push('{{material.CODE}}');
+														</script>
+														<img
+														src="{{PageContext.ContextPath}}public/images/star_icon_2.gif"
+														width=15 height=14 " />
+													{% endif %}
+													{{material.NAME}}	
+													 {% if ConfigInfo.AppId|equal:"chq"%}
+														{% set length material.MATERIAL_SITUATION|length %}
+														{% if length|equal:"0"|not%}
+														<td>{{material.MATERIAL_SITUATION}}</td>
+														{% else %}
+														<td>无</td>
+									                    {%endif%}
+								                     {% endif%}
+													{% if xn|or:cq %}												
+													{% if material.SAMPLE_NAME|cut:' '|length|equal:'0'|not %} 													
+													<a  id="download_{{material.CODE}}"
+														code="{{material.CODE}}" target="_blank" class="label label-primary"
+														onclick="showDownload(this);"><i class="fa fa-check"></i>样表下载</a>													
+													{% endif %}
+														<div id="dprocess{{material.CODE}}" style="display: none;"></div>
+														<div id="ddownload{{material.CODE}}" style="display: none;"></div>
+													{%endif%}
+													</td>
+													<td><div id="list_{{material.CODE}}"></div></td>
+													
+													<td style="text-align: left;">
+													{% if ConfigInfo.AppId|equal:"xns"|not%}
+												<div class="checkbox pull-left">
+    											<label>
+												<input type="checkbox" name="checkbox_window" code="{{material.CODE}}" materialname="{{material.NAME}}"
+													id="ck_{{material.CODE}}" title="窗口提交 ">窗口提交&nbsp;&nbsp;
+													</label></div>
+												{%endif%}
+													<span class="btn btn-sm btn-warning fileinput-button" style="margin-left: 5px;"> 
+													<i class="icon-upload">选择附件</i> <input id="{{material.CODE}}" Name="{{material.NAME}}" class="fileupload" tag="0" type="file" name="files[]" multiple />
+													</span>
+													<a class='btn btn-success btn-sm'  onclick="initOpen('{{material.CODE}}','{{material.NAME}}');">资料库</a>										
+													{% if material.TYPE|equal:"3" %}
+													<a class='btn btn-info btn-sm'  onclick="initOpenLicense('{{material.CODE}}','{{material.NAME}}');">电子证照</a>
+													{%endif%}
+													</td>
+												</tr>
+												{%endif%}
+											{% endfor %}
+											</tbody>
+										</table>
+										{% else%}
+										<p>没有需要提交的材料</p>
+										{% endif%}
+									</ul>
+								</div>
+							</div>
+						</div>
+						<!-- step4 end -->
+
+						<div id="service_step_05" style="display:none">
+						<div class="alert alert-danger alert-dismissible" role="alert">
+  						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  						<span aria-hidden="true">&times;</span></button>
+  						提醒：请认真阅读申报告知单内容，如有问题，可以拨打联系电话：
+  						{% if ConfigInfo.AppId|equal:"chq"%}
+  						{{itemInfo.CONSULT_PHONE}}
+  						{% else %}
+  							{% if ConfigInfo.AppId|equal:"zhangzhou"%}
+  								{% if itemInfo.ORG_DECIDE_PHONE %}{{itemInfo.ORG_DECIDE_PHONE}}{% else %}0596-2072332{% endif %}
+  							{% else %}
+  								{% if window.PHONE %}{{window.PHONE}}{% else %} {% endif %}
+  							{% endif %}
+  						{% endif %}
+						</div>
+							<div class="condition">
+
+								<table style="height: 80px">
+									<tr>
+										<td style="height: 80px;width: 90%;text-align: center;text-overflow:ellipsis;word-break:keep-all; white-space:nowrap;"><font
+											style="font-size: 30px;font-weight: bold">申报告知单</font></td>
+										<td style="text-align: right;"><!-- <img
+											src="{{PageContext.ContextPath}}public/images/CACCA1D7C0364DCBF173074E1600FB27.png"
+											width="85" height="85" /> --></td>
+									</tr>
+								</table>
+								<div class="conditionTitle">
+									<img src="{{PageContext.ContextPath}}public/images/title_jbxx.gif" width="120" height="42" />
+									{% if ConfigInfo.AppId|equal:"chq"%}
+									<span>根据“统一服务监管码”和“申请人或申请单位”可在进度查询栏目查询当前事项的办理进度；手机扫描右侧二维码可读取统一服务监管码和密码</span>
+									{% else %}
+									<span>根据“申办流水号”和“查询密码”可在办件跟踪中查询当前事项的办理进度；手机扫描右侧二维码可读取申办流水号和密码</span>
+									{% endif %}
+								</div>
+								<div class="conditionContent">
+										<div class="userReminder" style="height: auto;" id="p_div">
+											<div style="height: 30px;">
+												<span style="float: left;">
+												{% if ConfigInfo.AppId|equal:"chq"%}
+												统一服务监管码：
+												{% else %}
+												申办流水号：
+												{% endif %}
+												<span class="userReminderT1" id="bjsqh">330000001408041000009</span></span>
+												<span style="float: left;">查询密码：<span class="userReminderT1" id="cxmm">123456</span></span>
+												<span style="float: right;">申办时间：<span class="userReminderT1" id="bjsj">2015-09-10 10:20:20</span></span>
+											</div>
+											<div style="width: 100%;min-height: 210px;">
+											<table class="t1" id="p_table" style="float: left;">
+												<thead>
+													<tr>
+														<th width="10%"></th>
+														<th width="25%"></th>
+														<th width="20%"></th>
+														<th width="25%"></th>
+														<th width="20%"></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<th >名称：</th>
+														<td colspan="3">{{itemInfo.NAME}}</td>
+														<td rowspan="4">
+														<div id="divCode" style="width:200px;height:200px;">
+															<img  style="width:200px;height:200px;" src="" id="img"/>
+														</div>
+														</td>
+													</tr>
+													<tr>
+														<th >受理单位：</th>
+														<td colspan="3"><span style="color: black" id="sldw">****</span></td>
+													</tr>
+													<tr>
+														<th >申请人：</th>
+														<td colspan="3"><span  style="color: black" id="user_info_name">****</span></td>
+													</tr>
+													<tr>
+														<th >联系人：</th>
+														<td ><span style="color: black" id="contextPerson"></span></td>
+														<th >联系电话：</th>
+														<td ><span style="color: black" id="userPhone"></span></td>
+													</tr>
+												</tbody>
+											</table>
+											</div>
+										</div>
+								</div>
+							</div>
+							<div class="condition">
+								<div class="conditionTitle" >
+									<img
+										src="{{PageContext.ContextPath}}public/images/title_sbcl.gif"
+										width="120" height="42" />
+								</div>
+								<div class="conditionContent">
+									<div class="uploadedFiles" style="min-height:30px;">
+									</div>
+								</div>
+							</div>
+							{% if ConfigInfo.AppId|equal:"chq"|not%}
+							<div class="condition">
+								<div class="conditionTitle">
+									<div class="menuTitle">办事指引</div>
+								</div>
+								<div class="conditionContent">
+									<ul>
+										<li><strong>办理部门：</strong>{{itemInfo.ORG_NAME}}</li>
+										<li><strong>工作时间：</strong><span id="office_hour">{{window.OFFICE_HOUR}}</span></li>
+										<li><strong>地 &nbsp;&nbsp;&nbsp;址：</strong>{% if window.ADDRESS %}{{window.ADDRESS}}{% else %} {% endif %}</li>
+										<li><strong> 联系电话：</strong><span id="bjjglxdh">{{window.PHONE}}</span></li>
+										<li title="{{window.TRAFFIC_GUIDE}}">				
+										<strong> 交通指引：</strong>{{window.TRAFFIC_GUIDE|truncate:'50'}}</li>
+									</ul>
+								</div>
+							</div>
+							{% endif %}
+						</div>
+					</div>
+					
+					<div class="buttonList">
+						<div style="display:block">
+							<input type="button" class="button02 pre" onclick="pre();" value="上一步 "/>
+							<input id="form_next"  name="next" type="button" class="button02" value="下一步" />
+							<input type="button" class="button02 save" onclick="saveData();" value="暂存" />
+						</div>
+					</div>
+				</div></td>
+		</tr>
+	</table>
+	
+	<div id="progress_IE8" style="display:none; position: absolute; left: 40%; top: 30%; width:200px; heigth: 130px; background-color: #5cb85c;border-radius: 5px;z-index:11999;"><!--页面载入显示-->
+   <table width=80% height=80% border=0 align=center valign=middle>
+    <tr><td align=center>&nbsp;</td></tr>
+    <tr><td align=center><img src="{%public scripts/fineload/img/loading.gif %}" width="60px" height="60px"/></td></tr>
+    <tr><td align=center>文件正在上传，请稍后......</td></tr>
+    <tr><td align=center>&nbsp;</td></tr>
+   </table>
+</div>
+<div id="progress" class="progress-l" style="display:none; position: absolute; top: 40%; right: 40%;">
+    <span class="progress-val-l">0%</span>
+    <span class="progress-bar-l"><span id="bar" class="progress-in-l" style="width: 0%"></span></span>
+</div>
+{% widget "icity.Material" %}
+{% widget "icity.LicenseList" %}
+<script type="text/javascript">
+	//判断是否需要跳转至省级申报平台
+	gotoLianbanUrl();
+	var step = 1;//第几步
+	var docids = [];
+	var checked_materials = [];
+	var file_id="";
+	var apply_data={};
+	var formInfo={};
+	var current_step = 1;
+	var object_types = [];//办理对象
+	var type = "";
+	var _calendar=null;
+	var _dataId="{{_dataId}}";
+	var dataId="{{dataId}}";
+	var sblsh="{{sblsh}}";
+	var state="{{state}}";
+	var cxmm="";
+	var itemcode = "{{itemInfo.CODE}}";	
+	var formSettingInfo = {{formSettingInfo}};
+	var companyMap = [];
+	var personMap = [];
+	var projectMap = [];	
+	var service_object_type = 1;
+	var formMapObj = {};	
+	var userInfo ={{userInfo}};
+	var is_rate =0;//是否上门取件-漳州使用
+	var is_catalog =0;//是否上门收件-漳州使用
+	//用于区分食药监保存或提交表单
+	var savetype = "";
+	//是否需要基本信息
+	var isSetUp = 0;//0 需要 1 不需要
+	var servicelist = {};
+	$(function() {
+		if(LEx.isNotNull("{{urlAddress}}")){
+			//strEnc(obj.ACCOUNT,pass,"","");//加密方法
+			$("#formiframe").attr("src","{{urlAddress}}?userId="+strEnc("{{userInfo.ACCOUNT}}","inspur!@","","")+"&userName="+strEnc("{{userInfo.NAME}}","inspur!@","","")+"&sybmol="+strEnc("{{sybmol}}","inspur!@","","")+"&userTypeCode="+strEnc("{{userInfo.TYPE}}","inspur!@","","")+"&itemId={{itemInfo.ID}}&dataId={{_dataId}}&formState=3&formId={{formid}}&itemCode={{itemInfo.CODE}}");
+		}else{
+			isSetUp = (formSettingInfo.isSetUp == null) ? 0 : formSettingInfo.isSetUp;
+			$("#formiframe").attr("src","{{PageContext.ContextPath}}icity/submitsp/view?width=99&itemId={{itemInfo.ID}}&formId={{formid}}"+dataId);
+		}
+		$(".pre").hide();
+		$("#form").show();
+		if(state!="00"){
+			$(".save").hide();
+		}
+		if(state=="21"){
+			$("#two").removeClass("li_two");
+			$("#two").addClass("li_one");
+			step=4;
+			$("input[name='next']").val("提交");
+		}
+		
+		toggleIcon(step);
+		apply_data["formId"]="{{formid}}";
+		apply_data["dataId"]="{{_dataId}}";
+		var OBJECT_TYPE = "{{OBJECT_TYPE}}";
+		object_types = OBJECT_TYPE.split(",");
+		OBJECT_TYPE = OBJECT_TYPE.split(",")[0];
+		if(OBJECT_TYPE=="1"){
+			$(".gr").click();		
+		}else if(OBJECT_TYPE=="3"){
+			$(".qy").click();
+		}else if(OBJECT_TYPE=="2"){
+			$(".xm").click();
+		}else{$(".gr").click();}
+		
+		//$("#user_info_name").html(LEx.userInfo.userName);
+		$("#user_info_name2").html(LEx.userInfo.userName);
+		bindData();
+		initMap();
+		initFileUpload();
+		$("#select_all").on('click', function(e) {
+			if (this.checked) {
+				$("[name='checkbox']").each(function() {
+					$(this).attr('checked', true);
+				});
+			} else {
+				$("[name='checkbox']").each(function() {
+					$(this).attr('checked', false);
+				});
+			}
+		});
+		//
+		$("input[name='checkbox']").on('click', function(e) {
+			var checkd_length = $("input[name='checkbox']:checked").length;
+			var length = $("input[name='checkbox']").length;
+
+			if (checkd_length == length) {
+				$("#select_all").attr('checked', true);
+			} else {
+				$("#select_all").attr('checked', false);
+			}
+		});
+		
+		$("#select_all_material").on('click', function(e) {
+			if (this.checked) {
+				$("[name='checkbox_material']").each(function() {
+					$(this).attr('checked', true);
+				});
+			} else {
+				$("[name='checkbox_material']").each(function() {
+					$(this).attr('checked', false);
+				});
+			}
+		});
+		$("input[name='checkbox_material']").on('click', function(e) {
+			var checkd_length = $("input[name='checkbox_material']:checked").length;
+			var length = $("input[name='checkbox_material']").length;
+
+			if (checkd_length == length) {
+				$("#select_all_material").attr('checked', true);
+			} else {
+				$("#select_all_material").attr('checked', false);
+			}
+		});
+		
+		$("#select_all_window").on('click', function(e) {
+			if (this.checked) {
+				$("[name='checkbox_window']").each(function() {
+					$(this).attr('checked', true);
+				});
+			} else {
+				$("[name='checkbox_window']").each(function() {
+					$(this).attr('checked', false);
+				});
+			}
+		});
+		$("input[name='checkbox_window']").on('click', function(e) {
+			var checkd_length = $("input[name='checkbox_window']:checked").length;
+			var length = $("input[name='checkbox_window']").length;
+
+			if (checkd_length == length) {
+				$("#select_all_window").attr('checked', true);
+			} else {
+				$("#select_all_window").attr('checked', false);
+			}
+		});
+		//下一步
+		$("input[name='next']").on('click',function(e){
+			if(validate()) {
+				if(step == 1) {
+					if("chq"=="{{ConfigInfo.AppId}}"){
+							$("#two").removeClass("li_two");
+							$("#two").addClass("li_one");
+							$(".pre").show();
+							step++;
+					}else{
+						var len = {{length}};
+						if(len=="0"){
+							if(!$("#select_all").is(":checked")&&"{{ConfigInfo.AppId}}"!="xns") {
+								LEx.alert("请自检是否满足审批条件！");
+								return;
+							} else {
+								$("#two").removeClass("li_two");
+								$("#two").addClass("li_one");
+								$(".pre").show();
+								step++;
+							}
+						}else{
+							if("zhangzhou"=="{{ConfigInfo.AppId}}"){
+								var OBJECT_TYPES = "{{OBJECT_TYPE}}";
+								if(userInfo.TYPE =="11"){
+									if(OBJECT_TYPES.indexOf("1")<0){
+										LEx.alert("该用户无法办理");
+										return false;
+									}
+								}else if(userInfo.TYPE =="21"){
+									if(OBJECT_TYPES.indexOf("3")<0){
+										LEx.alert("该用户无法办理");
+										return false;
+									}
+								}
+							}
+							if((!$("#select_all_material").is(":checked") || !$("#select_all").is(":checked"))&&"{{ConfigInfo.AppId}}"!="xns") {
+								LEx.alert("请自检是否满足审批条件！");
+							} else {
+								$("#two").removeClass("li_two");
+								$("#two").addClass("li_one");
+								$(".pre").show();
+								step++;
+							}
+						}
+					}
+				}else if(step == 2){
+					var startTime = $("#orgCodeValidPeriodStart_str").val();
+					var endTime = $("#orgCodeValidPeriodEnd_str").val();
+					if(!LEx.form.validate("#baseinfo")){
+						LEx.alert("请正确填写必填项");
+					} else {
+						if(type=="3"){//企业
+							if(startTime!=""&&endTime!=""){
+								   if(startTime>endTime){
+									   LEx.alert("截止日期不允许小于起效日期");
+									   return;
+								   }  
+							}
+							$("#contextPerson").text($("#linkMan").val());
+							$("#userPhone").text($("#contactPhone").val());
+						}else if(type=="2"){//项目
+							$("#contextPerson").text($("#linkMan").val());
+							$("#userPhone").text($("#linkPhone").val());
+						}else{//个人
+							$("#contextPerson").text($("#name").val());
+							$("#userPhone").text($("#linkPhone").val());
+						}
+						$("#user_info_name").html($("#contextPerson").text());
+						step++;
+						current_step++;
+						//自动映射信息
+						if(!LEx.isNotNull("{{urlAddress}}")){
+							if(isSetUp == 0) {
+								changeFormValue(1, formMapObj[service_object_type] ,$("#formiframe")[0].contentWindow.document);
+							}
+						}
+						//漳州 不需要填写审批表单信息 跳过下一步，直接进入材料页面
+						if("zhangzhou"=="{{ConfigInfo.AppId}}"){
+							step++;
+							$(this).val("提交");
+						}
+						//潍坊 对表单进行数据绑定 添加聊城
+						if("weifang"=="{{ConfigInfo.AppId}}"||"liaocheng"=="{{ConfigInfo.AppId}}"){
+							var obj = parent.frames["formiframe"].window;
+							//申请人
+							var nameObj  = obj.document.getElementById("ShenQingDanWeiShenQingRen");
+							if(LEx.isNotNull(nameObj)){
+								var v =nameObj.value;
+								if(!LEx.isNotNull(v)){
+									if(type=="3"){//企业
+										var orgName = $("#orgName").val();
+										nameObj.value= orgName;
+									}else{
+										nameObj.value=$("#contextPerson").text();
+					}
+								}
+							}
+							//联系人
+							var lxrObj  = obj.document.getElementById("LianXiRen");
+							if(LEx.isNotNull(lxrObj)){
+								var v =lxrObj.value;
+								if(!LEx.isNotNull(v)){
+									lxrObj.value=$("#contextPerson").text();
+								}
+							}
+							//联系电话
+							var phoneObj  = obj.document.getElementById("LianXiDianHua");
+							if(LEx.isNotNull(phoneObj)){
+								var v =phoneObj.value;
+								if(!LEx.isNotNull(v)){
+									phoneObj.value=$("#userPhone").text();
+								}
+							}
+							//证件号码
+							var zjhmObj  = obj.document.getElementById("ZhengJianHaoMa1");
+							if(LEx.isNotNull(zjhmObj)){
+								var v =zjhmObj.value;
+								if(!LEx.isNotNull(v)){
+									if(type=="3"){//企业
+										zjhmObj.value = $("#certificateNo").val();
+									}else if(type=="1"){//个人
+										zjhmObj.value = $("#idcardNo").val();
+									}
+								}
+							}
+							//电子邮件
+							var emailObj  = obj.document.getElementById("DianZiYouXiang");
+							if(LEx.isNotNull(emailObj)){
+								var v =emailObj.value;
+								if(!LEx.isNotNull(v)){
+									if(LEx.isNotNull($("#email").val())){
+										emailObj.value=$("#email").val();
+									}
+								}
+							}
+						}
+					}
+				}else if(step == 3){
+					//提交表单
+					//处理文件材料，窗口提交选上的材料
+					if(LEx.isNotNull("{{urlAddress}}")){//重庆食药监嵌套表单
+						savetype="next";
+						save_next_form();
+						return;
+					}
+					formiframe.window.bSave();
+					var obj = parent.frames["formiframe"].window;
+					_dataId = obj.document.getElementById("dataid").value;
+					if(_dataId!=""){
+						dataId="&dataId="+_dataId;
+						apply_data["dataId"] = _dataId;
+						step++;
+						$(this).val("提交");
+					}
+					/* if(!parent.frames["formiframe"].window.avalidit()){
+						alert("请正确填写必填项");
+					} else {
+						
+					} */
+					if("liaocheng"=="{{ConfigInfo.AppId}}"){
+						//申请人姓名和业务表单里面的一致
+						var nameObj  = obj.document.getElementById("ShenQingDanWeiShenQingRen");
+						$("#user_info_name").html(nameObj.value);
+					}
+				}else if(step == 4){
+					LEx.dialog({
+				        id: 'Confirm',
+				        title:'承诺书',
+				        fixed: true,
+				        lock: true,
+				        opacity: .1,
+				        content: "承诺：本人承诺已经具备以上申办条件、材料，且申办条件、材料绝对真实！",
+				        ok: function () {
+				        	if("zhangzhou"=="{{ConfigInfo.AppId}}"){
+				        		zzk();//选择 上门取件、上门收件
+				        	}else{
+				        		if(submitData()) {
+					        		$("#three").removeClass("li_thr");
+									$("#three").addClass("li_one");
+									$(".pre").val("打印");
+									$(".pre").attr("onclick","printForm();");
+									step++;
+									$(".save").hide();
+									$("input[name='next']").val("关闭");
+									//处理工作时间为空
+									if($("#office_hour").text()=="null"){
+										$("#office_hour").text("");
+								}
+								}
+				        		//左侧图标
+								toggleIcon(step);
+				        	}
+				        },
+				        cancel: function () {
+				            this.close();
+				        }
+				        
+				    });
+				} else {
+					LEx.dialog.confirm("是否关闭当前页面",function(){
+						//{% if ConfigInfo.AppId|equal:"sd"%}
+						//window.location.href="{{cp}}uinfo?folder=business&tag=business_list";
+						//{%else%}
+						//window.location.href="{{cp}}govservice/project?i=1&type=gr";
+						//{%endif%}
+						//0926 王德龙 办件结束关闭页面
+						window.close();	
+				    });
+				}
+				//左侧图标
+				toggleIcon(step);
+			}
+		});
+		//暂存或业务提交后撤回，点击修改跳到第二页
+		if(LEx.isNotNull(sblsh)&&(state=="03"||state=="00")){
+			$("#select_all").attr('checked','true');
+			$("#select_all_material").attr('checked','true');
+			$("[name='checkbox']").each(function() {
+				$(this).attr('checked', true);
+			});
+			$("[name='checkbox_material']").each(function() {
+				$(this).attr('checked', true);
+			});
+			$("#two").removeClass("li_two");
+			$("#two").addClass("li_one");
+			$(".pre").show();
+			step=2;
+			toggleIcon(step);			
+		}
+		//初始加载邮寄信息
+		initServiceList();
+	});
+	//初始加载邮寄信息
+	function initServiceList(){
+		servicelist["ApplicantName"] = userInfo.NAME;
+		servicelist["ApplicantID"] = userInfo.CARD_NO;
+		servicelist["ApplicantMobile"] = userInfo.PHONE;
+		servicelist["ApplicantAddress"] = userInfo.HOMEADDRESS;
+		apply_data["servicelist"] = servicelist;
+	}
+	/**
+	 * 初始化映射map
+	 *
+	 **/
+	function initMap(object_types) {
+		formMapObj['3'] = formSettingInfo.companyMap;
+		formMapObj['1'] = formSettingInfo.personMap;
+		formMapObj['2'] = formSettingInfo.projectMap;
+		
+		//是否需要第一步
+		if(isSetUp == 0) {
+			
+		}
+	}
+	/**
+	 *映射表单值
+	 *@param option 1或者2 1为正向映射，2为逆向映射
+	 *       idoc iframe 的document
+	 **/
+	function changeFormValue(option,formMap,idoc) {
+		for(var i in formMap) {
+			var obj = formMap[i];
+			var $source = $("#" + obj.SOURCE_FIELD_ID,idoc);
+			var $target = $("#" + obj.TARGET_FIELD_ID,$("#baseinfo"));
+			if($source.length != 0 && $target.length != 0) {
+				if(option == 1) {
+					$source.val($target.val());
+				} else {
+					$target.val($source.val());
+				}
+			}
+		}
+	}
+	/**
+	*漳州真政快
+	*/
+	function zzk(){
+			var rate ="{{itemInfo.IS_RATE}}";
+			var catalog ="{{itemInfo.IS_CATALOG}}";
+			var str = "<div>";
+			if(rate=="1"){
+				str += "<input type='checkbox' id='is_rate'>是否上门取件<br>";
+			}
+			if(catalog=="1"){
+				str +="<input type='checkbox' id='is_catalog'>是否上门收件";
+			}
+			str +="</div>"
+			if(rate=="1"||catalog=="1"){
+				LEx.dialog({
+			        id: 'email',
+			        title:'真政快',
+			        fixed: true,
+			        lock: true,
+			        opacity: .1,
+			        content: str,
+			        ok: function () {
+			        	if($("#is_rate").attr("checked")){
+			        		is_rate =1;//是否上门取件
+			        	}
+						if($("#is_catalog").attr("checked")){
+							is_catalog =1;//是否上门收件
+						}
+						if(submitData()) {
+			        		$("#three").removeClass("li_thr");
+							$("#three").addClass("li_one");
+							$(".pre").val("打印");
+							$(".pre").attr("onclick","printForm();");
+							step++;
+							$(".save").hide();
+							$("input[name='next']").val("关闭");
+						}
+						toggleIcon(step);
+			        	 this.close();
+			        }
+			    });
+			}else{
+				if(submitData()) {
+	        		$("#three").removeClass("li_thr");
+					$("#three").addClass("li_one");
+					$(".pre").val("打印");
+					$(".pre").attr("onclick","printForm();");
+					step++;
+					$(".save").hide();
+					$("input[name='next']").val("关闭");
+				}
+				toggleIcon(step);
+			}
+	}
+	/**
+	 *提交数据
+	 *
+	**/
+	function submitData(){
+		if(!LEx.form.validate("#baseinfo")){
+			LEx.alert("请正确填写必填项");
+			return;
+		}
+		 //是否上传必须文件
+		if(check4Material()==false){
+			var info="<div style='padding: 0 1em;'>"+
+	        "<img src='{{PageContext.ContextPath}}public/images/star_icon_1.gif' width=15 height=14/>"
+	        +"为必要材料，请上传必需附件或勾选窗口提交！</div>"
+			LEx.alert(info);
+			return;
+		}
+		//重庆市司法局提交表单验证
+		if("chq"=="{{ConfigInfo.AppId}}"&&"{{ConfigInfo.verifyFormData}}"=="on"){
+			if(!dataExchange()){
+				return false;
+			}
+		}
+		//纸质文件return;
+		getCheckMaterial();
+		//构造数据
+		buildData();
+		//提交数据时，如果为草稿状态，state=sp；否则state=bqbz
+		if(state=="00"){apply_data.state="sp";}
+		else if(state=="21"){
+		apply_data.state="clbqbz";
+		apply_data.clqd="{{bzclqd}}";}
+		else{apply_data.state="bqbz";}
+		apply_data.ly="icity";
+		apply_data.InnerCode = "{{itemInfo.INNER_CODE}}"
+		var command = new LEx.Command("app.icity.onlineapply.ApplyCmd");
+		command.setParameter("data",apply_data);
+		var ret = command.execute("submitSP");
+		if(ret.state=="1"||ret.state=='4'){
+			$("#bjsqh").html(ret.data.receiveNum);
+			$("#bjsj").text( fomatterDate(new Date()) );
+			$("#sldw").text( apply_data.orgName );
+			$("#cxmm").text(ret.data.password);
+			if (docids.length=="0"&&checked_materials.length=="0"){
+				$(".uploadedFiles").append("<span style=\"height:30px;float:left;margin-left:22px;\">没有上传材料。</span>");
+			}else{
+				if(docids.length>0){
+					$(".uploadedFiles").append("<br><dl><dt style=\"color:#61c3f4\">已上传的电子文档材料：</dt><dl><br>");
+				}
+				var num = 1;
+				for(var i=0;i<docids.length;i++){
+					id="list1_"+docids[i].DOCUMENT_ID;
+					if(document.getElementById(id)){ 
+					} else{
+	        			$(".uploadedFiles").append("<dl id=\"list1_"+docids[i].DOCUMENT_ID+"\"><dt>"+num+"、"+docids[i].DOCUMENT_NAME+"</dt><dl><br/>");
+						num++;
+					}
+					if(docids[i].TYPE=="3"){
+						$("#list1_"+docids[i].DOCUMENT_ID).append("<dd><a href='#' class='text-primary' style='text-decoration: none;'>"+docids[i].FILE_NAME+"【电子证照】</a>；</dd>");
+					}else{
+						$("#list1_"+docids[i].DOCUMENT_ID).append("<dd><a href='#' class='text-primary' style='text-decoration: none;' onclick=downloadFile('"+docids[i].FILE_PATH+"','"+docids[i].FILE_NAME+"');>"+docids[i].FILE_NAME+"</a>；</dd>");
+					}
+	        	}
+				if(checked_materials.length>0){
+					$(".uploadedFiles").append("<br><dl><dt style=\"color:#61c3f4\">需到窗口提交的纸质材料：</dt><dl><br>");
+				}
+				num=1;
+	        	for(var j=0;j<checked_materials.length;j++){
+	        		if(LEx.isNotNull(checked_materials[j].code)){
+	        		var id="list2_"+checked_materials[j].code;
+					if(!document.getElementById(id)){ 
+		        		$(".uploadedFiles").append("<dl id=\"list2_"+checked_materials[j].code+"\"><dt>"+num+"、"+checked_materials[j].name+"</dt><dl><br>");
+					}
+						num++;
+					}
+	        	} 
+        	}
+			if($("#bjjglxdh").html()=="null"){
+				$("#bjjglxdh").html("");
+			}
+			$(function(){
+				var fileurl = "申办流水号:"+ret.data.receiveNum+"  密码:"+ret.data.password;
+				if("{{ConfigInfo.AppId}}"=="chq"){
+					fileurl = "统一服务监管码:"+ret.data.receiveNum+"  密码:"+ret.data.password;
+				}
+				$.ajax({
+					type : "get",
+					url : LEx.webPath + "bsp/Convt2QRCode?fileUrl="+fileurl,
+					success : function(data) {
+						var src = "";
+						src = LEx.webPath+"file/dimensionImg"+data.split("file/dimensionImg")[1];
+						$("#img").attr("src",src);
+					},
+					error : function() {
+						
+					}
+				});
+			});
+			var json={time:new Date().getTime()};  
+			//html5的新api，低版本ie不支持，暂时屏蔽
+			//window.history.pushState(json,"","{{cp}}index");
+			if(ret.state=='4'){
+				LEx.alert("提交失败，已暂存！");	
+				return true;
+			}else{
+				if("{{ConfigInfo.AppId}}"=="dezhou"){
+					LEx.dialog.tips("提交成功！",1.5);
+					return true;
+				}else{
+					LEx.alert("提交成功！");			
+					return true;
+				}
+			}			
+		}else{
+			LEx.alert("提交失败！");
+			return false;
+		}
+	}
+	//重庆项目向第三方提供表单数据
+	function dataExchange(){
+		if(itemlist.indexOf("{{itemInfo.CODE}}")>-1){
+			//司法局对接
+			var command = new LEx.Command("app.icity.onlineapply.ApplyCmd");
+			command.setParameter("UserID","{{UserInfo.userId}}");
+			command.setParameter("Key","fsyhmsq");
+			command.setParameter("DataId",apply_data["dataId"]);
+			command.setParameter("FormId",apply_data["formId"]);
+			command.setParameter("FormData",formiframe.window.allFormData);
+			command.setParameter("Param","{'flowName':'swsyhm'}");
+			command.setParameter("metail",docids);
+			var ret = command.execute("formDataExchangeToJudicial");
+			if(ret.state!="1"){
+				LEx.alert("数据交互失败！");
+				return false;
+			}else{return true;}
+		}else{
+			return true;
+		}
+	}
+	//获取勾选了窗口提交的材料
+	function getCheckMaterial(){
+		$("#apply").find("input[type=checkbox]:checked").each(
+			function(){
+				var datajson = {code:$(this).attr("code"),name:$(this).attr("materialname")};
+				checked_materials.push(datajson);
+			}
+		);
+	}
+	function toggleIcon(step) {
+		switch(step) {
+			case 1:
+				$("#service_step_01").css('display','block');
+				$("#service_step_02").css('display','none');
+				$("#service_step_03").css('display','none');
+				$("#service_step_04").css('display','none');
+				$("#service_step_05").css('display','none');
+				break;
+			case 2:
+				$("#service_step_02").css('display','block');
+				$("#service_step_01").css('display','none');
+				$("#service_step_03").css('display','none');
+				$("#service_step_04").css('display','none');
+				$("#service_step_05").css('display','none');
+				break;
+			case 3:
+				$("#service_step_03").css('display','block');
+				$("#service_step_01").css('display','none');
+				$("#service_step_02").css('display','none');
+				$("#service_step_04").css('display','none');
+				$("#service_step_05").css('display','none');
+				break;
+			case 4:
+				$("#service_step_04").css('display','block');
+				$("#service_step_01").css('display','none');
+				$("#service_step_02").css('display','none');
+				$("#service_step_03").css('display','none');
+				$("#service_step_05").css('display','none');
+				break;
+			case 5:
+				$("#service_step_05").css('display','block');
+				$("#service_step_02").css('display','none');
+				$("#service_step_01").css('display','none');
+				$("#service_step_03").css('display','none');
+				$("#service_step_04").css('display','none');
+				break;
+			default:
+				break;
+		}
+	}
+	function pre(){
+		if(step==2){
+			$("#two").removeClass("li_one");
+			$("#two").addClass("li_two");
+			$("#service_step_01").show();
+			$("#service_step_02").hide();
+			$(".pre").hide();
+			step-=1;
+		}else if(step==3){		
+			$("#service_step_02").show();
+			$("#service_step_03").hide();
+			$(".pre").show();
+			step-=1;
+			current_step-=1;
+		}else if(step==4){
+			$("#service_step_03").show();
+			$("#service_step_04").hide();
+			$(".pre").show();
+			$("#form_next").val("下一步");
+			step-=1;
+		}
+	}
+	function showDownload(obj) {
+	SPsxChange();
+		LEx.dialog({
+			id : 'SampleDownload',
+			title : '样表下载',
+			fixed : true,
+			lock : true,
+			opacity : .1,
+			content : $("#ddownload" + $(obj).attr("code")).html(),
+			ok : function() {
+				return;
+			}
+		});
+	}
+	function SPsxChange() {
+		//获取事项材料表格
+		var limit = 200;
+		var start = 1;
+		var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+		//cmd.setParameter("itemid",$("#simple").val());//"3DACC6AB361F40C2B50F4E6FAADC1AD8"
+		cmd.setParameter("itemid",LEx.urldata.itemId);
+		var ret = cmd.execute("getAllItemInfoByItemID");
+		if (!ret.error) {
+			if("{{ConfigInfo.AppId}}"=="chq"){
+				var len_mater = ret.data.materials.length;
+			    for(var i=0;i<len_mater;i++){
+			    	//$("#dfile"+ret.data[i].CODE).html(LEx.processDOMTemplate("MattersListTemplate",ret.data[i]));
+			    	$("#ddownload"+ret.data.materials[i].CODE).html(LEx.processDOMTemplate("MattersListTemplate",ret.data.materials[i]));
+			    }
+			}else{
+				var len = ret.data.length;
+				for (var i = 0; i < len; i++) {
+					//$("#dfile"+ret.data[i].CODE).html(LEx.processDOMTemplate("MattersListTemplate",ret.data[i]));
+					$("#ddownload" + ret.data[i].CODE).html(
+							LEx.processDOMTemplate("MattersListTemplate",ret.data[i]));
+				}
+			}
+		} else {
+			alert(ret.error);//打印错误信息
+		}
+	}
+	var dick_url = LEx.webPath + "bsp/uploadify?action=downloadagent4wp";
+	
+	//（重庆）表单保存成功后触发下一步操作
+	/**
+	 *formid 内部表单系统formid
+	 *data_id 内部表单系统dataid
+	 *_data_id 外部表单dataid
+	 */
+	function nextstep(form_id,data_id,ex_dataid){
+		//LEx.alert("调用网办下一步操作成功！");
+		if(LEx.isNotNull(data_id)){
+			apply_data["formId"]=form_id;
+			dataId="&dataId="+data_id;
+			apply_data["dataId"] = data_id;
+			apply_data["ex_dataId"] = ex_dataid;
+			if(savetype=="next"){
+				step++;
+				$(this).val("提交");
+				toggleIcon(step);
+			}else{
+				buildData();
+				var command = new LEx.Command("app.icity.onlineapply.ApplyCmd");
+				command.setParameter("data",apply_data);
+				var ret=command.execute("saveDraft");
+				if(!command.error){
+					sblsh=ret.data;
+					if("{{ConfigInfo.AppId}}"=="chq"){
+						alert("保存成功，可在个人企业空间-我的办件中找到该事项，点击右侧的修改按钮继续办理");
+					}else{
+						alert("保存成功！");
+					}
+					if("{{ConfigInfo.WebRegion}}"=="370000000000"){
+						window.location.href="{{PageContext.ContextPath}}icity/project";
+					}
+				}else{
+					alert("保存失败！");
+				}
+			}
+		}else{
+			LEx.alert("表单保存失败！");
+		}
+	}
+	//（重庆）触发表单保存方法（暂存时使用）
+	function save_form(){
+		if(typeof(frame_obj)=='undefined'){
+			frame_obj = document.createElement('iframe');
+			frame_obj.name = 'save_frame';
+			frame_obj.src = '{{ConfigInfo.saveWatchdogForm}}';
+			frame_obj.style.display = 'none';
+			document.body.appendChild(frame_obj);
+		}else{
+			frame_obj.src = '{{ConfigInfo.saveWatchdogForm}}?' + Math.random();
+		}
+  }
+	//（重庆）触发表单保存方法（下一步时使用）
+	function save_next_form(){
+		if(typeof(frame_obj)=='undefined'){
+			frame_obj = document.createElement('iframe');
+			frame_obj.name = 'save_frame';
+			frame_obj.src = '{{ConfigInfo.saveWatchNextForm}}';
+			frame_obj.style.display = 'none';
+			document.body.appendChild(frame_obj);
+		}else{
+			frame_obj.src = '{{ConfigInfo.saveWatchNextForm}}?' + Math.random();
+		}
+  }
+	/**
+	文件下载方法
+	**/
+	function downloadFile(docid,name){
+		if(docid==""||docid==undefined||docid=="undefined"){
+			return;
+		}
+	    var opera = "downloadagent4wp&path="+docid+"&name="+encodeURIComponent(name); 
+	   	window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+		return false;
+	}
+  /**
+ * 实现跨层级审批事项，公众在市（县）网上政务大厅点击跨层级审批事项申报时，可以自动跳转到省级网上政务大厅的申报页面，后台工作人员直接使用省级统一业务系统办理（山东省）
+ */
+function getLianBanSX(code){
+	if(typeof(_sjlbsx)=="undefined")
+		return null;
+	for(var i=0;i<_sjlbsx.length;i++){
+		if(code == _sjlbsx[i].innercode){
+			return _sjlbsx[i];
+		}
+	}
+	return null;
+}
+/**
+ * 实现跨层级审批事项，公众在市（县）网上政务大厅点击跨层级审批事项申报时，可以自动跳转到省级网上政务大厅的申报页面，后台工作人员直接使用省级统一业务系统办理（山东省）
+ */
+function gotoLianbanUrl(){
+	var sjlbsx = getLianBanSX("{{itemInfo.CODE}}");
+	if(sjlbsx!=null){
+		var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+		cmd.setParameter("itemcode", sjlbsx.tar_itemcode);
+		cmd.setParameter("itemname", encodeURIComponent(sjlbsx.tar_itemname));
+		var ret = cmd.execute("getLianBanUrl");
+		
+		var cmd2 = new LEx.Command("app.icity.sync.UniteUserLogin");
+		cmd2.setParameter("uid", "{{UserInfo.uid}}");
+		cmd2.setParameter("type", "{{UserInfo.type}}");
+		var ret2 = cmd2.execute("getTicket");
+		var ticket = ret2.data.ticket;
+		if(ret.data.status=="0"){
+			if(ret.data.msg.indexOf("http://")<0){
+				ret.data.msg = "http://" + ret.data.msg;
+			}
+			window.open(ret.data.msg+"&itemCode="+sjlbsx.tar_itemcode+"&ticket="+ticket+"&userType="+ ("{{UserInfo.type}}"=="11"?"gr":"fr" ),"_self");
+		} else {
+			alert("三级联办事项跳转错误："+ret.data.msg);
+		}
+	}
+}
+function printForm(){
+	$("#p_div").css("width","1000px");
+	$("#p_table").css("width","1000px");
+	$("#service_step_05").printArea();
+}
+</script>
+<script type="text/template" id="MattersListTemplate">
+	  {if LEx.isNotNull(SAMPLE_NAME)&&LEx.isNotNull(SAMPLE)}
+	  <div style="color: red;">请点击样表名称下载</div><br>
+	  {var samples=SAMPLE_NAME.split(";")}
+	  {var docids=SAMPLE.split(";")}
+		 {if samples.length>0}
+		 	{for sample in samples}
+		 	{if LEx.isNotNull(sample)}
+			<a class="btn btn-xs btn-link" href="${dick_url+'&path='+docids[sample_index]+'&name='+sample}">${sample}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		 	{/if} 
+			{/for}
+		 {/if}
+	  {/if}
+</script>
+{% include onlineapply/form.html%}

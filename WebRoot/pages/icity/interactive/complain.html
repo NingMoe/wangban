@@ -1,0 +1,54 @@
+<div style=" width:1020px;margin: 0 auto;background-color:white	;">
+<header id="header" class="yi-subhead" style="margin: 10px;">
+    <div class="container">
+        <h4><strong>我要投诉</strong><small>&nbsp;&nbsp; 受理公民、法人和其他组织对政务服务网有关单位人员办事效率、工作态度等方面的投诉</small></h4>
+    </div>
+</header>
+<div id="page" class="container">
+        <ul class="nav nav-tabs">
+                    <li class="active"> <a href="#s-n-t-11" data-toggle="tab">按部门</a></li>
+                    </ul>
+                    <br>
+                    <div class="tab-content">
+                        <div class="tab-pane fade active in" id="s-n-t-11">
+                        </div>
+                    </div>
+</div></div>
+{% include govservice/newmail.html %}
+<script type="text/template" id="deptTemplate4NewMail">
+<ul class="list-inline phi yi-list-inline-s-1">
+{for o in data.organ}
+{if o.IS_HALL=="1"}
+<li class="col-xs-2" dept_id=${o.CODE} dept_name=${o.SHORT_NAME} cat="3" onclick="doWrite(this);" title="${o.SHORT_NAME}"><a href="#">${formatLen(o.SHORT_NAME,0,6)}</a></li>
+{/if}
+{/for}
+</script>
+<script>
+
+$(function(){
+	onQuery4Site();
+	})
+	function onQuery4Site() {
+		var region_code=getSecurityValue("WebRegion");
+		var command = new LEx.Command("app.icity.ServiceCmd");
+		command.setParameter("region_code",region_code);
+		deptList = command.execute("getDeptList");
+		if(!command.error){
+			$('#s-n-t-11').html(LEx.processDOMTemplate('deptTemplate4NewMail',deptList));
+		}else{
+			LEx.dialog({
+				title : "系统提示",
+				content : command.error,
+				icon : 'error',
+				lock : true
+			});
+		}	
+	 
+	}
+
+
+
+
+
+
+</script>

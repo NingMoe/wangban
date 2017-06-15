@@ -1,0 +1,76 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}project.css" />
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+<style type="text/css">
+.tab_1 {
+	background: #CCC;
+	font-size: 14px;
+	margin: 10px auto;
+	border-top: 2px solid #37A3DB
+}
+
+.busy-result .tab_1 .tr_1 {
+	line-height: 25px;
+	padding: 5px 10px;
+	background: #F2F6F9;
+	text-align: right;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result .tab_1 .tr_1 .th_1 {
+	padding: 5px 10px;
+	background: #E2EBFF;
+	font-family: 微软雅黑;
+	font-weight: bold;
+	color: #666666;
+	text-align: right;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result .tab_1 .tr_1 .td_1 {
+	padding: 5px 10px;
+	background: #FFFFFF;
+	text-align: left;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result {
+	padding: 20px
+}
+</style>
+
+{% map "BIZ_ID",biz_id as p%} {% command "app.icity.engineering.EngineeringCmd","getEnginBaseList",p as d %}
+{% if d.data %}
+{% for o in d.data %}
+<div class="">
+	 <table class="table table-bordered its-table-backlog" style="width:100%;">
+         <tbody style="width:100%;">
+             <tr>
+                 <th class="text-right active">业务编号：</th>
+                 <td colspan="3"><font id="sblsh">{{o.BIZ_ID}}</font></td>
+             </tr>
+             <tr style="width:100%;">
+                 <th class="text-right active"  style="width:15%;">业务主题：</th>
+                 <td style="width:55%;"><font id="sxmc">{{o.APPLY_SUBJECT}}</font></td>
+                 <th class="text-right active"  style="width:15%;">申请人或单位：</th>
+                 <td style="width:15%;"><font id="sqrmc">{{o.ENTERPRISES_NAME}}</font></td>
+             </tr>
+             <tr>
+                 <th class="text-right active">申办时间：</th>
+                 <td>{{o.APPLY_TIME}}</td>
+                 <th class="text-right active">阶段名称：</th>
+                 <td><font state="{{o.STAGE_NAME}}">{{o.STAGE_NAME}}</font></td>
+             </tr>
+			<tr class="tr_1">
+				<th class="text-right active">预审时间：</th>
+				<td>{{o.ACCEPT_TIME}}</td>
+				<th class="text-right active">办结时间：</th>
+				<td><font id="ACTUAL_FINISH_TIME">{{o.ACTUAL_FINISH_TIME}}</font></td>
+			</tr>
+	</table>
+</div>
+{%endfor%}
+ {% endif %}
+<script type="text/javascript">
+	//初始化业务详细信息
+</script>

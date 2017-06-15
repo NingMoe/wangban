@@ -1,0 +1,85 @@
+<style>
+body {
+	background: #fff;
+    min-width: 100%;
+    overflow-x: hidden;
+    background-color: #fff;
+}
+</style>
+<div style="margin:0 15px;">
+    <ol class="breadcrumb alpha omega">
+        <li class="transparent">当前位置</li>
+        <li class="active transparent">站点配置<input type="hidden" id="PAGE_MODE" value="{{ConfigInfo.PAGE_MODE}}"/></li>
+    	<input type="button" value="添加顶级站点" onClick="addsite('',0)" id="_addsite" class="btn btn-sm btn-primary pull-right">
+    </ol>
+	<div id="_website"  align="center" ></div>
+</div>
+<script type="text/template" id="securityTemplate">
+{macro showChilds(o,level)}
+{for c in o.childs}
+<tr class="on"  iname="${c.id}">
+	<input type="hidden" name="pid" value="${o.id}" />
+	<td >
+		<span style="margin-left: ${level*30}px;">${c.title}</span>
+		<a href="/${c.name}/" title="点击进去站点" target="_blank" title="预览"><span style="float: right;margin: 5px 5px 0 0;"><img src="{{PageContext.ContextPath}}public/images/next_blue.png" width="18px" height="18px" /></span></a>
+
+	</td>
+	<td style="text-align: center;">
+		<span>${c.name}</span>
+	</td>
+	<td>
+		<span>${c.domain}</span>
+		<a href="/${c.name}/" target="_blank" title="预览"><span style="float: right;margin: 5px 5px 0 0;"><img src="{{PageContext.ContextPath}}public/images/next_blue.png" width="18px" height="18px" /></span></a>
+	</td>
+	<td style="text-align: left;">
+		<input type="button" value="编辑" onclick="editSite('${c.name}')" class="btn btn-sm btn-primary" >
+		<input type="button" value="添加子站点" onclick="addsite('${c.id}',${level + 1})" class="btn btn-sm btn-primary" >
+		<input type="button" value="删除" onclick="deleteSite('${c.name}',{if c.childs.length > 0}true{else}false{/if})" class="btn btn-sm btn-primary" >
+		<div class="clear" style="height:4px"></div>
+	</td>
+</tr>
+
+{if c.childs }
+	{var cc = showChilds(c,level+1)}
+	${cc}
+{/if}
+
+{/for}
+{/macro}
+	<table id="tJob" class="table table-bordered" style="width: 100%">
+
+		<tr>
+			<th align="center" style="text-align: center;">分厅名称</th>
+			<th align="center" style="text-align: center;" width="13%">上下文路径</th>
+			<th align="center" style="text-align: center;" width="20%">域名</th>
+			<th align="center" style="text-align: center;" width="20%">操作</th>
+		</tr>
+		{for o in data}
+				<tr class="on " iname="${o.id}">
+					<input type="hidden" name="pid" value="" />
+					<td >
+						<span>${o.title}</span>
+						<a href="/${o.name}/" title="点击进去站点" target="_blank" title="预览"><span style="float: right;margin: 5px 5px 0 0;"><img src="{{PageContext.ContextPath}}public/images/next_blue.png" width="18px" height="18px" /></span></a>
+
+					</td>
+					<td style="text-align: center;">
+						<span>${o.name}</span>
+					</td>
+					<td>
+						<span>${o.domain}</span>
+						<a href="/${o.name}/" target="_blank" title="预览"><span style="float: right;margin: 5px 5px 0 0;"><img src="{{PageContext.ContextPath}}public/images/next_blue.png" width="18px" height="18px" /></span></a>
+					</td>
+					<td style="text-align: left;">
+						<input type="button" value="编辑" onclick="editSite('${o.name}')" class="btn btn-sm btn-primary" >
+						<input type="button" value="添加子站点" onclick="addsite('${o.id}',1)" class="btn btn-sm btn-primary" >
+						<input type="button" value="删除" onclick="deleteSite('${o.name}',{if o.childs.length > 0 }true{else}false{/if})" class="btn btn-sm btn-primary" >
+						<div class="clear" style="height:4px"></div>
+					</td>
+				</tr>
+				{if o.childs }
+					{var cc = showChilds(o,1)}
+					${cc}
+				{/if}
+		{/for}
+	</table>
+</script>

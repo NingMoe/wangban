@@ -1,0 +1,449 @@
+<script type="text/javascript"	src="{% public scripts/ajaxfileupload.js %}"></script>
+<script type="text/javascript"	src="{% public scripts/calendar/calendar-min.js %}"></script>
+<link rel="stylesheet" type="text/css"	href="{% public scripts/calendar/calendar-min.css %}" />
+<link rel="stylesheet" type="text/css"	href="{{PageContext.CssPath}}govservice.css" />
+<link rel="stylesheet"	href="{{PageContext.ContextPath}}public/scripts/artDialog-6.0.4/css/ui-dialog.css">
+<script	src="{{PageContext.ContextPath}}public/scripts/artDialog-6.0.4/dist/dialog-min.js"></script>
+<script src="{% public scripts/LEx.form.js %}"></script>
+<script type="text/javascript"	src="{{PageContext.ContextPath}}public/scripts/jeDate/jedate.js"></script>
+<style type="text/css">
+.input_validation-invalid {
+	border: 1px solid #f00 !important;
+	color: #f00;
+}
+#sub_form  .bordered {
+	border: 1px solid red;
+}
+input {
+	font-family: "RobotoDraft", "Roboto", "Helvetica Neue", Helvetica,
+		Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
+	font-size: 14px;
+}
+input.date {
+	background: #fff url({% public images/input_date.png %}) no-repeat right
+		3px;
+	border: 1px solid #848484;
+	height: 28px;
+	width: 100%;
+	margin: 0 5px 0 0;
+	padding: 2px 0 2px 5px;
+	font-family: Verdana, Geneva, sans-serif, "宋体";
+	font-size: 12px;
+}
+.input_validation-invalid,.input_validation-failed {
+	border: 1px solid #F00;
+	color: #F00;
+}
+.input_validation-valid {
+	border: 1px solid #333;
+	color: #333;
+}
+.DynarchCalendar-topCont {
+	width: 200px;
+}
+table.t1 {
+	width: 900px;
+}
+.ztree li {
+	line-height: inherit;
+}
+.ztree * {
+	font-size: inherit;
+}
+body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video
+	{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: small;
+}
+</style>
+{%include bsp/regionTree.html%}
+<div
+	style="background-color: #fff; padding: 20px 40px; width: 1030px; margin: 0px auto;">
+	<ol class="breadcrumb">
+		<li><a href="{{cp}}pro/index">首页</a>
+		</li>
+		<li><a href="{{cp}}pro/index">办事大厅</a>
+		</li>
+		<li class="active">项目注册</li>
+	</ol>
+
+	<br>
+	<section class="panel panel-default">
+	<div class="panel-body" style="padding-left: 20px">
+		<table class="table table-bordered table-condensed table01"
+			cellspacing="1" style="display: block; border-width: 0px">
+			<tbody>
+				<tr>
+					<th style="width: 150px;"><font color="red">*</font>投资项目类别：</th>
+					<td><select id="projectType" name="projectType" class="span3"
+						datatype="*1-100" nullmsg="此项不能为空" sucmsg=" ">
+							<!-- <option value="">请选择投资项目行业分类</option>	 -->
+					</select></td>
+					<th style="width: 150px;"><font color="red">*</font>行政区划：</th>
+					<td><input class="checkit" type="text" id="regionCode"
+						name="regionCode" value="{{ConfigInfo.AppCity}}"
+						city="{{ConfigInfo.AppCity}}" code="{{ConfigInfo.WebRegion}}"
+						readonly="true" /></td>
+				</tr>
+			</tbody>
+		</table>
+		<h3>一、项目信息表</h3>
+		<table class="table table-bordered table-condensed table01"
+			cellspacing="1" id="sub_form"
+			style="display: block; border-width: 0px">
+			<colgroup>
+				<col width="20%">
+				<col width="30%">
+				<col width="20%">
+				<col width="30%">
+			</colgroup>
+			<tbody id="project_body">
+				<tr>
+					<th style="width: 150px">基础建设：</th>
+					<td><input type="radio" value="0" id="jcjs"
+						name="projectCategory" checked="checked" /></td>
+					<th style="width: 150px;">技术改造：</th>
+					<td><input type="radio" value="1" id="jsgz"
+						name="projectCategory" /></td>
+				</tr>
+				<tr>
+					<th style="width: 150px">是否子项目：</th>
+					<td id="_sfzxm"><input type="radio" value="1" id="zxm"
+						name="isSubProject" />是 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
+						type="radio" value="0" id="fzxm" name="isSubProject"
+						checked="checked" />否</td>
+					<th style="width: 150px">是否重点项目：</th>
+					<td id="_sfzxm"><input type="radio" value="1" id="zdxm"
+						name="keyProject" />是 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
+						type="radio" value="0" id="fzdxm" name="keyProject"
+						checked="checked" />否</td>
+				</tr>
+				<tr id="zxmbmtr" style="display: none;">
+					<th id="zxmbm" style="width: 150px;"><font color="red">*</font>主项目名称：</th>
+					<td id="_zxmbm" style="" colspan="3"><input type="text"
+						style="width: 86%;" value="" onclick="selectProject();"
+						id="mainProjectName" name="mainProjectName" /> <input
+						type="hidden" value="" id="mainProjectCode" name="mainProjectCode" />
+					</td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>项目名称：</th>
+					<td colspan="3"><input value="" id="projectName"
+						field="projectName" name="projectName" type="text"
+						class="span3 checkit" datatype="*1-100" nullmsg="此项不能为空"
+						sucmsg=" " style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>建设性质：</th>
+					<td><select id="constructPer" name="constructPer"
+						class="span3" datatype="*1-100" nullmsg="此项不能为空"
+						style="width: 120px" sucmsg=" ">
+					</select>
+						<div class="Validform_checktip"></div>
+					</td>
+					<th><font color="red">*</font>所属行业：</th>
+					<td><input type="text" id="theIndustry" name="theIndustry" value=""
+						code="" pcode="" readonly="true" onclick="selectNewIndustry();" />
+						<div class="Validform_checktip"></div></td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>建设地点区划：</th>
+					<td colspan="3"><select id="provinceCode" name="provinceCode"
+						class="span3" datatype="*1-100" nullmsg="此项不能为空"
+						style="width: 100px" sucmsg=" ">
+					</select> <select id="cityCode" name="cityCode" class="span3"
+						datatype="*1-100" nullmsg="此项不能为空" style="width: 100px" sucmsg=" ">
+					</select> <select id="countyCode" name="countyCode" class="span3"
+						datatype="*1-100" nullmsg="此项不能为空" style="width: 100px" sucmsg=" ">
+					</select>
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>建设地点：</th>
+						<td colspan="3"><input type="radio" onclick="clearSn(this)"
+						name="placeCode" id="ks" value="000000" checked /> <label for="ks">跨省区</label>
+						<input type="radio" onclick="clearSn(this)" name="placeCode"
+						id="kj" value="000001" /> <label for="kj">跨境</label> <input
+						type="radio" onclick="clearSn(this)" name="placeCode" id="jw"
+						value="000002" /> <label for="jw">境外</label> <input type="radio"
+						name="placeCode" id="sn" value="省内" onclick="ayncTree(this)" /> <label
+						for="sn">省内</label> <input type="text" id="province"
+						readonly="true" value="跨省区"></td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>详细地址：</th>
+					<td colspan="3"><input value="" id="placeAreaDetail"
+						field="placeAreaDetail" name="placeAreaDetail" type="text"
+						class="span3 checkit" datatype="*1-100" nullmsg="此项不能为空"
+						sucmsg=" " style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>国标行业：</th>
+					<td><input type="text" id="industry" name="industry" value=""
+						code="" readonly="true" onclick="selectIndustry();" />
+						<div class="Validform_checktip"></div></td>
+					<th><font color="red">*</font>拟开工时间（精确到月）：</th>
+					<td><input value="" id="startYear" class="" readonly="true"
+						onClick="jeDate({dateCell:'#startYear',isTime:true,format:'YYYY-MM'})"
+						name="startYear" type="text" datatype="" />
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr>
+					<th style="width: 150px"><font color="red">*</font>拟建成时间（精确到月）：</th>
+					<td><input value="" id="endYear" field="endYear"
+						name="endYear" type="text" class="" readonly="true"
+						onClick="jeDate({dateCell:'#endYear',isTime:true,format:'YYYY-MM'})"
+						datatype="" nullmsg="此项不能为空" sucmsg=" " />
+						<div class="Validform_checktip"></div>
+					</td>
+					<th><font color="red">*</font>总投资（万元）：</th>
+					<td><input value="" id="investment"
+						onkeyup="value=value.replace(/[^\d+\.?\d*]/g,'') "
+						onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^/d{1,}[.]{0,1}/d{0,}]/g,''))"
+						field="investment" name="investment" type="text"
+						onblur="checkinvestment()" class="span3 checkit" datatype=""
+						nullmsg="此项不能为空" sucmsg=" " />
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr id="tzxmhyfl" style="display: none;">
+					<th><font color="red">*</font>投资项目行业分类：</th>
+					<td colspan="3"><input type="text" id="permitIndustry"
+						name="permitIndustry" value="" code="" readonly="true"
+						onclick="selectpermitIndustry();" />
+						<div class="Validform_checktip"></div></td>
+					<!-- <td colspan="3">
+							<select id="permitIndustry"  name="permitIndustry" class="span3"  datatype="*1-100" nullmsg="此项不能为空" style="width:300px"	sucmsg=" " >
+							</select>						
+							<div class="Validform_checktip"></div></td> -->
+				</tr>
+				<tr id="hyhzml" style="display: none;">
+					<th><font color="red">*</font>行业核准目录：</th>
+					<td colspan="3"><select id="permitItemCode"
+						name="permitItemCode" class="span3" datatype="*1-100"
+						nullmsg="此项不能为空" style="width: 300px" sucmsg=" ">
+					</select>
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>建设规模及内容：</th>
+					<td colspan="3"><textarea value="" cols="100"
+							style="width: 86%" id="projectContent" name="projectContent"
+							class="checkit" onblur="checkprojectContent()" sucmsg=" "
+							datatype="*1-100"></textarea>
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr>
+					<th>是否开发区项目：</th>
+					<td><select id="isDeArea" name="isDeArea" class="span3">
+							<option value="0">非开发区项目</option>
+							<option value="1">开发区项目</option>
+					</select>
+						<div class="Validform_checktip"></div>
+					</td>
+					<th style="width: 150px"><font id="spdl" color="red"
+						style="display: block;">*</font>是否申请审批代理服务：</th>
+					<td><input type="radio" value="1" id="spdlsq"
+						name="isApplyAgentService" checked="checked" />申请
+						&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" value="0"
+						id="spdlbsq" name="isApplyAgentService" />不申请
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr style="display: none;">
+					<th><font color="red">*</font>项目阶段：</th>
+					<td colspan="3"><select id="projectStage" name="projectStage"
+						class="span3" datatype="*1-100" nullmsg="此项不能为空"
+						style="width: 100px" sucmsg=" ">
+					</select>
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr id="kfqmc" style="display: none;">
+					<th><font color="red">*</font>开发区名称：</th>
+					<td colspan="3"><input value="" id="deAreaName"
+						field="deAreaName" name="deAreaName" type="text" class="span3"
+						datatype="*1-100" nullmsg="此项不能为空" sucmsg=" " style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4"><input type="checkbox" value="1"
+						id="isCommitment" name="isCommitment" />
+						申报人承诺填写的信息真实、完整、准确，符合法律规定，如有违规情况，愿承担相应的法律责任。</td>
+				</tr>
+				<tr>
+					<td colspan="4" style="background-color: #FFA042;">项目审批代理服务说明：项目代理服务将由项目代理中心等机构提供无偿的项目审批代办服务</td>
+				</tr>
+			</tbody>
+			<tbody id="dcCompany_body">
+				<tr>
+					<td colspan="4">
+						<h3>二、企业信息表</h3></td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>项目（法人）单位：</th>
+					<td colspan="3"><input value="" id="contractor"
+						field="contractor" name="contractor" type="text"
+						class="span3 checkit" datatype="*1-100" nullmsg="此项不能为空"
+						sucmsg=" " style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>项目法人证照类型：</th>
+					<td colspan="3"><select id="lerepCerttype"
+						name="lerepCerttype" class="span3" datatype="*1-100"
+						nullmsg="此项不能为空" style="width: 86%" sucmsg=" ">
+					</select>
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>项目法人证照号码：</th>
+					<td colspan="3"><input value="" id="lerepNo" field="lerepNo"
+						name="lerepNo" type="text" class="span3 checkit" datatype="*1-100"
+						nullmsg="此项不能为空" sucmsg=" " style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+			</tbody>
+			<tbody id="contectInformation_body">
+				<tr>
+					<td colspan="4">
+						<h3>三、联系人信息表</h3></td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>项目负责人：</th>
+					<td><input value="" id="projectManagerName"
+						field="projectManagerName" name="projectManagerName" type="text"
+						class="span3 checkit" datatype="*1-100" nullmsg="此项不能为空"
+						sucmsg=" " style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+					<th><font color="red">*</font>职务：</th>
+					<td><input value="" id="position" field="position"
+						name="position" type="text" class="span3 checkit"
+						datatype="*1-100" nullmsg="此项不能为空" sucmsg=" " style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>项目负责人手机：</th>
+					<td><input value="" id="projectManagerPhone"
+						field="projectManagerPhone" name="projectManagerPhone" type="text"
+						onblur="checkprojectManagerPhone()" class="span3 checkit"
+						datatype="*1-100" nullmsg="此项不能为空" sucmsg=" " style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+					<th>项目负责人邮箱：</th>
+					<td><input value="" id="projectManagerEmail"
+						field="projectManagerEmail" name="projectManagerEmail" type="text"
+						onblur="checkprojectManagerEmail()" class="span3"
+						datatype="*1-100" sucmsg=" " style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr>
+					<th>项目负责人qq：</th>
+					<td><input value="" id="projectManagerQq"
+						field="projectManagerQq" name="projectManagerQq" type="text"
+						class="span3" datatype="*1-100" nullmsg="此项不能为空" sucmsg=" "
+						style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+					<th>项目负责人微信：</th>
+					<td><input value="" id="projectChat" field="projectChat"
+						name="projectChat" type="text" class="span3" datatype="*1-100"
+						nullmsg="此项不能为空" sucmsg=" " style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr>
+					<th><font color="red">*</font>联系人：</th>
+					<td><input value="" id="linkMan" field="linkMan"
+						name="linkMan" type="text" class="span3 checkit" datatype="*1-100"
+						nullmsg="此项不能为空" sucmsg=" " style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+					<th><font color="red">*</font>联系人手机：</th>
+					<td><input value="" id="linkPhone" field="linkPhone"
+						name="linkPhone" type="text" onblur="checklinkPhone()"
+						class="span3 checkit" datatype="*1-100" nullmsg="此项不能为空"
+						sucmsg=" " style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr>
+					<th>联系人邮箱：</th>
+					<td><input value="" id="contactEmail" field="contactEmail"
+						name="contactEmail" type="text" onblur="checkcontactEmail()"
+						class="span3" datatype="*1-100" 
+						sucmsg=" " style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+					<th>联系人qq：</th>
+					<td><input value="" id="contactQq" field="contactQq"
+						name="contactQq" type="text" class="span3" datatype="*1-100"
+						nullmsg="此项不能为空" sucmsg=" " style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+				<tr>
+					<th>联系人微信：</th>
+					<td><input value="" id="contactChat" field="contactChat"
+						name="contactChat" type="text" class="span3" datatype="*1-100"
+						nullmsg="此项不能为空" sucmsg=" " style="width: 86%;" />
+						<div class="Validform_checktip"></div>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+		<div id="service_step_03" style="display: none">
+			<div class="condition">
+				<table style="height: 80px">
+					<tr>
+						<td style="height: 80px; width: 90%; text-align: center;"><font
+							style="font-size: 30px; font-weight: bold">申报告知单</font>
+						</td>
+						<td style="text-align: right;"><img
+							src="{{PageContext.ContextPath}}public/images/CACCA1D7C0364DCBF173074E1600FB27.png"
+							width="85" height="85" />
+						</td>
+					</tr>
+				</table>
+				<!-- <div class="conditionContent">
+							<ul>
+								<div class="userReminder" id="suc">
+									尊敬的<span class="userReminderT1" style="color: black" id="user_info_name">****</span>用户：<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您好，您申报的【<span id= "sb_item_name"></span>】办件已经申报成功。办件申报号为【
+									<span class="userReminderT1" id="bjsqh">330000001408041000009</span>】查询密码为：【
+									<span class="userReminderT1">634663</span>】。
+								</div>
+								<div class="userReminder" id="fa">
+									尊敬的<span class="userReminderT1" style="color: black" id="user_info_name">****</span>用户：<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您好，您申报的【<span id= "sb_item_name">{{itemInfo.NAME}}</span>】办件提交失败。请重新办理！
+								</div>
+							</ul>
+						</div> -->
+			</div>
+		</div>
+		<div class="form-group" id="sub_button">
+			<div class="col-xs-offset-5 col-xs-7">
+				<button class="btn btn-warning" onclick="checkit()">提交</button>
+			</div>
+		</div>
+	</section>
+</div>

@@ -1,0 +1,626 @@
+<html><head>
+		<meta charset="utf-8">
+        <title>选择找回密码方式 - 用户中心</title>
+        <link rel="shortcut icon" href="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/images/favicon.ico">
+        <link href="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/css/base.css" rel="stylesheet" type="text/css">
+        <link href="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/css/layout.css" rel="stylesheet" type="text/css">
+         <link href="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/css/tool.css" rel="stylesheet" type="text/css">
+        <link href="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/css/form.css" rel="stylesheet" type="text/css">
+        <link href="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/css/common.css" rel="stylesheet" type="text/css">
+   		<link href="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/css/jquery-ui-1.8.18.custom.css" rel="stylesheet" type="text/css">
+   		<script type="text/javascript">
+			if(typeof sys_ucURL == "undefined"){
+	   			sys_ucURL = "http://wsbs.sz.gov.cn/uc/";
+	   		}
+   		</script>
+   		<script type="text/javascript" src="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/js/jquery.js"></script> 
+   		<script type="text/javascript" src="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/js/scrolltopcontrol.js"></script> 
+    </head>
+        <body class="page-home common-page-home " youdao="bind">
+    	<div class="wrap">
+    		<div class="header-holder">
+ 				<div class="header common-header">
+ 					<div class="logo">
+ 						<a href="http://wsbs.sz.gov.cn/shenzhen/index" hidefocus="hidefocus" target="_blank">
+ 							<img class="uc-header-logo-img" src="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/images/login/logo.png">
+ 						</a>
+ 					</div>
+ 					<div class="nav_sub">
+ 						<a hidefocus="hidefocus" href="http://wsbs.sz.gov.cn/shenzhen/index">首页</a>&nbsp;&nbsp;|&nbsp;
+						<a hidefocus="hidefocus" href="http://www.sz.gov.cn" target="_blank">深圳政府在线</a>&nbsp;&nbsp;|&nbsp;
+ 						<a hidefocus="hidefocus" href="/uc/help.html" target="_blank">帮助</a>
+ 					</div>
+ 				</div>
+ 			</div>
+ 			<div class="content-holder">
+ 				         			<div class="content">
+						<!--<div class="signup-top">
+						</div>-->
+						<div class="signup-center">
+							<div class="signup-title">
+								<h1>
+									<div class="signup-header"></div>
+									<span class="signup-tip">
+										选择找回密码方式									</span>
+								</h1>
+							</div>
+							<div class="signup-main">
+								<style type="text/css">
+.mid_c{
+	width:88%;
+	padding:0 50px 30px 50px;
+	min-height:100px;
+	_height:100px;
+	background:#fff;
+	position:relative;
+}
+.return_way,.return_way_content{
+	font-size:14px;
+	color:#666;
+	padding:33px 0 0 0;
+	position:relative;
+	width:100%;
+}
+.re_choose{
+	width:100%;
+	border-top:1px dotted #bad0db;
+	text-align:center;
+	font-size:14px;
+}
+.bymail_content,.byphone_content,.byask_content{
+	position:relative;
+	width:560px;
+	padding:33px 0 0 94px;
+	font-size:14px;
+	color:#666;
+}
+.messageinfo{
+	position:relative;
+	font-size: 14px;
+}
+.em{
+	color: red;
+}
+dt {
+	position:relative;
+	width:85px;
+	float:left;
+	line-height: 25px;
+}
+dd {
+	position:relative;
+	height:35px;
+	float:left;
+}
+dl{
+	display:inline-block;
+	color: #666;
+	overflow: hidden;
+	width:400px;
+	zoom: 1;
+}
+.messageinfo{
+	width:500px;
+}
+input{
+	margin:1px;
+	height:25px;
+}
+input.bind_btn{
+	width:97px;
+	height:31px;
+	line-height:31px;
+	border:0;
+	background:url(http://wsbs.sz.gov.cn/uc/themes/qingdao/public/images/btn/uc-reg-btn.png) no-repeat 0 0;
+	font-size:14px;
+	font-weight:bold;
+	text-align:center;
+	cursor:pointer;
+	color:#087ad3;
+	margin:10px 0 23px;
+	float:left;
+}
+.radio{
+	height:auto;
+}
+/*选择找回方式*/
+.return_way
+{
+	position: relative;
+	padding:0px;
+	width:315px;
+	margin: 0px auto;
+	color: #666;
+	font-size: 14px;
+}
+.return_way UL
+{
+	padding: 0px;
+	zoom: 1;
+	overflow: hidden;
+}
+.return_way UL LI
+{
+	position: relative;
+	display: block;
+	width:315px;
+	height:75px;
+	float: left;
+	margin-bottom:20px;
+	font-size: 12px;
+	cursor: pointer;
+}
+.return_way UL LI A:link
+{
+	position: absolute;
+	width:315px;
+	line-height:75px;
+	background: url(http://wsbs.sz.gov.cn/uc/themes/qingdao/public/images/btn/return_way.png) no-repeat;
+	_background: url(http://wsbs.sz.gov.cn/uc/themes/qingdao/public/images/btn/return_way.gif) no-repeat;
+	overflow: hidden;
+	text-align: center;
+	padding-left:20px;
+	color: #666;
+	font-size: 13px;
+}
+.return_way UL LI EM
+{
+	position: absolute;
+	top: 13px;
+	left: 20px;
+	display: block;
+	width: 50px;
+	height: 50px;
+	background: url(http://wsbs.sz.gov.cn/uc/themes/qingdao/public/images/btn/return_way.png) no-repeat;
+	_background: url(http://wsbs.sz.gov.cn/uc/themes/qingdao/public/images/btn/return_way.gif) no-repeat;
+	overflow: hidden;
+	cursor: pointer;
+	
+}
+.return_way UL LI EM.mail
+{
+	background-position: 0px -326px;
+}
+.return_way UL LI EM.phone
+{
+	background-position: 0px -105px;
+}
+.return_way UL LI EM.que
+{
+	background-position: 0px -182px;
+}
+.return_way UL LI EM.service
+{
+	background-position: 0px -255px;
+}
+.form-body {
+	padding-left:250px;
+}
+</style>
+	<input type="hidden" name="resetpwd_url" value="http://wsbs.sz.gov.cn/uc/?m=member&amp;c=password&amp;a=resetpwd">
+	<input type="hidden" name="choosesecpwd_url" id="choosesecpwd_url" value="http://wsbs.sz.gov.cn/uc/?m=member&amp;c=password&amp;a=chooseSecPwd">
+	<input type="hidden" name="login_name" value="&lt;br /&gt;
+&lt;b&gt;Notice&lt;/b&gt;:  Undefined variable: user_id in &lt;b&gt;/home/wwwroot/uc/application/modules/Member/views/index/chooseSecPwd.phtml&lt;/b&gt; on line &lt;b&gt;155&lt;/b&gt;&lt;br /&gt;
+">
+	<div name="return_way" class="return_way">
+		<ul>
+		
+					<li>
+				<a id="check_email" href="javascript:;" onclick="radioClick(this)" hidefocus="hidefocus">
+				<em class="mail"></em>通过“绑定邮箱”找回登录密码</a>
+			</li>
+							<li>
+				<a id="check_phone" href="javascript:;" onclick="radioClick(this)" hidefocus="hidefocus">
+				<em class="phone"></em>通过“绑定手机”找回密码</a>
+			</li>
+							<li>
+				<a id="check_question" href="javascript:;" onclick="radioClick(this)" hidefocus="hidefocus">
+				<em class="que"></em>通过“密保问题”找回密码</a>
+			</li>
+					<li>
+				<a href="javascript:;" onclick="return false;" hidefocus="hidefocus">
+				<em class="service"></em>通过客服找回密码（暂未启用）</a>
+			</li>
+		</ul>
+	</div>
+	<div name="return_way_content" class="return_way_content" style="display:none;">
+		<div name="byMailContent" style="display:none;width:100%;height:100%">
+			<!-- action需要使用全局变量然后加控制器 -->
+<style>
+.error {
+	margin-left: 2px;
+	color: red;
+	font-size: 12px;
+    text-align: left;
+    background-color: #FFE7E7;
+}
+label.error{
+	background: transparent;
+}
+.form-body dd {
+	float: left;
+	width: 100%;
+	text-align: left;
+}
+</style>
+
+
+<style>
+.prompt-contain {
+	color: #666;
+	width: 640px;
+	margin: 40px auto 150px;
+	text-align: left;
+}
+
+.prompt-top { 
+
+	background-position: 0 0;
+	height: 5px;
+	width: 100%;
+	/* background-color: #; */
+}
+
+.prompt-content {
+	margin:2px 0px 0px 0px;
+	background: white;
+	width:100%;
+	height:280px;
+}
+</style>
+
+<div style="display:block;" action="javascript:;" method="post" id="getpwd_bymail_form">
+	<div class="form-title" style="display: none;">
+		<span>找回密码</span>
+	</div>
+	<div class="form-body form-signup-body">
+		<input type="hidden" name="doGetByMail_url" value="http://wsbs.sz.gov.cn/uc/?m=member&amp;c=password&amp;a=doGetPwdByMail">
+		<input type="hidden" name="getpwd_url" value="http://wsbs.sz.gov.cn/uc/?m=member&amp;c=password&amp;a=getPwd">
+		<dl>
+			<dt>
+				<em></em>&nbsp;已绑定安全邮箱：
+			</dt>
+			<dd style="width:200px;">
+				<label id="oldMail" style="color:#999">6******@qq.com</label>
+			</dd>
+		</dl>
+		<div class="form-submit">
+		<dl>
+			<dd style="text-align: center;postion:">
+				<a class="opt_btn" style="margin-right:150px;" href="javascript:void(0);" id="submit_btn_mail" hidefocus="hidefocus"><span>提交</span></a>
+			</dd>
+		</dl>
+
+	</div>
+	</div>
+	
+	<div id="confirm-dialog-mail" title="confirm" style="display: none">
+		<p>
+			<span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+		</p><div>请确定您绑定信息，点击取消可以修改绑定信息！</div>
+		<p></p>
+	</div>
+	
+	
+	</div>
+	<div id="mail_prompt_contain" class="prompt-contain" style="display:none;">
+		<div class="prompt-top"></div>
+		<div class="prompt-content">
+			<dl>
+				<dd style="width: 460px; height: 150px">
+					<p>我们已经将邮件发送到您绑定的安全邮箱：690248615@qq.com</p>
+					<p>请您收取新邮件，并点击邮件里的"验证链接"找回密码。</p>
+					<p>
+						<a target="_blank" href="http://mail.qq.com" class="" hidefocus="hidefocus">立即查看我的邮箱</a>
+					</p>
+					<p style="color: #999;">
+						<strong>提示：</strong><br>如果没收到新邮件，可能会出现在您的垃圾邮件目录里 
+					</p>
+				</dd>
+			</dl>
+		</div>
+	</div>
+<script language="javascript" src="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/js/index/getPwdByMail.js"></script>		</div>
+		<div name="byPhoneContent" style="display:none;width:100%;height:100%">
+			<!-- action需要使用全局变量然后加控制器 -->
+<style>
+.error {
+	margin-left: 2px;
+	color: red;
+	font-size: 12px;
+    text-align: left;
+    background-color: #FFE7E7;
+}
+label.error{
+	background: transparent;
+}
+.form-body dd {
+	float: left;
+	width: 600px;
+	text-align: left;
+}
+/*-----绑定按钮-----*/
+.form-submit .btn-bind,.form-submit .btn-reg{
+	/*border:0px;
+	width:90px;
+	height:34px;
+	background:url("../images/btn/uc-reg-btn.png") no-repeat 0px 0px;
+	cursor:pointer;*/
+}
+</style>
+
+
+<style>
+.prompt-contain {
+	color: #666;
+	width: 640px;
+	margin: 40px auto 150px;
+	text-align: left;
+}
+
+.prompt-top { 
+
+	background-position: 0 0;
+	height: 5px;
+	width: 100%;
+	/* background-color: #; */
+}
+
+.prompt-content {
+	margin:2px 0px 0px 0px;
+	background: white;
+	width:100%;
+	height:280px;
+}
+</style>
+
+<div style="display:block;" action="javascript:;" method="post" id="getpwd_byphone_form" novalidate="novalidate">
+	<div class="form-title" style="display: none;">
+		<span>找回密码</span>
+	</div>
+	<div class="form-body form-signup-body">
+	<input type="hidden" name="doGetByPhone_url" value="http://wsbs.sz.gov.cn/uc/?m=member&amp;c=password&amp;a=doGetPwdByPhone">
+	<input type="hidden" name="verifyPhone_url" value="http://wsbs.sz.gov.cn/uc/?m=member&amp;c=password&amp;a=verifyPhone">
+	<input type="hidden" name="getPwd_url" value="http://wsbs.sz.gov.cn/uc/?m=member&amp;c=password&amp;a=getPwd">
+	
+		<dl>
+			<dt>
+				<em></em>&nbsp; 已绑定手机：
+			</dt>
+			<dd style="width:200px;">
+				<label id="mobile" style="color:#999">181****5203</label>
+			</dd>
+		</dl>
+		<dl style="width:600px;">
+			<dt>
+				<em>*</em>&nbsp; 激活码：
+			</dt>
+			<dd style="width:250px;">
+				<a style="margin: 0px;" id="verify_btn" class="opt_btn" href="javascript:void(0);">
+					<span>免费获取短信激活码</span>
+				</a>
+				<input id="vcode" name="vcode" type="text" style="width:80px;" class="input ">
+			</dd>
+			<dd class="form-tip"></dd>
+			<dd id="verifyOK" class="check_rule">请输入激活码</dd>
+		</dl>
+		<div class="form-submit">
+		<dl>
+			<dd style="text-align: center">
+				<a class="opt_btn" style="margin-right:20px;" href="javascript:void(0);" id="submit_btn_phone" hidefocus="hidefocus"><span>提交</span></a>
+				<a class="opt_btn opt_btn_cancle" style="margin-right:150px;" href="javascript:void(0);" id="cancle_btn_phone" hidefocus="hidefocus"><span>重新输入</span></a>
+			</dd>
+		</dl>
+
+	</div>
+	</div>
+	
+	<div id="confirm-dialog-phone" title="confirm" style="display: none">
+		<p>
+			<span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+		</p><div>请确定您绑定信息，点击取消可以修改绑定信息！</div>
+		<p></p>
+	</div>
+	
+	
+	</div>
+<script language="javascript" src="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/js/index/getPwdByPhone.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	/*$("#verify_btn").hover(
+		function(){
+   		 	$(this).removeClass("opt_btn_gray");
+  		},
+  		function(){
+    		$(this).addClass("opt_btn_gray");
+  		});*/
+});
+</script> 		</div>
+		<div name="byQueContent" style="display:none;width:100%;height:100%">
+			<!-- action需要使用全局变量然后加控制器 -->
+<style>
+.error {
+	margin-left: 2px;
+	color: red;
+	font-size: 12px;
+    text-align: left;
+    background-color: #FFE7E7;
+}
+label.error{
+	background: transparent;
+}
+.form-body dd {
+	float: left;
+	width: 600px;
+	text-align: left;
+}
+/*-----绑定按钮-----*/
+.form-submit .btn-bind,.form-submit .btn-reg{
+	/*border:0px;
+	width:90px;
+	height:34px;
+	background:url("../images/btn/uc-reg-btn.png") no-repeat 0px 0px;
+	cursor:pointer;*/
+}
+</style>
+
+<form style="display:block;" action="javascript:;" method="post" id="getpwd_byque_form" novalidate="novalidate">
+	<div class="form-title" style="display: none;">
+		<span>找回密码</span>
+	</div>
+	<div class="form-body form-signup-body">
+	<input type="hidden" name="doGetByQue_url" value="http://wsbs.sz.gov.cn/uc/?m=member&amp;c=password&amp;a=doGetPwdByQue">
+	<input type="hidden" name="verifyQue_url" value="http://wsbs.sz.gov.cn/uc/?m=member&amp;c=index&amp;a=verifyQue">
+	<input type="hidden" name="getPwd_url" value="http://wsbs.sz.gov.cn/uc/?m=member&amp;c=password&amp;a=getPwd">
+		<dl>
+			<dt>
+				<em></em>&nbsp;密保问题：
+			</dt>
+			<dd style="width:200px;">
+				<label id="question" style="color:#999">我手机号码的后6位？</label>
+			</dd>
+		</dl>
+		<dl style="width:600px;">
+			<dt>
+				<em>*</em>&nbsp; 密保答案：
+			</dt>
+			<dd style="width:200px;">
+				<input id="answer" name="answer" type="text" class="input " style="width: 180px; padding: 0px 0px 0px 2px;">
+			</dd>
+			<dd class="form-tip"></dd>
+			<dd class="check_rule">请输入密保答案</dd>
+		</dl>
+		<dl style="width:600px;">
+			<dt>
+				<em>*</em>&nbsp; 验证码：
+			</dt>
+			<dd style="width:200px;">
+				<input id="checknum_que" name="checknum_que" type="text" class="input" style="width: 180px; padding: 0px 0px 0px 2px;"> 
+			</dd>
+			<dd class="form-tip"></dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<em></em>
+			</dt>
+			<dd style="width:200px;">
+				<a href="javascript:changeVerify_que();" hidefocus="hidefocus"> 
+					<img src="http://wsbs.sz.gov.cn/uc/?m=member&amp;c=index&amp;a=verify" id="verifyImg_que" alt="换一张"></a>&nbsp;
+				<a href="javascript:changeVerify_que();" style="font-size: 12px;" hidefocus="hidefocus">看不清楚可以换一个</a>
+			</dd>
+		</dl>
+		<div class="form-submit">
+		<dl>
+			<dd style="text-align: center">
+				<a class="opt_btn" style="margin-right:20px;" href="javascript:void(0);" id="submit_btn_que" hidefocus="hidefocus"><span>提交</span></a>
+				<a class="opt_btn opt_btn_cancle" style="margin-right:150px;" href="javascript:void(0);" id="cancle_btn_que" hidefocus="hidefocus"><span>重新输入</span></a>
+			</dd>
+		</dl>
+
+	</div>
+	</div>
+	
+	<div id="confirm-dialog-que" title="confirm" style="display: none">
+		<p>
+			<span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+		</p><div>请确定您绑定信息，点击取消可以修改绑定信息！</div>
+		<p></p>
+	</div>
+	
+	
+	</form>
+<script language="javascript" src="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/js/index/getPwdByQue.js"></script>
+<script>
+//点击触发更换校验码
+function changeVerify_que(){
+    var date = new Date();
+    var ttime = date.getTime();
+    var verifyImg = document.getElementById('verifyImg_que');
+    var urlArray = verifyImg.src.split("&_=");
+    verifyImg.src = urlArray[0] + '&_='+ttime;
+}
+</script>		</div>
+		
+	</div>
+	<div name="re_choose" class="re_choose" style="display:none;">
+		<a id="rechoose" href="javascript:;" onclick="rechoose(this)" hidefocus="hidefocus">换一种方式找回密码</a>
+	</div>
+	<div id="confirm-dialog" title="confirm" style="display: none">
+		<p>
+			<span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+		</p><div>请确定您绑定信息，点击取消可以修改绑定信息！</div>
+		<p></p>
+	</div>
+	
+	<div id="verify-dialog" title="verify" style="display: none">
+	     <p>
+	        <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+	       	</p><div name="verify-tips">验证有误！</div>
+	     <p></p>
+	</div>
+<script type="text/javascript" src="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/js/jquery.form.js"></script>
+<script type="text/javascript" src="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/js/jquery-ui-1.8.18.custom.min.js"></script>
+<script language="javascript" src="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/js/jquery.validate.js"></script>
+<script language="javascript" src="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/js/jquery.validate.ext.js"></script>
+<script language="javascript" src="http://wsbs.sz.gov.cn/uc/themes/qingdao/public/js/md5.js"></script>
+
+<script type="text/javascript">
+	function radioClick(t){
+		$("body").find("div[name='byMailContent']").css("display","none");
+		$("body").find("div[name='byPhoneContent']").css("display","none");
+		$("body").find("div[name='byQueContent']").css("display","none");
+		switch(t.id){
+			case "check_email":
+				$("body").find("div[name='byMailContent']").css("display","block");
+				break;
+			case "check_phone":
+				$("body").find("div[name='byPhoneContent']").css("display","block");
+				break;
+			case "check_question":
+				$("body").find("div[name='byQueContent']").css("display","block");
+				break;
+		}
+		$("body").find("div[name='return_way']").css("display","none");
+		$("body").find("div[name='return_way_content']").css("display","block");
+		$("body").find("div[name='re_choose']").css("display","block");
+	}
+	function rechoose(t){
+		window.location.href = $("#choosesecpwd_url")[0].value + "&user=" + $("body").find("input[name='login_name']").val();
+	}
+
+</script>							</div>
+						</div>
+	         		</div>
+         		         			
+         		
+         	</div>
+         	<div class="footer-holder">
+ 				<div class="footer">
+ 					<div class="uc-copyright">
+	 					<div class="nav_sub">
+	 						<a hidefocus="hidefocus" href="/uc/help.html">帮助 </a>&nbsp;&nbsp;|&nbsp;
+	 						<a hidefocus="hidefocus" href="/uc/faq.html">常见问题</a>&nbsp;&nbsp;|&nbsp;
+	 						<a hidefocus="hidefocus" href="mailto:webmaster@shenzhen.szgov.cn">意见反馈</a>
+	 					</div>
+							主办单位：深圳市人民政府办公厅      承办单位：深圳市政务服务管理办公室      粤ICP备06001650号 
+ 					</div>
+ 				</div>
+ 			</div>
+    
+</div><div id="topcontrol" title="返回顶部" style="position: fixed; bottom: 73px; left: 1181.5px; opacity: 0; cursor: pointer;"><a href="#top" class="top_stick"><img src="http://wsbs.sz.gov.cn/uc//themes/default/public/images/btn/gotop.jpg" border="0" style="margin-top:6px"><p>返回顶部</p></a></div><div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable" tabindex="-1" role="dialog" aria-labelledby="ui-dialog-title-verify-dialog-mail" style="display: none; z-index: 1000; outline: 0px;"><div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title" id="ui-dialog-title-verify-dialog-mail">找回密码失败</span><a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick">close</span></a></div><div id="verify-dialog-mail" style="" class="ui-dialog-content ui-widget-content">
+	     <p>
+	        <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+	       	</p><div name="verify-tips">验证有误！</div>
+	     <p></p>
+	</div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><div class="ui-dialog-buttonset"><button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">确定</span></button></div></div></div><div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable" tabindex="-1" role="dialog" aria-labelledby="ui-dialog-title-verify-dialog-phone" style="display: none; z-index: 1000; outline: 0px;"><div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title" id="ui-dialog-title-verify-dialog-phone">找回密码失败</span><a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick">close</span></a></div><div id="verify-dialog-phone" style="" class="ui-dialog-content ui-widget-content">
+	     <p>
+	        <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+	       	</p><div name="verify-tips">验证有误！</div>
+	     <p></p>
+	</div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><div class="ui-dialog-buttonset"><button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">确定</span></button></div></div></div><div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable" tabindex="-1" role="dialog" aria-labelledby="ui-dialog-title-verify-dialog-que" style="display: none; z-index: 1000; outline: 0px;"><div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title" id="ui-dialog-title-verify-dialog-que">找回密码失败</span><a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick">close</span></a></div><div id="verify-dialog-que" style="" class="ui-dialog-content ui-widget-content">
+	     <p>
+	        <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+	       	</p><div name="verify-tips">验证有误！</div>
+	     <p></p>
+	</div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><div class="ui-dialog-buttonset"><button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">确定</span></button></div></div></div></body></html>

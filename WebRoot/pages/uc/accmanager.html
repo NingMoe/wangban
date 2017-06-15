@@ -1,0 +1,260 @@
+<script src="{% public scripts/LEx.form.js %}"></script>
+<style>
+.input_validation-failed {border: 1px solid #FF0000;color: red;}
+.table>tbody>tr>th,.table>tbody>tr>td {
+	line-height: 2;
+}
+
+.pingyi label {
+	padding-right: 15px;
+}
+
+.pingyi label input {
+	margin-top: 7px !important;
+}
+</style>
+<div id="accmanager">
+<div class="container" style="width: 1030px !important;">
+	<ol class="breadcrumb">
+		<li><img
+			src="{%public assets/img/current_home.png %}">
+			您当前所在的位置:</li>
+		<li><a href="#">首页</a>
+		</li>
+		<li><a href="#">用户中心</a>
+		</li>
+		<li><a href="#">管理账户</a>
+		</li>
+	</ol>
+</div>
+<div class="container" style="width: 1030px !important;">
+	<section class="panel" style="padding: 10px;">
+		<div class="panel-body">
+			<table class="table table-form" id="person">
+				<tbody>
+					<tr>
+						<td class="text-right">登录账号：</td>
+						<td><span style="color: green;" class="sham">{{UserInfo.userId}}</span></td>
+					</tr>
+					<tr>
+						<td class="text-right" width="30%">真实姓名：</td>
+						<td width="40%">
+						<span style="color: green;" class="sham">{{userInfo.NAME}}</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right" width="30%">邮箱：</td>
+						<td width="40%">
+						<span style="color: green;" class="sham">{{userInfo.EMAIL}}</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right" width="30%">手机：</td>
+						<td width="40%">
+						<span style="color: green;" class="sham">{{userInfo.PHONE}}</span>
+						</td>
+					</tr>
+					<!-- <tr>
+						<td class="text-right" width="30%">账户安全：</td>
+						<td width="40%"><span class="text-warning pull-left">中</span>
+							<div class="progress pull-left"
+								style="width: 200px; height:6px; margin-top:10px;margin-left: 5px;">
+								<div class="progress-bar-warning"
+									style="width: 15%; height:6px;"></div>
+							</div></td>
+						</td>
+						<td width="30%"><a href="javascript:void(0);" onclick="safe();" class="text-info">查看</a></td>
+					</tr> -->
+					<tr>
+						<td class="text-right">籍贯：</td>
+						<td width="25%"><input class="form-control" tag="NATIVEPLACE"
+							type="text">
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="text-right">性别：</td>
+						<td><select tag="SEX"
+							class="form-control">
+								<option value="男">男</option>
+								<option value="女">女</option>
+						</select>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="text-right">民族：</td>
+						<td><select id="NATION" tag="NATION" class="form-control"></select>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="text-right">户口所在地：</td>
+						<td><input class="form-control" tag="HOMEADDRESS" type="text">
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="text-right">学历：</td>
+						<td><select tag="EDUCATION" tag="EDUCATION"
+							class="form-control">
+								<option value="BK">本科</option>
+								<option value="BS">博士</option>
+								<option value="BSH">博士后</option>
+								<option value="DZ">大专</option>
+								<option value="SS">硕士</option>
+								<option value="YJS">研究生</option>
+								<option value="YS">院士</option>
+								<option value="ZZ">中专</option>
+								<option value="QT" selected='selected'>其它</option>
+						</select></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="text-right">政治面貌：</td>
+						<td><select tag="POLITICALSTATUS" class="form-control">
+								<option value="DY">党员</option>
+								<option value="QZ" selected='selected'>群众</option>
+								<option value="TY">团员</option>
+						</select>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="text-right">邮政编码：</td>
+						<td><input class="form-control" tag="POSTCODE" type="text">
+						</td>
+						<td></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3">
+							<div class="text-center">
+								<button type="text" onclick="save();" class="btn btn-primary its-btn-closed">
+									&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;</button>
+							</div></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</section>
+</div>
+</div>
+<script>
+$(function(){
+	$(".sham").each(
+		function(){
+			if($(this).html().length<4){
+				$(this).html($(this).html().substr(0,1)+"************".substr(2,$(this).html().length));
+			}else{
+				$(this).html($(this).html().substr(0,3)+"************".substr(4,$(this).html().length));
+			}
+		}
+	);
+	LEx.form.set("person",{{userInfo}});
+	var levl = {{userInfo.STATUS}};
+	if({{userInfo.IS_PHONEBIND}}=="1"){
+		levl++;
+	}
+	if({{userInfo.IS_EMAILBIND}}=="1"){
+		levl++;
+	}
+	if(levl==1){
+		$('.progress-bar-warning').css('width','20%');
+		$('.progress-bar-warning').val('低');
+	}
+	if(levl==2){
+		$('.progress-bar-warning').css('width','40%');
+		$('.progress-bar-warning').val('低');
+	}
+	if(levl==3){
+		$('.progress-bar-warning').css('width','60%');
+		$('.progress-bar-warning').val('中');
+	}
+	if(levl==4){
+		$('.progress-bar-warning').css('width','80%');
+		$('.progress-bar-warning').val('中');
+	}
+	if(levl==5){
+		$('.progress-bar-warning').css('width','100%');
+		$('.progress-bar-warning').val('高');
+	}
+});
+function save(){
+	if(!checkValidate("#person")){
+		LEx.alert("请规范填写！");
+		return false;
+	}
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	var obj = LEx.form.get("person");
+	$.each(obj,function(k,v){
+    	cmd.setParameter(k,v);
+    });
+    cmd.setParameter("USER_TYPE",'{{userInfo.TYPE}}');
+    cmd.setParameter("ProfileOnly",'ProfileOnly');
+    var ret = cmd.execute("updateProfile");
+    if(ret.state=='1'){
+    	LEx.alert("信息修改成功！");
+    }else{
+    	LEx.alert(ret.message);
+    }
+}
+function safe(){
+	$("#accmanager").hide();
+	$("#accsecurity").show();
+}
+function bind(type){
+	window.open("{{cp}}uc/accbind?type="+type,"_blank");
+}
+//验证函数
+function checkValidate(formid) {
+	var c = $(formid);
+	var f = true;
+	$("[reg]", c).each(function() {
+		var t = $(".form-tip span[for=" + $(this).attr("id") + "]", c);
+		if (!validate($(this))) {
+			t.html($(this).attr("tip"));
+			t.attr("class", "invalid");
+			f = false;
+		} else {
+			var func = $(this).attr("func");
+			if (func == undefined) {
+				t.html("");
+				t.attr("class", "valid");
+			} else {
+				try {
+					var s = eval(func);
+					var re = s.call(s, $(this));
+					if (!re) {
+						f = false;
+					}
+				} catch (e) {
+					LEx.alert("请求的验证函数错误。");
+				}
+			}
+		}
+		
+	});
+	
+	return f;
+}
+//加载民族
+var national = [
+            "汉族", "壮族", "满族", "回族", "苗族", "维吾尔族", "土家族", "彝族", "蒙古族", "藏族", "布依族", "侗族", "瑶族", "朝鲜族", "白族", "哈尼族",
+            "哈萨克族", "黎族", "傣族", "畲族", "傈僳族", "仡佬族", "东乡族", "高山族", "拉祜族", "水族", "佤族", "纳西族", "羌族", "土族", "仫佬族", "锡伯族",
+            "柯尔克孜族", "达斡尔族", "景颇族", "毛南族", "撒拉族", "布朗族", "塔吉克族", "阿昌族", "普米族", "鄂温克族", "怒族", "京族", "基诺族", "德昂族", "保安族",
+            "俄罗斯族", "裕固族", "乌孜别克族", "门巴族", "鄂伦春族", "独龙族", "塔塔尔族", "赫哲族", "珞巴族"
+    ];
+window.onload = function (){
+    var nat = document.getElementById ("NATION");
+    for ( var i = 0; i < national.length; i++){
+        var option = document.createElement ('option');
+        option.value = national[i];
+        var txt = document.createTextNode (national[i]);
+        option.appendChild (txt);
+        nat.appendChild (option);
+     }
+}
+</script>
+{% include uc/accsecurity.html %}

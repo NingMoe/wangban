@@ -1,0 +1,58 @@
+<style>
+	.dept li{font-size:14px;float: left; width: 180px;text-align: left;padding: 5px 0px;padding-left: 10px; }
+	
+	.dept li a{color: #333;font-style: normal;text-decoration: none}
+	.dept li a:HOVER{color: #F6891F;font-style: normal;}
+	#flowStep a{
+		width:183px;
+	}
+</style>
+<!-- 龙华新区直接选择，不需要本引导页 -->
+{% if ConfigInfo.WebRegion|equal:'440342' %}
+	<script type="text/javascript">
+		var url=window.location.href;
+		if(url.indexOf("consult")!=-1){
+			window.location.href=LEx.webPath+"icity/guestbook/OnlineConsulting?type=2";
+		}else if(url.indexOf("complaint")!=-1){
+			window.location.href=LEx.webPath+"icity/guestbook/OnlineConsulting?type=3";
+		}
+	</script>
+{% endif %}
+{% map "division_code",{{ConfigInfo.WebRegion}} as p%}
+{% command "app.icity.project.ProjectIndexCmd","getRegionList",p as d%}
+<div class="fl w210">
+	{% widget "other.GuestBookLeftWidget"%}
+</div>
+<div class="ml210">
+	<div  id="flowStep">
+	</div>
+	<div class="tabs-content" style="padding-top:8px;min-height:425px;">
+		<ul class="dept">
+		{% for o in d.data.department %}
+			<li><a href="{{PageContext.ContextPath}}icity/guestbook/write?depart={{o.ID}}" target="_blank">{{o.NAME_SHORT}}</a></li>
+		{% endfor %}
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+	function goIndex(index){
+		var fp  = {};
+		fp.id = "flowStep";
+		fp.list = [
+		           {"title":"选择单位","href":LEx.webPath+"icity/guestbook/choose"},
+	               {"title":"填写内容"},
+	               {"title":"提交成功"}
+		          ];
+		//当前索引
+		fp.curIndex = index;
+		LEx.Control.flowStep(fp);
+	}
+	var _calendar= null;
+	function init(){
+		_calendar= new LEx.Control.Calendar(function(){
+			contentHandler();
+		});
+		
+		goIndex(0);
+	}
+</script>

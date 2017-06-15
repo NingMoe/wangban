@@ -1,0 +1,111 @@
+﻿<style>
+	.linksContainer{
+		background:white;
+		height: 200px;
+		width:95%;
+		
+		float: left;
+		text-align:center;
+	}
+
+	.linksContainer .linkSelect{
+		width:210px;
+		height:25px;
+		line-height: 25px; 
+		vertical-align: middle;
+		text-align: left;
+		font:12px;
+		margin-bottom:20px;
+		
+	}
+</style>
+
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".panel-content select").change(function(event) {
+			var value = $(this).attr("value");
+			if(value != null && value!=""){
+				window.open(value);
+			}
+		});
+	});
+</script>
+<div class="panel-content" style="margin-top: -41px;margin-left: 83px;">
+    <select class="linkSelect" style="width:130px">
+		<option selected="selected" value="">省外</option>
+		<option  value="http://xzfwzx.bjdch.gov.cn/icity/home">北京东城区政务服务中心</option>
+		<option  value="http://www.gzonline.gov.cn/gz/index.jsp">广州市政务服务中心</option>
+		<option  value="http://www.fsxzfw.gov.cn/">佛山市行政服务中心</option>
+		<option  value="http://www.szzw.gov.cn/">深圳市行政服务中心</option>
+		<option  value="http://www.njzwfw.gov.cn/">南京市政务服务中心</option>
+		<option  value="http://218.3.140.91/epointjwebqlyg/qlyg/index.seam#">镇江市政务服务中心</option>
+		<option  value="http://xzfwzx.fuzhou.gov.cn/">福州市行政服务中心</option>
+		<option  value="http://www.xmas.gov.cn/">厦门市行政服务中心</option>
+	</select>
+	<select class="linkSelect" style="width:110px">
+		<option value="">省内地级市</option>
+		<option  value="http://www.hzggzy.gov.cn/apas/portal/index.jsp">杭州市</option>
+                <option  value="http://www.nbxzfw.gov.cn/txweb/">宁波市</option>
+                <option  value="http://www.wzae.gov.cn/was/portals/index.html">温州市</option>
+                <option  value="http://www.jxxzsp.gov.cn/">嘉兴市</option>
+                <option  value="http://ztb.huzhou.gov.cn/">湖州市</option>
+                <option  value="http://www.sxbm.gov.cn/">绍兴市</option>
+                <option  value="http://www.jhztb.gov.cn/jhztb/">金华市</option>
+                <option  value="http://www.service.gov.cn/egov/portalsone/index.jsp">衢州市</option>
+                <option  value="http://www.tzxzsp.gov.cn/egov/portalsone/index.jsp">台州市</option>
+                <option  value="http://xzsp.lishui.gov.cn/">丽水市</option>
+	</select>
+
+	<select class="linkSelect" style="width:110px">
+		<option value="">省内部分县</option>
+		<option value="http://www.yhfw.gov.cn/was/portals/index.jsp">余杭区</option>
+		<option value="http://www.lafwzx.cn/">临安市</option>
+		<option value="http://xzsp.haishu.gov.cn/">海曙区</option>
+		<option value="http://fwzx.nbjb.gov.cn/">江北区</option>
+		<option value="http://www.lwspzx.gov.cn/was/was/web/wzlongwan/">龙湾区</option>
+		<option value="http://xzsp.cncn.gov.cn/was/was/web/wzcangnan/index.jsp">苍南县</option>
+		<option value="http://www.txsp.gov.cn/">桐乡市</option>
+		<option value="http://bzzx.deqing.gov.cn/">德清县</option>
+		<option value="http://www.ajxzfw.com/">安吉县</option>
+		<option value="http://www.zjxc.gov.cn/049/">新昌县</option>
+		<option value="http://www.yw365.gov.cn/visualHall/index.html">义乌市</option>
+		<option value="http://www.wcxz.gov.cn/">婺城区</option>
+		<option value="http://www.csxzfw.org/csxzfw1.htm">常山县</option>
+		<option value="http://www.lyxz.org.cn/">龙游县</option>
+		<option value="http://www.wlbz.gov.cn/xzsp/was/web/WLPSD/index.jsp">温岭市</option>
+		<option value="http://www.smbzzx.gov.cn/">三门县</option>
+		<option value="http://www.jyxspzx.com/">缙云县</option>
+		<option value="http://www.qysp.gov.cn/">庆元县</option>
+	</select>
+
+	<select class="linkSelect" style="width:130px">
+		<option value="">区内各部门</option>
+		<option value="http://www.dhdp.gov.cn/">定海区发改局</option>
+		<option value="http://www.zsdhjxkj.gov.cn/">定海区经科局</option>
+		<option value="http://www.dhedu.gov.cn/">定海区教育局</option>
+		<option value="http://www.dhb.gov.cn/">定海区环保局</option>
+		<option value="http://www.zsdhtour.gov.cn/">定海区旅游局</option>
+		<option value="http://dhnews.zjol.com.cn/dhaqjg/">定海区安监局</option>
+		<option value="http://www.dhwater.gov.cn/">定海区水利围垦局</option>
+		<option value="http://www.zjdhjs.gov.cn/">定海区住建局</option>
+		<option value="http://www.zsdhrl.gov.cn/">定海区人力资源和社会保障局</option>
+		<option value="http://www.dhnl-oaf.com/">定海区农林与海洋渔业局</option>
+		<option value="http://www.dhpolice.gov.cn/">定海区公安分局</option>
+		<option value="http://www.dhmz.gov.cn/">定海区民政局</option>
+		<option value="http://www.dhwsj.gov.cn/">定海区卫计局</option>
+		<option value="http://www.dhqcz.gov.cn/">定海区财政局</option>
+		<option value="http://www.dhjtj.gov.cn/">定海区交通运输局</option>
+		<option value="https://www.zsdhgh.gov.cn/">定海区规划分局</option>
+		<option value="http://www.zsdhds.gov.cn/">定海区地税局</option>
+		<option value="http://www.dhblr.gov.cn/">定海区国土分局</option>
+		<option value="http://dhda.zsdaj.gov.cn/">定海区档案局</option>
+		<option value="http://www.dhtzw.gov.cn/">定海区民宗局</option>
+	</select>
+
+	<select class="linkSelect" style="width:130px">
+		<option selected="selected" value="">市内公共服务</option>
+		<option value="http://www.bluefire.cn/">燃气公司</option>
+		<option value="http://www.zswater.com/jcms/">自来水公司</option>
+	</select>
+	
+</div>

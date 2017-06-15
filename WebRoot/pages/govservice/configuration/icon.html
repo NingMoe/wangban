@@ -1,0 +1,171 @@
+<script src="{% public scripts/LEx.form.js %}"></script>
+<style>
+.yi-media-list-m2 {
+	margin-bottom: 0;
+}
+
+.yi-media-list-m2 time {
+	color: #ccc;
+}
+
+.yi-media-list-m2 .media {
+	margin-top: 10px;
+	padding-bottom: 10px;
+}
+
+.yi-media-list-m2 .media-body {
+	display: block;
+	position: relative;
+	overflow: visible;
+}
+
+.yi-media-list-m2 .bubble {
+	padding: 10px;
+	font-size: 14px;
+	display: inline-block;
+	position: relative;
+}
+
+.yi-media-list-m2 .pull-left+.media-body {
+	margin-left: 50px;
+}
+
+.yi-media-list-m2 .pull-left+.media-body .bubble {
+	background-color: #fff;
+}
+
+.yi-media-list-m2 .pull-left+.media-body .bubble:before {
+	content: "";
+	position: absolute;
+	left: -8px;
+	top: 0;
+	width: 0;
+	height: 0;
+	border-top: 8px solid #fff;
+	border-left: 8px solid transparent;
+}
+
+.yi-media-list-m2 .pull-right+.media-body {
+	margin-right: 50px;
+}
+
+.yi-media-list-m2 .pull-right+.media-body .bubble {
+	background-color: #0DB0E5;
+	color: #fff;
+}
+
+.yi-media-list-m2 .pull-right+.media-body .bubble:before {
+	content: "";
+	position: absolute;
+	right: -8px;
+	top: 0;
+	width: 0;
+	height: 0;
+	border-top: 8px solid #0DB0E5;
+	border-right: 8px solid transparent;
+}
+
+.thumbnail {
+	margin-bottom: 0px;
+	background-color: #ffffff;
+	padding: 0px;
+}
+</style>
+<div id="bs-modal-newmail" class="modal fade bs-modal-newmail"
+	tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content" style="">
+			<div id="jumbotron" class="jumbotron yi-jumbotron"
+				style="padding-top: 0px; padding-bottom: 0px; margin-bottom: 0;">
+				<div class="container" style="">
+					<div class="panel panel-primary"
+						style="margin-bottom: -20px; margin-left: -20px; margin-right: -20px;">
+						<header class="panel-heading">
+						<h3 class="panel-title">
+							<strong>主题图标</strong>
+						</h3>
+						</header>
+						<ul class="nav nav-tabs nav-justified its-nav-tabs-business">
+							<li class="active"><a data-toggle="tab" href="#t-b-1"
+								aria-expanded="true">图标库Ⅰ</a>
+							</li>
+							<li class=""><a data-toggle="tab" href="#t-b-2"
+								aria-expanded="false">图标库Ⅱ</a>
+							</li>
+							<li class=""><a data-toggle="tab" href="#t-b-3"
+								aria-expanded="false">图标库Ⅲ</a>
+							</li>
+							<li class=""><a data-toggle="tab" href="#t-b-4"
+								aria-expanded="false">图标库Ⅳ</a>
+							</li>
+							<li class=""><a data-toggle="tab" href="#t-b-5"
+								aria-expanded="false">图标库Ⅴ</a>
+							</li>
+						</ul>
+						<div class="tab-content panel-body" style="min-height: 500px;">
+							<div class="tab-pane active" id="t-b-1"></div>
+							<div class="tab-pane" id="t-b-2"></div>
+							<div class="tab-pane" id="t-b-3"></div>
+							<div class="tab-pane" id="t-b-4"></div>
+							<div class="tab-pane" id="t-b-5"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	var iSetCode = "";
+	(function() {
+		LEx.form.init();
+	})();
+	function doWrite(code) {
+		iSetCode = code;
+		$(".bs-modal-newmail").modal('show');
+	}
+	var suffix = "jpg";
+	function submit(val, s) {
+		if (LEx.isNotNull(s)) {
+			suffix = s;
+		}
+		var cmd = new LEx.Command("app.icity.col.WidgetCmd");
+		cmd.setParameter("CODE", iSetCode);
+		cmd.setParameter("VAL", val);
+		cmd.setParameter("suffix", suffix);
+		var ret = cmd.execute("setIcomKm");
+		if (!ret.error) {
+			onTheme(LEx.urldata.type);
+			$(".bs-modal-newmail").modal('hide');
+		} else {
+			LEx.alert(ret.error);
+		}
+	}
+
+	function errorDialog(t, c) {
+		LEx.dialog({
+			title : t,
+			content : c,
+			icon : 'error',
+			lock : true
+		});
+	}
+
+	function hide() {
+		$(".bs-modal-result").modal('hide');
+	}
+	document.onkeydown = function(event) {
+		var e = event || window.event || arguments.callee.caller.arguments[0];
+		if (e && e.keyCode == 27) { // 按 Esc 
+			//要做的事情        
+		}
+		if (e && e.keyCode == 113) { // 按 F2 
+			//要做的事情
+		}
+		if (e && e.keyCode == 13) { // enter 键
+			//要做的事情
+			submit();
+		}
+	};
+</script>

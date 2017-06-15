@@ -1,0 +1,53 @@
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	background-image: url(../img/zwfww_024.jpg);
+	line-height: 1.8em;
+}
+body,td,th {
+	font-size: 12px;
+}
+.STYLE9 {
+	font-size: 30px;
+	font-weight: bold;
+}
+.STYLE16 {color:#ec0000;}
+.STYLE17 {
+	color: #999999;
+	font-size: 16px;
+	font-weight: bold;
+}
+.STYLE18 {color: #666666}
+.pages{
+	padding: 14px 0 10px;
+	font-family: 宋体;
+	text-align: center;
+}
+.pages a.a1 {
+	background: #fff url(../images/pages.png) no-repeat 0 5px;
+	padding: 0 10px;
+}
+.pages a {
+	margin:0 4px;
+	display: inline-block;
+	height: 22px;
+	line-height: 22px;
+	background: #fff;
+	border: 1px solid #d8d8d8;
+	text-align: center;
+	color: #333;
+	padding: 0 10px;
+	background-color: #fff;
+}
+.pages span {
+	margin:0 4px;
+	display: inline-block;
+	height: 22px;
+	line-height: 22px;
+	background: #5a85b2;
+	border: 1px solid #5a85b2;
+	color: #fff;
+	text-align: center;
+	padding: 0 10px;
+}

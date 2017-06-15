@@ -1,0 +1,610 @@
+<body style="background-color: #f5f5f5;">
+<script src="{% public scripts/LEx.form.js %}"></script>
+<script src="{% public scripts/md5.js %}"></script>
+<div class="container"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png %}"> 您当前所在的位置:</li>
+        <li><a href="{{cp}}public/index">首页</a></li>
+        <li><a href="{{cp}}uinfo">个人中心</a></li>
+        <li><a href="#">设置</a></li>
+    </ol>
+</div>
+<div class="container"> 
+    <section class="panel" style="padding: 10px;">
+        <header class="panel-heading">
+            <h4 class="text-primary" style="margin: 0;">
+                <img src="{%public assets/img/hz_grzc_icon.jpg %}">&nbsp;&nbsp;&nbsp;<strong style="color: #4f719c;">个人资料设置</strong>
+                <small>请在下面完善或修改您的个人资料</small>
+            </h4>
+        </header>
+        <div class="panel-body">
+            <ul class="nav nav-tabs its-nav-tabs-1" style="background-color: #ebf3fa;">
+                <li class="active"><a data-toggle="tab" href="#st-1">账户信息</a></li>
+                <li><a data-toggle="tab" href="#st-2">实名信息</a></li>
+                <!--<li><a data-toggle="tab" href="#st-3">手机绑定</a></li>
+                <li><a data-toggle="tab" href="#st-4">密码重置</a></li>
+                <li><a data-toggle="tab" href="#st-5">邮箱绑定</a></li> -->
+                <li><a data-toggle="tab" href="#st-6">拓展信息</a></li>
+            </ul>
+            <br>
+            <div class="tab-content" id="userinfo">
+		        <input id="userID" type="hidden" tag="ID" value="">
+                <div class="tab-pane active" id="st-1" >
+                	<div id = "personal-1">
+                    <table class="table table-form">
+                        <tbody>
+                            <tr>
+                                <td class="text-right" width="25%">用户名：</td>
+                                <td width="25%"><input class="form-control"  readonly="readonly"tag="ACCOUNT" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">手机：</td>
+                                <td><input class="form-control" tag="PHONE"  readonly="readonly" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">地址：</td>
+                                <td><input class="form-control" tag="ADDRESS" readonly="readonly" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">邮箱：</td>
+                                <td><input class="form-control" tag="EMAIL" readonly="readonly" type="text"></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                    <div id = "dept-1">
+                    <table class="table table-form">
+                        <tbody>
+                            <tr>
+                                <td class="text-right" width="25%">用户名：</td>
+                                <td width="25%"><input class="form-control" style="border: 0px;" id="ACCOUNT" tag="ACCOUNT" type="text" readonly="readonly"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">邮箱：</td>
+                                <td><input class="form-control" style="border: 0px;" id="EMAIL" tag="EMAIL" type="text" readonly="readonly"></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                <div class="tab-pane" id="st-2">
+                   <div id = "personal-2">
+                    <table class="table table-form ">
+                        <tbody>
+                            <tr>
+                                <td class="text-right" width="25%">姓名：</td>
+                                <td  width="25%"><input class="form-control" tag="NAME" readonly="readonly" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">身份证号码：</td>
+                                <td><input class="form-control" tag="CARD_NO" readonly="readonly"></td>
+	                        	<td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                    <div id = "dept-2">
+                    <table class="table table-form ">
+                    	<tbody>
+                            <tr>
+                                <td class="text-right" width="25%">企业机构名称：</td>
+                                <td  width="25%"><input class="form-control" style="border: 0px;" id="ORG_NAME" tag="ORG_NAME" type="text" readonly="readonly"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">企业机构负责人：</td>
+                                <td><input class="form-control" style="border: 0px;" id="ORG_BOSS_NAME" tag="ORG_BOSS_NAME" type="text" readonly="readonly"></td>
+	                        	<td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">负责人身份证号：</td>
+                                <td><input class="form-control" style="border: 0px;" id="CARD_NO" tag="CARD_NO" type="text" readonly="readonly"></td>
+	                        	<td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">负责人性别：</td>
+                                <td><input class="form-control" style="border: 0px;" id="SEX" tag="SEX" type="text" readonly="readonly"></td>
+	                        	<td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">负责人民族：</td>
+                                <td><input class="form-control" style="border: 0px;" id="NATION" tag="NATION" type="text" readonly="readonly"></td>
+	                        	<td></td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane" id="st-3">
+                    <table class="table table-form">
+                        <tbody>
+                            <tr>
+                                <td class="text-right" width="25%">绑定手机：</td>
+                                <td width="25%"><input class="form-control" id="bdphone" reg="^[1][0-9][0-9]{9}$" tag="PHONE" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right" width="25%">验证码：</td>
+                                <td width="25%"><input class="form-control" reg="\S+" id="phonecode" tag="" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                	<button onclick="sendValid('st-3','PHONE')" name="verify_btn_text" class="btn btn-primary">&nbsp;&nbsp;发送验证码&nbsp;&nbsp;</button>
+                                    <button onclick="dobind('phone')" class="btn btn-primary">&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="st-4">
+                    <table class="table table-form ">
+                        <tbody>
+                            <tr>
+                                <td class="text-right" width="25%">当前密码：</td>
+                                <td  width="25%"><input class="form-control" reg="^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,15}$" id="PASSWORD_OLD" tag= "PASSWORD" type="password"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">新密码：</td>
+                                <td><input class="form-control" reg="^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,15}$" id="PASSWORD_NEW" tag= "PASSWORD" type="password"></td>
+                                <td><span class="text-danger">长度为6-30的有效字符</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">确认密码：</td>
+                                <td><input class="form-control" reg="^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,15}$" id="CONFIRM_PASSWORD" type="password"></td>
+                                <td><span class="text-success">请再输入一次</span></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <button onclick="changePwd()" class="btn btn-primary">&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                    <button onclick="reset()" class="btn btn-default">&nbsp;&nbsp;&nbsp;&nbsp;重新输入&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="st-5">
+                    <table class="table table-form">
+                        <tbody>
+                            <tr>
+                                <td class="text-right" width="25%">绑定邮箱：</td>
+                                <td width="25%"><input class="form-control" id="bdemail" reg="^(\w)+(\.\w+)*@(\w)+(\.\w+)*$" tag="EMAIL" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right" width="25%">验证码：</td>
+                                <td width="25%"><input class="form-control" reg="\S+" id="emailcode" tag="" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                	<button onclick="sendValid('st-5','EMAIL')" name="verify_btn_text" class="btn btn-primary">&nbsp;&nbsp;发送验证码&nbsp;&nbsp;</button>
+                                    <button onclick="dobind('email')" class="btn btn-primary">&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="st-6" >
+                	<div id = "personal-3">
+                    <table class="table table-form">
+                        <tbody>
+                            <tr>
+                                <td class="text-right" width="25%">籍贯：</td>
+                                <td width="25%"><input class="form-control"  readonly="readonly"tag="NATIVEPLACE" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">性别：</td>
+                                <td><input class="form-control" tag="SEX"  readonly="readonly" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">民族：</td>
+                                <td><input class="form-control" tag="NATION" readonly="readonly" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">户籍地：</td>
+                                <td><input class="form-control" tag="HOMEADDRESS" readonly="readonly" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">学历：</td>
+                                <td>
+                                <select tag="EDUCATION" disabled="disabled" tag="EDUCATION" class="form-control">
+										<option value="BK">本科</option>
+										<option value="BS">博士</option>
+										<option value="BSH">博士后</option>
+										<option value="DZ">大专</option>
+										<option value="SS">硕士</option>
+										<option value="YJS">研究生</option>
+										<option value="YS">院士</option>
+										<option value="ZZ">中专</option>
+										<option value="QT" selected='selected'>其它</option>
+								</select>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">政治面貌：</td>
+                                <td><select tag="POLITICALSTATUS" disabled="disabled" class="form-control">
+											<option value="DY">党员</option>
+											<option value="QZ" selected='selected'>群众</option>
+											<option value="TY">团员</option>
+									</select></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">邮政编码：</td>
+                                <td><input class="form-control" tag="POSTCODE" readonly="readonly" type="text"></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                    <div id = "dept-3">
+                    <table class="table table-form">
+                        <tbody>
+                            <tr>
+                                <td class="text-right" width="25%">组织机构代码发证机构：</td>
+                                <td width="25%"><input class="form-control" id="ORGCODEAWARDORG" tag="ORGCODEAWARDORG" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">组织机构代码证有效期起：</td>
+                                <td><input class="form-control" id="ORGCODEVALIDPERIODSTART_STR" tag="ORGCODEVALIDPERIODSTART_STR" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">组织机构代码证有效期止：</td>
+                                <td><input class="form-control" id="ORGCODEVALIDPERIODEND_STR" tag="ORGCODEVALIDPERIODEND_STR" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">机构英文名称：</td>
+                                <td><input class="form-control" id="ORGENGLISHNAME" tag="ORGENGLISHNAME" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">企业类别代码：</td>
+                                <td><input class="form-control" id="ENTERPRISESORTCODE" tag="ENTERPRISESORTCODE" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">企业类别名称：</td>
+                                <td><input class="form-control" id="ENTERPRISESORTNAME" tag="ENTERPRISESORTNAME" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">组织机构代码证发证日期：</td>
+                                <td><input class="form-control" id="ORGCODEAWARDDATE_STR" tag="ORGCODEAWARDDATE_STR" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">登记注册日期：</td>
+                                <td><input class="form-control" id="REGISTERDATE_STR" tag="REGISTERDATE_STR" type="text"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">组织机构类型：</td>
+                                <td><select tag="ORGTYPE" id="ORGTYPE" class="form-control">	 					
+										<option value="Enterprise">企业</option>
+										<option value="GovDept">政府机关</option>
+										<option value="Institutions">事业单位</option>
+										<option value="SocialOrg">社会团体</option>
+							      	</select></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">组织机构现状：</td>
+                                <td><select tag="ORGACTUALITY" id="ORGACTUALITY" class="form-control"  >
+										<option value="Change">变更</option>
+										<option value="Deregister">注销</option>
+										<option value="Register">设立</option>
+										<option value="Revoke">吊销</option>
+							      	</select></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-center"><button type="text" onclick="save()" class="btn btn-primary its-btn-closed">保存</button></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+</div>
+<style type="text/css">
+.input_validation-failed {border: 1px solid #FF0000;color: red;}
+.curr_contain{display: block;}
+</style>
+<script>
+var utype;//用户类型
+var time = 60;
+$(function(){
+	loadData();
+		$("[reg]").bind("blur", function() {
+		var c = $("#userinfo");
+		var t = $(".form-tip span[for=" + $(this).attr("id") + "]", c);
+		if (!validate($(this))) {
+			//t.html($(this).attr("tip")).attr("class", "invalid");
+		} else {
+			var func = $(this).attr("func");
+			if (func == undefined) {
+				t.html("").attr("class", "valid");
+			} else {
+				try {
+					var s = eval(func);
+					re = s.call(s, $(this));
+					if (re) {
+						t.html("").attr("class", "valid");
+					}else{
+						$(this).addClass("input_validation-failed");
+					}
+				} catch (e) {
+					alert("请求的验证函数错误。");
+				}
+			}
+		}
+	});
+});
+function loadData(){
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	var ret = cmd.execute("showUserInfo");
+	if (ret.state == 1) {
+		if (ret.data!=null) {
+			var utype = ret.data.TYPE;	//用户类型
+			ret.data.PASSWORD="";
+			if(LEx.isNotNull(utype)){
+				type = utype;
+				if (utype == "11" || utype == "12") {
+					formid = "personal";
+					$("#dept-1,#dept-2,#dept-3").hide();
+					LEx.form.set("userinfo", ret.data);					
+					//checkValidate(formid);
+				} else if (utype == "21" || utype == "22"||utype == "31") {
+					formid = "dept";
+					$("#personal-1,#personal-2,#personal-3").hide();
+					LEx.form.set("userinfo", ret.data);					
+					//checkValidate(formid);
+				}else {
+					$("#personal").hide();
+					$("#dept").hide();
+					errorDialog("系统提示", "用户类型不存在！");
+				}
+			} else {
+				$("#personal").hide();
+				$("#dept").hide();
+				errorDialog("系统提示", "未获取到用户类型！");
+			}
+		}
+	} else {
+		errorDialog("系统提示", "error：" + ret.message);
+	}
+}
+function checkValidate(formid) {
+	var c = $(formid);
+	var f = true;
+	$("[reg]", c).each(function() {
+		var t = $(".form-tip span[for=" + $(this).attr("id") + "]", c);
+		if (!validate($(this))) {
+			t.html($(this).attr("tip"));
+			t.attr("class", "invalid");
+			f = false;
+		} else {
+			var func = $(this).attr("func");
+			if (func == undefined) {
+				t.html("");
+				t.attr("class", "valid");
+			} else {
+				try {
+					var s = eval(func);
+					var re = s.call(s, $(this));
+					if (!re) {
+						f = false;
+					}
+				} catch (e) {
+					alert("请求的验证函数错误。");
+				}
+			}
+		}
+		
+	});
+	
+	return f;
+}
+//修改密码
+function changePwd(){
+	if(!checkValidate("#st-4")){
+		alert("请按要求进行填写！");
+		return false;
+	}
+	var newPassWord=$("#PASSWORD_NEW").val();//新密码
+	var confiPassWord=$("#CONFIRM_PASSWORD").val();
+	
+	if(newPassWord!=confiPassWord){
+		LEx.dialog.tips("两次密码输入不一致，请重新输入！");
+		return false;
+	}
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	var userId=$("#userID").val();//用户id	
+	cmd.setParameter("id",userId);
+	var oldPassWord=toMD5Str($("#PASSWORD_OLD").val());//原密码
+	cmd.setParameter("password",oldPassWord);
+	cmd.setParameter("newPassWord",toMD5Str(newPassWord));
+	var ret = cmd.execute("changePwd");
+	if (ret.state == 1) {
+		LEx.dialog({title : "系统提示",content : "修改密码成功！", icon: 'succeed' ,lock : true});
+		return true;
+	} else {
+		errorDialog("系统提示","修改密码失败："+ret.message);
+	}
+	return false;
+}
+//发送验证码
+function sendValid(id, type) {
+	var receive;
+	if(time==60||time==0){
+		time=60;
+	}else{
+		return false;
+	}
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	var ret = null;
+	if (type == "PHONE") {
+		if(!checkValidate("#bdphone")){
+			alert("请按要求进行填写！");
+			return false;
+		}
+		receive = $("#bdphone").val();
+		cmd.setParameter("PHONE", receive);
+		cmd.setParameter("SMS", "RegisterSms");// 对应security.properties中主键
+		ret = cmd.execute("sendMessage");
+		code=ret.route;
+	} else {
+		if(!checkValidate("#bdemail")){
+			alert("请按要求进行填写！");
+			return false;
+		}
+		receive = $("#bdemail").val();
+		cmd.setParameter("mail", receive);
+		ret = cmd.execute("registerValidEmail");
+	}
+	if (ret.state == 1) {
+		$("#" + id + " [name=verify_btn_text]").addClass("opt_btn_gray").css("cursor", "default");
+		waitValid(id, type);// 重新发送短信倒数计时
+		return true;
+	} else {
+		errorDialog("系统提示", ret.message);
+		return false;
+	}
+}
+//验证码计时
+function waitValid(id, type) {
+	if (time > 0) {
+		time--;
+		$("#" + id + " [name=verify_btn_text]").html(time + "s后可重新发送");
+		setTimeout(function() {
+			waitValid(id, type, time);
+		}, 1000);
+	} else {
+		$("#" + id + " [name=verify_btn_text]").removeClass("opt_btn_gray");
+		if (type == "PHONE") {
+			$("#" + id + " [name=verify_btn_text]").html("获取验证码");
+		} else {
+			$("#" + id + " [name=verify_btn_text]").html("获取验证码");
+		}
+		return;
+	}
+}
+//验证码绑定
+function dobind(type){
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	if(type=="phone"){
+		if(!checkValidate("#st-3")){
+			alert("请按要求进行填写！");
+			return false;
+		}
+		cmd.setParameter("link", $("#bdphone").val());
+		cmd.setParameter("VCODE", $("#phonecode").val());
+		cmd.setParameter("TYPE", "PHONE");
+	}else{
+		if(!checkValidate("#st-5")){
+			alert("请按要求进行填写！");
+			return false;
+		}
+		cmd.setParameter("link", $("#bdemail").val());
+		cmd.setParameter("VCODE", $("#emailcode").val());
+		cmd.setParameter("TYPE", "EMAIL");
+	}
+	ret = cmd.execute("bindPhoneOrEmail");
+	if (ret.state == 1) {
+		LEx.dialog({title : "系统提示",content : "绑定成功！", icon: 'succeed' ,lock : true});
+	} else {
+		errorDialog("系统提示","绑定失败："+ret.message);
+	}
+}
+//重置密码时清空输入框功能
+function reset(){
+	$("#PASSWORD_OLD,#PASSWORD_NEW,#PASSWORD_OLD,#CONFIRM_PASSWORD").val("");
+}
+//更改扩展信息表
+function save(){
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	/* var obj = LEx.form.get("person");
+	$.each(obj,function(k,v){
+    	cmd.setParameter(k,v);
+    }); */
+	var ID=$("#userID").val();
+	var Name='{{UserInfo.userId}}';
+	var nat = document.getElementById("EMAIL").value;
+	var ORGCODEAWARDORG=document.getElementById("ORGCODEAWARDORG").value;
+	var ORGCODEVALIDPERIODSTART_STR=document.getElementById("ORGCODEVALIDPERIODSTART_STR").value;
+	var ORGCODEVALIDPERIODEND_STR=document.getElementById("ORGCODEVALIDPERIODEND_STR").value;
+	var ORGENGLISHNAME=document.getElementById("ORGENGLISHNAME").value;
+	var ENTERPRISESORTCODE=document.getElementById("ENTERPRISESORTCODE").value;
+	var ENTERPRISESORTNAME=document.getElementById("ENTERPRISESORTNAME").value;
+	var ORGCODEAWARDDATE_STR=document.getElementById("ORGCODEAWARDDATE_STR").value;
+	var REGISTERDATE_STR=document.getElementById("REGISTERDATE_STR").value;
+	var ORGTYPE=document.getElementById("ORGTYPE").value;
+	var ORGACTUALITY=document.getElementById("ORGACTUALITY").value;
+	
+	var ORG_NAME = document.getElementById("ORG_NAME").value;
+	var ORG_BOSS_NAME = document.getElementById("ORG_BOSS_NAME").value;
+	var CARD_NO = document.getElementById("CARD_NO").value;
+	var SEX = document.getElementById("SEX").value;
+	var NATION = document.getElementById("NATION").value;
+	
+	cmd.setParameter("ORGCODEAWARDORG",ORGCODEAWARDORG);
+	cmd.setParameter("ORGCODEVALIDPERIODSTART_STR",ORGCODEVALIDPERIODSTART_STR);
+	cmd.setParameter("ORGCODEVALIDPERIODEND_STR",ORGCODEVALIDPERIODEND_STR);
+	cmd.setParameter("ENTERPRISESORTCODE",ENTERPRISESORTCODE);
+	cmd.setParameter("ORGENGLISHNAME",ORGENGLISHNAME);
+	cmd.setParameter("ENTERPRISESORTNAME",ENTERPRISESORTNAME);
+	cmd.setParameter("ORGCODEAWARDDATE_STR",ORGCODEAWARDDATE_STR);
+	cmd.setParameter("REGISTERDATE_STR",REGISTERDATE_STR);
+	cmd.setParameter("ORGTYPE",ORGTYPE);
+	cmd.setParameter("ORGACTUALITY",ORGACTUALITY);
+	
+	
+	
+	cmd.setParameter("ID",ID);
+	cmd.setParameter("EMAIL",nat);
+	cmd.setParameter("ORG_NAME",ORG_NAME);
+	cmd.setParameter("CARD_NO",CARD_NO);
+	cmd.setParameter("ORG_BOSS_NAME",ORG_BOSS_NAME);
+	cmd.setParameter("SEX",SEX);
+	cmd.setParameter("NATION",NATION);
+	
+	var ret = cmd.execute("updateEmail");
+	if(ret.state=='1'){
+    	alert("信息修改成功！");
+    }else{
+    	alert(ret.message);
+    }
+}
+</script>

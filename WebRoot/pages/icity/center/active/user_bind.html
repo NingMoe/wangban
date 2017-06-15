@@ -1,0 +1,38 @@
+<!-- 用户绑定 -->
+
+<section class="its-page-body" id="businessList" style="display:block;">
+		<table class="table table-bordered">
+             <tbody>
+             	<tr>
+					<td class="text-right">原用户名：</td>
+						<td><input class="form-control" id="OldAcccount" type="text">
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right">原密码：</td>
+						<td><input class="form-control" id="OldPassword" type="password">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="text-center"><button onclick="userBind();" class="btn btn-primary">
+									&nbsp;&nbsp;&nbsp;&nbsp;绑定&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+					</tr>
+             </tbody>
+         </table>
+</section>
+<script>
+//绑定
+function userBind()
+{
+	var cmd = new LEx.Command("app.uc.LoginCmd");
+	cmd.setParameter("account",$("#OldAcccount").val());
+  cmd.setParameter("pwd",toMD5Str($("#OldPassword").val()));
+  var ret = cmd.execute("userBind");
+  if(ret.state=='1'){
+	  LEx.alert("绑定成功，请重新登录！");
+  	doLogout();
+  }else{
+  	LEx.alert(ret.message);
+  }
+}
+</script>

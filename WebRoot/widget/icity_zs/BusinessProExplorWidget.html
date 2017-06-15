@@ -1,0 +1,41 @@
+{% map "projectId",id as p %}
+{% command "app.icity.pro.ProCmd","getReconnaissance",p as d %}
+{% set bizArry d.data.bizArray%}
+<div class="panel-body" style="min-height:500px;">
+	<table class="table table-bordered table-condensed table01">
+		<tbody id="project_body">
+			<tr>
+				<th>勘探主题</th>
+				<th>通知时间</th>
+				<th>勘探时间</th>
+				<th>会议时间</th>
+				<th>操作</th>
+			</tr>
+			{% for o in bizArry %}
+			<tr>
+				<th>{{o.subject}}</th>
+				<th>{{o.notifyTime}}</th>
+				<th>{{o.reconTime}}</th>
+				<th>{{o.meetingTime}}</th>
+				<th style="text-overflow:ellipsis;word-break:keep-all; white-space:nowrap;">
+				<a style="cursor: pointer;" onclick="detail('{{o.id}}','查看主题')">查看主题&nbsp;&nbsp;</a>
+				<a style="cursor: pointer;" onclick="detail('{{o.id}}','通知反馈')">通知反馈&nbsp;&nbsp;</a>
+				<a style="cursor: pointer;" onclick="detail('{{o.id}}','意见反馈')">意见反馈&nbsp;&nbsp;</a>
+				<a style="cursor: pointer;" onclick="detail('{{o.id}}','会议纪要')">会议纪要</a>
+				</th>
+			</tr>
+			{% endfor %}
+			<tr></tr>
+		</tbody>
+	</table>
+</div>
+ <script>
+ function detail(cid,type){
+	var n_url = LEx.webPath+"admin?m=pro/reconnaissance.html&id="+cid+"&type="+type;
+	 LEx.dialog({
+	        id: "detail", title: type,
+	        url: n_url,
+	        width: 900, height: 450
+	    });
+}
+ </script>

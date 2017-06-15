@@ -1,0 +1,160 @@
+{% set cp PageContext.ContextPath %}
+<div id="header" style="height: 148px;">
+	<div class="head" style="display: none;">
+		<div class="home" style="width:150px;">
+			<a class="home_text" href="{{cp}}" target="_self">首页</a>
+		</div>
+		<div class="menu_list" style="width:700px;">
+        </div>
+   		<div style="width:105px;display:block;float:right;">
+   		</div>
+	</div>
+	<div class="banner" style="background: url('{% public images/home/banner.jpg %}') no-repeat #28467A;">
+		<div class="banner-bottom">
+			<div class="banner-right" style="float:left;display:block;height:35px;line-height:35px;font-weight:bold;font-size:15px;width:100%;text-align:right;">
+				<div id="home_star" style="float:right;margin-right:10px;margin-top:9px;">
+				</div>
+			</div>
+			<div class="banner-path">
+				{% if UserInfo %}
+				<div class="fl">
+					&nbsp;<font color="#7acbf4;">{{UserInfo.userName}}</font>,&nbsp;您好!&nbsp;欢迎使用<a href="{{cp}}" target="_self" style="color: #2CA1E9;font-weight: bold;text-shadow: 1px 1px #FFFFFF;">{{ConfigInfo.AppProvince}}政务服务大厅</a>
+				</div>
+				<div class="fr">
+					[
+					{% if ConfigInfo.WebUcPath.length%}
+					<a href="{{ConfigInfo.WebUcPath}}" target="_self">用户中心</a>
+					{%else%}
+					<a href="{{cp}}uc/index">用户中心</a>
+					{%endif%}
+					|
+					<a href="{{cp}}center/index" target="_self">业务中心</a>|
+					<a  href="javascript:void();" onclick="doLogout('{{ConfigInfo.WebUcPath}}')">退&nbsp;出</a>
+					]
+				</div>
+				{% else %}
+				<div class="fl">
+					欢迎来到<a href="{{PageContext.ContextPath}}" target="_self" style="color: #2CA1E9;font-weight: bold;text-shadow: 1px 1px #FFFFFF;">{{ConfigInfo.AppProvince}}政务服务大厅</a>
+				</div>
+				<div class="fl" style="margin-left: 10px">
+					[<a href="#" onclick="doLogin('{{ConfigInfo.WebUcPath}}')" style="color: #2CA1E9;font-weight: bold;text-shadow: 1px 1px #FFFFFF;">登&nbsp;录</a>&nbsp;|&nbsp;
+					<a  href="{{PageContext.ContextPath}}uc/register" target="_self" style="color: #2CA1E9;font-weight: bold;text-shadow: 1px 1px #FFFFFF;">注&nbsp;册</a>
+					]
+				</div>
+				{% endif %}
+			</div>
+			<div style="float:right;margin-top: 3px; margin-right: 5px">
+				<input id="i_search_text"   onkeydown="if(event.keyCode==13) globalSearch();" value="{{PageContext.Parameter.k}}" class="searchinput" type="text" x-webkit-grammar="builtin:translate" x-webkit-speech="" autocomplete="off" url="true" maxlength="26" name="postid" style="font-size: 14px; color: rgb(178, 178, 178); line-height: 28px;">
+                    <input type="button" class="searchbtn" value="" onclick="globalSearch()">
+                        </div>
+		</div>
+	</div>
+</div>
+<div id="onlineService" class="fix-box-middle">
+	<a class="ctrl-btn-1" title="回到顶部" onclick="gototop();return false;" href="#"></a>
+	{% if ConfigInfo.WebRank|equal:"1" %}
+    <a class="ctrl-btn-2" href="http://www.szol.gov.cn/SZXFManager/xfhall/xfdtdh.jsp" target="_blank"></a>
+	{% else %}
+    <a class="ctrl-btn-2" href="{{PageContext.ContextPath}}mutual/consult" target="_blank"></a>
+	{% endif %}
+	<a class="ctrl-btn-4" href="{{PageContext.ContextPath}}project/BusyQuery" target="_blank"></a>
+	<a class="ctrl-btn-5" href="http://wsbs.sz.gov.cn/star" target="_blank"></a>
+	{% if ConfigInfo.WebRank|equal:"1" %}
+    <a class="ctrl-btn-6" href="http://www.szol.gov.cn/SZXFManager/xfhall/xfdtdh.jsp" target="_blank"></a>
+	{% else %}
+    <a class="ctrl-btn-6" href="{{PageContext.ContextPath}}mutual/complaint" ></a>
+	{% endif %}
+	<a class="ctrl-btn-3" title="到达底部" onclick="gotobottom();return false;" href="#"></a>
+</div>
+
+<!--
+<a href="{{PageContext.ContextPath}}icity/open/check" target="_blank">
+<div class="fix-box-middle-left">
+</div>
+</a>
+-->
+<script type="text/javascript">
+	function globalSearch(){
+		var value = document.getElementById("i_search_text").value;
+		if(value.length!=0){
+			window.location.href = LEx.webPath+"search?k=" + encodeURIComponent(value);
+		}else{
+			LEx.dialog({content:"请输入查询条件！"});
+		}
+	}
+
+function doLogin(webSiite) {	
+    var aaa=null;
+	if(LEx.isNotNull(webSiite)){
+		var url = window.location.href;
+	    if(url.indexOf("http://")==0){
+	        url = url.replace("http://","");
+	        url = url.substr(0,url.indexOf("/"));        
+	    }else{
+	        url = url.substr(0,url.indexOf("/"));
+	    }
+	    url = "http://"+url;
+	    var SSO_URL = url+LEx.webPath+"login";
+	    var RelayState = url+LEx.webPath+"verify?goto="+window.location.href;
+	    var aaa = SSO_URL+"?RelayState="+RelayState;//encodeURIComponent(RelayState);
+	    aaa = webSiite+"index.php?m=member&c=index&a=logoutAll"+"&callback_url="+encodeURIComponent(aaa);		
+	}else{
+		aaa = LEx.webPath+"uc/login?goto="+encodeURIComponent(window.location.href);
+	}
+	window.location.href = aaa;
+    return false;
+}
+
+function doLogout(webSiite) {
+	var logout_url=null;	 
+	if(LEx.isNotNull(webSiite)){
+		var url = window.location.href;
+		if(url.indexOf("http://")==0){
+	    	url = url.replace("http://","");
+	    	url = url.substr(0,url.indexOf("/"));        
+	 	}else{
+	        url = url.substr(0,url.indexOf("/"));
+	    }
+	    url = "http://"+url;
+	    var logout_url = webSiite+"index.php?m=member&c=index&a=logoutAll";
+	    var callback_url =  url+LEx.webPath+"logout?goto="+window.location.href;			
+	    logout_url = logout_url+"&callback_url="+callback_url;		
+	}else{
+		logout_url = LEx.webPath+"logout?goto="+encodeURIComponent(window.location.href);
+	}
+	window.location.href = logout_url;
+    return false;
+}
+
+
+//置顶
+function gototop(){
+    window.scrollTo(0,0);
+}
+
+//置底
+function gotobottom(){
+    window.scrollTo(0,document.body.scrollHeight);
+}
+
+//右侧导航
+function feedbackInit(index){
+    var code = "{{code}}";
+    switch(index){
+        case 1:
+        //咨询
+        addConsult(code);
+        break;
+        case 2:
+        queryProcess();
+        break;
+        case 3:
+        queryAdvice(code);
+        break;
+        case 4:
+        queryComplain(code);
+        break;
+    }
+}
+
+    </script>

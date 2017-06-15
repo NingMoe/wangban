@@ -1,0 +1,9 @@
+
+body {
+    min-width: 1020px !important;
+}
+.container {
+    width: 1020px !important;
+    max-width: none !important;
+}
+.container { padding: 0; background-color: transparent; }

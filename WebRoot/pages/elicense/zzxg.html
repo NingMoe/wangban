@@ -1,0 +1,492 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <title>我的证照中心</title>
+    	<script type="text/javascript">
+		{% merge "[{label:'dict_code@in',value:'user_sfzjlx'}]" as pwhere %}
+		{% map "code","PUB_DICT_ITEM_GetCollection","pwhere",pwhere as params %}
+		{% command "app.db.DbProxy","collection",params as result %}
+		var CODE_MAP_SOURCE = {{result.data}};
+	</script>
+</head>
+<body>
+{%include eLicense/index/header.html %}
+    <div class="py-25 mb-20 bg-faded">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="media">
+                        <div class="media-left media-middle pr-15">
+                            <i class="nc-icon-outline files_edit x2l img-circle bg-purple p-20"></i>
+                        </div>
+                        <div class="media-body media-middle">
+                            <h4 class="media-heading"><strong>证照信息修改</strong></h4>
+                            <span class="text-muted" id="license_name"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <ol class="breadcrumb small pull-right mt-25" style="opacity: .6;">
+                        <li><i class="nc-icon-outline location_pin lg"></i> 当前位置:</li>
+                        <li><a href="{{cp}}public/index">首页</a></li>
+                        <li><a href="{{cp}}elicense/index">证照中心</a></li>
+                        <li><a href="javascript:;">证照信息修改</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form class="form-horizontal"  id="info-form">
+    <div class="container" id="page3">
+   </div>
+   </form>
+    <br>
+    <br>
+    <br>
+    {%include eLicense/index/footer.html %}
+   <textarea id="fieldListTemp" style="display:none;">
+     <section class="panel panel-default" >
+            <div class="panel-heading">
+                <h4 class="my-0"><i class="nc-icon-outline ui-3_bullet-list bg-purple img-circle p-10"></i> <strong>证照基本信息</strong></h4>
+            </div>
+            <div class="panel-body">
+            
+                    <div class="form-group">
+                        <label for="zzmc" class="col-xs-3 control-label">
+                            <span style="color: red;">*</span>证照名称：</label>
+                        <div class="col-xs-6" style="margin-top:10px;">
+                            <span name="licenseTypeName" cet="licenceTypeName">${metaData.licenseTypeName}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bfdwmc" class="col-xs-3 control-label">
+                            <span style="color: red;">*</span>颁发单位名称：</label>
+                        <div class="col-xs-6" style="margin-top:10px;">
+                            <span name="deptName" cet="deptName">${metaData.deptName}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cyrlx" class="col-xs-3 control-label">
+                            <span style="color: red;">*</span>持有人类型：</label>
+                        <div class="col-xs-6" style="margin-top:10px;">
+                        	<span >${formateHolderType(metaData.holderType)}</span>
+                        	<input type="hidden" name="holderType" cet="holderType" value="${metaData.holderType}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cyrmc" class="col-xs-3 control-label">
+                            <span style="color: red;">*</span>持有人名称：</label>
+                        <div class="col-xs-6" style="margin-top:10px;">
+                        	<span name="holderName" cet="holderName">${metaData.holderName}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cyrzjlx" class="col-xs-3 control-label">
+                            <span style="color: red;">*</span>持有人证件类型：</label>
+                        <div class="col-xs-6" style="margin-top:10px;">
+                            <span id = "certificateType">${metaData.certificateType}</span>
+                            <input name="certificateType" value="${metaData.certificateType}" cet="certificateType" type="hidden"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cyrzjhm" class="col-xs-3 control-label">
+                            <span style="color: red;">*</span>持有人证件号码：</label>
+                        <div class="col-xs-6" style="margin-top:10px;">
+                            <span name="certificateNo" cet="certificateNo">${metaData.certificateNo}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="xknr" class="col-xs-3 control-label">许可内容：</label>
+                        <div class="col-xs-6">
+                            <input class="form-control" value="${metaData.permitContent}" name="permitContent" cet="permitContent" type="text">
+                        </div>
+                    </div>
+                    <input type="hidden" value="${metaData.deptOrganizeCode}" name="deptOrganizeCode" cet="deptOrganizeCode">
+					<input type="hidden" value="${metaData.licenseTypeCode}" name="licenceTypeCode"  id="licenceTypeCode" cet="licenceTypeCode" >
+				 	<input type="hidden" value="${metaData.templeteNo}"  id="templeteNo" >
+            </div>
+        </section>
+        
+        <section class="panel panel-default" id="surfaceData" >
+            <div class="panel-heading">
+                <h4 class="my-0"><i class="nc-icon-outline ui-1_attach-87 bg-purple img-circle p-10"></i> <strong>证照补充信息</strong></h4>
+            </div>
+	       	<div class="panel-body">
+	      			{for d in surfaceData}
+					<div class="form-group">
+					    <label for="zzmc" class="col-sm-3 control-label">
+					    {if d.IsRequired==1}
+					      <span style="color:red;">*</span>
+					    {/if}
+					    ${d.FieldDesc}：
+					    </label>
+					    <div class="col-sm-6">
+					    {if d.DataType=="string"}
+                	 	{if d.IsRequired==1}							    
+					     	<input type="text" class="form-control" ret="${d.FieldName}" name="${d.FieldName}" value="${d.FiledValue}" cet="${formatMetaDataField(d.MetaDataField)}" sequence="${d.sequence}"  data-rule="required;" reg="${d.regularExpression}">
+						{else}
+							<input type="text" class="form-control" ret="${d.FieldName}" name="${d.FieldName}" value="${d.FiledValue}" cet="${formatMetaDataField(d.MetaDataField)}" sequence="${d.sequence}"  reg="${d.regularExpression}">
+						{/if}
+					 {elseif d.DataType=="date"||d.DataType=="datetime" }							     	
+					    {if d.IsRequired==1}							    
+					     	<input type="date" class="form-control" ret="${d.FieldName}" name="${d.FieldName}" value="${d.FiledValue}" cet="${formatMetaDataField(d.MetaDataField)}" sequence="${d.sequence}"  data-rule="required;" reg="${d.regularExpression}">
+						{else}
+							<input type="date" class="form-control" ret="${d.FieldName}" name="${d.FieldName}" value="${d.FiledValue}" cet="${formatMetaDataField(d.MetaDataField)}" sequence="${d.sequence}"  reg="${d.regularExpression}">
+						{/if}
+					  {elseif d.DataType=="bincode"} 
+					  	{if d.IsRequired==1}
+					  		<input type="text" class="form-control" ret="${d.FieldName}" name="${d.FieldName}" value="${d.FiledValue}"  data-rule="required;" cet="${formatMetaDataField(d.MetaDataField)}" sequence="${d.sequence}" reg="${d.regularExpression}">
+					  	{else}		
+					    	<input type="text" class="form-control" ret="${d.FieldName}" name="${d.FieldName}" value="${d.FiledValue}"   cet="${formatMetaDataField(d.MetaDataField)}" sequence="${d.sequence}"  reg="${d.regularExpression}">
+					  	{/if}
+					   {elseif d.DataType=="decimal"} <!-- 浮点型 -->
+					  	{if d.IsRequired==1}
+					  		<input type="text" class="form-control" ret="${d.FieldName}" name="${d.FieldName}" value="${d.FiledValue}"  data-rule="required;decimal" cet="${formatMetaDataField(d.MetaDataField)}" sequence="${d.sequence}"  reg="${d.regularExpression}">
+					  	{else}		
+					    	<input type="text" class="form-control" ret="${d.FieldName}" name="${d.FieldName}" value="${d.FiledValue}"  cet="${formatMetaDataField(d.MetaDataField)}" sequence="${d.sequence}"  reg="${d.regularExpression}">
+					  	{/if}
+					   {elseif d.DataType=="numeric"} <!-- 整型 -->
+					  	{if d.IsRequired==1}
+					  		<input type="text" class="form-control" ret="${d.FieldName}" name="${d.FieldName}" value="${d.FiledValue}"  data-rule="required;integer;" reg="${d.regularExpression}">
+					  	{else}		
+					    	<input type="text" class="form-control" ret="${d.FieldName}" name="${d.FieldName}" value="${d.FiledValue}"  data-rule="required;"   reg="${d.regularExpression}">
+					    {/if}
+					  {elseif d.DataType=="boolean" || d.DataType=="selected" } <!-- 布尔型  枚举型 -->
+					  	<select class="form-control selectInput" name="${d.FieldName}" ret="${d.FieldName}" tag="${d.FixedValue}"  data-rule="required;" cet="${formatMetaDataField(d.MetaDataField)}" sequence="${d.sequence}"  reg="${d.regularExpression}">
+                        </select>
+                        {elseif d.DataType=="table"} <!-- 表格型 -->
+					  	<table class="table tableType" style="font-size: 14px;border: 1px solid #e5e5e5;" name="${d.FieldName}"  tag="${d.FixedValue}" max="${d.Fieldlength}">
+					    </table>
+					  {elseif d.DataType=="picture"} 
+					     	<span class="btn btn-sm btn-warning fileinput-button" style="margin-left: 5px;"> 
+							<i class="icon-upload">上传</i> 
+							<input type="hidden" class="form-control" ret="${d.FieldName}"  id="pfiletag">
+							<input id="pfile"  class="fileupload" tag="0" type="file"   multiple />
+							</span>
+                            {if d.IsRequired==1}
+								<div id="list_pfile" style="float: right;" isRequired="1"></div>
+						    {else}	
+								<div id="list_pfile" style="float: right;" isRequired="0"></div>
+						    {/if}
+					  {else} 
+					     {if d.IsRequired==1}
+					  		<input type="text" class="form-control" ret="${d.FieldName}" name="${d.FieldName}" value="${d.FiledValue}"  data-rule="required;" reg="${d.regularExpression}">
+					  	{else}		
+					    	<input type="text" class="form-control" ret="${d.FieldName}" name="${d.FieldName}" value="${d.FiledValue}"   reg="${d.regularExpression}">
+					  	{/if}
+					  {/if}
+					    </div>
+					</div>
+					{/for}
+	      	</div>
+        </section>
+        <p class="text-center">
+           <button type="submit" class="btn btn-success"><i class="nc-icon-outline ui-1_check-circle-07 lg"></i> 提交</button> 
+            <a href="javascript:clear();" class="btn btn-default"><i class="nc-icon-outline arrows-1_refresh-69 lg"></i> 重置</a>
+        </p>
+   </textarea>     
+    <script type="text/javascript">
+    var id = LEx.urldata.id;
+    //附件-暂时未使用
+    var attachment = "";//附件
+    var surfacePicture= "";//照面上的图片
+    var attachment_filename = "";//附件 文件名
+    var surfacePicture_filename= "";//照面上的图片 文件名
+    $(function(){
+    	load(id);
+    });
+    function load(id){
+    	var cmd = new LEx.Command("app.icity.govservice.LicenseCmd");
+    	cmd.setParameter("id",id);
+    	var ret =  cmd.execute("getPreLicenceByTemleteNo");
+    	if(ret.state==1){
+    		var deptName = ret.data.metaData.deptName;
+            var licenceType_Name = ret.data.metaData.licenseTypeName;
+           var str = "<strong>"+deptName+"</strong> |"+licenceType_Name;
+           $("#license_name").html(str);
+    		//处理持证人类型字段
+    		var holdertype = ret.data.metaData.holderType;
+    		$("#page3").html(LEx.processDOMTemplate("fieldListTemp",ret.data));
+    		//处理 布尔型、枚举型
+    		$(".selectInput").each(function(){
+    			var tag = $(this).attr("tag");
+    			 var tags= new Array(); //定义一数组 
+ 	       		tags=tag.split(","); //字符分割 
+ 	       		for (var i=0;i<tags.length ;i++ ) 
+ 	       		{ 
+ 	       			var option = '<option value="' + tags[i] + '" >' + tags[i]  + '</option>';
+ 	       			$(this).append(option);
+ 	       		} 
+    		});
+    		//表格型
+    		$(".tableType").each(function(){
+    		   var tag = $(this).attr("tag");
+    		   var max = $(this).attr("max");
+    		   var name = $(this).attr("name");
+    		   var tags= new Array(); //定义一数组 
+	       		tags=tag.split(","); //字符分割 
+	       		var html = "<tr>"
+	       		for (var i=0;i<tags.length ;i++ ) 
+	       		{ 
+	       			html +="<th>"+tags[i]+"</th>";
+	       		} 
+	       		html +="<th>操作</th>";
+	       		html +="</tr>";
+	       		for(var i = 1;i<=max;i++){
+	       			html +="<tr id='"+name+i+"'>"
+	       			for(j=1;j<=tags.length;j++){
+	       				var namestr = name+" "+i+"-"+j;
+	       				html+="<td><input name='"+namestr+"' class='tableInput' style='width:100px;'></td>";
+	       			}
+	       			html+="<td><a class=\"btn btn-danger btn-sm\" onclick=deltr('"+name+i+"')>删除</a></td>";
+	       			html +="</tr>"
+	       		}
+	       		$(this).append(html);
+    		  });
+    		
+    		/**
+			 * 初始化日历
+			 */
+			$.fn.datepicker.dates['zh-CN'] = {
+				days : [ "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日" ],
+				daysShort : [ "周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日" ],
+				daysMin : [ "日", "一", "二", "三", "四", "五", "六", "日" ],
+				months : [ "01", "02", "03", "04", "05", "06", "07", "08",
+						"09", "10", "11", "12" ],
+				monthsShort : [ "01", "02", "03", "04", "05", "06", "07", "08",
+						"09", "10", "11", "12" ],
+				today : "今日",
+				suffix : [],
+				meridiem : [ "上午", "下午" ]
+			};
+    		 $("input[type='date']").datepicker({
+    			format: 'yyyy-mm-dd',
+    			language: "zh-CN",
+    			autoclose: true
+     		}).on('changeDate', function(ev){
+    			//值改变时失去焦点，触发nice-validator校验
+    			var input =ev.target;
+    			$(input).blur();
+    		});
+    		formatCertificateType();
+    	}
+    	initFileUpload();
+    }
+    //删除表格型行
+    function deltr(id){
+    	$("#"+id).remove();
+    }
+    function formatCertificateType() {
+    	for ( var o in CODE_MAP_SOURCE) {
+    		var obj = CODE_MAP_SOURCE[o];
+    		if (obj.DICT_CODE == "user_sfzjlx") {
+    			if(obj.ITEM_CODE==$("#certificateType").html()){
+			    	$("#certificateType").html(obj.ITEM_VALUE);
+    			}
+    		}
+    	}
+    }
+    function submit(){
+		//校验图片是否上传
+		if($("#list_pfile").attr("isRequired")=="1"){
+			if($("#list_pfile").html()==""){
+				LEx.alert("你还未上传图片");
+				return;
+			}
+		}
+    	var metaData = LEx.form.get("page3","cet");
+		var surface = LEx.form.get("page3","ret");
+		var oldData = $("#templeteNo").val();
+		oldData = {"templeteNo":oldData};
+		//处理证照编号元数据
+		var licenseNumbers = $("[cet='licenseNumber']");
+		var licenseNumber="";
+		for(var i=0;i<licenseNumbers.length;i++){
+			var s = $(licenseNumbers[i]).attr("sequence");
+			var v= licenseNumbers[i].value;
+			licenseNumber +="{'sequence':"+s+",'value':'"+ v+"'},";
+		}
+		licenseNumber ="["+licenseNumber.substring(0,licenseNumber.length-1)+"]";
+		metaData["licenseNumber"] = eval('(' + licenseNumber + ')');
+		//处理表格型数据
+		$(".tableType").each(function(){
+			 var name = $(this).attr("name");
+			 var value="";
+			 $("table[name='"+name+"'] .tableInput").each(function(){
+				value +="'"+$(this).attr("name")+"':'"+$(this).val()+"',";
+			 });
+			 value = "{"+value.substring(0,value.length-1)+"}";
+			 metaData[""+name+""] = eval('(' + value + ')');
+		});
+		var cmd = new LEx.Command("app.icity.govservice.LicenseCmd");
+		cmd.setParameter("metaData",metaData);
+		cmd.setParameter("surface",surface);
+		cmd.setParameter("oldData",oldData);
+		cmd.setParameter("type","renew");
+		//附件暂未使用
+		//cmd.setParameter("attachment",attachment);
+		//cmd.setParameter("attachmentFilename",attachment_filename);
+		cmd.setParameter("surfacePicture",surfacePicture);
+		cmd.setParameter("surfacePictureFilename",surfacePicture_filename);
+		cmd.setParameter("pfiletag",$("#pfiletag").attr("ret"));
+		var ret =  cmd.execute("submitLicence");
+		if(ret.state==1){		
+			LEx.alert("证照修改成功，清到证照查看页面进行查询！");
+		}else{
+			LEx.alert(ret.message);
+		}
+    }
+    function clear(){
+    	$("#surfaceData input").val("");
+    }
+    $.validator.config({
+        rules: {
+        	decimal:[/^\d(.)*\d+$/, "请填写数字"]
+        }
+    });
+    $("#info-form").validator({
+		theme:"yellow_right_effect",
+		valid: function(ss) {//成功
+			 submit();
+		   }
+	});
+    /**
+     * 格式化持证人类型
+     */
+    function formateHolderType(type) {
+    	 var type = type.replace("natural","自然人");
+    	 type = type.replace("enterprises","法人");
+    	 type =type.replace("organization","团体组织");
+    	 return type;
+    }
+    
+    function formatMetaDataField(metaDataField){
+    	if (metaDataField=="License_Number")
+    		return "licenseNumber";
+    	else if (metaDataField=="Certificate_Date")
+    		return "certificateDate";
+    	else if (metaDataField=="Valid_Period_Begin")
+    		return "validPeriodBegin";
+    	else if (metaDataField=="Valid_Period_End")
+    		return "validPeriodEnd";
+    	else if (metaDataField=="Dept_Name")
+    		return "deptName";
+    	else
+    		return "Other";
+    }
+    
+  //上传文件开始
+    function initFileUpload() {
+    	$('.fileupload').fileupload({
+    		url : LEx.webPath+"bsp/uploadify?action=uploadagent4wp&ucid={{UserInfo.uid}}",
+    		dataType : 'json',
+    		autoUpload : true,
+    		sequentialUploads : true,
+    		//forceIframeTransport : true,
+    		add : function(e, data) {
+    			var check=true;
+    			$.each(data.files, function(i, file) {
+    				var fileSize='157286400';
+    				var fileMin = '0';
+    				if(file.size>fileSize){
+    					LEx.alert(file.name+":文件太大!");
+    					return check=false;
+    				}else if(file.size<=fileMin){
+    					LEx.alert("上传文件不可为空!");
+    					return check=false;
+    				}
+    				//文件限制分类
+    				var reg=/(pdf|bmp|jpe?g|png)$/i;
+    				var extName = file.name.substring(file.name.lastIndexOf(".")+1);
+    				if(!reg.test(extName)){
+    					LEx.alert("不支持的图片类型！");
+    					return check=false;
+    				}
+    			});
+
+    			if(check){
+    				data.submit();
+    			}
+    		},
+    		done :uploadSuccess,
+    		fail : function(e, data) {
+    			if(ltIE9()){
+    				$('#progress_IE8').hide();
+    			}else{
+    				$('#progress').hide();
+    			}
+    			LEx.alert("上传附件失败!");
+    		},
+    		progressall: function (e, data) {
+    			if(ltIE9()){
+    				$('#progress_IE8').show();
+    			}else{
+    				$('#progress').show();
+    				var progress = parseInt(data.loaded / data.total * 100, 10);
+    				$('.progress-val-l').text(progress + '%');
+    				$('#bar').css(
+    						'width',
+    						progress + '%'
+    				);
+    			}
+    		}
+    	});
+    }
+    function uploadSuccess(e, serverData) {
+    	if(ltIE9()){
+    		$('#progress_IE8').hide();
+    	}else{
+    		$('#progress').hide();
+    	}
+    	var id=$(this).attr("id");
+    	var i = 0;
+    	for(i=0;i<serverData.result.length;i++){
+    		var data = serverData.result[i];
+    		if(data.scc.code!="0000"){
+    			docids=[];
+    			LEx.alert("上传失败,请重新上传！");
+    			return;
+    		}
+    		$("#list_"+id).append("<div style=\"text-align:right;margin-bottom:10px;\" id=\"file_"+data.scc.docid+"\">"+formatLenStr(data.name,0,20)+"<a class='btn btn-danger btn-xs'  onclick=\"onDel(this);\">删除</a>"+"</div>");
+    		$("#file_"+data.scc.docid).attr("title",data.name);
+    		$("#file_"+data.scc.docid).attr("url",data.url);
+    		if(id=="pictureFile") {
+    			attachment += data.scc.docid+";";//上传图像
+    			attachment_filename += data.name+";";
+    		}else if(id=="photoFile"){
+    			attachment += data.scc.docid+";";//拍照上传
+    			attachment_filename += data.name+";";
+    		} else{
+    			surfacePicture += data.scc.docid+";";//照面上的图片
+    			surfacePicture_filename += data.name+";";
+    		}
+    	}
+    }
+    function ltIE9(){
+    	if(LEx.isIE&&$.browser.version<9){
+    		return true;
+    	}
+    	return false;
+    }
+  //删除附件
+    function onDel(obj){
+    	var filePath = $(obj).parent().attr("id").replace("file_","")+";";
+    	var id=  $(obj).parent().parent().attr("id").replace("list_","");
+    	if(id=="pictureFile") {
+    		attachment = attachment.replace(filePath,"");//上传图像
+    	}else if(id=="photoFile"){
+    		attachment = attachment.replace(filePath,"");//拍照上传
+    	} else{
+    		surfacePicture = surfacePicture.replace(filePath,"");//照面上的图片
+    	}
+    	$(obj).parent().remove();
+    	return false;
+    }
+    </script>
+</body>
+</html>

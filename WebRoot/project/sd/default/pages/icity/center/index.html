@@ -1,0 +1,136 @@
+<style type="">
+    .its-usernav > li > a {
+        color: #fff;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        font-size: 16px;
+        padding-left: 60px;
+        border-bottom: 1px solid #fff;
+    }
+    .its-usernav > li > a .fa {
+        display: inline-block;
+        width: 24px;
+        margin-right: 10px;
+        text-align: center;
+    }
+    .its-usernav > li > a:hover,
+    .its-usernav > li > a:focus  {
+        background-color: transparent;
+    }
+    .its-usernav > li.active > a {
+        background-color: #fff;
+        border-left: 4px solid #ee7151;
+        color: #ee7151;
+    }
+    .row {
+      margin-left: 0px; 
+      margin-right: 0px; 
+	}
+	.pages span {
+	    margin: 0 4px;
+	    display: inline-block;
+	    height: 22px;
+	    line-height: 22px;
+	    background: #5a85b2;
+	    border: 1px solid #5a85b2;
+	    color: #fff;
+	    text-align: center;
+	    padding: 0 10px;
+	}
+.pages a {
+    margin: 0 4px;
+    display: inline-block;
+    height: 22px;
+    line-height: 22px;
+    background: #fff;
+    border: 1px solid #d8d8d8;
+    text-align: center;
+    color: #333;
+    padding: 0 10px;
+    background-color: #fff;
+}
+    .pages a.a1 {
+	    background: #fff url({%public assets/img/pages.png%}) no-repeat 0 5px;
+	    padding: 0 10px;
+	}	
+	
+	
+</style>
+<link rel="stylesheet" href="{%public assets/css/font-awesome.min.css%}">
+<link rel="icon" href="{%public assets/ico/favicon.ico%}">
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/chart/highcharts.js"></script>
+
+<!--[if lt IE 9]>
+        <script src="http://cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+        <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+{% set WebRegion ConfigInfo.WebRegion %}
+<div class="container"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png %}"> 您当前所在的位置:</li>
+        <li><a href="#">首页</a></li>
+        <li><a href="#">用户中心</a></li>
+    </ol>
+</div>
+<div class="container"> 
+    <div class="table-table">
+        <div class="table-cell its-aside" style="background-color: #0085c3;">
+            <h4 style="padding: 15px 20px; color: #fff;text-align:center;" >
+                <a class="pull-right" href="{{cp}}uc/{% if UserInfo.TYPE|equal:11 %}accmanager{% else %}setting{% endif %}"><img src="{%public assets/img/zjfw_yhzx__25.png %}" width="20"></a>
+                <strong>{{UserInfo.userName}}</strong>
+            </h4>
+            <ul class="nav its-usernav">
+                <li class="active"><a href="javascript:void(0);" class="business_tab" folder="business" tag="business_list">
+                	<i class="fa fa-file-text fa-lg"></i> 我的办件</a>
+                </li>
+                <li><a href="javascript:void(0);" class="business_tab" folder="active" tag="business_evaluate">
+                	<i class="fa fa-trophy fa-lg"></i> 我的评价</a>
+                </li>
+               <li><a href="javascript:void(0);" class="business_tab" folder="active" tag="business_complaint_list">
+                	<i class="fa fa-tty fa-lg"></i>办件投诉</a>
+                </li>
+                <li><a href="javascript:void(0);" class="business_tab" folder="active" tag="business_complaint">
+                	<i class="fa fa-tty fa-lg"></i> 我的投诉</a>
+                </li>
+                <li><a href="javascript:void(0);" class="business_tab" folder="active" tag="business_ask">
+                	<i class="fa fa-comments-o fa-lg"></i> 我的咨询</a>
+                </li>
+                <li><a href="javascript:void(0);" class="business_tab" folder="active" tag="business_favorite">
+                	<i class="fa fa-star fa-lg"></i> 我的收藏</a>
+                </li>
+                 <li><a href="javascript:void(0);" class="business_tab" folder="business" tag="business_stat">
+                	<i class="fa fa-area-chart fa-lg"></i> 我的统计</a>
+                </li>
+                <li><a href="javascript:void(0);" class="business_tab" folder="active" tag="business_document">
+                	<i class="fa fa-tasks fa-lg"></i> 我的资料库</a>
+                </li>
+                <li><a href="javascript:void(0);" class="business_tab" folder="active" tag="pro_list">
+                	<i class="fa fa-tasks fa-lg"></i> 投资项目</a>
+                </li>
+                {% if ConfigInfo.UniteIdentifyFlag|equal:'1' %}
+                <li><a href="javascript:void(0);" class="business_tab" folder="active" tag="user_bind">
+                	<i class="fa fa-tasks fa-lg"></i>旧用户绑定</a>
+                </li>
+                {% endif%}
+            </ul>
+        </div>       
+        <div class="table-cell its-page" id="center-main">
+            
+            
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('.nav-tabs > li > a').hover(function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        })
+    });
+    $(function() {
+        $(".dropdown-menu").on("click", "[data-stopPropagation]", function(e) {
+            e.stopPropagation();
+        });
+    }); 
+</script>

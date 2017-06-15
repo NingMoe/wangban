@@ -1,0 +1,118 @@
+<header id="header" class="yi-subhead" style="margin-bottom: 20px; ">
+    <div class="container">
+        <h3>阳光政务 <small>依法、公正、透明、高效的行政审批服务</small></h3>
+    </div>
+</header>
+    
+<div id="page" class="container" style="background-color: #ffffff;">
+    <div class="row tile-group">
+        <div class="col-xs-3"  onclick="power('power');">
+            <section class="tile text-center btn-primary" style="height: 120px;">
+                <div class="tile-inner">
+                    <h4><i class="mdicon mdicon-local-library f64"></i> 行政权力清单</h4>
+                </div>
+            </section>
+        </div>
+        <div class="col-xs-3" onclick="power('response');">
+            <section class="tile text-center btn-success" style="height: 120px;">
+                <div class="tile-inner">
+                    <h4><i class="mdicon mdicon-receipt f64"></i> 部门责任清单</h4>
+                </div>
+            </section>
+        </div>
+        <div class="col-xs-3"  onclick="power('binlist');">
+            <section class="tile text-center btn-warning" style="height: 120px;">
+                <div class="tile-inner">
+                    <h4><i class="mdicon mdicon-domain f64"></i> 企业投资负面清单</h4>
+                </div>
+            </section>
+        </div>
+        <div class="col-xs-3"  onclick="power('specialfund');">
+            <section class="tile text-center btn-danger" style="height: 120px;">
+                <div class="tile-inner">
+                    <h4><i class="mdicon mdicon-local-atm f64"></i> 财政专项资金管理清单</h4>
+                </div>
+            </section>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row tile-group">
+        <div class="col-xs-2"  onclick="policiesList('flfg')">
+            <section class="tile text-center bg-info" style="height: 100px;">
+                <div class="tile-inner">
+                    <i class="mdicon mdicon-layers f36"></i> 
+                    <h5>政策法规</h5>
+                </div>
+            </section>
+        </div>
+        <div class="col-xs-2"  onclick="onlineSurvey()">
+            <section class="tile text-center bg-info" style="height: 100px;">
+                <div class="tile-inner">
+                    <i class="mdicon mdicon-local-pharmacy f36"></i> 
+                    <h5>网上调查</h5>
+                </div>
+            </section>
+        </div>
+        <div class="col-xs-2" onclick="dolist()">
+            <section class="tile text-center bg-info" style="height: 100px;">
+                <div class="tile-inner">
+                    <i class="mdicon mdicon-dvr f36"></i> 
+                    <h5>审批办件公告</h5>
+                </div>
+            </section>
+        </div>
+        {% include govservice/reply.html %}
+        <div class="col-xs-2" onclick="doWrite()">
+            <section class="tile text-center bg-info" style="height: 100px;">
+                <div class="tile-inner">
+                    <i class="mdicon mdicon-forum f36"></i> 
+                    <h5>智能问答</h5>
+                </div>
+            </section>
+        </div>
+        <div class="col-xs-2" onclick="gotoComplain('consult')">
+            <section class="tile text-center bg-info" style="height: 100px;">
+                <div class="tile-inner">
+                    <i class="mdicon mdicon-contacts f36"></i> 
+                    <h5>我要咨询</h5>
+                </div>
+            </section>
+        </div>
+        <div class="col-xs-2" onclick="gotoComplain('complain')">
+            <section class="tile text-center bg-info" style="height: 100px;"><!-- bg-danger -->
+                <div class="tile-inner">
+                    <i class="mdicon mdicon-mode-edit f36"></i> 
+                    <h5>我要投诉</h5>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<hr>
+<script>
+function eventPublic(cname){
+	window.location.href="{{cp}}"+"sunny/eventpublic?cname="+encodeURIComponent(cname);
+}
+
+function gotoComplain(obj){
+	window.location.href="{{cp}}"+obj;
+}
+
+function approvals(){
+	window.location.href="{{cp}}"+"sunny/approvals";
+}
+function policiesList(type){
+	window.location.href="{{cp}}"+"sunny/policieslist?type="+type;
+}
+
+function power(obj){
+	window.location.href="{{cp}}"+"sunny/"+obj;
+}
+function dolist(){
+	window.location.href="{{cp}}dolist";
+}
+function onlineSurvey(){
+	window.location.href="icity/interactive/onlineSurvey"
+}
+</script>

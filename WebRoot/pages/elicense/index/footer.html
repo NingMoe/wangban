@@ -1,0 +1,17 @@
+<footer class="footer-1611011530">
+	<p class="text-center text-muted small">版权所有：浪潮云服务集团 Copyright ©
+		2016 Inspur, All rights reserved</p>
+</footer>
+<script type="text/javascript">
+function doLogin(ucPath,loginType) {	
+    var redirectTo=LEx.webPath+"login?goto="+encodeURIComponent(window.location.href);
+	window.location.href = redirectTo;
+    return false;
+}
+function doLogout(ucPath) {
+	var logout_url=null;	 
+		logout_url = LEx.webPath+"logout?goto="+encodeURIComponent(window.location.href);
+	window.location.href = logout_url;
+    return false;
+}
+</script>

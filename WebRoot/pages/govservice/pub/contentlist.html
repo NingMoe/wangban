@@ -1,0 +1,392 @@
+<style>
+.picnews {
+	width: 328px;
+	border: 0px solid #dcdddd;
+}
+
+.picnews .bigImg {
+	position: relative;
+	width: 328px;
+	height:192px;
+}
+.table{
+  margin-bottom:0px;
+}
+.picnews .bigImg li {
+	position: absolute;
+	width: 328px;
+	left: 0px;
+	top: 0px;
+	display: list-item;
+}
+
+body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
+	pre, a, abbr, acronym, address, code, del, dfn, em, q, dl, dt, dd, ol,
+	ul, li, fieldset, form, legend, caption, tbody, tfoot, thead, article,
+	aside, dialog, figure, footer, header, hgroup, nav, section {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 14px;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+.list-unstyle {
+	list-style: none;
+	padding-left: 0;
+}
+
+body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, a, td {
+	font-family: Microsoft YaHei, '微软雅黑', Tahoma, Helvetica, Arial,
+		"\5b8b\4f53", sans- serif;
+}
+
+a {
+	color: #000000;
+	text-decoration: none;
+}
+
+a {
+	background: transparent;
+}
+
+a:focus, a:hover {
+	color: #0a8;
+}
+
+a:active, a:hover {
+	outline: 0;
+}
+
+a:hover {
+	color: #23a3ee;
+}
+
+.picnews .bigImg li img {
+	width: 328px;
+	height: 164px;
+}
+
+.picnews .bigImg  h4 {
+	font-size: 12px;
+	width: 328px;
+	font-weight: bold;
+	line-height: 29px;
+	height: 29px;
+	overflow: hidden;
+	text-align: center;
+	background-color: #f3f3f3;
+}
+
+.picnews .smallScroll {
+	height: 50px;
+	background-color: #f3f3f3;
+	width: 328px;
+}
+
+.picnews .smallImg {
+	float: left;
+	display: inline;
+	width: 328px;
+}
+
+.picnews .smallImg ul {
+	height: 54px;
+	width: 328px;
+}
+
+.picnews .smallImg li {
+	float: left;
+	width: 76px;
+	margin: 0px 3px;
+}
+
+.picnews .smallImg img {
+	border: 1px solid #dcdddd;
+	width: 76px;
+	height: 50px;
+}
+
+.picnews .smallImg .on img {
+	border-color: #1e50a2;
+	border: #F60 2px solid;
+}
+.picnews .smallImg .on img {
+border-color: #1e50a2;
+border: #F60 2px solid;
+}
+</style>
+<script src="{{PageContext.PagePath}}icity/submitsp/assets/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="{% public assets/js/jquerySlide.js %}"></script>
+
+<script type="text/javascript">
+		plugin.add('dialog', {
+			path: '{{cp}}public/scripts/dialog/a?t=js&m=jquery.artDialog.js,plugins/iframeTools.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['dialog_css']
+		});
+		plugin.add('dialog_css', {
+			path: '{{cp}}public/scripts/dialog/skins/default.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		plugin.add('tree', {
+			path: '{{cp}}public/scripts/zTreeStyle/jquery.ztree.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['tree_css']
+		});
+		plugin.add('tree_css', {
+			path: '{{cp}}public/scripts/zTreeStyle/zTreeStyle.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		
+		plugin.add('calendar', {
+			path: '{{cp}}public/scripts/calendar/calendar-min.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['calendar_css']
+		});
+		plugin.add('calendar_css', {
+			path: '{{cp}}public/scripts/calendar/calendar-min.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		plugin.add('editor',{path:'{{cp}}public/scripts/kindeditor/kindeditor-min.js',type:'js',charset:'utf-8'});
+		plugin.add('fullCalendar',{
+			path:'{{cp}}public/scripts/fullcalendar/fullcalendar.js',
+			type:'js',
+			charset:'utf-8',
+			rely: ['jquery_ui']
+		});
+		
+		plugin.add('jquery_ui',{
+			path:'{{cp}}public/scripts/fullcalendar/jquery-ui-1.10.2.custom.min.js',
+			type:'js',
+			charset:'utf-8',
+			rely: ['fullCalendar_css']
+		});
+		
+		plugin.add('fullCalendar_css',{
+			path:'{{cp}}public/scripts/fullcalendar/a?t=css&m=fullcalendar.css,fullcalendar.print.css',
+			type:'css',
+			charset:'utf-8'
+		});
+	</script>
+<script>
+var names={"tzgg":"通知公告","tpxw":"图片新闻","zxdt":"中心动态","cjwt":"常见问题"};
+var type = "tzgg";
+
+$(function(){
+	if(LEx.urldata.type){
+		type = LEx.urldata.type;	
+	}	
+	$(".active").removeClass("active");
+	$("#"+type).addClass("active");
+	$("#list_name").html(($("#"+type).find("a").html()).split("》")[1]);
+	
+	$('.jqpagination').jqPagination({
+		paged: function(page) {
+			onQueryZcfg(page,names[type]);
+		},
+		page_string:"第{current_page}页   共{max_page}页"
+	});
+	
+	onQueryZcfg(1,names[type]);
+	$.each(deptList.data.organ, function(i,elem){
+		$("#deptSelect").append("<option value='"+elem.CODE+"' >"+elem.NAME+"</option>");
+	});
+});
+
+$(function(){
+	$("#ul_list > li").click(function(){
+		$(".active").removeClass("active");
+		$(this).addClass("active");
+		$("#list_name").html(($(this).find("a").html()).split("》")[1]);
+		type = $(this).attr("id");
+		$("#thenav").html(names[type]);
+		onQueryZcfg(1,names[type]);
+	});
+});
+function onQueryZcfg(start,name){
+ 	var limit=10;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("start",(start-1)*limit);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	cmd.setParameter("open","1");
+	cmd.setParameter("name", name);
+	
+	cmd.setParameter("startTime", $("#startTime").val());
+	cmd.setParameter("endTime", $("#endTime").val());
+	cmd.setParameter("keyWord", $("#keyWord").val());
+	cmd.setParameter("dept", $("#deptSelect").val());
+	
+	var ret =  cmd.execute("getPoliciList");
+	$("#thenav").html(name);
+	if(!ret.error){
+		if("tpxw"==type){
+			onQuery(1,"图片新闻",5,1);
+		}else{
+			$("#ul_sspdw_zcfg").html(LEx.processDOMTemplate('zcfgContentTemplate',ret));
+			var total=ret.total;
+			total=Math.ceil(total/limit);
+			if(total==0){
+				$("#project-none").show();
+				$('.jqpagination').hide();
+			}
+			else{		
+				$("#project-none").hide();
+				$('.jqpagination').show();
+				$('.jqpagination').jqPagination('option',{current_page:start,max_page:total,trigger:false});
+			}
+		}
+	}else{
+		LEx.alert(ret.error);
+	} 
+}
+function search(){
+	type = $("#ul_list .active").attr("id");
+	onQueryZcfg(1,names[type]);
+}
+function onQuery(start,cnamea,lim,lon){		
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("content.rid@=", getSecurityValue("WebRegion"));
+	cmd.setParameter("channel.name@=", cnamea);
+	if(cnamea=="图片新闻"){
+	    cmd.setParameter("PicModel",'1');
+	}
+    cmd.setParameter("CHECKS@=", '1');
+    cmd.setParameter("sort"," CTIME DESC");
+	cmd.setParameter("start", (start-1)*lim);
+	cmd.setParameter("limit", lim);
+	var ret = cmd.execute("getListNew");
+
+	if(!ret.error){
+			$('#p1').html(LEx.processDOMTemplate('MattersListTemplatep1',ret));
+			jQuery(".picnews").slide({
+                titCell: ".smallImg li",
+                mainCell: ".bigImg",
+                effect: "fold",
+                autoPlay: true,
+                delayTime: 200,
+                startFun: function(i, p) {
+                    //控制小图自动翻页
+                }
+            });
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+
+
+</script>
+<script type="text/template" id="zcfgContentTemplate">
+<tbody>
+{for o in data}
+<tr>
+    <td><a href="{{PageContext.ContextPath}}govservice/pub/contentDetail?id=${o.ID}" title="${o.NAME}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${formatLen(o.NAME,0,50)}</a></td>
+    <td>${LEx.util.Format.formatDate(o.CTIME)}</td>
+</tr>
+{/for}
+</tbody>
+</script>
+<article class="yt-content" >
+<ol class="breadcrumb alpha omega transparent">
+    <li>当前位置</li>
+    <li><a href="{{cp}}">首页</a></li>
+  <!--    <li><a href="{{cp}}sunny">阳光政务</a></li>-->
+    <li class="active" id="thenav">通知公告</li>
+</ol>
+<div id="page" class="container" style="width: 100%; background-color:#fff;">
+	<div class="row" style="  padding-top: 10px;">
+        <div class="col-xs-3">
+            <div class="panel-group" id="accordion" role="tablist">
+                <div class="panel panel-success">
+                 
+                        <div class="panel-body" style="background:#fafafa;height: 320px;">
+                            <ul class="nav sidenav" id="ul_list">
+                                <li id="tzgg" class="active"><a href="{{cp}}govservice/pub/contentlist?type=tzgg" style="padding: 10px 5px;">》通知公告</a></li>
+                                <li id="tpxw"><a href="{{cp}}govservice/pub/contentlist?type=tpxw" style="padding: 10px 5px;">》图片新闻</a></li>
+                                <li id="zxdt"><a href="{{cp}}govservice/pub/contentlist?type=zxdt" style="padding: 10px 5px;">》中心动态</a></li>
+                                <li id="cjwt"><a href="{{cp}}govservice/pub/contentlist?type=cjwt" style="padding: 10px 5px;">》常见问题</a></li>
+                            </ul>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-9">
+            <section class="panel panel-success">
+				<header class="panel-heading">
+					<h3 class="panel-title" id="list_name"></h3>
+				</header>
+				
+				<div class="container main_con">
+				<div class="line-middle padding-top">
+                <div class="center_picnews">
+					<div class="picnews" id="p1"></div>
+				</div>
+				</div>
+				</div>
+				
+				
+				<div class="panel-body zl-thumbnails-ggfu-2" >
+                    <table class="table table-hover" id="ul_sspdw_zcfg">
+                       
+                    </table>
+                <div id="project-none" style="display:none;font-size:30px;font-weight:bold;text-align:center;">无相关内容</div>
+                <nav class="text-center">
+                <div class="jqpagination" style="display:none;">
+			    <a href="#" class="first" data-action="first">&laquo;</a>
+			    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+			    <input type="text" readonly="readonly"  data="max-page:23" />
+			    <a href="#" class="next" data-action="next">&rsaquo;</a>
+			    <a href="#" class="last" data-action="last">&raquo;</a>
+				</div>
+                </nav>
+                    
+				</div>
+				
+				
+			</section>
+            
+        </div>
+    </div>
+</div>
+</article>
+<script type="text/template" id="MattersListTemplatep1">
+<ul class="bigImg list-unstyle" style="position: relative; width: 328px; height: 229px;">
+{for o in data }
+{if o_index<4}
+   <li>
+       <a href="{{cp}}govservice/pub/contentDetail?id=${o.ID}" target="_blank">
+          <img src="{{cp}}file/upload/${o.PICNAME}" />
+       </a>
+       <h4>
+       <a href="{{cp}}govservice/pub/contentDetail?id=${o.ID}" target="_blank">
+          ${o.NAME}
+       </a>
+       </h4>
+  </li>
+{/if}
+{/for}
+</ul>
+<div class="smallScroll">
+    <div class="smallImg">
+        <ul class="list-unstyle">
+{for o in data }
+{if o_index<4}
+   <li>
+       <a>
+           <img src="{{cp}}file/upload/${o.PICNAME}" />
+       </a>
+   </li>
+{/if}
+{/for}
+                                    </ul>
+                                </div>
+                            </div>
+</script>

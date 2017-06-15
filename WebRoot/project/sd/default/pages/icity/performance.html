@@ -1,0 +1,79 @@
+<body style="background-color: #f5f5f5;">
+    <div class="container">
+	<ol class="breadcrumb">
+		<li><img src="{%public assets/img/current_home.png %}">
+			您当前所在的位置:</li>
+		<li><a href="{{cp}}public/index">首页</a>
+		</li>
+		<li><a href="javascript:void(0)">绩效考核</a>
+		</li>
+	</ol>
+</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4">
+
+                <section class="panel no-bordered clearfix">
+                    <header class="clearfix bg-primary" style="padding: 10px 20px;background:#ff9800">
+                    	<a class="pull-right" data-toggle="tooltip" data-placement="bottom" title="各部门实现网上申报的事项占总事项数的比率">说明</a>
+                    	<h4 style="margin:0;"><i class="fa fa-sign-in fa-lg" style="margin-right: 10px; margin-left: -5px;"></i><strong>服务进驻率</strong></h4>
+                    </header>
+                    <div class="tab-content">
+                    	{% map "start","0","page","1","limit","1","name","服务进驻率" as p %}
+						{% command "app.icity.govservice.GovProjectCmd","getContentInfo",p as d %}
+						{% for o in d.data %}
+                        {% map "id",o.ID as h %}
+						{% command "app.icity.govservice.GovProjectCmd","getContentDetail",h as f %}
+                        <table class="table table-condensed f12">
+						{{f.data.CONTENT}}
+                        </table>
+						{% endfor %}
+                    </div>
+                </section>
+            </div>
+            <div class="col-xs-4">
+                <section class="panel no-bordered clearfix">
+                    <header class="clearfix bg-primary" style="padding: 10px 20px;background-color: #009688;">
+                        <a class="pull-right" data-toggle="tooltip" data-placement="bottom" title="各部门实现统一网上申报（单点登录）的事项占全部事项网上申报的事项比率">说明</a>
+                        <h4 style="margin:0;"><i class="fa fa-dot-circle-o fa-lg" style="margin-right: 10px; margin-left: -5px;"></i><strong>服务整合度</strong></h4>
+                    </header>
+                    <div class="tab-content">
+                        {% map "start","0","page","1","limit","1","name","服务整合度" as p %}
+						{% command "app.icity.govservice.GovProjectCmd","getContentInfo",p as d %}
+						{% for o in d.data %}
+                        {% map "id",o.ID as h %}
+						{% command "app.icity.govservice.GovProjectCmd","getContentDetail",h as f %}
+                        <table class="table table-condensed f12">
+						{{f.data.CONTENT}}
+                        </table>
+						{% endfor %}
+                    </div>
+                </section>
+            </div>
+            <div class="col-xs-4">
+                <section class="panel no-bordered clearfix">
+                    <header class="clearfix bg-primary" style="padding: 10px 20px;background-color: #03a9f4;">
+                        <a class="pull-right" data-toggle="tooltip" data-placement="bottom" title="按各部门事项办事进度统一查询的事项占全部事项的比率">说明</a>
+                        <h4 style="margin:0;"><i class="fa fa-search fa-lg" style="margin-right: 10px; margin-left: -5px;"></i><strong>查询便捷度</strong></h4>
+                    </header>
+                    <div class="tab-content">
+                        {% map "start","0","page","1","limit","1","name","查询便捷度" as p %}
+						{% command "app.icity.govservice.GovProjectCmd","getContentInfo",p as d %}
+						{% for o in d.data %}
+                        {% map "id",o.ID as h %}
+						{% command "app.icity.govservice.GovProjectCmd","getContentDetail",h as f %}
+                        <table class="table table-condensed f12">
+						{{f.data.CONTENT}}
+                        </table>
+						{% endfor %}
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+$(function () {
+	  $('[data-toggle="tooltip"]').tooltip()
+	})
+</script>

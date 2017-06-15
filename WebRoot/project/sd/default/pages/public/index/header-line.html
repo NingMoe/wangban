@@ -1,0 +1,32 @@
+<div class="its-banner">
+     <div class="container">
+         <header class="navbar navbar-static-top its-navigation" style="z-index: 90;">
+            <div class="btn-group pull-left open its-quick-tool">
+                <a class="dropdown-toggle" data-toggle="collapse" href="#qtCollapse">
+                    快捷工具
+                </a>
+                <ul class="dropdown-menu collapse in" id="qtCollapse">
+                    <li><a class="notice" href="{{cp}}govservice/notice"><i class="nc-icon-outline design_bullet-list-67 btn-danger"></i>通知公告</a></li>
+                    <li><a class="track" href="{{cp}}govservice/queryprogress"><i class="nc-icon-outline location_explore btn-warning"></i>办件跟踪</a></li>
+                    <li><a class="user" href="{{cp}}govservice/complainprogress"><i class="nc-icon-outline users_circle-10 btn-success"></i>投诉查询</a></li>
+                    <li><a class="station" href="{{cp}}icity/location"><i class="nc-icon-outline location_position-pin"></i>现场办理点</a></li>
+                    <li><a class="robot" href="{{cp}}govservice/robot"><i class="nc-icon-outline emoticons_monster"></i>智能机器人</a></li>
+                    <li><a class="question" href="{{cp}}govservice/question"><i class="nc-icon-outline ui-1_edit-73 btn-success"></i>常见问题</a></li>
+                    <li><a class="suggest" href="{{cp}}govservice/suggestion"><i class="nc-icon-outline ui-1_edit-73 btn-success"></i>评价建议</a></li>
+                </ul>	
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="{{cp}}icity/project">办事服务</a></li>
+                <li><a href="{{cp}}icity/result">结果公示</a></li>
+                <li><a href="{{cp}}icity/consult">办事咨询</a></li>
+                <li><a href="{{cp}}icity/assess">监督评议</a></li>
+                <li><a href="{{cp}}icity/performance">绩效考核</a></li>
+               	<li><a href="http://www.lczjfw.gov.cn/zhongjiecs/index6.aspx" target="_blank" style="cursor: pointer;">中介超市</a></li>
+            	<li style="position: absolute;right: 20px;"><a id="help" href="{{cp}}govservice/help" target="_blank">使用帮助</a></li>
+            </ul>  
+        </header> 
+        <section class="carousel">
+            <img src="{{PageContext.ContextPath}}project/sd/default/public/assets/img/banner_{{ConfigInfo.WebRegion}}.jpg" width="1230" height="425" onerror="javascript:this.src='{%public assets/img/banner.jpg%}';" alt="pic">
+        </section>
+     </div>
+ </div>

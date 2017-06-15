@@ -1,0 +1,55 @@
+<article class="yt-content">
+	<div>
+		{% set params PageContext.Parameter%} 
+		{% map "key",params.key,"start",params.start,"limit","8" as p%} 
+		{% command "app.icity.ipro.IproSearchCmd","getIndex",p as d %}
+		<div class="h4">
+			共搜到关于<span style="color: red;">{{params.key}}</span>的<span style="color: red;">{{d.total}}</span>条相关数据
+		</div>
+		<div id="content" style="margin-top: 0px;">
+			<ul class="list-group panel-body yi-list-group-l2">
+				{% for o in d.data%} {% if o.TYPE|equal:"project"%}
+				<li class="list-group-item" style="padding: 5px;">
+				{% if o.NAME%}
+					<h5>
+						[事项]<a href="guide_detail?itemId={{o.ITEM_ID}}" target="_blank">{{o.HL_NAME}}[{{o.REGION_NAME}}]</a>
+					</h5> <!--                 {%else%} --> <!--                			<h5>[主题：{{o.HL_TITLE_NAME}}]<a href="{{cp}}approve/guide?id={{o.ID}}" target="_blank">{{o.NAME}}</a></h5> -->
+					<!--                 {%endif%} --> <!--                     </li> -->
+					{%else%} {%if o.TYPE|equal:"catalog"%}
+				<li class="list-group-item" style="padding: 5px;">
+					<h5>
+						[事项目录]<a href="guidelist_info?code={{o.CODE}}" target="_blank">{{o.HL_NAME}}[{{o.DIVISION_CODE}}]</a>
+					</h5>
+				</li> {%else%}
+				<li class="list-group-item" style="padding: 5px;">
+					<h5>
+						<a>{{o.NAME}}</a>
+					</h5>
+				</li> {%endif%} {%endif%} {% endfor %}
+			</ul>
+			<nav class="text-center">
+					<div class="tcdPageCode" ></div>
+			</nav>
+		</div>
+		
+		<script type="text/javascript">
+		$(function(){
+			var start={%if params.start%}{{params.start}}{%else%}1{%endif%},total={{d.total}},limit=8;
+			total=Math.ceil(total/limit);
+			 $('.tcdPageCode').createPage({
+			        pageCount:total,
+			        current:start,
+			        backFn:function(page){
+			        	onQuery(page);
+			        }
+			    });
+		});
+		function onQuery(page) {
+			var key='{{params.key}}';
+			document.location = "?key="+ encodeURIComponent(key)+"&start="+page;
+		} 
+		</script>		
+		
+	</div>
+</article>
+

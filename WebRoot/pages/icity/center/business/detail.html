@@ -1,0 +1,298 @@
+<link rel="stylesheet" type="text/css"
+	href="{{PageContext.CssPath}}center.css" />
+<script type="text/javascript" src="{{PageContext.JsPath}}LEx.form.js"></script>
+<textarea id="listtemplate" style="display: none;">	
+		<div class="flow">
+			{if data.sb.length==null||data.sb.length==0}
+				<div class="flow_notin"  style="position: absolute; left: 69px; top: 28px;">
+					<div style="padding-top: 30px; font-size: 15px;"><span>申办</span></div>
+				</div>
+			{else}
+				<div class="flow_in"
+			style="position: absolute; left: 69px; top: 28px;">
+					<div style="padding-top: 15px;">
+						<ul>
+							<li>环节名称：申办</li>
+							<li>到达时间：${getDate(data.sb[0].SBSJ)}</li>
+							<li>办理时间：${getDate(data.sb[0].SBSJ)}</li>
+						</ul>
+					</div>
+				</div>
+			{/if}
+			{if data.wsysl.length==null||data.wsysl.length==0}
+				<div class="flow_notin" 	style="position: absolute; left: 269px; top: 28px;">
+					<div style="padding-top: 30px; font-size: 15px;"><span>外网预受理</span></div>
+				</div>
+			{else}
+				<div class="flow_in" style="position: absolute; left: 269px; top: 28px;">
+					<div style="padding-top: 15px;">
+						<ul>
+							<li>环节名称：外网预受理</li>
+							<li>到达时间：${getDate(data.sb[0].SBSJ)}</li>
+							<li>办理时间：${getDate(data.wsysl[0].YSLSJ)}</li>
+						</ul>
+					</div> 
+				</div>
+			{/if}
+			{if data.wsysl.length==null||data.wsysl.length==0}
+				<div class="flow_notin" 	style="position: absolute; left: 468px; top: 28px;">
+					<div style="padding-top: 30px; font-size: 15px;"><span>受理</span></div>
+				</div>
+			{else}
+				<div class="flow_in" style="position: absolute; left: 468px; top: 28px;">
+					<div style="padding-top: 15px;">
+						<ul>
+						<li>环节名称：受理</li>
+						<li>到达时间：${getDate(data.wsysl[0].YSLSJ)}</li>
+						<li>办理时间：{if data.sl.length!=null&&data.sl.length>0}${getDate(data.sl[0].SLSJ)}{/if}</li>
+						</ul>
+					</div>
+				</div>
+			{/if}
+			{if data.sl.length==null||data.sl.length==0}
+				<div class="flow_notin"	style="position: absolute; left: 468px; top: 257px;">
+					<div style="padding-top: 30px; font-size: 15px;"><span>审批（处理）</span></div>
+				</div>
+			{else}
+				<div class="flow_in" style="position: absolute; left: 468px; top: 257px;">
+					<div style="padding-top: 15px;">
+						<ul>
+							<li>环节名称：审批（处理）</li>
+							<li>到达时间：${getDate(data.sl[0].SLSJ)}</li>
+							<li>办理时间：{if data.bj.length!=null&&data.bj.length>0}${getDate(data.bj[0].BJSJ)}{/if}</li>
+						</ul>
+					</div>
+				</div>
+			{/if}
+			{if data.bzgz.length==null||data.bzgz.length==0}
+				<div class="flow_notin"  style="position: absolute; left: 269px; top: 137px;">
+					<div style="padding-top: 30px; font-size: 15px;"><span>补交告知</span></div>
+				</div>
+			{else}
+				<div class="flow_in" style="position: absolute; left: 269px; top: 137px;">
+					<div style="padding-top: 15px;">
+						<ul>
+						<li>环节名称：补交告知</li>
+						<li>到达时间：${getDate(data.bzgz[0].BJGZSJ)}</li>
+						<li>办理时间：{if data.bzsl.length!=null&&data.bzsl.length>0}${getDate(data.bzsl[0].BJSJ)}{/if}</li>
+						</ul>
+					</div>
+				</div>
+			{/if}
+			{if data.bzsl.length==null||data.bzsl.length==0}
+				<div class="flow_notin" style="position: absolute; left: 269px; top: 257px;">
+					<div style="padding-top: 30px; font-size: 15px;"><span>补交补正</span></div>
+				</div>
+			{else}
+				<div class="flow_in" style="position: absolute; left: 269px; top: 257px;">
+					<div style="padding-top: 15px;">
+						<ul>
+						<li>环节名称：补交补正</li>
+						<li>到达时间：${getDate(data.bzsl[0].BJSJ)}</li>
+						<li>办理时间：${getDate(data.bzsl[0].BJSJ)}</li>
+						</ul>
+					</div>
+				</div>
+			{/if}
+			{if data.tbcxsq.length==null||data.tbcxsq.length==0}
+				<div class="flow_notin" style="position: absolute; left: 669px; top: 137px;">
+					<div style="padding-top: 30px; font-size: 15px;"><span>特别程序申请</span></div>
+				</div>
+			{else}
+				<div class="flow_in"  style="position: absolute; left: 669px; top: 137px;">
+					<div style="padding-top: 15px;">
+						<ul>
+							<li>环节名称：特别程序申请</li>
+							<li>到达时间：${getDate(data.tbcxsq[0].TBCXKSRQ)}</li>
+							<li>办理时间：{if data.tbcxjg.length!=null&&data.tbcxjg.length>0}${getDate(data.tbcxjg[0].TBCXJSRQ)}{/if}</li>
+						</ul>
+					</div>
+				</div>
+			{/if}
+			{if data.tbcxjg.length==null||data.tbcxjg.length==0}
+				<div class="flow_notin" style="position: absolute; left: 669px; top: 257px;">
+					<div style="padding-top: 30px; font-size: 15px;"><span>特别程序结果</span></div>
+				</div>
+			{else}
+				<div class="flow_in" style="position: absolute; left: 669px; top: 257px;">
+					<div style="padding-top: 15px;">
+						<ul>
+							<li>环节名称：特别程序结果</li>
+							<li>到达时间：${getDate(data.tbcxjg[0].TBCXJSRQ)}</li>
+							<li>办理时间：${getDate(data.tbcxjg[0].TBCXJSRQ)}</li>
+						</ul>
+					</div>
+				</div>
+			{/if}
+			{if data.bj.length==null||data.bj.length==0}
+				<div class="flow_notin" 	style="position: absolute; left: 468px; top: 378px;">
+					<div style="padding-top: 30px; font-size: 15px;"><span>办结</span></div>
+				</div>
+			{else}
+				<div class="flow_in" style="position: absolute; left: 468px; top: 378px;">
+					<div style="padding-top: 15px;">
+						<ul>
+							<li>环节名称：办结</li>
+							<li>到达时间：${getDate(data.bj[0].BJSJ)}</li>
+							<li>办理时间：${getDate(data.bj[0].BJSJ)}</li>
+						</ul>
+					</div>
+				</div>
+			{/if}
+			{if data.bj.length==null||data.bj.length==0}
+				<div class="flow_notin" style="position: absolute; left: 269px; top: 378px;">
+					<div style="padding-top: 30px; font-size: 15px;"><span>出证</span></div>
+				</div>
+			{else}
+				<div class="flow_in" style="position: absolute; left: 269px; top: 378px;">
+					<div style="padding-top: 15px;">
+						<ul>
+							<li>环节名称：出证</li>
+							<li>到达时间：${getDate(data.bj[0].BJSJ)}</li>
+							<li>办理时间：{if data.lqdj.length!=null&&data.lqdj.length>0}${getDate(data.lqdj[0].LQSJ)}{/if}</li>
+						</ul>
+					</div>
+				</div>
+			{/if}
+			{if data.lqdj.length==null||data.lqdj.length==0}
+				<div class="flow_notin" style="position: absolute; left: 69px; top: 378px;">
+					<div style="padding-top: 30px; font-size: 15px;"><span>评价</span></div>
+				</div>
+			{else}
+				<div class="flow_in" style="position: absolute; left: 69px; top: 378px;">
+					<div style="padding-top: 15px;">
+						<ul>
+							<li>环节名称：评价</li>
+							<li>到达时间：${getDate(data.lqdj[0].LQSJ)}</li>
+							<li>办理时间：</li>
+						</ul>
+					</div>
+				</div>
+			{/if}
+		</div>
+</textarea>
+<div class="center">
+	<div id="center-index-middle" class="center-index-middle"></div>
+	<!-- <div id="center_detail_table">
+		<table class="table_form" width="95%" height="100%" cellspacing="1">
+			<tr>
+				<th width="20%">申请人（单位）：</th>
+				<td width="30%"><span class="input1" reg="^.+$" tag=apply_name
+					readonly="readonly" type="text" ></span></td>
+				<th width="20%">有效证件编号：</th>
+				<td width="30%"><span class="input0" reg="^.+$"
+					tag="apply_code"  ></span></td>
+			</tr>
+			<tr>
+				<th>业务编号：</th>
+				<td colspan="3"><span
+					style="width: 680px;  tag="project_name" reg="^.+$" class="input0" ></span></td>
+			</tr>
+			<tr>
+				<th>事项名称：</th>
+				<td colspan="3"><span
+					style="width: 680px;  tag="NAME" reg="^.+$" class="input0" ></span></td>
+			</tr> 
+			 <tr>
+				<th>项目名称：</th>
+				<td colspan="3"><span
+					style="width: 680px;  tag="project_name" reg="^.+$" class="input0" ></span></td>
+			</tr> 
+			<tr>
+				<th>受理单位：</th>
+				<td><span class="input1" reg="^.+$" tag="DNAME"></span></td>
+				<th>事项类型：</th>
+				<td><span class="input0" reg="^.+$" tag="interact_phone"></span></td>
+			</tr>
+			<tr>
+				<th>承诺期限：</th>
+				<td><span class="input1" reg="^.+$" tag="contact_name"></span></td>
+				<th>咨询电话：</th>
+				<td><span class="input0" reg="^.+$" tag="interact_phone"></span></td>
+			</tr>
+			<tr>
+				<th>备注信息：</th>
+				<td colspan="3"><span cols="60" tag="remark" rows="3"
+						style="width: 680px;"></span></td>
+			</tr>
+			
+			
+			<tr>
+				<th>单位地址：</th>
+				<td colspan="3"><span class="input2" tag="address" ></span></td>
+			</tr>
+			<tr>
+				<th>联系人：</th>
+				<td><span class="input1" reg="^.+$" tag="contact_name"></span></td>
+				<th>互动手机：</th>
+				<td><span class="input0" reg="^.+$" tag="interact_phone"></span></td>
+			</tr>
+			
+			<tr>
+				<th>身份证件：</th>
+				<td><select tag="ctype"
+					style="font-size: 14px; font-family: 'Microsoft YAHEI';" disabled="disabled">
+						<option value="10">居民身份证</option>
+						<option value="11">军官证</option>
+						<option value="12">士兵证</option>
+						<option value="20">护照</option>
+						<option value="14">港澳通行证</option>
+				</select></td>
+				<th>证件号码：</th>
+				<td><span class="input0" reg="^.+$" tag="apply_cert_num"></span>
+				</td>
+			</tr>
+			
+		</table>
+	</div>  -->
+</div>
+<script type="text/javascript">
+	var businessList = null;
+	function init() {
+		businessList = new LEx.Control.Table("center-index-middle",
+				"listtemplate");
+
+		//forminit();
+		//查统计数据 
+		onQuery();
+	}
+	function forminit() {
+		LEx.form.init();
+		var bid = LEx.urldata.BID;
+		var command = new LEx.Command("icity.center.index.CenterCmd");
+		command.setParameter("i.bid", bid);
+		var ret = command.execute("getBusinessDetail");
+		if (ret.state == 1) {
+			if (ret.data.length > 0) {
+				var d = ret.data[0];
+				LEx.alert(LEx.encode(d));
+				LEx.form.set("center_detail_table", d);
+			}
+		} else {
+			LEx.dialog({
+				title : "系统提示",
+				content : ret.message,
+				icon : 'error',
+				lock : true
+			});
+		}
+	}
+
+	//查询页面
+	function onQuery() {
+		var bid = LEx.urldata.BID;
+		var cmd = new LEx.Command("icity.center.index.CenterCmd");
+		cmd.setParameter("start", businessList.start());
+		cmd.setParameter("limit", businessList.limit());
+		cmd.setParameter("SBLSH", bid);
+		var ret = cmd.execute("getBusinessDetail");
+		if (!ret.error) {
+			//LEx.alert(LEx.encode(ret));
+			$("#center-index-middle").html(businessList.getHtml(ret));
+			//businessList.toPageBar("epager","businessList",ret.total,"onQuery()");
+		}
+	}
+	function getDate(obj) {
+		return LEx.util.Format.formatDate(obj);//'yyyy-MM-dd HH:mm:ss'
+	}
+</script>

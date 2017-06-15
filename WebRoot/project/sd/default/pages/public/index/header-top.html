@@ -1,0 +1,47 @@
+ <header class="its-header">
+   <div class="container">
+        <div class="row">
+        {% include public/website.html %}
+        <div class="col-xs-4">
+                <div class="input-group its-search">
+                    <input class="form-control key"  onblur="validator();" placeholder="请输入关键字查询..." type="text" onkeydown="if(event.keyCode==13) searchX();">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" onclick="searchX();"><img src="{%public assets/img/ico_sea.png%}"></button>
+                    </span>
+                </div>
+                <div class="clearfix" style="font-size: 13px;">
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="" checked> 全部
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value=""> 权力事项
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="BM"> 服务事项
+                    </label>
+                </div>
+            </div> 
+            </div>
+    </div>
+</header>
+ 
+ <script>
+	function searchX(){
+		 var key=$(".key").val();
+		 var select = $("input[name=inlineRadioOptions]:checked").val();
+		 if(!LEx.isNotNull(key)){
+			 alert("请输入要查询的内容~");
+			 return false;
+		 }
+		 var reg=/['%&?\[\]\*\_&$#@]/; 
+		if(reg.test(key)){
+			alert("输入的内容不能含有特殊字符~");
+			return 0;
+		}
+		 if(LEx.isNotNull(select)){
+			 window.open("{{cp}}jrobot/search?key="+ encodeURIComponent(key)+"&select="+select);
+		 }else{
+			 window.open("{{cp}}jrobot/search?key="+ encodeURIComponent(key));
+		 }
+	}
+ </script>

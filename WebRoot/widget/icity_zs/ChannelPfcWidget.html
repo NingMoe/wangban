@@ -1,0 +1,58 @@
+<script>
+$(function(){
+	onQuerypic(1,"行政服务网漂浮窗",2);
+});
+function onQuerypic(start,cname,limit,isout){
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	//默认只显示通过审核的数据
+    cmd.setParameter("CHECKS@=", '1');
+	cmd.setParameter("start",(start-1)*limit);
+	cmd.setParameter("sort"," ID DESC");
+	cmd.setParameter("limit", limit);
+	cmd.setParameter("name", cname);
+	cmd.setParameter("open", isout);
+	cmd.setParameter("picModel", "1");
+	var ret =  cmd.execute("getContentInfo");
+	if(!ret.error){
+		if(ret.total>0){		
+	   if(cname=="行政服务网漂浮窗"){
+			$('#ad1').html(LEx.processDOMTemplate('MattersListTemplatepfc',ret));
+		}
+		
+		}
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+</script>
+<!-- 漂浮窗  -->
+<script type="text/template" id="MattersListTemplatepfc">
+{var i=0} 
+{for o in data }
+{if o.DOCID != ''}
+{var i=i+1}
+{if i==1}
+           <div style="position:fixed;Z-INDEX: 100;left:1%;top:220px;">
+  <button type="button" class="close" style="margin-top: -5px;">
+			<span>&times;</span>
+		</button>
+          <a href="${o.URL}" target=_blank>
+         <img src="{{cp}}file/upload/${o.PICNAME}" />
+          </a>
+           </div>
+{else i==2}    
+           <div style="position:fixed;Z-INDEX: 100;right:1%;top:220px;">
+  <button type="button" class="close" style="margin-top: -5px;">
+			<span>&times;</span>
+		</button>
+          <a href="${o.URL}" target=_blank>
+         <img src="{{cp}}file/upload/${o.PICNAME}" />
+          </a>
+           </div>
+
+
+
+{/if}
+{/if}
+{/for}
+</script>

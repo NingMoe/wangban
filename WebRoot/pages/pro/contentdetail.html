@@ -1,0 +1,65 @@
+<script type="text/javascript">
+	var cname = LEx.urldata.cname;
+	$(function(){	
+		$("#cname").html(cname);
+		
+		onQuery(cname);
+	});
+	
+	function onQuery(name){
+		var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+		cmd.setParameter("name", cname);
+		var ret =  cmd.execute("getContentDetailByName");
+		if(!ret.error){
+			$("#js-list-group-l2").html(ret.data.CONTENT);
+			$("#js-list-group-l1").html(ret.data.NAME);
+			if(ret.data.upfiles.length!=0){
+	       var extName = ret.data.upfiles[0].NAME.substring(ret.data.upfiles[0].NAME.lastIndexOf(".")+1).toLowerCase();
+	       if(extName=="flv"){
+			var s1 = new SWFObject("{{PageContext.ContextPath}}public/assets/swf/player.swf","ply","490","400","9","#FFFFFF");
+			s1.addParam("allowfullscreen","true");
+			s1.addParam("allowscriptaccess","always");
+			s1.addParam("flashvars","file={{cp}}file/upload/"+ret.data.upfiles[0].NAME);
+			s1.write("Player");
+			}else{
+			$("#data").html(LEx.processDOMTemplate('template',ret));
+			}		
+			}
+		}else{
+			LEx.alert(ret.error);
+		}
+	}
+</script>
+<style>
+.content-body {
+	padding: 15px 50px;
+	border: solid #169BE5 2px;
+}
+</style>
+<div style="background-color: #fff;width:1030px;margin:0px auto;">
+	<ol class="breadcrumb">
+		<li><a href="#">所在位置：</a>
+		</li>
+		<li><a href="index">首页</a>
+		</li>
+		<li class="active" id="cname"></li>
+	</ol>
+	<div class="row" style="padding: 15px 15px;">
+		<div class="col-xs-12 content-body">
+
+			<article style="padding: 0 20px; line-height: 2;">
+			<h4 class="delta text-center" style="line-height: 1.5;">
+				<strong id="js-list-group-l1"> </strong>
+			</h4>
+			<div align="center" id="Player"></div>
+			<p style="text-indent: 2em;" id="js-list-group-l2">无符合条件的数据!</p>
+			</article>
+			<div id="data" style="padding: 15px 15px;"></div>
+		</div>
+	</div>
+</div>
+<textarea id="template" style="display: none;">
+				<div style="margin-top: 20px;">
+		<span style="color: blue; font-size: 16px; font-weight: bold;">附件列表：</span>{for o in data.upfiles}<a
+			href="{{cp}}file/upload/${o.NAME}" target="_blank">${o.YNAME}</a>&nbsp;&nbsp;&nbsp;{/for}</div>
+</textarea>

@@ -1,0 +1,308 @@
+ <link 	href="{% public scripts/fineload/css/jquery.fileupload.css %}"  rel="stylesheet"/>
+<script src="{% public scripts/fineload/js/vendor/jquery.ui.widget.js %}"></script>
+<script src="{% public scripts/fineload/js/jquery.iframe-transport.js %}"></script>
+<script src="{% public scripts/fineload/js/jquery.fileupload.js %}"></script>
+<script  type="text/javascript" src="{% public scripts/des.js %}"></script>
+<link rel="stylesheet" type="text/css" href="{% public assets/css/applycustom.css %}" />
+
+<style type="text/css">
+.btn-warning {
+    color: #ffffff;
+    background-color: #FF9D0C;
+    border-color: #FF9D0C;
+}
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+}	
+.btn-sm,
+.btn-group-sm > .btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 0;
+}
+</style>
+     <div class="jmain">
+        <div class="container" style="background:white;width:890px;overflow:auto;">
+            <div class="row" style="margin-top: 15px;margin-bottom: 40px;">
+                <div class="col-xs-12">
+                    <section class="panel panel-default no-bordered no-shadow" style="border-top: 3px solid #00a8ec !important;">
+	                    <div class="pull-right">
+	                        <div class="btn-toolbar mt10">
+	                        </div>
+	                    </div>
+                    </section>
+                </div>
+                <div class="col-xs-12">
+                    <section class="panel">
+                        <div id="list">
+
+                        </div>
+                    </section>
+                </div>
+            	 <div id = "submitsp" style="bottom:0px;height:30px;text-align:center;">
+				 	 <input type="button" style="width: 68px;" class="btn btn-info save" onclick="saveMaterial();" value="提交" />
+				 </div>            
+            </div>
+        </div>
+    </div>
+<script>
+	var id = LEx.urldata.id; 
+	var receiveid = LEx.urldata.receiveid; 
+	var count_material;
+	onQueryList();
+	var docids=[];
+	
+	$(function() {
+		initFileUpload();
+		
+	});
+	
+	function ltIE9(){
+		if(LEx.isIE&&$.browser.version<9){
+			return true;
+		}
+		return false;
+	}
+	
+	function initFileUpload() {
+		$('.fileupload').fileupload({
+			url : LEx.webPath+"bsp/uploadify?action=uploadagent4wp&ucid="+LEx.userInfo.uid,
+			dataType : 'json',
+			autoUpload : true,
+			sequentialUploads : true,
+			//forceIframeTransport : true,
+			add : function(e, data) {
+				var check=true;
+				$.each(data.files, function(i, file) {
+					var fileSize='157286400';
+					var fileMin = '0';
+					if(file.size>fileSize){
+						LEx.alert(file.name+":文件太大!");
+						return check=false;
+					}else if(file.size<=fileMin){
+						LEx.alert("上传文件不可为空!");
+						return check=false;
+					}
+					//文件限制分类
+					var reg=/(gif|jpe?g|png|dwg|bmp|doc|docx|txt|ppt|pptx|xlsx|xls|pdf|tif|chm|xml|rar|zip|7z|ceb)$/i;
+					var UploadFileReg = getSecurityValue("UploadFileReg");
+					if(UploadFileReg!=""&&UploadFileReg!=undefined){
+						reg = eval(UploadFileReg);
+					}
+					var extName = file.name.substring(file.name.lastIndexOf(".")+1);
+					if(!reg.test(extName)){
+						LEx.alert("不支持的文件类型！");
+						return check=false;
+					}
+				});
+				if(check){
+					data.submit();
+				}
+			},
+			
+			done :uploadSuccess,
+			fail : function(e, data) {
+				if(ltIE9()){
+					$('#progress_IE8').hide();
+				}else{
+					$('#progress').hide();
+				}
+				LEx.alert("上传附件失败!");
+			},
+			progressall: function (e, data) {
+				if(ltIE9()){
+					$('#progress_IE8').show();
+				}else{
+					$('#progress').show();
+					var progress = parseInt(data.loaded / data.total * 100, 10);
+					$('.progress-val-l').text(progress + '%');
+					$('#bar').css(
+							'width',
+							progress + '%'
+					);
+				}
+			}
+		});
+		if(LEx.isNotNull(id)){
+	  	      resourceList();
+	  	}
+	}
+	
+	function onQueryList(){
+    	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+    	command.setParameter("b.id", id);
+    	var ret = command.execute("queryLhtkById");
+    	if(!command.error){
+    		if(ret.state=='1'){
+    			var len = ret.total;
+    			var tr = "";
+    			for(var i = 0;i<len;i++){
+    				var ITEM_NAME = ret.data[i].ITEM_NAME;
+    				var ITEM_ID = ret.data[i].ITEM_ID;
+    				var MATERIAL = ret.data[i].MATERIAL;
+    				var _len = MATERIAL.length;
+    				
+    				count_material = _len;
+    				for(var j=0;j<_len;j++){
+    					
+    					var k = j+1;
+    					
+    					tr += "<tr><td >"+ITEM_NAME+"</td>"+
+						 "<td id=\"id_"+MATERIAL[j].resourceCode+"\" style=\"width:10%;display:none;\">"+ITEM_ID+"</td>"+   
+						 "<td id=\"code_"+MATERIAL[j].resourceCode+"\" style=\"width:10%;display:none;\">"+MATERIAL[j].resourceCode+"</td>"+   
+       			     "<td id=\"name_"+MATERIAL[j].resourceCode+"\" style=\"width:20%;\" title=\""+MATERIAL[j].resourceName+"\">【"+k+"】"+formatLen(MATERIAL[j].resourceName,0,20)+"</td>"+   
+						 "<td id=\"type_"+MATERIAL[j].resourceCode+"\" style=\"width:10%;display:none;\">"+MATERIAL[j].resourceType+"</td>"+   
+        			     "<td style=\"width:30%;\"><div id=\"list_"+MATERIAL[j].resourceCode+"\"></div></td>"+    
+       			     "<td style=\"width:10%;\"> <span class=\"btn btn-sm btn-warning fileinput-button\" style=\"margin-left: 5px;\"><i class=\"icon-upload\">选择附件</i><input class=\"fileupload\" id=\""+MATERIAL[j].resourceCode+"\"  tag=\"0\" type=\"file\" name=\"files[]\" multiple/></span></td></tr>" ;	
+    				}
+    			}
+     			var str = "<table class=\"table table-bordered\"><thead><tr><th width=\"18%\" style=\"text-align:center;\">事项名称</th><th width=\"38%\" style=\"text-align:center;\">申报材料</th>"+
+     			"<th width=\"22%\" style=\"text-align:center;\">文件名称</th><th width=\"12%\" style=\"text-align:center;\">操作</th></tr></thead>"+    			
+    							"<tbody>"+    		  		
+    							      tr +
+				    			"</tbody>"+   
+				    		"</table>";
+    			$('#list').html(str);
+    		}else{
+    			errorDialog("验证","验证未通过"+ret.message);
+    			return;
+    		}
+    	}else{
+   			errorDialog("验证","验证未通过"+ret.message);
+   			return;
+    	}
+    }
+	
+ function resourceList(){
+     var cmd = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+     cmd.setParameter("BIZ_ID@=",id);
+     var ret = cmd.execute("getLhtkResourceList");
+     if(!cmd.error){
+     if(ret.state=='1'){
+    	 if(ret.total > 0){
+	    	 var APPLY_DATA=ret.data[0].APPLY_DATA;
+	    	 for(var i=0; i<APPLY_DATA.length;i++){
+	    		 var doc={};
+	    		 doc.resourceCode=APPLY_DATA[i].resourceCode;
+	    		 doc.resourceType=APPLY_DATA[i].resourceType;
+	    		 doc.itemId=APPLY_DATA[i].itemId;
+	    		 doc.filePath=APPLY_DATA[i].filePath;
+	    		 doc.fileType=APPLY_DATA[i].fileType;
+	    		 doc.tagPage="1";
+	    		 doc.fileName=APPLY_DATA[i].fileName;
+	    		 doc.url=APPLY_DATA[i].url;
+	    		 docids.push(doc);
+	    		$("#list_"+APPLY_DATA[i].resourceCode).append("<div id=\"file_"+APPLY_DATA[i].filePath+"\">"+formatLenStr(APPLY_DATA[i].fileName,0,14)+"<a class='btn btn-success btn-xs'  onclick=\"onDownload(this);\">下载</a> | <a class='btn btn-danger btn-xs'  onclick=\"onDel(this);\">删除</a>"+"</div>");
+	    		$("#file_"+APPLY_DATA[i].filePath).attr("title",APPLY_DATA[i].fileName);
+	    	    $("#file_"+APPLY_DATA[i].filePath).attr("url",APPLY_DATA[i].url);
+	    	    $("#type_"+APPLY_DATA[i].resourceCode).html(APPLY_DATA[i].resourceCode);
+	    	    $("#id_"+APPLY_DATA[i].resourceCode).html(APPLY_DATA[i].itemId);		 
+	    	 }
+    	 }
+     }else{
+    	 errorDialog("验证","验证未通过"+ret.message);
+			return;
+     }
+     }else{
+    	 errorDialog("验证","验证未通过");
+ 		 return;
+     }
+    }
+ function uploadSuccess(e, serverData) {
+		if(ltIE9()){
+			$('#progress_IE8').hide();
+		}else{
+			$('#progress').hide();
+		}
+		var resourceCode=$(this).attr("id");
+		for(var i=0;i<serverData.result.length;i++){
+			var data = serverData.result[i];
+			if(data.scc.code!="0000"){
+				docids=[];
+				LEx.alert("上传失败,请重新上传！");
+				return;
+			}
+			data.yname = data.name;
+			$("#list_"+resourceCode).append("<div id=\"file_"+data.scc.docid+"\">"+formatLenStr(data.yname,0,14)+"<a class='btn btn-success btn-xs'  onclick=\"onDownload(this);\">下载</a> | <a class='btn btn-danger btn-xs'  onclick=\"onDel(this);\">删除</a>"+"</div>");
+			$("#file_"+data.scc.docid).attr("title",data.yname);
+			$("#file_"+data.scc.docid).attr("url",data.url);
+			var wp_apply = {};
+			wp_apply.filePath = data.scc.docid;
+			wp_apply.fileName = $("#file_"+data.scc.docid).attr("title");
+			wp_apply.resourceCode = resourceCode;
+			wp_apply.resourceType = $("#type_"+resourceCode).html();
+			wp_apply.itemId = $("#id_"+resourceCode).html();
+			wp_apply.url = data.url;
+			wp_apply.fileType = "1";
+			wp_apply.subject = "关于"+$("#file_"+data.scc.docid).attr("title")+"的设立申请";
+			docids.push(wp_apply);
+			alert("上传成功！");
+		}
+	}
+ 
+ //下载
+function onDownload(obj){
+	var title = $(obj).parent().attr("url");
+	var name  = $(obj).parent().attr("title");
+	if(title==""){
+		LEx.alert("请先上传附件！");
+	}else{
+		var opera = "downloadagent4wp&path="+$(obj).parent().attr("url")+"&name="+encodeURIComponent(name);
+		window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+	}
+
+	return false;
+}
+ //删除
+ function onDel(obj){
+    	var filePath = $(obj).parent().attr("id").replace("file_","");
+        	for(var i=0;i<docids.length;i++){
+        		if(docids[i].filePath == filePath){
+        			docids.splice(i,1);
+        			break;
+        		}
+        	}  
+        	var opera = "delete&path="+$(obj).parent().attr("url"); 
+        	$.ajax({
+        		type : "get",
+        		url : LEx.webPath + "bsp/uploadify?action="+opera,
+        		success : function(data) {        			
+        		},
+        		error : function() {        			
+        		}
+        	});
+        	$(obj).parent().remove();
+    	
+    }
+ 
+ /*提交*/
+ function saveMaterial(){
+ 	alert("开始提交");
+ 	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+ 	command.setParameter("bizId", receiveid);
+ 	command.setParameter("material",docids);
+ 	var ret = command.execute("submitLhtkInfo");
+ 	if(!command.error){
+ 		if(ret.state=='1'){
+ 			alert(ret.message);
+
+ 			$("#submitsp").attr("style","display:none");
+ 		    for(var i=0;i<count_material;i++){
+ 		    	$("#SWFUpload_"+i).attr("style","display:none");
+ 		    	
+ 		    	if(document.getElementsByClassName("btn btn-danger")[i] != undefined){
+ 		    		document.getElementsByClassName("btn btn-danger")[i].style.display = "none";
+ 		    	}
+ 		    }
+ 		}else{
+ 			errorDialog("验证","提交失败"+ret.message);
+ 			return;
+ 		}
+ 	}else{
+ 		errorDialog("验证","提交失败");
+ 		return;
+ 	}
+ }
+</script>

@@ -1,0 +1,248 @@
+
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=smshgu2v27tWx3pwMtACQAjGvz8DP7Zg"></script>
+<style>
+.map-sidebar {
+	width: 160px;
+	background-color: #0085c3;
+}
+
+.map-sidebar .map-sidebar-nav>li>a {
+	padding: 12px 20px;
+	color: #fff;
+}
+
+.map-sidebar .map-sidebar-nav>li>a:hover,.map-sidebar .map-sidebar-nav>li>a:focus
+	{
+	background-color: rgba(0, 0, 0, .2);
+}
+
+.map-sidebar-info {
+	padding: 20px;
+	position: absolute;
+	width: 300px;
+	top: 0;
+	bottom: 0;
+	left: 160px;
+	background-color: rgba(255, 255, 255, .9);
+	display: none;
+}
+
+.map-sidebar-info .nav-pills>li>a {
+	border-bottom: 1px solid #ddd;
+	color: #444;
+	background-color: transparent !important;
+}
+
+.map-sidebar-info .nav-pills>li>a:hover {
+	color: #0085c3;
+	font-weight: bold;
+}
+
+.map-sidebar .dropdown-hover:hover .dropdown-menu {
+	display: block;
+}
+
+.map-sidebar .dropdown-menu {
+	margin: 0;
+	left: 100%;
+	width: 160px;
+	top: 0;
+	border: 0;
+}
+
+.map-sidebar .dropdown-menu>li>a {
+	text-align: center;
+	padding: 10px 15px;
+	border-bottom: 1px solid #eee;
+}
+
+.map-sidebar-info .list-group .list-group-item {
+	border-left: 0;
+	border-right: 0;
+	padding: 15px 0;
+	background-color: transparent;
+}
+
+.map-sidebar-info-collapse {
+	position: absolute;
+	left: 300px;
+	top: 200px;
+	display: none;
+}
+</style>
+<div class="table-table" style="background-color: grey; height: 720px;">
+	<div class="table-cell map-sidebar relative">
+		<div class="clearfix" style="background-color: #1a91c9;">
+			<h4 style="background-color: rgba(0,0,0,.2);padding: 15px; color: #fff; margin:0;">
+				<strong>地图服务</strong>
+			</h4>
+			<a class="btn btn-primary transparent btn-block"
+				style="border-bottom: 1px solid rgba(255,255,255,.2);text-align: left;"
+				href="{{cp}}govservice/mapservice">返回上一级</a>
+			<div class="dropdown dropdown-hover">
+				<a class="btn btn-primary transparent btn-block dropdown-toggle"
+					style="padding: 15px 0; font-size: 15px;text-align: left;" data-toggle="dropdown"
+					href="#"> <strong>济南市</strong> <span class="caret"></span> </a>
+
+				<ul class="dropdown-menu">
+					<li><a href="#">历下区</a>
+					</li>
+					<li><a href="#">槐荫区</a>
+					</li>
+					<li><a href="#">市中区</a>
+					</li>
+					<li><a href="#">天桥区</a>
+					</li>
+					<li><a href="#">历城区</a>
+					</li>
+					<li><a href="#">长清区</a>
+					</li>
+					<li><a href="#">章丘市</a>
+					</li>
+					<li><a href="#">平阴县</a>
+					</li>
+					<li><a href="#">商河县 </a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<ul class="nav nav-pills nav-stacked map-sidebar-nav">
+			<li><a data-toggle="pill" href="#jy">教育</a>
+			</li>
+			<li><a data-toggle="pill" href="#cgss">场馆设施</a>
+			</li>
+			<li><a data-toggle="pill" href="#">婚育收养</a>
+			</li>
+			<li><a data-toggle="pill" href="#">福利救助</a>
+			</li>
+			<li><a data-toggle="pill" href="#">求职</a>
+			</li>
+			<li><a data-toggle="pill" href="#">纳税</a>
+			</li>
+			<li><a data-toggle="pill" href="#">就医保健</a>
+			</li>
+			<li><a data-toggle="pill" href="#">公共交通</a>
+			</li>
+			<li><a data-toggle="pill" href="#">自驾出行</a>
+			</li>
+			<li><a data-toggle="pill" href="#">旅游</a>
+			</li>
+			<li><a data-toggle="pill" href="#">司法</a>
+			</li>
+			<li><a data-toggle="pill" href="#">银行</a>
+			</li>
+		</ul>
+
+		<section class="map-sidebar-info">
+			<a class="map-sidebar-info-collapse" href="#"><img
+				src="http://www.zjzwfw.gov.cn/module/map/images/dutf_01.png">
+			</a>
+			<div class="clearfix"
+				style="padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid #ddd;">
+				<button type="button" class="btn btn-info">返回</button>
+				<div class="input-group pull-right" style="width: 200px;">
+					<input type="text" class="form-control" placeholder="Search for...">
+					<span class="input-group-btn">
+						<button class="btn btn-primary" type="button">查询</button> </span>
+				</div>
+			</div>
+			<div class="tab-content">
+				<div class="tab-pane fade" id="jy">
+					<ul class="nav nav-pills nav-stacked">
+						<li><a data-toggle="pill" href="" onclick="addressList('117.084569','36.683669')">幼儿园</a>
+						</li>
+						<li><a href="#">小学</a>
+						</li>
+						<li><a href="#">初中</a>
+						</li>
+						<li><a href="#">普通高中</a>
+						</li>
+						<li><a href="#">职业高中</a>
+						</li>
+						<li><a href="#">特殊教育学校</a>
+						</li>
+						<li><a href="#">高校</a>
+						</li>
+					</ul>
+					</div>
+				<div class="tab-pane fade" id="cgss">
+					<ul class="nav nav-pills nav-stacked">
+						<li><a data-toggle="pill" href="" onclick="addressList('116.914023','36.67412')">艺术馆</a>
+						</li>
+						<li><a href="#">博物馆</a>
+						</li>
+						<li><a href="#">纪念馆</a>
+						</li>
+						<li><a href="#">展览馆</a>
+						</li>
+						<li><a href="#">图书馆</a>
+						</li>
+						<li><a href="#">档案馆</a>
+						</li>
+						<li><a href="#">文物保护单位</a>
+						</li>
+						<li><a href="#">公园</a>
+						</li>
+						<li><a href="#">演出场馆</a>
+						</li>
+						<li><a href="#">体育场馆</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+	</div>
+	<div class="table-cell" id="l-map">map</div>
+
+</div>
+<!-- JavaScript -->
+<script>
+        $(function() {
+            $('.map-sidebar .map-sidebar-nav > li > a').click(function(e) {
+                $('.map-sidebar-info').css('display', 'block');
+                $('.map-sidebar-info-collapse').css('display', 'block');
+                e.preventDefault()
+                $("#l-map").css("width","310px");
+            });
+            $('.map-sidebar-info-collapse').click(function(e) {
+                e.preventDefault()
+                $('.map-sidebar-info').css('display', 'none');
+                $("#l-map").css("width","auto");
+            });
+         });
+</script>
+<script>
+		var map = new BMap.Map("l-map");
+		map.enableScrollWheelZoom(true);
+$(function() {
+		map.centerAndZoom(new BMap.Point(116.914023, 36.67412), 10);
+		var myGeo = new BMap.Geocoder();
+		var adds = [ new BMap.Point(116.914023, 36.67412) ];
+		for ( var j = 0; j < adds.length; j++) {
+			var marker = new BMap.Marker(adds[j]);
+			map.addOverlay(marker);
+			/* marker.setLabel(new BMap.Label((j + 1)+"", {
+				offset : new BMap.Size(20, -10)
+			})); */
+		}
+	});
+	function addressList(longitude,latitude){
+		map.centerAndZoom(new BMap.Point(longitude, latitude), 13);
+		var myGeo = new BMap.Geocoder();
+		var adds = [new BMap.Point(117.000056,36.665922),
+					new BMap.Point(117.048667,36.705739),
+					new BMap.Point(117.126372,36.69387),
+					new BMap.Point(117.009409,36.658439),
+					new BMap.Point(117.084569,36.683669),
+					new BMap.Point(117.114973,36.692468),
+					new BMap.Point(117.137136,36.677144) ];
+		for ( var j = 0; j < adds.length; j++) {
+			var marker = new BMap.Marker(adds[j]);
+			map.addOverlay(marker);
+			/* marker.setLabel(new BMap.Label((j + 1)+"", {
+				offset : new BMap.Size(20, -10)
+			})); */
+		}
+	}
+</script>

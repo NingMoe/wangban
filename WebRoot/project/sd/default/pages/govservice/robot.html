@@ -1,0 +1,219 @@
+<style>
+.its-robot .media-body {
+	overflow: initial;
+}
+</style>
+<div class="container" style="width: 1100px !important;"> 
+        <div class="row">
+            <div class="col-xs-7">
+                <section class="panel no-bordered its-robot">
+                    <ul id="displaybox" class="panel-body media-list" style="height: 230px; overflow-y: scroll; background-color: #fbfdfd;">
+                        <li class="media">
+                            <a class="pull-left" href="#">
+                                <img class="media-object" src="{%public assets/img/robot.jpg %}">
+                            </a>
+                            <div class="media-body">
+                                <div class="bubble bg-default inline-block">
+                                    您好！我是“<span class="text-warning">{{ConfigInfo.AppCity}}政务服务网</span>”智能机器人，您想了解什么？请告诉我，希望我的答复能够让您满意。 
+                                </div>
+                            </div>
+                        </li>                        
+                    </ul>
+                    <div style="border-top: 1px solid #79D3F8;">
+                        <textarea class="form-control no-bordered transparent" id="inputbox" maxlength="40" rows="3" placeholder="请输入您要问的问题"></textarea>
+                        <div class="text-right" style="padding: 5px;">
+                            <span class="pull-left">您还可以输入<i style="font-family: Constantia,Georgia; font-size: 22px; color:rgb(0, 66, 118);" id="tnum">40</i>个字</span>
+                            <span class="text-muted" style="padding-right: 15px;">支持Enter快捷键发送</span>
+                            <button class="btn btn-warning" type="button" onclick="submit();">&nbsp;&nbsp;&nbsp;发送&nbsp;&nbsp;</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-xs-5 text-right">
+                <img src="{%public assets/img/gaigai.jpg %}">
+            </div>
+        </div>
+    </div>
+    <script>
+    $(function(){
+    	$("#inputbox").keyup(function(){
+    		var curLength=$(this).val().length; 
+    		if(curLength>40){ 
+    			var num=$(this).val().substr(0,39); 
+    			$(this).val(num);
+    		}else{ 
+    			$("#tnum").text(40-$(this).val().length); 
+    		}
+    	});
+    });
+    function submit(){
+    	var strInput = $("#inputbox").val();
+    	$("#inputbox").val("");
+    	if(!LEx.isNotNull(strInput)){
+    		return;
+    	}
+    	var strUl = "";//$("ul[class='media-list yi-media-list-m2']").html();
+    	var dt = new Date();
+    	dt = dt.getHours()+":"+dt.getMinutes()+":"+dt.getSeconds();
+    	strUl+="<li class=\"media\"><a class=\"pull-right\" href=\"#\">"
+        		+"<img class=\"media-object\" src=\"{%public assets/img/user.png %}\">"
+	    		+"</a>"
+	    		+"<div class=\"media-body text-right\">"
+        		+"<div class=\"bubble bg-primary inline-block\">"
+        	    +toBreakWord(strInput)
+        		+"</div></div></li>";
+        
+        strUl+="<li class=\"media\">"
+        	  +"<a class=\"pull-left\" href=\"#\">"
+              +"<img class=\"media-object\" src=\"{%public assets/img/robot.jpg %}\">"
+              +"</a>"
+              +"<div class=\"media-body\">"
+              +"<div class=\"bubble bg-default inline-block\">"
+              +searchReply(strInput)
+        	  +"</div></div></li>"; 
+        $("ul[class='panel-body media-list']").append(strUl);    
+    	var obj = document.getElementById("displaybox");
+        obj.scrollTop= obj.scrollHeight;
+        $("#inputbox").focus();
+        $("#tnum").text("40");
+    }
+    function searchReply(key){
+    	var command = new LEx.Command("app.icity.search.SearchCmd");
+    	command.setParameter("key", key);
+    	command.setParameter("limit", "10");
+    	var ret = command.execute("getIndex");
+    	var str="您查找的“<font style=\"color: #e56100;\">"+key+"</font>”，我为您找到以下内容：<br/>";
+    	if(!command.error){
+    		if(ret.total>0){
+    			var len = ret.data.length;
+    			for(var i=0;i<len;i++){
+    				 if("project" == ret.data[i].TYPE){
+    				 	if(ret.data[i].NAME){
+    				 		if(ret.data[i].POWER_TYPE=="BM"){
+    				 			str+="<h5>【"+formatStateBm(ret.data[i].SUB_TYPE)+"】<a href=\"javascript:void(0)\" onclick=\"gotoDetail('"+ret.data[i].SUB_TYPE+"','"+ret.data[i].ID+"')\" >"+ret.data[i].NAME+"</a></h5>";
+    			               }
+    				 		else{
+           					 str+="<h5>【事项】<a href=\"{{cp}}icity/proinfo?id="+ret.data[i].ID+"\" target=\"_blank\">"+ret.data[i].NAME+"</a></h5>";
+    				 		}
+    				 	}else{
+                   			//str+="<h5>【主题："+ret.data[i].TITLE_NAME+"】<a href=\"{{cp}}approve/guide?id="+ret.data[i].ID+"\" target=\"_blank\">"+ret.data[i].NAME+"</a></h5>";
+    				 	}
+    				 }else if("content" == ret.data[i].TYPE){
+    					 str+="<h5>【网站发布】<a href=\"{{cp}}govservice/detailcontent?id="+ret.data[i].ID+"\" target=\"_blank\">"+ret.data[i].NAME+"</a></h5>";
+    				 }else if("consult" == ret.data[i].TYPE){
+    					 str+="<h5>【咨询信息】<a href=\"{{cp}}icity/consultInfo?id="+ret.data[i].ID+"\" target=\"_blank\">"+ret.data[i].NAME+"</a></h5>";
+    				 }else{
+    					 str+="<h5><a>"+ret.data[i].NAME+"</a></h5>";
+    				 }
+    			}
+    		}else{
+    			str="对不起，没有找到答案，我将会收录您的问题，建议您换个说法重新提问。";
+    		}
+    	}else{
+    		str="对不起，没有找到答案，我将会收录您的问题，建议您换个说法重新提问。";   
+    	}
+    	return str;
+    }
+    function formatStateBm(type){
+    	var val="其他";
+    	switch(type){
+    		case '1':
+    			val="办事指南";
+    			break;
+    		case '3':
+    			val="通知公告";
+    			break;
+    		case 'cj':
+    			val="常见问题";
+    			break;
+    		case 'fw':
+    			val="服务链接";
+    			break;
+    		case 'pt':
+    			val="普通信息";
+    			break;
+    		case '5':
+    			val="单位名录";
+    			break;
+    		case '6':
+    			val="场馆信息";
+    			break;
+    		case '7':
+    			val="政策文件";
+    			break;
+    	}	
+    	return val;
+    }
+    function gotoDetail(type,id){
+    	var val="";
+    	switch(type){
+    		case '1':
+    			val="{{PageContext.ContextPath}}icity/bmservice/servicedetail?id="+id;
+    			//val="办事指南类";
+    			break;
+    		case '3':
+    			val="{{PageContext.ContextPath}}icity/bmservice/infodetail?id="+id;
+    			//val="通知公告类";
+    			break;
+    		case 'cj':
+    			val="{{PageContext.ContextPath}}icity/bmservice/prodetail?id="+id;
+    			//val="常见问题类";
+    			break;
+    		case 'fw':
+    			val="{{PageContext.ContextPath}}icity/bmservice/conveniencedetail?id="+id;
+    			//val="服务链接类";
+    			break;
+    		case 'pt':
+    			val="{{PageContext.ContextPath}}icity/bmservice/infodetail?id="+id;
+    			//val="普通信息类";
+    			break;
+    		case '5':
+    			val="{{PageContext.ContextPath}}icity/bmservice/ditudetail?id="+id;
+    			//val="单位名录类";
+    			break;
+    		case '6':
+    			val="{{PageContext.ContextPath}}icity/bmservice/ditudetail?id="+id;
+    			//val="场馆信息类";
+    			break;
+    		case '7':
+    			val="{{PageContext.ContextPath}}icity/bmservice/lawdetail?id="+id;
+    			//val="政策文件类";
+    			break;
+    	}
+    	//window.location.href = val;
+    	window.open(val,"_blank");
+
+    }
+    function toBreakWord(strContent){
+    	var intLen = 70;
+        var strTemp="";
+        while(strContent.length>intLen){
+             strTemp+=strContent.substr(0,intLen)+"&#10;"; 
+             strContent=strContent.substr(intLen,strContent.length); 
+        }
+        strTemp+="&#10;"+strContent;
+        return strTemp;
+    }
+
+    function errorDialog(t, c) {
+    	LEx.dialog({
+    		title : t,
+    		content : c,
+    		icon : 'error',
+    		lock : true
+    	});
+    }
+    document.onkeydown=function(event){
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if(e && e.keyCode==27){ // 按 Esc 
+            //要做的事情        
+          }
+        if(e && e.keyCode==113){ // 按 F2 
+             //要做的事情
+           }            
+         if(e && e.keyCode==13){ // enter 键
+             //要做的事情
+        	 submit();
+        }
+    }; 
+    </script>

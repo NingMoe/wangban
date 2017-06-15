@@ -1,0 +1,39 @@
+<script>
+$(function(){
+	onQueryTzgg(1);
+});
+function onQueryTzgg(start){
+	var limit=7;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("start",(start-1)*limit);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	cmd.setParameter("name", "通知公告");
+	cmd.setParameter("open", '{{ConfigInfo.Tzgg_isout}}');
+	var ret =  cmd.execute("getContentInfo");
+	if(!ret.error){
+		$("#ul_sspdw_tzgg").html(LEx.processDOMTemplate('TzggContentTemplate',ret));
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+</script>
+<style>
+	#tongzhi li{
+		 height:31px;
+	}
+</style>
+<ul id="ul_sspdw_tzgg" class="list-unstyled zl-list-unstyled-ggfu-2">
+</ul> 
+
+<script type="text/template" id="TzggContentTemplate">
+{for o in data}
+<li>
+				{if o.TYPE==3 }
+						<a href="${o.URL}" title="${o.NAME}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${formatLen(o.NAME,0,14)}</a>
+				{else}
+						<a href="{{PageContext.ContextPath}}govservice/pub/contentDetail?id=${o.ID}" title="${o.NAME}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if} >${formatLen(o.NAME,0,14)}</a>
+				{/if}
+</li>
+{/for}
+</script>

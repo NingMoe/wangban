@@ -1,0 +1,414 @@
+<link rel="stylesheet" href="{% public assets/css/applycustom.css %}">
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}govservice.css" />
+<link href="{% public scripts/fineload/css/jquery.fileupload.css %}" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}print.css" media="print" />
+<script type="text/javascript" src="{{PageContext.JsPath}}jquery.PrintArea.js"></script>
+<style>
+body {
+	background-image: none;
+	background-color: #f5f5f5;
+}
+
+table {
+	width: inherit;
+}
+
+li,th,td {
+	margin: 0;
+	padding: 0;
+	font: 14px/20px 微软雅黑 !important;;
+	color: #333;
+}
+
+.yt-content1 {
+	vertical-align: top;
+	padding: 1px;
+	width: 80%;
+	margin-left: 10%;
+	background-color: #fff;
+}
+
+.tou {
+	font-size: 60px;
+	color: #fff;
+	position: absolute;
+	left: 30.5%;
+	top: -16px;
+}
+
+.jian {
+	font-size: 60px;
+	color: #fff;
+	position: absolute;
+	left: 62.5%;
+	top: -16px;
+}
+
+.jiantou {
+	font-size: 60px;
+	color: #fff;
+	position: absolute;
+	left: 94.8%;
+	top: -16px;
+}
+
+.yt-content1 table {
+	width: 100%;
+}
+
+h1,.h1,h2,.h2,h3,.h3 {
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
+
+dd {
+	margin-top: -22px;
+}
+
+dl {
+	margin-top: 0;
+	margin-bottom: 1px;
+}
+
+input.date {
+	background: #fff url({% public images/input_date.png %}) no-repeat right
+		3px;
+	border: 1px solid #848484;
+	height: 28px;
+	width: 100%;
+	margin: 0 5px 0 0;
+	padding: 2px 0 2px 5px;
+	font-family: Verdana, Geneva, sans-serif, "宋体";
+	font-size: 12px;
+}
+
+table .t1{
+	border: 1px solid #cad9ea;
+	color: #666;
+	width: 100%;
+}
+
+.t1 td {
+	border: 1px solid #cad9ea;
+	padding-left: 5px;
+}
+.t1 th {
+	background-color: #F2F6F9;
+	border: 1px solid #cad9ea;
+	padding-left: 5px;
+}
+table .t2 {
+	border: 1px solid #cad9ea;
+	color: #666;
+	width: 1020px;
+	margin-top:5px;
+	margin-left:20px;
+	margin-right: 20px;
+	
+}
+.t2 td {
+	border: 1px solid #cad9ea;
+	padding-left: 5px;
+}
+.t2 th{
+  background-color: #F2F6F9;
+  border: 1px solid #cad9ea;
+  padding-left: 5px;
+  font-weight: bold;
+}
+.t2 tr {
+	height: 35px;
+}
+.processBox {
+	width: 96px;
+	float: left;
+}
+
+.title {
+	font-size: 24px;
+	font-family: "微软雅黑";
+	border-bottom: #3f7bad 2px solid;
+	margin-left: 12px;
+	padding-top: 5px;
+	width: 45%;
+	height: 42px;
+	float: left;
+}
+
+.itemcode {
+	font-size: 14px;
+	text-align: right;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	float: left;
+	width: 45%;
+	height: 27px;
+	padding-top: 0px;
+	border-bottom: #3f7bad 2px solid;
+	margin-top: 15px;
+}
+
+.uploadedFiles dl dt {
+	float: left;
+}
+
+.uploadedFiles dl dd {
+	text-align: left;
+	margin-left: 30px;
+	margin-top: 3px;
+}
+
+.contentBox {
+	padding: 0px 12px 12px 14px;
+	width: 100%;
+	float: left;
+}
+
+.conditionContent ul li {
+	display: block;
+	height: 100%;
+	overflow: hidden;
+	padding-left: 22px;
+	text-align: left;
+	text-overflow: ellipsis;
+	white-space: normal;
+}
+</style>
+{% map "SBLSH",PageContext.Parameter.sblsh as p%}
+{% command "app.icity.project.ProjectIndexCmd","BusinessQueryByNameAndId",p as d %}
+{% set o d.data %}
+{% map "id",o.SXID as p%}
+{% command "app.icity.ServiceCmd","getPermission",p as d %}
+{% set item d.data%}
+<div class="yt-content1">
+	<table width="98%" align="center" height="412" id="one" border="0"
+		cellspacing="0" cellpadding="0"
+		style="margin-top: 25px; margin-bottom: 44px;">
+		<tr>
+			<td align="center" style="position: relative;">
+
+				<div class="">
+					<div class="titleBox">
+						<div class="titleIcon">
+							<img
+								src="{{PageContext.ContextPath}}public/images/icon_house.gif" />
+						</div>
+						<div class="title" title="{{itemInfo.NAME}}">{{o.SXMC|truncate:'14','..'}}</div>
+						<div class="itemcode"></div>
+					</div>
+					<br />
+					<div class="contentBox">
+						<div id="service_step_05">
+							<div class="alert alert-danger alert-dismissible" role="alert">
+								<button type="button" class="close" data-dismiss="alert"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								提醒：请认真阅读申报告知单内容，如有问题，可以拨打该事项咨询电话
+								{% for o in item.window%}{% if loop.counter|equal:'1'%}{{o.PHONE}}{% endif %}{% endfor %}
+							</div>
+							<div class="condition">
+
+								<table style="height: 80px">
+									<tr>
+										<td style="height: 80px;width: 90%;text-align: center;text-overflow:ellipsis;word-break:keep-all; white-space:nowrap;"><font
+											style="font-size: 30px;font-weight: bold">申报告知单</font></td>
+										<td style="text-align: right;">
+											<!-- <img
+											src="{{PageContext.ContextPath}}public/images/CACCA1D7C0364DCBF173074E1600FB27.png"
+											width="85" height="85" /> -->
+										</td>
+									</tr>
+								</table>
+								<div class="conditionTitle">
+									<img
+										src="{{PageContext.ContextPath}}public/images/title_jbxx.gif"
+										width="120" height="42" /> <span>根据“申办流水号”和“申请人或申请单位”可在进度查询栏目查询当前事项的办理进度；手机扫描右侧二维码可读取申办流水号和密码</span>
+								</div>
+								<div class="conditionContent" style="height: 225px;">
+									<ul>
+										<div class="userReminder">
+											<span style="float: left;">申办流水号：<span
+												class="userReminderT1">{{o.SBLSH}}</span></span> <span
+												style="float: left;">查询密码：<span
+												class="userReminderT1">{{o.CXMM}}</span></span> <span
+												style="float: right;">申办时间：<span
+												class="NeedFormatTimeDetail">{{o.SBSJ}}</span></span>
+											<table class="t1">
+												<thead>
+													<tr>
+														<th width="10%"></th>
+														<th width="25%"></th>
+														<th width="20%"></th>
+														<th width="25%"></th>
+														<th width="20%"></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<th>名称：</th>
+														<td colspan="3">{{o.SBXMMC}}</td>
+														<th rowspan="4">
+															<div id="divCode" style="width: 200px; height: 200px;">
+																<img style="width: 200px; height: 200px;" src=""
+																	id="img" />
+															</div>
+														</th>
+													</tr>
+													<tr>
+														<th>受理单位：</th>
+														<td colspan="3"><span style="color: black">{{o.SJDW}}</span></td>
+													</tr>
+													<tr>
+														<th>申请人：</th>
+														<td colspan="3"><span style="color: black">{{UserInfo.userName}}</span></td>
+													</tr>
+													<tr>
+														<th>联系人：</th>
+														<td><span style="color: black" id="contextPerson">{{o.LXRXM}}</span></td>
+														<th>联系电话：</th>
+														<td><span style="color: black" id="userPhone">{{o.LXRSJ}}</span></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</ul>
+								</div>
+							</div>
+							<br />
+							<div class="condition">
+								<div class="conditionTitle">
+									<img
+										src="{{PageContext.ContextPath}}public/images/title_sbcl.gif"
+										width="120" height="42" />
+								</div>
+								<div class="conditionContent">
+									<div class="uploadedFiles" style="margin-left: 22px;">
+										{% map "SBLSH",PageContext.Parameter.sblsh,"TYPE","0" as p%} {% command "app.icity.project.ProjectIndexCmd","materialListQueryByNameAndId",p as d %}
+									{% if d.data %}
+										{% if d.data.metail %}
+										<dl><dt style="color:#61c3f4">已上传的电子文档材料：</dt><dl><br>
+										{% for o in d.data.metail %}
+										<dl><dt>{{loop.counter}}、{{o.DOCUMENT_NAME}}:</dt></dl><br/>
+										<dd><a href='#' class='text-primary' style='text-decoration: none;' onclick="opena('{{o.FILE_PATH}}','{{o.FILE_NAME}}')">{{o.FILE_NAME}}</a></dd>
+										{% endfor %}
+										{% endif %}
+										{% if d.data.windowsub %}
+										<br><dl><dt style="color:#61c3f4">需到窗口提交的纸质材料：</dt></dl><br>
+										{% for o in d.data.windowsub %}
+										<dl><dt>{{loop.counter}}、{{o.name}}</dt></dl><br/>
+										{% endfor %}
+										{% endif %}
+									{% endif %}
+									
+								</div>
+								<div class="condition">
+									<div class="conditionTitle">
+										<div class="menuTitle">办事指引</div>
+									</div>
+									<div class="conditionContent">
+										<ul>
+											<li><strong>办理部门：</strong>{% for o in item.ItemInfo%}{% if loop.counter|equal:'1' %}{{o.AGENT_NAME}}{% endif %}{% endfor %}</li>
+											<li><strong>工作时间：</strong>{% for o in item.window %}{% if loop.counter|equal:'1' %}{{o.OFFICE_HOUR}}{% endif %}{% endfor %}</li>
+											<li><strong>地 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：</strong>{% for o in item.window %}{% if loop.counter|equal:'1' %}{{o.ADDRESS}}{% endif %}{% endfor %}</li>
+											<li><strong> 联系电话：</strong><span id="bjjglxdh">{% for o in item.window%}{% if loop.counter|equal:'1' %}{{o.PHONE}}{% endif %}{% endfor %}</span></li>
+											<li>				
+											<strong> 交通指引：</strong>{% for o in item.window %}{% if loop.counter|equal:'1' %}{{o.TRAFFIC_GUIDE}}{% endif %}{% endfor %}</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="buttonList text-center" style="padding-top:15px;">
+	<div style="display:block">
+		<input name="next" type="button" onclick="printArea()" class="button02" value="打印" />
+		<input type="button" class="button02" onclick="close1()" value="关闭" />
+	</div>
+</div>
+<script>
+	$(function() {
+		$(".NeedFormatTimeDetail").each(function() {
+			var shtml = $(this).html() + "";
+			if (LEx.isNotNull(shtml)) {
+				var stime = eval('(' + shtml + ')');
+				var rtime = formatTime(stime);
+				$(this).html(rtime).show();
+			} else {
+				$(this).html("—").show();
+			}
+		});
+		var fileurl = "申办流水号:{{o.SBLSH}}密码:{{o.CXMM}}";
+		$.ajax({
+			type : "get",
+			url : LEx.webPath + "bsp/Convt2QRCode?fileUrl=" + fileurl,
+			success : function(data) {
+				var src = "";
+				src = LEx.webPath + "file/dimensionImg"
+						+ data.split("file/dimensionImg")[1];
+				$("#img").attr("src", src);
+			},
+			error : function() {
+
+			}
+		});
+	});
+	function getCheckMaterial() {
+		$("#apply").find("input[type=checkbox]:checked").each(function() {
+			var datajson = {
+				code : $(this).parent().parent().attr("code"),
+				name : $(this).parent().parent().attr("name")
+			};
+			checked_materials.push(datajson);
+		});
+	}
+	function SPsxChange() {
+		//获取事项材料表格
+		var limit = 200;
+		var start = 1;
+		var cmd = new LEx.Command("app.icity.ServiceCmd");
+		cmd.setParameter("id", '{{o.SXBM}}');
+		var ret = cmd.execute("getPermission");
+		if (ret.state == "1") {
+			var len = ret.data.length;
+
+		} else {
+			LEx.alert(ret.message);//打印错误信息
+		}
+	}
+	function fomatterDate(val) {
+		if (LEx.isNotNull(val)) {
+			return LEx.util.DateTool.formatDate(val);
+		} else {
+			return '-';
+		}
+	}
+	function close1() {
+		window.close();
+	}
+	function formatTime(obj) {
+		try {
+			return LEx.util.Format.formatDate(parseInt(obj.time) / 1000,
+					"yyyy-MM-dd HH:mm");
+		} catch (e) {
+			return "—";
+		}
+	}
+	function opena(docid,name){
+		if(docid==""||docid==undefined||docid=="undefined"){
+			return;
+		}
+	    var opera = "downloadagent4wp&path="+docid+"&name="+encodeURIComponent(name); 
+	   	window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+		return false;
+	}
+	function printArea(){
+	$(".yt-content1").printArea();
+}
+</script>

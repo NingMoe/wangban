@@ -1,0 +1,69 @@
+<div class="center">
+	<div class="center-center-head" style="padding-bottom: 12px; border-top: 1px solid #EEEEEE; border-radius: 0 0 5px 5px;">
+		<div class="center-center-head-top" style="background: #F9F9F9; border-bottom: 1px solid #CCCCCC">
+			<span class="title">
+				我的评议
+			</span>
+		</div>
+		<div class="center-center-head-bottom" style="padding-bottom: 12px; border-top: 1px solid #EEEEEE; border-radius: 0 0 5px 5px;">
+				<div style="min-height:30px;line-height:30px;">
+					<span>事项名称:<input type="text" id="pname" name="pname" size="40" style="margin-left: 10px;"></span>
+					<span style="margin-left: 61px;">评议主题:<input type="text" id="name" name="name" size="40" style="margin-left: 10px;"></span>
+					<span>发布时间:<input type="text"  class="date" id="pubtime_s" name="pubtime_s" style="width: 90px;margin-left: 10px;">至&nbsp;
+					<input type="text"  class="date" id="pubtime_e" name="pubtime_e" style="width: 90px;">
+					</span><span style="margin-left: 61px;">
+					<input type="submit" id="submit" value="查询" class="nbutton_orange">
+					<input type="submit" id="delete" value="删除" class="nbutton_blue" ></span>
+				</div>
+		</div>
+	</div>	
+	<div style="margin-top:10px;float: left;">
+		<div class="center-center-head-top" style="background: #F9F9F9; border: 1px solid #CCCCCC;border-bottom:none;width: 785px">
+			<span class="title">评议列表</span>
+		</div>
+			<table id="bw_list"  class="listTable center_table" border="0"  cellpadding="0" cellspacing="1" width="100%">
+				<thead>
+					<tr>
+						<th align="center" width="39px"><input id="checkall" type="checkbox" onclick="selectAll()"></th>
+						<th width="190px">申办流水号</th>
+						<th width="175px">事项名称</th>
+						<th width="190px">评议内容</th>
+						<th width="90px">创建时间</th>
+						<th width="70px">星级</th>
+					</tr>
+				</thead>
+				<tbody id="bodys">		
+				</tbody>
+			</table>
+			<div id="divList" ></div>
+		</div>
+</div>
+	
+	
+	<textarea id="template" style="display:none">
+	{for o in data}
+	 		<tr>
+	 		<td align="center"><input tag="${o.ID}" type="checkbox" onclick="select(this)"></td>
+			<td>${o.SERIAL_NUMBER}</td>
+			<td title="${o.PNAME}">${o.PNAME}</td>
+			<td title="${o.EVALUATE_CONTENT}"><a href="javascript:detail('${o.ID}');">${o.EVALUATE_CONTENT}</a></td>
+			<td>${formatDate(o.CREATOR_DATE)}</td>
+			<td>
+				<span id="star_level">${o.STAR_LEVEL}</span>
+			</td>
+			</tr>
+		{/for}
+		{if total == 0} 
+			<tr><td colspan="6" style="text-align: center;color: red;">无数据</td></tr>
+		{/if}
+  </textarea>
+	
+	
+
+	
+<textarea id="template" style="display:none">
+<tr>
+	<td>名称</td>
+	<td>${o.NAME}</td>
+</tr>
+</textarea>

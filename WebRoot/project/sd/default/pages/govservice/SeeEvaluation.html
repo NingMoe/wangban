@@ -1,0 +1,344 @@
+<script>
+
+	var limit=5;
+	var pageTotal=0;	
+	var level="";
+	var id;
+	var name;
+	var tips="<span style='font-size:14px;'>暂无</span>";
+	$(function(){
+		
+		id = LEx.urldata.id;
+		name = LEx.urldata.name;
+		$("#title").html(name);
+		
+		getPjPercent(id);
+		getBjAndZnPjPercent(id);
+		getBjPjList(id,1,level);
+		layerPage();
+	});
+	function formartName(name){
+		var str = name.substring(0,1);
+		for(var i=1;i<name.length;i++){
+			str+="*";
+		}
+		return str;
+	}
+	function getPjPercent(id){
+		var cmd = new LEx.Command("app.icity.interactive.satisfaction.SatisfactionEvaluationCmd");
+		cmd.setParameter("service_id",id);
+        var ret = cmd.execute("getPjPercent");
+        if(ret.total>0){
+        	var count1 = parseInt(ret.data[0].COUNT1);
+            var count2 = parseInt(ret.data[0].COUNT2);
+            var count3 = parseInt(ret.data[0].COUNT3);
+            var count4 = parseInt(ret.data[0].COUNT4);
+            var count5 = parseInt(ret.data[0].COUNT5);
+            var count = count1+count2+count3+count4+count5;
+            
+            var sum1 = parseInt(ret.data[0].SUM1);
+            var sum2 = parseInt(ret.data[0].SUM2);
+            var sum3 = parseInt(ret.data[0].SUM3);
+            var sum4 = parseInt(ret.data[0].SUM4);
+            var sum5 = parseInt(ret.data[0].SUM5);
+            var sum = sum1+sum2+sum3+sum4+sum5;
+            
+            if(count == 0){
+            	$("#myd").html(tips);
+            	$("#zhpf").html(tips);
+            	$("#span1").html("0%");
+            	$("#span2").html("0%");
+            	$("#span3").html("0%");
+            	$("#span4").html("0%");
+            	$("#span5").html("0%");
+            }else{
+            	var myd = Math.round((count3+count4+count5)*100/count);
+            	$("#myd").html(myd+"%");
+            	var zhpf = (sum/count).toFixed(2);
+            	$("#zhpf").html(zhpf);
+            	
+            	$("#span1").html(Math.round(count5*100/count)+"%");
+            	$("#span2").html(Math.round(count4*100/count)+"%");
+            	$("#span3").html(Math.round(count3*100/count)+"%");
+            	$("#span4").html(Math.round(count2*100/count)+"%");
+            	$("#span5").html(Math.round(count1*100/count)+"%");
+            	
+            	$("#div1").css("width",Math.round(count5*100/count)+"%");
+            	$("#div2").css("width",Math.round(count4*100/count)+"%");
+            	$("#div3").css("width",Math.round(count3*100/count)+"%");
+            	$("#div4").css("width",Math.round(count2*100/count)+"%");
+            	$("#div5").css("width",Math.round(count1*100/count)+"%");
+            }
+        }
+        else{
+        	$("#myd").html(tips);
+        	$("#zhpf").html(tips);
+        }
+	}
+	
+	function getBjAndZnPjPercent(id){
+		var cmd = new LEx.Command("app.icity.interactive.satisfaction.SatisfactionEvaluationCmd");
+		cmd.setParameter("service_id",id);
+        var ret = cmd.execute("getBjAndZnPjPercent");
+        if(ret.total>0){ var bjcount1 = parseInt(ret.data[0].BJCOUNT1);
+        var bjcount2 = parseInt(ret.data[0].BJCOUNT2);
+        var bjcount3 = parseInt(ret.data[0].BJCOUNT3);
+        var bjcount4 = parseInt(ret.data[0].BJCOUNT4);
+        var bjcount5 = parseInt(ret.data[0].BJCOUNT5);
+        var bjcount = bjcount1+bjcount2+bjcount3+bjcount4+bjcount5;
+        
+        var bjsum1 = parseInt(ret.data[0].BJSUM1);
+        var bjsum2 = parseInt(ret.data[0].BJSUM2);
+        var bjsum3 = parseInt(ret.data[0].BJSUM3);
+        var bjsum4 = parseInt(ret.data[0].BJSUM4);
+        var bjsum5 = parseInt(ret.data[0].BJSUM5);
+        var bjsum = bjsum1+bjsum2+bjsum3+bjsum4+bjsum5;
+        
+        if(bjcount == 0){
+        	$("#bjzhpf").html(tips);
+        }else{
+        	var bjzhpf = (bjsum/bjcount).toFixed(2);
+        	$("#bjzhpf").html(bjzhpf);
+        }
+        
+        var zncount1 = parseInt(ret.data[0].ZNCOUNT1);
+        var zncount2 = parseInt(ret.data[0].ZNCOUNT2);
+        var zncount3 = parseInt(ret.data[0].ZNCOUNT3);
+        var zncount4 = parseInt(ret.data[0].ZNCOUNT4);
+        var zncount5 = parseInt(ret.data[0].ZNCOUNT5);
+        var zncount = zncount1+zncount2+zncount3+zncount4+zncount5;
+        
+        var znsum1 = parseInt(ret.data[0].ZNSUM1);
+        var znsum2 = parseInt(ret.data[0].ZNSUM2);
+        var znsum3 = parseInt(ret.data[0].ZNSUM3);
+        var znsum4 = parseInt(ret.data[0].ZNSUM4);
+        var znsum5 = parseInt(ret.data[0].ZNSUM5);
+        var znsum = znsum1+znsum2+znsum3+znsum4+znsum5;
+        if(zncount == 0){
+        	$("#znzhpf").html(tips);
+        }else{
+        	var znzhpf = (znsum/zncount).toFixed(2);
+        	$("#znzhpf").html(znzhpf);
+        }}
+        else{
+        	$("#bjzhpf").html(tips);
+        	$("#znzhpf").html(tips);
+        }
+	}
+	
+	function getBjPjList(id,start,level){
+		
+		var cmd = new LEx.Command("app.icity.interactive.satisfaction.SatisfactionEvaluationCmd");
+		cmd.setParameter("service_id",id);
+		cmd.setParameter("star_level",level);
+		cmd.setParameter("start",(start-1)*limit);
+		cmd.setParameter("page",start);
+		cmd.setParameter("limit", limit);
+        var ret = cmd.execute("getBjPjList");
+        
+        if(!ret.error){
+			$('#roll_list').html(LEx.processDOMTemplate('MattersListTemplate',ret));
+			var total = ret.total;
+			total=Math.ceil(total/limit);
+			pageTotal=total;
+			if(total==0){
+				$("#project-none").show();
+				$('#layer').hide();
+			}else{
+				$("#project-none").hide();
+				$('#layer').show();
+			} 
+		}else{
+			LEx.alert(ret.error);
+		}
+	}
+	
+	//layerPage分页
+	function layerPage(){
+		laypage({
+	    	cont: $("#layer"), //容器。值支持id名、原生dom对象，jquery对象,
+	    	pages: pageTotal, //总页数
+	    	skin: '#42a5f5', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+	    	groups: 4, //连续显示分页数
+	    	jump:function(obj,first){
+	    			// debugger
+	    			var currPage = obj.curr;
+	    			if(!first){
+	    				getBjPjList(id,currPage,level);
+	    			}
+	    		}
+			});	
+	}
+	
+	function changelevel(lev,o){
+		$(".changelevel .btn").removeClass("btn-primary");
+		$(o).addClass("btn-primary");
+		level = lev;
+		getBjPjList(id,1,level);
+		layerPage();
+	}
+	
+	function formatLevel(level){
+		var val="";
+		switch(level){
+			case '1':
+				val="非常不满意";
+				break;
+			case '2':
+				val="不满意";
+				break;
+			case '3':
+				val="基本满意";
+				break;
+			case '4':
+				val="满意";
+				break;
+			case '5':
+				val="非常满意";
+				break;
+		}	
+	}
+	
+	function formatDate(obj) {
+		return LEx.util.Format.formatDate(obj);
+	}
+</script>
+<textarea type="text/template" id="MattersListTemplate" style="display:none">
+<tbody>
+{for o in data}
+	<tr>
+		<td width="10%" class="text-center">
+			<img src="{%public assets/img/pj_name.png%}">
+			<div>
+			<!--若要 显示评价人姓名： 李** 放开下面的注释段代码-->
+			匿名
+			<!-- {if o.PJR_NAME!=''}${formartName(o.PJR_NAME)}{else}匿名{/if} --></div>
+		</td>
+		<td width="10%">
+			
+			{if o.STAR_LEVEL == '1'}
+				<img src="{%public assets/img/pj_1.png%}">
+			{elseif o.STAR_LEVEL == '2'}
+				<img src="{%public assets/img/pj_2.png%}">
+			{elseif o.STAR_LEVEL == '3'}
+				<img src="{%public assets/img/pj_3.png%}">
+			{elseif o.STAR_LEVEL == '4'}
+				<img src="{%public assets/img/pj_4.png%}">
+			{else o.STAR_LEVEL == '5'}
+				<img src="{%public assets/img/pj_5.png%}">
+			{/if}
+		</td>
+		<td width="60%">{if o.EVALUATE_CONTENT==''}没有文字评价。{else}
+			{if o.STATE=='1'}
+				${o.EVALUATE_CONTENT}
+			{elseif o.STATE=='0'}
+				文字评价正在审核中。
+			{elseif o.STATE=='2'}
+				文字评价审核未通过。
+			{else}
+				<!--字段为空-默认待审核 -->
+				文字评价正在审核中。
+			{/if}
+		{/if}</td>
+		<td class="text-center">${formatDate(o.CREATOR_DATE)}</td>
+	</tr>
+{/for}
+</tbody>
+</textarea>
+<div class="container">
+	<ol class="breadcrumb">
+		<li><img src="{%public assets/img/current_home.png%}">
+			您当前所在的位置:</li>
+		<li><a href="{{cp}}index">首页</a>
+		</li>
+		<li><a href="#">综合评价</a>
+		</li>
+	</ol>
+</div>
+<div class="container">
+	<section class="panel" style="padding: 20px 100px;">
+
+	<h3 class="text-center">
+		<strong id="title"></strong>
+	</h3>
+	<hr>
+	<div class="row">
+		<div style="width: 22%;float: left;">
+			满意度： <span id="myd" class="f36 text-warning"></span>
+		</div>
+		<div style="width: 26%;float: left;">
+			综合评分： <span id="zhpf" class="f36 text-warning"></span><span
+				class="text-muted">（满分为5分）</span>
+		</div>
+		<div style="width: 26%;float: left;">
+			办件评分： <span id="bjzhpf" class="f36 text-warning"></span><span
+				class="text-muted">（满分为5分）</span>
+		</div>
+		<div style="width: 26%;float: left;">
+			指南评分： <span id="znzhpf" class="f36 text-warning"></span><span
+				class="text-muted">（满分为5分）</span>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col-xs-2" style="width: 20%;">
+			<p style="color:#4caf50;">非常满意</p>
+			<div class="progress phi">
+				<div id="div1" class="progress-bar progress-bar-success" role="progressbar"
+					aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+					><span id="span1"></span></div>
+			</div>
+		</div>
+		<div class="col-xs-2" style="width: 20%;">
+			<p style="color:#4caf50;">满意</p>
+			<div class="progress phi">
+				<div id="div2" class="progress-bar progress-bar-success" role="progressbar"
+					aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+					><span id="span2"></span></div>
+			</div>
+		</div>
+		<div class="col-xs-2" style="width: 20%;">
+			<p style="color:#03a9f4;">基本满意</p>
+			<div class="progress phi">
+				<div id="div3" class="progress-bar progress-bar-info" role="progressbar"
+					aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+					><span id="span3"></span></div>
+			</div>
+		</div>
+		<div class="col-xs-2" style="width: 20%;">
+			<p style="color:#ff9800;">不满意</p>
+			<div class="progress phi">
+				<div id="div4" class="progress-bar progress-bar-warning" role="progressbar"
+					aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+					><span id="span4"></span></div>
+			</div>
+		</div>
+		<div class="col-xs-2" style="width: 20%;">
+			<p style="color:#f44336;">非常不满意</p>
+			<div class="progress phi">
+				<div id="div5" class="progress-bar progress-bar-danger" role="progressbar"
+					aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+					><span id="span5"></span></div>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<div class="text-center changelevel">
+		<button type="button" class="btn btn-primary" onclick="changelevel('',this);">全部</button>
+		<button type="button" class="btn" onclick="changelevel(5,this);">非常满意</button>
+		<button type="button" class="btn" onclick="changelevel(4,this);">满意</button>
+		<button type="button" class="btn" onclick="changelevel(3,this);">基本满意</button>
+		<button type="button" class="btn" onclick="changelevel(2,this);">不满意</button>
+		<button type="button" class="btn" onclick="changelevel(1,this);">非常不满意</button>
+	</div>
+	<hr>
+	<table id="roll_list" class="table">
+	</table>
+	<p class="text-center" id="project-none" style="display:none;">
+        <span style="background-color: #F1F2F3; padding: 8px 200px; color: #666;">暂无数据</span>
+     </p>
+    <!-- 分页显示位置 -->
+    <nav class="text-center" id="layer"></nav>
+    <nav class="text-center" id="layerSearch"></nav>
+	</section>
+</div>

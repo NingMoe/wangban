@@ -1,0 +1,411 @@
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<style>
+<!--
+.content{
+	margin-left: auto;
+	margin-right: auto;	
+	font-size: 14px;
+	font-family:'Microsoft YaHei',"微软雅黑", Verdana, Arial, Helvetica, sans-serif; 
+}
+
+.content .btn{
+	text-align: right;
+	margin-right:15px;
+	height: 40px;
+}
+
+.tab{
+	width: 98%;
+	margin-left: auto;
+	margin-right: auto;	
+	border-width: 1;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #000000;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #000000;
+}
+
+.main{
+	width: 100%;
+}
+
+.tab_query{
+	width: 98%;
+	margin-left: auto;
+	margin-right: auto;	
+	border-width: 1;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #000000;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #000000;
+}
+
+div .header{
+	font-weight: bold;
+	font-size: 18px;
+	margin-left: auto;
+	margin-right: auto;	
+	text-align: center;
+	
+}
+
+.tab thead{
+	text-align: center;
+	font-weight: bold;
+	background-color: #199CE2;
+}
+.tab td{
+	 height: 40px;
+	 border-top-width: 1px;
+     border-top-style: solid;
+     border-top-color: #000000;
+     border-left-width: 1px;
+     border-left-style: solid;
+     border-left-color: #000000;
+}
+
+.tab_query td{
+	 height: 30px;
+	 border-top-width: 1px;
+     border-top-style: solid;
+     border-top-color: #000000;
+     border-left-width: 1px;
+     border-left-style: solid;
+     border-left-color: #000000;
+}
+
+.tab .tr_idx_odd{
+	background-color: #CAD7E4;
+}
+
+.tab td font{
+	 margin-left: 5px;
+}
+.tab_query input,select {
+	 margin-left: 5px;
+}
+
+.tab_query .lable{
+	text-align: right;
+	font-weight: bold;
+	padding-right: 5px;
+}
+
+.tab tbody td{
+	padding-left: 5px;
+}
+-->
+</style>
+
+<div style="width: 80%">
+<div class="content">
+	<div class="btn">
+		<input type="button" value="查询" onclick="onQuery()">
+		<input type="button" value="清空" onclick="reset()">
+		<input type="button" value="删除" onclick="onDel()">
+		<input type="button" value="还原" onclick="recovery()">
+	</div>
+	<div class="query">
+			<table class="tab_query" id="tab_query" border="0"  cellpadding="0" cellspacing="0">
+				<col width="16%">
+				<col width="34%">
+				<col width="16%">
+				<col width="34%">
+				<tr>
+					<td class="lable">申请时间:</td>
+					<td>
+						<input type="text"  class="date" id="APPLYTIME_S" name="APPLYTIME_S" style="width: 90px;">~
+						<input type="text"  class="date" id="APPLYTIME_E" name="APPLYTIME_E" style="width: 90px;">
+					</td>
+					<td class="lable">办结时间:</td>
+					<td>
+						<input type="text"  class="date" id="FINISHTIME_S" name="FINISHTIME_S" style="width: 90px;">~
+						<input type="text"  class="date" id="FINISHTIME_E" name="FINISHTIME_E" style="width: 90px;">
+					</td>
+				</tr>
+				<tr>
+					<td class="lable">申请人(单位)编号:</td>
+					<td>
+						<input type="text"  id="CODE" name="CODE" style="width: 95%;">
+					</td>
+					<td class="lable">材料提交方式:</td>
+					<td>
+						<select id="MATERIAL" name="MATERIAL" style="width: 95%;">
+							<option value="">-- 请选择 --</option>
+							<option value="0">全程办理材料全</option>
+							<option value="1">窗口提交</option>
+							<option value="2">物流快递</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="lable">是否收费:</td>
+					<td align="left">
+						<input type="radio" name="PAY" value="1">是<input type="radio" name="PAY"  value="0">否
+					</td>
+					<td class="lable">是否评价:</td>
+					<td align="left">
+						<input type="radio" name="EVALUATE" value="1">是<input type="radio" name="EVALUATE"  value="0">否
+					</td>
+				</tr>
+				<tr>
+					<td class="lable">是否签收:</td>
+					<td align="left">
+						<input type="radio" name="DELIVERY" value="1">是<input type="radio" name="DELIVERY"  value="0">否
+					</td>
+					<td class="lable">是否出证:</td>
+					<td align="left">
+						<input type="radio" name="LICENSE" value="1">是<input type="radio" name="LICENSE"  value="0">否
+					</td>
+				</tr>
+				<tr>
+					<td class="lable">是否打印回执:</td>
+					<td align="left">
+						<input type="radio" name="PRINT" value="1">是<input type="radio" name="PRINT"  value="0">否
+					</td>
+					<td class="lable">是否办结确认:</td>
+					<td align="left">
+						<input type="radio" name="SUCCESS" value="1">是<input type="radio" name="SUCCESS"  value="0">否
+					</td>
+				</tr>
+			</table>
+		</div>
+	<div class="main">
+		<div id="data" class="template"></div>
+		<div id="raiderpager"></div>
+	</div>
+	<textarea  class="main" id="template" style="display: none">
+		<br>
+		<div>
+			<table  class="tab" border="0"  cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<td align="center"><input type="checkbox" onclick="selectAll(this)"></td>
+						<td>事项名称</td>
+						<td>申请人(单位)编号<br>身份证|组织机构代码</td>
+						<td>申请时间</td>
+						<td>办结时间</td>
+						<td>材料提交方式</td>
+						<td>是否<br>收费</td>
+						<td>是否<br>评价</td>
+						<td>是否<br>签收</td>
+						<td>是否<br>出证</td>
+						<td>是否打<br>印回执</td>
+						<td>是否<br>提交</td>
+					</tr>
+				</thead>
+				<tbody>
+					{if data.length > 0}
+					{for p in data}
+						<tr class="tr_idx_${isOdd(p_index)}">
+							<td align="left">
+								<input type="checkbox" value="${p.BID}">
+							</td>
+							<td>${p.PNAME}</td>
+							<td align="center">${p.CODE}</td>
+							<td align="center">${fomatterDate(p.APPLYTIME)}</td>
+							<td align="center">${fomatterDate(p.FINISHTIME)}</td>
+							<td align="center">${formatPassFlagMaterial(p.MATERIAL)}</td>
+							<td align="center">${formatPassFlag(p.PAY)}</td>
+							<td align="center">${formatPassFlag(p.EVALUATE)}</td>
+							<td align="center">${formatPassFlag(p.DELIVERY)}</td>
+							<td align="center">${formatPassFlag(p.LICENSE)}</td>
+							<td align="center">${formatPassFlag(p.PRINT)}</td>
+							<td align="center">${formatPassFlag(p.SUBMITS)}</td>
+						</tr>
+					{/for}
+					{else}
+						<tr>
+							<td style="color: red;" align="center" colspan="12">没有业务信息!</td>
+						</tr>
+					{/if}
+				</tbody>
+			</table>
+		</div>
+	</textarea>	
+</div>
+</div>
+<script type="text/javascript">
+<!--
+var permissionraidersList=null;
+function contentHandler(){
+  		//初始化模板
+  		permissionraidersList = new LEx.Control.Table("s_list","template");
+  		//读取数据
+  		onQuery();
+  	}
+$(function init(){
+		contentHandler();
+       var c=  new LEx.Control.Calendar(function(){
+			c.setup({id:"APPLYTIME_S"});
+			c.setup({id:"APPLYTIME_E"});
+			c.setup({id:"FINISHTIME_S"});
+			c.setup({id:"FINISHTIME_E"});
+		});
+});
+
+function formatIndex(i){
+  return parseFloat(i)+1;
+}
+
+function onQuery(){
+	   var command = new LEx.Command("icity.project.ProjectIndexCmd");
+	  command.setParameter("BUSINESS.AUTHOR@=",'admin');
+	   command.setParameter("BUSINESS.REMOVE@=",'2');
+   	   command.setParameter("start", permissionraidersList.start());
+  	   command.setParameter("limit", permissionraidersList.limit());//permissionList.limit()
+       var dom_arr = $('#tab_query input[type="text"],select option:selected,input:checked');
+       $.each(dom_arr,function(i,n){
+       		var name = $(n).attr('name');
+       		var value = $(n).val();
+  			if($(n).attr('type') == 'text'){
+  				if($(n).attr('class') != 'date'){
+	  				if(LEx.isNotNull(value)){
+	  					command.setParameter(name+"@like",value);
+	  				}
+  				}
+  			}else if($(n).attr('type') == 'radio'){
+  				if(LEx.isNotNull(value)){
+  					command.setParameter(name+"@=",value);
+  				}
+  			}else if($(n).is('option')){
+  				if(LEx.isNotNull(value)){
+	  				var name = $(n).parent().attr('name');
+	  				command.setParameter(name+"@=",value);
+  				}
+  			}
+       });
+       var applytime_s = $('#APPLYTIME_S').val();
+       if(LEx.isNotNull(applytime_s)){
+	       command.setParameter("APPLYTIME@>=@Date",applytime_s);
+       }
+       var applytime_e = $('#APPLYTIME_E').val();
+       if(LEx.isNotNull(applytime_e)){
+	       command.setParameter("APPLYTIME@<=@Date",applytime_e);
+       }
+       var finishtime_s = $('#FINISHTIME_S').val();
+       if(LEx.isNotNull(finishtime_s)){
+	       command.setParameter("FINISHTIME@>=@Date",finishtime_s);
+       }
+       var finishtime_e = $('#FINISHTIME_E').val();
+       if(LEx.isNotNull(finishtime_e)){
+	       command.setParameter("FINISHTIME@<=@Date",finishtime_e);
+       }
+       var ret = command.execute("getBusinessList");
+       if (ret.state == 1) {
+       		$("#data").html(LEx.processDOMTemplate('template',ret));
+       		permissionraidersList.toPageBar("raiderpager","permissionraidersList",ret.total,"onQuery()");
+       } else {
+            LEx.dialog({ title: "系统提示", content: ret.message, icon: 'error' ,lock:true});
+       }
+}
+
+function isOdd(i){
+	return parseFloat(i)%2 == 1 ? 'odd':'even';
+}
+
+function fomatterDate(val){
+	if(LEx.isNotNull(val)){
+		return LEx.util.Format.formatDate(val);
+	}else{
+		return '-';
+	}
+}
+
+function formatPassFlag(val){
+	if(val=="0"){
+		return "否";
+	}else if(val == "1"){
+		return "是";
+	}else{
+		return "";
+	}
+}
+	
+function formatPassFlagMaterial(val){
+	if(val=="0"){
+		return "全程办理材料全";
+	}else if(val == "1"){
+		return "窗口提交";
+	}else if(val == "2"){
+		return "物流快递";
+	}else{
+		return "";
+	}
+}
+
+function reset(){
+	var dom_arr = $('#tab_query input,select option:selected');
+	$.each(dom_arr,function(i,n){
+		if($(n).attr('type') == 'text'){
+			$(n).val('');
+		}else if($(n).attr('type') == 'radio'){
+			$(n).removeAttr('checked');
+			$(n).next().removeAttr('checked');
+		}else if($(n).is('option')){
+			$(n).removeAttr('selected');
+		}
+	});
+}
+
+function openOrClose(obj){	
+	var query = $('#query');
+	if($(query).css('display') == 'none'){
+		$('#query_id').val('关闭查询');
+		$(query).slideDown();
+	}else{
+		$('#query_id').val('开启查询');
+		$(query).slideUp();
+	}
+}
+
+//删除事件
+	function onDel(){
+		var datas = getChecked(); 
+		if(datas.length == 0){
+			 LEx.dialog({ title: "系统提示", content: '请选择数据!', icon: 'error' ,lock:true});
+			 return;
+		}
+		var n_command = new LEx.Command("icity.project.ProjectIndexCmd");
+		n_command.setParameter("REMOVE",'1');
+		n_command.setParameter("BID@in",datas.join(","));
+		deleteDialog({data: datas,command: n_command,pmName:'businessDelOrRecovery',content:'确定删除所选业务？'});
+	}
+	
+	function recovery(){
+		var datas = getChecked(); 
+		if(datas.length == 0){
+			 LEx.dialog({ title: "系统提示", content: '请选择数据!', icon: 'error' ,lock:true});
+			 return;
+		}
+		var n_command = new LEx.Command("icity.project.ProjectIndexCmd");
+		n_command.setParameter("REMOVE",'0');
+		n_command.setParameter("BID@in",datas.join(","));
+		deleteDialog({data: datas,command: n_command,pmName:'businessDelOrRecovery',content:'确定还原所选业务？'});
+	}
+	
+	function getChecked(){
+		var datas = [];
+		$.each($('.tab tbody input:checked'),function(i,n){
+			datas.push($(n).val());
+		});
+		return datas;
+	}
+	
+	function selectAll(obj){
+		if($(obj).attr('checked') == 'checked'){
+			$.each($('.tab tbody input[type="checkbox"]'),function(i,n){
+				$(n).attr('checked','checked');
+			})
+		}else{
+			$.each($('.tab tbody input:checked'),function(i,n){
+				$(n).attr('checked',false);
+			})
+		}
+	}
+//-->
+</script>

@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>注册 - 用户中心</title>
+<link rel="stylesheet" type="text/css" href="{{PageContext.ContextPath}}public/themes/uc/css/a?t=css&m=base.css,layout.css,tool.css,form.css,common.css,signup.css" />
+<script  type="text/javascript" src="{% public scripts/des.js %}"></script>
+<style>
+.form-body dl {
+	width: 640px;
+}
+
+div.mask {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #ccc;
+	position: absolute;
+	filter: alpha(opacity = 30);
+	-moz-opacity: 0.3;
+	opacity: 0.3;
+	position: absolute;
+	display: none;
+	z-index: 2;
+}
+
+div.regtype {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 150px;
+	left: 300px;
+	display: none;
+	z-index: 4;
+}
+
+li {
+	list-style: none
+}
+
+li,dd,dl,dt {
+	padding: 0px;
+	margin: 0px
+}
+
+.add_option {
+	margin: 10px auto;
+}
+
+.add_option li {
+	border: 1px solid #CCCCCC;
+	border-radius: 5px;
+	cursor: pointer;
+	float: left;
+	height: 300px;
+	margin: 20px;
+	width: 242px;
+}
+
+.add_option li:hover {
+	border: 1px solid #FF6600
+}
+
+.add_option li dl {
+	padding-left: 21px;
+	padding-top: 25px;
+}
+
+.add_option li dl dt {
+	font-size: 30px;
+	color: #CCC
+}
+
+.add_option li dl dd {
+	font-size: 40px;
+	padding: 0 22px;
+}
+
+.add_option li.yhmm:hover dl dd {
+	color: #319327
+}
+
+.add_option li.cazs:hover dl dd {
+	color: #B2885D
+}
+
+.add_option li.yhmm {
+	background: url({{PageContext.ContextPath}}public/themes/uc/images/register/yhmm.png) center bottom no-repeat;
+}
+
+.add_option li.cazs {
+	background: url({{PageContext.ContextPath}}public/themes/uc/images/register/cazs.png) center bottom no-repeat;
+}
+
+input.readonly {
+	background: #eeeeee;
+}
+
+div.cazsinfo {
+	position: absolute;
+	top: 200px;
+	left: 500px;
+	width: 242px;
+	height: 220px;
+	display: none;
+	background: #FFF;
+}
+
+div.cazsinfo:hover {
+	top: 199px;
+	left: 499px;
+	border: 1px solid #FF6600;
+}
+
+dl.zsdown {
+	padding: 16px 8px 5px 18px;
+}
+
+div.cachoose {
+	margin-left: 60px;
+	margin-top: 20px;
+	font-size: 18px;
+	font-weight: bold;
+	text-shadow: 1px 1px #eeeeee;
+}
+
+select.calist {
+	margin-top: 20px;
+	margin-left: 20px;
+	width: 200px;
+}
+
+input.btn-cazs {
+	margin-top: 20px;
+	margin-left: 20px;
+	width: 200px;
+	font-size: 13px;
+	font-family: 'Microsoft YaHei', "微软雅黑", Verdana, Arial, Helvetica, sans-serif;
+}
+
+.mask_ {
+	position: absolute;
+	top: 0px;
+	filter: alpha(opacity = 60);
+	background-color: #777;
+	z-index: 1002;
+	left: 0px;
+	opacity: 0.3;
+	-moz-opacity: 0.2;
+}
+
+._mask {
+	position: absolute;
+	top: 0px;
+	background-color: white;
+	z-index: 1011;
+	left: 0px;
+	border: 1px solid black;
+	color: black;
+}
+.pop_close { position: absolute; top:5px; right: 10px;}
+</style>
+<script type="text/javascript">
+	var __webPath = "{{PageContext.ContextPath}}";
+	var __signature = "{{PageContext.SignatureInfo}}";
+	var AppId = "{{ConfigInfo.AppId}}";
+</script>
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,LEx.form.js,common.js,md5.js"></script>
+<script type="text/javascript">
+	plugin.add('dialog', {
+		path : '{{PageContext.ContextPath}}public/scripts/dialog/a?t=js&m=jquery.artDialog.js,plugins/iframeTools.js',
+		type : 'js',
+		charset : 'utf-8',
+		rely : [ 'dialog_css' ]
+	});
+	plugin.add('dialog_css', {
+		path : '{{PageContext.ContextPath}}public/scripts/dialog/skins/default.css',
+		type : 'css',
+		charset : 'utf-8'
+	});
+</script>
+<script type="text/javascript" src="{{PageContext.PagePath}}uc/js/a?t=js&m=base64.js"></script>
+<script type="text/javascript" src="{{PageContext.PagePath}}uc/js/a?t=js&m=register.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		showMask_();
+		_showMask();
+	});
+	function showMask_() {
+		$("#mask_").css("height", $(document).height());
+		$("#mask_").css("width", $(document).width());
+	}
+	function _showMask() {
+		$("#_mask").css("height", "150");
+		$("#_mask").css("width", "350");
+		var t = $(window).height() - 150;
+		var h = $(document).width() - 350;
+		$("#_mask").css("margin-top", t / 2);
+		$("#_mask").css("margin-left", h / 2);
+	}
+	function close() {
+		$("#_mask").hide();
+		$("#mask_").hide();
+	}
+</script>
+</head>
+<body class="page-home common-page-home">
+	{% if ConfigInfo.REGISTER_INFO %}
+	<div id="mask_" class="mask_"></div>
+	<div id="_mask" class="_mask">
+		<div style="background-color: #D6E6E5; height: 30px; line-height: 30px;">
+			<STRONG style="margin: 10px 10px 10px 10px; font-size: 14px;">注册提示</STRONG>
+		</div>
+		<div style="margin: 10px 10px 10px 10px;">{{ConfigInfo.REGISTER_INFO}}</div>
+		<div align="center">
+			<a style="font-size: 12px;" href="javascript:close();">我知道了</a>
+		</div>
+	</div>
+	{% endif %}
+	<div class="wrap">
+		<div class="header-holder" style="z-index: 1;">
+			<div class="header common-header">
+				<div class="logo">
+					 <img class="uc-header-logo-img" src="{% public assets/img/login_title.png %}">
+				</div>
+				<div class="nav_sub" style="margin-right: 10px;">
+					<a hidefocus="hidefocus" href="{{PageContext.ContextPath}}">首页</a>&nbsp;&nbsp;|&nbsp; <a hidefocus="hidefocus" href="{{PageContext.ContextPath}}home/help" target="_blank">帮助</a>
+				</div>
+			</div>
+		</div>
+		<div class="content-holder" {% if ConfigInfo.AppId|equal:"chq"%}style='border-bottom:rgb(223,222,222);'{%endif%}>
+			<div class="content clearfix">
+				<div class="signup-center">
+					<div class="signup-title">
+						<h1>
+							<div class="signup-header">
+								<span class="signup-tip">用户注册 </span>
+							</div>
+						</h1>
+					</div>
+					<div class="signup-main">
+						<div style="width: 100%;">
+							<div class="form-contain">
+								<div class="form-type">
+									<input class="btn-per btn-org-hover" id="btn-per" style="margin-left: 40px;" value="个人注册" type="button" tag="form_per_contain"> <input class="btn-org" id="btn-org" value="单位注册" type="button" tag="form_org_contain">
+								</div>
+								<div style="display: block;" class="form_per_contain form_contain_DIV curr_contain" id="form_per_contain">
+									<div id="register_form_per" autocomplete="off">
+										<div class="m_warn" style="margin-right: 0px; margin-top: 10px; border: 1px solid #FF0000; background: #FFE2CF; color: #FFf0000">
+										{% if ConfigInfo.REGISTER_ZH %}
+										 {{ConfigInfo.REGISTER_ZH}} {% else %} 本账号是您享受全面的城市咨询及服务的网上通行证，请确保账号的唯一性以及资料的准确性！ {% endif %}</div>
+										<div class="form-body form-signup-body">
+											<dl id="ACCOUNT_DL" name="ACCOUNT_DL">
+												<dt>
+													<em>*</em>&nbsp;个人登录账号：
+												</dt>
+												<dd>
+													<input tag="ACCOUNT" name="ACCOUNT" id="ACCOUNT" class="input" reg="^[a-zA-Z][a-zA-Z0-9_]{5,20}$" type="text" tip="格式不符合要求" func="check_Exists"> 
+													<input type="hidden" tag="TYPE" name="TYPE" id="TYPE" value="11"> 
+													<input type="hidden" tag="USERIDCODE" name="USERIDCODE" id="USERIDCODE" value="{{PageContext.Parameter.uuid}}"> 
+													<input type="hidden" tag="goto" name="goto" id="goto" value="{{PageContext.Parameter.goto}}"> 
+												</dd>
+												<dd class="form-tip">
+													<span for="ACCOUNT"></span>
+												</dd>
+												<dd class="check_rule">以字母开头，允许使用字母数字下划线，6-20位组成</dd>
+											</dl>
+											<dl id="PASSWORD_DL" name="PASSWORD_DL" style="width: 640px;">
+												<dt>
+													<em>*</em>&nbsp;登录密码：
+												</dt>
+												<dd>
+													<input id="PASSWORD" name="PASSWORD" tag="PASSWORD" reg="^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,15}$" class="input" type="password" tip="请按要求填写" oncopy="return false;" oncut="return false;" onpaste="return false;">
+												</dd>
+												<dd class="form-tip">
+													<span for="PASSWORD"></span>
+												</dd>
+												<dd class="check_rule">密码由6-15位字母、数字或特殊符号组成</dd>
+											</dl>
+											<dl id="CONFIRM_PASSWORD_DL" name="CONFIRM_PASSWORD_DL">
+												<dt>
+													<em>*</em>&nbsp;确认密码：
+												</dt>
+												<dd>
+													<input id="CONFIRM_PASSWORD" name="CONFIRM_PASSWORD" reg="^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,15}$" tag="CONFIRM_PASSWORD" class="input" type="password" tip="请按要求填写" func="check_confirm_password" oncopy="return false;" oncut="return false;" onpaste="return false;">
+												</dd>
+												<dd class="form-tip">
+													<span for="CONFIRM_PASSWORD"></span>
+												</dd>
+												<dd class="check_rule">请再次输入您设置的密码</dd>
+											</dl>
+											<dl style="width: 640px;">
+												<dt>
+													<em>*</em>&nbsp;真实姓名：
+												</dt>
+												<dd>
+													<input id="NAME" name="NAME" tag="NAME" class="input" reg="^.+$" tip="请按要求填写">
+												</dd>
+												<dd class="form-tip">
+													<span for="NAME"></span>
+												</dd>
+												<dd class="check_rule">请输入真实姓名</dd>
+											</dl>
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;证件号码：
+												</dt>
+												<dd>
+													<select style="text-align: left; width: 72px;" tag="CARD_TYPE" id="CARD_TYPE" reg="^.+$" tip="请按选择证件类型"></select>
+												</dd>
+												<dd>
+													<input class="input invalid" style="width: 193px" tag="CARD_NO" id="CARD_NO" reg="^.+$" tip="请按要求填写"  func="check_card"  for="CARD_TYPE">
+												</dd>
+												<dd class="form-tip">
+													<span for="CARD_NO"></span>
+												</dd>
+												<dd class="check_rule">请先选择证件类型，再填写证件号码</dd>
+											</dl>
+											<dl id="" name="" style="width: 640px;">
+												<dt>
+													<em>*</em>&nbsp;联系地址：
+												</dt>
+												<dd>
+													<input id="ADDRESS" name="ADDRESS" tag="ADDRESS" reg="^.+$" class="input" type="ADDRESS" tip="请按要求填写">
+												</dd>
+												<dd class="form-tip">
+													<span for="ADDRESS"></span>
+												</dd>
+												<dd class="check_rule">请输入完整的联系地址</dd>
+											</dl>											
+											{% if ConfigInfo.ValidType|length %} {% if ConfigInfo.ValidType|equal:'mail' %}	
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;手机号：
+												</dt>
+												<dd>
+													<input id="PHONE" name="PHONE" reg="^[1][3,5,7,8][0-9]{9}$" tag="PHONE" tip="请输入正确手机号码" func="check_Exists" class="input invalid">
+												</dd>
+												<dd class="form-tip">
+													<span for="PHONE"></span>
+												</dd>
+												<dd class="check_rule">请填写手机号码</dd>
+											</dl>
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;邮箱地址：
+												</dt>
+												<dd>
+													<input id="EMAIL" name="EMAIL" tag="EMAIL" reg="^(\w)+(\.\w+)*@(\w)+(\.\w+)*$" tip="请输入正确的邮箱地址" func="check_Exists" class="input invalid">
+												</dd>
+												<dd class="form-tip">
+													<span for="EMAIL"></span>
+												</dd>
+												<dd class="check_rule">请填写邮箱地址</dd>
+											</dl>
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;验证码：
+												</dt>
+												<dd>
+													<input type="text" style="width: 68px;" class="input" reg="^.+$" tip="请填写验证码" name="VCODE" id="VCODE" tag="VCODE" maxlength="4" />
+												</dd>
+												<dd class="dd-input" style="margin-left: 8px;">
+													<a id="verify_btn" name="verify_btn" href="javascript:void(0);" style="margin: 0px; float: right;" class="opt_btn"> <span id="verify_btn_text" name="verify_btn_text">通过邮箱获取验证码</span></a>
+												</dd>
+												<dd class="form-tip">
+													<span for="VCODE"></span>
+												</dd>
+												<dd class="check_rule">请输入验证码</dd>
+											</dl>
+											{% endif %} {% if ConfigInfo.ValidType|equal:'sms' %}
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;手机号：
+												</dt>
+												<dd>
+													<input id="PHONE" name="PHONE" tag="PHONE" reg="^[1][3,5,7,8][0-9]{9}$" tip="请输入正确的手机号码" func="check_Exists" class="input invalid">
+												</dd>
+												<dd class="form-tip">
+													<span for="PHONE"></span>
+												</dd>
+												<dd class="check_rule">请填写手机号码，获取短信验证码</dd>
+											</dl>
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;验证码：
+												</dt>
+												<dd>
+													<input type="text" style="width: 68px;" class="input" reg="^.+$" tip="请填写验证码" name="VCODE" id="VCODE" tag="VCODE" maxlength="4">
+												</dd>
+												<dd class="dd-input" style="margin-left: 8px;">
+													<a id="verify_btn" name="verify_btn" href="javascript:void(0);" style="margin: 0px; float: right;" class="opt_btn"> <span id="verify_btn_text" name="verify_btn_text">点击获取短信验证码</span></a>
+												</dd>
+												<dd class="form-tip">
+													<span for="VCODE"></span>
+												</dd>
+												<dd class="check_rule">请输入验证码</dd>
+											</dl>
+											{% endif %} {% else %}
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;手机号：
+												</dt>
+												<dd>
+													<input id="PHONE" name="PHONE" tag="PHONE" reg="^[1][3,5,7,8][0-9]{9}$" tip="请输入正确的手机号码" func="check_Exists" class="input invalid">
+												</dd>
+												<dd class="form-tip">
+													<span for="PHONE"></span>
+												</dd>
+												<dd class="check_rule">请填写手机号码</dd>
+											</dl>
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;验证码：
+												</dt>
+												<dd>
+													<input type="text" style="width: 68px;" class="input" reg="^.+$" tip="请填写验证码" name="VCODE" id="VCODE" tag="VCODE" maxlength="4">
+												</dd>
+												<dd style="width: 240px; margin-left: 20px;" class="dd-input">
+													<a href="javascript:changeVerify();" hidefocus="hidefocus"> <img name="verifyImg" src="{{PageContext.ContextPath}}bsp/verifyCode" alt="换一张" style="position: relative; top: 6px; left: 0px;">
+													</a>&nbsp; <a href="javascript:changeVerify();" hidefocus="hidefocus" style="font-size: 13px;">换一张</a>
+												</dd>
+												<dd class="form-tip">
+													<span for="VCODE"></span>
+												</dd>
+												<dd class="check_rule">请输入验证码</dd>
+											</dl>
+											{% endif %}
+											<dl>
+												<dt></dt>
+												<dd>
+													<input id="login_allow_per" name="login_allow" class="checkbox" style="margin-top: -3px;" type="checkbox">
+												</dd>
+												<dd>
+													&nbsp;&nbsp;我已阅读并同意<a href="{{PageContext.ContextPath}}uc/agreement" id="CONTRACT_NAME" target="_blank" class="m-link" hidefocus="hidefocus">
+													{% if ConfigInfo.CONTRACT_NAME %}
+													{{ConfigInfo.CONTRACT_NAME}}
+													{% else %}网络服务使用协议
+													{% endif %}
+													</a>
+												</dd>
+												<dd class="form-tip"></dd>
+											</dl>
+										</div>
+										<div class="form-submit">
+											<dl>
+												<dd style="text-align: center;">
+													<input class="btn-reg" id="btn-submit_per" type="button">
+												</dd>
+											</dl>
+										</div>
+									</div>
+								</div>
+								<div class="form_org_contain form_contain_DIV" style="display: none;" id="form_org_contain">
+									<div id="register_form_org" autocomplete="off">
+										<div class="m_warn" style="margin-right: 0px; margin-top: 10px; border: 1px solid #FF0000; background: #FFE2CF; color: #FFf0000;">
+										{% if ConfigInfo.REGISTER_ZH %} {{ConfigInfo.REGISTER_ZH}}
+										{% else %} 本账号是您享受全面的城市咨询及服务的网上通行证，请确保账号的唯一性以及资料的准确性！
+										{% endif %}</div>
+										<div class="form-body form-signup-body">
+											<dl id="ACCOUNT_DL" name="ACCOUNT_DL">
+												<dt>
+													<em>*</em>&nbsp;单位登录账号：
+												</dt>
+												<dd>
+													<input tag="ACCOUNT" name="ACCOUNT" id="ACCOUNT" class="input" reg="^[a-zA-Z][a-zA-Z0-9_]{5,20}$" type="text" tip="格式不符合要求" func="check_Exists"> 
+													<input tag="TYPE" name="TYPE" id="TYPE" type="hidden" value="21"> 
+												</dd>
+												<dd class="form-tip">
+													<span for="ACCOUNT"></span>
+												</dd>
+												<dd class="check_rule">以字母开头，允许使用字母数字下划线，6-20位组成</dd>
+											</dl>
+											<dl id="PASSWORD_DL" name="PASSWORD_DL" style="width: 640px;">
+												<dt>
+													<em>*</em>&nbsp;登录密码：
+												</dt>
+												<dd>
+													<input id="PASSWORD" name="PASSWORD" tag="PASSWORD" reg="^[A-Za-z0-9\!\@\#\$\%\^\&\*\.\~]{6,15}$" class="input" type="password" tip="请按要求填写" oncopy="return false;" oncut="return false;" onpaste="return false;">
+												</dd>
+												<dd class="form-tip">
+													<span for="PASSWORD"></span>
+												</dd>
+												<dd class="check_rule">密码由6-15位字母、数字或特殊符号组成</dd>
+											</dl>
+											<dl id="CONFIRM_PASSWORD_DL" name="CONFIRM_PASSWORD_DL">
+												<dt>
+													<em>*</em>&nbsp;确认密码：
+												</dt>
+												<dd>
+													<input id="CONFIRM_PASSWORD" name="CONFIRM_PASSWORD" reg="^[A-Za-z0-9\!\@\#\$\%\^\&\*\.\~]{6,15}$" tag="CONFIRM_PASSWORD" class="input" type="password" tip="请按要求填写" func="check_confirm_password" oncopy="return false;" oncut="return false;" onpaste="return false;">
+												</dd>
+												<dd class="form-tip">
+													<span for="CONFIRM_PASSWORD"></span>
+												</dd>
+												<dd class="check_rule">请再次输入您设置的密码</dd>
+											</dl>
+
+											<dl>
+												<dt>
+													&nbsp;{% if ConfigInfo.AppId|equal:"chq" %}统一社会信用代码：{% else %}组织机构代码：{% endif %}
+												</dt>
+												<dd>
+													<input id="ORG_NO" name="ORG_NO"  tag="ORG_NO" class="input field" tip="请按要求填写" func="check_Exists" value="" type="text">
+												</dd>
+												<dd class="form-tip">
+													<span for="ORG_NO"></span>
+												</dd>
+												<dd class="check_rule" style="width: 350px; height: 20px; line-height: 20px;">{% if ConfigInfo.AppId|equal:"chq"|not %}注：填写组织机构9位代码，请省略短线。{% endif %}</dd>
+												<dd style="margin-bottom: 6px;">&nbsp;</dd>
+											</dl>
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;组织机构全称：
+												</dt>
+												<dd>
+													<input id="ORG_NAME" name="ORG_NAME" reg="^.+$" tag="ORG_NAME" class="input field" tip="请按要求填写" value="" type="text">
+												</dd>
+												<dd class="form-tip">
+													<span for="ORG_NAME"></span>
+												</dd>
+												<dd style="margin-top: 12px; margin-bottom: 12px;">&nbsp;</dd>
+											</dl>
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;法人{% if ConfigInfo.AppId|equal:"chq" %}代表{% endif %}姓名：
+												</dt>
+												<dd>
+													<input id="ORG_BOSS_NAME" name="ORG_BOSS_NAME" reg="^.+$" tag="ORG_BOSS_NAME" tip="请按要求填写" class="input field" value="" type="text">
+												</dd>
+												<dd class="form-tip">
+													<span for="ORG_BOSS_NAME"></span>
+												</dd>
+												<dd style="margin-top: 12px; margin-bottom: 12px;">&nbsp;</dd>
+											</dl>
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;法人证件号码：
+												</dt>
+												<dd>
+													<select style="text-align: left; width: 72px;" id="ORG_BOSS_TYPE" name="ORG_BOSS_TYPE" reg="^.+$" tag="ORG_BOSS_TYPE"></select>
+												</dd>
+												<dd>
+													<input class="input  invalid" style="width: 193px" id="ORG_BOSS_NO" name="ORG_BOSS_NO" reg="^.+$" tag="ORG_BOSS_NO" tip="请按要求填写" func="checkCardNo" for="ORG_BOSS_TYPE">
+												</dd>
+												<dd class="form-tip">
+													<span for="ORG_BOSS_NO"></span>
+												</dd>
+												<dd class="check_rule">请先选择证件类型，再填写证件号码</dd>
+											</dl>
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;联系人姓名：
+												</dt>
+												<dd>
+													<input id="CARD_NAME" name="CARD_NAME" reg="^.+$" tag="CARD_NAME" tip="请按要求填写" class="input field" value="" type="text">
+												</dd>
+												<dd class="form-tip">
+													<span for="CARD_NAME"></span>
+												</dd>
+												<dd style="margin-top: 12px; margin-bottom: 12px;">&nbsp;</dd>
+											</dl>
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;联系人证件号码：
+												</dt>
+												<dd>
+													<select style="text-align: left; width: 72px;" id="CARD_TYPE" name="CARD_TYPE" reg="^.+$" tag="CARD_TYPE"></select>
+												</dd>
+												<dd>
+													<input class="input" style="width: 193px" id="CARD_NO" name="CARD_NO" reg="^.+$" tag="CARD_NO" tip="请按要求填写" func="checkCardNo" for="CARD_TYPE">
+												</dd>
+												<dd class="form-tip">
+													<span for="CARD_NO"></span>
+												</dd>
+												<dd class="check_rule">请先选择证件类型，再填写证件号码</dd>
+											</dl>
+											<dl id="" name="" style="width: 640px;">
+												<dt>
+													<em>*</em>&nbsp;联系地址：
+												</dt>
+												<dd>
+													<input id="ADDRESS" name="ADDRESS" tag="ADDRESS" reg="^.+$" class="input" type="ADDRESS" tip="请按要求填写" oncopy="return false;" oncut="return false;" onpaste="return false;">
+												</dd>
+												<dd class="form-tip">
+													<span for="ADDRESS"></span>
+												</dd>
+												<dd class="check_rule">请输入完整的联系地址</dd>
+											</dl>
+											
+											{% if ConfigInfo.ValidType|length %} {% if ConfigInfo.ValidType|equal:'mail' %}
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;手机号：
+												</dt>
+												<dd>
+													<input id="PHONE" name="PHONE" reg="^[1][3,5,7,8][0-9]{9}$" tag="PHONE" tip="请输入正确手机号码" func="check_Exists" class="input invalid">
+												</dd>
+												<dd class="form-tip">
+													<span for="PHONE"></span>
+												</dd>
+												<dd class="check_rule">请填写手机号码</dd>
+											</dl>
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;邮箱地址：
+												</dt>
+												<dd>
+													<input id="EMAIL" name="EMAIL" tag="EMAIL" reg="^(\w)+(\.\w+)*@(\w)+(\.\w+)*$" tip="请输入正确的邮箱地址" func="check_Exists" class="input invalid">
+												</dd>
+												<dd class="form-tip">
+													<span for="EMAIL"></span>
+												</dd>
+												<dd class="check_rule">请填写邮箱地址</dd>
+											</dl>
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;验证码：
+												</dt>
+												<dd>
+													<input type="text" style="width: 68px;" class="input" reg="^.+$" tip="请填写验证码" name="VCODE" id="VCODE" tag="VCODE" maxlength="4" />
+												</dd>
+												<dd class="dd-input" style="margin-left: 8px;">
+													<a id="verify_btn" name="verify_btn" href="javascript:void(0);" style="margin: 0px; float: right;" class="opt_btn"> <span id="verify_btn_text" name="verify_btn_text">通过邮箱获取验证码</span></a>
+												</dd>
+												<dd class="form-tip">
+													<span for="VCODE"></span>
+												</dd>
+												<dd class="check_rule">请输入验证码</dd>
+											</dl>
+											{% endif %}
+											<!-- 注册验证方式为空或者为sms -->
+											{% if ConfigInfo.ValidType|equal:'sms' %}
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;手机号：
+												</dt>
+												<dd>
+													<input id="PHONE" name="PHONE" reg="^[1][3,5,7,8][0-9]{9}$" tag="PHONE" tip="请输入正确手机号码" func="check_Exists" class="input invalid">
+												</dd>
+												<dd class="form-tip">
+													<span for="PHONE"></span>
+												</dd>
+												<dd class="check_rule">请再次输入您设置的密码</dd>
+											</dl>
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;验证码：
+												</dt>
+												<dd>
+													<input type="text" style="width: 68px;" class="input" reg="^.+$" tip="请填写手机验证码" name="VCODE" id="VCODE" tag="VCODE" maxlength="4" />
+												</dd>
+												<dd class="dd-input" style="margin-left: 8px;">
+													<a id="verify_btn" name="verify_btn" href="javascript:void(0);" style="margin: 0px; float: right;" class="opt_btn"> <span id="verify_btn_text" name="verify_btn_text" style="margin-left: 12px;">点击获取短信验证码</span></a>
+												</dd>
+												<dd class="form-tip">
+													<span for="VCODE"></span>
+												</dd>
+												<dd class="check_rule">请输入短信验证码</dd>
+											</dl>
+											{% endif %} {% else %}
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;手机号：
+												</dt>
+												<dd>
+													<input id="PHONE" name="PHONE" reg="^[1][3,5,7,8][0-9]{9}$" tag="PHONE" tip="请输入正确手机号码" func="check_Exists" class="input invalid">
+												</dd>
+												<dd class="form-tip">
+													<span for="PHONE"></span>
+												</dd>
+												<dd class="check_rule">请填写手机号码</dd>
+											</dl>
+											<dl>
+												<dt>
+													<em>*</em>&nbsp;验证码：
+												</dt>
+												<dd>
+													<input type="text" style="width: 68px;" class="input" reg="^.+$" tip="请填写验证码" name="VCODE" id="VCODE" tag="VCODE" maxlength="4">
+												</dd>
+												<dd style="width: 240px; margin-left: 20px;" class="dd-input">
+													<a href="javascript:changeVerify();" hidefocus="hidefocus"> <img name="verifyImg" src="{{PageContext.ContextPath}}bsp/verifyCode" alt="换一张" style="position: relative; top: 6px; left: 0px;">
+													</a>&nbsp; <a href="javascript:changeVerify();" hidefocus="hidefocus" style="font-size: 13px;">换一张</a>
+												</dd>
+												<dd class="form-tip">
+													<span for="VCODE"></span>
+												</dd>
+												<dd class="check_rule">请输入验证码</dd>
+											</dl>
+											{% endif %}
+											<dl>
+												<dt></dt>
+												<dd>
+													<input id="login_allow_org" name="login_allow" class="checkbox" style="margin-top: -3px;" type="checkbox">
+												</dd>
+												<dd>
+													&nbsp;&nbsp;我已阅读并同意<a href="{{PageContext.ContextPath}}uc/agreement" id="CONTRACT_NAME" target="_blank" class="m-link" hidefocus="hidefocus">
+													{% if ConfigInfo.CONTRACT_NAME %}
+													{{ConfigInfo.CONTRACT_NAME}}
+													{% else %}网络服务使用协议
+													{% endif %}
+													</a>
+												</dd>
+												<dd class="form-tip"></dd>
+											</dl>
+										</div>
+										<div class="form-submit">
+											<dl>
+												<dd style="text-align: center;">
+													<input class="btn-reg" id="btn-submit_org" type="button">
+												</dd>
+											</dl>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% if ConfigInfo.AppId|equal:"chq"|not%}
+							<div class="tip-box-contain">
+								<div class="title">
+									<h1>
+										<strong style="font-size: 13px;">说明</strong>
+									</h1>
+								</div>
+								<div class="content">
+									<ul>
+									{% if ConfigInfo.ValidType|equal:'sms' %}
+										<li style="padding-top: 0px;">
+											<span>1. 注册的账号需要通过手机短信验证之后才能使用，请正确填写您的手机号码。</span>
+										</li>
+										<li>
+											<span>2. 可以使用用户名、证件号码、手机号任意一个进行登录。</span>
+										</li>
+									{% else %}
+										<li style="padding-top: 0px;"><span>1. 注册的账号需要通过邮件激活之后才能使用，请正确填写您的邮箱。</span></li>	
+										<li><span>2. 可以使用用户名、手机号、邮箱任意一个进行登录。</span></li>
+									{% endif %}
+										<li><span>3. 昵称是登录后显示的用户名，账号申请成功后可以修改昵称。 </span></li>
+										<li><span>4. 以上信息对于保护您的账号安全极为重要，请您慎重填写并牢记。 </span></li>
+									</ul>
+								</div>
+							</div>
+							{% endif %}
+							<div style="clear: both;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer-holder" {% if ConfigInfo.AppId|equal:"chq"%}style='background-color:rgb(223,222,222);border-top: 1px solid rgb(223,222,222);'{%endif%}>
+			<div class="footer">
+				<div class="uc-copyright">
+					<div class="nav_sub">
+					   {% if ConfigInfo.AppId|equal:"chq"%}
+						<a hidefocus="hidefocus" href="#" onclick="contentQuery('wzjs');" {% if ConfigInfo.AppId|equal:"chq"%}style='color: #333333;'{%endif%}>网站介绍</a>&nbsp;&nbsp;|&nbsp; <a hidefocus="hidefocus" href="#" onclick="contentQuery('xszn');" {% if ConfigInfo.AppId|equal:"chq"%}style='color: #333333;'{%endif%}>新手指南</a><a onclick="a()"></a>&nbsp;&nbsp;|&nbsp; <a hidefocus="hidefocus" href="#" onclick="contentQuery('lxwm');" {% if ConfigInfo.AppId|equal:"chq"%}style='color: #333333;'{%endif%}>联系我们</a>
+						{% else %}
+						<a hidefocus="hidefocus" href="{{PageContext.ContextPath}}home/map">网站地图</a>&nbsp;&nbsp;|&nbsp; <a hidefocus="hidefocus" href="{{PageContext.ContextPath}}home/help">使用帮助</a><a onclick="a()"></a>&nbsp;&nbsp;|&nbsp; <a hidefocus="hidefocus" href="{{PageContext.ContextPath}}home/linker">联系我们</a>
+						{% endif %}
+					</div>
+				    
+				    <span {% if ConfigInfo.AppId|equal:"chq" %} style='line-height: 24px;color: #555555;' {% endif%}>
+					{{ConfigInfo.CompanyName}}&nbsp;&nbsp;|&nbsp; {{ConfigInfo.CompanyAuthor}}&nbsp;&nbsp;|&nbsp; {{ConfigInfo.CompanyRecord}}
+				    </span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div title="返回顶部" style="position: fixed; bottom: 73px; left: 1138.5px; opacity: 1; cursor: pointer;" id="topcontrol">
+		<a href="#top" class="top_stick"><img src="{{PageContext.ContextPath}}public/themes/uc/images/login/gotop.jpg" style="margin-top: 6px" border="0">
+			<p>返回顶部</p> </a>
+	</div>
+	<input id="validType" type="hidden" value="{{ConfigInfo.ValidType}}" />
+	<input id="userInfo" type="hidden" />
+	<input id="goto" name="goto" type="hidden" value="{{PageContext.Parameter.goto}}" />
+	<input id="DES_password" type="hidden" value="inspur!@" />
+</body>
+</html>
+<script type="text/javascript">
+	{% merge "[{label:'dict_code@in',value:'user_sfzjlx'}]" as pwhere %}
+	{% map "code","PUB_DICT_ITEM_GetCollection","pwhere",pwhere as params %}
+	{% command "app.db.DbProxy","collection",params as result %}
+	var CODE_MAP_SOURCE = {{result.data}};
+</script>
+<script>
+function contentQuery(type){
+	var str = "{{PageContext.ContextPath}}icity/interactive/base?type="+type;	
+	window.location.href = str;
+}
+</script>
+<script type="text/javascript">
+	$('.pop_close').click(function(){
+		$('#CA_auth').hide();
+		$('.cazsinfo').hide();
+	})
+</script>

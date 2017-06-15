@@ -1,0 +1,142 @@
+<style>
+th{
+	text-align:center;
+}
+</style>
+<div class="its-page-body">
+	<table class="table its-tabel-filter">
+		<tbody>
+			<tr>
+				<th><h4>1.1、接口协议</h4></th>
+			</tr>
+			<tr>
+				<td><pre>&nbsp;&nbsp;&nbsp;&nbsp;支付平台与上游商户之间的接口交互使用 HTTP 或 HTTPS协议，由商户端通过FORM表单采用 POST方式提交相应的参数到财政支付网关，</br>FORM 表单参数有 两个：REQMSG：请求原文经 BASE64编码后的值；SIGNSTR:请求原文签名结果的 BASE64 编码值。 </pre>
+					<pre>&nbsp;&nbsp;&nbsp;&nbsp;请求原文报文内容编码使用 GBK 编码，并且通过 XML格式进行组织。</pre>
+					<pre>&nbsp;&nbsp;&nbsp;&nbsp;典型报文格式如下：</pre> <pre>&lt;?xml version='1.0' encoding='gbk'?&gt;<br />&lt;REQDATA&gt;<br />&lt;INTERFACENAME&gt;SDCZ_PAYGW_FUNC1001&lt;/INTERFACENAME&gt;<br />&lt;INTERFACEVERSION&gt;1.0.0&lt;/INTERFACEVERSION&gt;<br />&lt;MERID&gt;8888888&lt;/MERID&gt;<br />&lt;ORDERID&gt;123321&lt;/ORDERID&gt;<br />&lt;CUSTOMNAME&gt;TEST&lt;/CUSTOMNAME&gt;<br />&lt;ORDERDATE&gt;20150717&lt;/ORDERDATE&gt;<br />&lt;AMOUNT&gt;160&lt;/AMOUNT&gt;<br />&lt;MERRETURL&gt;http://XXXXXXX&lt;/MERRETURL&gt;<br />&lt;NOTIFYURL&gt;http://XXXXXXX&lt;/NOTIFYURL&gt;<br />&lt;ITEMCOUNT&gt;2&lt;/ITEMCOUNT&gt;<br />&lt;ITEMCODE1&gt;0300_00405&lt;/ITEMCODE1&gt;<br />&lt;ITEMNUM1&gt;1&lt;/ITEMNUM1&gt;<br />&lt;ITEMBIAOZHUN1&gt;100&lt;/ITEMBIAOZHUN1&gt;<br />&lt;ITEMAMOUNT1&gt;100&lt;/ITEMAMOUNT1&gt;<br />&lt;ITEMCODE2&gt;0300_00406&lt;/ITEMCODE2&gt;<br />&lt;ITEMNUM2&gt;1&lt;/ITEMNUM2&gt;<br />&lt;ITEMBIAOZHUN2&gt;60&lt;/ITEMBIAOZHUN2&gt;<br />&lt;ITEMAMOUNT2&gt;60&lt;/ITEMAMOUNT2&gt;<br />&lt;REMARK&gt;&lt;/REMARK&gt;<br />&lt;EXTINFO1&gt;&lt;/EXTINFO1&gt;<br />&lt;EXTINFO2&gt;&lt;/EXTINFO2&gt;<br />&lt;EXTINFO3&gt;&lt;/EXTINFO3&gt;<br />&lt;EXTINFO4&gt;&lt;/EXTINFO4&gt;<br />&lt;EXTINFO5&gt;&lt;/EXTINFO5&gt;<br />&lt;/REQDATA&gt;
+					</pre> <pre>&nbsp;&nbsp;&nbsp;&nbsp;生成 XML 字符串后，需要对此内容进行 BASE64 编码。</pre>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<h4>1.2、接口类型</h4></th>
+			</tr>
+			<tr>
+				<td><pre>&nbsp;&nbsp;&nbsp;&nbsp;支付网关与上游商户之间的接口类型主要包括以下几种： </pre>
+					<pre>&nbsp;&nbsp;&nbsp;&nbsp;商户提交扣款订单； </pre> <pre>&nbsp;&nbsp;&nbsp;&nbsp;商户接收订单反馈； </pre>
+					<pre>&nbsp;&nbsp;&nbsp;&nbsp;商户查询扣款订单状态； </pre> <pre>&nbsp;&nbsp;&nbsp;&nbsp;商户请求对账文件； </pre>
+					<pre>&nbsp;&nbsp;&nbsp;&nbsp;商户发送消息通知【暂不支持】。 </pre></td>
+			</tr>
+			<tr>
+				<th>
+					<h4>1.2.1、提交扣款订单</h4></th>
+			</tr>
+			<tr>
+				<td><pre>&nbsp;&nbsp;&nbsp;&nbsp;此接口是支付平台接收上游商户提交的非税缴款支付请求，对支付请求中的缴费项目的执收编码等信息进行规则校验，校验通过后，<br/>在支付平台本地生成一个支付平台的订单，并将订单信息提交给缴款人选择的缴款银行的电子商务系统进行缴款，完成缴款后，<br/>将缴款状态反馈给上游商户。 </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;接口名称：unitOrder.do </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;FORM 表单参数有两个：REQMSG：请求原文经 BASE64 编码后的值；SIGNSTR:请求原文签名结果的 BASE64 编码值。 </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;请求原文内容： </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;商户号、商户订单号[需要在一定时期内唯一]、付款人名称、订单时间、付款总金额、订单查看的 URL[用于重定向缴款人查看此订单<br/>是否缴款成功]、通知URL[用于接收网关回传的响应信息]、总笔数[按项目计算]、执收编码 1－5[项目编码]、数量 1-5、标准 1-5、<br/>缴费金额 1－5[项目编码]、备注信息、签名信息【签名按约定规则进行签名】</pre>
+				<pre>
+					<table style="border: 2px solid #C7B2B2;text-align:center;width:100%;">
+						<tr style="background-color: #A9A9AD;height: 30px;">
+							<th style="width:10%;">序号</th><th style="width:20%;">标识</th><th style="width:30%;">字段名称</th><th style="width:10%;">类型</th><th style="width:10%;">允许空</th><th style="width:30%;">说明</th>
+						</tr>
+						<tr>
+							<td>1</td><td>MERID</td><td>商户号</td><td>C30</td><td>NO</td><td></td>
+						</tr>  
+						<tr>
+							<td>2</td><td>ORDERID</td><td>商户订单号</td><td>C30</td><td>NO</td><td>唯一</td>
+						</tr> 
+						<tr>
+							<td>3</td><td>CUSTOMNAME</td><td>付款人名称</td><td>C30</td><td>NO</td><td></td>
+						</tr>  
+						<tr>
+							<td>4</td><td>ORDERDATE</td><td>订单时间</td><td>DATE</td><td>NO</td><td>日期格 式 ：YYYYMMDD </td>
+						</tr> 	
+					  	<tr>
+							<td>5</td><td>AMOUNT</td><td>付款总金额</td><td>N17,2</td><td>NO</td><td></td>
+						</tr> 
+						<tr>
+							<td>6</td><td>MERRETURL</td><td>订单查看的 URL</td><td>C50</td><td>NO</td><td></td>
+						</tr> 
+						<tr>
+							<td>7</td><td>NOTIFYURL</td><td>通知 URL</td><td>C50</td><td>NO</td><td></td>
+						</tr> 
+						<tr>
+							<td>8</td><td>ITEMCOUNT</td><td>总笔数</td><td>N</td><td>NO</td><td></td>
+						</tr> 
+						<tr>
+							<td>9</td><td>ITEMCODE1</td><td>执收编码 1</td><td>C30</td><td>YES</td><td></td>
+						</tr> 
+						<tr>
+							<td>10</td><td>ITEMCODE2</td><td>执收编码 2</td><td>C30</td><td>YES</td><td></td>
+						</tr> 
+						<tr>
+							<td>11</td><td>ITEMCODE3</td><td>执收编码 3</td><td>C30</td><td>YES</td><td></td>
+						</tr> 
+						<tr>
+							<td>12</td><td>ITEMCODE4</td><td> 执收编码 4</td><td>C30</td><td>YES</td><td></td>
+						</tr> 
+						<tr>
+							<td>13</td><td>ITEMCODE5</td><td>执收编码 5</td><td>C30</td><td>YES</td><td></td>
+						</tr> 
+					</table>
+				</pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;说明：商户端“通知 URL”要求支持多次通知的情况。在网关不能确定商户是否收到结果通知的情况下，会再次发起通知。</pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;项目数量 1-5，如果报文中没有定义，则系统自动默认为 1，如果有定义，必须是有效值【大于 0】。 </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;标准 1-5，如果报文中没有定义，系统忽略标准校验，如果有定义，则必须与财政非税系统中定义标准一致。 </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;同一笔缴款商户订单号必须唯一，同一个订单如果前一次支付失败，允许商户端再次发起支付请求，如果网关端已经支付成功，<br/>则会反馈已经支付成功的消息，否则，支付平台系统将对用户的订单重新发起支付请求。</pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;商户端同一订单号如果在支付网关端发生多次缴款，网关对账时，会自动对其中一笔进行退款处理。 </pre>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<h4>1.2.2、接收订单反馈 </h4></th>
+			</tr>
+			<tr>
+				<td>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;支付网关接收到商户请求后，对订单信息进行初步校验，校验通过后重新生成提交到银行网银的订单，缴款人在银行网银完成缴款后，<br/>支付网关记录交易结果，并将交易结果反馈给商户【通过订单中的通知 URL 反馈】。 </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;反馈的内容包括三个参数： </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;STATUS:表示此次交互的状态值，0：表示成功；-1：表示失败； </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;RESMSG:表示反馈原文进行 BASE64 编码后的值。 </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;RESMSGSIGN：表示对反馈原文进行签名的结果值。 </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;反馈原文格式为 XML，内容包括 ： </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;商户号、商户订单号、付款人名称、订单时间、付款总金额、总笔数、原备注信息[商户订单中信息原样返回]、交易结果[需要定义编码字典，<br/>对应成功以及各种失败情况]、交易结果说明、反馈备注信息、支付网关订单号、银行类型[标识是哪个银行收款]、银行简称、银行交易流水号、<br/>电子票据识别码、签名信息【按约定规则进行签名】。  </pre>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<h4>1.2.3、查询扣款订单状态 </h4></th>
+			</tr>
+			<tr>
+				<td>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;此接口为方便商户查询指定订单的状态，特别是由于各种原因没有收到正常结果反馈的订单</pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;接口名称：queryOrder.do </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;FORM 表单参数有两个：REQMSG：请求原文经 BASE64 编码后的值；SIGNSTR:请求原文签名结果的 BASE64 编码值。 </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;接口需要提交的内容：商户号、商户订单号、商户订单日期。 </pre>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<h4>1.2.4、对账数据文件请求 </h4></th>
+			</tr>
+			<tr>
+				<td>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;支付网关完成与银行网银对账后，会按商户产生对账日订单对账明细文件，商户可直接下载此对账文件进行对账。 </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;对账文件获取通过 FTP 协议实现，财政设立 FTP 服务器，商户根据财政发放的账号登录 FTP，并按约定的对账文件名格式查询 FTP <br/>上是否有文件，如果有，则下载并进行对账。 </pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;为保障单位资金安全，及时核实、纠正可能发生的账务差错，单位系统需实现与支付平台缴费系统自动对账功能，通过支付平台提供的对账明细文件，<br/>单位系统每日定时将单位网上缴费的明细数据与支付平台系统的缴费数据进行核对，如两者之间存在差异，以网上银行提供的对账明细为准调整单位系统的收费状态，<br/>对于单位没有完成后续业务，需要进行退款的业务，单位端需要在完成对账后生成一个退款明细文件并发送给支付网关，支付网关根据退款明细调整实收数据，<br/>将最终确认的实收数据发送财政非税进行实收作业。完成实收作业后，将最终确定的需要退款的明细文件发送给各银行，各银行进行退款操作。 </pre>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<h4>1.2.5、重复缴款数据文件请求 </h4></th>
+			</tr>
+			<tr>
+				<td>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;支付网关完成与银行网银对账后，会根据商户端的订单号检测用户重复缴款的情况【同一商户订单号多次缴款】并生成退款数据，在生成商户对账明细文件<br/>的同时，生成重复缴款退款文件给商户，商户可下载此文件供参考【商户端对此数据不需要做特殊处理】。</pre>
+				<pre>&nbsp;&nbsp;&nbsp;&nbsp;此文件与对账明细文件一样，通过财政 FTP 服务器下载。 </pre>
+				</td>
+			</tr>			
+		</tbody>
+	</table>
+</div>

@@ -1,0 +1,116 @@
+<style>
+/*强制不显示横向滚动条，纵向滚动条会在内容过多时自动显示*/
+html { /*overflow:hidden;*/
+	background: #F5F6F7;
+	overflow-x: hidden;
+}
+</style>
+     {% set sblsh PageContext.Parameter.sblsh%}
+     {% set sxbm PageContext.Parameter.sxbm%}
+     {% set sxid PageContext.Parameter.sxid%}
+     {% set sxmc PageContext.Parameter.sxmc%}
+<section class="panel panel-primary" style="border-color: #ddd;" id="form">
+	<header class="panel-heading no-bordered"
+		style="margin: -1px; padding: 15px; background-color:#4f719c;">
+		<a class="btn btn-primary pull-right"
+			style="background-color:#728db0; margin-top: -8px;" href="javascript:void(0);" onclick="MystrategyinfoList();">返回我的攻略列表
+			&rarr;</a>
+		<h3 class="panel-title">
+			<strong>我的攻略</strong>
+		</h3>
+	</header>
+	<table class="table table-bordered its-table-details" id="strategyForm">
+		<tbody>
+		<tr>
+			<td class="text-right" width="18%">事项名称</td>
+			<td><div tag="SXMC" id="SXMC"></div></td>
+		</tr>
+		<tr>
+			<td class="text-right" width="18%">事项编码</td>
+			<td><div tag="SXBM" id="SXBM"></div></td>
+		</tr>
+		<tr>
+			<td class="text-right">攻略内容</td>
+			<td>
+				<div>
+					<textarea id="CONTENT" style="width:100%;height:200px;">
+					</textarea>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-right">状态</td>
+			<td>
+				<div tag="STATUS" id="STATUS"></div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="text-center">
+			    <a class="btn btn-danger" style="background-color:#f44336;" href="javascript:;" onclick="updateStrategy();">提交</a>
+			</td>
+		</tr>		
+		</tbody>
+	</table>
+</section>
+<script>
+var sblsh = "{{sblsh}}";
+var sxbm = "{{sxbm}}";
+var sxid = "{{sxid}}";
+var sxmc = "{{sxmc}}";
+$(function(){
+	loaddata();
+});
+var editor;
+function loaddata() {
+	$("#SXMC").html(sxmc);
+	$("#SXBM").html(sxbm);
+	var command = new LEx.Command("app.icity.center.active.BusinessStrategyCmd");
+	command.setParameter("sblsh", sblsh);
+	command.setParameter("sxbm", sxbm);
+	command.setParameter("sxid", sxid);
+	command.setParameter("sxmc", sxmc);
+	var ret = command.execute("getBusinessStrategy");
+	if (ret.state == 1) {
+		if(ret.total>0){
+			$("#CONTENT").val(ret.data[0].CONTENT);
+			//状态：0新增,1审核后发布,2审核后不发布
+			var status = ret.data[0].STATUS=="0"?"未审核":"已审核";
+			$("#STATUS").html(status);
+			if(ret.data[0].STATUS!="0"){
+				$("#CONTENT").attr("readonly","true");
+			}
+		}
+	} else {
+		LEx.dialog({
+			title : "系统提示",
+			content : ret.message,
+			icon : 'error',
+			lock : true
+		});
+	}
+}
+function updateStrategy(){
+	var command = new LEx.Command("app.icity.center.active.BusinessStrategyCmd");
+	command.setParameter("sblsh", sblsh);
+	command.setParameter("sxbm", sxbm);
+	command.setParameter("sxid", sxid);
+	command.setParameter("sxmc", sxmc);
+	command.setParameter("content", $("#CONTENT").val());
+	var ret = command.execute("updateBusinessStrategy");
+	if (ret.state == 1) {
+		LEx.dialog({
+			title : "系统提示",
+			content : ret.message,
+			icon : 'succeed',
+			lock : true
+		});
+	}else{
+		LEx.dialog({
+			title : "系统提示",
+			content : ret.message,
+			icon : 'error',
+			lock : true
+		});
+	}
+}
+</script>

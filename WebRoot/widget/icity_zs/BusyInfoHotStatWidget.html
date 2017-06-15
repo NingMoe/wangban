@@ -1,0 +1,24 @@
+{% map "start","0","limit","5" as p_HotStat%}
+{% command "app.icity.project.ProjectBusinessStatCmd",'getBusyInfoHotStat',p_HotStat as d_HotStat%}
+<ul id="ul_srdsx" class="list-unstyled zl-list-unstyled-ggfu-1">
+ 	{% if d_HotStat.data %}
+		{% for o in d_HotStat.data %}
+		<label style="font-weight:normal;" class="col-xs-6" title="{{o.NAME}}">{{o.NAME|truncate:22}}</label>
+		<label style="font-weight:normal;" class="col-xs-3" title="{{o.DEPT_NAME_SHORT}}">{{o.DEPT_NAME_SHORT|truncate:10}}</label>
+		<label style="font-weight:normal;" class="col-xs-3">
+		{% if o.ONLINE_ADDRESS %}
+			{% if o.ONLINE_ADDRESS|equal:""|not %}
+				<a style="color: blue;" href="{{PageContext.ContextPath}}approve/guide?id={{o.CODE}}" target="_blank">办事指南</a>&nbsp;&nbsp;<a style="color: blue;" href="{{o.ONLINE_ADDRESS}}" target="_blank">在线办理</a></label>
+		    {% endif %}	
+		{% else %}
+		<a style="color: blue;" href="{{PageContext.ContextPath}}approve/guide?id={{o.CODE}}" target="_blank">办事指南</a>&nbsp;&nbsp;<a style="color: blue;" href="{{PageContext.ContextPath}}onlineapply/applyinfo?itemId={{o.CODE}}&mark=1" target="_blank">在线办理</a></label>
+		{% endif %}	
+	    <hr>
+	   {% endfor %}
+	{% else %}
+ 		<li>
+       		<div style="text-align: center;margin-top:5px;"><font>暂无数据</font></div>
+       	</li>
+	{% endif %}	
+</ul>
+<br>

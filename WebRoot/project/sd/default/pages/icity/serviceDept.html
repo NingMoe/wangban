@@ -1,0 +1,150 @@
+<link rel="icon" href="assets/ico/favicon.ico">
+<link rel="stylesheet" href="assets/css/custom.css">
+<body style="background-color: #f5f5f5;">
+<div class="container" style="width: 1030px !important; background: url({%public assets/img/zwdt_bgb.jpg %}) bottom center no-repeat;"> 
+    <h2 class="text-center text-primary" style="height: 70px; color: #29588c; font-size: 22px; line-height: 50px; margin:0; background: url({%public assets/img/zwdt_topbt.jpg %}) top center no-repeat;">市级网上政务大厅</h2>
+    <br>
+    <ul class="nav nav-tabs its-tabs-windows no-bordered">
+        <li class="active"><a data-toggle="tab" href="#tw-1">部门分厅</a></li>
+        <li><a data-toggle="tab" href="#tw-2">主题服务</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tw-1" style="background: url({%public assets/img/zwdt_topqhbg.jpg%}) top left no-repeat;">
+            <ul class="row its-btn-group-department" id="deptServer">
+<!--                 <li class="col-xs-2"><a class="btn btn-block" href="#">市财政局</a></li> -->
+            </ul>
+        </div>
+        <div class="tab-pane" id="tw-2" style="background: url({%public assets/img/zwdt_topqhbgb.jpg%}) top left no-repeat;">
+            <div class="text-center">
+                <button class="btn btn-primary btn-lg" style="border-radius: 20px; width: 180px; padding: 6px 0; margin-top: 30px; margin-bottom: -20px;">面向公民</button>
+            </div>
+            <ul class="row its-thumbnail-theme" id="gr">
+<!--                 <li class="col-xs-2" > -->
+<!--                     <a href="#"><i class="itt-icon marriage"></i><br>婚育收养</a> -->
+<!--                 </li> -->
+            </ul>
+            <div class="text-center">
+                <button class="btn btn-primary btn-lg" style="border-radius: 20px; width: 180px; padding: 6px 0; margin-top: 20px; margin-bottom: -20px;">面向法人/其他组织</button>
+            </div>
+            
+            <ul class="row its-thumbnail-theme" id="fr">
+<!--                 <li class="col-xs-2"> -->
+<!--                     <a href="#"><i class="itt-icon establish"></i><br>设立变更</a> -->
+<!--                 </li> -->
+            </ul>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
+</body>
+<script>
+//创建部门列表
+  $(function(){
+        onQuerydept();
+        onQueryGrTheme();
+        onQueryFrTheme();
+  });
+function onQuerydept(){
+	var region_code=getSecurityValue("WebRegion");
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	command.setParameter("region_code",region_code);
+	var ret = command.execute("getDeptList");
+	if(!command.error){
+		creatListdept(ret.data.organ);
+	}else{
+		LEx.dialog({
+			title : "系统提示",
+			content : command.error,
+			icon : 'error',
+			lock : true
+		});
+	}	
+}
+
+function creatListdept(orgs){
+	var len = orgs.length;
+	var deptName="";
+	var strHtml = "";
+	for(var i=0;i<len;i++){
+		if(orgs[i].IS_HALL=="1"){
+			deptName=orgs[i].SHORT_NAME;
+			if(deptName.length>6){
+				deptName=deptName.substring(0,6)+"...";
+			}
+			strHtml += "<li class=\"col-xs-2\"><a class=\"btn btn-block\"  href=\"{{cp}}icity/serviceDept-info?id="+orgs[i].CODE+"\" name='"+orgs[i].SHORT_NAME+"'>"+deptName+"</a></li>";			
+		}
+	}
+	$("#deptServer").html(strHtml);
+};
+//主题列表
+function onQueryGrTheme(){
+	var cmd = new LEx.Command("app.icity.col.WidgetCmd");
+		cmd.setParameter("TYPE", "gr");
+	var ret =  cmd.execute("getPersonalBusinessList");
+	if(!ret.error){
+		creatGrListTheme(ret);
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+function onQueryFrTheme(){
+	  	var cmd = new LEx.Command("app.icity.col.WidgetCmd");
+	  		cmd.setParameter("TYPE", "fr");
+	  	var ret =  cmd.execute("getPersonalBusinessList");
+	  	if(!ret.error){
+	  		creatFrListTheme(ret);
+	  	}else{
+	  		LEx.alert(ret.error);
+	  	}
+	  }
+function creatGrListTheme(ret){
+	var strHtml = "";
+	var themeName="";
+	if(ret!=""){
+		var len = ret.total;
+		for(var i=0;i<len;i++){
+  			themeName=ret.data[i].NAME;
+			if(themeName.length>4){
+				themeName=themeName.substring(0,4);
+			}
+			strHtml += "<li class=\"col-xs-2\"><a href=\"{{cp}}icity/project?pagemodel=person&theme="+ret.data[i].NAME+"\"><img src=\"{{cp}}public/assets/icon/"+ret.data[i].ICON_URL+"\" width=\"40\" height=\"40\" /><br>"+themeName+"</a></li>";
+// 			onmouseover=javascript:LEx.alert('"+ret.data[i].NAME+"') strHtml += "<div id=box1 onmouseover=display() onmouseout=disappear()>"+ret.data[i].NAME+"</div>";
+		}
+	}
+	$("#gr").html(strHtml);
+};
+function creatFrListTheme(ret){
+	  	var strHtml = "";
+		var themeName="";
+	  	if(ret!=""){
+	  		var len = ret.total;
+	  		for(var i=0;i<len;i++){
+	  			themeName=ret.data[i].NAME;
+				if(themeName.length>4){
+					themeName=themeName.substring(0,4);
+				}
+				strHtml += "<li class=\"col-xs-2\"><a href=\"{{cp}}icity/project?pagemodel=ent&theme="+ret.data[i].NAME+"\"><img src=\"{{cp}}public/assets/icon/"+ret.data[i].ICON_URL+"\" width=\"40\" height=\"40\" /><br>"+themeName+"</a></li>";
+	  		}
+	  	}
+	  	$("#fr").html(strHtml);
+	  };
+</script>
+<script>
+    $(function () {
+        $('.nav-tabs > li > a').hover(function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        })
+    });
+    $(function() {
+        $(".dropdown-menu").on("click", "[data-stopPropagation]", function(e) {
+            e.stopPropagation();
+        });
+    }); 
+</script>

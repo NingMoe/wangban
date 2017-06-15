@@ -1,0 +1,33 @@
+@charset "utf-8";
+
+
+
+
+/***********滚动新闻 start***********/
+.roll_news { width: 95%; margin:20px auto; height: 30px; border: 1px solid #E0DCA8; background: #FFFFDB url(../img/notice_ico.gif) no-repeat 20px center;} 
+.roll_news .scr_box { width: 80%; margin-left: 40px; height:30px; position: relative; overflow: hidden;}
+.roll_news .scr_box ul { position: absolute; top: 0; left: 0}
+.roll_news .scr_box ul li { line-height: 30px;}
+.roll_news .scr_box ul li a { color: #222}
+.roll_news .scr_box ul li a em.red { color: #f30}
+/***********滚动新闻 end***********/
+
+/***********TAB 切换 start***********/
+.tab_swich .tit-h4 { margin-top: 10px; height: 37px; line-height: 36px; background: #f2f2f2; border: 1px solid #ddd; border-bottom: none;}
+.tab_swich .tit-h4 h4 a { float: left; height: 37px; line-height: 36px; padding: 0 30px; margin: 0 10px; font-weight: 700; color: #444;}
+.tab_swich .tit-h4 h4 a:hover { color: #3663A7}
+.tab_swich .tit-h4 h4 a.active,.tab_swich .tit-h4 h4 a.active:hover { height: 36px; position: relative; top: -1px; border: 1px solid #ddd; border-top: 2px solid #ddd; border-bottom: none; text-decoration: none; background: #fff; color: #000}
+.tab_swich .tab-box {border: 1px solid #ddd; border-top: none;}
+/*蓝色*/
+.tab_swich.blue { color: #000;}
+.tab_swich.blue .tit-h4{background: url(../img/tith4_bg.gif) repeat-x; border: 1px solid #89C0E5; border-bottom: none;}
+.tab_swich.blue .tit-h4 h4 a.active,.tab_swich.blue .tit-h4 h4 a.active:hover { height: 36px; position: relative; top: -1px; border: 1px solid #89C0E5; border-top: 2px solid #068DEA; border-bottom: none; text-decoration: none; background: #fff; color: #3663A7}
+.tab_swich.blue .tab-box {border: 1px solid #89C0E5; border-top: none;}
+/***********TAB 切换 end***********/
+
+
+
+
+
+
+

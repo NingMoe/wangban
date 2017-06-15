@@ -1,0 +1,61 @@
+{% set deptid PageContext.Parameter.org_code %} 
+{% set id PageContext.Parameter.id %} 
+{% map "id",id as d%}
+ {% command "app.icity.ServiceCmd","getBoundaryItemInfo",d as p%} 
+ {% set info p.data%} 
+ {% set itemInfo info.itemInfo%} 
+ {% set dutyInfo info.itemBasicInfo%}
+ <div class="container" style="width: 1030px !important;"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png%}"> 您当前所在的位置:</li>
+        <li>部门职责边界</li>
+    </ol>
+</div>
+<div class="container" style="width: 1030px !important;"> 
+    <section class="panel" style="padding: 10px;">
+        <header class="panel-heading">
+            <button type="button" class="btn btn-info pull-right" onclick="javascript:window.opener=null;window.open('','_self');window.close();">关闭</button>
+            <h4 style="border-bottom: solid 1px #e5e5e5; margin:0; padding-bottom: 5px;">
+                <img src="{%public assets/img/zhcx_title_pic3.jpg%}">&nbsp;&nbsp;<strong>部门职责边界</strong>
+            </h4>
+        </header>
+        <div class="panel-body">
+        	<h3 class="text-center"><strong>{% for o in info%}{{o.NAME}} {% endfor%}</strong></h3>
+            <br>
+            <table class="table">
+                <tbody>
+                	{% for o in info%}
+                    <tr class="bg-info f16">
+                        <th class="text-primary">相关部门名称</th>
+                    </tr>
+                    <tr>
+                        <td> 
+						{% if o.ORG_NAME%} 
+							{{o.ORG_NAME}} 
+						{% else %} 
+							暂无数据！ 
+						{% endif %}
+						</td>
+                    </tr>
+                    <tr class="bg-info f16">
+                        <th class="text-primary">相关依据：</th>
+                    </tr>
+                    <tr>
+                        <td>
+                             {% if o.BASIS%} {{o.BASIS}} {% else %} 暂无数据！ {% endif %} 
+                        </td>
+                    </tr>
+                    <tr class="bg-info f16">
+                        <th class="text-primary">案例：</th>
+                    </tr>
+                    <tr>
+                        <td>
+                             {% if o.EXAMPLE%} {{o.EXAMPLE}} {% else %} 暂无数据！ {% endif %} 
+                        </td>
+                    </tr>
+                    {% endfor%}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

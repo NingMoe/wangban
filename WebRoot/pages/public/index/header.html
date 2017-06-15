@@ -1,0 +1,86 @@
+<link rel="stylesheet" type="text/css" href="{% public assets/css/custom-1.css %}" />
+<style type="text/css">
+.topNav{list-style: none;padding: 0 5px;}
+.topNav li a{color: black;}
+.topNav li.active a {color: #CC0000;font-weight: bold;}
+</style>
+<header style="margin-bottom:5px;">
+	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="88" align="center" background="{{cp}}public/assets/img/zwfww_001.jpg">
+    <table width="1070" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="92" height="35" rowspan="2" align="center" valign="top" ><img src="{{cp}}public/assets/img/zwfw_004.png" width="57" height="57" /></td>
+        <td width="320" rowspan="2" align="center"><table width="99%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td height="35" align="left" valign="bottom"><span class="STYLE9">{{ConfigInfo.AppTitle}}</span></td>
+          </tr>
+          <tr>
+            <td height="13" align="left">{{ConfigInfo.SubAppTitle}}</td>
+          </tr>
+        </table>
+          <table width="99%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="68%" align="left">{% include public/website.html %}</td>
+            </tr>
+          </table></td>
+        <td height="25" colspan="3" align="right">
+        {% include public/index/header-topbar.html %}
+        </td>
+      </tr>
+      <tr>
+        <td width="491" height="42" align="center">
+         <ul class="topNav nav navbar-nav">
+            <li ref="index"><a href="{{cp}}index" target="_self">首页</a></li>
+            <li ref="person"><a href="{{cp}}person" target="_self">个人办事</a></li>
+            <li ref="ent"><a href="{{cp}}ent" target="_self">法人办事</a></li>
+            <li ref="approve"><a href="{{cp}}approve" target="_self">行政审批</a></li>
+            <li ref="convenience"><a href="{{cp}}convenience" target="_self">便民服务</a></li>
+            <li ref="sunny"><a href="{{cp}}sunny" target="_self">阳光政务</a></li>
+        </ul> </td>
+        <td width="27"><img src="{{cp}}public/assets/img/zwfww_009.jpg" width="16" height="13" /></td>
+        <td width="201" align="right">
+         <div class="input-group input-group-sm" style="width: 100%;">
+                    <input type="text" class="form-control key" onkeydown="if(event.keyCode==13) searchX();" data-stoppropagation="true"  placeholder="请输入关键字查询">
+      				<span class="input-group-btn">
+        			<button class="btn btn-default" type="button" onclick="searchX();">搜索</button>
+      				</span>
+                </div>
+                </td>
+      </tr>
+      
+    </table></td>
+  </tr>
+</table>
+</header>
+<script>
+$(function(){
+	//设置选中状态
+	$(".topNav li a").each(function(){
+		var url = document.location.href;
+		if(url.indexOf($(this).attr('href'))>-1){
+			$(this).parent().addClass('active');
+		}
+	});
+	$(".topNav li ").mouseover(function(){
+		$(".topNav li").removeClass("active");
+		$(this).addClass("active");
+	});
+	$(".topNav li").mouseout(function(){
+		$(".topNav li").removeClass("active");
+		$(".topNav li a").each(function(){
+			var url = document.location.href;
+			if(url.indexOf($(this).attr('href'))>-1){
+				$(this).parent().addClass('active');
+			}
+		})
+	});
+})
+function searchX(){
+	 var key=$(".key").val();
+	 if(!LEx.isNotNull(key)){
+		 return false;
+	 }
+	 document.location="{{cp}}search?key="+ encodeURIComponent(key);
+}
+</script>

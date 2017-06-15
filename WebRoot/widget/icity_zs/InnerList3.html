@@ -1,0 +1,132 @@
+
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/icity.js"></script>
+<script type="text/javascript">
+</script>
+{% map "page","1","limit","50" as p%}
+{% command "app.icity.pro.ProCmd","showBusiness",p as list %}
+<section class="panel panel-success" style="margin-bottom: 10px;width:100%;height:270px;margin:0 auto">
+	<ul class="list-unstyled zl-list-unstyled-ggfu-3">
+		<li> <span style=" width:240px;"><strong>业务名称</strong></span>
+			<p style=" width:240px;"><strong>申报事项</strong></p>
+			<span style=" width:140px;"><strong>受理单位</strong></span> 
+			<span style=" width:100px;"><strong>申报时间</strong></span> 
+			<span style=" width:100px;"><strong>办结时间</strong></span>
+			<em style=" width:80px;"><strong>状态</strong></em> </li>
+	</ul>
+	<div id="roll_list" style="height: 192px; overflow: hidden; position: relative;">
+		<ul style="position: absolute; top: 0px; left: 0px;" id="maq" class="list-unstyled zl-list-unstyled-ggfu-3">
+			{% if list.data.rows %} {% for o iNeedFormatState_n list.data.rows %}
+				<li>
+					<span style="width:240px;text-align:left;" class="NeedFormatTitle">{{o.projectName}}</span>
+					<p title="{{o.itemName}}" style="width:240px;text-align:left;">{{o.itemName}}</p>
+					<span title="{{o.orgName}}" style="width:140px;text-align:left;">{{o.orgName}}</span>
+					<p style="width: 100px;text-align:left;"><i class="NeedFormatTime" code="{{o.receiveTime}}">{{o.receiveTime}}</i></p>
+ 					<p style="width: 100px;text-align:left;"><i class="NeedFormatTime" code="{{o.finishTime}}">{{o.finishTime}}</i></p>
+					<em style="width:80px;text-align:left;"><i class="label label-success">&nbsp;</i><i class="NeedFormatState" code="{{o.state}}">{{o.state}}</i></em>
+				</li>
+			{% endfor %} {% else %}
+			<li>
+				<div style="text-align: center;margin-top:5px;">
+					<font>暂无业务数据</font>
+				</div>
+			</li> 
+			{% endif %}
+		</ul>
+	</div>
+</section>
+<script>
+	$(function(){
+		$(".NeedFormatTime").each(function(){
+			$(this).html(_formateDate($(this).attr("code")));
+		});
+		$(".NeedFormatState").each(function(){
+			$(this).html(formateState($(this).attr("code")));
+		});
+		$(".NeedFormatTitle").each(function(){
+			$(this).html("关于"+$(this).html()+"的业务");
+		});
+	});
+	function formateState(state){
+		//state：“状态”1：草稿2收件3预受理7不予受理8在办10办结
+		switch(state){
+			case "1":
+				return "草稿";
+			case "2":
+				return "已接件";//"收件";
+			case "3":
+				return "办理中";//"预受理";
+			case "4":
+				return "退回";//"预受理退回";
+			case "5":
+				return "办理中";//"受理";
+			case "6":
+				return "办理中";//"补齐补正";
+			case "7":
+				return "不予受理";
+			case "8":
+				return "办理中";//"在办";
+			case "9":
+				return "办理中";//"挂起";
+			case "10":
+				return "办结";
+			case "11":
+				return "办结";//"转报办结";
+			case "12":
+				return "办结";//"作废办结";
+			case "13":
+				return "退件";
+			case "14":
+				return "办结";//"不予行政许可";
+			case "15":
+				return "上报";
+			case "99":
+				return "预审批";
+			case "100":
+				return "豁免";
+			case "101":
+				return "备案";
+			default:
+				return "--";
+		}
+	}
+	function _formateDate(state){
+		if(state!=""&&state!=undefined){
+			return timeStamp2String(state);
+			//var dt =new Date(parseInt(state));
+			//return  dt.getFullYear()+"-"+dt.getMonth()+"-"+dt.getDay();
+		}else{
+			return "--";
+		}	
+	}
+	function timeStamp2String(time){
+	    var datetime = new Date();
+	    datetime.setTime(time);
+	    var year = datetime.getFullYear();
+	    var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+	    var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+	    var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();
+	    var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+	    var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+	    //return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
+	    return year + "-" + month + "-" + date;
+	}
+	function roll(){
+		var speed = 50;
+		var MyMar = setInterval(Marquee, speed);
+		roll_list.onmouseover = function() {
+			clearInterval(MyMar);
+		};
+		roll_list.onmouseout = function() {
+			MyMar = setInterval(Marquee, speed);
+		};
+	}
+	function Marquee() {
+		//动态获取长度暂未做
+		if (2150 - roll_list.scrollTop <= 0)
+			roll_list.scrollTop -= 2150;
+		else {
+			roll_list.scrollTop++;
+		}
+	}
+	roll();
+</script>

@@ -1,0 +1,525 @@
+<style>
+.its-sidebar .sidebar-nav > li > a {
+  padding: 10px 0;
+}
+</style>
+<div class="container"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png%}"> 您当前所在的位置:</li>
+        <li><a href="{{cp}}public/index">首页</a></li>
+        <li><a href="{{cp}}icity/project">办事服务</a></li>
+    </ol>
+</div>
+<div class="container"> 
+    <div class="table-table">
+        <div class="table-cell its-aside">
+            <nav class="sidebar its-sidebar">
+                <h4 class="sidebar-header" data-toggle="collapse" href="#collapseOne">
+                    <img src="{%public assets/img/adx_bszx.png%}"><strong>按服务对象</strong>
+                </h4>
+                <ul class="nav sidebar-nav collapse in" id="collapseOne">
+                    <li title=""   class="active"><a href="javascript:void(0)">全部</a></li>
+                    <li title="面向公民" tag="person"><a href="javascript:void(0)">面向公民</a></li>
+                    <li title="面向法人/其他组织" tag="ent"><a href="javascript:void(0)">面向法人/其他组织</a></li>
+                </ul>
+                <h4 class="sidebar-header">
+                    <img src="{%public assets/img/abm_bszx.png%}"><strong>按部门分类</strong>
+                </h4>
+                <ul class="nav sidebar-nav collapse in" id="collapseTwo" style="height:530px;overflow-y:auto">
+                </ul>
+            </nav>
+        </div>
+        <div class="table-cell its-page">
+            <section class="its-page-body">
+                <table class="table its-tabel-filter">
+                    <tbody>
+                        <tr>
+                            <th width="100" class="text-right">按事项名称：</th>
+                            <td width="120"><input type="text" class="form-control" placeholder="请输事项名称" id="project-text-search"></td>
+                            <th width="80" class="text-right">行政权力：</th>
+                            <td width="110"> 
+                                <select class="form-control" id="power" onchange="chageDate(1);">
+                                    <option value="">--请选择--</option>
+              <option value="XK">行政许可</option>
+              <!-- <option value="QZ">行政强制</option>
+              <option value="JF">行政给付</option>
+              <option value="FW">行政服务</option>
+              <option value="QT">其他权力</option> -->
+                                </select>
+                            </td>
+                            <th width="80" class="text-right">公共服务：</th>
+                            <td width="110">
+                                <select class="form-control" id="bianmin" onchange="chageDate(2);">
+                                    <option value="">--请选择--</option>
+              <option value="1">办事指南</option>
+              <option value="3">通知公告</option>
+              <option value="cj">常见问题</option>
+              <option value="fw">服务链接</option>
+              <option value="pt">普通信息</option>
+              <option value="5">单位名录</option>
+              <option value="6">场馆信息</option>
+              <option value="7">政策文件</option>
+                                </select>
+                            </td>
+                            <th width="80" class="text-right">主题分类：</th>
+                            <td width="110">
+                                <select class="form-control" id="theme_select">
+                                </select>
+                            </td>
+                            <td width="140">
+                            	<button class="btn btn-danger btn-sm no-bordered  f16" id="project-btn-search">搜 索</button>
+                            	<button type="button"	onclick="reset();" class="btn btn-primary btn-sm no-bordered  f16">重 置</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <table class="table table-striped its-table-backlog" id="roll_list1">
+                    
+                </table>
+<!--                 <div id="project-none" style="display:none;font-size:30px;font-weight:bold;text-align:center;">查无相关事项</div> -->
+                 <p class="text-center" id="project-none" style="display:none;">
+                    <span style="background-color: #F1F2F3; padding: 8px 200px; color: #666;">暂无数据</span>
+                 </p>
+                <!-- 分页显示位置 -->
+                <nav class="text-center" id="layer"></nav>
+            </section>
+            
+        </div>
+    </div>
+</div>
+<textarea type="text/template" id="MattersListTemplate" style="display:none">
+<thead>
+                        <tr class="bg-info">
+                            <th class="text-center text-primary" width="20%">所属部门</th>
+                            <th class="text-center text-primary" width="35%">事项名称</th>
+                            <th class="text-center text-primary" width="20%">事项编号</th>
+                            <th class="text-center text-primary" width="10%">办理深度</th>
+                            <th class="text-center text-primary" width="8%">收藏</th>
+                            <th class="text-center text-primary" width="7%">咨询</th>
+                        </tr>
+</thead>
+<tbody>
+{for o in data}
+	{if o.TYPE=="BM"}
+	<tr>
+		<td class="text-left">${o.ORG_NAME}</td>
+		<td><a href="javascript:void(0)" onclick="gotoDetail('${o.SUB_TYPE}','${o.ID}')">
+				${o.NAME}
+				<span class="text-primary">[${formatStateBm(o.SUB_TYPE)}]</span>
+				</a></td>
+		<td class="text-center"></td>
+		<td class="text-center"></td>
+		<td class="text-center"></td>
+		<td class="text-center"></td>
+	</tr>
+	{else}
+	<tr>
+		<td class="text-left">${o.ORG_NAME}</td>
+		<td><a href="{{PageContext.ContextPath}}icity/proinfo?id=${o.ID}" target="_blank">${o.NAME} <span class="text-primary">[${formatState(o.TYPE)}]</span></a></td>
+		<td class="text-left">${o.INNER_CODE}</td>
+		<td class="text-center">
+		{if o.IS_ONLINE=="1"}
+			{if o.CONDUCT_DEPTH=="1"}
+				<a class="btn btn-primary" onaddress="${o.ONLINE_ADDRESS}" id='${o.ITEM_ID}' onclick="zxbl(this)">全程网办</a>
+			{else}
+				{if o.CONDUCT_DEPTH=="2"}
+					<a class="btn btn-danger" onaddress="${o.ONLINE_ADDRESS}" id='${o.ITEM_ID}' onclick="zxbl(this)">在线预审</a>
+				{else}
+					<a class="btn btn-success disabled" disabled="disabled" href="javascript:void(0)">事项公开</a>
+				{/if}
+			{/if}
+		{else}
+			<a class="btn btn-success disabled" disabled="disabled" href="javascript:void(0)">事项公开</a>
+		{/if}
+		</td>
+		<td class="text-center"><a class="btn btn-link" href="javascript:void(0)" item_id="${o.ID}" item_code="${o.CODE}" item_name="${o.NAME}" onclick="addFaveriot(this);">收藏</a></td>
+		<td class="text-center"><a class="btn btn-link" href="javascript:void(0)" item_id="${o.ID}" org_name="${o.ORG_NAME}" org_code="${o.ORG_CODE}" item_code="${o.CODE}" item_name="${o.NAME}" onclick="addConsult(this);">咨询</a></td>
+	</tr>
+	{/if}
+{/for}
+</tbody>
+
+
+</textarea>
+<script>
+var id = "";
+var pagemodel="",deptid="",SearchName="",theme="";
+var itemtype="";
+var bm_type="";
+var limit=8;
+var pageTotal=0;
+
+function onQuery(start){
+	if(bm_type==""){
+		itemtype="XK";
+	}
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("region_code", "{{ConfigInfo.WebRegion}}");
+	cmd.setParameter("pagemodel", pagemodel);
+	cmd.setParameter("deptid", deptid);
+	cmd.setParameter("ITEM_TYPE", itemtype);
+	cmd.setParameter("BM_TYPE", bm_type);
+	cmd.setParameter("theme", theme);
+	cmd.setParameter("SearchName", SearchName);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	if($("#theme_select").val()==null ||$("#theme_select").val()==""){
+		cmd.setParameter("ID", id);
+	}else{
+		cmd.setParameter("ID", $("#theme_select").val());
+	} 
+	cmd.setParameter("SearchName",$("#project-text-search").val());
+	var ret =  cmd.execute("getInitList");
+	if(!ret.error){
+			$('#roll_list1').html(LEx.processDOMTemplate('MattersListTemplate',ret));
+			var total=ret.total;
+			total=Math.ceil(total/limit);
+			pageTotal=total;
+			if(total==0){
+				$("#project-none").show();
+				$('#layer').hide();
+			}
+			else{
+				$("#project-none").hide();
+				$('#layer').show();
+			} 
+	}else{
+		
+		LEx.alert(ret.error);
+	}
+}
+
+function chageDate(lx){
+	if(lx == 1){
+		$("#bianmin").val("");
+	}else{
+		$("#power").val("");
+	}
+}
+
+function formatState(type){
+	var val="其他";
+	switch(type){
+		case 'XK':
+			val="许可";
+			break;
+		case 'QZ':
+			val="强制";
+			break;
+		case 'JF':
+			val="给付";
+			break;
+		case 'FW':
+			val="服务";
+			break;
+	}	
+	return val;
+}
+
+function formatStateBm(type){
+	var val="其他";
+	switch(type){
+		case '1':
+			val="办事指南";
+			break;
+		case '3':
+			val="通知公告";
+			break;
+		case 'cj':
+			val="常见问题";
+			break;
+		case 'fw':
+			val="服务链接";
+			break;
+		case 'pt':
+			val="普通信息";
+			break;
+		case '5':
+			val="单位名录";
+			break;
+		case '6':
+			val="场馆信息";
+			break;
+		case '7':
+			val="政策文件";
+			break;
+	}	
+	return val;
+}
+
+function gotoDetail(type,id){
+	var val="";
+	switch(type){
+		case '1':
+			val="{{PageContext.ContextPath}}icity/bmservice/servicedetail?id="+id;
+			//val="办事指南类";
+			break;
+		case '3':
+			val="{{PageContext.ContextPath}}icity/bmservice/infodetail?id="+id;
+			//val="通知公告类";
+			break;
+		case 'cj':
+			val="{{PageContext.ContextPath}}icity/bmservice/prodetail?id="+id;
+			//val="常见问题类";
+			break;
+		case 'fw':
+			val="{{PageContext.ContextPath}}icity/bmservice/conveniencedetail?id="+id;
+			//val="服务链接类";
+			break;
+		case 'pt':
+			val="{{PageContext.ContextPath}}icity/bmservice/infodetail?id="+id;
+			//val="普通信息类";
+			break;
+		case '5':
+			val="{{PageContext.ContextPath}}icity/bmservice/ditudetail?id="+id;
+			//val="单位名录类";
+			break;
+		case '6':
+			val="{{PageContext.ContextPath}}icity/bmservice/ditudetail?id="+id;
+			//val="场馆信息类";
+			break;
+		case '7':
+			val="{{PageContext.ContextPath}}icity/bmservice/lawdetail?id="+id;
+			//val="政策文件类";
+			break;
+	}
+	//window.location.href = val;
+	window.open(val,"_blank");
+}
+
+$(function(){
+	onQuerydept();
+	//绑定按服务对象分类点击事件
+ 	$('#collapseOne li').click(function (e) {
+ 		theme="";
+ 		pagemodel=$(this).attr("tag");
+ 		$('#collapseOne li').removeClass("active");
+		$(this).addClass("active");
+		onQueryTheme();
+		onQuery(1);
+		layerPage();
+  });
+ 	//绑定按部门分类点击事件
+ 	$('#collapseTwo li').click(function (e) {
+ 		deptid=$(this).attr("tag");
+ 		$('#collapseTwo li').removeClass("active");
+		$(this).addClass("active");
+		onQuery(1);
+		layerPage();
+  });
+ 	
+ 	//搜索
+ 	$('#project-btn-search').click(function (e) {
+ 		SearchName=$("#project-text-search").val();
+ 		itemtype=$("#power").val();
+ 		bm_type=$("#bianmin").val();
+ 		theme=$("#theme_select").val()=="" ? "" : $("#theme_select").find("option:selected").text();
+		var reg=/['"%&?\[\]\*\_&$#@]/; 
+		  if(reg.test(SearchName)){
+				LEx.alert("输入的内容不能含有特殊字符！");
+				return false;
+			}
+		onQuery(1);
+		layerPage();
+  });
+ 	
+ 	//参数初始化
+ 	if(LEx.urldata.pagemodel){
+ 		pagemodel=LEx.urldata.pagemodel;
+//  		$('.pagemodelQuery').css("color","");
+//  		$(".pagemodelQuery[title='"+pagemodel+"']").css("color","red");
+		$('#collapseOne > li').removeClass("active");
+		$("#collapseOne > li[tag='"+pagemodel+"']").addClass("active");
+ 		onQueryTheme(pagemodel);
+ 	}
+ 	if(LEx.urldata.theme){
+ 		theme=LEx.urldata.theme;
+//  		$("#theme_select").val(LEx.urldata.theme);
+/*  		theme=$("#theme_select").val()=="" ? "" : $("#theme_select").find("option:selected").text();
+ */ 	}
+ 	if(LEx.urldata.itemtype){
+ 		itemtype=LEx.urldata.itemtype;
+ 		//alert(itemtype);
+ 	}
+ 	if(LEx.urldata.deptid){
+ 		$("#collapseTwo li[tag='"+LEx.urldata.deptid+"']").click();
+ 		return;
+ 	}
+ 	
+ 	onQueryTheme();
+ 	onQuery(1);
+ 	layerPage();
+}); 
+
+//创建部门列表
+function onQuerydept(){
+	var region_code=getSecurityValue("WebRegion");
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	command.setParameter("region_code",region_code);
+	var ret = command.execute("getDeptList");
+	if(!command.error){
+		creatListdept(ret.data.organ);
+	}else{
+		LEx.dialog({
+			title : "系统提示",
+			content : command.error,
+			icon : 'error',
+			lock : true
+		});
+	}	
+}
+
+function creatListdept(orgs){
+	var len = orgs.length;
+	var strHtml = "";
+	strHtml += '<li title="" tag="" class="active"><a href="#">全部</a></li>';
+	for(var i=0;i<len;i++){
+		if(orgs[i].IS_HALL=="1"){
+			strHtml += '<li tag="'+orgs[i].CODE+'" title="'+orgs[i].NAME+'"><a href="javascript:void(0)">'+orgs[i].NAME+'</a></li>';
+		}
+	}
+	$("#collapseTwo").html(strHtml);
+};
+
+//layerPage分页
+function layerPage(){
+	laypage({
+    	cont: $("#layer"), //容器。值支持id名、原生dom对象，jquery对象,
+    	pages: pageTotal, //总页数
+    	skin: '#42a5f5', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+    	groups: 4, //连续显示分页数
+    	jump:function(obj,first){
+    			// debugger
+    			var currPage = obj.curr;
+    			if(!first){
+    				onQuery(currPage);
+    			}
+    		}
+		});	
+}
+
+
+//主题下拉列表
+function onQueryTheme(){
+	var cmd = new LEx.Command("app.icity.col.WidgetCmd");
+	if(pagemodel==""||pagemodel==null){
+		cmd.setParameter("TYPE", "gr");
+	}else if (pagemodel=="person"){
+		cmd.setParameter("TYPE", "gr");
+	}else if (pagemodel=="ent")
+	{
+		cmd.setParameter("TYPE", "fr");
+	}
+	var ret =  cmd.execute("getPersonalBusinessList");
+	if(!ret.error){
+		creatListTheme(ret);
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+
+function creatListTheme(ret){
+	var strHtml = "";
+	strHtml = "<option value=''>--请选择--</option>";
+	if(ret!=""){
+		var len = ret.total;
+		for(var i=0;i<len;i++){
+			strHtml += "<option value='"+ret.data[i].CODE+"'>"+ret.data[i].NAME+"</option>";
+		}
+	}
+	$("#theme_select").html(strHtml);
+};
+
+function addFaveriot(o) {
+	if (!LEx.isNotNull(LEx.userInfo)) {
+		LEx.dialog({
+			lock : true,
+			content:"您需要先进行登录 ",
+			width:180,
+			height:50,
+			button:[
+			        {
+	                 name:"立即前往",
+	                 callback: function(ucPath,loginType) {
+	                	 var redirectTo=LEx.webPath+"login?goto="+encodeURIComponent(window.location.href);
+	                		window.location.href = redirectTo;
+	                	    return false;
+	                 },
+	                 focus: true
+	                 },{
+	                name:"随便逛逛"
+			}]
+		})
+		return false;
+	}
+		var cmd = new LEx.Command("app.icity.favorite.ProjectFavoriteCmd");
+		cmd.setParameter("SXID", $(o).attr("item_id"));
+		cmd.setParameter("SXBM", $(o).attr("item_code"));
+		cmd.setParameter("SXMC", $(o).attr("item_name"));
+		var ret = cmd.execute("addFaveriot");
+		if (ret.state == 1) {
+			if (ret.data[0].collect==1){
+				LEx.alert("该事项已收藏！")
+			}
+			if(ret.data[0].collect==0){
+			LEx.alert("收藏成功！");
+		}
+		} else {
+			LEx.alert(ret.error);
+		}
+		
+}
+/**
+ * 咨询
+ */
+function addConsult(obj){
+	var item_id = $(obj).attr("item_id");
+	var item_code = $(obj).attr("item_code");
+	var item_name = $(obj).attr("item_name");
+	var org_code = $(obj).attr("org_code");
+	var org_name = $(obj).attr("org_name");
+	window.open("{{cp}}message?item_id="+item_id+"&item_code="+item_code+"&item_name="+item_name+"&org_code="+org_code+"&org_name="+org_name,"_blank");
+}
+function zxbl(obj){
+	var id = obj.getAttribute("id");
+	if (!LEx.isNotNull(LEx.userInfo)) {
+		LEx.dialog({
+			lock : true,
+			content:"您需要先进行登录 ",
+			width:180,
+			height:50,
+			button:[
+			        {
+	                 name:"立即前往",
+	                 callback: function(ucPath,loginType) {
+	                	 var redirectTo=LEx.webPath+"login?goto="+encodeURIComponent(window.location.href);
+	                	 if(obj.getAttribute("onaddress")==""){
+	                		 window.location.href ="{{cp}}icity/submitsp/baseinfo?itemId="+id,"_blank";
+	                	    }else{
+	                	    	window.location.href = redirectTo;
+	                	    }	
+	                	    return false;
+	                 },
+	                 focus: true
+	                 },{
+	                name:"随便逛逛"
+			}]
+		})
+		return false;
+	}
+	
+    if(obj.getAttribute("onaddress")==""){
+    	window.open("{{cp}}icity/submitsp/baseinfo?itemId="+id,"_blank");
+    }else{
+    	window.open(obj.getAttribute("onaddress")); 
+    }
+}
+function reset(){     
+	$("#project-text-search").val("");
+	$("#power").val("");
+	$("#bianmin").val("");
+	$("#theme_select").val("");
+	$('#project-btn-search').trigger("click");
+}
+</script>

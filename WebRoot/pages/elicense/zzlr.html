@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<title>我的证照中心</title>
+</head>
+<body>
+	{%include elicense/index/header.html %}
+	<div class="py-25 mb-20 bg-faded">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-8">
+					<div class="media">
+						<div class="media-left media-middle pr-15">
+							<i
+								class="nc-icon-outline files_edit x2l img-circle bg-purple p-20"></i>
+						</div>
+						<div class="media-body media-middle">
+							<h4 class="media-heading">
+								<strong>证照录入</strong>
+							</h4>
+							<small class="text-muted">实现证照信息的网上自助录入、审核</small>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<ol class="breadcrumb small pull-right mt-25" style="opacity: .6;">
+						<li><i class="nc-icon-outline location_pin lg"></i> 当前位置:</li>
+						<li><a href="{{cp}}public/index">首页</a></li>
+                        <li><a href="{{cp}}elicense/index">证照中心</a></li>
+                        <li><a href="#">证照录入</a></li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-3">
+				<div class="slimbase" >
+					<ul class="nav nav-pills nav-stacked nav-pills-1610311735"
+						id="collapseDept">
+					</ul>
+				</div>
+			</div>
+			<div class="col-xs-9">
+				<div class="input-group">
+					<input class="form-control" placeholder="请输入证照名称" type="text" id="title">
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-warning" onclick="onQuery(1);layerPage(1)">
+							<i class="nc-icon-outline ui-1_zoom"></i> 搜索
+						</button>
+					</div>
+				</div>
+				<br>
+				<table class="table table-striped table-1610312007">
+					<tbody id='zheng_ul' style="font-size: 14px;">
+					</tbody>
+				</table>
+				<div class="row" id="pagination">
+					<div class="col-xs-8 small">
+						<nav style="padding-top: 20px;" class="text-center" id="layer"></nav>
+					</div>
+					<div class="col-xs-4 text-right pt-20 small" id='jumppage' style="padding-right: 30px;">
+						<span id='pageTotal'></span> <span>到第</span> <input
+							class="form-control input-sm d-inline-block" value="1" min="1"
+							id="maxpage" max="100" style="width: 50px;" type="number"> <span>页</span>
+						<button role="button" onclick="jumpPage()"  class="btn btn-sm btn-default">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<br>
+	<br>
+	<br> {%include elicense/index/footer.html %}
+	<textarea id="licenseListTemp" style="display:none">
+{for d in data}
+<tr>
+	<td>${d.UNITS_NAME}</td>
+	<td>${d.LICENSE_TYPE_NAME}</td>
+	<td class="text-right"><a href="{{PageContext.ContextPath}}elicense/zzlr-info?id=${d.LICENSE_TYPE_CODE}" target="_blank"
+	class="btn btn-sm btn-info">录入</a></td>
+</tr>
+{/for}
+</textarea>
+<textarea id="nullList" style="display:none">
+<div class="text-center">
+	该部门下没有证照模板！
+</div>
+</textarea>
+
+	<script>
+	var deptCode="";//当前部门ID
+	var limit=10;
+	var pageTotal=0;
+		$(function() {
+			 $('.slimbase').slimScroll({
+				borderRadius : "0",
+				height : '745px',
+				distance : "0",
+				color : '#000',
+				opacity : 0.5,
+				position : 'right',
+			}); 
+			onQuerydept();
+			onQuery(1);
+			layerPage(1);
+		});
+		//部门列表
+		function onQuerydept() {
+			var region_code = getSecurityValue("WebRegion");
+			var command = new LEx.Command("app.icity.ServiceCmd");
+			command.setParameter("region_code", region_code);
+			var ret = command.execute("getDeptList");
+			if (!command.error) {
+				creatListdept(ret.data.organ);
+			} else {
+				LEx.dialog({
+					title : "系统提示",
+					content : command.error,
+					icon : 'error',
+					lock : true
+				});
+			}
+		}
+		function creatListdept(orgs) {
+			var len = orgs.length;
+			var strHtml = "";
+			for ( var i = 0; i < len; i++) {
+				strHtml += '<li tag="'+orgs[i].CODE+'" onclick="changeId('+orgs[i].CODE+')" title="'+orgs[i].SHORT_NAME+'"><a data-toggle="pill" href="#">'
+						+ orgs[i].SHORT_NAME + '</a></li>';
+			}
+			$("#collapseDept").html(strHtml);
+		}
+		//证照模板 列表
+		function onQuery(page) {
+			var cmd = new LEx.Command("app.icity.govservice.LicenseCmd");
+			var title =  $("#title").val();
+			cmd.setParameter("title",title);
+			cmd.setParameter("deptCode", deptCode);
+			cmd.setParameter("limit", limit);
+			cmd.setParameter("page", page);
+			var ret = cmd.execute("getLicenceListByDeptCode");
+			if (ret.state == 1) {
+				$("#zheng_ul").html(
+						LEx.processDOMTemplate("licenseListTemp", ret));
+				var total=ret.total;
+				pageTotal = total;//分页按钮
+				$("#pagination").show();
+			} else {
+				$("#pagination").hide();
+				$("#zheng_ul").html($("#nullList").text());
+			}
+		}
+		function changeId(code){
+			deptCode=code+"";
+			onQuery(1);
+			layerPage(1);
+		}
+		//layerPage分页 curr 当前页
+		function layerPage(curr){
+			if(pageTotal>1){
+				$("#jumppage").show();
+				$("#pageTotal").html("共"+pageTotal+"页");
+				$("#maxpage").attr("max",pageTotal);
+			}else{
+				$("#jumppage").hide();
+			}
+			laypage({
+		    	cont: $("#layer"), //容器。值支持id名、原生dom对象，jquery对象,
+		    	pages: pageTotal, //总页数
+		    	skin: '#42a5f5', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		    	curr: curr,//当前页
+		    	groups: 4, //连续显示分页数
+		    	jump:function(obj,first){
+		    			var currPage = obj.curr;
+		    			if(!first){
+		    				onQuery(currPage);
+		    			}
+		    		}
+				});	
+		}
+		//跳到第几页
+		function jumpPage(){
+			var max = $("#maxpage").attr("max");
+			var page = $("#maxpage").val();
+			var reg = /^[0-9]*$/;
+		    if(page!=""&&page!=0&&reg.test(page)){  
+		    	if(page>max){
+					$("#maxpage").val(max);
+					onQuery(max);
+					layerPage(max)
+				}else{
+					onQuery(page);
+					layerPage(page)
+				}
+		    }else{
+		    	$("#maxpage").val(1);
+				onQuery(1);
+				layerPage(1) 
+		    } 
+		}
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+{{__PARAMS__}}
+{% command 'app.icity.project.ProjectBusinessStatCmd','getBusinessStat',__PARAMS__ as d %}
+	{% if d.data %}
+		<!--['预审','咨询','受理','即办','承诺','补办','挂起','办结','提前','超期']; -->
+		<input name="yu_shen" id="yu_shen" value="{{d.data.JRSJ}}" type="hidden">	
+		<input name="zi_xun" id="zi_xun" value="{{d.data.JRSJ}}" type="hidden">		
+		<input name="shou_li" id="shou_li" value="{{d.data.JRSJ}}" type="hidden">		
+		<input name="ji_ban" id="ji_ban" value="{{d.data.JRSJ}}" type="hidden">
+		<input name="cheng_nuo" id="cheng_nuo" value="{{d.data.JRSJ}}" type="hidden">
+		<input name="bu_ban" id="bu_ban" value="{{d.data.JRSJ}}" type="hidden">
+		<input name="gua_qi" id="gua_qi" value="{{d.data.JRSJ}}" type="hidden">
+		<input name="ban_jie" id="ban_jie" value="{{d.data.JRSJ}}" type="hidden">	
+		<input name="ti_qian" id="ti_qian" value="{{d.data.JRSJ}}" type="hidden">	
+		<input name="chao_qi" id="chao_qi" value="{{d.data.JRSJ}}" type="hidden">	
+    {%  else  %}
+		<!--['预审','咨询','受理','即办','承诺','补办','挂起','办结','提前','超期']; -->
+		<input name="yu_shen" id="yu_shen" value="11" type="hidden">	
+		<input name="zi_xun" id="zi_xun" value="12" type="hidden">		
+		<input name="shou_li" id="shou_li" value="13" type="hidden">		
+		<input name="ji_ban" id="ji_ban" value="14" type="hidden">
+		<input name="cheng_nuo" id="cheng_nuo" value="15" type="hidden">
+		<input name="bu_ban" id="bu_ban" value="15" type="hidden">
+		<input name="gua_qi" id="gua_qi" value="16" type="hidden">
+		<input name="ban_jie" id="ban_jie" value="17" type="hidden">	
+		<input name="ti_qian" id="ti_qian" value="18" type="hidden">	
+		<input name="chao_qi" id="chao_qi" value="19" type="hidden">	
+    {% endif %}
+   </ul>
+</div>

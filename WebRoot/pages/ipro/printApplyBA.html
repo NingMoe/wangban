@@ -1,0 +1,166 @@
+ 	{% set id PageContext.Parameter.id %} 
+	 {% map "id",id as p %} 
+	 {% command "app.icity.ipro.IproCmd","getNData",p as s %}
+	 {% command "app.icity.ipro.IproCmd","getContent",p as d %} 
+	  {% command "app.icity.ipro.IproCmd","getCompanyContent",p as d2 %} 
+	 {% set o d.data.CONTENT %}
+	  {% set o2 d2.data %}
+	 
+	 {% command "app.icity.ipro.IproCmd","getInvestDictList" as dic %} 
+	 
+	{% map "investId",id,"seqId",d.data.SEQID as p1 %} 
+	 {% command "app.icity.ipro.IproCmd","getProjectInfoByIds",p1 as d1 %} 
+	 {% set qrcode d1.data.project.PROJECT_CODE %}
+
+<script type="text/javascript">
+	var __webPath = "/icity/";
+	var __signature = "0366e1e63f79e62d5ca3f2dba7fd56511446348513380";
+</script>
+<script type="text/javascript"
+	src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+<script type="text/javascript"
+	src="{% public ipro/assets/js/jquery.PrintArea.js %}"></script>
+<script src="{% public scripts/LEx.form.js %}"></script>
+<!--  <script type="text/javascript" src="{% public ipro/assets/js/jquery.qrcode.min.js%}"></script>-->
+<!--startprint-->
+<fieldset id="printField" style="margin-top: 20px; width: 96%">
+
+	<style type="text/css">
+.input_validation-invalid {
+	border: 1px solid #f00 !important;
+	color: #f00;
+}
+
+.table01 {
+	border: 1px solid rgb(230, 230, 230);
+	text-align: left;
+	border-collapse: collapse;
+	background-color: rgb(255, 255, 255);
+}
+
+.table01 th {
+	border: 1px solid rgb(230, 230, 230);
+	width: 120px;
+	height: 60px;
+	text-align: center;
+	font-weight: normal;
+	background-color: rgb(247, 247, 247);
+}
+
+.table01 td {
+	border: 1px solid rgb(230, 230, 230);
+	height: 60px;
+	text-align: left;
+	padding-left: 5px;
+}
+</style>
+
+<div class="container" style="background-color: #fff; width:100%">
+	<link rel="icon" href="{% public ipro/assets/ico/favicon.ico %}">
+  	
+	<link href="http://cdn.bootcss.com/simple-line-icons/2.2.2/css/simple-line-icons.min.css" rel="stylesheet">
+	<section class="panel panel-default">
+		<h3 style="text-align:center;font-size:30px;height:60px">山东省建设项目备案证明</h3>
+		<!-- <p style="margin-top:20px">项目代码：<span id="pCode"></span><span id="qrcode" style="margin-left:50%;"></span></p> -->
+		<image src="{{PageContext.ContextPath}}/bsp/ShowQrCode?fileUrl={{qrcode}}" style="position:absolute;left:80%;top:30px" id="qrCode" ></image>
+<!-- 		<div style="position:absolute;left:80%;top:30px;width:140px;height:140px;background: url({{PageContext.ContextPath}}/bsp/ShowQrCode?fileUrl={{qrcode}})">aa</div> -->
+		<!-- <image src="{{PageContext.ContextPath}}bsp/ShowQrCode?fileUrl=2222222222" id="qrCode" ></image> -->
+			<table class="table table-bordered table-condensed table01"
+				cellspacing="1" id="sub_form"
+				style="border-width: 0px; width:100%">
+				<colgroup>
+					<col width="14%">
+					<col width="17%">
+					<col width="26%">
+					<col width="17%">
+					<col width="26%">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th rowspan="2">项目单位</br>基本情况</th>
+						<th>单位名称</th>
+						<td colspan="3">{{o2.enterpriseName}}</td>
+					</tr>
+					<tr>
+						<th>单位注册地</th>
+						<td>{{o2.correspondenceAddress}}</td>
+						<th>法定代表人</th>
+						<td>{{o2.contactName}}</td>
+					</tr>
+					<tr>
+						<th rowspan="6">项</br>目</br>基</br>本</br>情</br>况</th>
+						<th>项目代码</th>
+						<td colspan="3">{{qrcode}}</td>
+					</tr>
+					<tr>
+						<th>项目名称</th>
+						<td colspan="3">{{o.projectName}}</td>
+					</tr>
+					<tr>
+						<th>建设地点</th>
+						<td colspan="3">{{o.placeName}}</td>
+					</tr>
+					<tr>
+						<th>建设规模和内容</th>
+						<td colspan="3">{{o.projectContent}}</td>
+					</tr>
+					<tr>
+						<th>总投资</th>
+						<td>{{o.investment}}万元</td>
+						<th>建设起止年限</th>
+						<td>{{o.startYear}}年至{{o.endYear}}年</td>
+					</tr>
+					<tr>
+						<th>项目负责人</th>
+						<td>{{o.linkMan}}</td>
+						<th>联系电话</th>
+						<td>{{o.linkPhone}}</td>
+					</tr>
+					<tr>
+						<th>备注</th>
+						<td colspan="4">{{o.contactEmail}}</td>
+					</tr>
+					<tr>
+					<td colspan="5">
+					<h3>承诺：</h3>
+					<u>&nbsp;{{o2.enterpriseName}}&nbsp;</u>（单位）承诺所填写各项内容真实、准确、完整，建设项目符合相关产业政策规定。如存在弄虚作假、隐瞒欺骗等情况及由此导致的一切后果由本单位承担全部责任。
+                    </br>  
+                    <p align="right"> 法定代表人或项目负责人签字：<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></p>
+                          
+					</td>
+					</tr>
+
+				</tbody>
+			</table>
+		</section>
+	</div>
+</fieldset>
+
+<button class="aui_state_highlight" id="printBtn" onclick="print()"
+	type="button" style="display: none">打印</button>
+<script>
+	/*生成二维码图片*/
+	function getQrCode(content) {
+		var src = "{{PageContext.ContextPath}}/bsp/ShowQrCode?fileUrl="
+				+ content;
+		$("#qrCode").attr("src", src);
+	}
+	$(function() {
+		var command = new LEx.Command("app.icity.ipro.IproCmd");
+		command.setParameter("investId", '{{id}}');
+		command.setParameter("seqId", "{{d.data.SEQID}}");
+		var ret = command.execute("getProjectInfoByIds");
+		if (!command.error) {
+			$("#pCode").html(ret.data.project.PROJECT_CODE);
+			//jQuery('#qrcode').qrcode({width: 100,height: 100,text:ret.data.project.PROJECT_CODE });
+			//getQrCode(ret.data.project.PROJECT_CODE);
+		}
+	});
+	//function print() {
+	//	this.focus();
+	//	$("#printField").printArea();
+	//}
+	function printButton() {
+		$("#printBtn").click();
+	}
+</script>

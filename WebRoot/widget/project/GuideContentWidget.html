@@ -1,0 +1,403 @@
+<style>
+<!--
+#guide-bottom .item-right div.process{
+	width: 30px;
+	height: 15px;
+}
+.pop_discmatarial .ztree li { padding: 2px 0;}
+.pop_discmatarial .ztree li span { font-size: 14px; font-family: "微软雅黑";}
+
+-->
+</style>
+<!-- 事项内容 -->
+{% set item __PARAMS__ %}
+<!-- 事项基本信息 -->
+{% set itemInfo item.itemBasicInfo %}
+<!-- 材料信息 -->	
+{% set materials item.material%}
+<!-- 办理流程 -->
+{% set handlingprocess item.handlingprocess %}
+<!-- 法律依据 -->
+{% set legalbasis item.legalbasis %}
+<!-- 受理条件 -->
+{% set conditions item.condition %}
+<!-- 办事地址 -->
+{% set windows item.window %}
+<!-- 收费标准 -->
+{% set charges item.charge %}
+<!-- 常见问题 -->
+{% set question itemInfo.FAQ %}
+<!-- 展现常见问题和表格下载标志  -->
+{% set show PageContext.Parameter.show %}
+<div class="item-body">
+	<div class="item-left">办理对象</div>
+	{% if itemInfo.SERVICE_OBJECT|equal:'0' %}
+									<div class="item-fwdx">个人</div>
+								{% else %}
+								{% if itemInfo.SERVICE_OBJECT|equal:'1' %}
+									<div class="item-fwdx">企业</div>
+								{% else %}
+								<div class="item-fwdx">个人和企业</div>
+								{% endif %}
+								{% endif %}	
+</div>  	
+<div class="item-body">
+	<div class="item-left">办理条件</div>
+	<div class="item-right">
+   			{% if conditions %}
+  			{% for condition in conditions %}
+  			<div>{{loop.counter}}、{{condition.NAME}}</div>
+   			{% endfor %}			   				
+		{% else %}
+   			无
+   		{% endif %}				   			
+   	</div>
+</div>
+<div class="item-body">
+	<div class="item-left">所需材料</div>
+ 	<div class="item-right">
+ 		<div id="have_situation" class="show_situation"></div>
+	 	<div id="all_infobox">
+	 		{% if materials %}				   		
+		   		{% for material in materials %}
+		   		<p>	   			
+		   			{{loop.counter}}、
+		   			{% if material.LACK_FLAG|equal:'0' %}
+		   				{% if material.REASON|cut:' '|length|equal:'0'|not %}
+		   					<a href="javascript:void(0);" tag="lackreason" title="{{material.REASON}}" class="htmlhref" >[非必备]</a>
+		   				{% else %}
+		   					<a href="javascript:LEx.dialog.tips('暂无非必备说明');" style="color:#999999;">[非必备]</a>
+		   				{% endif %}
+		   			{% endif %}&nbsp;{{material.NAME}}
+		   			{% if material.DESCRIPTION|cut:' '|length|equal:'0'|not %}
+			   			<span>				   				
+				   			<a href="javascript:void(0);" title="查看材料备注" tag="material" clcode="{{material.CODE}}" class="question" hidefocus="true" style="outline:none;"></a>	   			
+			   			</span>
+			   		{% endif %}
+			   		{% if material.ORIGINAL_TYPE|cut:' '|length|equal:'0'|not %}
+			   			<span style="color: #999;font-size: 12px">[&nbsp;&nbsp;
+			   			{%if material.ORIGINAL_TYPE|Contain:'1'%}原件(收)&nbsp;&nbsp;{%endif%}
+			   			{%if material.ORIGINAL_TYPE|Contain:'2'%}原件(验)&nbsp;&nbsp;{%endif%}
+			   			{%if material.ORIGINAL_TYPE|Contain:'3'%}复印件{{material.COUNT}}份&nbsp;&nbsp;{%endif%}
+			   			{%if material.ORIGINAL_TYPE|Contain:'4'%}电子件&nbsp;&nbsp;{%endif%}
+			   			{%if material.ORIGINAL_TYPE|Contain:'9'%}其他&nbsp;&nbsp;{%endif%}   			
+			   			]</span>
+			   		{% endif %}
+			   		{% if material.FILE_URL|cut:' '|length|equal:'0'|not %}
+			   			<span style="color: #999;font-size: 12px">[&nbsp;
+			   				<a href="{{PageContext.ContextPath}}{{material.FILE_URL}}" style="color: #999;font-size: 12px">下载</a>
+			   			&nbsp;]</span>
+			   		{% endif %}
+			   	</p>		
+		   		{% endfor %}
+		   	{% else %}
+		   		无
+		   	{% endif %}
+	 	</div> 	
+ 	</div>
+</div>
+<div class="item-body">
+	<div class="item-left">办理流程</div>
+   	<div class="item-right">			   		
+   		<div>
+  			<div class="widow" style="width:100%;display:block;float:left;">   						
+  				{% if handlingprocess %}
+ 					{% set length handlingprocess|length %}  							
+	   				{% for wpro in handlingprocess %}
+	   					{% if wpro.NAME %}
+	   						{{loop.counter}}、{{wpro.NAME}}
+		   					{% if loop.counter|equal:length|not %}
+		   						</br>
+		   					{% endif %}
+		   				{% else %}
+		   					{% if wpro.NAME|equal:""|not %}
+	   							{{loop.counter}}、{{wpro}}
+	   						{% endif %}
+		   				{% endif %}	   							
+	   				{% endfor %} 						
+   				{% else %}
+	   				无
+	   			{% endif %}	   					
+  			</div>		   					
+ 		</div>			   				
+ 	</div>
+</div>
+<div class="item-body">
+	<div class="item-left">办理时限</div>
+  	<div class="item-right">
+  		<div id="setup_time" style="display:none">
+  			<div>承诺期限: <b id="promised_time"></b></div>	
+  			<div>法定期限: <b id="legal_time"></b></div>
+  		</div>
+	  	<div id="default_time">
+	  		{% if itemInfo.AGREE_TIME %}
+		  		<div>承诺期限: <b>{{itemInfo.AGREE_TIME}}个工作日</b></div>				   								   		
+		 	{% else %}
+				<div>承诺期限: <b>未承诺期限</b></div>					   		 
+		 	{% endif %}
+		 	{% if itemInfo.LAW_TIME %}
+		 		<div>法定期限: <b>{{itemInfo.LAW_TIME}}个工作日</b></div>					 							   	
+		 	{% else %}					 	
+		   		<div>法定期限: <b>未规定期限</b></div>
+		 	{% endif %}
+	  	</div>
+  	
+  	</div>
+</div>
+<div class="item-body">
+	<div class="item-left">办事窗口</div>
+	<div class="item-right">
+	{% if windows %}
+   		{% set canview "1" %}   			
+   		{% set wcount windows|length %}
+	   	{% for window in windows %}
+	   		{% set counter loop.counter %}	   		
+	   		{% if counter|equal:'4' %}
+	   			<div class="rfilter fl"></div>
+	   			<a href="javascript:void(0);" class="htmlhref" onclick="$('div[tag=add_more]').toggle();">&gt;&gt;&gt;更多窗口</a>				   				
+	   			{% set canview "0" %}
+	   		{% endif %}   			  			
+	   		{% if canview|equal:'1' %}
+	   			{% if counter|equal:'1'|not %}	
+	   				<div class="rfilter"></div>
+	   			{% endif %}
+	   			<div class="ritem">
+	   				<div class="fl"><font class="itemwindow">{{loop.counter}}、{{window.NAME}}</font></div> 				
+		   			{% if window.MAP_URL|cut:' '|length|equal:'0'|not %}
+		   				<!-- <a href="javascript:void(0);" class="bitmap" tag="bitmap" map_url="{{window.MAP_URL}}">电子地图</a> -->
+		   			{% endif %}
+	   			</div>
+	   			<div class="ritem"><font color="#666666">服务地址：</font>{{window.ADDRESS}}</div>
+	   			<div class="ritem"><font color="#666666">联系电话：</font>{{window.PHONE}}</div>
+				<div class="ritem">
+					<div style="float:left;"><font color="#666666">办公时间：</font>{{window.OFFICE_HOUR}}</div>
+				</div>				
+				<div class="ritem"><font color="#666666">交通路线：</font>
+					{% if window.TRAFFIC_GUIDE|cut:' '|length|equal:'0'|not %}{{window.TRAFFIC_GUIDE}}{% else %}无{% endif %}
+				</div>
+			{% else %}				
+				<div tag="add_more" style="display:none">
+					<div class="rfilter"></div>				
+					<div class="ritem">
+						<div class="fl"><font class="itemwindow">{{loop.counter}}、{{window.NAME}}</font></div>
+						{% if window.MAP_URL|cut:' '|length|equal:'0'|not %}
+	   						<!-- <a href="javascript:void(0);" class="bitmap" tag="bitmap" map_url="{{window.MAP_URL}}" class="bitmap">电子地图</a> -->
+	   					{% endif %}	
+   					</div>	
+   					<div class="ritem"><font color="#666666">服务地址：</font>{{window.ADDRESS}}</div>	
+   					<div class="ritem"><font color="#666666">联系电话：</font>{{window.PHONE}}</div>		
+					<div class="ritem">
+						<div style="float:left;width:auto;"><font color="#666666">办公时间：</font>{{window.OFFICE_HOUR}}</div>						
+					</div>					
+					<div class="ritem"><font color="#666666">交通路线：</font>
+						{% if window.TRAFFIC_GUIDE|cut:' '|length|equal:'0'|not %}{{window.TRAFFIC_GUIDE}}{% else %}无{% endif %}
+					</div>
+				</div>			
+   			{% endif %}
+   		{% endfor %}
+   	{% else %}
+   		无  			
+   	{% endif %}
+	</div>
+</div>
+<div class="item-body">
+ 	<div class="item-left">收费标准</div>
+   	<div class="item-right">
+   		{% if itemInfo.IS_CHARGE|equal:"1" %}
+   			{% if charges %}
+  			{% for charge in charges %}
+  			<div class="itemwindow">{{loop.counter}}、{{charge.NAME}}</div>
+  			<div>{{charge.STANDARD}}</div>
+   			{% endfor %}			   				
+		{% else %}
+   			无
+   		{% endif %}				   			
+   		{% else %}
+   			不收费
+   		{% endif %}
+   	</div>
+</div> 
+{% if show|equal:'true' %}
+<div class="item-body">
+	<div class="item-left">常见问题</div>
+	<div class="item-right">
+		<div class="guidefaq">
+			{% if question|cut:' '|length|equal:'0'|not %}				
+				<a href="javascript:void(0);" tag="viewfaq" class="htmlhref" title="查看常见问题">查看常见问题</a>
+				<input id="question" type="hidden" value="{{question}}"/>
+			{% else %}
+				无
+			{% endif %}			
+		</div>
+   	</div>
+</div>
+{% endif %}
+<div class="item-body">
+	<div class="item-left">主管部门</div>
+	<div class="item-right">
+		{% if itemInfo.ORG_NAME %}
+			{{itemInfo.ORG_NAME}}
+		{% else %}
+			无
+		{% endif %}
+	</div>
+</div> 	
+<div class="item-body">
+	<div class="item-left">受理机构</div>
+	<div class="item-right">
+		{% if itemInfo.AGENT %}
+			{{itemInfo.AGENT}}
+		{% else %}
+			{{itemInfo.ORG_NAME}}
+		{% endif %}
+	</div>
+</div>
+{% if show|equal:'1' %}
+	<div class="item-body">
+		<div class="item-left">表格下载</div>
+		<div class="item-right">
+			{% set ttnum '0' %}
+			{% if attachments %}
+				{% for o in attachments %}
+					{% if o.TYPE|equal:'01' %}
+						{% if o.FILE_URL|cut:' '|length|equal:'0'|not %}
+							{% set ttnum ttnum|add:'1' %}
+							<b>({{ttnum}})</b><a href="javascript:void(0);" tag="table" url="{{o.FILE_URL}}" title="{{o.FILE_NAME}}" class="htmlhref">
+								{% if o.NAME|contain:'《' %}
+									{{o.NAME}}
+								{% else %}
+									《{{o.NAME}}》
+								{% endif %}							
+							</a><br/>		
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			{% endif %} 
+			{% if ttnum|equal:'0' %}
+				无
+			{% endif %}
+	   	</div>
+	</div>
+	<div class="item-body">
+		<div class="item-left">样表下载</div>
+		<div class="item-right">
+			{% set ttnum '0' %}
+			{% if attachments %}
+				{% for o in attachments %}
+					{% if o.TYPE|equal:'019' %}
+						{% if o.FILE_URL|cut:' '|length|equal:'0'|not %}
+							{% set ttnum ttnum|add:'1' %}
+							<b>({{ttnum}})</b><a href="javascript:void(0);" tag="table" url="{{o.FILE_URL}}" title="{{o.FILE_NAME}}" class="htmlhref">
+								{% if o.NAME|contain:'《' %}
+									{{o.NAME}}
+								{% else %}
+									《{{o.NAME}}》
+								{% endif %}							
+							</a><br/>
+									
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			{% endif %} 
+			{% if ttnum|equal:'0' %}
+				无
+			{% endif %}
+	   	</div>
+	</div>
+{% endif %}
+<div class="item-body">
+ 	<div class="item-left">办理依据</div>
+  	<div class="item-right">	
+  		{% if legalbasis %}
+  			{% for lawinfo in legalbasis %}
+   				{{loop.counter}}、			   						   				
+   				{% if lawinfo.URL|cut:' '|length|equal:'0'|not %}
+   					<a href="javascript:void(0);" tag="law" url="{{lawinfo.URL}}" class="htmlhref">{{lawinfo.NAME}}</a><br/>	
+   				{% else %}
+   					{{lawinfo.NAME}}<br/>
+   				{% endif %}		   					   				
+   			{% endfor %}			   				
+		{% else %}
+   			无
+   		{% endif %}
+	</div>
+</div>
+<div class="item-body">
+	<div class="item-left">备注</div>
+ 	<div class="item-right">	
+ 		{% if itemInfo.REMARK %}
+ 			{{itemInfo.REMARK}}		   				
+ 		{% else %}
+  			无
+  		{% endif %}
+ 	</div>
+</div>
+<script>
+$(document).ready(function(){
+	//打开法律依据
+	$("a[tag=law]").click(function(){
+		downloadFile($(this).attr("url"));
+	});	
+	//打开电子地图
+	$("a[tag=bitmap]").click(function(){
+		downloadFile($(this).attr("map_url"));
+	});	
+	//打开办事流程图
+	$("a[tag=window_process_img]").click(function(){
+		downloadFile($(this).attr("window_process_img"));
+	});	
+	//打开网上办理流程图
+	$("a[tag=online_process_img]").click(function(){
+		downloadFile($(this).attr("online_process_img"));
+	});	
+	//材料非必备说明
+	$("a[tag=lackreason]").click(function(){
+		var reason=$(this).attr("title");
+		LEx.dialog({
+			title:"材料非备注说明",
+			url:LEx.webPath+"project/lackhelp?reason="+LEx.encode(reason),
+			width:750,
+			height:200,
+			lock:true,
+		});
+	});	
+	//材料说明
+	$("a[tag=apply]").click(function(){		
+		var pid=code;//事项编码
+		var clcode=$(this).attr("clcode");//材料编码
+		LEx.dialog({
+			title:"材料备注",
+			url:LEx.webPath+"project/applyhelp?pid="+pid+"&clcode="+clcode,
+			width:750,
+			height:200,
+			lock:true,
+		});
+	});	
+	//如何收费
+	$("a[tag=charge]").click(function(){
+		chargeHelp(code);
+	});
+	//打开表格
+	$("a[tag=table]").click(function(){
+		downloadFile($(this).attr("url"));
+	});
+	//打开常见问题
+	$("a[tag=viewfaq]").click(function(){
+		LEx.dialog({
+			title:"常见问题",
+			content:$("#question").val(),
+			lock:true,
+		});
+	});	
+});
+</script>
+  	
+  	
+  	
+ 	
+ 	
+ 	
+  	
+  	
+ 	
+  	

@@ -1,0 +1,148 @@
+<style>
+.badge-primary {
+	background-color: #0e90d2;
+	display: inline-block;
+	min-width: 10px;
+	padding: 5px 10px;
+	font-weight: 700;
+	line-height: 1;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	border-radius: 10px;
+}
+
+.lcname {
+	border: 1px solid #ddd;
+	padding: 10px 15px;
+	margin-bottom: 15px;
+}
+
+.lcname:hover {
+	background-color: #f5f5f5;
+}
+
+.licon {
+	width: 10%;
+	float: left;
+	margin-top: 10px;
+}
+
+.leftbar {
+	width: 70%;
+	float: left;
+}
+
+.rightbar {
+	width: 20%;
+	float: left
+}
+
+.rightbar button {
+	margin-top: 20px;
+}
+</style>
+<div class="container" style="width: 1030px !important;">
+	<ol class="breadcrumb">
+		<li><img
+			src="{%public assets/img/current_home.png %}">
+			您当前所在的位置:</li>
+		<li><a href="{{cp}}public/index">首页</a>
+		</li>
+		<li><a href="{{cp}}uinfo">用户中心</a>
+		</li>
+		<li><a href="{{cp}}uc/accmanager">账户管理</a>
+		</li>
+		<li><a href="#">管理安全</a>
+		</li>
+	</ol>
+</div>
+<div class="container" style="width: 1030px !important;">
+	<section class="panel" style="padding:10px;">
+		<div class="panel-body" style="width:80%;margin:auto">
+			<h4>
+				<span class="badge-primary">网上实名认证</span>
+			</h4>
+			<div class="lcname clearfix">
+				<div class="licon">
+					<img src="{%public assets/img/id.png %}">
+				</div>
+				<div class="leftbar">
+					<h4>
+						<strong>身份证认证</strong>
+					</h4>
+					<p>填写身份证号码、姓名、性别、民族，系统自动进行比对验证。</p>
+				</div>
+				<div class="rightbar">
+					<a href="javascript:accbind();">
+					<button type="submit" class="btn btn-primary its-btn-closed">
+						&nbsp;&nbsp;&nbsp;&nbsp;立即认证&nbsp;&nbsp;&nbsp;&nbsp;</button>
+					</a>
+				</div>
+			</div>
+			<br>
+			<h4>
+				<span class="badge-primary">现场实名认证</span>
+			</h4>
+			<!-- <div class="lcname clearfix">
+				<div class="licon">
+					<img src="{%public assets/img/alipay.png %}">
+				</div>
+				<div class="leftbar">
+					<h4>
+						<strong>支付宝认证 </strong>
+					</h4>
+					<p>使用实名制的支付宝账号进行验证，认证成功后支持使用支付宝快捷登录。</p>
+				</div>
+				<div class="rightbar">
+					<button type="submit" class="btn btn-warning its-btn-closed">
+						&nbsp;&nbsp;&nbsp;&nbsp;立即认证&nbsp;&nbsp;&nbsp;&nbsp;</button>
+				</div>
+			</div>
+			<div class="lcname clearfix">
+				<div class="licon">
+					<img src="{%public assets/img/mail.png %}">
+				</div>
+				<div class="leftbar">
+					<h4>
+						<strong>市民邮箱认证 </strong>
+					</h4>
+					<p>仅限杭州市民，使用市民邮箱账号登录，进行身份验证。</p>
+				</div>
+				<div class="rightbar">
+					<button type="submit" class="btn btn-warning its-btn-closed">
+						&nbsp;&nbsp;&nbsp;&nbsp;立即认证&nbsp;&nbsp;&nbsp;&nbsp;</button>
+				</div>
+			</div> -->
+			<div class="lcname clearfix">
+				<div class="licon">
+					<img src="{%public assets/img/location.png %}">
+				</div>
+				<div class="leftbar">
+					<h4>
+						<strong>办事大厅认证</strong>
+					</h4>
+					<p>携带本人身份证原件，到各地办事大厅现场的“实名认证窗口”，进行实名验证。</p>
+				</div>
+
+			</div>
+		</div>
+	</section>
+</div>
+<script>
+	$(function() {
+		$('.nav-tabs > li > a').hover(function(e) {
+			e.preventDefault()
+			$(this).tab('show')
+		})
+	});
+	$(function() {
+		$(".dropdown-menu").on("click", "[data-stopPropagation]", function(e) {
+			e.stopPropagation();
+		});
+	});
+	function accbind(){
+		window.open("{{cp}}uc/accbind?type=1","_blank");
+	}
+</script>

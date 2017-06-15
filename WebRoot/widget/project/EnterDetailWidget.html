@@ -1,0 +1,143 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}project.css" />
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+<style type="text/css">
+.tab_1 {
+	background: #CCC;
+	font-size: 14px;
+	margin: 10px auto;
+	border-top: 2px solid #37A3DB
+}
+
+.busy-result .tab_1 .tr_1 {
+	line-height: 25px;
+	padding: 5px 10px;
+	background: #F2F6F9;
+	text-align: right;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result .tab_1 .tr_1 .th_1 {
+	padding: 5px 10px;
+	background: #E2EBFF;
+	font-family: 微软雅黑;
+	font-weight: bold;
+	color: #666666;
+	text-align: right;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result .tab_1 .tr_1 .td_1 {
+	padding: 5px 10px;
+	background: #FFFFFF;
+	text-align: left;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result {
+	padding: 20px
+}
+</style>
+{% map "id",code as p%} {% command "app.icity.project.ProjectIndexCmd","getBusinessEnterList",p as d %}
+
+<!-- <div class="busy-main">  -->
+<!--  <div class="busy-header-tab"><h1>查询结果</h1></div>	 -->
+{% if d.data %} {% for o in d.data %}
+<div class="busy-result">
+	<table class="tab_1" width="100%" height="100%" cellspacing="1">
+		<tr class="tr_1">
+			<th class="th_1">申办主题</th>
+			<td class="td_1" colspan="3"><font id="sblsh">{{o.APPLY_SUBJECT}}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">一级码</th>
+			<td class="td_1" colspan="3"><font id="sbxmmc">{{o.FIRST_GRADE_CODE}}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1">申办时间</th>
+			<td class="td_1" colspan="3"><font id="sxmc">{{o.APPLY_TIME}}</font></td>
+		</tr>
+				<tr class="tr_1">
+			<th class="th_1">状态</th>
+			<td class="td_1" colspan="3"><span style="color: #008000" class="NeedFormatState" state="{{o.CURRENT_STATE}}"></span></td>
+		</tr>
+		
+					<!-- {% if o.SBSJ %}
+					<tr class="tr_2">
+						<td>业务申办</td>
+						<td class="NeedFormatTime">{{o.SBSJ}}</td>
+						<td>提交</td>
+						<td></td>
+					</tr>
+					{% endif %} 
+					{% if o.YSLSJ %}
+					<tr class="tr_2">
+						<td>网上预审</td>
+						<td class="NeedFormatTime">{{o.YSLSJ}}</td> {% if o.YSLZTDM|equal:'1' %}
+						<td>通过</td>
+						<td></td> {% else %}
+						<td>不通过</td>
+						<td>{{o.YSLSBYY}}</td> {% endif %}
+					</tr>
+					{% endif %} {% if o.SLSJ %}
+					<tr class="tr_2">
+						<td>业务受理</td>
+						<td class="NeedFormatTime">{{o.SLSJ}}</td> {% if o.SLZTDM|equal:'1' %}
+						<td>通过</td>
+						<td></td> {% else %}
+						<td>不通过</td>
+						<td>{{o.BSLYY}}</td> {% endif %}
+					</tr>
+					{% endif %} {% if o.SPSJ %}
+					<tr class="tr_2">
+						<td>审批处理</td>
+						<td class="NeedFormatTime">{{o.SPSJ}}</td> {% if o.BJSJ %}
+						<td>审批完成</td>
+						<td></td> {% else %} {% if o.STATE|equal:'4' %}
+						<td>补交告知</td>
+						<td>{{o.BZGZYY}}</td> {% else%} {% if o.STATE|equal:'5' %}
+						<td>特别程序</td>
+						<td>{{o.TBCXQDLY}}</td> {% else %}
+						<td>审批中</td>
+						<td></td> {% endif %} {% endif %} {% endif %}
+					</tr>
+					{% endif %} {% if o.BJSJ %}
+					<tr class="tr_2">
+						<td>业务办结</td>
+						<td class="NeedFormatTime">{{o.BJSJ}}</td>
+						<td id="BJJGDM">{{o.BJJGDM}}</td>
+						<td>{{o.BJJGMS}}</td>
+					</tr>
+					{% endif %} {% if o.LQSJ %}
+					<tr class="tr_2">
+						<td>领证登记</td>
+						<td class="NeedFormatTime">{{o.LQSJ}}</td>
+						<td>已登记领证</td>
+						<td></td>
+					</tr>
+					{% endif %} -->
+				</table>
+			</td>
+		</tr>
+	</table>
+	<!-- <a href="{{PageContext.ContextPath}}project/BusyQuery" target="_blank" class="submit" style="margin:20px 0 20px 440px;">返&nbsp;&nbsp;回</a> -->
+</div>
+{% endfor %} {% endif %}
+<script type="text/javascript">
+
+$(".NeedFormatState").each(function(){
+			var status=$(this).attr("state");
+			//var bState = LEx.icityBusiness.formatStatus(status);
+			var bState ="";
+			if(status=="00"){
+				bState ="暂存";
+			}else if(status=="01"){
+				bState ="提交";
+			}else if(status=="02"){
+				bState ="预审通过";
+			}
+            else if(status=="99"){
+            	bState ="办结";
+			}
+			$(this).html(bState);
+		});</script>

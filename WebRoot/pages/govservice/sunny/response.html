@@ -1,0 +1,164 @@
+<script>
+var dept_id="";
+$(function(){
+	onQueryDept();
+	//dept_id=$('#s-t-1 > ul > li').first().attr("id");
+	$('.ins-dept-title').html($('#s-t-1 > ul > li').first().text())
+	onQuery(1);
+});
+$(function(){
+	$('#s-t-1 > ul > li').click(function (e) {
+		dept_id = $(this).attr("id");
+		$('.ins-dept-title').html($(this).text());
+		onQuery(1);
+	});
+});
+function onQueryDept(){
+	var region_code=getSecurityValue("WebRegion");
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	command.setParameter("region_code",region_code);
+	var ret = command.execute("getDeptList");
+	if(!command.error){
+		$('#s-t-1').html(LEx.processDOMTemplate('bmTemplate',ret));
+	}else{
+		LEx.dialog({
+			title : "系统提示",
+			content : command.error,
+			icon : 'error',
+			lock : true
+		});
+	}	
+}
+function onQuery(page){
+	var limit=500;
+	var cmd = new LEx.Command("app.icity.ServiceCmd");	
+	cmd.setParameter("deptid", dept_id);
+	cmd.setParameter("page",page);
+	cmd.setParameter("limit", limit);
+	var ret = cmd.execute("getDuty");
+	if(!ret.error){
+		$('#s-h-1').html(LEx.processDOMTemplate('dutyTemplate',ret));
+	}else{
+		LEx.alert(ret.error);
+	}
+	var cmd1 = new LEx.Command("app.icity.ServiceCmd");	
+	cmd1.setParameter("deptid", dept_id);
+	cmd1.setParameter("page",page);
+	cmd1.setParameter("limit", limit);
+	ret1 = cmd1.execute("getBoundary");
+	if(!ret1.error){//document.write(LEx.encode(ret));
+		$('#s-h-2').html(LEx.processDOMTemplate('boundaryTemplate',ret1));
+	}else{
+		LEx.alert(ret1.error);
+	}
+	var cmd2 = new LEx.Command("app.icity.ServiceCmd");	
+	cmd2.setParameter("deptid", dept_id);
+	cmd2.setParameter("page",page);
+	cmd2.setParameter("limit", limit);
+	ret2 = cmd2.execute("getSupervise");
+	if(!ret2.error){
+		$('#s-h-3').html(LEx.processDOMTemplate('superviseTemplate',ret2));
+	}else{
+		LEx.alert(ret2.error);
+	}
+}
+</script>
+<script type="text/template" id="bmTemplate">
+<ul class="row list-unstyled lh25">
+{for o in data.organ}
+<li class="col-xs-6" name="${o.CODE}" id="${o.CODE}"><a href="#" data-toggle="tab">${o.SHORT_NAME}</a></li>
+{/for}
+</ul>
+</script>
+<script type="text/template" id="dutyTemplate">
+<table class="table table-hover table-wordy">
+                                <tbody>
+{for o in data}
+                                    <tr>
+                                        <td style="text-indent:2em;">${o.DUTY_CONTENT}</td>
+                                        <td style="width: 120px;">
+                                            <a class="thumbnail no-bordered text-center phi" href="{{PageContext.ContextPath}}govservice/sunny/responsibility?id=${o.ID}&org_code=${o.ORG_CODE}" style="background-color: #0DB0E5; color: #fff;">
+                                                <i class="mdicon mdicon-view-module f24"></i><br>
+                                                <small>具体工作事项</small>
+                                            </a>
+                                        </td>
+                                    </tr>
+{/for}
+                                </tbody>
+                            </table>
+</script>
+<script type="text/template" id="boundaryTemplate">
+<table class="table table-hover table-wordy">
+                                <tbody>
+{for o in data}
+                                    <tr>
+                                        <td style="text-indent:2em;">${o.NAME}</td>
+                                        <td style="width: 360px;padding:5px;white-space:nowrap;text-align:right;">
+<a  href="{{PageContext.ContextPath}}govservice/sunny/boundary?id=${o.ID}&org_code=${o.ORG_CODE}" class="btn btn-info">相关部门</a>
+<a  href="{{PageContext.ContextPath}}govservice/sunny/boundary?id=${o.ID}&org_code=${o.ORG_CODE}" class="btn btn-info">职责分工</a>
+<a  href="{{PageContext.ContextPath}}govservice/sunny/boundary?id=${o.ID}&org_code=${o.ORG_CODE}" class="btn btn-info">相关依据</a>
+<a  href="{{PageContext.ContextPath}}govservice/sunny/boundary?id=${o.ID}&org_code=${o.ORG_CODE}" class="btn btn-info">案例</a>
+                                        </td>
+                                    </tr>
+{/for}
+                                </tbody>
+                            </table>
+</script>
+<script type="text/template" id="superviseTemplate">
+<table class="table table-hover table-wordy">
+                                <tbody>
+{for o in data}
+                                    <tr>
+                                        <td style="text-indent:2em;">${o.TITLE}</td>
+                                        <td style="width: 120px;">
+                                            <a class="thumbnail no-bordered text-center phi" href="{{PageContext.ContextPath}}govservice/sunny/eventRegulatory" style="background-color: #0DB0E5; color: #fff;">
+                                                <i class="mdicon mdicon-view-module f24"></i><br>
+                                                <small>详细</small>
+                                            </a>
+                                        </td>
+                                    </tr>
+{/for}
+                                </tbody>
+                            </table>
+</script>
+<div class="container">
+    <ol class="breadcrumb alpha omega transparent">
+        <li>当前位置</li>
+        <li><a href="{{cp}}sunny">阳光政务</a></li>
+        <li class="active">部门责任清单</li>
+    </ol>
+    <div class="row">
+        <div class="col-xs-3">
+            <section class="panel panel-primary no-bordered no-shadow" style="background-color: #f5f5f5; border-top: 2px solid #0DB0E5 !important;">
+                <header class="panel-heading">
+                    <h3 class="panel-title"><strong><i class="mdicon mdicon-domain f24"></i> 按部门</strong></h3>
+                </header>
+                <div class="panel-body" id="s-t-1">
+                </div>
+            </section>
+        </div>
+        <div class="col-xs-9 alpha">
+            <section class="panel panel-default no-bordered no-shadow" style="border-top: 2px solid #0DB0E5 !important;">
+                <header class="panel-heading">
+                    <h3 class="panel-title"><strong><i class="mdicon mdicon-subject f24"></i> <span class="ins-dept-title"></span></span></strong></h3>
+                </header>
+                <div class="panel-body">
+                    <ul class="nav nav-tabs nav-justified no-bordered" style="background-color:#f5f5f5; margin-bottom:15px;">
+                        <li class="active" style="border-top: 3px solid #D43F3A;"><a data-toggle="tab" href="#s-h-1"><strong>部门职责</strong></a></li>
+                        <li style="border-top: 3px solid #EEA236;"><a data-toggle="tab" href="#s-h-2"><strong>与相关部门的职责边界</strong></a></li>
+                        <li style="border-top: 3px solid #4CAE4C;"><a data-toggle="tab" href="#s-h-3"><strong>事中事后监管制度</strong></a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="s-h-1">
+                        </div>
+                        <div class="tab-pane fade" id="s-h-2">
+                        </div>
+                         <div class="tab-pane fade" id="s-h-3">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<hr>

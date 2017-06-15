@@ -1,0 +1,409 @@
+<script>
+var url=LEx.webPath+"icity/ibook";// 'http://61.153.219.52:6902/ServiceEntry.aspx';
+var xmlHttp,BizId,days;
+$(function(){
+	getDeptName();
+});
+
+//预约部门列表
+function getDeptName() {
+	$.ajax({ 
+	     type: 'POST', 
+	     url: url , 
+	     data: {"Service":"Queue.GetBizDepts","Reserve":"true"} , 
+	     dataType: "json",
+	}).done(function(data){
+		if(data.Succ==1){
+			var dept=(data.depts[0]).DeptName;
+			getDeptYw(dept);
+			$('#departlist').html(LEx.processDOMTemplate('MattersListTemplate',data));
+			$('#departlist > ul >li').click(function (e) {
+				 $(".active").removeClass("active");
+				 theme = $(this).attr("name");
+				 $(this).addClass("active");
+				 getDeptYw(theme);
+				 return false;
+			 });
+			}
+			else
+			alert("获取预约部门失败");
+			});
+	}
+
+
+//预约部门业务列表
+function getDeptYw(deptName) {
+$('#deptname').html(deptName+"--");
+	$.ajax({ 
+	     type: 'POST', 
+	     url: url , 
+	     data: {"Service":"Reserve.ListBusiness","DeptName":deptName} , 
+	     dataType: "json"
+	}).done(function(data){
+		if(data.Succ==1){
+			$('#yysx').html(LEx.processDOMTemplate('MattersListTemplateyw', data));
+			}
+			else
+				alert("获取预约部门业务失败");
+			});
+$('#sxlist').show();
+$('#sjdlist').hide();
+}
+
+//获取业务已预约数
+function getDeptCount(rq,bizid) {
+BizId=bizid;
+var ret="";
+//var rq2="'"+rq+"'";
+$.ajax({ 
+    type: 'POST', 
+    url: url , 
+    data: {"Service":"Reserve.GetRecordCount","YYDate":rq,"BizID":bizid}, 
+    dataType: "json",
+    async: false
+}).done(function(data){
+		ret=data;
+		});
+//ret='{"Record":[{"BizID":"0114","TimeRecord":[{"Count":"1","Time":"08:30"},{"Count":"2","Time":"10:00"},{"Count":"3","Time":"17:00"}],"YYDate":"2015-09-01"}],"Succ":1}';
+//alert(JSON.stringify(ret));
+return ret;
+}
+
+//获取该业务近5天的预约情况
+function yy(bizid,tt){
+days=tt;
+//设置日期，当前日期后5个工作日
+var myDate = new Date(); //获取今天日期
+myDate.setDate(myDate.getDate());
+var dateArray = []; 
+var dateTemp; 
+var flag = 1; 
+for (var i = 0; i < 5; i++) {
+    var y=myDate.getFullYear();
+    var m=myDate.getMonth()+1;
+    var d=myDate.getDate();
+    var week=myDate.getDay();
+    
+    if(m<10)m="0"+m;
+    if(d<10)d="0"+d;    
+    if(week==6){    
+    i--;    
+    }
+    else if(week==0){    
+    i--;
+    }
+    else{
+    dateTemp = y+"-"+m+"-"+d;
+    var rq=i;
+    rq++;
+    $("#rq"+rq).html(dateTemp);
+    dateArray.push(dateTemp);
+    }
+    myDate.setDate(myDate.getDate() + flag);
+}
+
+var Recordjson={};
+var rq2=dateArray[0]+","+dateArray[1]+","+dateArray[2]+","+dateArray[3]+","+dateArray[4];
+    Recordjson=getDeptCount(rq2,bizid);
+
+var ttstr="{"+tt+"}";
+var ttjson=JSON.parse(ttstr);
+var timeconfig=ttjson.TimeConfig;
+
+for(var d=0;d<dateArray.length;d++){
+for(var i=0;i<timeconfig.length;i++){
+var rq,timet,count=0;
+if(d==0){timeconfig[i].Count1=count;timeconfig[i].YYrq1=dateArray[d];}
+else if(d==1){timeconfig[i].Count2=count;timeconfig[i].YYrq2=dateArray[d];}
+else if(d==2){timeconfig[i].Count3=count;timeconfig[i].YYrq3=dateArray[d];}
+else if(d==3){timeconfig[i].Count4=count;timeconfig[i].YYrq4=dateArray[d];}
+else if(d==4){timeconfig[i].Count5=count;timeconfig[i].YYrq5=dateArray[d];}
+var Record={};
+//var Recordstr =getDeptCount(dateArray[d],bizid); //'{"Record":[{"BizID":"0114","TimeRecord":[{"Count":"1","Time":"08:30"},{"Count":"2","Time":"10:00"},{"Count":"3","Time":"17:00"}],"YYDate":"2015-09-01"}],"Succ":1}';
+//var Recordjson = getDeptCount(dateArray[d],bizid);//JSON.parse(Recordstr);
+if(Recordjson.Succ==1)
+{ Record  = Recordjson.Record;}
+for(var n=0;n<Record.length;n++){
+ rq = Record[n].YYDate;
+var TimeRecordjson=Record[n].TimeRecord;
+for(var m=0;m<TimeRecordjson.length;m++){
+ timet = TimeRecordjson[m].Time;
+if(rq==dateArray[d]&&timet==timeconfig[i].YYSTime){count = TimeRecordjson[m].Count;}
+if(d==0){timeconfig[i].Count1=count;}
+else if(d==1){timeconfig[i].Count2=count;}
+else if(d==2){timeconfig[i].Count3=count;}
+else if(d==3){timeconfig[i].Count4=count;}
+else if(d==4){timeconfig[i].Count5=count;}
+}
+}
+
+}
+}
+$('#sjd').html(LEx.processDOMTemplate('MattersListTemplateyy', ttjson));
+$('#sxlist').hide();
+$('#sjdlist').show();
+}
+
+//填写完信息后进行预约
+function wsyysave(){
+
+var cmdstr = {"Service":"Reserve.AddRecord","BizID":$('#bizid').attr("value"),"Date":$('#yyrq').attr("value"),"Time":$('#yytime').attr("value"),"IDCard":$('#idcard').attr("value"),"Phone":$('#telephone').attr("value")};
+$.ajax({ 
+    type: 'POST', 
+    url: url , 
+    data: cmdstr, 
+    dataType: "json",
+    async: false
+}).done(function(data){
+	if(data.Succ==1){
+		alert("您已预约成功，请于"+$('#yyrq').attr("value")+" "+$('#yytime').attr("value")+"至"+$('#yyetime').attr("value")+"，到行政服务中心取预约号办理!");
+		}
+		else
+			alert(data.Msg);
+		});
+closeDiv();//关闭预约层
+yy(BizId,days);//获取预约数
+}
+</script>
+<script type="text/javascript" src="{{cp}}public/themes/fsbsj/check.js"></script>
+<div id="page" class="container" style="padding-left: 10px; padding-right: 10px; background-color:#fff;">
+	<div class="row">
+        <div class="col-xs-3">
+            <div class="panel-group" id="accordion" role="tablist">
+                <div class="panel panel-success">
+                 
+                        <div class="panel-body" style="background:#fafafa;" id="departlist">
+                            <ul class="nav sidenav">
+                                    <li class="active">预约部门</li>
+                                </ul>
+                        </div>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-9" id="sxlist">
+            <section class="panel panel-success">
+				<header class="panel-heading">
+					<h3 class="panel-title"><a id="deptname"></a>排队预约</h3>
+				</header>
+				<div class="panel-body zl-thumbnails-ggfu-2" style="height: 800px; overflow:auto;" >
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                            <th>序号</th>
+                            <th>业务名称</th>
+                            <th>排队预约</th>
+                            </tr>
+                        </thead>
+                            <tbody id="yysx">
+                                <!-- <tr>
+                                    <th scope="row">1</th>
+                                    <td>抓发展质量，提生活品质，建质量强市建议征集 </td>
+                                    <td>
+                                        <a class="btn btn-xs btn-link" href="#">预约</a>
+                                    </td>
+                                </tr> -->
+                            </tbody>
+                    </table>
+                 <!--   <ul class="pagination pull-right">
+                        <li><a class="mr10" href="#">首页</a></li>
+                        <li><a href="#"><i class="mdicon mdicon-arrow-back"></i> 上一页</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">下一页 <i class="mdicon mdicon-arrow-forward"></i></a></li>
+                        <li><a class="ml10" href="#">尾页</a></li>
+                    </ul> --> 
+                    
+				</div>
+			</section>
+            
+        </div>
+        <div class="col-xs-9" id="sjdlist" style="display:none">
+        <section class="panel panel-success">
+<header class="panel-heading">
+<h3 class="panel-title">排队预约时间段列表</h3>
+</header>
+<div class="panel-body zl-thumbnails-ggfu-2">
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th align="center">时间段</th>
+      <th id="rq1">1</th>
+      <th id="rq2">2</th>
+      <th id="rq3">3</th>
+      <th id="rq4">4</th>
+      <th id="rq5">5</th>
+    </tr>
+  </thead>
+<tbody id="sjd">
+<tr>
+  <th scope="row">o.YYETime}</th>
+  <td>YYMax}</td>
+  <td><a class="btn btn-xs btn-link" href="#">预约</a></td>
+<td scope="row">2423423</td>
+  <td>23</td>
+  <td><a class="btn btn-xs btn-link" href="#">预约</a></td>
+</tr>
+</tbody>
+</table> 
+</div>
+</section>        
+        </div>
+    </div>
+    
+</div>
+<script type="text/template" id="MattersListTemplate">
+<ul class="nav sidenav">
+{for o in depts}
+{if o_index==0}
+<li class="active" name="${o.DeptName}"><a>${o.DeptName}</a></li>
+{else}
+<li name="${o.DeptName}"><a>${o.DeptName}</a></li>
+{/if}
+{/for}
+</ul>                       
+</script>
+
+<script type="text/template" id="MattersListTemplatesjd">
+<ul class="nav sidenav">
+{for o in TimeConfig}
+
+<li><a href="#">${o.YYETime}</a></li>
+{/for}
+</ul>                       
+</script>
+
+<script type="text/template" id="MattersListTemplateyw">
+{var i=0;}
+{for o in Biz}
+{var i=i+1;
+var sstr="";}
+{for tt in o.TimeConfig}
+{if tt_index==0}
+{var sstr=sstr+JSON.stringify(tt);}
+{else}
+{var sstr=sstr+","+JSON.stringify(tt);}
+{/if}
+{/for}
+<tr>
+  <th scope="row">${i}</th>
+  <td>${o.BizName}</td>
+  <td><a class="btn btn-xs btn-link" href="#" onclick=yy('${o.BizID}','"TimeConfig":[${sstr}]')>预约</a>
+</td>
+</tr>
+{/for}                  
+</script>
+
+<script type="text/template" id="MattersListTemplateyy">
+{for o in TimeConfig}
+<tr>
+  <th align="center" scope="row">${o.YYSTime}--${o.YYETime}</th>
+  <td align="center">${o.YYMax-o.Count1}<a class="btn btn-xs btn-link" href="#" onclick=showDiv('${o.YYSTime}','${o.YYETime}','${o.YYrq1}')>预约</a></td>
+  <td align="center">${o.YYMax-o.Count2}<a class="btn btn-xs btn-link" href="#" onclick=showDiv('${o.YYSTime}','${o.YYETime}','${o.YYrq2}')>预约</a></td>
+  <td align="center">${o.YYMax-o.Count3}<a class="btn btn-xs btn-link" href="#" onclick=showDiv('${o.YYSTime}','${o.YYETime}','${o.YYrq3}')>预约</a></td>
+  <td align="center">${o.YYMax-o.Count4}<a class="btn btn-xs btn-link" href="#" onclick=showDiv('${o.YYSTime}','${o.YYETime}','${o.YYrq4}')>预约</a></td>
+  <td align="center">${o.YYMax-o.Count5}<a class="btn btn-xs btn-link" href="#" onclick=showDiv('${o.YYSTime}','${o.YYETime}','${o.YYrq5}')>预约</a></td>
+</tr>
+{/for}                
+</script>
+<script>
+
+/*
+ * 弹出预约层
+*/
+function showDiv(yytime,yyetime,yyrq)
+{
+$("#bizid").val(BizId);
+$("#yytime").val(yytime);
+$("#yyetime").val(yyetime);
+$("#yyrq").val(yyrq);
+var Idiv     = document.getElementById("Idiv");
+var mou_head = document.getElementById('mou_head');
+Idiv.style.display = "block";
+//以下部分要将弹出层居中显示
+Idiv.style.left=(document.documentElement.clientWidth-Idiv.clientWidth)/2+document.documentElement.scrollLeft+"px";
+Idiv.style.top =(document.documentElement.clientHeight-Idiv.clientHeight)/2+document.documentElement.scrollTop-50+"px";
+ 
+//以下部分使整个页面至灰不可点击
+var procbg = document.createElement("div"); //首先创建一个div
+procbg.setAttribute("id","mybg"); //定义该div的id
+procbg.style.background = "#000000";
+procbg.style.width = "100%";
+procbg.style.height = "100%";
+procbg.style.position = "fixed";
+procbg.style.top = "0";
+procbg.style.left = "0";
+procbg.style.zIndex = "500";
+procbg.style.opacity = "0.6";
+procbg.style.filter = "Alpha(opacity=70)";
+//背景层加入页面
+document.body.appendChild(procbg);
+document.body.style.overflow = "hidden"; //取消滚动条
+ 
+//以下部分实现弹出层的拖拽效果
+var posX;
+var posY;
+mou_head.onmousedown=function(e)
+{
+if(!e) e = window.event; //IE
+posX = e.clientX - parseInt(Idiv.style.left);
+posY = e.clientY - parseInt(Idiv.style.top);
+document.onmousemove = mousemove;
+}
+document.onmouseup = function()
+{
+document.onmousemove = null;
+}
+function mousemove(ev)
+{
+if(ev==null) ev = window.event;//IE
+Idiv.style.left = (ev.clientX - posX) + "px";
+Idiv.style.top = (ev.clientY - posY) + "px";
+}
+}
+function closeDiv() //关闭弹出层
+{
+var Idiv=document.getElementById("Idiv");
+Idiv.style.display="none";
+document.body.style.overflow = "auto"; //恢复页面滚动条
+var body = document.getElementsByTagName("body");
+var mybg = document.getElementById("mybg");
+body[0].removeChild(mybg);
+}
+</script>
+<script>
+
+function qk(){
+$("#idcard").val("");
+$("#telephone").val("");
+}
+
+</script>
+<!--弹出层开始-->
+<div id="Idiv" style="display:none; position:absolute; z-index:1000;background:#67a3d9;">
+    <div id="mou_head" >
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr><th colspan="2">预约人信息填写</th></tr>
+          <input type="hidden" id="bizid"/>
+          <input type="hidden" id="yytime"/>
+          <input type="hidden" id="yyetime"/>
+          <input type="hidden" id="yyrq"/>
+          <tr>
+            <td>身份证号码：</td>
+            <td><input id="idcard" onblur="checkCardNo(this)" name="idcard" type="text"  style="width:95%" class="span3" datatype="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" nullmsg="此项不能为空" errormsg="请填写正确的身份证号" sucmsg=" " />
+				       <div id="carderr"></div></td>
+          </tr>
+          <tr>
+            <td>手机号码：</td>
+            <td><input id="telephone" onblur="checkSubmitMobil(this)"  name="telephone" type="text" style="width:95%" class="span3" datatype="m" nullmsg="此项不能为空" errormsg="请填11位手机号" sucmsg=" " />
+				      <div id="moileMsg"></div></td>
+          </tr>        
+      </table>
+    </div>
+    <input type="button" value="关闭" onclick="closeDiv();" /> <input type="button" value="预约" onclick="wsyysave();" /> <input type="button" value="重置" onclick="qk();" />
+</div>
+<!--结束-->

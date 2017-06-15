@@ -1,0 +1,122 @@
+<div style="" class="modal fade bs-modal-result-license" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="margin-top:20px;">
+  <div class="modal-content" >
+   <div class="modal-header" >
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">
+           	 <strong>材料列表</strong>
+          </h4>
+        </div>
+       <div class="modal-body">
+       <div class="query-result" style="margin: 20px 0px 30px">
+       </div>
+         <div id="project-none" style="display:none;font-size:30px;font-weight:bold;text-align:center;">查无相关材料</div>
+         <nav class="text-center">
+         <div class="jqpagination" style="display:none;">
+		   <a href="#" class="first" data-action="first">&laquo;</a>
+		   <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+		   <input type="text" readonly="readonly"  data="max-page:23" />
+		   <a href="#" class="next" data-action="next">&rsaquo;</a>
+		   <a href="#" class="last" data-action="last">&raquo;</a>
+		   </div>
+          </nav>
+	</div>
+  </div>
+  </div>
+  </div>
+<script>
+  /* $(function(){$('.jqpagination').jqPagination({
+		paged: function(page) {onQueryLicenseMaterial(page);},
+		page_string:"第{current_page}页   共{max_page}页"
+	});}) */
+   var __material_code = "";
+   var __material_name = "";
+	function initOpenLicense(code,name){
+		var license = eval("(" + '{{License}}' + ")");
+		if(license.length<=0){
+			LEx.alert("证照列表为空！");
+			return;
+		}else{
+			//alert(license.length);
+		}
+		__material_code = code;
+		__material_name = name;
+		checkLoginLicense();
+		onQueryLicenseMaterial(license);
+	}
+	function checkLoginLicense(){
+		var uid = "{{UserInfo.uid}}";
+		var type = "{{UserInfo.type}}";
+		if(!LEx.isNotNull(uid)){
+			window.location.href=LEx.webPath+"uc/login?goto="+encodeURIComponent(window.location.href);
+		}
+	}
+
+	function onQueryLicenseMaterial(license){
+		var limit = 8;
+		var ret = {};
+		ret.license = license;
+		$(".bs-modal-result-license").modal('show');
+		$(".query-result").html(LEx.processDOMTemplate("template4progressLicense",ret));
+		/* var total=ret.total;
+		total=Math.ceil(total/limit);
+		if(total==0){
+			$("#project-none").show();
+			$('.jqpagination').hide();
+		}else{
+			$("#project-none").hide();
+			$('.jqpagination').show();
+			$('.jqpagination').jqPagination('option',{current_page:start,max_page:total,trigger:false});
+		} */		
+	} 
+	function checkLicenseSuc(Type,TypeCode,name,FileID){	
+			$("#list_"+__material_code).append("<div id=\"file_"+FileID+"\">"+formatLen(name,0,20)+"&nbsp;&nbsp; <a class='btn btn-danger btn-sm' href=\"#\" onclick=\"onDel(this);\">删除</a>"+"<br/><br/></div>");
+	    	$("#file_"+FileID).attr("title",name);
+	    	$("#file_"+FileID).attr("url",TypeCode);			
+	    	$("#doc_"+__material_code).html(name);
+			
+			var index = must_materials.indexOf(__material_code);
+			console.log(__material_code);
+			if(index != -1) {
+				must_materials.splice(index,1);
+			}
+			if(Type=="1"){
+				TypeCode = $("tr[code='"+__material_code+"']").attr("name");
+			}
+			var wp_apply = {};
+				 wp_apply.DOCUMENT_NAME =TypeCode;
+				   wp_apply.FILE_PATH = FileID;
+				   wp_apply.FILE_NAME = name;
+				   wp_apply.DOCUMENT_ID = __material_code;
+				   wp_apply.URL = "";
+				   wp_apply.TYPE = "3";
+				   wp_apply.OPERATOR_ID = LEx.userInfo.userId;
+				   wp_apply.OPERATOR_NAME = LEx.userInfo.userName;
+			   docids.push(wp_apply);
+		       LEx.alert("上传成功！"); 
+	}
+	function formateType(obj){
+		if(obj=="1"){
+			return "本地维护";
+		}else if(obj=="3"){
+			return "证照系统";
+		}else{
+			return "证照系统";
+		}
+	}
+  </script>
+<textarea id="template4progressLicense" style="display: none">
+		<table class="table table-bordered" style="width:100%;max-height:400px;overflow:auto;">
+		{for d in license}
+           <tr style="height:30px;">
+		       <td style="text-align:center;">
+		           <input name="checkbox_material2" type="checkbox"	value="checkbox_material2" /></td>
+               <td style="text-align:left;">${d.Name}</td>
+			   <td style="text-align:center;">${d.TypeCode}</td>
+               <td style="text-align:center;">
+                    <input id="xzwj" type="button" class="btn btn-success"  onclick="checkLicenseSuc('${d.Type}','${d.TypeCode}','${d.Name}','${d.FileID}');" value="选择" />
+			   </td>
+           </tr>
+           {/for}
+	</table>
+</textarea>

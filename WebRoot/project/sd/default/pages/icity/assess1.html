@@ -1,0 +1,329 @@
+<link rel="stylesheet" href="{%public assets/css/custom.css %}">
+<div class="container"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png %}"> 您当前所在的位置:</li>
+        <li><a href="{{cp}}public/index">首页</a></li>
+        <li><a href="{{cp}}icity/assess">监督评议</a></li>
+    </ol>
+</div>
+<div class="container"> 
+    <div class="table-table">
+        <div class="table-cell its-aside" >
+            <nav class="sidebar its-sidebar">
+                <h4 class="sidebar-header" data-toggle="collapse" href="#collapseTwo">
+                    <img src="{%public assets/img/abm_bszx.png %}"><strong>按部门分类</strong>
+                </h4>
+                <br>
+                <ul class="nav sidebar-nav collapse in" id="collapseTwo" style="height:450px;overflow-y:scroll">
+                </ul>
+            </nav>
+        </div>
+        <div class="table-cell its-page">
+            <section class="its-page-body">
+                <div class="row gamma its-btn-group-help">
+                    <div class="col-xs-3 alpha">
+                        <a class="btn btn-lg btn-block complain" href="{{cp}}uinfo">我要投诉</a>
+                    </div>
+                    <div class="col-xs-3 alpha">
+                        <a class="btn btn-lg btn-block suggest" href="{{cp}}govservice/suggestion">评价建议</a>
+                    </div>
+                    <div class="col-xs-3 alpha">
+                        <a class="btn btn-lg btn-block hotline" style="padding-top:12px;padding-bottom:12px;">投诉热线<br>0635-12345</a>
+                    </div>
+                    <div class="col-xs-3 alpha">
+                        <a class="btn btn-lg btn-block petition" href="http://lcxf.lcxfj.gov.cn/login" target="_blank">信访受理平台</a>
+                    </div>
+                </div>
+                <table class="table its-tabel-filter">
+                    <tbody>
+                        <tr>
+                            <th width="80" class="text-right">按标题：</th>
+                            <td width="140"><input type="text" class="form-control" placeholder="请输入事项名称" id="project-text-search"></td>
+                            <th width="80" class="text-right">主题分类：</th>
+                            <td width="160">
+                                <select class="form-control" id="theme_select">
+                                   <option value='' id="xz">--请选择--</option>
+                                    <optgroup  label="个人主题" id="gr"></optgroup>
+                                    <optgroup  label="法人/其他组织主题" id="fr"></optgroup>
+<!--                                     <option value="D01T02">户籍身份</option> -->
+                                </select>
+                            </td>
+                            <th width="100" class="text-right" >按事项名称：</th>
+                            <td>
+                                <select class="form-control" id="s_list">
+                                </select>
+                            </td>
+                            <td width="100"><button type="submit" class="btn btn-danger btn-sm no-bordered btn-block f16" id="project-btn-search">搜 索</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <table class="table table-striped its-table-backlog">
+                    <thead>
+                        <tr class="bg-info"> 	 	 	 	
+                            <th class="text-center text-primary" width="45%">标题</th>
+                            <th class="text-center text-primary" width="20%">办理部门</th>
+                            <th class="text-center text-primary" width="15%">提交日期</th>
+                            <th class="text-center text-primary" width="10%">回复状态</th>
+                            <th class="text-center text-primary" width="10%">追诉状态</th>
+                        </tr>
+                    </thead>                   
+                    <tbody id="roll_list" style="display:none"> 
+					 </tbody>
+			
+                </table>
+<!--                 <div id="project-none" style="display:none;font-size:30px;font-weight:bold;text-align:center;">查无相关事项</div> -->
+                <p class="text-center" id="project-none" style="display:none;">
+                    <span style="background-color: #F1F2F3; padding: 8px 200px; color: #666;">暂无数据</span>
+                 </p>
+                 <!-- 分页显示位置 -->
+               <nav class="text-center" id="layer"></nav>            
+           </section>
+        </div>
+    </div>
+</div>
+<!-- JavaScript --> 
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+<script>
+var id = "";
+var pagemodel="",deptid="",SearchName="",theme="";
+var itemtype="";
+var bm_type="";
+var limit=8;
+var pageTotal=0;
+var title="";
+var sxmc="";
+var dept_name="";
+var mattersTotal="0";
+var tTotal="";
+var selectType = ""; // 事项类型
+  $(function(){
+		
+//         onQueryFrTheme();
+        onQueryTheme();
+        onQuerydept();
+        onQuery(1);
+        layerPage();
+      //绑定按服务对象分类点击事件
+//      	$('#collapseOne li').click(function (e) {
+//      		theme="";
+//      		pagemodel=$(this).attr("title");
+//      		$('#collapseOne li').removeClass("active");
+//     		$(this).addClass("active");
+//     		onQueryTheme();
+//     		onQuery(1);
+//     		layerPage();
+//       });
+     	//绑定按部门分类点击事件
+     		//给各个部门添加点击事件
+	$('#collapseTwo li').click(function (e) {
+		title=""; sxmc="";
+		dept_name=$(this).attr("name");
+	    deptid=$(this).attr("id"); 
+		$('#collapseTwo li').removeClass("active");
+		$(this).addClass("active");
+		onQuery(1);
+		layerPage();
+      });
+	  $(function(){
+		 $('#theme_select').click(function (e) {
+		    deptid="";dept_name="";title="";sxmc="";
+		    if($("#theme_select").val()!=""||$("#theme_select").val()!=null){
+				theme=$("#theme_select").val();
+		     }
+		    queryMatters();
+		  });
+	    }); 
+     	//搜索
+     	$('#project-btn-search').click(function (e) {
+     		title=$("#project-text-search").val();
+     		if( mattersTotal!='0'){
+         		sxmc=$("#s_list").val();
+     			if(sxmc==""||sxmc==null){
+         			alert("请选择事项名称！");
+     			}
+     		}
+     		onQuery(1);
+    		layerPage();
+      });
+	});
+  function queryMatters(){	
+		var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+		cmd.setParameter("region_code", "{{ConfigInfo.WebRegion}}");
+		cmd.setParameter("cat","theme");
+		cmd.setParameter("page","1");
+		cmd.setParameter("limit","1000");
+		if(LEx.isNotNull(theme)){
+			cmd.setParameter("ID",theme);	
+		}else{
+			theme="!#@$)%$";
+			cmd.setParameter("ID",theme);	
+		}
+		var ret =  cmd.execute("getInitList");
+		if(!ret.error){
+			mattersTotal=ret.total;
+// 		    createListTheme(ret);
+ 			$("#s_list").html(LEx.processDOMTemplate('MattersTemplate',ret));
+		}else{
+			LEx.alert(ret.error);
+		}
+  }
+  function onQuery(start){
+		var cmd = new LEx.Command("app.icity.guestbook.WriteCmd");
+		cmd.setParameter("start",(start-1)*limit);
+		cmd.setParameter("limit", limit);
+		if (LEx.isNotNull(title)) {
+			cmd.setParameter("title", title);
+		}
+		if(LEx.isNotNull(dept_name)) {
+		    cmd.setParameter("DEPART_NAME", dept_name);
+		}
+		if(LEx.isNotNull(sxmc)) {
+		    cmd.setParameter("sxmc", sxmc);
+		}
+// 		if(LEx.isNotNull(deptid)) {
+// 		    cmd.setParameter("deptid", deptid);
+// 		}
+		cmd.setParameter("TYPE", "3");
+		var ret =  cmd.execute("getSurpervise");
+		if(!ret.error){
+			 var total=ret.total;
+			 total=Math.ceil(total/limit);
+			 pageTotal=total;
+			 $("#roll_list").html(LEx.processDOMTemplate('MattersListTemplate',ret));
+				if(total!=0){
+					$("#project-none").hide();
+					$('#roll_list').show();
+					$('#layer').show();
+				}
+				else{
+					$('#project-none').show();
+					$("#roll_list").hide();
+					$('#layer').hide();
+				} 
+		}else{
+			LEx.alert(ret.error);
+		}
+	}
+  function formatDate(obj) {
+		return LEx.util.Format.formatDate(obj);
+	}
+//创建部门列表
+  function onQuerydept(){
+  	var region_code=getSecurityValue("WebRegion");
+  	var command = new LEx.Command("app.icity.ServiceCmd");
+  	command.setParameter("region_code",region_code);
+  	var ret = command.execute("getDeptList");
+  	if(!command.error){
+  		creatListdept(ret.data.organ);
+  	}else{
+  		LEx.dialog({
+  			title : "系统提示",
+  			content : command.error,
+  			icon : 'error',
+  			lock : true
+  		});
+  	}	
+  }
+  function creatListdept(orgs){
+		var len = orgs.length;
+		var strHtml = "";
+		strHtml += '<li name="" class="active"><a href="javascript:void(0)">全部</a></li>';
+		for(var i=0;i<len;i++){
+			if(orgs[i].IS_HALL=="1"){
+	 			strHtml += "<li name='"+orgs[i].NAME+"' id='"+orgs[i].CODE+"'><a href=\"javascript:void(0)\">"+orgs[i].NAME+"</a></li>";
+			}
+		}
+		$("#collapseTwo").html(strHtml);
+	};
+  //layerPage分页
+  function layerPage(){
+  	laypage({
+      	cont: $("#layer"), //容器。值支持id名、原生dom对象，jquery对象,
+      	pages: pageTotal, //总页数
+      	skin: '#42a5f5', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+      	groups: 4, //连续显示分页数
+      	jump:function(obj,first){
+      			// debugger
+      			var currPage = obj.curr;
+      			if(!first){
+      				onQuery(currPage);
+      			}
+      		}
+  		});	
+  }
+  function onQueryTheme(){
+	  	var cmd = new LEx.Command("app.icity.col.WidgetCmd");
+	  	cmd.setParameter("TYPE","");
+	  	var ret =  cmd.execute("getAllThemeList");
+	  	if(!ret.error){
+	  		creatgrListTheme(ret);
+	  		creatfrListTheme(ret);
+	  	}else{
+	  		LEx.alert(ret.error);
+	  	}
+	  }
+	  function creatgrListTheme(ret){
+		  	var strHtml = "";
+		  	if(ret!=""){
+		  		var len = ret.total;
+		  		for(var i=0;i<len;i++){
+		  			if(ret.data[i].CLASS_TYPE=="个人"){
+			  			strHtml += "<option  value ='"+ret.data[i].NAME+"'>"+ret.data[i].NAME+"</option>";
+		  			}
+		  		}
+		  	}
+		  	$("#gr").html(strHtml);
+		  };
+		  function creatfrListTheme(ret){
+			  	var strHtml = "";
+			  	if(ret!=""){
+			  		var len = ret.total;
+			  		for(var i=0;i<len;i++){
+			  			 if(ret.data[i].CLASS_TYPE=="法人"){
+				  			strHtml += "<option value='"+ret.data[i].NAME+"'>"+ret.data[i].NAME+"</option>";
+			  			}
+			  		}
+			  	}
+			  	$("#fr").html(strHtml);
+			  };
+//   function creatListTheme(ret){
+// 	  	var strHtml = "";
+// 	  	strHtml +="<option value='' id='xz'>--请选择--</option>";
+// 	  	if(ret!=""){
+// 	  		var len = ret.total;
+// 			strHtml +="<optgroup label='个人主题'>";
+// 	  		for(var i=0;i<len;i++){
+// 	  			if(ret.data[i].CLASS_TYPE=="个人"){
+// 		  			strHtml += "<option  value ='"+ret.data[i].NAME+"'>"+ret.data[i].NAME+"</option>";
+// 		  			if(ret.data[i+1].CLASS_TYPE=="法人"){
+// 		  				strHtml +="</optgroup><optgroup label='法人/其他组织主题'>";
+// 		  			}
+// 	  			}else if(ret.data[i].CLASS_TYPE=="法人"){
+// 		  			strHtml += "<option value='"+ret.data[i].NAME+"'>"+ret.data[i].NAME+"</option>";
+// 	  			}
+// 	  		}
+// 			strHtml +="</optgroup>";
+// 	  	}
+// 	  	$("#theme_select").html(strHtml);
+// 	  };
+</script> 
+<script type="text/template" id="MattersListTemplate">
+{for o in data}
+	<tr>
+		<td ><a href="{{PageContext.ContextPath}}icity/assessInfo?id=${o.ID}" target="_blank">${o.TITLE}</a></td>
+		<td class="text-left" style="width:220px;">${o.DEPART_NAME}</td>
+		<td class="text-center" style="width:80px;;">${formatDate(o.WRITE_DATE)}</td>
+		<td class="text-center" style="width:60px;;">{if o.STATUS=="0"}正在办理{elseif o.STATUS=="1"}已答复{/if}</td>
+		<td class="text-center" style="width:60px;;">无追诉</td>
+	</tr>              
+{/for}
+</script>
+		<!-- <td class="text-center" style="width:60px;;">{if o.GIVE_STATUS=="0"}无追问{elseif o.GIVE_STATUS=="1"}已回复{/if}</td> -->
+<textarea type="text/template" id="MattersTemplate" style="display:none">
+ <option value="">--请选择--</option>
+{for o in data}
+  <option  value="${o.NAME}">${o.NAME}</option>
+{/for}
+</textarea>

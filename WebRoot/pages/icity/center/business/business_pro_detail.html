@@ -1,0 +1,50 @@
+<style>
+/*强制不显示横向滚动条，纵向滚动条会在内容过多时自动显示*/
+html{
+    /*overflow:hidden;*/
+    overflow-x:hidden;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #0085c3;
+    background-color: #ffffff;
+    }
+.its-nav-tabs-business > li{
+	background-color: #e8e8e8;
+}
+</style>
+<section class="panel panel-primary"  style="border-color: #ddd;width: 100%;margin-left: 3px;">
+    <header class="panel-heading no-bordered" style="margin: -1px; margin-bottom:0; padding: 10px;background-color: #dff0fa;">
+        <a class="btn btn-primary pull-right" style="background-color:#728db0;color:#fcfcfc;" href="javascript:;" onclick="ProBusinessList();">返回投资业务列表 →</a>
+         <h3 class="panel-title"><strong>项目库</strong></h3>
+     </header>
+     <ul class="nav nav-tabs nav-justified its-nav-tabs-business" style="">
+         <li class="active"><a data-toggle="tab" href="#t-b-1" aria-expanded="true">登记表</a></li>
+         <li class=""><a data-toggle="tab" href="#t-b-2" aria-expanded="false">项目报告</a></li>
+         <li class=""><a data-toggle="tab" href="#t-b-3" aria-expanded="false"> 项目进度</a></li>
+         <li class=""><a data-toggle="tab" href="#t-b-4" aria-expanded="false">联合踏勘</a></li>
+         <li class=""><a data-toggle="tab" href="#t-b-5" aria-expanded="false">代理服务</a></li>
+         <li class=""><a data-toggle="tab" href="#t-b-6" aria-expanded="false">咨询服务</a></li>
+     </ul>
+     {% set id PageContext.Parameter.id%}
+     {% set code PageContext.Parameter.code%}
+     <div class="tab-content panel-body"  style="min-height:500px;">
+         <div class="tab-pane active" id="t-b-1" >
+            {% widget "icity_zs.RegistrationProjectWidget" %}
+         </div>
+         <div class="tab-pane" id="t-b-2">
+            {% widget "icity_zs.BusinessProReportWidget" %}
+         </div>
+         <div class="tab-pane" id="t-b-3">
+            {% widget "icity_zs.BusinessProDetailWidget" %}
+         </div>
+         <div class="tab-pane" id="t-b-4">
+          	{% widget "icity_zs.BusinessProExplorWidget" %}
+         </div>
+         <div class="tab-pane" id="t-b-5">
+            {% widget "icity_zs.BusinessProAgentWidget" %}
+         </div>
+         <div class="tab-pane" id="t-b-6">
+          	{% widget "icity_zs.BusinessProConsultWidget" %}
+         </div>
+     </div>
+ </section>

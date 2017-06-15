@@ -1,0 +1,156 @@
+<script type="text/javascript">
+var ret = null;
+$(function(){
+	onQueryBinlist();
+});
+function onQueryBinlist(){
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	ret = command.execute("getBinList");
+	if(!command.error){
+		if(ret.data.state=='1'){
+			getCategory();
+		}
+	}else{
+		LEx.dialog({
+			title : "系统提示",
+			content : command.error,
+			icon : 'error',
+			lock : true
+		});
+	}	
+}
+//门类
+function getCategory(){
+	var j = {};
+	j.data = ret.data.category;
+	$('#CategoryType').html(LEx.processDOMTemplate('CategoryTemplate',j));
+	if(ret.data.category.length>0){
+	    getSecondType(ret.data.category[0].CATEGORY_CODE);
+	}
+}
+//中类
+function getSecondType(code){
+	var len = ret.data.second.length;
+	var ja = [];
+	for(var i=0;i<len;i++){	
+		if(code==ret.data.second[i].CATEGORY_CODE){
+			ja.push(ret.data.second[i]);
+		}
+	}
+	var j = {};
+	j.data = ja;
+	$('#secondType').html(LEx.processDOMTemplate('SecondTemplate',j));
+	$("#secondType > li").click(function(){
+		$("#secondType").find(".active").removeClass("active");
+		$(this).addClass("active");
+		getBinlist($(this).attr("code"));
+	});
+	if(j.data.length>0){
+		getBinlist(j.data[0].SECOND_TYPE_CODE);
+	}
+}
+//获取清单
+function getBinlist(code){
+	var len = ret.data.data.length;
+	var ja = [];
+	for(var i=0;i<len;i++){	
+		if(code==ret.data.data[i].SECOND_TYPE_CODE){
+			ja.push(ret.data.data[i]);
+		}
+	}
+	var j = {};
+	j.data = ja;
+	$('#listTemplate').html(LEx.processDOMTemplate('ListTemplate',j));
+}
+$(document).ready(function(){
+	$("#CategoryType > li").click(function(){
+		$("#CategoryType").find(".active").removeClass("active");
+		$(this).addClass("active");
+		getSecondType($(this).attr("code"));
+	});
+});
+function selSecond(){
+	
+}
+</script>
+
+<script type="text/template" id="CategoryTemplate">
+{var i=0} 
+{for o in data }
+	{var i=i+1}
+	{if i==1}
+	<li class="active" code="${o.CATEGORY_CODE}">
+	{else}
+	<li code="${o.CATEGORY_CODE}">
+	{/if}
+	<a href="#" code="${o.CATEGORY_CODE}">${o.CATEGORY_NAME}</a></li>	
+{/for}
+</script>
+<script type="text/template" id="SecondTemplate">
+{var i=0} 
+{for o in data }
+	{var i=i+1}
+	{if i==1}
+	<li class="active" code="${o.SECOND_TYPE_CODE}">
+	{else}
+	<li code="${o.SECOND_TYPE_CODE}">
+	{/if}
+	<a href="#" code = "${o.SECOND_TYPE_CODE}">${o.SECOND_TYPE_NAME}</a></li>	
+{/for}
+</script>
+<script type="text/template" id="ListTemplate">
+{for o in data}
+	<tr>
+       <td>${o.LIST_CONTENT}</td>
+    </tr>
+{/for}
+</script>
+<div class="container">                
+        <ol class="breadcrumb">
+            <li><a href="{{cp}}sunny">首页</a></li>
+            <li class="active">企业投资负面清单</li>
+        </ol>       
+        
+        <div class="row">
+            <div class="col-xs-2 omega">
+                <section class="panel panel-primary no-bordered no-shadow" style="min-height: 520px;">
+                    <h4 class="text-center" style="color: #fff; background-color: rgb(66, 165, 245); padding: 10px 0px; margin-top: 0;"> 
+                        <span class="fa fa-align-right"></span>
+                        <strong>导航申报</strong>
+                    </h4>
+                    <div class="panel-body">
+                        <ul class="nav nav-pills nav-stacked yi-nav-stacked-s1" id="CategoryType">
+                           
+                        </ul>
+                    </div>
+                </section>
+            </div>
+            <div class="col-xs-3">
+                <section class="panel panel-primary no-bordered no-shadow" style="min-height: 520px;">
+                    <h4 class="text-center" style="color: #fff; background-color: rgb(66, 165, 245); padding: 10px 0px; margin-top:0;"> 
+                        <i class="fa fa-tasks"></i>
+                        <strong>类 别</strong>
+                    </h4>
+                    <div class="panel-body">
+                        <ul class="nav nav-pills nav-stacked yi-nav-stacked-s1" id="secondType">
+                            
+                        </ul>
+                    </div>
+                </section>
+            </div>
+            <div class="col-xs-7 alpha">
+                <section class="panel panel-default no-bordered no-shadow" style="border-top: 3px solid #42A5F5 !important; height: 520px;">
+                    <header class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-edit"></i> 内容</h3>
+                    </header>
+                    <div class="panel-body alpha omega">
+                        <table class="table table-hover no-bordered">
+                            <tbody id="listTemplate">
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+</div>

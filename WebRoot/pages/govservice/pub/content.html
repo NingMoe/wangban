@@ -1,0 +1,44 @@
+<script>
+$(function(){	
+	var id = LEx.urldata.id;
+	onQuery(id);
+});
+function onQuery(id){
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+	cmd.setParameter("id", id);
+	var ret =  cmd.execute("getContentDetail");
+	if(!ret.error){
+		$("#publish").html("来源："+ret.data.DEPT_NAME);
+		$("#time").html("发布时间："+LEx.util.Format.formatDate(ret.data.CT));
+		$("#title").html(ret.data.NAME);
+		$("#js-list-group-l2").html(ret.data.CONTENT);
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+</script>
+<div id="page" class="container" style="width:67%;">
+    <ol class="breadcrumb alpha omega transparent">
+        <li>当前位置</li>
+        <li><a href="{{cp}}">首页</a></li>
+        <li class="active">网站发布</li>
+    </ol>
+    <div class="row" style="border: 1px solid #ddd; background-color: #fff;">
+        <div class="col-xs-12 alpha omega ">
+            <section class="panel panel-default no-shadow no-bordered">
+                <div class="panel-body">
+					<font style="font-family: '微软雅黑';color:#407bad;font-size:25px;"></font>
+                </div>
+                <div style="text-align:center;font-weight:bold;font-size:20px;" id="title"></div>
+                <div style="width:96%;border-bottom:1px solid #f3f3f3;margin:8px auto;"></div>
+                <div style="text-align:center;">
+						<span id="publish"></span>
+						<span id="time" style="margin-left:15px;"></span>
+					</div>
+					<br>
+                <div id="js-list-group-l2">
+                </div>               
+            </section>
+        </div>
+    </div>
+</div>

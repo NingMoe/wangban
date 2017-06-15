@@ -1,0 +1,104 @@
+<script type="text/javascript"
+	src="{{PageContext.JsPath}}raty_master/lib/jquery.raty.js"></script>
+	<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/layer.js"></script>
+	
+<style>
+.paycontent{
+	border-style：solid;
+	border-width: 1px;
+	border-color:red;
+	margin-top:-70px;
+	margin-left:-90px;
+	background-color:#42a5f5;
+ 	max-width: 400px;
+ 	position: absolute;
+ 	text-align: center;
+ 	padding: 20px 30px 10px 10px;
+ 	font-style: normal;
+ 	z-index: 2;
+ 	display: none;
+ 	color:#FFFFFF;
+ 	border-radius: 10px;
+}
+.div0{
+display: none;
+}
+li{
+list-style: inherit;
+}
+
+</style>
+<div id="businessList_main">
+	<table class="table table-bordered">
+		<tr class="sec_tr">
+			<td><span>投资项目列表</span></td>
+		</tr>
+		<tr>
+			<td>
+				<form action="" method="post">
+					<ul class="list-inline">
+						<li class="col-xs-4" style="margin-top:4px;">项目编码：<input id="SBLSH"></li>
+						<li class="col-xs-8">申办时间：<input type="text"
+							style="width: 90px;" id="APPLYTIME_S" name="APPLYTIME_S" /> <img
+							src="{%public assets/img/date.jpg%}" style=""
+							id="date1"> &nbsp;至&nbsp;<input type="text"
+							style="width: 90px;" id="APPLYTIME_E" name="APPLYTIME_E" /> <img
+							src="{%public assets/img/date2.jpg%}" style="" id="date2">&nbsp;&nbsp;
+							<button type="button" class="btn btn-warning" onclick="bltable.pageIndex(0);onQuery();return false;">查询</button>
+							<button type="button" class="btn btn-warning" onclick="xmgl();">项目关联</button>
+						</li>
+						<li class="col-xs-12" style="margin-top:4px;">项目关联说明：项目关联指将当前用户线下（实体大厅）申请赋码的投资项目关联到当前用户账号业务中心</li>
+					</ul>
+	
+				</form></td>
+		</tr>
+	</table>
+	<div class="businessList_main">
+		<div id="bldata" class="template_list"></div>
+		<div id="raiderpager_business_list"
+			style="float: left; padding-left: 100px;"></div>
+	</div>
+</div>
+<div id="ProBusinessDetail"></div>
+<div id="XmbpList"></div>
+<div id="LhspList"></div>
+<div id="InformList"></div>
+<textarea id="template_business_list" style="display: none">
+{if data.length > 0} {for o in data}
+<table class="table table-bordered">
+	<tr class="sec_tr">
+		<td style="border-right: none;" colspan="3">
+			<span style="display: inline-block; width: 270px; padding-top: 5px;">项目申报时间：${o.applyDate}</span>
+		</td>
+		<td style="border-left: none;" colspan="2">
+			<div class="other" style="text-align: right;">
+				{if o.projectCode != ""}
+					<a href="javascript:void(0);" onclick="showXmbpList('${o.projectId}','${o.projectCode}','${o.projectType}')" class="btn btn-success btn-sm">项目报批</a>
+					<a href="javascript:void(0);" onclick="showLhspList('${o.projectId}','${o.projectCode}')" class="btn btn-success btn-sm">联合审批</a><BR>
+				{/if} 
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td class="col-xs-2" style="border-right: none; width: 100px;" rowspan="2"><img src="{%public assets/img/1-3.png%}"></td>
+		<td style="border-left: none;" colspan="3">
+			<div style="float:left;"><span style="font-size: 18px; color: #2c87b6;">${o.projectName}</span></div>
+		</td>
+		<td rowspan="2" align="center" style="width:136px;">
+			<span style="color: #008000; line-height: 50px;">${formatState(o.state)}</span><BR />
+			<a href="javascript:void(0);" onclick="ProBusinessDetail('${o.projectId}','${o.projectCode}');" style="line-height: 5px;">项目库</a> | <a href="javascript:void(0);" onclick="showInform('${o.projectId}');" style="line-height: 5px;">一次性告知</a><BR />
+		</td>
+	</tr>
+	<tr>
+		<td style="border-left: none;" colspan="3">
+			<ul class="list-inline">
+				<li>项目编码：&nbsp;${o.projectCode}</li>
+				<li>赋码部门：&nbsp;${o.codeUnit}</li>
+			</ul>
+		</td>
+	</tr>
+</table>
+{/for} {else}
+	<div style="border: 1px; solid: #DCDCDC; height: 25px; padding-top: 5px; width: 785px; text-align: center; color: red;">无业务信息！</div>
+{/if}
+</textarea>

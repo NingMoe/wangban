@@ -1,0 +1,142 @@
+<link rel="icon" href="{% public zs/pro/assets/ico/favicon.ico %}">
+<link rel="stylesheet" href="{% public zs/pro/assets/css/custom.css %}">
+<link rel="stylesheet" href="{% public zs/pro/assets/css/bootstrap-datetimepicker.min.css %}">
+<link href="http://cdn.bootcss.com/simple-line-icons/2.2.2/css/simple-line-icons.min.css" rel="stylesheet">
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.form.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+<script type="text/javascript" src="{% public scripts/common.js %}"></script>
+<style>
+/*强制不显示横向滚动条，纵向滚动条会在内容过多时自动显示*/
+html{
+    /*overflow:hidden;*/
+    background:#F5F6F7;
+    overflow-x:hidden;
+}
+</style>
+<div>
+	<div id="register_form_per" class="tabs-content" style="border-top: none;min-height:280px;">
+		<table class="listTable" cellspacing="1" style="width:450px;margin:25px 25px 0px 25px;" id="apply">
+			<tr>
+				<td>
+					<span style="font-size:14px;">项&nbsp;目&nbsp;编&nbsp;码：</span><input id="xmbm">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input id="PHONE" name="PHONE" tag="PHONE" style="display:none" />
+					<input id="DATA" name="DATA" tag="DATA" style="display:none" />
+					<span style="font-size:14px;">&nbsp;&nbsp;验&nbsp;&nbsp;证&nbsp;&nbsp;码：</span><input tag="VCODE" name="VCODE" id="VCODE">&nbsp;&nbsp;&nbsp;&nbsp;<button id="verify_btn" name="verify_btn" type="button" class="btn btn-success" onclick="sendVerifyCode();"><span id="verify_btn_text" name="verify_btn_text">获取短信验证码</span></button>
+				</td>
+			</tr>
+        </table>
+	</div>
+</div>
+<script>
+	function sendVerifyCode(){
+		var xmbm = $("#xmbm").val();
+		if(xmbm == ""){
+			LEx.alert("项目编码不能为空！");
+			return false;
+		}
+		
+		var command = new LEx.Command("app.icity.pro.ProCmd");
+		command.setParameter("SBLSH", xmbm);
+		command.setParameter("UUID", LEx.userInfo.uid);
+		var ret = command.execute("getProject");
+		
+		if(ret.state == 1){
+			if(ret.data.length>0){
+				LEx.alert("该项目已记录！");
+				return false;
+			}else{
+				
+				var cmd = new LEx.Command("app.icity.pro.ProCmd");
+				cmd.setParameter("projectCode", xmbm);
+				var r = cmd.execute("getInfoByProjectCode");
+				
+				if(r.state == 1){
+					if(r.data.projectInfo.projectId == "" || r.data.projectInfo.projectId == undefined){
+						LEx.alert("未查询到该项目信息！");
+					}else{
+						var phone = r.data.contectInfo.linkPhone;
+						if(phone == "" || phone == undefined){
+							LEx.alert("手机号码不存在！");
+						}else{
+							$("#PHONE").val(phone);
+							$("#DATA").val(JSON.stringify(r.data));
+							sendValid("register_form_per", "PHONE", phone);
+						}
+					}
+				}else{
+					LEx.alert("未查询到该项目信息！");
+				}
+			}
+		}else{
+			LEx.alert("项目查询失败！");
+		}
+	}
+	
+	//发送验证码
+	function sendValid(id, type, receive) {
+		var cmd = new LEx.Command("app.uc.UserCmd");
+		var ret = null;
+		if (type == "PHONE") {
+			
+			cmd.setParameter("PHONE", receive);
+			cmd.setParameter("MESSAGE", "您在大厅申报的投资项目要被关联到投资服务网业务中心下，短信验证码为：");
+			ret = cmd.execute("sendMessage4Login");
+		} else {
+			cmd.setParameter("mail", receive);
+			ret = cmd.execute("registerValidEmail");
+		}
+		if (ret.state == 1) {
+			$("#" + id + " [name=verify_btn]").unbind("click").attr("disabled","disabled").css("cursor", "default");
+			waitValid(id, type, 60);// 重新发送短信倒数计时
+			return true;
+		} else {
+			errorDialog("系统提示", ret.message);
+			return false;
+		}
+	}
+	
+	//发送验证码后倒计时，为PHONE绑定发送短信，为EMAIL绑定发送邮件
+	function waitValid(id, type, time) {
+		if (time > 0) {
+			time--;
+			$("#" + id + " [name=verify_btn_text]").html(time + "秒后重新发送");
+			setTimeout(function() {
+				waitValid(id, type, time);
+			}, 1000);
+		} else {
+			$("#" + id + " [name=verify_btn]").attr("disabled",false);
+			if (type == "PHONE") {
+				$("#" + id + " [name=verify_btn_text]").html("获取短信验证码");
+			} else {
+				$("#" + id + " [name=verify_btn_text]").html("通过邮箱获取验证码");
+			}
+			return;
+		}
+	}
+	
+	function checkdata(){
+		var formData = LEx.form.get("register_form_per","tag");
+		$.ajax({
+			type : "post",
+			async:false, 
+			url : LEx.webPath + "icity/business/xmgl?action=gl",
+			data:formData,  
+			success : function(data) {
+				var obj = eval('(' + data + ')');
+				if (obj.state == 1) { 
+					return true;
+				} else {
+					return false;
+				}
+			},
+			error : function(data) {
+				return false;
+			}
+		});
+		
+		return true;
+	}
+</script>

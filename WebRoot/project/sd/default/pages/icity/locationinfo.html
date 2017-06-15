@@ -1,0 +1,195 @@
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=smshgu2v27tWx3pwMtACQAjGvz8DP7Zg"></script>
+<div class="container">
+	<ol class="breadcrumb">
+		<li><img src="{%public assets/img/current_home.png %}">
+			您当前所在的位置:</li>
+		<li><a href="{{cp}}public/index">首页</a>
+		</li>
+		<li><a href="javascript:void(0)">现场办理点</a>
+		</li>
+	</ol>
+</div>
+<div class="container">
+	<section class="panel panel-default no-bordered" style="padding: 15px;">
+		<header class="panel-heading transparent"
+			style="border-top:4px solid #3c76a6; padding: 5px 0;">
+			<h4 style="border-left: 6px solid #29588c; padding-left: 10px;color: #29588c">
+				<strong>现场办理点</strong>
+			</h4>
+		</header>
+		<div class="panel-body">
+		<div id = "deptinfolist">
+			<h3 class="text-center delta" id="deptname"></h3>
+			<button type="button" class="btn btn-default btn-lg"
+				style="background: #f9f9f9; color: #0053a0; border: solid 1px #b4c9dd; border-radius: 4px; font-size: 16px;">
+				<strong style="padding-right: 12px;">办理地点 </strong>
+			</button>
+			<br> <br>
+			<div class="clearfix">
+				<div class="col-xs-5" style="height: 450px; border: solid 1px #b4c9dd; padding: 15px;overflow:auto;">
+					<h4 class="f16">
+						<strong id="address1"></strong>
+					</h4>
+					<div class="col-xs-5" id="l-map" style="z-index: 9; overflow: hidden; -webkit-user-select: none; width: 455px; height: 380px;"></div>
+				</div>
+				<div class="col-xs-7"
+					style="height: 450px; border: solid 1px #b4c9dd; margin-left: -1px; padding: 15px;overflow:auto;">
+					<h4 class="f16">
+						<strong>该地址可办理的事项</strong>
+					</h4>
+					<hr>
+					<div id="itemList">
+						<p>
+							<a id = "kbsx" onclick="sp()" target = "_blank"></a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+	</ol>
+</div>
+<style>
+label {
+	max-width: none !important;
+}
+</style>
+<script type="text/javascript">
+	var deptid = LEx.urldata.deptid;
+	var matter = LEx.urldata.matter;
+	var adds = new Array();
+	$(function(){
+		if ("" != matter&&"undefined" != typeof matter) {
+			//matterList();
+			matterInfo(matter);
+		} else {
+			matterList(deptid);
+		}
+	});
+	// 编写自定义函数,创建标注
+	function addMarker(point, label) {
+		var marker = new BMap.Marker(point);
+		map.addOverlay(marker);
+		marker.setLabel(label);
+	}
+
+	function matterInfo(id) {
+		var map = new BMap.Map("l-map");
+		map.enableScrollWheelZoom(true);
+		var index = 0;
+		var myGeo = new BMap.Geocoder();
+		var adds = [];
+		var cmd = new LEx.Command("app.icity.ServiceCmd");
+		cmd.setParameter("id", id);
+		var ret = cmd.execute("getPermission");
+		var address = [];
+		if (ret.state==1 && ret.data!=null) {
+			$("#deptname").html(ret.data.itemBasicInfo.NAME);
+			$("#kbsx").html(ret.data.itemBasicInfo.NAME);
+			var addressStr = "";
+			var len = ret.data.window.length;
+			address = ret.data.window;
+			if(len>0){
+				if(!LEx.isNotNull(address[0].LONGITUDE)){
+					alert("未获取到办事地点经纬信息！");
+				}
+				map.centerAndZoom(new BMap.Point(parseFloat(address[0].LONGITUDE),
+						parseFloat(address[0].LATITUDE)), 13);
+			}else{
+				$("#deptinfolist").html("未获取到相关办事地点信息");
+				return;
+			}
+			for ( var i = 0; i < len; i++) {
+				adds.push(new BMap.Point(parseFloat(address[i].LONGITUDE),
+						parseFloat(address[i].LATITUDE)));
+				addressStr += i+1+"、"+address[i].ADDRESS+"<br>";
+			}
+			$("#address1").html(addressStr);
+		}else{
+			$("#deptinfolist").html("未获取到相关办事地点信息");
+			return;
+		}
+		for ( var i = 0; i < adds.length; i++) {
+			var marker = new BMap.Marker(adds[i]);
+			map.addOverlay(marker);
+			marker.setLabel(new BMap.Label("地址:"+(i + 1) , {
+				offset : new BMap.Size(20, -10)
+			}));
+		}
+	}
+	function matterList(id) {
+		var cmd = new LEx.Command("app.icity.ServiceCmd");
+		cmd.setParameter("orgCode", id);
+		var ret = cmd.execute("getDeptListInfo");
+		if (ret.state=="1" && ret.data!=null) {
+			var len = ret.data.length;
+			var dept = ret.data;//部门窗口
+			if(len==0){
+				$("#deptinfolist").html("未获取到相关办事地点信息");
+				return;
+			}
+			$("#deptinfolist").html(LEx.processDOMTemplate("deptInfoListTemplate",ret));
+				for ( var i = 0; i < len; i++) {
+					var map = new BMap.Map("l-map" + i);
+					map.enableScrollWheelZoom(true);
+					map.centerAndZoom(new BMap.Point(parseFloat(dept[i].longitude),
+							parseFloat(dept[i].latitude)), 13);
+					var index = 0;
+					var myGeo = new BMap.Geocoder();
+					if(!LEx.isNotNull(dept[i].longitude)){
+						alert("未获取到办事地点经纬信息！");
+					}
+					var adds = [ new BMap.Point(parseFloat(dept[i].longitude),
+							parseFloat(dept[i].latitude)) ];
+					for ( var j = 0; j < adds.length; j++) {
+						var marker = new BMap.Marker(adds[j]);
+						map.addOverlay(marker);
+						marker.setLabel(new BMap.Label((j + 1) + dept[j].address, {
+							offset : new BMap.Size(20, -10)
+						}));
+					}
+				}
+		} else {
+			$("#deptinfolist").html("未获取到相关办事地点信息");
+			//LEx.alert(ret.error);
+		}
+	}
+	function sp(){
+		window.open("{{PageContext.ContextPath}}icity/proinfo?id="+matter);
+	}
+</script>
+<script type="text/template" id="deptInfoListTemplate">
+{for o in data}
+			<h3 class="text-center delta" id="deptname">${o.name}</h3>
+			<button type="button" class="btn btn-default btn-lg"
+				style="background: #f9f9f9; color: #0053a0; border: solid 1px #b4c9dd; border-radius: 4px; font-size: 16px;">
+				<strong style="padding-right: 12px;">办理地点</strong><span class="badge"
+					style="background-color: #0085c3;margin-right: -34px; font-size: 13px; border-radius: 50%; width: 24px; height: 24px; line-height: 18px;">${parseInt(o_index)+1}</span>
+			</button>
+			<br> <br>
+			<div class="clearfix">
+				<div class="col-xs-5"
+					style="height: 450px; border: solid 1px #b4c9dd; padding: 15px;">
+					<h4 class="f16">
+						<strong>${o.address}</strong>
+					</h4>
+				<div  class="col-xs-5" id="l-map${o_index}" style="z-index: 9; overflow: hidden; -webkit-user-select: none; width: 455px; height: 380px;"></div>
+				</div>
+				<div class="col-xs-7"
+					style="height: 450px; border: solid 1px #b4c9dd; margin-left: -1px; padding: 15px;overflow:auto;">
+					<h4 class="f16">
+						<strong>该地址可办理的事项</strong>
+					</h4>
+					<hr>
+					{for h in o.itemList}
+						<p>
+							<a href="{{PageContext.ContextPath}}icity/proinfo?id=${h.ID}" target = "_blank">${parseInt(h_index)+1}、${h.NAME}</a>
+						</p>
+					{/for}
+				</div>
+			</div>
+	<br> <br>
+{/for}
+</script>

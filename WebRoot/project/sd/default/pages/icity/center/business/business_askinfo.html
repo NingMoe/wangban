@@ -1,0 +1,240 @@
+<script src="{{cp}}public/scripts/validator/jquery.validator.min.js"></script>
+<script src="{{cp}}public/scripts/validator/local/zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="{{cp}}public/scripts/validator/jquery.validator.css" />
+<style>
+/*强制不显示横向滚动条，纵向滚动条会在内容过多时自动显示*/
+html { /*overflow:hidden;*/
+	background: #F5F6F7;
+	overflow-x: hidden;
+}
+.label_bg{
+    background-color:#edf7ff;
+}
+</style>
+     {% set id PageContext.Parameter.id%}
+<section class="panel panel-primary" style="border-color: #ddd;" id="form">
+	<header class="panel-heading no-bordered"
+		style="margin: -1px; padding: 15px; background-color:#4f719c;">
+		<a class="btn btn-primary pull-right"
+			style="background-color:#728db0; margin-top: -8px;" href="javascript:void(0);" onclick="AskinfoList();">返回留言列表
+			&rarr;</a>
+		<h3 class="panel-title">
+			<strong>留言咨询详情</strong>
+		</h3>
+	</header>
+	<table class="table table-bordered its-table-details" style="table-layout:fixed;">
+		<tbody id="questionList">
+			<tr>
+				<td class="text-right label_bg">关联事项：</td>
+				<td colspan="3"><div tag="SXMC" id="SXMC"></div></td>
+			</tr>
+			<tr>
+				<td class="text-right label_bg">咨询标题：</td>
+				<td colspan="3"><div id="TITLE" tag="TITLE"></div></td>
+			</tr>
+			<tr>
+				<td class="text-right label_bg" width="15%">联系电话：</td>
+				<td width="35%"><div tag="PHONE"></div></td>
+				<td class="text-right label_bg" width="15%">咨询时间：</td>
+				<td width="35%"><div id="WRITE_DATE" tag="WRITE_DATE"></div></td>
+			</tr>
+			<tr>
+				<td class="text-right label_bg">咨询内容：</td>
+				<td colspan="3"><div id="CONTENT" style="height: auto;word-wrap:break-word;"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-right label_bg">超期未回复：</td>
+				<td colspan="3"><div tag="WARN" id="WARN"></div></td>
+			</tr>
+			<tr>
+				<td class="text-right label_bg">回复状态：</td>
+				<td><div tag="REPLY" id="REPLY"></div></td>
+				<td class="text-right label_bg">回复时间：</td>
+				<td><div tag="DEAL_DATE" id="DEAL_DATE"></div></td>
+			</tr>
+			<tr>
+				<td class="text-right label_bg">回复内容：</td>
+				<td colspan="3"><div tag="DEAL_RESULT" id="DEAL_RESULT" style="height: auto;"></div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</section>
+	<div class="text-center">
+      <button id="again_btn" type="button" class="btn btn-primary" onclick="check();" data-toggle="modal" data-target=".bs-example-modal-lg">咨询追问</button>
+     </div>
+      <form id ="zhuiwen">
+       <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+         <div class="modal-dialog modal-lg">
+             <div class="modal-content">
+                 <div class="modal-body">
+                     <table class="table table-bordered" style="margin-bottom: 0;" >
+                         <tbody>
+                             <tr>
+                                 <th class="text-center" width="20%">追问内容<br><span>（注：字数300字以内）</span></th>
+                                 <td>
+                                     <textarea id="content" class="form-control" rows="5" data-rule="咨询内容:required;length(1~300);illegaSymbol;"></textarea>
+                                 </td>
+                             </tr>
+                         </tbody>
+                     </table>
+                 </div>
+                 <div class="modal-footer" style="text-align: center;">
+                    <button  type="submit" class="btn btn-success">提交</button>
+                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                   </div>
+             </div>
+         </div>
+     </div>
+      </form>
+<script>
+var isAgainAnswer = false;
+var editor;
+$(function(){
+	loaddata();
+	$("#zhuiwen").validator({
+		theme:"yellow_bottom_effect",
+	    valid: function(form) {
+	    	againQuestion();
+	    }
+	});
+});
+function loaddata() {
+	var id = "{{id}}";
+	if(isNotNull(id)){
+		var command = new LEx.Command("app.icity.center.active.BusinessAskCmd");
+		command.setParameter("g.id@=", id);
+		var ret = command.execute("getBusinessAsk");
+		if (ret.state == 1) {
+			if (ret.data.length > 0) {
+				var d = ret.data[0];
+				LEx.form.set("form", d);
+				$("#WARN").html(formatWarn(d.WARN));
+				if (isNotNull(d.DEAL_DATE)) {
+					$("#OPEN").val(formatFlag(d.OPEN));
+				} 
+				$("#CONTENT").html(d.CONTENT);
+				$("#TITLE").html(d.TITLE);
+				$("#SXMC").html(d.SXMC);
+				$("#WRITE_DATE").html(formatDate(d.WRITE_DATE));
+				$("#DEAL_DATE").html(formatDate(d.DEAL_DATE));
+				$("#REPLY").html(formatDetailFlag(d.STATUS));
+				if(d.STATUS=="1"||d.STATUS=="3"||d.STATUS=="6"){//已回复；审核通过；追问回复
+					isAgainAnswer = true;
+				}else{
+					isAgainAnswer = false;
+				}
+			}
+			if(d.STATUS=="5"||d.STATUS=="6"){
+				//查询追问记录
+				var command1 = new LEx.Command("app.icity.center.active.BusinessAskCmd");
+				command1.setParameter("G_ID@=", id);
+				var ret1 = command1.execute("getBusinessAgainAsk");
+				if(ret1.state == 1&&ret1.data.length>0) {
+					var data =ret1.data; 
+					for(var i = 0;i<data.length;i++){
+						html ="<tr>";
+						html += "<td class='text-right label_bg'>追问时间：</td>";
+						html += "<td colspan='3'>"+formatDate(data[i].Q_TIME)+"</td>";
+						html +="</tr><tr>";
+						html += "<td class='text-right label_bg'>追问内容：</td>";
+						html += "<td colspan='3'>"+data[i].QUESTION+"</td>";
+						html +="</tr><tr>";
+						html += "<td class='text-right label_bg'>追问回复状态：</td>";
+						if(isNotNull(data[i].ANSWER)){
+							html += "<td>已回复</td>";
+						}else{
+							html += "<td>未回复</td>";
+						}
+						html += "<td class='text-right label_bg'>追问回复时间：</td>";
+						html += "<td>"+formatDate(data[i].RE_TIME)+"</td>";
+						html +="</tr><tr>";
+						html += "<td class='text-right label_bg'>追问回复内容：</td>";
+						html += "<td colspan='3'>"+data[i].ANSWER+"</td>";
+						html +="</tr>";
+						$("#questionList").append(html);
+					}
+				}
+			}
+			check();
+		} else {
+			LEx.dialog({
+				title : "系统提示",
+				content : ret.message,
+				icon : 'error',
+				lock : true
+			});
+		}
+	}
+}
+function check(){
+	if(!isAgainAnswer){
+		$("#again_btn").hide();
+	}else{
+		$("#again_btn").show();
+	}
+}
+function againQuestion(){
+	var id = "{{id}}";
+	var cmd = new LEx.Command("app.icity.guestbook.WriteCmd");
+	cmd.setParameter("GID",id);
+	cmd.setParameter("QUESTION",content);
+	cmd.setParameter("NAME","{{UserInfo.userName}}");
+	var ret = cmd.execute("insertInfoAgain");
+	if (ret.error) {
+		errorDialog("系统提示信息", ret.error);
+		return false;
+	} else {
+		LEx.alert("您的咨询信息已提交成功");
+		loaddata();
+	}
+}
+function editorFun(obj) {
+	editor = obj;
+}
+
+function formatFlag(val) {
+	if (val == '1') {
+		return "是";
+	} else if (val == '0') {
+		return "否";
+	} else {
+		return "";
+	}
+}
+function formatDetailFlag(val) {
+	if (val == '0') {
+		return "未办理";
+	} else if (val == '1'||val == '6'||val == '5') {
+		return "已回复";
+	}else if (val == '3') {
+		return "审核通过";
+	}else if (val == '4') {
+		return "审核不通过";
+	}else {
+		return "";
+	}
+}
+
+function formatWarn(val){
+	if (val == '1') {
+		return "已超期";
+	} else {
+		return "未超期";
+	}
+}
+
+function formatCheckFlag(val) {
+	if (val == '1') {
+		return "审核通过";
+	} else if (val == '2') {
+		return "审核不通过";
+	} else {
+		return "未审核";
+	}
+}
+function formatDate(obj) {
+	return LEx.util.Format.formatDate(obj);
+}
+</script>

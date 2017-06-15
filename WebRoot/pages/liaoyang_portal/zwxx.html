@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>辽阳市行政审批局</title>
+</head>
+
+<body>
+	{% include liaoyang_portal/header.html %}
+	<script src="{{PageContext.ContextPath}}pages/liaoyang_portal/scripts/zwxx.js" type="text/javascript"></script>
+    <div class="container main">
+        <div class="row">
+            <div class="col-xs-3">
+                <section class="leftbar" style="min-height:540px;">
+                    <h4 class="sidebar-header text-center"><strong>政务信息</strong></h4>
+                    <ul class="nav sidebar-nav">
+                        <li><a onclick="show(0)" style="cursor:pointer;">图文信息</a></li>
+                        <li><a onclick="show(1)" style="cursor:pointer;">工作动态</a></li>
+                        <li><a onclick="show(2)" style="cursor:pointer;">党建信息</a></li>
+                    </ul>
+                </section>
+            </div>
+            <div class="col-xs-9">
+                <ol class="breadcrumb">
+                    <li>您当前所在的位置：<a href="{{PageContext.ContextPath}}liaoyang_portal/index">网站首页</a></li>
+                    <li><a href="{{PageContext.ContextPath}}liaoyang_portal/zwxx">政务信息</a></li>
+                    <li class="active"><span id="position">全部</span></li>
+                </ol>
+                <section class="panel panel-default" style="padding:10px 15px;">
+                    <div class="jgshezhi" id="tpxw">
+                        <div class="panel-heading">
+                           <a onclick="getMore('图文信息')" class="more pull-right" style="cursor:pointer;">更多</a>
+                            <h3 class="panel-title">
+                                <strong>图文信息</strong>
+                            </h3>
+                        </div>
+                        <ul class="list-group" id="图文信息">
+                        </ul>
+                    </div>
+                    <div class="jgshezhi"  id="gzdt">
+                        <div class="panel-heading">
+                           <a onclick="getMore('工作动态')" class="more pull-right" style="cursor:pointer;">更多</a>
+                            <h3 class="panel-title">
+                                <strong>工作动态</strong>
+                            </h3>
+                        </div>
+                        <ul class="list-group" id="工作动态">
+                        </ul>
+                    </div>
+                    <div class="jgshezhi"  id="djxx">
+                        <div class="panel-heading">
+                           <a onclick="getMore('党建信息')" class="more pull-right" style="cursor:pointer;">更多</a>
+                            <h3 class="panel-title">
+                                <strong>党建信息</strong>
+                            </h3>
+                        </div>
+                        <ul class="list-group" id="党建信息">
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    {% include liaoyang_portal/footer.html %}
+    <script type="text/template" id="MattersListTemplate1">
+		{for o in data}
+                    <li class="list-group-item">
+                         <div class="time pull-right">${o.CTIME.substring(5,10)}</div>
+				{if o.TYPE==3 }
+						<a href="${o.URL}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${o.NAME}</a>
+				{else}
+						<a href="{{PageContext.ContextPath}}liaoyang_portal/contentDetail?id=${o.ID}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${o.NAME}</a>
+				{/if}
+                    </li>
+		{/for}
+	</script>
+</body>
+</html>

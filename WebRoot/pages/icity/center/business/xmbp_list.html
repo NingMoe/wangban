@@ -1,0 +1,117 @@
+<script type="text/javascript"
+	src="{{PageContext.JsPath}}raty_master/lib/jquery.raty.js"></script>
+	<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/layer.js"></script>
+	
+<style>
+.paycontent{
+	border-style：solid;
+	border-width: 1px;
+	border-color:red;
+	margin-top:-70px;
+	margin-left:-90px;
+	background-color:#42a5f5;
+ 	max-width: 400px;
+ 	position: absolute;
+ 	text-align: center;
+ 	padding: 20px 30px 10px 10px;
+ 	font-style: normal;
+ 	z-index: 2;
+ 	display: none;
+ 	color:#FFFFFF;
+ 	border-radius: 10px;
+}
+.div0{
+display: none;
+}
+li{
+list-style: inherit;
+}
+
+</style>
+<table class="table table-bordered">
+	<tr class="sec_tr">
+		<td>
+			<span>项目报批业务列表</span>
+			<a class="btn btn-primary pull-right" style="background-color:#728db0;color:#fcfcfc; margin-top: -8px;" href="javascript:void(0);" onclick="xmbpBack();">返回投资项目列表 →</a>
+		</td>
+	</tr>
+	<tr>
+		<td><form action="" method="post">
+				<ul class="list-inline">
+					<li class="col-xs-5">事项名称：<input id="itemName"></li>
+					<li class="col-xs-7">事项申办时间：<input type="text"
+						style="width: 100px;" id="APPLYTIME_S1" name="APPLYTIME_S1" /> <img
+						src="{%public assets/img/date.jpg%}" style="margin-left: -20px;"
+						id="date1"> &nbsp;至&nbsp;<input type="text"
+						style="width: 100px;" id="APPLYTIME_E1" name="APPLYTIME_E1" /> <img
+						src="{%public assets/img/date2.jpg%}" style="margin-left: -20px;"
+						id="date2"> 
+					</li><br/><br/>
+					<li class="col-xs-12">事项阶段：<select id="stage" style="width:135px;height:23px;"></select> 
+						<button style="float:right" type="button" class="btn btn-warning" onclick="onQuery1();">查询</button>
+					</li>
+				</ul>
+
+			</form></td>
+	</tr>
+</table>
+<div class="businessList_main">
+	<div id="bldata1" class="template_list" style="overflow-y:auto;height:740px;"></div>
+</div>
+<textarea id="template_business_list1" style="display: none">
+{if data.length > 0}
+{for o in data}
+<table class="table table-bordered">
+	<tr class="sec_tr">
+		<td style="border-right: none;" colspan="2">
+			<span style="display: inline-block; width: 270px; padding-top: 5px;">
+				事项编码：${o.itemCode}
+			</span>
+		</td>
+		<td style="border-left: none; border-right: none;" colspan="2"><span
+				style="display: inline-block; padding-top: 5px;">事项申办时间：${o.receiveTime}</span>
+		</td>
+		<td style="border-left: none; width: 120px">
+			<div class="other" style="text-align: center;">
+				<!-- {if o.STATE=='00' } <a
+						href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}"
+						target="_blank" class="btn btn-success btn-sm">&nbsp;&nbsp;修&nbsp;&nbsp;改&nbsp;&nbsp;</a><BR>
+				{/if} {if o.STATE=='11' } <a href="#"
+						onclick="chehui('${o.SBLSH}');" target="_self"
+						class="btn btn-success btn-sm">&nbsp;&nbsp;撤&nbsp;&nbsp;回&nbsp;&nbsp;</a><BR> 
+				{/if} {if o.STATE=='03' } <a
+						href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}"
+						target="_blank" class="btn btn-success btn-sm">&nbsp;&nbsp;编&nbsp;辑&nbsp;&nbsp;</a><BR> 
+				{/if} {if o.STATE=='14'} <a
+						href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}"
+						target="_blank" class="btn btn-success btn-sm">重新办理</a><BR> 
+				{/if} {if o.STATE=="21" } <a
+						href="{{online_service_url}}${o.SXID}&sblsh=${o.SBLSH}"
+						target="_blank" class="btn btn-success btn-sm">补齐补正</a><BR> {/if} -->
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td class="col-xs-2" style="border-right: none; width: 100px;" rowspan="2"><img src="{%public assets/img/1-3.png%}"></td>
+		<td style="border-left: none;" colspan="3">
+			<div style="float:left;"><span style="font-size: 18px; color: #2c87b6;">${o.itemName}</span></div>
+		</td>
+		<td rowspan="2" align="center" style="width:136px;">
+			<span style="color: #008000; line-height: 50px;">${formatHandleState(o.state)}</span><BR />
+			<a href="javascript:void(0);" onclick="showXmbpDetail('${o.bizId}','${o.itemId}');" style="line-height: 5px;">业务详情</a><BR />
+		</td>
+	</tr>
+	<tr>
+		<td style="border-left: none;" colspan="3">
+			<ul class="list-inline">
+				<li>办理部门：${o.orgName}</li>
+				<li>办结时间：${o.finishTime}</li>
+			</ul>
+		</td>
+	</tr>
+</table>
+{/for}
+{else}
+	<div style="border: 1px; solid: #DCDCDC; height: 25px; padding-top: 5px; width: 785px; text-align: center; color: red;">无业务信息！</div>
+{/if}
+</textarea>

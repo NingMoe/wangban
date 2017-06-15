@@ -1,0 +1,58 @@
+@charset "utf-8";
+/*********** 按钮 start  ***********/
+/*大绿按扭'登录按钮'*/
+p.go_login .btn-smb { width: 228px; height: 45px; background: url(../img/lg_btn.gif) no-repeat; border: none; color: #fff; cursor: pointer;}
+p.go_login .btn-smb:hover { background-position: 0 -45px;}
+
+/*通用按钮start*/
+.btn_box {text-align: center;}
+.iBtn { display: inline-block; width:75px; height: 26px; line-height: 26px; font-weight: 700; text-align: center; color: #fff; background: url(../img/sxbtn_bg.jpg) no-repeat; }
+.iBtn:hover {background-position: 0 -27px;}
+.noBtn { background-position: 0 -54px; cursor: default;}
+.noBtn:hover {background-position: 0 -54px;}
+.btn_box a:hover { text-decoration: none;}
+
+/*通用按钮end*/
+/*小图标加文字按钮 start*/
+a.ioc_txt{display: inline-block; height: 16px; margin-right: 5px; line-height: 16px; padding-left:20px;font-size: 12px; color: #369}
+a.setup_ico { background: url(../img/cog.gif) no-repeat 3px center}
+a.all_ico {background: url(../img/canvas_size.gif) no-repeat 3px center}
+a.ioc_txt:hover { color: #11385F}
+
+/*小图标加文字按钮 end*/
+/*方向按扭[箭头] start*/
+.LtoR_btn a { display: block; width: 28px; height: 100px; text-indent: -99em; overflow: hidden;}
+.LtoR_btn a.goLeft {background: url(../img/goLeft.gif) no-repeat center center; }
+.LtoR_btn a.goReight {background: url(../img/goReight.gif) no-repeat center center;}
+.LtoR_btn a {filter:alpha(opacity: 70); opacity:0.7;}
+.LtoR_btn a:hover {filter:alpha(opacity: 100); opacity:1;}
+/*方向按扭[箭头] end*/
+/*方向按扭[圆形] start*/
+.move_btn a { display: block; width: 36px; height: 36px; text-indent: -99em; overflow: hidden; background: url(../img/tD_btn.gif) no-repeat;filter:alpha(opacity: 20); opacity:0.2;}
+.move_btn a:hover{filter:alpha(opacity: 80); opacity:0.8;}
+/*方向按扭[圆形] end*/
+/*小的圆形按扭 start*/
+.num {text-align: center;}
+.num a{display: inline-block; width: 11px; height: 11px;background: url(../img/swich_ico.gif) no-repeat; margin: 0 5px; overflow: hidden; }
+.num a:hover {filter:alpha(opacity: 70); opacity:0.7;}
+.num a.active,.num a.active:hover { background-position: 0 -19px;filter:alpha(opacity: 100); opacity:1;}
+/*小的圆形按扭 end*/
+
+
+/*********** 按钮 end  ***********/
+
+/*********** input start  ***********/
+ul.ui_input li input {width: 185px; height: 26px; padding-left: 5px; color: #666; border: 1px solid #BDC7D8; line-height: 26px;}
+ul.ui_input li input.code { float: left; width: 80px; height: 24px; line-height: 24px; padding-left: 5px; background: none;}
+
+
+/*Input前面有图标*/
+ul.ico_input li input { padding-left: 35px;  background: url(../img/sxlogin_ico.gif) no-repeat 0 0;}
+/*锁图标*/
+ul.ico_input li input.userpass { background-position: 0 1px; }
+/*用户图标*/
+ul.ico_input li input.username { background-position: 0 -30px;}
+
+
+
+/*********** input end  ***********/

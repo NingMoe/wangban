@@ -1,0 +1,235 @@
+<script type="text/javascript">		
+		var __webPath = "/icity/";
+		var __signature = "0366e1e63f79e62d5ca3f2dba7fd56511446348513380";
+	</script>
+			<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEX.form.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+<script  type="text/javascript" src="{% public zs/pro/assets/js/jquery.PrintArea.js %}"></script>
+<script src="{% public scripts/LEx.form.js %}"></script>
+<!--  <script type="text/javascript" src="{% public pro/assets/js/jquery.qrcode.min.js%}"></script>-->
+<!--startprint-->
+<fieldset id="printField" style="margin-top:20px;width:100%">
+		
+<style type="text/css">
+.input_validation-invalid {
+	border: 1px solid #f00 !important;
+	color: #f00;
+}
+.table01 {
+	border: 1px solid rgb(230, 230, 230); text-align: left; border-collapse: collapse; background-color: rgb(255, 255, 255);
+}
+.table01 th {
+	border: 1px solid rgb(230, 230, 230); width: 120px; height: 32px; text-align: center; font-weight: normal; background-color: rgb(247, 247, 247);
+}
+.table01 td {
+	border: 1px solid rgb(230, 230, 230); height: 32px; text-align: left; padding-left: 5px;
+}
+</style>
+
+<div class="container" style="background-color: #fff; width:100%">
+	<link rel="icon" href="{% public pro/assets/ico/favicon.ico %}">
+  	
+	<link href="http://cdn.bootcss.com/simple-line-icons/2.2.2/css/simple-line-icons.min.css" rel="stylesheet">
+	<section class="panel panel-default">
+		<h3 style="text-align:center;font-size:30px;height:60px">项目信息</h3>
+			<table class="table table-bordered table-condensed table01"
+				cellspacing="1" id="sub_form1"
+				style="border-width: 0px; width:100%">
+				<colgroup>
+					<col width="20%">
+					<col width="30%">
+					<col width="20%">
+					<col width="30%">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>项目名称：</th>
+						<td colspan="3" id="projectName" name="projectName">
+						</td>
+					</tr>
+					<tr>
+						<th>项目类别：</th>
+						<td id="projectCategory" name="projectCategory">
+						</td>
+						<th>是否子项目：</th>
+						<td id="isSubProject" name="isSubProject">
+						</td>
+					</tr>
+					<tr id="_mainProjectCode" style="display:none;">
+						<th>主项目编码：</th>
+						<td colspan="3" id="mainProjectCode" name="mainProjectCode">
+						</td>
+					</tr>
+					<tr>
+						<th>建设地点：</th>
+						<td id="provinceCode" name="provinceCode">
+						</td>
+						<td id="cityCode" name="cityCode">
+						</td>
+						<td id="countyCode" name="countyCode">
+						</td>
+					</tr>
+					<tr>
+						<th style="width: 150px">建设性质：</th>
+						<td id="constructPer" name="constructPer"></td>
+						<th style="width: 150px">总投资：</th>
+						<td id="investment" name="investment"></td>
+					</tr>
+					<tr>
+						<th style="width: 150px">详细地址：</th>
+						<td id="placeAreaDetail" name="placeAreaDetail"></td>
+						<th style="width: 150px">所属行业：</th>
+						<td id="industry" name="industry"></td>
+					</tr>
+					<tr>
+						<th style="width: 150px">拟开工时间（年）：</th>
+						<td id="startYear" name="startYear"></td>
+						<th style="width: 150px">拟建成时间（年）：</th>
+						<td id="endYear" name="endYear"></td>
+					</tr>
+					<tr>
+						<th>投资项目行业分类：</th><td colspan="3" id="permitIndustry" name="permitIndustry">
+						</td>
+					</tr>	
+					<tr id="_permitItemCode" style="display:none;">
+						<th>行业核准目录：</th><td colspan="3" id="permitItemCode" name="permitItemCode">
+						</td>
+					</tr>	
+					<tr>
+						<th>建设规模及内容：</th><td colspan="3" id="projectContent" name="projectContent">
+						</td>
+					</tr>
+					<tr>
+						<th style="width: 150px">是否开发区项目：</th>
+						<td id="isDeArea" name="isDeArea"></td>
+						<th style="width: 150px">是否申请审批代理服务：</th>
+						<td id="isApplyAgentService" name="isApplyAgentService"></td>
+					</tr>
+					<tr id="_deAreaName" style="display:none;">
+						<th>开发区名称：</th><td colspan="3" id="deAreaName" name="deAreaName">
+						</td>
+					</tr>					
+				</tbody>
+			</table>
+	</section>
+		<section class="panel panel-default">
+		<h3 style="text-align:center;font-size:30px;height:60px">单位信息</h3>
+			<table class="table table-bordered table-condensed table01"
+				cellspacing="1" id="sub_form2"
+				style="border-width: 0px; width:100%">
+				<colgroup>
+					<col width="20%">
+					<col width="30%">
+					<col width="20%">
+					<col width="30%">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>项目（法人）单位：</th><td colspan="3" id="contractor" name="contractor">
+						</td>
+					</tr>	
+					<tr>
+						<th style="width: 150px">项目法人证件类型：</th>
+						<td id="lerepCerttype" name="lerepCerttype"></td>
+						<th style="width: 150px">项目法人证件号码：</th>
+						<td id="lerepNo" name="lerepNo"></td>
+					</tr>									
+				</tbody>
+			</table>
+	</section>
+		<section class="panel panel-default">
+		<h3 style="text-align:center;font-size:30px;height:60px">联系人信息</h3>
+			<table class="table table-bordered table-condensed table01"
+				cellspacing="1" id="sub_form3"
+				style="border-width: 0px; width:100%">
+				<colgroup>
+					<col width="20%">
+					<col width="30%">
+					<col width="20%">
+					<col width="30%">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th style="width: 150px">负责人姓名：</th>
+						<td id="projectManagerName" name="projectManagerName"></td>
+						<th style="width: 150px">职务：</th>
+						<td id="position" name="position"></td>
+					</tr>	
+					<tr>
+						<th style="width: 150px">手机：</th>
+						<td id="projectManagerPhone" name="projectManagerPhone"></td>
+						<th style="width: 150px">电子邮箱：</th>
+						<td id="projectManagerEmail" name="projectManagerEmail"></td>
+					</tr>	
+					<tr>
+						<th style="width: 150px">QQ：</th>
+						<td id="projectManagerQq" name="projectManagerQq"></td>
+						<th style="width: 150px">微信：</th>
+						<td id="projectManagerWechat" name="projectManagerWechat"></td>
+					</tr>	
+					<tr>
+						<th style="width: 150px">联系人：</th>
+						<td id="linkMan" name="linkMan"></td>
+						<th style="width: 150px">电子邮箱：</th>
+						<td id="contactEmail" name="contactEmail"></td>
+					</tr>	
+					<tr>
+						<th style="width: 150px">手机：</th>
+						<td id="linkPhone" name="linkPhone"></td>
+						<th style="width: 150px">微信：</th>
+						<td id="contactWechat" name="contactWechat"></td>
+					</tr>	
+					<tr>
+						<th>QQ：</th><td colspan="3" id="contactQq" name="contactQq">
+						</td>
+					</tr>					
+				</tbody>
+			</table>
+	</section>
+</div>
+</fieldset>
+
+<button class="aui_state_highlight" id="printBtn" onclick="print()" type="button" style="display:none">打印</button>
+<script>
+	$(function(){	
+		initPrintApply();
+	});		
+	function initPrintApply(){
+		var command = new LEx.Command("app.icity.pro.ProCmd");
+		command.setParameter("id", LEx.urldata.id);
+		var ret = command.execute("getContent");
+		if(!command.error){
+			if(ret.state==1){
+				var content = ret.data[0].PRINTCONTENT;
+				addHtml("sub_form1",content.project,"name","td");
+				addHtml("sub_form2",content.dcCompany,"name","td");
+				addHtml("sub_form3",content.contectInformation,"name","td");
+				if(content.project.isDeArea=="1"){
+					$("#_deAreaName").show();
+				}
+				if(ret.data[0].CONTENT.project.projectType=="A00002"){
+					$("#_permitItemCode").show();
+				}
+				if(ret.data[0].CONTENT.project.isSubProject=="0"){
+					$("#_mainProjectCode").show();
+				}
+			}
+		}
+	}
+	function addHtml(pId,obj,attr,ele){
+		$("#"+pId+" "+ele).each(function(){
+			$(this).html(obj[$(this).attr(attr)]);
+		});
+	}
+	/*生成二维码图片*/
+	function getQrCode(content){
+		var src="{{PageContext.ContextPath}}/bsp/ShowQrCode?fileUrl="+content;
+		$("#qrCode").attr("src",src);
+	}
+	function print() {
+		this.focus();
+		$("#printField").printArea();
+	}
+	function printButton(){
+		$("#printBtn").click();
+	}	
+</script>

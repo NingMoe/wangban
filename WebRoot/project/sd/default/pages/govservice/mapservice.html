@@ -1,0 +1,137 @@
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=smshgu2v27tWx3pwMtACQAjGvz8DP7Zg"></script>
+<style>
+.map-sidebar {
+	width: 160px;
+	background-color: #0085c3;
+}
+
+.map-sidebar .map-sidebar-nav>li>a {
+	padding: 12px 20px;
+	color: #fff;
+}
+
+.map-sidebar .map-sidebar-nav>li>a:hover,.map-sidebar .map-sidebar-nav>li>a:focus
+	{
+	background-color: rgba(0, 0, 0, .2);
+}
+
+.map-sidebar-info {
+	padding: 20px;
+	position: absolute;
+	width: 300px;
+	top: 0;
+	bottom: 0;
+	left: 160px;
+	background-color: rgba(255, 255, 255, .9);
+	display: none;
+}
+
+.map-sidebar-info .nav-pills>li>a {
+	border-bottom: 1px solid #ddd;
+	color: #444;
+	background-color: transparent !important;
+}
+
+.map-sidebar-info .nav-pills>li>a:hover {
+	color: #0085c3;
+	font-weight: bold;
+}
+
+.map-sidebar .dropdown-hover:hover .dropdown-menu {
+	display: block;
+}
+
+.map-sidebar .dropdown-menu {
+	margin: 0;
+	left: 100%;
+	width: 160px;
+	top: 0;
+	border: 0;
+}
+
+.map-sidebar .dropdown-menu>li>a {
+	text-align: center;
+	padding: 10px 15px;
+	border-bottom: 1px solid #eee;
+}
+
+.map-sidebar-info .list-group .list-group-item {
+	border-left: 0;
+	border-right: 0;
+	padding: 15px 0;
+	background-color: transparent;
+}
+
+.map-sidebar-info-collapse {
+	position: absolute;
+	left: 300px;
+	top: 200px;
+	display: none;
+}
+</style>
+<div class="table-table" style="background-color: grey; height: 720px;">
+	<div class="table-cell map-sidebar relative">
+		<div class="clearfix" style="background-color: #1a91c9;">
+			<h4 class="text-center "
+				style="background-color: rgba(0,0,0,.2);padding: 15px; color: #fff; margin:0;">
+				<strong>地图服务</strong>
+			</h4>
+			<a class="btn btn-primary transparent btn-block"
+				style="border-bottom: 1px solid rgba(255,255,255,.2);">请选择城市</a>
+		</div>
+		<ul class="nav nav-pills nav-stacked map-sidebar-nav">
+			<li><a href="{{cp}}govservice/mapserviceInfo" class="text-center">济南市</a>
+			</li>
+			<li><a href="#" class="text-center">青岛市</a>
+			</li>
+			<li><a href="#" class="text-center">淄博市 </a>
+			</li>
+			<li><a href="#" class="text-center">枣庄市</a>
+			</li>
+			<li><a href="#" class="text-center">东营市</a>
+			</li>
+			<li><a href="#" class="text-center">烟台市</a>
+			</li>
+			<li><a href="#" class="text-center">潍坊市</a>
+			</li>
+			<li><a href="#" class="text-center">济宁市</a>
+			</li>
+			<li><a href="#" class="text-center">泰安市</a>
+			</li>
+			<li><a href="#" class="text-center">威海市</a>
+			</li>
+			<li><a href="#" class="text-center">日照市</a>
+			</li>
+			<li><a href="#" class="text-center">莱芜市</a>
+			</li>
+			<li><a href="#" class="text-center">临沂市</a>
+			</li>
+			<li><a href="#" class="text-center">德州市</a>
+			</li>
+			<li><a href="#" class="text-center">聊城市</a>
+			</li>
+			<li><a href="#" class="text-center">滨州市</a>
+			</li>
+			<li><a href="#" class="text-center">菏泽市</a>
+			</li>
+		</ul>
+	</div>
+	<div class="table-cell" id ="l-map"></div>
+</div>
+<script>
+	$(function(){
+		var map = new BMap.Map("l-map");
+		map.enableScrollWheelZoom(true);
+		map.centerAndZoom(new BMap.Point(116.914023,36.67412),8.5);
+		var myGeo = new BMap.Geocoder();
+		var adds = [ new BMap.Point(116.914023,36.67412)];
+		for ( var j = 0; j < adds.length; j++) {
+			var marker = new BMap.Marker(adds[j]);
+			/* map.addOverlay(marker);
+			marker.setLabel(new BMap.Label((j + 1)+"", {
+				offset : new BMap.Size(20, -10)
+			})); */
+		}
+	});
+</script>

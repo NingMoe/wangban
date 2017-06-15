@@ -1,0 +1,113 @@
+<script type="text/javascript" src="{{PageContext.PagePath}}uc/js/common.js"></script>
+<div class="panel sec-show-panel">
+	<style>
+	.prompt-contain {
+		color: #666;
+		width: 640px;
+		margin: 40px auto 150px;
+		text-align: left;
+	}	
+	.prompt-top {	
+		background-position: 0 0;
+		height: 5px;
+		width: 100%;
+	}	
+	.prompt-content {
+		margin:2px 0px 0px 0px;
+		background: white;
+		width:100%;
+		height:280px;
+	}
+	.re-email {
+		color: #3B5998;
+		line-height: 25px;
+		 font-size:12px;
+		font-weight: normal;
+		float: right;
+	}
+	.prompt-ok {
+		background:url({{PageContext.ContextPath}}public/themes/uc/images/prompt/prompt-ok.png) no-repeat;
+		width: 68px;
+		height: 68px;
+		display: inline-block;
+	}
+	#tiptop{
+		font-size:16px;
+		margin-left: 2px;
+	}
+	dt{
+		font-size: 18px;
+		padding: 15px 0;
+		border-bottom: 1px solid #EEE;
+		font-weight: bold;
+	}	
+	dd {
+		float: left;
+		margin: 0;
+		padding: 15px 15px 10px 25px;
+	}	
+	p {
+		margin: 0px;
+		font-size: 14px;
+		line-height: 30px;
+	}
+	a.htmlhref:link{color:#35A5EC;}
+	a.htmlhref:visited{color:#35A5EC;}
+	a.htmlhref:hover{color:#FF9F10;}
+	a.htmlhref:active{color:#FF9F10;}
+	</style>
+	<div class="prompt-contain">
+		<div class="prompt-top"></div>
+		<div class="prompt-content">
+			<dl>
+				<dt>
+					<span id="tiptop">重新发送激活邮件</span>
+				</dt>
+				<dd>
+					<span class="prompt-ok"></span>
+				</dd>
+				<dd style="width: 460px; height: 150px">
+					<p>我们已经将邮件发送到您登记的邮箱：<span id="MAIL"></span></p>
+					<p>请您收取新邮件，并点击邮件里的"验证链接"完成安全邮箱的绑定。</p>
+					<p>
+						<a id="viewEmail" href="javascript:void(0);" target="_blank" class="htmlhref" hidefocus="hidefocus">立即查看我的邮箱</a>
+					</p>
+					<p style="color: #999;">
+						<strong>提示：</strong><br>如果没收到新邮件，可能会出现在您的垃圾邮件目录里 。
+						<span id="resend"><br>或者： &nbsp;&nbsp;<a href="javascript:void(0);" onclick="reSendEmail();" class="htmlhref" hidefocus="hidefocus">重新发送激活邮件</a></span>
+					</p>
+				</dd>
+			</dl>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+(function(){
+	var userId=$("#userInfo").val();//用户id
+	var cmd = new LEx.Command("app.uc.UserCmd");		
+	cmd.setParameter("uid",userId);
+	var ret = cmd.execute("getValidEmail");
+	if (ret.state == 1) {
+		var email=ret.data;
+		$("#MAIL").html(email);
+		$("#viewEmail").attr("href","http://mail."+email.substring(email.lastIndexOf("@")+1));
+		return true;
+	} else {
+		errorDialog("系统提示","获取邮箱信息失败："+ret.message);
+	}
+})();
+
+function reSendEmail(){
+	var userId=$("#userInfo").val();//用户id
+	var cmd = new LEx.Command("app.uc.UserCmd");		
+	cmd.setParameter("uid",userId);
+	var ret = cmd.execute("resendMail");
+	if (ret.state == 1) {
+		LEx.dialog({title : "系统提示",content : "已重新发送邮件！", icon: 'succeed' ,lock : true});
+		return true;
+	} else {
+		errorDialog("系统提示","重新发送邮件失败："+ret.message);
+	}
+	return false;
+}
+</script>

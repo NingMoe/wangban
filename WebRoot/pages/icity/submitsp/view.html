@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>表单页面</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    {% if ConfigInfo.AppId|equal:"chq" %}
+    <!--重庆云适配代码插入开始-->
+	<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/66b25ba0957a023545963da63c4da9b2/allmobilize.min.js"></script>
+	<meta http-equiv="Cache-Control" content="no-transform">
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<link rel="alternate" media="handheld" href="#" />
+	<!--重庆云适配代码插入结束-->
+	{% endif %}
+    <script type="text/javascript">
+		var __webPath = "{{PageContext.ContextPath}}";
+		var __signature = "{{PageContext.SignatureInfo}}";
+	</script>
+    <link href="{{PageContext.PagePath}}icity/submitsp/assets/cform/skin/css/cform.css"  rel="stylesheet"/>
+   <script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js,common.js"></script>
+    <!--替换为 my97的日期选择，避免 bootstrap 影响页面样式-->
+    <script src="{{PageContext.PagePath}}icity/submitsp/assets/js/My97DatePicker/WdatePicker.js"></script>
+    <script src="{{PageContext.PagePath}}icity/submitsp/assets/cform/skin/js/cform.js"></script>
+    <script src="{{PageContext.PagePath}}icity/submitsp/assets/cform/skin/js/cform_jpower.js"></script>
+    <script src="{{PageContext.PagePath}}icity/submitsp/assets/cform/skin/js/setForm.js"></script>
+    <script src="{{PageContext.ContextPath}}public/scripts/jquery.xdomainrequest.min.js"></script>
+    <script type="text/javascript" src="{{PageContext.JsPath}}jquery.PrintArea.js"></script>
+        
+	<link rel="stylesheet" href="{{PageContext.ContextPath}}public/scripts/artDialog-6.0.4/css/ui-dialog.css">
+	<script src="{{PageContext.ContextPath}}public/scripts/artDialog-6.0.4/dist/dialog-min.js"></script>    
+<script type="text/javascript">
+		plugin.add('dialog', {
+			path: '{{PageContext.ContextPath}}public/scripts/dialog/a?t=js&m=jquery.artDialog.js,plugins/iframeTools.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['dialog_css']
+		});
+		plugin.add('dialog_css', {
+			path: '{{PageContext.ContextPath}}public/scripts/dialog/skins/default.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		plugin.add('tree', {
+			path: '{{PageContext.ContextPath}}public/scripts/zTreeStyle/jquery.ztree.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['tree_css']
+		});
+		plugin.add('tree_css', {
+			path: '{{PageContext.ContextPath}}public/scripts/zTreeStyle/zTreeStyle.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		
+		plugin.add('calendar', {
+			path: '{{PageContext.ContextPath}}public/scripts/calendar/calendar-min.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['calendar_css']
+		});
+		plugin.add('calendar_css', {
+			path: '{{PageContext.ContextPath}}public/scripts/calendar/calendar-min.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		plugin.add('editor',{path:'{{PageContext.ContextPath}}public/scripts/kindeditor/kindeditor-min.js',type:'js',charset:'utf-8'});
+		plugin.add('fullCalendar',{
+			path:'{{PageContext.ContextPath}}public/scripts/fullcalendar/fullcalendar.js',
+			type:'js',
+			charset:'utf-8',
+			rely: ['jquery_ui']
+		});
+		
+		plugin.add('jquery_ui',{
+			path:'{{PageContext.ContextPath}}public/scripts/fullcalendar/jquery-ui-1.10.2.custom.min.js',
+			type:'js',
+			charset:'utf-8',
+			rely: ['fullCalendar_css']
+		});
+		
+		plugin.add('fullCalendar_css',{
+			path:'{{PageContext.ContextPath}}public/scripts/fullcalendar/a?t=css&m=fullcalendar.css,fullcalendar.print.css',
+			type:'css',
+			charset:'utf-8'
+		});
+	</script>
+
+</head>
+
+<body>
+<!--请不要省略display:none，页面渲染不隐藏会造成不停重绘，渲染完再呈现可以提高性能-->
+<div id="printFormInfo" style="display:none;margin-left:auto;margin-right:0px; margin-bottom:5px; width:65px"><button type="button" onclick="printFormInfo()" class="nbutton_gray" >打印</button></div>
+<div class="cfBody" id="cfBody" style="display:none"></div>
+<button id="btnSave" type="button" class="btn btn-sm btn-default" style="display:none;">保存</button>
+<input type="hidden" id="dataid" value="">
+{%include bsp/ayncTree.html%}
+</body>
+<script type="text/javascript">
+	var fieldSetting={{fieldSetting}};
+	//前台获取表单数据json串
+	var allFormData;
+	var path="{{PageContext.ContextPath}}icity/cform";
+		CForm.rootDirectory="{{PageContext.PagePath}}icity/submitsp/assets/cform";
+		CForm.getUIPath=path;
+		CForm.loadDataPath=path;
+		CForm.bindDataPath=path;
+		CForm.saveDataPath=path;
+		CForm.loadUI("cfBody",{action:"getFormUI"});
+		setForm(fieldSetting);
+		setFormFieldValue("ShiXiangMingChen",LEx.urldata.itemName);
+		CForm.loadBindData({action:"getDataBind"},function () {
+	        CForm.loadMainData({action:"getFormData"});
+	    });
+		var projectId = LEx.urldata.projectId;
+		var type = LEx.urldata.type;
+		var flowId = LEx.urldata.flowId;
+		if(LEx.isNotNull(projectId) && type == "project"){//如果projectId不是null 绑工程建设数据
+			engineering(projectId);
+		}
+		if(LEx.isNotNull(flowId) && type == "ent"){//如果flowId不是null 绑企业设立数据
+			enterprises();
+		}
+	function bSave(){
+		/**
+			重庆司法局验证表单，配置验证开关verifyFormData为on时开启验证
+			验证成功veirfyInformationAndReturn值为true否则为false
+		*/
+		if("chq"=="{{ConfigInfo.AppId}}"&&"{{ConfigInfo.verifyFormData}}"=="on"){
+			if(window.parent.itemlist.indexOf(window.parent.itemcode)>-1){
+				if($("#veirfyInformationAndReturn").val()=="true"){
+					
+				}else{
+					LEx.alert($("#veirfyInformationAndReturn").val());
+					return false;
+				}
+			allFormData = CForm.getAllFormData();
+			}
+		}
+		//end
+		var ret="";
+        CForm.saveData("cfBody",function(result){
+        	ret=result.state;
+        	if(result.state=="200"){
+            		$("#dataid").val(result.dataId);
+        	}
+        	else{alert("提交失败：表单返回状态码"+result.state);}
+            	
+        },{action:"saveData"});
+        return ret;
+	}
+	
+		$("#printFormInfo").show();
+	
+	if(LEx.urldata.width){
+		$("form").css("width",LEx.urldata.width+"%");
+	}
+	
+	
+	function printFormInfo(){
+		$("#cfBody").printArea();
+	}
+	hideOrShowNo("ZhengJianHaoMa");
+	hideOrShowNo("ShouJi");
+	hideOrShowNo("LianXiRenZhengJianHaoMa");
+	hideOrShowNo("LianXiHaoMa");
+	//重庆市表单填充数据
+	if("chq"=="{{ConfigInfo.AppId}}"&&"{{ConfigInfo.verifyFormData}}"=="on"){
+		$("#userVerifyId").val("{{UserInfo.uid}}");
+		$("#userVerifyAccount").val("{{UserInfo.userId}}");
+	}
+	function emptyZXFWForm(){
+		$("#projectName").val("");
+		$("#investment").val("");
+		$("#placeAreaDetail").val("");
+		$("#projectContent").val("");
+		$("#contractor").val("");
+		$("#lerepNo").val("");
+		$("#projectManagerName").val("");
+		$("#projectManagerPhone").val("");
+		$("#linkMan").val("");
+		$("#linkPhone").val("");
+	}
+	//通过项目编号 查询项目状态
+	function getprojectinfobyprojectCode(bindControl){
+		emptyZXFWForm();
+		 var command = new LEx.Command("app.icity.pro.ProCmd");
+		command.setParameter("projectCode", bindControl);
+		var ret = command.execute("getInfoByProjectCode");
+		if(ret.data==null){
+			$("#projectName").removeAttr("readonly");
+			$("#constructPer").removeAttr("readonly");
+			$("#investment").removeAttr("readonly");
+			$("#placeAreaDetail").removeAttr("readonly");
+			$("#projectContent").removeAttr("readonly");
+			$("#contractor").removeAttr("readonly");
+			$("#lerepNo").removeAttr("readonly");
+			$("#projectManagerName").removeAttr("readonly");
+			$("#projectManagerPhone").removeAttr("readonly");
+			$("#linkMan").removeAttr("readonly");
+			$("#linkPhone").removeAttr("readonly");
+		}else{
+		setFormFieldValue("projectName",ret.data.projectInfo.projectName);
+		setFormFieldValue("investType",ret.data.projectInfo.projectType);
+		setFormFieldValue("constructPer",ret.data.projectInfo.constructPer);
+		setFormFieldValue("investment",ret.data.projectInfo.investment);
+		setFormFieldValue("placeAreaDetail",ret.data.projectInfo.placeAreaDetail);
+		setFormFieldValue("projectContent",ret.data.projectInfo.projectContent);
+		setFormFieldValue("contractor",ret.data.dcCompany.contractor);
+		setFormFieldValue("lerepNo",ret.data.dcCompany.lerepNo);
+		setFormFieldValue("projectManagerName",ret.data.contectInfo.projectManagerName);
+		setFormFieldValue("projectManagerPhone",ret.data.contectInfo.projectManagerPhone);
+		setFormFieldValue("linkMan",ret.data.contectInfo.linkMan);
+		setFormFieldValue("linkPhone",ret.data.contectInfo.linkPhone);
+		setFormFieldValue("datatId",$("#dataId").val());
+		$("#investType").val(ret.data.projectInfo.projectType);
+		
+		$("#investType").attr("disabled",true);
+		$("#projectName").attr("readonly",true);
+		$("#constructPer").attr("disabled",true);
+		$("#investment").attr("readonly",true);
+		$("#placeAreaDetail").attr("readonly",true);
+		$("#projectContent").attr("readonly",true);
+		$("#contractor").attr("readonly",true);
+		$("#lerepNo").attr("readonly",true);
+		$("#projectManagerName").attr("readonly",true);
+		$("#projectManagerPhone").attr("readonly",true);
+		$("#linkMan").attr("readonly",true);
+		$("#linkPhone").attr("readonly",true);
+		
+	 
+		 if(ret.data.projectInfo.projectType=="A00001"){
+			var list=LEx.urldata.SPSECTYPE.split(",");
+			for(var i=0;i<list.length;i++){
+				$("#projectStage").append("<option value='"+list[i]+"'>"+list[i+1]+"</option>");
+				i++;
+			}
+		}else if(ret.data.projectInfo.projectType=="A00002"){
+			 var listhz=LEx.urldata.HZSECTYPE.split(",");
+			for(var i=0;i<listhz.length;i++){
+				$("#projectStage").append("<option value='"+listhz[i]+"'>"+listhz[i+1]+"</option>");
+				i++;
+			}
+			
+		}else{
+			var listba=LEx.urldata.BASECTYPE.split(",");
+			for(var i=0;i<listba.length;i++){
+				$("#projectStage").append("<option value='"+listba[i]+"'>"+listba[i+1]+"</option>");
+				i++;
+			}
+		}
+		}
+	} 
+	 //项目类型的改变引起所处阶段改变
+	function investTypechange(bindControlq){
+		if(bindControlq=="A00001"){
+			var list=LEx.urldata.SPSECTYPE.split(",");
+			for(var i=0;i<list.length;i++){
+				$("#investType").append("<option value='"+list[i]+"'>"+list[i+1]+"</option>");
+				i++;
+			}
+		}else if(bindControlq=="A00002"){
+			 var listhz=LEx.urldata.HZSECTYPE.split(",");
+			for(var i=0;i<listhz.length;i++){
+				$("#investType").append("<option value='"+listhz[i]+"'>"+listhz[i+1]+"</option>");
+				i++;
+			}
+			
+		}else{
+			var listba=LEx.urldata.BASECTYPE.split(",");
+			for(var i=0;i<listba.length;i++){
+				$("#investType").append("<option value='"+listba[i]+"'>"+listba[i+1]+"</option>");
+				i++;
+			}
+		}
+	}
+	/**
+	* 隐藏号码
+	*/
+	function hideOrShowNo(id){
+		$("#"+id).attr("name",id+"1");
+		$("#"+id).attr("id",id+"1");
+		$("#"+id+"1").focus(function(){
+			var id1 = $(this).attr("name").substr(0, $(this).attr("name").length-1);
+			$(this).val( $("#"+id1).val());
+		});
+		$("#"+id+"1").blur(function(){
+			var id1 = $(this).attr("name").substr(0, $(this).attr("name").length-1);
+			$("#"+id1).val($(this).val());
+			if($(this).val() != ""){
+				if(id == 'LianXiHaoMa' || id == 'ShouJi'){
+					$(this).val( $(this).val().substr(0,3)+"****"+$(this).val().substr(7,11));
+				}else{
+					$(this).val( "******"+ $(this).val().substr(6,8)+"****");
+				}
+			}else{
+				$(this).val( "");
+			}
+		});
+		$("#"+id+"1").parent().append("<input type='hidden' name='"+id+"' id='"+id+"' />");
+	}
+	//企业设立
+	function enterprises(){
+		var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+		command.setParameter("password", LEx.urldata.code);
+		command.setParameter("approveNum", LEx.urldata.approveNum);
+		command.setParameter("flowId", LEx.urldata.flowId);
+		var ret = command.execute("_namePreCheckLoad");
+		if(!command.error){
+			if(ret.state=='1'){
+				LEx.form.set("cfBody",ret.data,"id");
+			}else{
+				errorDialog("验证","验证未通过"+ret.message);
+				return;
+			}
+		}else{
+			errorDialog("验证","验证未通过");
+			return;
+		}
+	}
+	//工程建设
+	function engineering(projectId){
+		var JRType = LEx.urldata.JRType;
+		if(JRType=="union"){
+			return;
+		}
+		var command = new LEx.Command("app.icity.engineering.EngineeringCmd");
+		command.setParameter("PROJECT_ID", projectId);
+		var ret = command.execute("getProjectInfoById");
+		if(!ret.error){
+			if(ret.total>0){	
+				//LEx.form.set("cfBody",ret.data[0],"id");	
+	 			var ID = ret.data[0].ID;
+				var PROJECT_ID = ret.data[0].PROJECT_ID;
+				var PROJECT_NAME = ret.data[0].PROJECT_NAME;
+				var GOVERNMENT_INVESTMET_ID = ret.data[0].GOVERNMENT_INVESTMET_ID;
+				var TOTAL_INVESTMENT = ret.data[0].TOTAL_INVESTMENT;
+				var INVESTMENT_SOURCE = ret.data[0].INVESTMENT_SOURCE;
+				var PROJECT_CATEGORY = ret.data[0].PROJECT_CATEGORY;
+				var REGION = ret.data[0].REGION;
+				var CONSTRUCTION_UNIT = ret.data[0].CONSTRUCTION_UNIT;
+				var REGISTERED_CAPITAL = ret.data[0].REGISTERED_CAPITAL;
+				var UNIT_PHONE = ret.data[0].UNIT_PHONE;
+				var UNIT_CODE = ret.data[0].UNIT_CODE;
+				var LEGAL_MAN = ret.data[0].LEGAL_MAN;
+				var CONTACT_MAN = ret.data[0].CONTACT_MAN;
+				var CONTACT_MAN_ID = ret.data[0].CONTACT_MAN_ID;
+				var CONTACTS = ret.data[0].CONTACTS;
+				var LAND_AREA = ret.data[0].LAND_AREA;
+				var PROJECT_ADDRESS = ret.data[0].PROJECT_ADDRESS;
+				var UNIT_ADDRESS = ret.data[0].UNIT_ADDRESS;
+				var UCID = ret.data[0].UCID;
+				var FIRST_CODE = ret.data[0].FIRST_CODE;
+				
+				$("#YeWuZhuTi").val(PROJECT_NAME);
+				$("#XiangMuBianHao").val(PROJECT_ID);
+				$("#TouZiZongEWanYuan").val(TOTAL_INVESTMENT);
+				$("#XiangMuDiZhi").val(PROJECT_ADDRESS);
+				$("#LianXiRenDiZ").val(LEx.urldata.address);				
+			}else{
+				LEx.alert(ret.error);
+			}
+		}
+	}
+</script>
+</html>

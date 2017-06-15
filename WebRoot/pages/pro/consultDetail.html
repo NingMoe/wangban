@@ -1,0 +1,70 @@
+<style type="text/css">
+.tab_1 {
+	background: #CCC;
+	font-size: 14px;
+	margin: 10px auto;
+	border-top: 2px solid #37A3DB
+}
+
+.busy-result .tab_1 .tr_1 {
+	line-height: 25px;
+	padding: 5px 10px;
+	background: #F2F6F9;
+	text-align: right;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result .tab_1 .tr_1 .th_1 {
+	padding: 5px 10px;
+	background: #E2EBFF;
+	font-family: 微软雅黑;
+	font-weight: bold;
+	color: #666666;
+	text-align: right;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result .tab_1 .tr_1 .td_1 {
+	padding: 5px 10px;
+	background: #FFFFFF;
+	text-align: left;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result {
+	padding: 20px
+}
+</style>
+{% map "id",PageContext.Parameter.id as p %}
+{% command "app.icity.pro.ProCmd","queryConsultResult",p as d %}
+{% set consultArray d.data.consultArray%}
+<div class="busy-result">
+	<table class="tab_1" width="100%" height="100%" cellspacing="1">
+	{% if d.data.consultArray %}
+	<tr class="tr_1">
+		<th class="th_1">单位代码</th>
+		<th class="th_1">单位名称</th>
+		<th class="th_1">是否参与审核</th>
+		<th class="th_1">处理日期</th>
+		<th class="th_1">联系人</th>
+		<th class="th_1">联系人电话</th>
+		<th class="th_1">审批信息</th>
+	</tr>
+	{% for o in consultArray %}
+		<tr class="tr_1">
+			<td class="td_1">{{o.orgCode}}</td>
+			<td class="td_1">{{o.orgName}}</td>
+			<td class="td_1">{% if o.checkResult|equal:'1'%}审核{% else %}不审核{% endif %}</td>
+			<td class="td_1">{{o.handTime}}</td>
+			<td class="td_1">{{o.contacts}}</td>
+			<td class="td_1">{{o.phone}}</td>
+			<td class="td_1">{{o.approvalMsg}}</td>
+		</tr>
+	{% endfor %}
+	{% else %}
+	<tr>
+		<th class="th_1">未查询到此条业务!</th>
+	</tr>
+	{% endif %}
+	</table>
+</div>

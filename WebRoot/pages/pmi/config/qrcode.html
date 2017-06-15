@@ -1,0 +1,22 @@
+<script>
+$(function(){
+	//var fileurl = encodeURIComponent("http://puser.zszwfw.gov.cn/sso/usp.do?action=ssoLogin&servicecode=spcs");
+	var fileurl = "申办流水号";
+    
+	$.ajax({
+		type : "get",
+		url : LEx.webPath + "bsp/Convt2QRCode?fileUrl="+fileurl,
+		success : function(data) {
+			var src = "";
+			src = LEx.webPath+"file/dimensionImg"+data.split("file/dimensionImg")[1];
+			$("#img").attr("src",src);
+		},
+		error : function() {
+			
+		}
+	});
+});
+</script>
+<div id="divCode" style="width:200px;height:200px;">
+	<img  style="width:200px;height:200px;" src="" id="img"/>
+</div>

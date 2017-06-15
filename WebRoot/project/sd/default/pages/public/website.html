@@ -1,0 +1,174 @@
+<style>
+.its-sitemap{
+	margin-top: 45px;
+}
+.its-sitemap .dropdown-toggle {
+  font-size: 12px;
+  width: 92px;
+  height: 29px;
+  line-height: 29px;
+  text-align: center;
+  display:block;
+}
+.its-sitemap .dropdown-menu {
+  width: 1000px;
+  z-index: 99999;
+  margin-left: 250px;
+  padding: 0;
+  margin-top: -26px;
+}
+.its-header .its-city {
+  margin: 46px 22px 0 22px;
+  font-weight: bold;
+}
+a.city-wrap:hover {
+	text-decoration: none;
+	color:#ff0000;
+}
+</style>
+<div class="col-xs-8">
+	<div class="its-brand pull-left">
+		<img src="{%public assets/img/logo.png%}">
+	</div>
+	<span class="its-city pull-left">{{ConfigInfo.AppHall}}</span>
+	<nav class="dropdown-hover pull-left its-sitemap"> 
+	<a class="city-wrap dropdown-toggle" data-toggle="dropdown">
+	<img src="{%public assets/img/ico_loc.png%}">站点切换</a>
+	<div class="dropdown-menu">
+		<ul class="nav nav-tabs">
+			<li><a href="#tabThree" data-toggle="tab"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;全省&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+			</a>
+			</li>
+			<li class="active"><a href="#tabOne" data-toggle="tab"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;部门&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+			</a>
+			</li>
+			<li><a href="#tabTwo" data-toggle="tab"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;市、县（市区）、镇&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+			</a>
+			</li>			
+		</ul>
+		<div class="tab-content" style="padding: 15px 0;">
+			<div class="tab-pane active" id="tabOne"></div>
+			<div class="tab-pane" id="tabTwo"></div>
+			<div class="tab-pane" id="tabThree">
+				{% include public/provincesite.html %}
+			</div>
+		</div>
+	</div>
+	</nav>
+</div>
+<script type="text/template" id="deptTemplate">
+<ul class="row its-department">
+{for o in data.organ}
+{if o.TYPE_NAME == "机关" && o.IS_HALL=="1"}
+<li class="col-xs-2" code=${o.CODE} name=${o.SHORT_NAME} test=${o.TYPE_NAME}><a class="btn btn-default btn-block no-bordered" href="{{PageContext.ContextPath}}icity/project?deptid=${o.CODE}" title="${o.SHORT_NAME}"  style="text-align: left;">${formatLen(o.NAME,0,10)}</a></li>
+{/if}
+{/for}
+</script>
+<script type="text/template" id="siteTemplate">
+{macro showChilds(o,level)}
+{for c in o.childs}
+	<dt style="width: 80px" ><a class="btn btn-link btn-xs f14" onclick="openUrl();" ref="/${c.name}/" onmouseover="regroupUrl(this)"><strong>${c.title}</strong></a></dt>
+	{if c.childs }
+	<dd style="margin-left: 95px;">
+	{for cc in c.childs}
+		<a class="btn btn-link btn-xs f14" ref="/${cc.name}/" onmouseover="regroupUrl(this)" onclick="openUrl();" href="#">${cc.title}</a>
+	{/for}
+	</dd>
+	{/if}
+{/for}
+{/macro}
+<dl class="dl-horizontal">
+	{for o in data}
+	<dt style="width: 80px" ><a class="btn btn-link btn-xs f14" onclick="openUrl();" ref="/${o.name}/" onmouseover="regroupUrl(this)"><strong>${o.title}</strong></a></dt>
+	<dd style="margin-left: 95px;">
+	</dd>
+	{if o.childs }
+	{var cc = showChilds(o,1)}
+		${cc}
+	{/if}
+	{/for}
+</dl>
+</script>
+<script type="text/javascript">
+	var url;
+	var deptList;
+	$(function() {
+		$('.i-website .nav-tabs > li > a').hover(function(e) {
+			e.preventDefault()
+			$(this).tab('show')
+		})
+	});
+
+	$(function() {
+		onQuery4Site();
+	})
+	function onQuery4Site() {
+		var region_code = getSecurityValue("WebRegion");
+		var command = new LEx.Command("app.icity.ServiceCmd");
+		command.setParameter("region_code", region_code);
+		deptList = command.execute("getDeptList");
+		if (!command.error) {
+			$('#tabOne').html(LEx.processDOMTemplate('deptTemplate', deptList));
+			
+			var len = deptList.data.organ.length;
+			var num=0;
+			for(var i=0;i<len;i++){
+				if(deptList.data.organ[i].IS_HALL=="1"){
+					num++;
+				}
+			}
+			$("#deptNum").html(num);
+		} else {
+			LEx.dialog({
+				title : "系统提示",
+				content : command.error,
+				icon : 'error',
+				lock : true
+			});
+		}
+		command = new LEx.Command("app.pmi.config.cmd.WebsiteCmd");
+		ret = command.execute("getWebsiteConfig");
+		if (!command.error) {
+			$('#tabTwo').html(LEx.processDOMTemplate('siteTemplate', ret));
+		} else {
+			LEx.dialog({
+				title : "系统提示",
+				content : command.error,
+				icon : 'error',
+				lock : true
+			});
+		}
+	}
+
+	function regroupUrl(o) {
+		url = $(o).attr("ref");
+		var topRef = $(".topNav li[class='active']").attr("ref");
+		var secRef = $(".secNav").attr("ref");
+		if (LEx.isNotNull(topRef)) {
+			url += topRef;
+		}
+		if (LEx.isNotNull(secRef)) {
+			url += "?ref=" + secRef;
+		}
+	}
+	function openUrl() {
+		document.location.href = url;
+	}
+</script>
+
+<script>
+	$(function() {
+		$(".dropdown-menu").on("click", "[data-stopPropagation]", function(e) {
+			e.stopPropagation();
+		});
+	});
+	$(function() {
+		$(".dropdown-hover").hover(function() {
+			$('.dropdown-menu', this).stop(true, true).fadeIn("fast");
+			$(this).toggleClass('open');
+		}, function() {
+			$('.dropdown-menu', this).stop(true, true).fadeOut("fast");
+			$(this).toggleClass('open');
+		});
+	});
+</script>

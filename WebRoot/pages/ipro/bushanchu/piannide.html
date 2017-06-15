@@ -1,0 +1,110 @@
+<div style="padding: 20px 0 80px 20px;">
+	<div>
+		<label class="overstriking">项目代码：</label> <input type="text" id="code"
+			name="code" placeholder="请输入项目编码" /> <label class="overstriking">项目名称：</label>
+		<input type="text" id="name" name="name" placeholder="请输入项目名称" /> <input
+			type="button" onclick="search()" style="width: 70px;" value="查询" />
+		<input type="button" onclick="reset()" style="width: 70px;" value="重置" />
+	</div>
+	<div>
+		<table border="1px" wight="100%">
+			<tr height="35px">
+				<td width="218px" align="center">项目代码</td>
+				<td width="300px" align="center">项目名称</td>
+				<td width="60px" align="center">项目状态</td>
+				<td width="94px" align="center">项目类型</td>
+				<td width="69px" align="center">建设性质</td>
+				<td width="119px" align="center">项目（法人）单位</td>
+				<td width="100px" align="center">总投资（万元）</td>
+				<td width="94px" align="center">申报日期</td>
+				<td width="94px" align="center">联系人</td>
+				<td width="93px" align="center">操作</td>
+			</tr>
+
+
+		</table>
+		<table border="1px" wight="100%" id="deleList"></table>
+	</div>
+</div>
+<script type="text/javascript">
+	window.onload = function() {
+		checkLogin();
+		if (loginInfo.uuid == 'C201510091026409033331235') {
+			search();
+		} else {
+			window.location.href = "http://www.baidu.com";
+		}
+	};
+	function search() {
+		checkLogin();
+		if (loginInfo.uuid == 'C201510091026409033331235') {
+			var code = document.getElementById("code").value;
+			var name = document.getElementById("name").value;
+			var command = new LEx.Command("app.icity.ipro.IproCmd");
+			command.setParameter("code", code);
+			command.setParameter("name", name);
+			var ret = command.execute("searchProject");
+			//  		$("#spList").html()
+				$('#deleList')
+						.html(LEx.processDOMTemplate('itemTemplate', ret));
+		}else {
+			window.location.href = "http://www.baidu.com";
+		}
+	}
+
+	function reset() {
+		document.getElementById("code").value = "";
+		document.getElementById("name").value = "";
+	}
+
+	function dele(info) {
+		this.info = info;
+		var boo = firm();
+		if (boo) {
+			var command = new LEx.Command("app.icity.ipro.IproCmd");
+			command.setParameter("seqid", info);
+			var ret = command.execute("dele");
+			if (ret) {
+				alert("删除成功");
+				location.reload();
+			}
+		}
+	}
+
+	function firm() {
+		if (confirm("真要删吗？")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+</script>
+<script type="text/template" id="itemTemplate">
+{for o in data}
+	<tr>
+        <td width="218px"><a href="wojixushan?code=${o.SEQ_ID}">${o.PROJECT_CODE}</a></td>
+		<td width="300px">${o.PROJECT_NAME}</td>
+		<td width="60px">
+			{if o.STATUS=='00'}<font color='red'>未赋码</font>{/if}
+			{if o.STATUS=='98'}<font color='red'>未通过</font>{/if}
+			{if o.STATUS=='99'}赋码{/if}
+		</td>
+		<td width="94px">
+			{if o.PROJECT_TYPE=='A00002'}核准类项目{/if}
+			{if o.PROJECT_TYPE=='A00001'}审批类项目{/if}
+			{if o.PROJECT_TYPE=='A00003'}备案类项目{/if}
+		</td>
+		<td width="69px">
+			{if o.CONSTRUCT_PER=='0'}新建{/if}
+			{if o.CONSTRUCT_PER=='2'}扩建{/if}
+			{if o.CONSTRUCT_PER=='3'}改建{/if}
+			{if o.CONSTRUCT_PER=='4'}迁建{/if}
+		</td>
+		<td width="119px">${o.CONTRACTOR}</td>
+		<td width="100px">${o.INVESTMENT}</td>
+		<td width="94px">${o.APPLY_DATE}</td>
+		<td width="94px">${o.LINK_MAN}</td>
+		<td width="93px" align="center"><input type="button" value="删除" style="width:80px;" onclick="dele('${o.SEQ_ID}')"/>
+</td>
+{/for}
+</script>

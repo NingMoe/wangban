@@ -1,0 +1,245 @@
+<style>
+        .its-nav-tabs-obligation {
+            border-bottom: 2px solid #d7d7d7 !important;
+        }
+        .its-nav-tabs-obligation  > li > a {
+            font-size: 15px;
+            font-weight: bold;
+            padding: 10px 0;
+            border: 0 !important;
+            
+        }
+        
+        .its-nav-tabs-obligation  > li.active > a {
+            color: #29588c;
+            border-bottom: 2px solid #29588c !important;
+            margin-bottom: -2px;
+        }
+        .its-nav-tabs-obligation  > li.active > a:before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            margin-left: -5px;
+            bottom: -9px;
+            width: 0;
+            height: 0;
+            border-left: 9px solid transparent;
+            border-right: 9px solid transparent;
+            border-top: 9px solid #29588c;
+        }
+        
+        .its-list-group-obligation .list-group-item {
+            padding: 15px;
+            margin-bottom: 0;
+            border: 0;
+            border-bottom: 1px dashed #ddd;
+        }
+        .its-list-group-obligation .list-group-item:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 24px;
+            width: 3px;
+            height: 3px;
+            background-color: #777;
+            border-radius: 50%;
+        }
+    </style>
+<div class="container"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png%}"> 您当前所在的位置:</li>
+        <li><a href="{{cp}}public/index">首页</a></li>
+        <li><a href="{{cp}}icity/listintquery/zrlist">市级部门责任清单</a></li>
+    </ol>
+</div>
+<div class="container"> 
+    <div class="table-table">
+        <div class="table-cell its-aside">
+            <nav class="sidebar its-sidebar">
+                <h4 class="sidebar-header" data-toggle="collapse" href="#collapseOne">
+                    <img src="{%public assets/img/adx_bszx.png%}"><strong>按清单类型</strong>
+                </h4>
+                <ul class="nav sidebar-nav collapse in" id="collapseOne">
+                    <li title="splist" ><a href="{{cp}}icity/listintquery/splist">行政审批清单</a></li>
+                    <li title="qllist" ><a href="{{cp}}icity/listintquery/qllist">行政权力清单</a></li>
+                    <li title="zrlist" class="active"><a href="{{cp}}icity/listintquery/zrlist">部门责任清单</a></li>
+                    <li title="fmlist"><a href="javascript:void(0)">市场准入负面清单</a></li>
+                </ul>
+                <h4 class="sidebar-header">
+                    <img src="{%public assets/img/abm_bszx.png%}"><strong>按部门分类</strong>
+                </h4>
+                <ul class="nav sidebar-nav collapse in" id="collapseTwo" style="height:530px;overflow-y:scroll">
+                </ul>
+            </nav>
+        </div>
+        <div class="table-cell its-page">
+            <section class="its-page-body">
+                <ul class="nav nav-tabs nav-justified its-nav-tabs-obligation">
+                    <li class="active"><a data-toggle="tab" href="#o-t-1"><img src="{%public assets/img/dept_tab_icon11.jpg%}"> 部门主要责任</a></li>
+                    <li><a data-toggle="tab" href="#o-t-2"><img src="{%public assets/img/dept_tab_icon22.jpg%}"> 部门职责边界</a></li>
+                    <li><a data-toggle="tab" href="#o-t-3"><img src="{%public assets/img/dept_tab_icon33.jpg%}"> 事中事后监管制度</a></li>
+                    <li><a data-toggle="tab" href="#o-t-4"><img src="{%public assets/img/dept_tab_icon44.jpg%}"> 公共服务事项</a></li>
+                    <li><a data-toggle="tab" href="#o-t-5"><img src="{%public assets/img/dept_tab_icon55.jpg%}"> 责任追究机制</a></li>
+                </ul>
+                <br>
+                <div class="tab-content" style="padding: 15px 30px; border: 1px solid #d7d7d7; min-height: 550px;">
+                    <div class="tab-pane active" id="o-t-1">
+                    <p class="text-center" id="project-none1" style="display:none;">
+                     <span style="background-color: #F1F2F3; padding: 8px 200px; color: #666;">暂无数据</span>
+                     </p>
+                    </div>
+                    <div class="tab-pane" id="o-t-2">
+                    <p class="text-center" id="project-none2" style="display:none;">
+                     <span style="background-color: #F1F2F3; padding: 8px 200px; color: #666;">暂无数据</span>
+                    </p>
+                    </div>
+                    <div class="tab-pane" id="o-t-3">
+                    <p class="text-center" id="project-none3" style="display:none;">
+                     <span style="background-color: #F1F2F3; padding: 8px 200px; color: #666;">暂无数据</span>
+                    </p>
+                    </div>
+                    <div class="tab-pane" id="o-t-4">
+                    <p class="text-center" id="project-none4" >
+                     <span style="background-color: #F1F2F3; padding: 8px 200px; color: #666;">暂无数据</span>
+                    </p>
+                    </div>
+                    <div class="tab-pane" id="o-t-5" >
+                    <p class="text-center" id="project-none5">
+                     <span style="background-color: #F1F2F3; padding: 8px 200px; color: #666;">暂无数据</span>
+                    </p>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+    </div>
+</div>
+<script>
+var deptid="";
+function onQuery(start){
+	var limit=500;
+	var cmd = new LEx.Command("app.icity.ServiceCmd");	
+	cmd.setParameter("deptid", deptid);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	var ret = cmd.execute("getDuty");
+	if(!ret.error){
+		if(ret.total==0){
+			$("#project-none1").show();
+		}
+		else{
+			$('#o-t-1').html(LEx.processDOMTemplate('dutyTemplate',ret));
+			$("#project-none1").hide();
+		}
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+function onQuery2(start){
+	var limit=500;
+	var cmd = new LEx.Command("app.icity.ServiceCmd");	
+	cmd.setParameter("deptid", deptid);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	 ret = cmd.execute("getBoundary");
+	if(!ret.error){
+		if(ret.total==0){
+			$("#project-none2").show();
+		}
+		else{
+			$('#o-t-2').html(LEx.processDOMTemplate('boundaryTemplate',ret));
+			$("#project-none2").hide();
+		}
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+function onQuery3(start){
+	var limit=500;
+	var cmd = new LEx.Command("app.icity.ServiceCmd");	
+	cmd.setParameter("deptid", deptid);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	ret = cmd.execute("getSupervise");
+	if(!ret.error){
+		if(ret.total==0){
+			$("#project-none3").show();
+		}
+		else{
+			$('#o-t-3').html(LEx.processDOMTemplate('superviseTemplate',ret));
+			$("#project-none3").hide();
+		}
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+
+$(function(){
+	onQuerydept();
+ 	//绑定按部门分类点击事件
+ 	$('#collapseTwo li').click(function (e) {
+ 		deptid=$(this).attr("tag");
+ 		$('#collapseTwo li').removeClass("active");
+		$(this).addClass("active"); 
+		onQuery(1);
+		onQuery2(1);
+		onQuery3(1);
+  });
+ 	
+ 	//参数初始化
+ 	onQuery(1);
+ 	onQuery2(1);
+	onQuery3(1);
+}); 
+
+//创建部门列表
+function onQuerydept(){
+	var region_code=getSecurityValue("WebRegion");
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	command.setParameter("region_code",region_code);
+	var ret = command.execute("getDeptList");
+	if(!command.error){
+		creatListdept(ret.data.organ);
+	}else{
+		LEx.dialog({
+			title : "系统提示",
+			content : command.error,
+			icon : 'error',
+			lock : true
+		});
+	}	
+}
+
+function creatListdept(orgs){
+	var len = orgs.length;
+	var strHtml = "";
+	strHtml += '<li title="" tag="" class="active"><a href="#">全部</a></li>';
+	for(var i=0;i<len;i++){
+		if(orgs[i].IS_HALL=="1"){
+			strHtml += '<li title="'+orgs[i].NAME+'" tag="'+orgs[i].CODE+'"><a href="javascript:void(0)">'+orgs[i].SHORT_NAME+'</a></li>';
+		}
+	}
+	$("#collapseTwo").html(strHtml);
+};
+</script>
+<script type="text/template" id="dutyTemplate">
+<ul class="list-group its-list-group-obligation">
+	{for o in data}
+     	<li class="list-group-item"><a href="{{PageContext.ContextPath}}icity/responsibility?id=${o.ID}&org_code=${o.ORG_CODE}" target="_blank">${o.DUTY_CONTENT}</a></li>
+	{/for}
+</ul>
+</script>
+<script type="text/template" id="boundaryTemplate">
+<ul class="list-group its-list-group-obligation">
+	{for o in data}
+     	<li class="list-group-item"><a href="{{PageContext.ContextPath}}icity/boundary?id=${o.ID}&org_code=${o.ORG_CODE}" target="_blank">${o.NAME}</a></li>
+	{/for}
+</ul>
+</script>
+<script type="text/template" id="superviseTemplate">
+<ul class="list-group its-list-group-obligation">
+	{for o in data}
+     	<li class="list-group-item"><a href="{{PageContext.ContextPath}}icity/eventRegulatory" target="_blank">${o.TITLE}</a></li>
+	{/for}
+</ul>
+</script>

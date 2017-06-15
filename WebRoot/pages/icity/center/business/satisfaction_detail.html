@@ -1,0 +1,126 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}project.css" />
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}raty_master/lib/jquery.raty.js"></script>
+<style type="text/css">
+.tab_1 {
+	background: #CCC;
+	font-size: 14px;
+	margin: 10px auto;
+	border-top: 2px solid #37A3DB
+}
+
+.busy-result .tab_1 .tr_1 {
+	line-height: 25px;
+	padding: 5px 10px;
+	background: #F2F6F9;
+	text-align: right;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result .tab_1 .tr_1 .th_1 {
+	padding: 5px 10px;
+	background: #E2EBFF;
+	font-family: 微软雅黑;
+	font-weight: bold;
+	color: #666666;
+	text-align: right;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result .tab_1 .tr_1 .td_1 {
+	padding: 5px 10px;
+	background: #FFFFFF;
+	text-align: left;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result {
+	padding: 20px
+}
+</style>
+{% set code PageContext.Parameter.id%}
+{% set type PageContext.Parameter.type%}
+{% set sqrmc PageContext.Parameter.sqrmc%}
+<div id ="div" class="busy-result">
+	<table class="tab_1" width="100%" height="100%" cellspacing="1">
+		<tr class="tr_1">
+			<th class="th_1" width="35%">服务质量评价</th>
+			<td  class="td_1"><div id="quality"></div> </td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1" width="35%">办件时间评价</th>
+			<td id="time" class="td_1"><div id="time"></div> </td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1" width="35%">业务专业评价</th>
+			<td id="major" class="td_1"><div id="major"></div> </td>
+		</tr>
+	</table>
+</div>
+<script type="text/javascript">
+$.fn.raty.defaults.path = '{{PageContext.JsPath}}raty_master/lib/images/';
+$(function(){
+$('#quality').raty();
+$('#time').raty();
+$('#major').raty();
+});
+
+$("button[op]").click(function(event) {
+	var container = "base-message";
+	//验证div的class为zl-thumbnails-ggfu-2中信息
+	var op=$(this).attr("op");
+	if(op=="submit"){
+		//页面数据验证
+		if(LEx.form.validate(container)){
+			submit();
+		}else{
+			LEx.dialog.tips("请正确填写必填项",1.5);
+		}
+	}
+});
+
+
+/**
+ * <p>评价提交操作</p>
+ * */
+function submit(){
+	
+	if($("#SJDW").val()== ""){
+		LEx.alert("请选择受理部门！");
+		return;
+	}
+	var quality = $('#quality').raty('score');
+	var time = $('#time').raty('score');
+	var major = $('#major').raty('score');
+	if(quality==undefined||time==undefined||major==undefined){
+		LEx.alert("请正确评分！");
+		return;
+	}
+	//调用cmd
+    var cmd = new LEx.Command("app.icity.interactive.satisfaction.SatisfactionEvaluationCmd");
+    //设置传入cmd的参数
+    var starlevel = (quality+time+major)/3;
+    
+    cmd.setParameter("EVALUATE_CONTENT","");
+    cmd.setParameter("SQRMC","{{sqrmc}}");
+    cmd.setParameter("SBLSH","{{code}}");
+    cmd.setParameter("STAR_LEVEL",starlevel);
+    cmd.setParameter("QUALITY_STAR_LEVEL",quality);
+    cmd.setParameter("TIME_STAR_LEVEL",time);
+    cmd.setParameter("MAJOR_STAR_LEVEL",major);
+    cmd.setParameter("type","1");
+    //执行插入
+    cmd.execute("insertNewEvaluation");
+	//返回操作
+	if( !cmd.error ){
+		return true;
+	}else{
+		var ret = cmd.returns;
+		LEx.dialog({title : "系统提示",content : ret.error, icon: 'error' ,lock : true,close:tiaozhuan});
+	}
+}
+function tiaozhuan(){
+	LEx.close("satisfaction");
+}
+</script>

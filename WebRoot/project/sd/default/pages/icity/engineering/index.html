@@ -1,0 +1,97 @@
+<!-- 1、并联审批入口 -->
+{% include icity/engineering/engineeringcss.html %}
+<div class="container" style="width: 1030px !important;">
+	<section class="panel" style="padding: 10px;">
+	<h4 class="text-primary"
+		style="font-size: 20px; background: #e3e7f1; padding: 15px; padding-top: 18px;">
+		<img src="{%public assets/img/adx_bszx.png%}"
+			style="margin-top: -5px;">&nbsp;&nbsp;<strong
+			style="color: #4f719c;">投资项目审批平台</strong> <small>欢迎来到投资项目审批平台</small>
+	</h4>
+	<ul class="nav nav-tabs nav-justified its-nav-tabs-obligation">
+		<li class=""><a data-toggle="tab" href="#o-t-1"
+			aria-expanded="false"> <img
+				src="{%public assets/img/dept_tab_icon11.jpg%}"> 企业投资 </a></li>
+		<li class="active"><a data-toggle="tab" href="#o-t-2"
+			aria-expanded="true"> <img
+				src="{%public assets/img/dept_tab_icon22.jpg%}"> 政府投资 </a></li>
+	</ul>
+	<br>
+	<div class="tab-content"
+		style="padding: 15px 30px; border: 1px solid #d7d7d7; min-height: 550px;">
+		<div class="tab-pane" id="o-t-1">
+			<p class="text-indent" style="line-height: 2;">
+				广东省企业投资项目实行准入负面清单管理制度。负面清单包括禁止准入、核准准入项目。禁止准入项目一律不得审批建设。核准准入项目经批准后方可建设。负面清单以外项目区别不同情况实行承诺准入和告知性备案。
+			</p>
+			<p class="text-indent" style="line-height: 2;">
+				各级政府投资主管部门的核准备案权限按《广东省政府核准的投资项目目录（2014年本）》（粤府〔2015〕3号）、《广东省企业投资项目实行清单管理的意见（试行）》（粤府〔2015〕26号）执行。
+			</p>
+			<p class="text-indent" style="line-height: 2;">
+				属省级权限的项目请点击进入"省级项目"办理；其余项目按照项目属地，点击进入"地市项目" 办理。</p>
+			<br>
+			<div class="fujian">
+				<p>【 附件 】</p>
+				<p class="text-indent" style="line-height: 2;">
+					<a href="#">
+						1.广东省人民政府关于发布《广东省政府核准的投资项目目录（2014年本）》的通知（粤府〔2015〕3号） </a>
+				</p>
+				<p class="text-indent" style="line-height: 2;">
+					<a href="#">2.广东省人民政府关于印发广东省企业投资项目实行清单管理意见（试行）的通知（粤府〔2015〕26号）
+					</a>
+				</p>
+				<p class="text-indent" style="line-height: 2;">
+					<a href="#">3.广东省发展改革委
+						广东省经济和信息化委关于印发广东省主体功能区产业发展指导目录的通知（粤发改产业〔2014〕210号） </a>
+				</p>
+				<p class="text-indent" style="line-height: 2;">
+					<a href="#">4.广东省发展改革委关于全面实行企业投资项目网上备案的指导意见 </a>
+				</p>
+			</div>
+			<br>
+			<div class="col-xs-6 col-xs-offset-3">
+				<button type="button" investType="1"
+					class="btn btn-primary btn-lg btn-block text-center checkType">点击进入
+				</button>
+			</div>
+		</div>
+		<div class="tab-pane active" id="o-t-2">
+			<p class="text-indent" style="line-height: 2;">
+				政府投资项目是指政府机关、企事业单位使用政府资金，以直接投资、资本金注入等投资方式进行的固定资产投资项目。</p>
+			<p class="text-indent" style="line-height: 2;">
+				政府资金包括财政一般预算资金、财政基金预算资金、财政预算外资金、土地出让金、各类行政事业性收费、政府举借债务等其他政府资金。政府投资项目实行审批制，一般需依次审批项目建议书、可行性研究报告、初步设计及概算。
+			</p>
+			<p class="text-indent" style="line-height: 2;">
+				地方政府投资项目，除规定须报国家发展改革委或省人民政府审批外，全部由本级政府投资主管部门审批。</p>
+			<br>
+			<div class="col-xs-6 col-xs-offset-3">
+				<button type="button" investType="0"
+					class="btn btn-primary btn-lg btn-block text-center checkType">点击进入
+				</button>
+			</div>
+		</div>
+	</div>
+	</section>
+</div>
+<script>
+/**
+ * 进入选择投资项目类别页面0政府1企业
+ * 政府下面是审批类，企业是核准和备案类
+ */
+$(function(){	
+	$(".checkType").click(function(){
+		var obj = $(this).attr("investType");
+		var data = {};
+		data.investType = obj;
+		var m_href = "{{cp}}icity/engineering/checktype?"+LEx.urlEncode(data);
+		if(obj=="0"){//政府，直接到选择项目阶段checkstage?investType=0&flowType=A00003
+			$.each(TZSPXMLX,function(i,e){
+				if(e.name.indexOf("审批")>-1){
+					data.flowType = e.code;
+				}
+			});			
+			m_href = "{{cp}}icity/engineering/checkstage?"+LEx.urlEncode(data);
+		}
+		window.open(m_href,"_self");
+	});
+});
+</script>

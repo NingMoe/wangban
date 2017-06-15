@@ -1,0 +1,227 @@
+<style>
+/*强制不显示横向滚动条，纵向滚动条会在内容过多时自动显示*/
+html { /*overflow:hidden;*/
+	background: #F5F6F7;
+	overflow-x: hidden;
+}
+</style>
+{% set id PageContext.Parameter.id%}
+<section class="panel panel-primary" style="border-color: #ddd;"
+	id="form"> <header class="panel-heading no-bordered"
+	style="margin: -1px; padding: 15px; background-color:#4f719c;">
+<a class="btn btn-primary pull-right"
+	style="background-color: #728db0; margin-top: -8px;"
+	href="javascript:void(0);" onclick="EngineeringList();">返回项目列表
+	&rarr;</a>
+<h3 class="panel-title">
+	<strong>项目信息</strong>
+</h3>
+</header>
+<table class="table table-bordered its-table-details">
+	<tbody>
+		<tr>
+			<th class="text-right active" width="18%">项目编号：</th>
+			<td><div tag="PROJECT_ID" id="PROJECT_ID"></div></td>
+			<th class="text-right active" width="18%">项目名称：</th>
+			<td><div tag="PROJECT_NAME" id="PROJECT_NAME"></div></td>
+		</tr>
+		<tr>
+			<th class="text-right active">政府投资项目编码：</th>
+			<td><div id="GOVERNMENT_INVESTMET_ID"></div></td>
+			<th class="text-right active">注册时间：</th>
+			<td>
+				<div tag="CREATE_TIME" style="width: 200px;" id="CREATE_TIME"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="text-right active">总投资额：</th>
+			<td>
+				<div tag="TOTAL_INVESTMENT" style="width: 200px;"
+					id="TOTAL_INVESTMENT"></div></td>
+			<th class="text-right active">建设单位全称：</th>
+			<td>
+				<div tag="CONSTRUCTION_UNIT" style="width: 200px;"
+					id="CONSTRUCTION_UNIT"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="text-right active">注册资金：</th>
+			<td>
+				<div tag="REGISTERED_CAPITAL" style="width: 200px;"
+					id="REGISTERED_CAPITAL"></div>
+			</td>
+			<th class="text-right active">单位电话：</th>
+			<td>
+				<div tag="UNIT_PHONE" style="width: 200px;" id="UNIT_PHONE"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="text-right active">建设单位组织机构代码：</th>
+			<td>
+				<div tag="UNIT_CODE" style="width: 200px;" id="UNIT_CODE"></div>
+			</td>
+			<th class="text-right active">法人代表：</th>
+			<td>
+				<div tag="LEGAL_MAN" style="width: 200px;" id="LEGAL_MAN"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="text-right active">联系人：</th>
+			<td>
+				<div tag="CONTACT_MAN" style="width: 200px;" id="CONTACT_MAN"></div>
+			</td>
+			<th class="text-right active">联系人身份证：</th>
+			<td>
+				<div tag="CONTACT_MAN_ID" style="width: 200px;" id="CONTACT_MAN_ID"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="text-right active">联系人联系方式：</th>
+			<td>
+				<div tag="CONTACTS" style="width: 200px;" id="CONTACTS"></div>
+			</td>
+			<th class="text-right active">年份：</th>
+			<td>
+				<div tag="YEAR" style="width: 200px;" id="YEAR"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="text-right active">序列号：</th>
+			<td>
+				<div tag="SERIAL_NUMBER" style="width: 200px;" id="SERIAL_NUMBER"></div>
+			</td>
+			<th class="text-right active">用地面积：</th>
+			<td>
+				<div tag="LAND_AREA" style="width: 200px;" id="LAND_AREA"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="text-right active">项目地址：</th>
+			<td>
+				<div tag="PROJECT_ADDRESS" style="width: 200px;"
+					id="PROJECT_ADDRESS"></div>
+			</td>
+			<th class="text-right active">单位地址：</th>
+			<td>
+				<div tag="UNIT_ADDRESS" style="width: 200px;" id="UNIT_ADDRESS"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="text-right active">行政区划简写：</th>
+			<td>
+				<div tag="UNIT_IN_SHORT" style="width: 200px;" id="UNIT_IN_SHORT"></div>
+			</td>
+			<th class="text-right active">主项目编码：</th>
+			<td>
+				<div tag="MAINPROJECTCODE" style="width: 200px;"
+					id="MAINPROJECTCODE"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="text-right active">所属行业名称：</th>
+			<td>
+				<div tag="INDUSTRYNAME" style="width: 200px;" id="INDUSTRYNAME"></div>
+			</td>
+			<th class="text-right active">拟开工时间：</th>
+			<td>
+				<div tag="STARTYEAR" style="width: 200px;" id="STARTYEAR"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="text-right active">拟建成时间：</th>
+			<td>
+				<div tag="ENDYEAR" style="width: 200px;" id="ENDYEAR"></div>
+			</td>
+			<th class="text-right active">建设内容：</th>
+			<td>
+				<div tag="PROJECTCONTENT" style="width: 200px;" id="PROJECTCONTENT"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="text-right active">投资项目行业分类编码：</th>
+			<td>
+				<div tag="PERMITINDUSTRY" style="width: 200px;" id="PERMITINDUSTRY"></div>
+			</td>
+			<th class="text-right active">是否开发区项目：</th>
+			<td>
+				<div tag="ISDEAREA" style="width: 200px;" id="ISDEAREA"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="text-right active">申报日期：</th>
+			<td>
+				<div tag="APPLYDATE" style="width: 200px;" id="APPLYDATE"></div>
+			</td>
+			<th class="text-right active">开发区名称：</th>
+			<td>
+				<div tag="DEAREANAME" style="width: 200px;" id="DEAREANAME"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="text-right active">核准目录编码：</th>
+			<td>
+				<div tag="PERMITITEMCODE" style="width: 200px;" id="PERMITITEMCODE"></div>
+			</td>
+			<th class="text-right active">建设地点：</th>
+			<td>
+				<div tag="PLACECODE" style="width: 200px;" id="PLACECODE"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="text-right active">项目法人证照号码：</th>
+			<td>
+				<div tag="LEREPNO" style="width: 200px;" id="LEREPNO"></div>
+			</td>
+			<th class="text-right active">联系人邮箱：</th>
+			<td>
+				<div tag="CONTACTEMAIL" style="width: 200px;" id="CONTACTEMAIL"></div>
+			</td>
+		</tr>
+
+	</tbody>
+</table>
+</section>
+<script>
+	var editor;
+	$(function() {
+		loaddata();
+	});
+	var editor;
+	function loaddata() {
+		var id = "{{id}}";
+		if (isNotNull(id)) {
+			var command = new LEx.Command(
+					"app.icity.engineering.EngineeringCmd");
+			command.setParameter("PROJECT_ID", id);
+			var ret = command.execute("getProjectInfoById");
+			if (ret.state == 1) {
+				if (ret.data.length > 0) {
+					var d = ret.data[0];
+					LEx.form.set("form", d);
+					$("#ISDEAREA").html(FormatIsFlag($("#ISDEAREA").html()));
+				}
+			} else {
+				LEx.dialog({
+					title : "系统提示",
+					content : ret.message,
+					icon : 'error',
+					lock : true
+				});
+			}
+		}
+	}
+
+	function editorFun(obj) {
+		editor = obj;
+	}
+
+	function formatFlag(val) {
+		if (val == '1') {
+			return "是";
+		} else if (val == '0') {
+			return "否";
+		} else {
+			return "";
+		}
+	}	
+</script>

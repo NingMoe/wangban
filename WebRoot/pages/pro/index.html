@@ -1,0 +1,605 @@
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/icity.js"></script>
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.form.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+<script src="{{PageContext.JsPath}}/chart/echarts.js"></script>
+<script src="{{PageContext.JsPath}}/chart/modules/exporting.js"></script>
+<script>
+$(function(){
+	onQuery(1,"动态信息",11,1);//onQuery(页码,栏目名称,显示条数,每条长度（1为20,2为16）)
+	function onQuery(start,cnamea,lim,lon){		
+		 var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+		cmd.setParameter("channel.name@=", cnamea);
+	    cmd.setParameter("CHECKS@=", '1');
+	    cmd.setParameter("content.rid@=", '{{ConfigInfo.WebRegion}}');
+	    cmd.setParameter("isDtyw","0");
+	    //cmd.setParameter("sort"," ID DESC");
+	    cmd.setParameter("sort"," CTIME DESC");
+		cmd.setParameter("start", (start-1)*lim);
+		cmd.setParameter("limit", lim);
+		var ret = cmd.execute("getList"); 
+		if(!ret.error){
+			if(lon==1){
+     			$("#"+cnamea).html(LEx.processDOMTemplate("MattersListTemplate1",ret));
+			}
+		}else{
+			LEx.alert(ret.error);
+		}
+	}
+	
+	jQuery(document).ready(function($) {
+		$(".panel-body select").change(function(event) {
+			var value = $(this).attr("value");
+			if(value != null && value!=""){
+				window.open(value);
+			}
+		});
+	});
+	
+	//统计申报项目概况
+	tj();
+});
+function formatDate(obj) {
+	return LEx.util.Format.formatDate(obj);
+}
+
+function parseLength(val,len) {
+	if (LEx.isNotNull(val)&&val.length>len) {
+		return val.substring(0,len)+"...";
+	} else {
+		return val;
+	}
+}
+function getApplicationInfo(){
+	getRepId("70A9E8AF89214194A7B3BD0075E4A74A");
+	
+	shenbao("");
+}
+var formId_rep = "";
+var flowId_rep = "";
+function getRepId(flowId){
+	formId_rep = "TouZiZiXunFuWu";
+	/* var cmd = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+	cmd.setParameter("flowId",flowId);
+	var ret = cmd.execute("zs_getApplicationInfo");
+	if(!cmd.error){
+		if(ret.data){
+			
+		}
+	}else{
+		LEx.dialog({
+			title : "系统提示",
+			content : cmd.error,
+			icon : 'error',
+			lock : true
+		});
+	} */
+};
+
+function shenbao(id){
+	var data = {};
+	data.formId = formId_rep;
+	window.open("{{PageContext.ContextPath}}pro/zxfw?"+LEx.urlEncode(data));
+	
+};
+
+function tj(){
+	var options1={};
+    var str1 = {};
+    var myChart = echarts.init(document.getElementById('container'));
+    options1 = {
+   	    title : {
+   	        x:'center'
+   	    },
+   	    tooltip : {
+   	        trigger: 'item',
+   	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+   	    },
+   	    series : [
+   	        {
+   	        	name:'',
+   	            type: 'pie',
+   	            radius : '35%',
+   	            center: ['50%', '40%'],
+   	            data:[],
+   	            itemStyle: {
+   	                emphasis: {
+   	                    shadowBlur: 1,
+   	                    shadowOffsetX: 0,
+   	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+   	                },
+   	             normal: {
+   	              	labelLine: {
+   	                show: true,
+   	                length:0.01
+   	              }
+   	            }
+   	            }
+   	        }
+   	    ]
+   	};
+    
+	var d = [];
+    var data = [];
+  	//投资统计
+   	var command = new LEx.Command("app.icity.pro.ProCmd");
+   	command.setParameter("regionCode","{{ConfigInfo.WebRegion}}");
+   	var ret = command.execute("getProjectCount");
+   	if(ret==''||ret==null){
+   		$("#projectTotal").html("0个");
+   		$("#shenpiProject").html("0个");
+   		$("#hezhunProject").html("0个");
+   		$("#beianProject").html("0个");
+   		$("#amount").html("0万元");
+   	}else{
+   		if(ret.data.projectTotal==undefined){
+   			$("#projectTotal").html("0个");	
+   		}else{
+   		$("#projectTotal").html(ret.data.projectTotal+"个");
+   		}
+   		if(ret.data.shenpiProject == undefined){
+   			$("#shenpiProject").html("0个");
+   		}else{
+   			$("#shenpiProject").html(ret.data.shenpiProject+"个");
+   		}
+   		if(ret.data.hezhunProject == undefined){
+   			$("#hezhunProject").html("0个");
+   		}else{
+   			$("#hezhunProject").html(ret.data.hezhunProject+"个");
+   		}
+   		if(ret.data.beianProject == undefined){
+   			$("#beianProject").html("0个");
+   		}else{
+   			$("#beianProject").html(ret.data.beianProject+"个");
+   		}
+   		if(ret.data.amount==undefined){
+   		$("#amount").html("0万元");
+   		}else{
+   			$("#amount").html(ret.data.amount+"万元");
+   		}
+   		
+   		var name0 = ret.data.top0.name.length>0?formatLenStr(ret.data.top0.name,0,15):"";
+   		var name1 = ret.data.top1.name.length>0?formatLenStr(ret.data.top1.name,0,15):"";
+   		var name2 = ret.data.top2.name.length>0?formatLenStr(ret.data.top2.name,0,15):"";
+   		var name3 = ret.data.top3.name.length>0?formatLenStr(ret.data.top3.name,0,15):"";
+   		var name4 = ret.data.top4.name.length>0?formatLenStr(ret.data.top4.name,0,15):"";
+   		var nameother = ret.data.other.name.length>0?formatLenStr(ret.data.other.name,0,15):"";
+   		data[0] = {value:ret.data.top0.sum,name:name0};
+   		data[1] = {value:ret.data.top1.sum,name:name1};
+   		data[2] = {value:ret.data.top2.sum,name:name2};
+   		data[3] = {value:ret.data.top3.sum,name:name3};
+   		data[4] = {value:ret.data.top4.sum,name:name4};
+   		data[5] = {value:ret.data.other.sum,name:nameother}; 
+   		
+   		d.push(data[0]);
+   		d.push(data[1]);
+   		d.push(data[2]);
+   		d.push(data[3]);
+   		d.push(data[4]);
+   		//d.push(data[5]);
+   	}	
+   	options1.series[0].data = d;
+    myChart.setOption(options1);
+}
+
+</script>
+<style>
+.zl-list-unstyled-ggfu-3 {
+
+}
+.zl-list-unstyled-ggfu-3 > li {
+  padding: 4px 10px 0 10px;
+  border-bottom: 1px dashed #ddd;
+}
+.zl-list-unstyled-ggfu-3 > li p,
+.zl-list-unstyled-ggfu-3 > li span,
+.zl-list-unstyled-ggfu-3 > li time,
+.zl-list-unstyled-ggfu-3 > li em {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 5px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.zl-list-unstyled-ggfu-3 > li p {
+  width: 35%;
+  margin: 0;
+}
+.zl-list-unstyled-ggfu-3 > li span {
+  width: 15%;
+}
+.zl-list-unstyled-ggfu-3 > li time {
+  width: 10%;
+}
+.zl-list-unstyled-ggfu-3 > li em {
+  width: 9%;
+  font-style: normal;
+}
+</style>
+<script type="text/template" id="MattersListTemplate1">
+{for o in data}
+	<li class="list-group-item alpha omega">
+    	<time class="text-muted pull-right">${formatDate(o.CTIME)}</time>
+        <i class="mdicon mdicon-play-arrow f12"></i>
+		{if o.TYPE==3 }
+			<a title="${o.NAME}" href="${o.URL}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${parseLength(o.NAME,15)}</a>
+		{else}
+			<a title="${o.NAME}" href="{{cp}}pro/base-1?ID=${o.ID}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${parseLength(o.NAME,15)}</a>
+		{/if}
+    </li>
+{/for}
+</script> 
+<div style="padding: 0 40px 0 40px;width:1080px;margin:0px auto;">
+    <div class="row" style="background-color: #fff;">
+        <div class="col-xs-7">
+            <h4><strong>项目申报</strong></h4>
+            <div class="tab-content" style="border-top: 3px #29588c solid; padding-top: 20px; margin-bottom: 40px;">
+                <div class="tab-pane fade in active" id="k-i-1">
+                    <section class="panel panel-default" style="padding: 30px; height: 330px; overflow: hidden;">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <a class="thumbnail text-center" href="{{cp}}pro/sbtz?type=sp" target="_blank">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-1.png%}" alt="">
+                                    <br>
+                                    <h4 class="delta">审批类申报</h4>
+                                </a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a class="thumbnail text-center" href="{{cp}}pro/sbtz?type=hz" target="_blank">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-2.png%}" alt="">
+                                    <br>
+                                    <h4 class="delta">核准类申报</h4>
+                                </a>
+                            </div> 
+                            <div class="col-xs-4">
+                                <a class="thumbnail text-center" href="#" data-toggle="modal" data-target=".bs-example-modal-fix">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-3.png%}" alt="">
+                                    <br>
+                                    <h4 class="delta">备案类申报</h4>
+                                </a>
+                            </div>
+                            
+                        </div>
+                        <hr>
+                        <div class="text-muted">
+                            <p>政府投资项目请选择审批项目</p>
+                            <p>企业投资项目在舟山市发布<a href="{{PageContext.ContextPath}}pro/contentdetail?cname=投资项目核准目录" target="_blank">政府核准投资项目目录(2016年本)</a>内请选择核准项目</p>
+                            <p>其他项目请选择备案项目</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <h4><strong>我的项目</strong></h4>
+            <div class="tab-content" style="border-top: 3px #29588c solid; padding-top: 20px;  margin-bottom: 55px;">
+                <div class="tab-pane fade in active" id="k-i-2">
+                    <section class="panel panel-default" style="padding: 20px; overflow: hidden;">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <a class="thumbnail text-center" href="{{cp}}pro/wdxm?href=%23x-p-1" target="_blank">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-4.png%}" alt="">
+                                    <br>
+                                    <h4 class="delta">进度查询</h4>
+                                </a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a class="thumbnail text-center" href="{{cp}}pro/wdxm?href=%23x-p-2" target="_blank">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-5.png%}" alt="">
+                                    <br>
+                                    <h4 class="delta">登记单打印</h4>
+                                </a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a class="thumbnail text-center" href="{{cp}}pro/wdxm?href=%23x-p-3" target="_blank">
+                                    <img class="img-circle" src="{% public zs/pro/assets/img/i-c-6.png%}" alt="">
+                                    <br>
+                                    <h4 class="delta">报告上传</h4>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <h4><strong>互动专区</strong></h4>
+            <div class="tab-content" style="border-top: 3px #29588c solid; padding-top: 20px;">
+                <div class="tab-pane fade in active" id="k-i-2">
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="{{PageContext.ContextPath}}icity/interactive/contactUS" target="_blank" style="text-decoration:none;">
+                                     <img src="{% public zs/pro/image/1.png%}">
+                                    <p class="fuwu-p">意见建议</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="{{PageContext.ContextPath}}icity/interactive/onlineSurvey?type=1" target="_blank">
+                                <img src="{% public zs/pro/image/2.png%}">
+                                <p class="fuwu-p">网上调查</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="{{PageContext.ContextPath}}icity/interactive/onlineBooking" target="_blank">
+                                <img src="{% public zs/pro/image/3.png%}">
+                                <p class="fuwu-p">网上预约</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="{{PageContext.ContextPath}}icity/interactive/satisfaction" target="_blank">
+                                <img src="{% public zs/pro/image/4.png%}">
+                                <p class="fuwu-p">网上评价</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="#" target="_self" onclick="contentQuery1('yhsc');">
+                                <img src="{% public zs/pro/image/5.png%}">
+                                <p class="fuwu-p">用户手册</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px;">
+                        
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="{{PageContext.ContextPath}}icity/interactive/base?type=ckdh" target="_blank">
+                                <img src="{% public zs/pro/image/6.png%}">
+                                <p class="fuwu-p">联系电话</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                               <a href="{{ConfigInfo.Complain}}"  target="_blank" class="thumbnail">
+                                <img src="{% public zs/pro/image/7.png%}">
+                                <p class="fuwu-p">网上投诉</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="{{PageContext.ContextPath}}queryletter" target="_blank">
+                                <img src="{% public zs/pro/image/8.png%}">
+                                <p class="fuwu-p">回复查询</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="javascript:void(0)"  onclick="getApplicationInfo()">
+                                <img src="{% public zs/pro/image/9.png%}">
+                                <p class="fuwu-p">咨询服务</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="hudong">
+                                <a href="{{PageContext.ContextPath}}pro/contentdetail?cname=常见问题" target="_blank">
+                                <img src="{% public zs/pro/image/10.png%}">
+                                <p class="fuwu-p">常见问题</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>     
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="col-xs-5" style="font-size:15px;">
+            <header class="panel-heading alpha omega clearfix" style="padding: 0;">
+                    <a class="pull-right text-muted" href="{{PageContext.ContextPath}}pro/base-2?cname=动态信息&websitetype=0"  target="_blank" style="margin-top:6px;">查看更多 </a>
+                    <h4><strong>动态信息</strong></h4>
+                </header>
+            <div class="tab-content" style="border-top: 3px #29588c solid; padding-top: 6px; margin-bottom: 58px;height: 334px;">
+                <div class="tab-pane fade in active" id="u-s-1">
+                    <ul class="list-group sd-list-group-1" style="border: 0; margin-top: 6px; font-size: 15px;" id="动态信息">
+                    </ul>
+                </div>
+            </div>
+            <h4><strong>为您服务</strong></h4>
+            <div class="tab-content" style="border-top: 3px #29588c solid; padding-top: 20px; margin-bottom: 60px;">
+                <div class="tab-pane fade in active" id="k-i-2">
+                    <div class="row" style="margin-bottom: 10px;">
+                        
+                        <div class="col-xs-6">
+                            <div class="fuwu">
+                                <a href="{{cp}}pro/dltz" target="_blank" style="text-decoration: none;">
+                                <img src="{% public zs/pro/image/项目代理.png%}">
+                                <span class="fuwu-span">无偿代理</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="fuwu">
+                                <a href="http://pay.zjzwfw.gov.cn/index.htm" target="_blank" style="text-decoration: none;">
+                                <img src="{% public zs/pro/image/统一支付.png%}">
+                                <span class="fuwu-span">统一支付</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-6">
+                            <div class="fuwu">
+                                <a href="{{PageContext.ContextPath}}pro/base-2?cname=下载专区&websitetype=0" target="_blank" style="text-decoration: none;">
+                                <img src="{% public zs/pro/image/下载.png%}">
+                                <span class="fuwu-span">下载专区</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="fuwu">
+                                <a href="{{PageContext.ContextPath}}pro/base-2?cname=流程指引&websitetype=0" target="_blank" style="text-decoration: none;">
+                                <img src="{% public zs/pro/image/流程指引.png%}">
+                                <span class="fuwu-span">流程指引</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-6">
+                            <div class="fuwu">
+                                <a href="{{PageContext.ContextPath}}pro/base-2?cname=文件资料&websitetype=0" target="_blank">
+                                <img src="{% public zs/pro/image/文件资料.png%}">
+                                <span class="fuwu-span">文件资料</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="fuwu">
+                                <a href="{{cp}}center/index" target="_blank" style="text-decoration: none;">
+                                <img src="{% public zs/pro/image/企业网页.png%}">
+                                <span class="fuwu-span">企业网页</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>    
+                </div>
+            </div>
+            <h4>
+            {% if '{{ConfigInfo.AppId}}'=='zs' %}
+            <strong>申报项目情况</strong>
+            {% else %}
+             <strong>全市申报项目情况</strong>
+            {% endif %}
+            </h4>
+            <div class="tab-content" style="border-top: 3px #29588c solid; padding-top: 20px;">
+                <div class="tab-pane fade in active" id="k-i-2">
+                    <div class="row">
+                        <div class="col-xs-6">
+                           <header style=" background-color:#EDEDED; padding:3px 8px 3px; margin-bottom:10px; ">
+                           <h4>申报项目概况</h4>
+                            </header>
+                            <div>
+                               <p style="font-size:14px;">投资项目总数<span id="projectTotal" class="pull-right" style="color:#808080;"></span></p>
+                               <p style="font-size:14px;">审批类项目<span id="shenpiProject" class="pull-right"  style="color:#808080"></span></p>
+                               <p style="font-size:14px;">核准类项目<span id="hezhunProject" class="pull-right"  style="color:#808080"></span></p>
+                               <p style="font-size:14px;">备案类项目<span id="beianProject" class="pull-right"  style="color:#808080"></span></p>
+                               <p style="font-size:14px;">总投资<span id="amount" class="pull-right"  style="color:#808080"></span></p>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <header style=" background-color:#EDEDED; padding:3px 8px 3px; margin-bottom:10px; ">
+                           <h4>申报项目行业TOP5</h4>
+                            </header>
+                            <div>
+                                <div id="container" style="height:160px"></div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="background-color: #fff;">
+        <div class="col-xs-12" style="margin-top:15px;">
+           {% widget "icity.ProBusyInfoStateListWidget" %} 
+           
+        </div>
+
+        <div class="col-xs-12">
+           <section class="panel panel-default" style="border: 0; margin-bottom: 0;">
+               <header class="panel-heading alpha omega clearfix" style="background-color: #fff; margin: -1px; border-bottom: 3px solid #29588C;">
+                    <h4><strong>平台导航</strong></h4>
+                </header>
+                    <div class="panel-body" style="padding: 20px 0px ;">
+                        <select style="margin-left:0px;width:19%;">
+                        	<option value="">&nbsp;&nbsp;&nbsp;--中央平台--&nbsp;&nbsp;&nbsp;</option>
+                            <option value="http://www.tzxm.gov.cn/index.html">&nbsp;&nbsp;&nbsp;中央平台&nbsp;&nbsp;&nbsp;</option>
+                        </select>
+                        <select style="width:19%;">
+                            <option value="">&nbsp;&nbsp;&nbsp;--省级平台--&nbsp;&nbsp;&nbsp;</option>
+                            <option value="http://tzxm.zjzwfw.gov.cn">&nbsp;&nbsp;&nbsp;浙江省&nbsp;&nbsp;&nbsp;</option>
+                        </select>          
+                        <select style="width:19%;">
+                            <option value="">&nbsp;&nbsp;&nbsp;--县区平台--&nbsp;&nbsp;&nbsp;</option>
+                            <option value="http://www.dh.zszwfw.gov.cn/zsdh/pro/index">&nbsp;&nbsp;&nbsp;定海区&nbsp;&nbsp;&nbsp;</option>
+                            <option value="http://www.pt.zszwfw.gov.cn/zspt/pro/index">&nbsp;&nbsp;&nbsp;普陀区&nbsp;&nbsp;&nbsp;</option>
+                            <option value="http://www.ds.zszwfw.gov.cn/zsds/pro/index">&nbsp;&nbsp;&nbsp;岱山县&nbsp;&nbsp;&nbsp;</option>
+                            <option value="http://www.ss.zszwfw.gov.cn/zsss/pro/index">&nbsp;&nbsp;&nbsp;嵊泗县&nbsp;&nbsp;&nbsp;</option>
+                        </select>
+                        <select style="width:20%;">
+                            <option value="">&nbsp;&nbsp;&nbsp;--功能区平台--&nbsp;&nbsp;&nbsp;</option>
+                            <option value="http://www.hycy.zszwfw.gov.cn/zshycy/pro/index">&nbsp;&nbsp;&nbsp;海洋产业集聚区&nbsp;&nbsp;&nbsp;</option>
+                            <option value="http://www.xc.zszwfw.gov.cn/zsxc/pro/index">&nbsp;&nbsp;&nbsp;新城管委会&nbsp;&nbsp;&nbsp;</option>
+                            <option value="http://www.pts.zszwfw.gov.cn/zsptszjj/pro/index">&nbsp;&nbsp;&nbsp;普陀区朱家尖管委会&nbsp;&nbsp;&nbsp;</option>
+                            <option value="http://www.lh.zszwfw.gov.cn/zslh/pro/index">&nbsp;&nbsp;&nbsp;六横管委会&nbsp;&nbsp;&nbsp;</option>
+                            <option value="http://www.jt.zszwfw.gov.cn/zsjt/pro/index">&nbsp;&nbsp;&nbsp;金塘管委会&nbsp;&nbsp;&nbsp;</option>
+                        </select>
+                        <select style="width:21%;">
+                            <option value="">&nbsp;&nbsp;&nbsp;--市级部门--&nbsp;&nbsp;&nbsp;</option>
+                          	<option value="http://www.zseco.gov.cn/">经信委</option>
+							<option value="http://www.zsi.gov.cn/">发改委（统计局）</option>
+							<option value="http://www.zsjy.gov.cn/">教育局</option>
+							<option value="http://www.zseco.gov.cn/">科技局</option>
+							<option value="http://www.zstzb.gov.cn/">民宗局</option>
+							<option value="http://www.police.zhoushan.gov.cn/">公安局</option>
+							<option value="http://www.zsmzj.gov.cn/">民政局</option>
+							<option value="http://www.zssfj.gov.cn/">司法局</option>
+							<option value="http://www.zsrls.gov.cn/">人力社保局</option>
+							<option value="http://www.zscj.gov.cn/jw_index.html">住建局（规划局）</option>
+							<option value="http://www.zsjtw.gov.cn/gzfw/">交通局</option>
+							<option value="http://www.zssl.gov.cn/">水利局</option>
+							<option value="http://www.zsnl.com/">农林与渔农村委</option>
+							<option value="http://www.zscom.gov.cn/">商务局</option>
+							<option value="http://www.zsoaf.gov.cn/">海洋与渔业局</option>
+							<option value="http://www.zswh.gov.cn/">文化广电新闻出版局（体育局）</option>
+							<option value="http://www.zswsj.gov.cn/">卫生和计划生育局</option>
+							<option value="http://www.zshbj.gov.cn/">环保局</option>
+							<option value="http://www.zsblr.gov.cn/">国土资源局</option>
+							<option value="http://www.zsaqjg.gov.cn/">安监局</option>
+							<option value="http://www.zseco.gov.cn/">外侨办</option>
+							<option value="http://www.zsrf.gov.cn/">人防办</option>
+							<option value="http://www.zsscjg.gov.cn/">市场监督管理局</option>
+							<option value="http://www.zsport.com.cn/">港航局</option>
+							<option value="http://www.zsdaj.gov.cn/">档案局（史志办）</option>
+							<option value="http://www.zshyqx.com/">气象局</option>
+							<option value="http://www.zsxf119.com/">消防支队</option>
+							<option value="http://www.zstour.gov.cn/">旅游委</option>
+							<option value="http://www.zscs.gov.cn/">财税局</option>
+							<option value="http://www.zsjtw.gov.cn/subsite/zsgl/index.jsp">公路局</option>
+							<option value="http://www.zsjgbz.gov.cn/">编办</option>	
+                        </select>
+                    </div>
+            </section>
+        </div>
+    </div>
+</div>
+<div id="bs-example-modal-fix"
+				class="modal fade bs-example-modal-fix" tabindex="-1" role="dialog"
+				aria-labelledby="myLargeModalLabel" aria-hidden="true" style="margin-left:265px;">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content" style="width: 700px;height:200px;algin:center;">
+						<div class="modal-header" style="background-color:#2982e8;">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">×</span>
+							</button>
+							<h4 class="modal-title">
+								温馨提示
+							</h4>
+						</div>
+						<div class="modal-body"style="width:600px;height:150px;">
+							<div class="form-group" style="margin-left:30px;font-size:16px;">
+							<p>基本建设项目请通过"<a style="text-decoration:underline;" href="http://invest.zj.gov.cn/Owner.asp">
+							<b>浙江省企业投资项目备案系统</b></a>"进行登记</p>
+							<br>
+							<p>技术改造项目请通过"<a style="text-decoration:underline;" href="http://xmtz.zjjxw.gov.cn/index.jsp">
+							<b>浙江省工业投资（技术改造）管理系统</b></a>"进行登记</p>
+							</div>
+							<br>
+						</div>
+						
+					</div>
+				</div>
+	</div>

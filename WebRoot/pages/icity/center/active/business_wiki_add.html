@@ -1,0 +1,106 @@
+<style type="text/css">
+body {
+	background:#EEF5FD;
+} 
+</style>
+
+<div>
+<form id="appForm" action="report" method="post">
+	
+	<div id="form" style="width:80%;padding:10px 60px;margin:10px auto" class="boxTop">
+	  	<div style="font-family:微软雅黑;font-size: 18px; margin:10px 0px 10px 20px"> 
+	  		<b style="padding-right:2px;padding-left:12px;border-left:5px solid #56B6E0;">办事攻略信息</b>
+	        <div style=" float:right"> 
+	           
+	        </div>
+	    </div>
+	    <input id="SBLSH" type="hidden" tag="BID">
+	    <input ID="SXBM" type="hidden" tag="PID">
+	    <table class="baseform" align="center">
+	        <colgroup>
+	            <col style="width: 20%;"></col>
+	            <col style="width: 30%;"></col>
+	            <col style="width: 20%;"></col>
+	            <col style="width: 30%;"></col>
+	        </colgroup>
+	        <tr>
+				<th>话题名称</th>
+				<td colspan="3"><input id="wiki_title" type="text"  tag="NAME" style="width: 565px"></div></td>
+			</tr>	
+			<tr>	
+				<th>话题内容</th>
+				<td colspan="3">
+				<textarea rows="6" id="wiki_content" cols="7" style="width:99%; height:300px;font-size: 14px" tag="CONTENT"></textarea>
+				</td>
+			</tr>	
+		</table>
+	</div>
+</form>
+</div>
+<script type="text/javascript">
+
+	var editor;
+	$(document).ready(function(e) {
+		LEx.Control.editor("wiki_content",editorFun);
+		var id = LEx.urldata.id;
+		if(isNotNull(id)){
+			onQuery();
+		}
+	});
+	function editorFun(obj){
+		editor = obj;
+	}
+	
+	function onQuery(){
+		var cmd = new LEx.Command("app.icity.project.ProjectIndexCmd");
+	    	cmd.setParameter("ID@=",LEx.urldata.id);
+			var ret =  cmd.execute("getWiki");
+		  	if (ret.state == 1) {
+		  		$('#wiki_title').val(ret.data.NAME);
+		  		$('#id').val(LEx.urldata.id);
+		  		$('#wiki_content').html(ret.data.CONTENT);
+	        } else {
+	            LEx.dialog({ title: "系统提示", content: ret.message, icon: 'error' ,lock:true});
+	        }
+	}
+	
+	function postData(){
+		var title = $('#wiki_title').val();
+		var content = editor.html();
+		if(!LEx.isNotNull(title)){
+			LEx.alert("请输入攻略标题");
+			return false;
+		}
+		if(!LEx.isNotNull(content)){
+			LEx.alert("请输入攻略内容");
+			return false;
+		}
+		var cmd = new LEx.Command("app.icity.wiki.BusinessWikiCmd");
+		var bid = LEx.urldata.bid;
+		var pid = LEx.urldata.pid;
+	    	cmd.setParameter("SBLSH",bid);
+	    	cmd.setParameter("SXBM",pid);
+	    	cmd.setParameter("NAME",title);
+	    	cmd.setParameter("CONTENT",content);
+	    	// cmd.setParameter("USERID",LEx.userInfo.uid.toString());
+	    	//获取主键
+	        var id = LEx.urldata.id;
+	    	var ret = null;
+	        if(isNotNull(id)){
+	        	//如果有主键则修改
+	        	cmd.setParameter("ID",id);
+	        	ret = cmd.execute("update");
+	        }else{
+	        	//如果没有主键则为添加
+	        	//command.setParameter("ID", Guid.newGuid());
+	        	ret = cmd.execute("insert");
+	        }
+		  	if (ret.state == 1) {
+		  		LEx.dialog({ title: "系统提示", content: "操作成功", icon: 'succeed' ,lock:true});
+		  		return true;
+	        } else {
+	            LEx.dialog({ title: "系统提示", content: ret.message, icon: 'error' ,lock:true});
+	        }
+	}
+
+</script>

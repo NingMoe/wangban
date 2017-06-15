@@ -1,0 +1,204 @@
+<script src="{{PageContext.PagePath}}icity/submitsp/assets/js/My97DatePicker/WdatePicker.js"></script>
+<script>
+var names={"tzdt":"投资动态","tsfw":"特色服务","spsxsqblz":"审批事项授权办理制","zdxmblsbz":"重点项目并联审批制","qyzdxmdbz":"企业重大项目代办制","sjldspgzz":"三级联动审批工作制"};
+var type = "flfg";
+
+$(function(){
+	if(LEx.urldata.type){
+		type = LEx.urldata.type;	
+	}	
+	$(".active").removeClass("active");
+	$("#"+type).addClass("active");
+	$("#list_name").html(($("#"+type).find("a").html()));
+	
+	$('.jqpagination').jqPagination({
+		paged: function(page) {
+			onQueryZcfg(page,names[type]);
+		},
+		page_string:"第{current_page}页   共{max_page}页"
+	});
+	
+	onQueryZcfg(1,names[type]);
+	$.each(deptList.data.organ, function(i,elem){
+		$("#deptSelect").append("<option value='"+elem.CODE+"' >"+elem.NAME+"</option>");
+	});
+});
+
+$(function(){
+	$("#ul_list > li").click(function(){
+		$(".active").removeClass("active");
+		$(this).addClass("active");
+		$("#list_name").html($(this).find("a").html());
+		type = $(this).attr("id");
+		onQueryZcfg(1,names[type]);
+	});
+
+	$(".myTitle").click(function(){
+		$(".active").removeClass("active");
+		$(this).addClass("active");
+		$("#list_name").html($(this).html());
+		type = $(this).attr("id");
+		onQueryZcfg(1,names[type]);
+	});
+
+});
+
+function onQueryZcfg(start,name){
+ 	var limit=10;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("start",(start-1)*limit);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	cmd.setParameter("open","1");
+	cmd.setParameter("name", name);
+	
+	cmd.setParameter("startTime", $("#startTime").val());
+	cmd.setParameter("endTime", $("#endTime").val());
+	cmd.setParameter("keyWord", $("#keyWord").val());
+	cmd.setParameter("dept", $("#deptSelect").val());
+	
+	var ret =  cmd.execute("getPoliciList");
+	if(!ret.error){
+		$("#ul_sspdw_zcfg").html(LEx.processDOMTemplate('zcfgContentTemplate',ret));
+		var total=ret.total;
+		total=Math.ceil(total/limit);
+		if(total==0){
+			$("#project-none").show();
+			$('.jqpagination').hide();
+		}
+		else{
+			$("#project-none").hide();
+			$('.jqpagination').show();
+			$('.jqpagination').jqPagination('option',{current_page:start,max_page:total,trigger:false});
+		}
+	}else{
+		LEx.alert(ret.error);
+	} 
+}
+function search(){
+	type = $("#ul_list .active").attr("id");
+	onQueryZcfg(1,names[type]);
+}
+</script>
+<script type="text/template" id="zcfgContentTemplate">
+<tbody>
+{for o in data}
+<tr>
+    <td><a href="{{PageContext.ContextPath}}govservice/pub/contentDetail?id=${o.ID}" title="${o.NAME}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${formatLen(o.NAME,0,50)}</a></td>
+    <td>${LEx.util.Format.formatDate(o.CTIME)}</td>
+</tr>
+{/for}
+</tbody>
+</script>
+<div class="container" >
+<ol class="breadcrumb alpha omega transparent">
+    <li>当前位置</li>
+    <li><a href="{{cp}}">首页</a></li>
+    <li><a href="{{cp}}sunny">阳光政务</a></li>
+    <li class="active" id="thenav">投资服务</li>
+</ol>
+<div id="page" style="background-color:#fff;">
+	<div class="row" style="  padding-top: 10px;">
+		<div style="background-color: #F0F0F0; margin-top: -10px; padding-top:8px; padding-bottom:1px; text-align: center;">
+			<ul class="list-inline" style="vertical-align: middle;">
+				<li >申办时间:&nbsp;&nbsp; 
+					<input type="text" style="width: 100px;" id="startTime" onClick="WdatePicker({isShowWeek:true})" />
+					<img src="{%public assets/img/date.jpg%}" style="margin-left: -20px;" id="date1">
+					&nbsp;&nbsp;至&nbsp;&nbsp; 
+					<input type="text" style="width: 100px;" id="endTime" onClick="WdatePicker({isShowWeek:true})"/>
+					<img src="{%public assets/img/date2.jpg%}" style="margin-left: -20px;" id="date2"> &nbsp;&nbsp;
+				<li >关键字: <input type="text" style="width: 100px;" id="keyWord" /> </li>
+				<li >部门:&nbsp;&nbsp; 
+					<select style="padding: 3px; width: 100px;" id="deptSelect" name="deptSelect">
+						<option value="">所有</option>
+					</select>
+					<button type="button" align="right" class="btn btn-warning btn-sm" onclick="search()">查询</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row" style="  padding-top: 10px;">
+        <div class="col-xs-3">
+            <div class="panel-group" id="accordion" role="tablist">
+             	  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="myTitle" id="tsfw" data-toggle="collapse" data-parent="#accordion" 
+          href="#collapseOne">
+          特色服务
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in">
+      <div class="panel-body">
+                <ul class="nav sidenav" id="ul_list">
+                    <li id="spsxsqblz" class="active"><a href="#" style="padding: 10px 5px;">审批事项授权办理制</a></li>
+                    <li id="zdxmblsbz"><a href="#" style="padding: 10px 5px;">重点项目并联审批制</a></li>
+                    <li id="qyzdxmdbz"><a href="#" style="padding: 10px 5px;">企业重大项目代办制</a></li>
+                    <li id="sjldspgzz"><a href="#" style="padding: 10px 5px;">三级联动审批工作制</a></li>
+                </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="myTitle" id="tzdt" data-toggle="collapse" data-parent="#accordion" 
+          href="#collapseTwo">
+          投资动态
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse">     
+   
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="myTitle" data-toggle="collapse" data-parent="#accordion" 
+          href="#collapseThree">
+           中心概况
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse">
+      <div class="panel-body">
+        		<ul class="nav sidenav" id="ul_list">
+                    <li id="zxjj" class="active"><a href="#" style="padding: 10px 5px;">中心简介</a></li>
+                    <li id="zxfbt"><a href="#" style="padding: 10px 5px;">中心分布图</a></li>
+                    <li id="zxdhu"><a href="#" style="padding: 10px 5px;">中心电话簿</a></li>
+                    <li id="dljt"><a href="#" style="padding: 10px 5px;">地理交通</a></li>
+             	</ul>
+      </div>
+    </div>
+  </div>
+            </div>
+        </div>
+        <div class="col-xs-9">
+            <section class="panel panel-success">
+				<header class="panel-heading">
+					<h3 class="panel-title" id="list_name">特色服务</h3>
+				</header>
+				<div class="panel-body zl-thumbnails-ggfu-2" >
+                    <table class="table table-hover" id="ul_sspdw_zcfg">
+                       
+                    </table>
+                <div id="project-none" style="display:none;font-size:30px;font-weight:bold;text-align:center;">无相关内容</div>
+                <nav class="text-center">
+                <div class="jqpagination" style="display:none;">
+			    <a href="#" class="first" data-action="first">&laquo;</a>
+			    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+			    <input type="text" readonly="readonly"  data="max-page:23" />
+			    <a href="#" class="next" data-action="next">&rsaquo;</a>
+			    <a href="#" class="last" data-action="last">&raquo;</a>
+				</div>
+                </nav>
+                    
+				</div>
+			</section>
+            
+        </div>
+    </div>
+</div>
+</div>

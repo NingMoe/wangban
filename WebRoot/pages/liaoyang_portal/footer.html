@@ -1,0 +1,30 @@
+<div class="footer">
+	<div class="bottombar">
+		<div class="container">
+			<ul class="list-inline text-center">
+				<li><a href="javascript:contentQuery('网站介绍');">网站介绍</a>
+				</li>
+				<li>|</li>
+				<li><a href="javascript:contentQuery('新手指南');">新手指南</a>
+				</li>
+				<li>|</li>
+				<li><a href="javascript:contentQuery('联系我们');">联系我们</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="botmessage">
+		<img
+			src="{{PageContext.ContextPath}}pages/liaoyang_portal/assets/img/red.png">
+		<p class="text-center">版权所有：辽阳市行政审批局
+			&nbsp;&nbsp;&nbsp;&nbsp;辽ICP备09008298号</p>
+		<p class="text-center">邮编：111000
+			&nbsp;&nbsp;&nbsp;&nbsp;联系电话：0419-1234567 传真:2129669</p>
+		<p class="text-center">地址：辽阳市文圣区河东路9号</p>
+	</div>
+</div>
+<script>
+	function contentQuery(str){
+		window.open("contentList?cname="+str);
+	}
+</script>

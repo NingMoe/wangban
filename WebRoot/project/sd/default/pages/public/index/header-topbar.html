@@ -1,0 +1,184 @@
+<style type="text/css">
+	.its-navigation .navbar-nav > li > a {
+	  padding: 14px 28px;
+	}
+	#help{
+		cursor: pointer;
+		text-align: center;
+		width: 130px;
+		height: 35px;
+		margin: 8px 0;
+		display: block;
+		padding: 7px 0;
+		border: 2px solid #139add;
+	  	border-radius: 5px;
+	}
+	#help:hover {
+	  color: #fff;
+	  background: #0092d1;
+	  }
+</style>
+<script id="nobar" type="text/javascript" src="{{PageContext.JsPath}}nobar/nobar.js"></script>
+<div class="its-topbar" style="height: 40px;padding: 11px 0;">
+    <div class="container">
+        <ul class="list-inline pull-left">
+            <li><a href="#"><img src="{%public assets/img/4mobile_icon_04.png%}" alt=""> 绉诲姩瀹㈡埛绔�</a></li>
+            <li><span class="text-muted">|</span></li>
+            <li><a href="#"><img src="{%public assets/img/4mobile_icon_06.png%}" alt=""> 寰俊鍏紬鍙�</a></li>
+        </ul>
+        <ul class="list-inline pull-right">
+        {% if UserInfo %}
+        <li class="dropdown dropdown-hover">
+	        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">{{UserInfo.userName}}<i class="mdicon mdicon-expand-more"></i></a>
+	        <ul class="dropdown-menu" style="margin-right:50px;margin-top: 0px;">
+		        <li><a href="{{cp}}uinfo"  style="color: #2CA1E9;font-weight: bold;text-shadow: 1px 1px #FFFFFF;">鐢ㄦ埛涓績</a></li>
+		         <li><a href="{{cp}}uc/accbind?type=4"  style="color: #2CA1E9;font-weight: bold;text-shadow: 1px 1px #FFFFFF;" target="_blank">瀵嗙爜淇敼</a></li>
+		        <li><a href="javascript:void(0);" onclick="doLogout();" style="color: #2CA1E9;font-weight: bold;text-shadow: 1px 1px #FFFFFF;">閫�鍑�</a></li>
+	        </ul>
+        </li>
+        	<!-- <li><a href="{{cp}}uinfo">{{UserInfo.userName}}</a></li>
+        	<li><a href="javascript:void(0);" onclick="doLogout();">閫�鍑�</a></li> -->
+        {% else %}
+            <li class="dropdown dropdown-hover">
+            	<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">鐧诲綍<i class="mdicon mdicon-expand-more"></i></a>
+                <ul class="dropdown-menu" style="margin-right:50px;">
+                    <li><a href="javascript:void(0);" onclick="doLogin();" style="color: #2CA1E9;font-weight: bold;text-shadow: 1px 1px #FFFFFF;">瀵嗙爜鐧诲綍</a></li>
+                    <li><a href="javascript:void(0);" onclick="doLoginForPhone();" style="color: #2CA1E9;font-weight: bold;text-shadow: 1px 1px #FFFFFF;">鐭俊楠岃瘉鐧诲綍</a></li>
+                </ul>
+            </li>
+            <li><a href="javascript:;" onclick="doLogin();">娉ㄥ唽</a></li>
+        {% endif %}
+            <li><span class="text-muted">|</span></li>
+            <li><a href="http://www.shandong.gov.cn/" target="_blank"><img src="{%public assets/img/4website_09.png%}" alt=""> 灞变笢鐪佹斂搴滈棬鎴风綉绔�</a></li>
+        </ul>
+    </div>
+</div>
+<!-- 渚ц竟鏍忓鑸� 寮�濮�      鐢ㄦ埛涓績銆佹垜鐨勮祫璁�佹垜鐨勬姇璇夈�佹垜瑕佺籂閿欍�佸父瑙侀棶棰�-->
+<div class="sy_rfloat">
+        <a href="{{cp}}uinfo" target="_blank"><div style="top: 389px;" class="rfloat_sub rfloat_sub1">
+            <div class="rfloat_sub_tit">鐢ㄦ埛涓績</div>
+        </div></a>
+        <div style="top: 389px;" class="rfloat_sub rfloat_sub2">
+            <div class="rfloat_sub_tit">鍜ㄨ鎶曡瘔</div>
+            <div class="rfloat_sub_zxts">
+	            <a href="{{cp}}message" target="_blank"><div class="rfloat_sub_zx">
+	                    <div class="rfloat_sub_zxtit">鎴戣鍜ㄨ</div>
+	           </div></a>
+	           <a href="{{cp}}uinfo?folder=active&tag=business_complaint_list" target="_blank"><div class="rfloat_sub_ts">
+	                    <div class="rfloat_sub_tstit">鎴戣鎶曡瘔</div>
+	            </div></a>
+            </div>
+        </div>
+        <a href="{{cp}}govservice/robot" target="_blank"><div style="top: 389px;" class="rfloat_sub rfloat_sub3">
+            <div class="rfloat_sub_tit">鏅鸿兘闂瓟</div>
+        </div></a>      
+        <a href="javascript:wyjc();"><div style="top: 389px;" class="rfloat_sub rfloat_sub4">
+            <div class="rfloat_sub_tit">鎴戣绾犻敊</div>
+        </div></a>
+        <a href="{{cp}}govservice/question"  target="_blank"><div style="top: 389px;" class="rfloat_sub rfloat_sub5">
+            <div class="rfloat_sub_tit">甯歌闂</div>
+        </div></a>
+        <div style="top: 389px;" class="rfloat_sub rfloat_sub6">
+            <div class="rfloat_sub_tit">杩斿洖椤堕儴</div>
+        </div>
+        <div style="top: 389px;" class="rfloat_sub rfloat_sub7">
+            <div class="rfloat_sub_tit">鏀惰捣</div>
+        </div>
+        <div style="top: 389px;" class="rfloat_sub rfloat_sub8">
+            <div style="top: 0px;" class="rfloat_sub8_bg">
+                <div class="rfloat_sub_tit">灞曞紑</div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+$(document).ready(function () {
+    //鐢垫瀵艰埅
+    var win_H = $(window).height();
+    $(".sy_rfloat").stop().fadeIn(1500);
+    $(window).scroll(function () {
+        var scroll_H = $(window).scrollTop();
+        if (scroll_H >= 250) {
+            $(".sy_rfloat").stop().animate({
+                top: (win_H - 462) / 2
+            }, 500);
+        } else if (scroll_H < 250) {
+            $(".sy_rfloat").stop().animate({
+                top: 167
+            }, 500);
+        }
+    });
+    $(".rfloat_sub.rfloat_sub6").click(function () {
+        $('body,html').animate({
+            scrollTop: 0
+        }, 500);
+    });
+    //鏀跺洖銆佸睍寮�鏁堟灉
+    $(".rfloat_sub7").click(function () {
+        $(".rfloat_sub1,.rfloat_sub2,.rfloat_sub3,.rfloat_sub4,.rfloat_sub5,.rfloat_sub6,.rfloat_sub7").animate({
+            top: 389
+        }, 500);
+        $(".rfloat_sub8_bg").animate({
+            top: 0
+        }, 500);
+        $(".rfloat_sub8").animate({
+            top: 389
+        }, 500);
+    });
+    $(".rfloat_sub8").click(function () {
+        $(".rfloat_sub1").animate({
+            top: 0
+        }, 500);
+        $(".rfloat_sub2").animate({
+            top: 71
+        }, 500);
+        $(".rfloat_sub3").animate({
+            top: 142
+        }, 500);
+        $(".rfloat_sub4").animate({
+            top: 213
+        }, 500);
+        $(".rfloat_sub5").animate({
+            top: 284
+        }, 500);
+        $(".rfloat_sub6").animate({
+            top: 355
+        }, 500);
+        $(".rfloat_sub7").animate({
+            top: 427
+        }, 500);
+        $(".rfloat_sub8_bg").animate({
+            top: -73
+        }, 500);
+        $(".rfloat_sub8").animate({
+            top: 462
+        }, 500);
+    });
+    //$(".rfloat_sub7").click();
+});
+function wyjc(){
+	var url = window.location.href;
+	if(url.indexOf("govservice/wyjc")>-1){
+		return;
+	}
+	window.open("{{cp}}govservice/wyjc?referer="+encodeURIComponent(url),"_blank");
+}
+function doLogin(ucPath,loginType) {	
+    var redirectTo=LEx.webPath+"login?goto="+encodeURIComponent(window.location.href);
+	window.location.href = redirectTo;
+    return false;
+}
+function doLogout(ucPath) {
+	var logout_url=null;	 
+		logout_url = LEx.webPath+"logout?goto="+encodeURIComponent(window.location.href);
+	window.location.href = logout_url;
+    return false;
+}
+function register(){
+	window.location.href=LEx.webPath+"uc/perregister?goto="+encodeURIComponent(window.location.href);
+}
+function doLoginForPhone(ucPath,loginType) {	
+    var redirectTo=LEx.webPath+"msglogin?goto="+encodeURIComponent(window.location.href);
+	window.location.href = redirectTo;
+    return false;
+}
+</script>

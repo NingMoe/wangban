@@ -1,0 +1,112 @@
+<style>
+body {
+	background:#EEF5FD
+}
+#imgDiv{
+border-style: solid;
+  border-color: black;
+  border-bottom-width: 1px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  width: 702px;
+  height: 200px;
+}
+#img{
+	width: 702px;
+	height: 200px;
+}
+</style>
+<div id="form" style="width:80%;padding:10px 60px;margin:10px auto" class="boxTop">
+  <div style="font-family:微软雅黑;font-size: 18px; margin:10px 0px 10px 20px"> 
+  		<b style="padding-right:2px;padding-left:12px;border-left:5px solid #56B6E0;">站点配置页面</b>
+        <div style=" float:right"> 
+        <!-- block -->
+           <a id="save_btn" style="text-decoration: none; cursor: pointer; display: none; float: right; height: 25px; line-height: 25px; background: green; color: white; width: 60px; text-align: center; font-size: 13px;" onclick="save2();">保存</a>
+        </div>
+    </div>
+    <table class="baseform" align="center">
+        <colgroup>
+            <col style="width: 20%;"></col>
+            <col style="width: 30%;"></col>
+            <col style="width: 20%;"></col>
+            <col style="width: 30%;"></col>
+        </colgroup>
+         <tr>
+        	 <th>
+                	分厅名称
+            </th>
+            <td colspan="3">
+                <input tag="CNAME" ID="CNAME" reg=""  readonly="readonly"  class="input" style="width:200px;background-color: #EFEFEF;" value="" />
+            </td>
+        </tr>
+       
+        <tr>
+        	<th>
+                	版式风格
+            </th>
+            <td colspan="3">
+            	<select id="LAYOUT" tag="LAYOUT" style="width: 200px;" onchange="layoutChange(this.value)">
+                    <option value="one">主题一</option>
+                    <option value="two">主题二</option>
+                </select>
+                <select id="STYLE" tag="STYLE" style="width: 200px;" onchange="styleChange(this.value)">
+                   <option value="default">默认</option>
+                   <option value="red">红的</option>
+                   <option value="green">绿的</option>
+                   <option value="custom">自定义</option>
+                </select>
+                <div id="_custom" style="display:none;">
+                <p>请输入自定义样式：(自定义的样式将覆盖默认样式)</p>
+                <textarea  id="custom" cols="5" rows="10" value="" style="width: 95%;"></textarea>
+                </div>
+            </td>
+        	
+        </tr>
+        <tr id="attach_id" >
+        	<th>分厅名称图片</th>
+        	<td colspan="3">
+	        	<div>
+		        	<input id="ATTACH" tag="ATTACH" value="" type="hidden"/>
+	        		<div style="float: left;width: 72%;margin-top:5px;min-height:32px;" id="title_img">
+	        		</div>
+	        		<div style="float: left;padding-left: 10px;min-height:32px;">
+	                	<input type="file" name="file_upload" id="file_upload" multiple="multiple" />
+	            	</div>
+	        	</div>
+        	</td>
+        </tr>
+        <tr id="attach_id" >
+        	<th>分厅介绍图片</th>
+        	<td colspan="3">
+	        	<div>
+	        		
+	        		<div style="float: left;width: 72%;margin-top:5px;min-height:32px;" id="js_imgs">
+	        		</div>
+	        		<div style="float: left;padding-left: 10px;min-height:32px;">
+	                	<input type="file" name="js_file_upload" id="js_file_upload" multiple="multiple" />
+	            	</div>
+	        	</div>
+        	</td>
+        </tr>
+         <tr>
+        	 <th>
+                	县级分厅入口
+            </th>
+            <td colspan="3">
+            	<textarea tag="CONTENT" id="CONTENT" name="CONTENT" reg="" tip="请输入内容"  class="input" rows="3" cols="5" style="width:99%;height: 300px"></textarea>
+            </td>
+        </tr>
+       <!-- <tr>
+            <th>
+                	发布时间
+            </th>
+            <td colspan="3">
+                <input tag="CTIME" id="CTIME" class="date" reg="" tip="请输入发布时间"  style="width:180px" value=""  />
+            </td>
+             
+        </tr>
+         --> 
+        
+	</table>
+</div>

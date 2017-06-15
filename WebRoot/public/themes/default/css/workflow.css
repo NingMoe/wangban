@@ -1,0 +1,239 @@
+@charset "utf-8";
+
+/*index.html*/
+body{background:#EEEEEE}
+.busi_app li {border: 1px solid #CCC; width: 150px; height: 90px; margin: 30px 15px;float: left;cursor: pointer; background: #F9F9F9;box-shadow:1px 1px 2px #CCC;border-radius:2px;}
+.busi_app li:hover{background: #FFF}
+.busi_app li dl{margin: -28px auto 0;width: 90%;}
+.busi_app li dl dd{height: 86px;margin: 0 auto;width: 117px;overflow: hidden;}
+.busi_app li dl dd div{height: 117px; height:117px; background: url(../images/workflow/icons.png) no-repeat; margin-top: 35px;}
+.busi_app li dl dd.complete div{background-position: 0px -117px}
+
+.busi_app li:hover dl dd div{margin-top: 0px;}
+.busi_app li dl dt{text-align: center; font-size: 14px;border-top: 1px solid #999999;}
+
+.busi_app .opt {background:#ccc;border: 1px solid #bbb;border-top:1px solid #999;border-radius: 0 0 2px 2px;height: 24px;margin-top: 10px;padding: 0 5px;}
+.busi_app .opt span{display: block; width: 16px; height: 16px; border: 1px solid #FFF;float: right; margin-left: 5px; margin-top: 2px;}
+.busi_app .opt span:HOVER{border: 1px solid #94DEFF;}
+.busi_app .opt span.config{background: url("../images/icon/config.png") no-repeat #EEE;}
+.busi_app .opt span.edit{background: url("../images/icon/edit.png") no-repeat #EEE;}
+.busi_app .opt span.del{background: url("../images/icon/delete.gif") no-repeat #EEE;}
+/*main.html*/
+.wf-options{}
+.wf-options li{font-size: 20px; font-weight: bold;padding: 20px 10px;line-height: 68px;margin-left: 16px;cursor: pointer;}
+.wf-options li.on{font-size: 30px; font-weight: bold;line-height: 97px;margin-left: -5px;;margin-left: 0px}
+.wf-options li p {background-color: #999; color: #FFF; width: 50px; height: 50px; line-height: 50px;font-size: 20px;text-align: center;box-shadow: 1px 1px 2px #999999;border: 8px solid #FFFFFF; border-radius: 34px 34px 34px 34px; text-shadow: 1px 1px 3px #304A8A;}
+.wf-options li p:hover{background-color: #333; }
+.wf-options li.on p{border-radius: 50px;font-size: 30px;height: 80px;line-height: 80px;width: 80px;background-color: #5079E4;}
+.wf-options li.on p:hover{background-color: #5079E4; }
+
+#roles_convse li{border: 1px solid #CCCCCC;border-radius: 3px 3px 3px 3px;box-shadow: 1px 1px 2px #EEEEEE;float: left;height: 100px;width: 150px; cursor: pointer; margin: 10px;background: url("../images/workflow/group.png") no-repeat 27px 0px; position: relative;}
+#roles_convse li dl dd{height: 98px;}
+#roles_convse li dl dd div{    
+    background: none repeat scroll 0 0 #EEEEEE;
+    border: 1px solid #999999;
+    border-radius: 3px 3px 3px 3px;box-shadow: 0 0 4px #FFFFFF;
+    bottom: 8px;
+    color: #333333;
+    font-weight: bold;
+    left: 50%;
+    margin-left: -50px;
+    position: absolute;
+    text-align: center;
+    width: 100px;
+}
+#roles_convse li dl dd div.left{    
+    border: medium none;
+    border-radius: 3px 0 0 3px;
+    bottom: 0;
+    box-shadow: none;
+    color: #333333;
+    font-weight: bold;
+    height: 34px;
+    left: 30px;
+    margin-left: -50px;
+    position: absolute;
+    text-align: center;
+    top: 35px;background:url(../images/workflow/move.png) no-repeat 3px -44px #5079E4;
+    width: 20px;display: none;
+}
+#roles_convse li dl dd div.right{    
+    border: medium none;
+    border-radius: 0px 3px 3px 0px;
+    bottom: 0;
+    box-shadow: none;
+    color: #333333;
+    font-weight: bold;
+    height: 34px;
+    right: -20px;
+    left:auto;
+    margin-left: -50px;
+    position: absolute;
+    text-align: center;
+    top: 35px;background:url(../images/workflow/move.png) no-repeat -16px -44px #5079E4;
+    width: 20px;display: none;
+}
+#roles_convse li.hover dl dd div.left{display: block;}
+#roles_convse li dl dd div.left:hover{background-position:3px 8px}
+#roles_convse li.hover dl dd div.right{display: block;}
+#roles_convse li dl dd div.right:hover{background-position:-16px 8px}   
+
+#roles_convse li dl dt{text-align: right;font-size: 14px;display: none;padding-right: 10px;}
+
+#roles_convse li.hover{border-radius: 3px 3px 3px 3px;box-shadow: 1px 1px 2px #EEEEEE;float: left;height: 100px;width: 150px;}
+#roles_convse li.hover dl{margin-left: -1px;margin-top: -1px;width: 152px;}
+#roles_convse li.hover dl dd{border: 3px solid #5079E4;border-radius:3px 3px 0px 0px;}
+#roles_convse li.hover dl dt{background: none repeat scroll 0 0 #5079E4;border-radius: 0 0 3px 3px;display: block; height: 24px;line-height: 24px;}
+
+#roles_convse li dl dt span{display: block; width: 16px; height: 16px; border: 1px solid #FFF;float: right; margin-left: 5px; margin-top: 2px;}
+#roles_convse li dl dt span:HOVER{border: 1px solid #94DEFF;}
+#roles_convse li dl dt span.config{background: url("../images/icon/config.png") no-repeat #EEE;}
+#roles_convse li dl dt span.edit{background: url("../images/icon/edit.png") no-repeat #EEE;}
+#roles_convse li dl dt span.del{background: url("../images/icon/delete.gif") no-repeat #EEE;}
+
+#roles_convse li.add{border: 4px dashed #EEEEEE;box-shadow: none;color: #BBBBBB;font-size: 90px;height: 80px;line-height: 66px;margin: 17px;text-align: center;width: 80px;background:none; }
+#roles_convse li.add:HOVER {color: #999;border-color: #CCC; }
+#roles_convse li.arrow{background: url(../images/workflow/arrow.png) no-repeat 0px 32px; border: medium none;box-shadow: none;width: 40px;}
+#workFlow_canvse table {background: #EEE; font-size: 13px;}
+#workFlow_canvse table th{padding: 10px;border: 1px solid #FFFFFF;color: #333}
+#workFlow_canvse table td{padding: 5px; background: #FFF;color: #AAA; line-height: 20px;border: 1px solid #FFF; vertical-align: top;}
+#workFlow_canvse table td.on{border: 1px solid #35AD3D;background: #ADF7B5; color: #666666;}
+#workFlow_canvse table td dl {width:180px}
+#workFlow_canvse table td dl dd{float: left;width: 30px; padding-top: 8px;}
+#workFlow_canvse table td dl dd span{border: 1px dashed #999999;cursor: pointer;display: block;height: 24px;width: 24px;}
+#workFlow_canvse table td dl dd span:hover{background-color:#DBEAF9}
+#workFlow_canvse table td dl dd span.on{background:url("../images/workflow/yes.png") no-repeat 0px -2px;}
+#workFlow_canvse table td dl dd span.on:hover{background-color:#DBEAF9}
+#workFlow_canvse table td dl dt{float: left;width: 75%; padding-left: 10px;}
+
+#workFlow_canvse table td dl dt span{font-style: italic; padding: 0 5px;}
+#workFlow_canvse table td.on dl dt span{color: #FD6B12}
+
+#workFlow_canvse table td dl .actionDIV{border: 1px solid #1cb42c;background-color: #d1f8d6; padding: 5px; width: 80%;margin-top: 10px;padding: 5px 10px;}
+#workFlow_canvse table td dl .actionDIV ul{padding: 0px 10px}
+#workFlow_canvse table td dl .actionDIV ul li{padding: 0px 5px}
+
+
+.buttons li{float: left;padding:3px 20px;}
+#logCanvas{margin-top: 20px; margin-bottom:20px;
+    position: absolute;
+    width: 80%;
+    background: none repeat scroll 0 0 #FEFEFE;
+    border: 1px solid #CCCCCC;
+    border-radius: 0px 0px 3px 3px;
+    }
+#logCanvas ul li{
+    line-height: 24px;
+    margin-bottom: 10px;
+    padding: 10px 0;
+}
+#logCanvas ul{
+    padding:  80px 20px 30px;}
+#logCanvas ul li dd{font-weight: bold;background:url(../images/workflow/sideToolbar.png) no-repeat 5px -178px ;padding-left: 30px;line-height:20px;position: relative;z-index: 999;}
+#logCanvas ul li dd span{  background: none repeat scroll 0 0 #759CD7;border-left: 1px solid;
+    color: #FFFFFF;
+    font-size: 13px;
+    padding: 2px 10px;}
+#logCanvas ul li dd.last span{background: #7BBD3B}
+#logCanvas ul li dt{    border: 1px solid #E0E0E0;
+    box-shadow: 1px 1px 2px #EEEEEE;
+    font-size: 13px;color:#999;
+    margin: 5px 30px 10px;
+    padding:5px 20px 20px;}
+#logCanvas ul li dt span{color: #666}
+
+#logCanvas .detail{display: block;float: left;margin-right: 10px;margin-top: 4px; cursor: pointer; width: 16px; height: 16px; background: url(../images/workflow/detail.png) no-repeat;}
+#logCanvas .detailCanvse{display: none;padding: 10px 5px 0}
+#sideCatalog-sidebar {background-color: #5896D5;border-color: -moz-use-text-color #EAEAEA;height: 90%;position: absolute;width: 2px;left: 29px;z-index:1; top:20px}
+#sideCatalog-sidebar .sideCatalog-sidebar-top{background: url(../images/workflow/sideToolbar.png) no-repeat scroll 0 -185px; height: 10px;left: -4px;overflow: hidden;position: absolute;width: 10px;}
+#sideCatalog-sidebar .sideCatalog-sidebar-bottom{background: url(../images/workflow/sideToolbar.png) no-repeat scroll 0 -185px; height: 10px;left: -4px;overflow: hidden;position: absolute;width: 10px;bottom:0px}
+
+.detailCanvse .baseform{border: none}
+.detailCanvse .baseform tr th{background: #F5F6F7}
+
+.responsibility_table{width: 100%; background: #CCC}
+.responsibility_table th{background: #F9f9f9; font-weight: bold; font-size: 15px; text-align: center;cursor: pointer;}
+.responsibility_table td{background: #FFF; padding: 10px}
+.responsibility_table td span.action{border: 1px solid #CCC; padding: 10px 15px}
+
+.w_item{border: 1px solid #CCCCCC;float: left;font-size:14px;margin: 0 15px;width: 120px; height:100px;position: relative;background:#F9F9F9;border-radius: 3px 3px 3px 3px;}
+
+.w_item div{position: absolute;width: 100px;text-align: center;left:10px; border-radius:3px;}
+.w_item div.up{position: absolute;top:10px}
+.w_item div.center{position: absolute;top:40px; height: 24px;}
+.w_item div.center span{background: url("../images/workflow/pos.png") no-repeat;padding: 2px 0 2px 20px;}
+.w_item div.pos_down span{background-position: 0px -24px;}
+.w_item div.down{position: absolute;top:70px}
+
+.w_item  .formatStatus{border: 1px solid #76CC43;background: #E8FFD3}
+.w_item  .toStatus{border: 1px dotted #6395A6;background: #E5F4FE}
+
+.w_item .s_9{background: #D30000;border: 1px solid #7A0000; color: #FFF}
+.w_item_up{margin-top: 63px;}
+
+.userCanvas{background: #FFF;display: none}
+.userCanvas li{border: 1px solid #CCC;background: #FFF; padding: 10px 20px; border-radius:2px; box-shadow:1px 1px 2px #EEE;float: left; cursor: pointer;margin: 5px 10px}
+
+.main_canvas{min-height: 400px; padding: 20px; margin-right: 60px;background: #FFF; padding-right: 50px;box-shadow: 1px 1px 2px #999999;}
+
+.classify{background: #EEE;border: 1px solid #CCC;margin: 10px 10px;background: #F6F6F6;box-shadow: 1px 1px 3px #DDDDDD;}
+.clear{clear: both;}
+
+.classify p{background: none repeat scroll 0 0 #DDD;
+    border-bottom: 1px solid #CCC;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 5px 45px;
+    position: relative;cursor: pointer;}
+.classify p span{background: url(../images/title.png)no-repeat;display: block;width: 26px; height: 61px;position: absolute;top:-4px;left: 10px; }
+
+.snapscreen{background: url(../images/workflow/icons_small.png);width: 20px;height:20px;background-position: -581px -40px;margin: 3px;cursor: pointer;}
+
+
+.topBar{
+    background: none repeat scroll 0 0 #EEEEEE;
+    border-bottom: 1px solid #CCCCCC;
+    box-shadow: 0 0 2px #CFCFCF;
+    height: 32px;
+    padding: 5px 20px;
+}
+.topBar b{padding-left: 12px; font-family: '微软雅黑'; font-size: 18px; line-height: 32px; color: #666}
+#info{background: none repeat scroll 0 0 #FEFEFE;border: 1px solid #CCCCCC; margin-top: 10px}
+.category_box{font-size: 14px;font-weight: bold;margin-left: 20px;padding: 2px 20px;background: none repeat scroll 0 0 #F6F6F6;
+border: 1px solid #EEEEEE;; border-top: none}
+
+#info ul li {line-height: 23px;}
+.spvsTable td{line-height: 24px}
+.spvsTable td span{color: #666}
+
+#spvsDIV_i{
+    background: none repeat scroll 0 0 #EEEEEE;
+    border: 1px solid #CCCCCC;
+    margin: 10px 0px;
+    text-align: center;min-height: 24px
+}
+#spvsDIV_i img{border: 5px solid #FFFFFF;
+    box-shadow: 1px 1px 2px #BBB;max-width: 600px;
+    margin: 10px auto;display: none;cursor: pointer;}
+
+#spvsDIV_i a{ blr:expression(this.onFocus=this.blur());outline:none;} 
+#spvsDIV_i a:focus{ -moz-outline-style: none;} 
+
+.add_option{  margin: 10px auto;}
+.add_option li{
+        border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    cursor: pointer;
+    float: left;
+    height: 300px;
+    margin: 20px;
+    width: 242px;
+}
+.add_option li:hover{border: 1px solid #FF6600}
+.add_option li dl{padding-left: 21px;padding-top: 25px;}
+.add_option li dl dt {font-size: 30px;color: #CCC}
+.add_option li dl dd {font-size: 40px; padding: 0 22px;}
+.add_option li.busi:hover dl dd{color: #58AAD5}
+
+.add_option li.busi{background: url(../images/workflow/busi.png) center bottom}
+.add_option li.busi span {color: #999;font-size: 15px;padding: 15px;}

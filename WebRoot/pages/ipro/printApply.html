@@ -1,0 +1,204 @@
+ 	{% set id PageContext.Parameter.id %} 
+	 {% map "id",id as p %} 
+	 {% command "app.icity.ipro.IproCmd","getNData",p as s %}
+	 {% command "app.icity.ipro.IproCmd","getContent",p as d %} 
+	 {% set o d.data.CONTENT %}
+	 
+	 {% command "app.icity.ipro.IproCmd","getInvestDictList" as dic %} 
+	 
+	{% map "investId",id,"seqId",d.data.SEQID as p1 %} 
+	 {% command "app.icity.ipro.IproCmd","getProjectInfoByIds",p1 as d1 %} 
+	 {% set qrcode d1.data.project.PROJECT_CODE %}
+	
+<script type="text/javascript">
+		
+		var __webPath = "/icity/";
+		var __signature = "0366e1e63f79e62d5ca3f2dba7fd56511446348513380";
+	</script>
+			<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+<script  type="text/javascript" src="{% public ipro/assets/js/jquery.PrintArea.js %}"></script>
+<script src="{% public scripts/LEx.form.js %}"></script>
+<!--  <script type="text/javascript" src="{% public ipro/assets/js/jquery.qrcode.min.js%}"></script>-->
+<!--startprint-->
+<fieldset id="printField" style="margin-top:20px;width:96%">
+		
+<style type="text/css">
+.input_validation-invalid {
+	border: 1px solid #f00 !important;
+	color: #f00;
+}
+.table01 {
+	border: 1px solid rgb(230, 230, 230); text-align: left; border-collapse: collapse; background-color: rgb(255, 255, 255);
+}
+.table01 th {
+	border: 1px solid rgb(230, 230, 230); width: 120px; height: 32px; text-align: center; font-weight: normal; background-color: rgb(247, 247, 247);
+}
+.table01 td {
+	border: 1px solid rgb(230, 230, 230); height: 32px; text-align: left; padding-left: 5px;
+}
+</style>
+
+<div class="container" style="background-color: #fff; width:100%">
+	<link rel="icon" href="{% public ipro/assets/ico/favicon.ico %}">
+  	
+	<link href="http://cdn.bootcss.com/simple-line-icons/2.2.2/css/simple-line-icons.min.css" rel="stylesheet">
+	<section class="panel panel-default">
+		<h3 style="text-align:center;font-size:30px;height:60px">项目登记单</h3>
+		<p style="margin-top:20px">项目代码：<span id="pCode"></span><!-- <span id="qrcode" style="margin-left:50%;"></span> --></p>
+		<image src="{{PageContext.ContextPath}}/bsp/ShowQrCode?fileUrl={{qrcode}}" style="position:absolute;left:80%;top:30px" id="qrCode" ></image>
+<!-- 		<div style="position:absolute;left:80%;top:30px;width:140px;height:140px;background: url({{PageContext.ContextPath}}/bsp/ShowQrCode?fileUrl={{qrcode}})">aa</div> -->
+		<!-- <image src="{{PageContext.ContextPath}}bsp/ShowQrCode?fileUrl=2222222222" id="qrCode" ></image> -->
+			<table class="table table-bordered table-condensed table01"
+				cellspacing="1" id="sub_form"
+				style="border-width: 0px; width:100%">
+				<colgroup>
+					<col width="20%">
+					<col width="30%">
+					<col width="20%">
+					<col width="30%">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th style="width: 150px">项目所属行政区划：</th>
+						<td>{{o.divisionName}}</td>
+						<th style="width: 150px">投资项目行业分类：</th>
+						<td>{% for t in dic.data.TZSPXMHYFL %}
+		{% if t.CODE|equal:o.permitIndustry %}
+			{{t.NAME}}
+		{% endif %}
+	{% endfor %}</td>
+					</tr>
+					<tr>
+						<th>行业核准目录：</th><td colspan="3" id="permitItemCode" name="permitItemCode">
+						
+						{% if d.data.CONTENT.projectType|equal:"A00002" %}
+						{{d.data.SXMC}}
+						{% endif %}
+						{% if d.data.CONTENT.projectType|equal:"A00001" %}
+						*
+						{% endif %}
+						{% if d.data.CONTENT.projectType|equal:"A00003" %}
+						*
+						{% endif %}
+						</td>
+					</tr>
+					<tr>
+						<th>项目名称：</th>
+						<td colspan="3">{{o.projectName}}</td>
+					</tr>
+					<tr>
+						<th>项目类型：</th>
+						<td>
+						{% for t in dic.data.TZSPXMLX %}
+		{% if t.CODE|equal:o.projectType %}
+			{{t.NAME}}
+		{% endif %}
+	{% endfor %}
+						</td>
+						<th>建设性质：</th>
+						<td>{% for t in dic.data.TZSPJSXZ %}
+		{% if t.CODE|equal:o.constructPer %}
+			{{t.NAME}}
+		{% endif %}
+	{% endfor %}</td>
+
+					</tr>
+					<tr>
+						<th style="width: 150px">项目（法人）单位：</th>
+						<td colspan="3">{{o.contractor}}</td>
+					</tr>
+					<tr>
+						<th>项目法人证照类型：</th>
+						<td>{% for t in dic.data.TZSPXMFRZZLX %}
+		{% if t.CODE|equal:o.lerepCerttype %}
+			{{t.NAME}}
+		{% endif %}
+	{% endfor %}</td>
+						<th style="width: 150px">项目法人证照号码：</th>
+						<td>{{o.lerepCertno}}</td>
+					</tr>
+					<tr>
+						<th>拟开工时间：</th>
+						<td>{{o.startYear}}年</td>
+						<th style="width: 150px">拟建成时间：</th>
+						<td>{{o.endYear}}年</td>
+					</tr>
+					<tr>
+						<th>总投资：</th>
+						<td>{{o.investment}}万元</td>
+						<th style="width: 150px">建设地点：</th>
+						<td>
+							{{o.placeName}}
+						</td>
+					</tr>
+					<tr>
+						<th>建设地点详情：</th>
+						<td colspan="3">{{o.placeCodeDetail}}</td>
+					</tr>
+					<!-- <tr>
+						<th>是否开发区项目：</th>
+						<td>{% if o.isDeArea|equal:'1' %}
+			是{% else %}否
+		{% endif %}</td>
+						<th style="width: 150px">开发区名称：</th>
+						<td>{{o.deAreaName}}</td>
+					</tr> -->
+					<tr>
+						<th>所属行业：</th>
+						<td>{{o.industryName}}</td>
+						<th style="width: 150px">申报日期：</th>
+						<td>{{o.applyDate}}</td>
+					</tr>
+					<tr>
+						<th>建设规模及内容：</th>
+						<td colspan="3">{{o.projectContent}}</td>
+					</tr>
+					<tr>
+						<th>联系人名称：</th>
+						<td>{{o.linkMan}}</td>
+						<th style="width: 150px">联系电话：</th>
+						<td>{{o.linkPhone}}</td>
+					</tr>
+					<tr>
+						<th>联系人邮箱：</th>
+						<td>{{o.contactEmail}}</td>
+						<th style="width: 150px">项目阶段：</th>
+						<td>{% for t in dic.data.TZSPXMJD %}
+		{% if t.CODE|equal:o.projectStage %}
+			{{t.NAME}}
+		{% endif %}
+	{% endfor %}</td>
+					</tr>
+				</tbody>
+			</table>
+	</section>
+</div>
+</fieldset>
+
+<button class="aui_state_highlight" id="printBtn" onclick="print()" type="button" style="display:none">打印</button>
+<script>
+	
+	/*生成二维码图片*/
+	function getQrCode(content){
+		var src="{{PageContext.ContextPath}}/bsp/ShowQrCode?fileUrl="+content;
+		$("#qrCode").attr("src",src);
+	}
+	$(function(){
+		var command = new LEx.Command("app.icity.ipro.IproCmd");
+		command.setParameter("investId", '{{id}}');
+		command.setParameter("seqId","{{d.data.SEQID}}");
+		var ret = command.execute("getProjectInfoByIds");
+		if(!command.error){	
+			$("#pCode").html(ret.data.project.PROJECT_CODE);
+			//jQuery('#qrcode').qrcode({width: 100,height: 100,text:ret.data.project.PROJECT_CODE });
+			//getQrCode(ret.data.project.PROJECT_CODE);
+		}
+	});
+	//function print() {
+	//	this.focus();
+	//	$("#printField").printArea();
+	//}
+	function printButton(){
+		$("#printBtn").click();
+	}	
+</script>

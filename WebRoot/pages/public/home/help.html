@@ -1,0 +1,72 @@
+<div class="home_help">
+	<div class="inner">
+		<h2>帮助中心</h2>
+		<div class="content">
+			<div class="menu">
+				<ul>
+					{% map "PARENT","govhelp" as p1%}
+					{% command "app.pmi.content.ChannelCmd","getChannelList",p1 as d1%}
+					{% for o in d1.data%}
+					<li>
+						<h3>{{ o.NAME }}</h3>
+						{% map "PARENT",o.ID as p2%}
+						{% command "app.pmi.content.ChannelCmd","getChannelList",p2 as d2%}
+						{% for j in d2.data%}
+						<dl>
+							<dt>{{ j.NAME }}</dt>
+							<!-- <dd class="on" tag="register">注册</dd> -->
+								{% map "PARENT",j.ID as p%}
+								{% widget "article.HelpWidget",p%}
+						</dl>
+						{% endfor %}
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="detail">
+				<h1 id="title">帮助中心</h1>
+				<div id="detail_show" style="padding:30px;">
+					欢迎使用帮助中心！
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<textarea id="template" style="display:none">		
+		{for o in data}		
+			${o.CONTENT}	 
+		{/for}
+</textarea>
+
+
+
+<script>
+function init(){
+	$(".home_help .menu dd").click(function(){
+		$(".home_help .menu dd").removeClass("on");
+		$(this).addClass("on");
+		$("#title").html($(this).text());
+		var tag=$(this).attr("tag");
+		//$("#detail").text($(this).text());
+		onQuery(tag);
+	})
+	var channelId = LEx.urldata.channelId;
+	$(".home_help .menu dd[tag='"+channelId+"']").click();
+}
+
+
+function onQuery(id){
+	var cmd = new LEx.Command("app.icity.home.HelpCmd");
+	cmd.setParameter("CID", id);
+	var ret =  cmd.execute("getContentList");
+	if(!ret.error){		
+		//2.将数据传递给table对象
+		$("#detail_show").html(LEx.processDOMTemplate("template",ret));
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+
+</script>

@@ -1,0 +1,758 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<title>舟山政务服务中心</title>
+<link href="{{PageContext.ContextPath}}public/zs/zwfw/assets/css/bootstrap.min.css" rel="stylesheet">
+<link href="{{PageContext.ContextPath}}public/zs/zwfw/assets/css/mine.css" rel="stylesheet">
+<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script>
+$(function(){
+	if({{UserInfo}}){
+    	$("#div_user").show();
+    	$("#nav").hide();
+    }else{
+    	$("#div_user").hide();
+    	$("#nav").show();
+    }	
+});
+function openUrl(o){
+	window.open("http://"+o);
+}
+</script>
+{% widget "icity_zs.commonWidget" %} 
+</head>
+<style type="text/css">
+<!--
+
+*{margin:0;padding:0;border:0;}
+body {
+ font-family: arial, 宋体, serif;
+        font-size:14px;
+}
+
+
+#nav {
+  line-height: 24px;  list-style-type: none; background:#666;
+}
+
+#nav a {
+ display: block; width: 90px; text-align:center;
+}
+
+#nav a:link  {
+ color:#666; text-decoration:none;
+}
+#nav a:visited  {
+ color:#666;text-decoration:none;
+}
+#nav a:hover  {
+ text-decoration:none;font-weight:bold;
+}
+
+#nav li {
+ float: left; width: 90px; 
+}
+
+#nav li a:hover{
+}
+#nav li ul {
+ line-height: 27px;  list-style-type: none;text-align:left;
+ left: -999em; width: 90px; position: absolute;
+}
+#nav li ul li{
+ float: left; width: 90px;
+ background: #F6F6F6;
+}
+
+
+#nav li ul a{
+ display: block; width: 165px;_width: 90px;height:auto; margin:0 auto;text-align:left; padding-left:15px;
+}
+
+#nav li ul a:link  {
+ text-decoration:none;
+}
+#nav li ul a:visited  {
+ text-decoration:none;
+}
+#nav li ul a:hover  {
+ text-decoration:none;font-weight:normal;
+ 
+}
+
+#nav li:hover ul {
+ left: auto;
+}
+#nav li.sfhover ul {
+ left: auto;
+}
+#content {
+ clear: left;
+}
+ .width30{
+ 	width:30% !important;;
+ }
+
+-->
+</style>
+</head>
+<body>
+<div class=" navbar-static-top ex-navbar-topbar">
+    <div class="container">    
+        <ul id="nav">
+<li><a href="#">登录</a>
+    <ul>        
+        <li><a href="javascript:void(0);" onclick="doLogin();">个人登录</a></li>
+        <li><a href="javascript:void(0);" onclick="doLoginfr();">企业登录</a></li>
+    </ul>
+</li>
+<li><a href="#">注册</a>
+     <ul>
+        <li><a href="{{ConfigInfo.grzcurl}}" target="blank">个人注册</a></li>
+                    <li><a href="{{ConfigInfo.qyzcurl}}" target="blank">企业注册</a></li>
+     </ul>
+</li>
+</ul>
+        <ul class="nav navbar-nav" id="div_user" style="display: none">
+            <li id="div_user" class="col-xs-12"><a href="#">{{UserInfo.userId}},您好!欢迎访问舟山市一网导航网站! </a>
+        </ul>
+    </div>
+</div>
+<div class="container">
+    <div class="banner"> </div>
+</div>
+<div class="container">
+    <div role="tabpanel">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">行政服务（便民服务）中心</a></li>
+            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">审招办（委）</a></li>
+            <li onclick="openUrl('zs.zjzwfw.gov.cn/');"><a style="cursor: pointer;">浙江省政务服务大厅舟山分厅</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">
+                <div class="xz-panel">
+                    <div class="col-xs-6" >
+                        <div class="location">
+                        	<div class="zss-button"><a onclick="openUrl('www.zszwfw.gov.cn');"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>舟山市</a></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6"  >
+                        <div class="bs-docs-sidebar" >
+                            <ul>
+                                <li class="li charges"> <a href="#" onclick="openUrl('www.zszwfw.gov.cn');"   _fcksavedurl="#nogo" class="option" ><span><img src="{{PageContext.ContextPath}}public/zs/zwfw/img/j-d-t-1.png">&nbsp;&nbsp;舟山市</span></a> </li>
+                                <li class="li biz"> <a href="#" onclick="openUrl('www.dh.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option" >
+                                <p class="dh-button">定海区 <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></p>
+                                <span><img src="{{PageContext.ContextPath}}public/zs/zwfw/img/j-d-t-1.png">&nbsp;&nbsp;定海区</span> </a>
+                                    <ul role="tabpanel" class="tab-pane" id="home">
+                                        <li class="li"> <a href="#"  onclick="openUrl('www.dhcg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">昌国街道</a>
+                                            <ul style="top:-100px;width:180px;margin-left:-100px;">
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgxa.zszwfw.gov.cn');"   _fcksavedurl="#nogo" class="option">西安社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgdgm.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">东管庙社区</a></li>
+												 <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcglf.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">留方社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgby.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">北园社区</a></li>
+												 <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcghy.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">合源社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgxy.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">香园社区</a></li>
+												 <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgwc.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">文昌社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgws.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">翁山社区</a></li>
+												 <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcghs.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">虎山社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgxgm.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">西管庙社区</a></li>
+												 <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgjs.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">金寿社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgxs.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">西山社区</a></li>
+												 <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgml.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">茅岭村</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgyq.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">义桥村</a></li>
+												 <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgdxa.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">大西岙村</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgcb.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">城北村</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgdw.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">东湾村</a></li>
+												 <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgydl.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">鸭蛋岭村</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcgky.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">开源社区</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="li"> <a href="#" onclick="openUrl('www.dhhn.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option"  id="dinghai">环南街道</a>
+                                            <ul style="top:-100px;width:180px;margin-left:-100px;">
+                                            	<li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhhnqd.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">千岛社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhhnwh.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">卫海社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhhnlm.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">利民社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhhnpl.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">蓬莱社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhhnhb.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">海滨社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhhnds.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">东山社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhhnhs.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">海山社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhhnnz.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">南珍社区</a></li>
+												<li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhhnxy.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">西园社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhhnxf.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">晓峰社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhhnzs.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">竹山社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhhnqf.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">庆丰村</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhhnps.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">盘峙村</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhhnwl.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">五联村</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhhndm.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">大猫村</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="li"> <a href="#" onclick="openUrl('www.dhcd.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option"  id="dinghai">城东街道</a>
+                                            <ul style="top:-100px;width:180px;margin-left:-100px;">
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdtx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">檀香社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdtd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">檀东社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdbj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">畚金社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdjb.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">桔北社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdjn.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">桔南社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcddy.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">东园社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdcd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">昌东社区</a></li>
+												<li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdzz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">紫竹社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdts.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">檀树社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdgb.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">港北社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdgn.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">港南社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdyjy.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">颐景园社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdhmw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">鸿毛湾社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdygy.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">阳光园社区</a></li>
+												<li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdya.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">洋岙社区</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdqd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">洞桥村</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcddya.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">大洋岙村</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdxq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">小碶村</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdsl.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">胜利村</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdcgs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">长岗山村</a></li>
+                                                <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dhcdxya.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">小洋岙社区</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="li"> <a href="#" onclick="openUrl('www.dhyc.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">盐仓街道</a>
+                                            <ul style="top:-100px;">
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhycts.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">塔山社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhycch.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">叉河村</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhychq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">虹桥村</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhycxz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">兴舟村</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhyccz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">昌洲村</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhycxlt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">新螺头村</a></li>
+                                                
+                                            </ul>
+                                        </li>
+                                        <li class="li"> <a href="#" onclick="openUrl('www.dhcgang.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">岑港街道</a>
+                                            <ul  style="top:-100px;">
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhcgangqt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">桥头社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhcgangtym.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">桃夭门社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhcgangzc.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">涨次社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhcgangna.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">南岙社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhcgangsq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">司前社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhcgangyd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">烟墩社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhcgangwq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">坞丘社区</a></li>
+												 <li class="li"><a href="#" onclick="openUrl('www.dhcgangmm.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">马目社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhcgangcb.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">册北社区</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="li"> <a href="#" onclick="openUrl('www.dhma.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">马岙街道</a>
+                                            <ul  style="top:-100px;">
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhmasj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">三江社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhmawy.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">五一社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhmama.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">马岙社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhmatj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">团结社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhmabh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">北海社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhmasx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">三星社区</a></li>
+                                                
+                                            </ul>
+                                        </li>
+                                        <li class="li"> <a href="#" onclick="openUrl('www.dhsq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">双桥街道</a>
+                                            <ul style="top:-100px;">
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhsqlg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">临港社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhsqsq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">石礁社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhsqqts.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">桥头施社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhsqns.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">南山社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhsqxl.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">浬溪社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhsqzw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">紫微社区</a></li>
+                                               
+                                            </ul>
+                                        </li>
+                                        <li class="li"> <a href="#" onclick="openUrl('www.dhxs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">小沙街道</a>
+                                            <ul style="top:-200px;">
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhxssl.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">三龙社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhxsqw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">前湾社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhxsha.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">后岸社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhxsds.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">大沙社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhxsqa.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">青岙社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhxsgh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">光华社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhxsmq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">庙桥社区</a></li>
+												<li class="li"><a href="#" onclick="openUrl('www.dhxszh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">增辉社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhxsbh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">滨海社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhxsmz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">毛峙村</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhxsdf.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">东风村</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="li"> <a href="#" onclick="openUrl('www.dhbq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">白泉镇</a>
+                                            <ul style="top:-200px;">
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhbqbq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">白泉社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhbqjs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">金山社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhbqwjh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">万金湖社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhbqkm.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">柯梅社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhbqhd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">河东社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhbqml.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">米林社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhbqph.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">平湖社区</a></li>
+												<li class="li"><a href="#" onclick="openUrl('www.dhbqgx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">皋泄社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhbqxz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">小展社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhbqhj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">洪家社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhbqxg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">新港社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhbqxt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">星塔社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhbqxm.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">星马社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhbqmzs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">毛竹山村</a></li>
+                                               
+                                            </ul>
+                                        </li>
+                                        <li class="li"> <a href="#" onclick="openUrl('www.dhgl.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">干览镇</a>
+                                            <ul style="top:-100px;">
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhglbg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">滨港社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhglds.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">东升社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhglsm.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">双庙社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhglxj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">新建社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhgllq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">龙潭社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhglql.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">青龙社区</a></li>
+                                                <li class="li"><a href="#" onclick="openUrl('www.dhglxmt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">西码头社区</a></li>
+                                            </ul>
+                                        </li>
+                                     
+                                    </ul>
+                                </li>
+                                <li class="li change"> <a href="#" onclick="openUrl('www.pt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" >
+                                <p class="pt-button">普陀区 <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></p>
+                                <span><img src="{{PageContext.ContextPath}}public/zs/zwfw/img/j-d-t-1.png">&nbsp;&nbsp;普陀区</span></a>
+								 <ul role="tabpanel" class="tab-pane" id="home">
+                                        <li class="li"> <a href="#" onclick="openUrl('www.ptsjm.zszwfw.gov.cn');"  onclick="openUrl('zsdhcg');"  _fcksavedurl="#nogo" class="option" id="dinghai">沈家门街道</a>
+                                    <ul style="width:180px;top:-140px;margin-left:-100px;">
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmxj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">新街社区</a> </li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmjc.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">教场社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmxpw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">小蒲湾社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmxh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">西河社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmdpw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">大蒲湾社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmhx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">海星社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmzz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">中洲社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmcw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">茶湾社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmdt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">墩头社区</a></li>
+										<li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmzx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">中兴社区</a> </li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmdg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">大干社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmljs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">鲁家峙社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmhd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">荷东社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmhw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">荷外社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmxd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">西大社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmdd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">东大社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmzd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">中大社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmsw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">泗湾社区</a></li>
+										<li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmpyp.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">平阳浦社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmda.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">大岙社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmzhud.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">竹东社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmst.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">沙头社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmmyd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">蚂蚁岛社区</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmmz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">马峙村</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmdgny.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">大干农业村</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmzn.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">中弄村</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmda.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">东岙村</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmds.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">大山村</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmjcc.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">教场村</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmpw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">蒲湾村</a></li>
+                                        <li class="li" style="width:50%;"> <a href="#" onclick="openUrl('www.ptsjmswc.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">泗湾村</a></li>
+                                    </ul>
+									</li>
+									 <li class="li"> <a href="#" onclick="openUrl('www.ptdg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">东港街道</a>
+                                       <ul style="width:180px;top:-150px;margin-left:-100px;">
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdgak.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">安康社区</a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdgla.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">莲安社区</a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdgzc.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">中昌社区</a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdglx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">灵秀社区</a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdgxp.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">兴普社区</a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdghj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">和津社区</a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdghl.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">葫芦社区</a></li>
+										<li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdgtt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">塘头社区</a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdglh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">芦花社区</a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdghq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">红旗社区</a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdgna.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">南岙社区</a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdgcjh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">陈家后村</a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdglxs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">路下沙村</a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdgpa.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">蒲岙村</a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdgpd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">浦东村</a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdgyx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">永兴村 </a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdgsg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">曙光村</a></li>
+                                        <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.ptdgpx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">浦西社区</a></li>
+                                       </ul>
+                                     </li>
+									<li class="li"> <a href="#" onclick="openUrl('www.ptzm.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">展茅街道</a>
+                                      <ul>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptzmsj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">沙井社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptzmmy.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">茅洋社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptzmlm.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">螺门社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptzmhyj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">黄杨尖社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptzmhj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">横街社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptzmdz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">大展社区</a></li>
+                                      </ul>
+                                    </li>
+									<li class="li"> <a href="#" onclick="openUrl('www.ptxs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">虾峙镇</a>
+                                      <ul>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptxslh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">灵和社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptxscg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">晨港社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptxsxg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">兴港社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptxsdx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">东晓社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptxshn.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">湖泥社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptxshs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">黄石社区</a></li>
+                                      </ul>
+                                    </li>
+									<li class="li"> <a href="#" onclick="openUrl('www.ptth.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">桃花镇</a>
+                                      <ul style="top:-200px;">
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptthyc.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">盐厂社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptthms.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">茅山社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptthtw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">塔湾社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptthgs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">宫峙社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptthql.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">青龙社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptthgq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">公前社区</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptthdzzx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">对峙中心村</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptthdst.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">大石头村</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptthsa.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">沙岙村</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptthlzs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">连治山村</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptthkp.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">客浦村</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptthdp.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">稻蓬村</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptthgqc.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">公前村</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptthhst.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">后沙头村</a></li>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptthbgm.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">鹁鸪门村</a></li>
+                                      </ul>
+                                    </li>
+									<li class="li"> <a href="#" onclick="openUrl('www.ptdj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">东极镇</a>
+                                      <ul>
+                                       <li class="li"><a href="#" onclick="openUrl('www.ptdjdj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">东极社区</a></li>
+                                      </ul>
+                                    </li>
+								</ul>
+                                </li>
+                                <li class="li change"> <a href="#" onclick="openUrl('www.ds.zszwfw.gov.cn');"   _fcksavedurl="#nogo" class="option" >
+                                <p class="ds-button">岱山县 <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></p>
+                                <span><img src="{{PageContext.ContextPath}}public/zs/zwfw/img/j-d-t-1.png">&nbsp;&nbsp;岱山县</span></a>
+                                <ul role="tabpanel" class="tab-pane" id="home">
+                                 <li class="li"> <a href="#" onclick="openUrl('www.dsgt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">高亭镇</a>
+                                  <ul  style="width:180px;top:-150px;margin-left:-100px;">
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtst.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">沙涂社区</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtal.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">安澜社区</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtzk.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">闸口社区</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtyc.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">育才社区</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtpl.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">蓬莱社区</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtlt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">兰亭社区</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtjh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">嘉和社区</a></li>
+								   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtdae.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">大岙二村</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtzke.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">闸口二村</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtdjs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">大峧山村</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtdh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">东海村</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtday.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">大岙一村社区</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtzky.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">闸口一村</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtsw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">山外村</a></li>
+								   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtxpm.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">小蒲门村</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtdpm.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">大蒲门村</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtjn.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">江南村</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtnf.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">南峰社区</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtfs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">枫树社区</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtjc.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">机场社区</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtma.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">石马岙社区</a></li>
+								   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtljz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">浪激渚社区</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtys.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">鱼山社区</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtgs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">官山村</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtgty.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">高亭一村</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtgte.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">高亭二村</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtzy.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">竹屿社区</a></li>
+                                   <li class="li" style="width:50%;"><a href="#" onclick="openUrl('www.dsgtswn.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">山外农社区</a></li>
+                                  </ul>
+                                </li>
+						    <li class="li"> <a href="#" onclick="openUrl('www.dsds.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">东沙镇</a>
+                                <ul >
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsdsds.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">东沙社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsdsqt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">桥头社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsdsns.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">泥峙社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsdssj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">司基社区</a></li>
+                                </ul>
+                             </li>
+							 <li class="li"> <a href="#" onclick="openUrl('www.dsdd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">岱东镇</a>
+                                <ul >
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsddtk.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">涂口社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsddsy.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">沙洋社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsddlt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">龙头社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsddhd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">虎斗社区</a></li>
+								 <li class="li"><a href="#" onclick="openUrl('www.dsddbf.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">北峰社区</a></li>
+                                </ul>
+                             </li>
+							  <li class="li"> <a href="#" onclick="openUrl('www.dsdx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">岱西镇</a>
+                                <ul >
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsdxqh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">青黑社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsdxyx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">摇星社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsdxsh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">双合社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsdxhs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">海山社区</a></li>
+								 <li class="li"><a href="#" onclick="openUrl('www.dsdxqjm.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">仇江门社区</a></li>
+                                </ul>
+                             </li>
+							  <li class="li"> <a href="#" onclick="openUrl('www.dsct.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">长涂镇</a>
+                                <ul >
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsctdj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">东剑社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsctwjt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">倭井潭社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsctcxy.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">长西一村村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsctcxe.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">长西二村村</a></li>
+								 <li class="li"><a href="#" onclick="openUrl('www.dsctgn.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">港南社区</a></li>
+                                </ul>
+                             </li>
+							  <li class="li"> <a href="#" onclick="openUrl('www.dsqs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">衢山镇</a>
+                                <ul  style="top:-200px;">
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsqsdd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">岛斗社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsqsxf.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">幸福社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsqszts.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">枕头山社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsqstp.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">太平社区</a></li>
+								 <li class="li"><a href="#" onclick="openUrl('www.dsqsgt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">高涂社区</a></li>
+								 <li class="li"><a href="#" onclick="openUrl('www.dsqsgh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">桂花社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsqssp.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">四平社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsqssl.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">鼠浪社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsqshf.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">皇坟社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsqslt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">龙潭社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsqsyz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">瀛洲社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsqsshl.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">沙龙社区</a></li>
+								 <li class="li"><a href="#" onclick="openUrl('www.dsqswl.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">万良社区</a></li>
+                                 </ul>
+                             </li>
+							  <li class="li"> <a href="#" onclick="openUrl('www.dsxs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">秀山乡</a>
+                                <ul >
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsxsxd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">秀东社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsxsxn.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">秀南社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.dsxsxb.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">秀北社区</a></li>
+                                  </ul>
+                                 </li>
+                               </ul>
+                               </li>
+                                <li class="li server"> <a href="#" onclick="openUrl('www.ss.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">
+                                <p class="ss-button">嵊泗县 <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></p>
+                                <span><img src="{{PageContext.ContextPath}}public/zs/zwfw/img/j-d-t-1.png">&nbsp;&nbsp;嵊泗县</span></a> 
+                                <ul role="tabpanel" class="tab-pane" id="home">
+                                <li class="li"> <a href="#" onclick="openUrl('www.sscy.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">菜园镇</a>
+                                <ul  style="top:-200px;">
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscyqs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">青沙社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscylh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">绿华社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscyjs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">金沙社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscymg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">马关社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscyjp.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">金平社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscyjp.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">金平社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscysh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">沙河社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscydya.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">大鱼岙村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscyxpt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">小平头村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscyhnk.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">黄泥坎村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscyjja.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">金鸡岙村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscymj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">马迹村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscyxga.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">小关岙村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscysz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">石柱村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscygcw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">高场湾村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscyjh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">基湖村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscyhb.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">海滨社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sscycp.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">菜圃社区 </a></li>
+                                 </ul>
+                                 </li>
+							<li class="li"> <a href="#" onclick="openUrl('www.ssss.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">嵊山镇</a>
+                              <ul >
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssssbx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">壁下社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sssscqs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">陈钱山社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssssxza.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">箱子岙社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssssszt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">泗洲塘社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssssgm.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">光明村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssssqw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">前卫村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssssmf.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">民富村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssssmz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">民主村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sssstj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">团结村 </a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssssjf.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">解放村</a></li>
+                              </ul>
+                            </li>
+							<li class="li"> <a href="#" onclick="openUrl('www.ssys.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">洋山镇</a>
+                              <ul >
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssyscd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">城东社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssyssg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">圣港社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssysbh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">滨海社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssysxy.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">雄洋社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssysth.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">滩浒社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssysxygq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">小洋港区社区</a></li>
+                              </ul>
+                            </li>
+							<li class="li"> <a href="#" onclick="openUrl('www.sswl.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">五龙乡</a>
+                              <ul >
+                                 <li class="li"><a href="#" onclick="openUrl('www.sswlds.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">东山社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sswlbq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">边礁村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sswlhs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">黄沙村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sswlta.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">田岙村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sswlhc.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">会城村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sswlzy.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">朝阳社区</a></li>
+                               </ul>
+                            </li>
+							<li class="li"> <a href="#" onclick="openUrl('www.sshl.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">黄龙乡</a>
+                              <ul >
+                                 <li class="li"><a href="#" onclick="openUrl('www.sshlng.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">南港社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sshlsa.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">峙岙社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sshlbg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">北港社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sshlba.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">北岙村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sshlda.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">大岙村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sshldjt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">东咀头村</a></li>
+                                </ul>
+                            </li>
+							<li class="li"> <a href="#" onclick="openUrl('www.ssgq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">枸杞乡</a>
+                              <ul >
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssgqlq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">龙泉社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssgqgx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">干斜社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssgqdw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">大王社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssgqmg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">庙干社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssgqws.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">乌沙村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssgqsp.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">石浦村</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.ssgqlx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">里西村</a></li>
+                              </ul>
+                            </li>
+							<li class="li"> <a href="#" onclick="openUrl('www.sshn.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">花鸟乡</a>
+                              <ul >
+                                 <li class="li"><a href="#" onclick="openUrl('www.sshnhn.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">花鸟社区</a></li>
+                                 <li class="li"><a href="#" onclick="openUrl('www.sshndt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">灯塔村</a></li>
+                              </ul>
+                            </li>
+                                </ul>
+                                </li>
+                                
+                                <li class="li edit"> <a href="#" onclick="openUrl('www.hycy.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">
+                                <p class="hy-button">海洋产业集聚区 <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></p>
+                                <span><img src="{{PageContext.ContextPath}}public/zs/zwfw/img/j-d-t-1.png">&nbsp;&nbsp;海洋产业集聚区</span></a> 
+        
+                                </li>
+                                
+                                <li class="li sms"> <a href="#" onclick="openUrl('www.xc.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">
+                                 <p class="xc-button"> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>新城管委会</p>
+                                <span><img src="{{PageContext.ContextPath}}public/zs/zwfw/img/j-d-t-1.png">&nbsp;&nbsp;新城管委会</span></a> 
+                                <ul role="tabpanel" class="tab-pane" id="home"  style="width:180px;top:-200px;">
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcxd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">星岛社区</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xchh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">荷花村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcdd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">东荡村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcws.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">万三村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcwe.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">万二村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcwt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">万塘村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcsy.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">双阳村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xchf.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">海防村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcxht.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">新后岸村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcas.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">岙山村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xccz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">长峙村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcma.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">马鞍村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcwjd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">王家墩村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcxddxz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">东蟹峙村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcsgt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">三官堂村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xchtl.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">吴榭社区</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcyd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">甬东村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcyq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">甬庆村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xccht.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">城隍头村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcts.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">同胜村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcghc.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">桂花城社区</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xchy.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">海宇社区</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcwz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">翁洲社区</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xctlz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">田螺峙社区</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcyj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">甬金社区</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcdf.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">丹枫社区</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcydao.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">怡岛社区</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xchmq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">惠民桥村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcyh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">永华村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xclq.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">老碶村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xccs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">长升村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcht.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">横塘村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcxid.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">西荡村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcss.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">胜山村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xchx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">合兴村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xczw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">中湾村</a></li>
+									<li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.xcgf.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">高峰村</a></li>
+                                </ul>
+                               </li>
+                                
+                                <li class="li score"> <a href="#" onclick="openUrl('www.pts.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">
+                                <p class="pts-button">普陀山-朱家尖管委会 <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></p>
+                                <span><img src="{{PageContext.ContextPath}}public/zs/zwfw/img/j-d-t-1.png">&nbsp;&nbsp;普陀山-朱家尖管委会</span></a> 
+                                <ul role="tabpanel" class="tab-pane" id="home">
+                                 <li class="li"> <a href="#" onclick="openUrl('www.ptszjjpts.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">普陀山镇</a>
+                                 	<ul>
+                                 		<li class="li"><a href="#" onclick="openUrl('www.ptszjjptsxs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">西山社区</a></li>
+                                 		<li class="li"><a href="#" onclick="openUrl('www.ptszjjptsqs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">前山村</a></li>
+                                 		<li class="li"><a href="#" onclick="openUrl('www.ptszjjptszs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">中山村</a></li>
+                                 		<li class="li"><a href="#" onclick="openUrl('www.ptszjjptshx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">合兴村</a></li>
+                                 		<li class="li"><a href="#" onclick="openUrl('www.ptszjjptslw.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">龙湾村</a></li>
+                                 	</ul>
+                                 </li>
+                                 <li class="li"> <a href="#" onclick="openUrl('www.ptszjjzjj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">朱家尖街道</a>
+                                 	<ul  style="top:-200px;">
+                                 		<li class="li"><a href="#" onclick="openUrl('www.ptszjjzjjfx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">福兴社区</a></li>
+	                                 	<li class="li"><a href="#" onclick="openUrl('www.ptszjjzjjsgnc.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">朱家尖曙光农场</a></li>
+										<li class="li"><a href="#" onclick="openUrl('www.ptszjjzjjsh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">三和社区</a></li>
+										<li class="li"><a href="#" onclick="openUrl('www.ptszjjzjjns.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">南沙社区</a></li>
+										<li class="li"><a href="#" onclick="openUrl('www.ptszjjzjjlh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">莲花社区</a></li>
+										<li class="li"><a href="#" onclick="openUrl('www.ptszjjzjjlx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">莲兴社区</a></li>
+										<li class="li"><a href="#" onclick="openUrl('www.ptszjjzjjxa.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">西岙社区</a></li>
+										<li class="li"><a href="#" onclick="openUrl('www.ptszjjzjjzx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">中欣社区</a></li>
+										<li class="li"><a href="#" onclick="openUrl('www.ptszjjzjjsm.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">顺母社区</a></li>
+										<li class="li"><a href="#" onclick="openUrl('www.ptszjjzjjbsg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">白沙港社区</a></li>
+                                 	</ul>
+                                 </li>
+                                </ul>
+                                </li>
+                                <li class="li jint"> <a href="#" onclick="openUrl('www.jt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option">
+                                 <p class="jt-button">金塘管委会 <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></p>
+                                <span><img src="{{PageContext.ContextPath}}public/zs/zwfw/img/j-d-t-1.png">&nbsp;&nbsp;金塘管委会</span></a> 
+                                <ul role="tabpanel" class="tab-pane" id="home"  style="top:-200px;">
+                                  <li class="li"> <a href="#" onclick="openUrl('www.jtxj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">仙居社区</a></li>
+                                  <li class="li"> <a href="#" onclick="openUrl('www.jtlx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">柳行社区</a></li>
+								  <li class="li"> <a href="#" onclick="openUrl('www.jthp.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">河平社区</a></li>
+                                  <li class="li"> <a href="#" onclick="openUrl('www.jtdp.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">大浦社区</a></li>
+								  <li class="li"> <a href="#" onclick="openUrl('www.jtxf.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">新丰社区</a></li>
+                                  <li class="li"> <a href="#" onclick="openUrl('www.jtma.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">穆岙社区</a></li>
+								  <li class="li"> <a href="#" onclick="openUrl('www.jtst.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">山潭社区</a></li>
+                                  <li class="li"> <a href="#" onclick="openUrl('www.jtxh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">西堠社区</a></li>
+								  <li class="li"> <a href="#" onclick="openUrl('www.jtdh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">东堠社区</a></li>
+                                  <li class="li"> <a href="#" onclick="openUrl('www.jthj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">和建社区</a></li>
+								  <li class="li"> <a href="#" onclick="openUrl('www.jtdg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">大观社区</a></li>
+                                  <li class="li"> <a href="#" onclick="openUrl('www.jtlp.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">沥平社区</a></li>
+                                    </ul>
+                                </li>
+                                <li class="li liuh"> <a href="#" onclick="openUrl('www.lh.zszwfw.gov.cn');" _fcksavedurl="#nogo" class="option">
+                                 <p class="lh-button">六横管委会会 <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></p>
+                                 <span><img src="{{PageContext.ContextPath}}public/zs/zwfw/img/j-d-t-1.png">&nbsp;&nbsp;六横管委会</span></a> 
+                                 <ul role="tabpanel" class="tab-pane" id="home" style="width:180px;top:-200px;">
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhjiaot.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">峧头社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhszt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">石柱头社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhls.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">龙山中心社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhss.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">嵩山社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhhr.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">和润社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhxgj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">小郭巨社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhsyg.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">双屿港社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhst.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">双塘社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhcx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">岑夏社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhql.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">青联社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhqs.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">青山社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhpj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">平峧中心社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhcd.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">苍洞中心社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhxh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">小湖社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhdz.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">杜庄中心社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhtmzx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">台门中心社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhta.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">田岙中心社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhjt.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">礁潭中心社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhxsh.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">悬山社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhfdzx.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">佛渡中心社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhdj.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">东靖社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhzls.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">蟑螂山社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhzl.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">棕榈湾社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhtaim.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">台门社区</a></li>
+                                 <li class="li" style="width: 50%;"> <a href="#" onclick="openUrl('www.lhxm.zszwfw.gov.cn');"  _fcksavedurl="#nogo" class="option" id="dinghai">新民社区</a></li>    
+                                   
+                                 </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="profile">
+                <div class="xz-panel">
+                    <div class="col-xs-6">
+                        <div class="location">
+                          <div class="zs-but"><a href="#" onclick="openUrl('www.zsszw.gov.cn/zsszb/');"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>舟山市</a></div>
+                          <div class="dh-but"><a href="#" onclick="openUrl('www.dh.zsszw.gov.cn/zsszb/');"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>定海区</a></div>
+                          <div class="pt-but"><a href="#" onclick="openUrl('www.pt.zsszw.gov.cn/zsszb/');"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>普陀区</a></div>
+                          <div class="ds-but"><a href="#" onclick="openUrl('www.ds.zsszw.gov.cn/zsszb/');"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>岱山县</a></div>
+                          <div class="ss-but"><a href="#" onclick="openUrl('www.ss.zsszw.gov.cn/zsszb/');"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>嵊泗县</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="messages">...</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

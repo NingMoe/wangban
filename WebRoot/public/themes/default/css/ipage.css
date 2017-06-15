@@ -1,0 +1,243 @@
+/*----------------------------------------
+Name: ipage.css
+Developed by: Eric Chan
+Date Created: 2014-11-09
+Last Updated: 2014-11-09
+----------------------------------------*/
+@charset "utf-8";
+html{}
+body{background:#F8F8F8 url('../images/ipage/top_BG_C.jpg') center top no-repeat;}
+.footer{width:100%!important;}
+.ibox{border: 1px solid;
+	border-color: #fff #efefef #d3d3d3 #efefef;
+	box-shadow: 0 1px 1px #efefef;
+	background: #fff;
+	border-radius: 3px;}
+.swich_boxhd .ico_list dl.myapp{width:230px;margin:18px 10px 0px ;position: relative; height: 246px;}
+.appscontainer .title_center { width: 98%; border:none; font-weight: 700; font-size: 16px;}
+.appscontainer .title_center span { font-size: 14px; padding-left: 30px; font-weight: 500; color: #666}
+.appscontainer .title_center span em { padding: 0 5px; color: #f00; font-weight: 700;}
+.top{height:225px!important;}
+.menu_bg{top:172px!important;}
+.top_title{height:120px!important;padding-top:22px!important;}
+.top_nav{height:30px;padding-top:0px!important;}
+.top_nav_bg{height:28px!important;background-color: #4272c2!important;filter:alpha(opacity=60)!important;opacity:0.6!important;}
+.myapp{/*width:205px!important;margin:28px 0px 0px 25px!important;*/position: relative;}
+.myapp a{color:#161616;}
+.myapp dt{position: relative;color:#FFF;/*background:#e3e4e5;*/color:#161616;padding:14px 0 14px;text-align: center;font-size:14px;/*border-top-left-radius:4px;border-top-right-radius:4px;*/height: auto!important;border:1px solid #d8dadc;}
+.myapp .dt2{ padding:7px 0 8px;font-size:14px;line-height: 18px;}
+.myapp .dt2 a{height:33px;display:block;}
+.myapp dd div{height:160px!important;border:1px solid #d8dadc;border-width:0px 1px;}
+.myapp dd span{display:block;padding: 8px;text-align: center;border:1px solid #d8dadc;background: #F4F5F6;/*border-bottom-left-radius:6px;border-bottom-right-radius:6px;*/}
+
+
+.theApp{width:64px;height:64px;float:left;background:url('/public/themes/default/images/ipage/apps/BGX64.jpg');border-radius:8px;box-shadow:0 1px 1px #999;}
+.theFeedTitle{width:64px;height:64px;float:left;background:url('/public/themes/default/images/ipage/apps/BGX64.jpg');box-shadow:0 1px 1px #999;}
+.main_warp{background: none!important;}
+.btn_x{color: #666; border:1px solid #ddd; background: #f8f8f8; text-align: center; border-radius: 5px;padding: 5px 12px;cursor: pointer;}
+.btn_new{color: #FFF; border-color:  #1177cd; background: #008aff;}
+.btn_editor{}
+/*
+.btn_x{color: #666; border:1px solid #ddd; background: #f8f8f8 url(../images/ipage/edit.png) no-repeat 7px center; text-align: center; border-radius: 5px;padding: 5px 12px 5px 28px;cursor: pointer;}
+.btn_new{color: #FFF; border-color:  #1177cd; background: #008aff url(../images/ipage/add_ico.png) no-repeat 8px 6px; }*/
+.ok_editor { color: #fff; background: #f30 url(../images/ipage/edit.png) no-repeat 7px center; border-color: #BD0000 }
+
+
+.col-xs-2{
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.col-xs-2 {
+  float: left;
+}
+.col-xs-2 {
+  width: 10.66666667%;
+}
+.text-center {
+  text-align: center;
+}
+caption {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: #728893;
+  text-align: left;
+}
+.omega {
+  padding-right: 0 !important;
+}
+.thumbnail > img,
+.thumbnail a > img,
+.img-thumbnail {
+  padding: 4px;
+  line-height: 1.42857143;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 0;
+  -webkit-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+}
+ .thumbnail .caption {
+  color: #000000;
+}
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+  border-color: #0db0e5;
+}
+.thumbnail {
+  display: block;
+  padding: 4px;
+  margin-bottom: 20px;
+  line-height: 1.42857143;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 0;
+  -webkit-transition: border 0.2s ease-in-out;
+  -o-transition: border 0.2s ease-in-out;
+  transition: border 0.2s ease-in-out;
+}
+.thumbnail > img,
+.thumbnail a > img {
+  margin-left: auto;
+  margin-right: auto;
+}
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+  border-color: #0db0e5;
+}
+.thumbnail .caption {
+  padding: 9px;
+  color: #364147;
+}
+.thumbnail {
+  padding: 12px 0 2px 0;
+  color: #fff;
+  -webkit-transition: all ease-in-out .15s;
+  -o-transition: all ease-in-out .15s;
+  transition: all ease-in-out .15s;
+}
+
+.thumbnail.orange {
+  background-color: #ff9800;
+}
+.thumbnail.light-blue {
+  background-color: #0db0e5;
+}
+.thumbnail .caption {
+  color: #000;
+}
+.thumbnail {
+  padding: 10px 0 0 0;
+  color: #09789d;
+  -webkit-transition: all ease-in-out .2s;
+  -o-transition: all ease-in-out .2s;
+  transition: all ease-in-out .2s;
+}
+.thumbnail:hover {
+  background-color: #c2eefc;
+}
+.no-bordered {
+  border: 0;
+}
+.btn_del{background: #EFEFEF!important;color:#000!important;border-color: #BBB;}
+.myapp .delete{background: url('../images/ipage/myapp_delete.png');display: none;width:24px;height:24px;position: absolute;right:-10px;top:-10px;}
+.showList{min-height: 400px;}
+.myfeeds .ul_list {padding-left:10px;height:154px;}
+.myfeeds .ul_list  li{height:25px;}
+.myfeeds .btn_add{display:none;}
+.myfeeds{ padding-top:20px;zoom:1;overflow:auto; }
+.myfeeds .ibox{float:left;width:300px;border-top:1px solid #E6E6E6;margin-left:22px;margin-bottom:22px;}
+.myfeeds .ibox .logo{width:32px;height:32px;background:#EFEFEF;float:left;}
+.myfeeds .ibox .tag{float:left;padding:2px 4px;background:#CDCDCD;color:#FFF;font-size:10px;margin-left:12px;display:none;}
+.myfeeds .ibox .btn_frame{float:right;padding-top:4px;}
+.myfeeds .ibox .title{font-size:14px;float:left;line-height:32px;padding-left:12px;}
+.myfeeds .ibox .describe{text-indent:2em;clear:both;height:160px;overflow:hidden;padding:8px 18px 0px 18px;line-height:18px;margin-bottom:6px;display:none;}
+.myfeeds .ibox .ul_list{display:block;}
+.myfeeds .unSubscribe{background:#FAFAFA;}
+.myfeeds .unSubscribe .tag{display:block;}
+.myfeeds .unSubscribe .ul_list{display:none;}
+.myfeeds .unSubscribe .describe{display:block;}
+.editor_on .unSubscribe{display:block!important;}
+.editor_on .myfeeds .btn_add{display:block;}
+.editor_on .tips_x{display:none!important;}
+
+.top_bg_cloud{height:550px;width:100%;position: absolute;top:0px;left: 0px;z-index:0;overflow: hidden;}
+.top_bg_cloud .e{height:550px;width:1200px;position: relative;overflow: hidden;margin: 0 auto;}
+.top_bg_cloud_a{position: absolute;background: url('../images/ipage/top_bg_cloud_a.png');height: 250px;width:500px;top:150px;left:200px;}
+.top_bg_cloud_b{position: absolute;background: url('../images/ipage/top_bg_cloud_b.png');height: 250px;width:500px;top:150px;right:200px;}
+#ifooter{
+	display:block;
+	width:100%;
+	height:42px;
+	font-family:'Microsoft YaHei',"微软雅黑";
+	color:#FFFFFF;
+	background:#245292;
+	/*position: absolute;
+	bottom:0px;
+	left:0px;
+	z-index: 1000;*/
+}
+
+#ifooter .footer_copy{
+	padding-top:10px;width:900px;margin:0 auto;padding-left: 100px;
+}
+#ifooter .logo{
+	float:left;
+	width:24px;
+	margin-top:0px;
+	height:24px;
+	background: url('../images/home/sz_logo_24.png') no-repeat;
+}
+/*
+#ifooter .logo_line{
+	float:left;
+	display:block;
+	width:0px;
+	height:40px;
+	margin-left:15px;
+	border:1px solid white;
+}
+#ifooter .navigator{
+	float:right;
+
+	font-weight:bold;
+	color:#82F3FF;
+	width:300px;
+	margin-right:15px;
+}
+#ifooter .navigator a{color:#82F3FF;margin-right:5px;}
+
+#ifooter .navigator .bottom{width:100%;height:25px;font-weight:normal;}
+*/
+#index_home .ipage_footer {
+	float:left;
+	height:90px;
+	margin:0 auto;
+	color:white;
+	border-top:1px solid white;
+	background:#28467a;
+}
+.alert {
+	padding: 16px 32px;
+	margin-bottom: 18px;
+	color: #c09853;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	font: 14px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background-color: #fcf8e3;
+	border: 1px solid #fbeee0;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+.info {
+	color: #3a87ad;
+	background-color: #d9edf7;
+	border-color: #bce8f1;
+}

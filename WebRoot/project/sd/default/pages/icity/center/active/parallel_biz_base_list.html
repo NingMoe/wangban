@@ -1,0 +1,59 @@
+<style>
+.btn-danger {
+	    background-color: #f44336;
+	}
+</style>
+<section class="its-page-body" id ="parallel_biz_base_list">
+		<table class="table its-tabel-filter">
+             <tbody>
+                 <tr>
+                     <th width="90" class="text-right">业务编号：</th>
+                     <td width="130">
+                        <input type="text" class="form-control" placeholder="请输入业务编号" id="id">
+                     </td>
+                     <th width="100" class="text-right">业务主题：</th>
+                     <td width="130"><input type="text" class="form-control" placeholder="请输入业务主题" id="title"></td>
+                     
+                     <th width="85" class="text-right">申请时间：</th>
+                     <td width="110"><input type="text" class="form-control" id="ctime_s" name="ctime_s" placeholder="请选择"  onClick="jeDate({dateCell:'#ctime_s',isTime:true,format:'YYYY-MM-DD'})"></td>
+                     <th width="15" class="text-right">至</th>
+                     <td width="110"><input type="text" class="form-control" id="ctime_e" name="ctime_e" placeholder="请选择"  onClick="jeDate({dateCell:'#ctime_e',isTime:true,format:'YYYY-MM-DD'})"></td>
+                     <td width="130" >
+                     	<input type="button" id="submit" class="btn btn-primary" value="查询"> 
+                     	<input type="button" id="reset" class="btn btn-danger" value="重置">
+                     </td>
+                 </tr>
+             </tbody>
+         </table>
+         <div id="div_business_list">
+         
+         </div>
+         <div id="epager" style="text-align:center;"></div>
+</section>
+<section class="its-page-body" id="parallel_biz_base_listinfo" style="display:none;">
+    
+</section>
+<textarea id="template_business_list" style="display: none">
+{if data.length > 0} 
+         <table class="table table-striped its-table-backlog">
+             <thead>
+                 <tr class="bg-info">         
+                     <th style="width:20%;" class="text-center text-primary">业务编号</th> 
+                     <th style="width:20%;" class="text-center text-primary">项目编码</th>                     
+                     <th style="width:45%;" class="text-center text-primary">业务主题</th>
+                     <th style="width:20%;" class="text-center text-primary">申请时间</th>
+                 </tr>
+             </thead>
+             <tbody id="bodys">
+             {for o in data}
+                 <tr>
+                 	 <td class="text-center" ><a href="javascript:void(0);"	onclick="ParallelBizBaseInfo('${o.BIZ_ID}')">${o.BIZ_ID}</a></td>
+                     <td class="text-center" ><a href="javascript:void(0);"	onclick="ParallelBizBaseInfo('${o.BIZ_ID}')">${o.PROJECT_ID}</a></td>
+                     <td  title="${o.APPLY_SUBJECT}"><a href="javascript:void(0);"	onclick="ParallelBizBaseInfo('${o.BIZ_ID}')">${o.APPLY_SUBJECT}</a></td>
+                     <td class="text-center">${formatDate(o.APPLY_TIME)}</td>
+                 </tr>
+             {/for}
+             </tbody>
+         </table> 
+{/if}
+</textarea>

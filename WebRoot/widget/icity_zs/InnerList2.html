@@ -1,0 +1,81 @@
+
+<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/icity.js"></script>
+<script type="text/javascript">
+</script>
+{% command "app.icity.enterprises.EnterprisesCmd","getPublicity" as list %}
+<section class="panel panel-success" style="margin-bottom: 10px;">
+	<ul class="list-unstyled zl-list-unstyled-ggfu-3">
+		<li> <span style=" width:230px;"><strong>申报号</strong></span>
+			<p style=" width:260px;"><strong>审批事项</strong></p>
+			<span style=" width:140px;"><strong>受理单位</strong></span> 
+			<span style=" width:100px;"><strong>申报时间</strong></span> 
+			<span style=" width:100px;"><strong>承诺时间</strong></span>
+			<em style=" width:80px;"><strong>状态</strong></em> </li>
+	</ul>
+	<div id="roll_list2" style="height: 192px; overflow: hidden; position: relative;">
+		<ul style="position: absolute; top: 0px; left: 0px;" id="maq" class="list-unstyled zl-list-unstyled-ggfu-3">
+			{% if list.data %} {% for o as list.data %}
+				<li>
+					<span style="width:230px;text-align:left;">{{o.id}}</span>
+					<p title="{{o.applySubject}}" style="width:260px;text-align:left;">{{o.applySubject|truncate:18}}</p>
+					<span title="{{o.orgName}}" style="width:140px;text-align:left;">{{o.orgName}}</span>
+					<p style="width: 100px;text-align:left;"><i class="NeedFormatTime_">{{o.receiveTime}}</i></p>
+ 					<p style="width: 100px;text-align:left;"><i class="NeedFormatTime_">{{o.finishTime}}</i></p>
+					<em style="width:80px;text-align:left;"><i class="label label-success">&nbsp;</i><font class="NeedFormatState" state="{{o.status}}"></font></em>
+				</li>
+			{% endfor %} {% else %}
+			<li>
+				<div style="text-align: center;margin-top:5px;">
+					<font>暂无业务数据</font>
+				</div>
+			</li> 
+			{% endif %}
+		</ul>
+	</div>
+</section>
+<script>
+	function roll2(){
+		var speed2 = 50;
+		var MyMar2 = setInterval(Marquee2, speed2);
+		roll_list2.onmouseover = function() {
+			clearInterval(MyMar2);
+		};
+		roll_list2.onmouseout = function() {
+			MyMar2 = setInterval(Marquee2, speed2);
+		};
+	}
+	function Marquee2() {
+		if (4150 - roll_list2.scrollTop <= 0)
+			roll_list2.scrollTop -= 4150;
+		else {
+			roll_list2.scrollTop++;
+		}
+	}
+	roll2();
+	
+	$(".NeedFormatState").each(function() {
+		var status = $(this).attr("state");
+		var bState = "正常";
+		switch(status){
+		case "10":
+			bState="未办";
+			break;
+		case "11":  
+			bState = "在办";
+			break;
+		case "99":
+			bState = "已办 ";
+			break;
+		}
+		$(this).html(bState);
+	});
+	$(".NeedFormatTime_").each(function() {
+		var shtml = $(this).html()+"";
+		if(LEx.isNotNull(shtml)){
+			var stime = shtml.substring(0, 10);
+			$(this).html(stime).show();
+		}else{
+			$(this).html("").show();
+		}
+	});
+</script>

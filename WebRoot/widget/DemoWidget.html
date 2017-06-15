@@ -1,0 +1,14 @@
+{% command 'app.pmi.TestCmd','getTestList',__PARAMS__ as d %}
+总记录数为：{{d.total}}<br/>
+<table style="width:200px;" class="listTable">
+	<tr>
+		<th>ID</th>
+		<th>USERNAME</th>
+	</tr>
+	{% for o in d.data %}
+	<tr>
+		<td>{{ o.ID }}</td>
+		<td>{{o.USERNAME}}</td>
+	</tr>
+	{% endfor %}
+</table>

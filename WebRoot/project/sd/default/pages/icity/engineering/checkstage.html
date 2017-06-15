@@ -1,0 +1,179 @@
+<!-- 3、并联审批 选择阶段-->
+{% include icity/engineering/engineeringcss.html %}
+<script>
+	var data = LEx.urldata;
+	var StageName = "";//阶段
+	var StageId = "";//阶段
+	var FlowName = "";//流程
+	var FlowId = "";//流程
+	var formId = "";//表单id
+	$(function() {
+		var active_stageId = $(".jieduan").find(".active").find("a").attr("id");
+		StageId = active_stageId;
+		StageName = $(".jieduan").find(".active").find("a").html();
+		getFlowByFlowType(active_stageId);
+		$(".jieduan li a").click(function() {
+			StageId = $(this).attr("id");
+			StageName = $(this).html();
+			$(".jieduan").find(".active").addClass("border");
+			$(".jieduan").find(".active").removeClass("active");
+			$(this).parent().addClass("active");
+			getFlowByFlowType($(this).attr("id"));
+		});
+	});
+	//2.13	根据申报类型获取申报流程getFlowByFlowType
+	function getFlowByFlowType(stageId) {
+		var cmd = new LEx.Command("app.icity.engineering.EngineeringCmd");
+		cmd.setParameter("stageId", stageId);
+		cmd.setParameter("investType", data.investType)
+		cmd.setParameter("flowType", data.flowType)
+		cmd.setParameter("regionCode", getSecurityValue("WebRegion"))
+		var ret = cmd.execute("getFlowByFlowType");
+		if(ret.state=="1"){
+			if (ret.data.retCode == "200") {
+				$('#checkstageFlow').html(LEx.processDOMTemplate('checkstageFlowTemplate', ret));
+				FlowName = $("#" + ret.data.flow[0].flowId).html();
+				FlowId = ret.data.flow[0].flowId;
+				getReport(ret.data.flow[0].flowId);
+				//绑定流程点击事件
+				$("#checkstageFlow li a").click(function() {
+					FlowName = $(this).html();
+					FlowId = $(this).attr("id");
+					getReport($(this).attr("id"));
+				});
+			} else {
+				$('#checkstageFlow').html("");
+				LEx.alert("未获取到流程信息！");
+			}
+		}else{
+			LEx.alert(ret.message);	
+		}		
+	}
+	//2.3	获取申报信息(表单、事项)
+	function getReport(flowId) {
+		var cmd = new LEx.Command("app.icity.engineering.EngineeringCmd");
+		cmd.setParameter("flowId", flowId);
+		var ret = cmd.execute("getReport");
+		if (ret.state == "1") {
+			if (ret.data.retCode == "200") {
+				formId = ret.data.formId;
+				$('#checkstageReport').html(LEx.processDOMTemplate('checkstageReportTemplate', ret));
+				$("#reportName").html(FlowName);
+			} else {
+				$('#checkstageReport').html("");
+			}
+		} else {
+			$('#checkstageReport').html("");
+			LEx.alert(ret.error);
+		}
+	}
+	function checkproject() {
+		var data = {};
+		data.stageId = StageId;
+		data.stageName = StageName;
+		data.flowId = FlowId;
+		data.flowName = FlowName;
+		data.formId = formId;
+		window.open("{{PageContext.ContextPath}}icity/engineering/checkproject?"+ LEx.urlEncode(data), "_self");
+	}
+	function gotoDemo(obj){		
+		if(obj=="fd"){
+			window.open("{{cp}}icity/engineering/feedback?project="+$("#reportName").html());
+		}else if(obj=="zx"){
+			window.open("{{cp}}icity/engineering/consulting?project="+$("#reportName").html());
+		}
+	}
+</script>
+<!-- 获取阶段信息 -->
+{% map "investType",PageContext.Parameter.investType as p %} {% command
+"app.icity.engineering.EngineeringCmd","getStage",p as d %}
+<div class="container" style="width: 1030px !important;">
+	<section class="panel" style="padding: 10px;">
+	<h4 class="text-primary" style="font-size: 20px; background: #e3e7f1; padding: 15px; padding-top: 18px;">
+		<strong style="color: #4f719c;">工程建设领域项目审批：{% if
+			PageContext.Parameter.investType|equal:"1" %}企业{%else%}政府 {%endif%}</strong>
+	</h4>
+	<div class="panel-body">
+		<div class="jieduan">
+			<ul class="list-inline text-center">
+				{% for o in d.data.stage %} {% if loop.last %}
+				<li class="border"><a href="javascript:;" id="{{o.stageId}}">{{o.stageName}}</a>
+				</li> {% else %}
+				<li {% if loop.first %}class="active" {%else%}class="border"{%endif%}><a
+					href="javascript:;" id="{{o.stageId}}">{{o.stageName}}</a>
+				</li>
+				<li><img src="{%public assets/img/icon-x.png%}">
+				</li> {% endif %} {% endfor %}
+			</ul>
+		</div>
+		<div id="checkstagecontent">
+			<ul id="checkstageFlow" class="nav nav-tabs nav-justified its-nav-tabs-obligation">
+
+			</ul>
+			<br>
+			<div id="checkstageReport" class="tab-content" style="min-height: 500px;"></div>
+		</div>
+	</div>
+	</section>
+</div>
+<textarea type="text/template" id="checkstageFlowTemplate" style="display: none">
+{var i=1}
+{for o in data.flow}
+{if i==1}
+	<li class="active">
+		<a data-toggle="tab" href="#st-${o_index}" code="st-${o_index}" id="${o.flowId}">${o.flowName} </a>
+	</li>
+{else}
+	<li class="">
+		<a data-toggle="tab" href="#st-${o_index}" code="st-${o_index}" id="${o.flowId}">${o.flowName} </a>
+	</li>
+{/if}
+{var i=i+1}
+{/for}
+</textarea>
+<textarea type="text/template" id="checkstageReportTemplate" style="display: none">
+	<div class="tab-pane active" id="st-1">
+		<section class="panel " style="margin-top:15px;"> 
+			<header class="panel-heading clearfix"
+			style="border-bottom: 1px solid #eee;">
+			<button type="button" class="btn btn-info pull-right"
+			onclick="gotoDemo('fd');" style="margin-left:2px;">辅导</button>
+			<button type="button" class="btn btn-info pull-right"
+			onclick="gotoDemo('zx');" style="margin-left:2px;">咨询</button>
+				<button type="button" class="btn btn-info pull-right"
+			onclick="checkproject();">点击进入</button>
+				<h4 class="panel-title">
+					<strong><span id="reportName">建设项目立项联合审批</span>将办理以下事项</strong>
+				</h4>
+			</header>
+			<ul class="list-group its-list-group-obligation">
+			{for o in data.item}
+				{if o.itemId}
+				<li class="list-group-item" style="border-bottom: 1px solid #eee;">
+					<header class="panel-title clearfix"> 
+						<a class="btn btn-default btn-sm pull-right collapsed"
+					role="button" data-toggle="collapse" href="#cailiao${o_index}">材料列表 </a>
+						<p itemId="${o.itemId}">${o.itemName}</p>
+					</header>
+					<div class="collapse" id="cailiao${o_index}">
+						<div class="well lc-well">
+							<p class="bg-warning bg-p-warning text-center text-danger">
+								<small>办理以上事项需要准备以下材料</small>
+							</p>
+							<div class="p-collapse">
+							{for p in o.materialArray}
+								{if p.resourceCode}
+								<p resourceCode="${p.resourceCode}" title="${p.resourceName}"
+								resourceType="${p.resourceType}">${p_index*10/10+1}、${p.resourceName}</p>
+								{/if}
+							{/for}
+							</div>
+						</div>
+					</div>
+				</li>
+				{/if}
+			{/for}
+			</ul>
+		</section>
+	</div>
+</textarea>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+	<head>
+		<title>
+			{{PageContext.Title}}
+		</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="renderer" content="webkit|ie-comp|ie-stand" />
+		{{PageContext.XUACompatible}}
+		<script type="text/javascript">
+			var __webPath = "{{PageContext.ContextPath}}";
+			var __signature = "{{PageContext.SignatureInfo}}";
+		</script>
+		<link rel="stylesheet" type="text/css" href="{% public assets/css/custom.css %}" />
+		<link rel="stylesheet" type="text/css" href="{{PageContext.ContextPath}}public/themes/default/css/a?t=css&m=base.css,main.css,UserControl.css,form.css" id="commonCSSLink"/>
+		<link rel="stylesheet" type="text/css" href="{{PageContext.ContextPath}}public/themes/lui/a?t=css&m=panel.css,layout.css,linkbutton.css,menu.css,menubutton.css,pagination.css,datagrid.css,treegrid.css,iosCheckbox.css" />
+		<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,LEx.form.js,common.js,LEx.load.js"></script>
+		<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/lui/a?t=js&m=jquery.parser.js,jquery.panel.js,jquery.linkbutton.js,jquery.menu.js,jquery.resizable.js,jquery.layout.js,jquery.pagination.js,jquery.datagrid.js,lui-lang-zh_CN.js,jquery.treegrid.js,iphone-style-checkboxes.js"></script>
+	<script type="text/javascript">
+		plugin.add('dialog', {
+			path: '{{PageContext.ContextPath}}public/scripts/dialog/a?t=js&m=jquery.artDialog.js,plugins/iframeTools.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['dialog_css']
+		});
+		plugin.add('dialog_css', {
+			path: '{{PageContext.ContextPath}}public/scripts/dialog/skins/default.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		plugin.add('tree', {
+			path: '{{PageContext.ContextPath}}public/scripts/zTreeStyle/jquery.ztree.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['tree_css']
+		});
+		plugin.add('tree_css', {
+			path: '{{PageContext.ContextPath}}public/scripts/zTreeStyle/zTreeStyle.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		
+		plugin.add('calendar', {
+			path: '{{PageContext.ContextPath}}public/scripts/calendar/calendar-min.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['calendar_css']
+		});
+		plugin.add('calendar_css', {
+			path: '{{PageContext.ContextPath}}public/scripts/calendar/calendar-min.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		plugin.add('editor',{path:'{{PageContext.ContextPath}}public/scripts/kindeditor/kindeditor-min.js',type:'js',charset:'utf-8'});
+		plugin.add('fullCalendar',{
+			path:'{{PageContext.ContextPath}}public/scripts/fullcalendar/fullcalendar.min.js',
+			type:'js',
+			charset:'utf-8',
+			rely: ['jquery_ui']
+		});
+		
+		plugin.add('jquery_ui',{
+			path:'{{PageContext.ContextPath}}public/scripts/fullcalendar/jquery-ui-1.10.2.custom.min.js',
+			type:'js',
+			charset:'utf-8',
+			rely: ['fullCalendar_css']
+		});
+		
+		plugin.add('fullCalendar_css',{
+			path:'{{PageContext.ContextPath}}public/scripts/fullcalendar/a?t=css&m=fullcalendar.css,fullcalendar.print.css',
+			type:'css',
+			charset:'utf-8'
+		});
+	</script>
+		<script type="text/javascript">
+			jQuery(document).ready(function(e) {
+				LEx.LUI.init();
+				{% if UserInfo %}
+				LEx.userInfo = {{UserInfo}}
+				{% else %}
+				LEx.userInfo = null;
+				{% endif %}
+				jQuery.ajaxSetup({
+					cache: false
+				});
+
+			});
+		</script>
+	</head>
+	<body class="lui-layout mainContent">
+		{% include PageContext.HtmlName %}
+		<script type="text/javascript">
+			{% if PageContext.JsName %}
+			{% include PageContext.JsName %}
+			{% endif %}
+		</script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			if(typeof init == "function"){
+				window.setTimeout(init,200);
+			}
+		});
+		</script>
+	</body>
+</html>
+{{PageContext.Print}}

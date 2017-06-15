@@ -1,0 +1,230 @@
+<div style="background-color: #fff; padding: 20px 40px;width:1030px;margin:0px auto;">
+    <ol class="breadcrumb">
+        <li><a href="{{cp}}pro/index">首页</a></li>
+        <li><a href="{{cp}}pro/index">{{ConfigInfo.AppCity}}办事大厅</a></li>
+        <li class="active">{{PageContext.Parameter.investType}}</li>
+    </ol>
+    <div id="secTypeContent"><ul class="nav nav-pills font-size-16" style="margin: -1px; border-bottom: 3px solid #29588C;" id="secTypeUl"></ul></div><br/>
+    <div id="glContent"></div>
+</div>
+<script>
+var investType="";
+var secTypeCode="";
+var typename = LEx.urldata.investType;
+$(function(){
+	initDict();
+	
+	//根据投资类型赋值事项阶段及二级类别、二级类别默认值
+	var typename = LEx.urldata.investType;
+	if(typename == "审批"){
+		TZSPSSJD = TZXMSPLXMJD;
+		SECTYPE = SPSECTYPE;
+		secTypeCode = "A0000101";
+	}else if(typename == "核准"){
+		TZSPSSJD = TZXMHZLXMJD;
+		SECTYPE = HZSECTYPE;
+		secTypeCode = "A0000201";
+	}else if(typename == "备案"){
+		TZSPSSJD = TZXMBALXMJD;
+		SECTYPE = BASECTYPE;
+		secTypeCode = "A0000301";
+	}
+	
+	//二级类别Tab页
+	initSecTypeTab();
+	
+	//默认二级类型 综合类 
+	initMattersList(secTypeCode);
+});
+function initMattersList(secTypeCode){	
+	var len = TZSPXMLX.length;
+	for(var i=0;i<len;i++){
+		if(TZSPXMLX[i].name.indexOf(LEx.urldata.investType)>-1){
+			investType = TZSPXMLX[i].code;
+		}
+	}
+	var command = new LEx.Command("app.icity.pro.ProCmd");
+	command.setParameter("investType", investType);
+	command.setParameter("secondInvestType", secTypeCode);
+	command.setParameter("regionCode", LEx.urldata.regionCode);
+	var ret = command.execute("getRule");
+	/* if(!command.error){	
+		var _len = TZSPSSJD.length;
+		var list = [];
+		for(var i=0;i<_len;i++){
+			var stage = {};
+			stage.name = TZSPSSJD[i].name;
+			stage.code = TZSPSSJD[i].code;
+			var __len = ret.data.info.length;
+			for(var j=0;j<__len;j++){
+				if(ret.data.info[j].stage == TZSPSSJD[i].code){
+					var itemlist=[];
+					var list_len = ret.data.info[j].itemList.length;
+					for(var k=0;k<list_len;k++){
+						if(ret.data.info[j].itemList[k].secondInvestType.indexOf(secTypeCode) != -1){
+							itemlist.push(ret.data.info[j].itemList[k]);
+						}
+					}
+					stage.itemList = itemlist;
+				}
+			}
+			list.push(stage);
+		}
+		var d = {};
+		d.list = list;
+		$('#glContent').html(LEx.processDOMTemplate('MattersListTemplate',d));
+	} */
+	
+	 if(!command.error){	
+		var _len = TZSPSSJD.length;
+		var list = [];
+		for(var i=0;i<_len;i++){
+			var stage = {};
+			stage.name = TZSPSSJD[i].name;
+			stage.code = TZSPSSJD[i].code;
+			var __len = ret.data.info.length;
+			var itemlist=[];
+			for(var j=0;j<__len;j++){
+				if(ret.data.info[j].stage == TZSPSSJD[i].code){
+					stage.itemList = ret.data.info[j].itemList;
+				}
+			}
+			list.push(stage);
+		}
+		var d = {};
+		d.list = list;
+		$('#glContent').html(LEx.processDOMTemplate('MattersListTemplate',d));
+	} 
+}
+function viewForm(itemId,itemCode,itemName,formId){
+	if(LEx.userInfo==null){
+		var href = location.href;
+		window.location.href="{{cp}}bsp/check?goto="+encodeURIComponent(href);
+	}
+	LEx.dialog({
+		id: "viewForm", title: "表单",
+		url: LEx.webPath+"pro/view?formId="+formId,
+		width: 900, height: 450,
+		lock:true,
+		button: [
+		         {
+		        	name: '提交',
+		        	callback: function() {
+		        		var iframe = this.iframe.contentWindow;
+		        		if (!iframe.document.body) {
+		        			LEx.alert('内容还没加载完毕呢');
+		        			return false;
+		        		}		
+		        		iframe.bSave();
+		        		var dataId = iframe.document.getElementById("dataid").value;
+		        		submit(itemId,itemCode,itemName,formId,dataId);
+		         	},
+		         	focus: true
+		         },
+		         {
+		        	 name: '关闭'
+		         }
+		  ]
+	});
+}
+function submit(itemId,itemCode,itemName,formId,dataId){
+	if(LEx.userInfo==null){
+		var href = location.href;
+		window.location.href="{{cp}}bsp/check?goto="+encodeURIComponent(href);
+	}
+	LEx.dialog({
+		id: "checkProject", title: "选择项目",
+		url: LEx.webPath+"pro/checkProject?typename="+typename,
+		width: 900, height: 450,
+		lock:true,
+		button: [
+		         {
+		        	name: '选择',
+		        	callback: function() {
+		        		var iframe = this.iframe.contentWindow;
+		        		if (!iframe.document.body) {
+		        			LEx.alert('内容还没加载完毕呢');
+		        			return false;
+		        		}		        		
+		        	 	var projectCode = iframe.checkdata();
+		        	 	online(itemId,itemCode,itemName,projectCode,formId,dataId);
+		         	},
+		         	focus: true
+		         },
+		         {
+		        	 name: '关闭'
+		         }
+		  ]
+	});
+}
+function online(itemId,itemCode,itemName,projectCode,formId,dataId){
+	if(projectCode=="未选择"){
+		return;
+	}
+	window.location.href = "{{cp}}pro/onlineapply?itemId="+itemId+"&itemCode="+itemCode
+			+"&itemName="+itemName+"&investType="+investType+"&projectCode="+projectCode
+			+"&formId="+formId+"&dataId="+dataId;
+}
+
+function parseLength(val,len) {
+	if (LEx.isNotNull(val)&&val.length>len) {
+		return val.substring(0,len)+"...";
+	} else {
+		return val;
+	}
+}
+
+function initSecTypeTab(){
+	var length = SECTYPE.length;
+	for(var i=0;i<length;i++){
+		/* if(i==0){ */
+			if(SECTYPE[i].name=="综合"){
+			$("#secTypeUl").append("<li class=\"active\"><a style=\"cursor:pointer\" data-toggle=\"tab\" onclick=\"showList('"+SECTYPE[i].code+"');\"><strong>&nbsp;"+SECTYPE[i].name+"&nbsp;</strong></li>");
+			return;
+			}
+		/* }else{
+			$("#secTypeUl").append("<li><a style=\"cursor:pointer\" data-toggle=\"tab\" onclick=\"showList('"+SECTYPE[i].code+"');\"><strong>&nbsp;"+SECTYPE[i].name+"&nbsp;</strong></li>");
+		} */
+	}
+}
+
+function showList(secTypeCode){
+	initMattersList(secTypeCode);
+}
+</script>
+<script type="text/template" id="MattersListTemplate">
+{for o in list}
+	<section class="panel panel-default">
+	<table class="table table-hover">
+	    <thead>
+	        <tr class="active" data-toggle="collapse" href="#collapse${o_index}" style="cursor:pointer;">
+	            <th class="font-size-16">${o_index*1+1}、${o.name}<a style="display:block; color:Black;float:right;" ><strong>+</strong></a></th>
+	        </tr>
+	    </thead>
+	</table>
+	</section>
+	<section class="panel panel-default collapse" id="collapse${o_index}">
+	<table class="table table-hover" >
+	    <thead>
+	        <tr class="active" >
+	            <th class="text-center" style="width:260px">实施主体</th>
+	            <th>审批事项</th>
+	            <th class="text-center">操作</th>
+	        </tr>
+	    </thead>
+	    <tbody >	
+		   {for p in o.itemList}
+	    	<tr>
+	            <td class="text-center">${p.orgName}</td>
+	            <td title="${p.itemName}">${parseLength(p.itemName,33)}</td>
+	            <td class="text-center">
+					<a style="width:70px;" class="btn btn-primary btn-xs" onclick="viewForm('${p.itemId}','${p.itemCode}','${p.itemName}','${p.formId}');" target="_blank">在线办理</a>
+					<a style="width:70px;" class="btn btn-primary btn-xs" href="{{cp}}pro/guide_detail?itemId=${p.itemId}" target="_blank">办事指南</a>
+				</td>
+	        </tr>
+		   {/for}	    
+	    </tbody>
+	</table>
+	</section>
+{/for}
+</script>

@@ -1,0 +1,50 @@
+<style>
+.btn-danger {
+	    background-color: #f44336;
+	}
+</style>
+<section class="its-page-body">
+		<table class="table its-tabel-filter">
+             <tbody>
+                 <tr>
+                     <th width="50" class="text-right">事项名称：</th>
+                     <td width="300">
+                        <input type="text" class="form-control" placeholder="请输入事项名称" id="name">
+                     </td>                     
+                     <td width="50" >
+                     	<input type="submit" id="submit" class="btn btn-primary btn-sm no-bordered  f16" style="width: 80px;" value="搜索"> 
+                     	<input type="button" id="delete" class="btn btn-danger btn-sm no-bordered  f16" style="width: 80px;" value="删除">
+                     </td>
+                 </tr>
+             </tbody>
+         </table>
+         <div id="div_business_list">
+         
+         </div>
+         <div id="epager" style="text-align:center;"></div>
+</section>
+
+<textarea id="template_business_list" style="display: none">
+{if data.length > 0} 
+         <table class="table table-striped its-table-backlog">
+             <thead>
+                 <tr class="bg-info">         
+                 	 <th style="text-align:center;width:5%"><input id="checkall" type="checkbox" onclick="selectAll()"></th>       
+                     <th style="width:50%;" class="text-center text-primary">事项名称</th>                     
+                     <th style="width:25%;" class="text-center text-primary">收藏时间</th>
+                     <th style="width:25%;" class="text-center text-primary">备注信息</th>
+                 </tr>
+             </thead>
+             <tbody id="bodys">
+             {for o in data}
+                 <tr>
+                 	 <td align="center"><input type="checkbox" id="${o.ID}"  tag="${o.ID}" onclick="select(${o.ID})"></td>
+                     <td  title="${o.SXMC}"><a href="{{PageContext.ContextPath}}icity/proinfo?id=${o.SXID}" target="_blank">${o.SXMC}</a></td>
+                     <td class="text-center" >${formatDate(o.FTIME)}</td>
+                     <td class="text-center" title="单击修改备注" onclick="EditRemark('${o.ID}','${o.REMARK}')">${o.REMARK}</td>
+                 </tr>
+             {/for}
+             </tbody>
+         </table> 
+{/if}
+</textarea>

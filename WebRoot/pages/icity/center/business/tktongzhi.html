@@ -1,0 +1,36 @@
+<div class="jmain">
+   <div class="container" style="background:white;width:890px;">
+       <div class="row" style="margin-top: 15px;margin-bottom: 40px;">
+           <div class="col-xs-12">
+               <section class="panel panel-default no-bordered no-shadow" style="border-top: 3px solid #00a8ec !important;">
+                    <div class="pull-right">
+                        <div class="btn-toolbar mt10">
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-xs-12">
+            	<span id="tongzhi"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	var receiveid = LEx.urldata.receiveid;  
+	onQuery();
+	function onQuery(){
+		
+    	var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+    	command.setParameter("bizId", receiveid);
+    	var ret = command.execute("getTaKanMessage");
+    	
+    	if(!command.error){
+    		
+    		var message = ret.data.message;
+   			document.getElementById("tongzhi").innerHTML = message;
+    	}else{
+    		LEx.alert('查询失败!'+ret.message);
+   			return;
+    	}
+    }
+</script>

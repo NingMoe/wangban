@@ -1,0 +1,406 @@
+<script src="{% public scripts/LEx.form.js %}"></script>
+<style type="text/css">
+.control-label font {
+	color: red;
+}
+
+.control-label {
+	font-size: 14px;
+}
+
+.input_validation-failed {
+	border: 2px solid #FF0000;
+	color: red;
+}
+
+.modal-lg {
+	width: 1000px;
+}
+
+.modal-dialog {
+	margin: 30px auto;
+}
+
+.form-horizontal .control-label {
+	text-align: right;
+	margin-bottom: 0;
+	padding-top: 7px;
+}
+
+.form-group {
+	margin-bottom: 5px;
+}
+ .bs-modal-site-navigation tr {height: 40px;}
+</style>
+<div class="modal fade bs-modal-site-navigation"
+	tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="col-xs-12">
+					<div>
+						<div id="container">
+							<table width="800" border="0" align="center" cellpadding="0"
+								cellspacing="0">
+								<tbody>
+									<tr>
+										<td align="center"><table width="800" border="0"
+												cellspacing="0" cellpadding="0">
+												<tbody>
+													<tr>
+														<td align="center"
+															style="font-size: 20px; color: #1dace8; border-bottom: 1px solid #a8a8a8"
+															height="35"><span id="cityName"></span>网站导航</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td><style type="text/css">
+												#s12 a:link {
+													text-decoration: none;
+													color: #1dace8;
+													font-size: 16px;
+													font-family: 微软雅黑;
+												}
+												
+												#s12 a:visited {
+													text-decoration: none;
+													color: #1dace8;
+													font-size: 16px;
+													font-family: 微软雅黑;
+												}
+												
+												#s12 a:hover {
+													text-decoration: none;
+													color: #ff0000;
+													font-size: 16px;
+													font-family: 微软雅黑;
+												}
+												</style>
+											<table border="0" cellspacing="0" cellpadding="0" id="s12">
+												<tbody>
+													<tr>
+														<td width="23" align="center" height="25"><img
+															src="{%public assets/img/sm_lm.jpg%}" border="0">
+														</td>
+														<td width="103" align="left"><a
+															href=""	target="_blank" id="m_bsfw">办事服务</a>
+														</td>
+														<td width="297" align="left" style="font-size: 12px">（提供按主题、按部门查询服务）</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<table border="0" cellspacing="0" cellpadding="0" id="s12">
+												<tbody>
+													<tr>
+														<td width="23" align="center" height="25"><img
+															src="{%public assets/img/sm_lm.jpg%}" border="0">
+														</td>
+														<td width="103" align="left"><a
+															href=""	target="_blank" id="m_jggs">结果公示</a>
+														</td>
+														<td width="297" align="left" style="font-size: 12px"></td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<table border="0" cellspacing="0" cellpadding="0" id="s12">
+												<tbody>
+													<tr>
+														<td width="23" align="center" height="25"><img
+															src="{%public assets/img/sm_lm.jpg%}" border="0">
+														</td>
+														<td width="103" align="left"><a
+															href="" id="m_bszx"
+															target="_blank">办事咨询</a>
+														</td>
+
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<table border="0" cellspacing="0" cellpadding="0" id="s12">
+												<tbody>
+													<tr>
+														<td width="23" align="center" height="25"><img
+															src="{%public assets/img/sm_lm.jpg%}" border="0">
+														</td>
+														<td width="103" align="left"><a
+															href="" id="m_jdpy"
+															target="_blank">监督评议</a>
+														</td>
+
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td>
+										<style type="text/css">
+												#s13 a:link {
+													text-decoration: none;
+													color: #565656;
+													font-size: 14px;
+													font-family: 微软雅黑;
+													font-weight: bold;
+												}
+												
+												#s13 a:visited {
+													text-decoration: none;
+													color: #565656;
+													font-size: 14px;
+													font-family: 微软雅黑;
+													font-weight: bold;
+												}
+												
+												#s13 a:hover {
+													text-decoration: none;
+													color: #ff0000;
+													font-size: 14px;
+													font-family: 微软雅黑;
+													font-weight: bold;
+												}
+												</style>
+											<table border="0" cellspacing="0" cellpadding="0" id="s13">
+												<tbody>
+													<tr>
+														<td width="23" align="center"></td>
+														<td width="168" align="left" valign="top"><div
+																style="line-height: 24px">
+																<a	href="" id="m_znjqr"
+																	target="_blank">智能机器人</a>
+															</div>
+														</td>
+														<td width="30" align="left" valign="top"
+															style="color: #a8a8a8"><div
+																style="line-height: 24px">——</div>
+														</td>
+														<td align="left" style="color: #a8a8a8; padding-left: 5px">
+															您想了解什么？请告诉我。</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>		
+									<tr>
+										<td>
+											<table border="0" cellspacing="0" cellpadding="0" id="s13">
+												<tbody>
+													<tr>
+														<td width="23" align="center"></td>
+														<td width="168" align="left" valign="top"><div
+																style="line-height: 24px">
+																<a	href="" id="m_tzgg"
+																	target="_blank">通知公告</a>
+															</div>
+														</td>
+														<td width="30" align="left" valign="top"
+															style="color: #a8a8a8"><div
+																style="line-height: 24px">——</div>
+														</td>
+														<td align="left" style="color: #a8a8a8; padding-left: 5px">
+															通知公告类事项列表</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>		
+									<tr>
+										<td>
+											<table border="0" cellspacing="0" cellpadding="0" id="s13">
+												<tbody>
+													<tr>
+														<td width="23" align="center"></td>
+														<td width="168" align="left" valign="top"><div
+																style="line-height: 24px">
+																<a	href="" id="m_bjgz"
+																	target="_blank">办件跟踪</a>
+															</div>
+														</td>
+														<td width="30" align="left" valign="top"
+															style="color: #a8a8a8"><div
+																style="line-height: 24px">——</div>
+														</td>
+														<td align="left" style="color: #a8a8a8; padding-left: 5px">
+															查询办件处理情况</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<table border="0" cellspacing="0" cellpadding="0" id="s13">
+												<tbody>
+													<tr>
+														<td width="23" align="center"></td>
+														<td width="168" align="left" valign="top"><div
+																style="line-height: 24px">
+																<a	href="" id="m_yhzx"
+																	target="_blank">用户中心</a>
+															</div>
+														</td>
+														<td width="30" align="left" valign="top"
+															style="color: #a8a8a8"><div
+																style="line-height: 24px">——</div>
+														</td>
+														<td align="left" style="color: #a8a8a8; padding-left: 5px">
+															当前用户的所有业务信息与账号信息</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<table border="0" cellspacing="0" cellpadding="0" id="s13">
+												<tbody>
+													<tr>
+														<td width="23" align="center"></td>
+														<td width="168" align="left" valign="top"><div
+																style="line-height: 24px">
+																<a	href="" id="m_xcbld"
+																	target="_blank">现场办理点</a>
+															</div>
+														</td>
+														<td width="30" align="left" valign="top"
+															style="color: #a8a8a8"><div
+																style="line-height: 24px">——</div>
+														</td>
+														<td align="left" style="color: #a8a8a8; padding-left: 5px">
+															地图展示办事窗口地址</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<table border="0" cellspacing="0" cellpadding="0" id="s13">
+												<tbody>
+													<tr>
+														<td width="23" align="center"></td>
+														<td width="168" align="left" valign="top"><div
+																style="line-height: 24px">
+																<a	href="" id="m_cjwt"
+																	target="_blank">常见问题</a>
+															</div>
+														</td>
+														<td width="30" align="left" valign="top"
+															style="color: #a8a8a8"><div
+																style="line-height: 24px">——</div>
+														</td>
+														<td align="left" style="color: #a8a8a8; padding-left: 5px">
+															常见问题类事项列表</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<table border="0" cellspacing="0" cellpadding="0" id="s13">
+												<tbody>
+													<tr>
+														<td width="23" align="center"></td>
+														<td width="168" align="left" valign="top"><div
+																style="line-height: 24px">
+																<a	href="" id="m_pjjy"
+																	target="_blank">评价建议</a>
+															</div>
+														</td>
+														<td width="30" align="left" valign="top"
+															style="color: #a8a8a8"><div
+																style="line-height: 24px">——</div>
+														</td>
+														<td align="left" style="color: #a8a8a8; padding-left: 5px">
+															政务服务网评议与调查</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>											
+									<tr>
+										<td>
+											<table border="0" cellspacing="0" cellpadding="0" id="s13">
+												<tbody>
+													<tr>
+														<td width="23" align="center"></td>
+														<td width="168" align="left"><a
+															href="" id="m_qdcy"
+															target="_blank">清单查阅</a>
+														</td>
+														<td width="30" align="left" style="color: #a8a8a8">——</td>
+														<td align="left" style="color: #a8a8a8; padding-left: 5px">
+															行政审批事项目录 / 行政权力 / 政府责任 /市场准入清单</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<table border="0" cellspacing="0" cellpadding="0" id="s13">
+												<tbody>
+													<tr>
+														<td width="23" align="center"></td>
+														<td width="168" align="left" valign="top"><div
+																style="line-height: 24px">
+																<a	href="" id="m_tzxmzxsp"
+																	target="_blank">投资项目在线审批</a>
+															</div>
+														</td>
+														<td width="30" align="left" valign="top"
+															style="color: #a8a8a8"><div
+																style="line-height: 24px">——</div>
+														</td>
+														<td align="left" style="color: #a8a8a8; padding-left: 5px">
+															审批类申报 / 核准类申报 / 备案类申报</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>									
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function doOpen(o) {
+		$("#cityName").html(o);
+		$("#m_bsfw").attr("href",url+"icity/project");		 
+		$("#m_jggs").attr("href",url+"icity/result"); 
+		$("#m_bszx").attr("href",url+"icity/consult");  
+		$("#m_jdpy").attr("href",url+"icity/assess"); 
+		$("#m_znjqr").attr("href",url+"govservice/robot"); 
+		$("#m_tzgg").attr("href",url+"govservice/notice"); 
+		$("#m_bjgz").attr("href",url+"govservice/queryprogress"); 
+		$("#m_qdcy").attr("href",url+"icity/splist"); 
+		$("#m_tzxmzxsp").attr("href",url+"pro/index");	
+		$("#m_yhzx").attr("href",url+"uinfo");	
+		$("#m_xcbld").attr("href",url+"icity/location");	
+		$("#m_cjwt").attr("href",url+"govservice/question");	
+		$("#m_pjjy").attr("href",url+"govservice/suggestion");	
+		$(".bs-modal-site-navigation").modal('show');
+	}
+</script>

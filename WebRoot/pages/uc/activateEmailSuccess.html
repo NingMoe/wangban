@@ -1,0 +1,68 @@
+<div class="panel sec-show-panel">
+	<style>
+	.prompt-contain {
+		color: #666;
+		width: 640px;
+		margin: 40px auto 150px;
+		text-align: left;
+	}
+	.prompt-title{
+		margin: 10px 25px;
+	}
+	.prompt-top {	
+		background-position: 0 0;
+		height: 5px;
+		width: 100%;
+	}	
+	.prompt-content {
+		margin:2px 0px 0px 0px;
+		background: white;
+		width:100%;
+		height:280px;
+	}	
+	.prompt-ok {
+		background:url({{PageContext.ContextPath}}public/themes/uc/images/prompt/prompt-ok.png) no-repeat;
+		width: 68px;
+		height: 68px;
+		display: inline-block;
+	}
+	.prompt-error {
+		background:url({{PageContext.ContextPath}}public/themes/uc/images/prompt/prompt-error.png) no-repeat;
+		width: 68px;
+		height: 73px;
+		display: inline-block;
+	}
+	dt{
+		font-size: 18px;
+		padding: 15px 0;
+		border-bottom: 1px solid #EEE;
+		font-weight: bold;
+	}
+	dd{
+		float: left;
+		margin: 0;
+		padding: 35px 25px;
+	}
+	p{
+		margin: 0px;
+		font-size: 14px;
+		line-height: 30px;
+	}
+	</style>
+	<div class="prompt-contain">
+		<div class="prompt-top"></div>	
+		<div class="prompt-content">
+			<dl>
+				<dt>
+					 <span class="prompt-title">提示信息</span>
+				</dt>
+				<dd>
+					<span class="prompt-ok"> </span>
+				</dd>
+				<dd style="width: 460px; height: 150px">
+					<p><strong style="font-size: 16px">安全邮箱绑定成功！</strong></p>				
+				</dd>
+			</dl>
+		</div>
+	</div>
+</div>

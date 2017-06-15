@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>辽阳市行政审批局</title>
+	{% include liaoyang_portal/header.html %}
+	<script src="{{PageContext.ContextPath}}pages/liaoyang_portal/scripts/xxgk.js" type="text/javascript"></script>
+    <div class="container main">
+        <div class="row">
+            <div class="col-xs-3">
+                <section class="leftbar" style="min-height:540px;">
+                    <h4 class="sidebar-header text-center"><strong>信息公开</strong></h4>
+                    <ul class="nav sidebar-nav">
+                        <li><a onclick="show(0)" style="cursor:pointer;">信息公开目录</a></li>
+                        <li><a onclick="show(1)" style="cursor:pointer;">信息公开指南</a></li>
+                        <li><a onclick="show(2)" style="cursor:pointer;">依申请公开</a></li>
+                        <li><a onclick="show(3)" style="cursor:pointer;">公开年度报告</a></li>
+                        <li><a onclick="show(4)" style="cursor:pointer;">规划计划</a></li>
+                        <li><a onclick="show(5)" style="cursor:pointer;">财政信息</a></li>
+                        <li><a onclick="show(6)" style="cursor:pointer;">人事信息</a></li>
+                    </ul>
+                </section>
+            </div>
+            <div class="col-xs-9">
+                <ol class="breadcrumb">
+                    <li>您当前所在的位置：<a href="{{PageContext.ContextPath}}liaoyang_portal/index">网站首页</a></li>
+                    <li><a href="{{PageContext.ContextPath}}liaoyang_portal/xxgk">信息公开</a></li>
+                    <li class="active"><span id="position">全部</span></li>
+                </ol>
+                <section class="panel panel-default" style="padding:10px 15px;">
+                    <div class="jgshezhi" id="xxgkml">
+                        <div class="panel-heading">
+                           <a onclick="getMore('信息公开目录')" class="more pull-right" style="cursor:pointer;">更多</a>
+                            <h3 class="panel-title">
+                                <strong>信息公开目录</strong>
+                            </h3>
+                        </div>
+                        <ul class="list-group" id="信息公开目录">
+                        </ul>
+                    </div>
+                    <div class="jgshezhi"  id="xxgkzn">
+                        <div class="panel-heading">
+                           <a onclick="getMore('信息公开指南')" class="more pull-right" style="cursor:pointer;">更多</a>
+                            <h3 class="panel-title">
+                                <strong>信息公开指南</strong>
+                            </h3>
+                        </div>
+                        <ul class="list-group" id="信息公开指南">
+                        </ul>
+                    </div>
+                    <div class="jgshezhi"  id="ysqgk">
+                        <div class="panel-heading">
+                           <a onclick="getMore('依申请公开')" class="more pull-right" style="cursor:pointer;">更多</a>
+                            <h3 class="panel-title">
+                                <strong>依申请公开</strong>
+                            </h3>
+                        </div>
+                        <ul class="list-group" id="依申请公开">
+                        </ul>
+                    </div>
+                    <div class="jgshezhi"  id="gkndbg">
+                        <div class="panel-heading">
+                           <a onclick="getMore('公开年度报告')" class="more pull-right" style="cursor:pointer;">更多</a>
+                            <h3 class="panel-title">
+                                <strong>公开年度报告</strong>
+                            </h3>
+                        </div>
+                        <ul class="list-group" id="公开年度报告">
+                        </ul>
+                    </div>
+                    <div class="jgshezhi"  id="ghjh">
+                        <div class="panel-heading">
+                           <a onclick="getMore('规划计划')" class="more pull-right" style="cursor:pointer;">更多</a>
+                            <h3 class="panel-title">
+                                <strong>规划计划</strong>
+                            </h3>
+                        </div>
+                        <ul class="list-group" id="规划计划">
+                        </ul>
+                    </div>
+                    <div class="jgshezhi"  id="czhxx">
+                        <div class="panel-heading">
+                           <a onclick="getMore('财政信息')" class="more pull-right" style="cursor:pointer;">更多</a>
+                            <h3 class="panel-title">
+                                <strong>财政信息</strong>
+                            </h3>
+                        </div>
+                        <ul class="list-group" id="财政信息">
+                        </ul>
+                    </div>
+                    <div class="jgshezhi"  id="rsxx">
+                        <div class="panel-heading">
+                           <a onclick="getMore('人事信息')" class="more pull-right" style="cursor:pointer;">更多</a>
+                            <h3 class="panel-title">
+                                <strong>人事信息</strong>
+                            </h3>
+                        </div>
+                        <ul class="list-group" id="人事信息">
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    {% include liaoyang_portal/footer.html %}
+    <script type="text/template" id="MattersListTemplate1">
+		{for o in data}
+                    <li class="list-group-item">
+                         <div class="time pull-right">${o.CTIME.substring(5,10)}</div>
+				{if o.TYPE==3 }
+						<a href="${o.URL}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${o.NAME}</a>
+				{else}
+						<a href="{{PageContext.ContextPath}}liaoyang_portal/contentDetail?id=${o.ID}"  {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${o.NAME}</a>
+				{/if}
+                    </li>
+		{/for}
+	</script>
+</body>
+</html>

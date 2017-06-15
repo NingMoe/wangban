@@ -1,0 +1,40 @@
+<script>
+$(function(){
+	$("#pay-content").load(LEx.webPath+"src?m=paymentplatform/payplatform.html", function() {
+	});
+	$("#titleList li").click(function(){
+		$(this).parent().find(".active").removeClass("active");
+		$(this).addClass("active");
+		var name = $(this).attr("name");
+		$("#pay-content").load(LEx.webPath+"src?m=paymentplatform/"+name+".html", function() {
+		});
+	});
+});
+</script>
+<div class="container">
+	<ol class="breadcrumb">
+		<li><img src="{%public assets/img/current_home.png%}">您当前所在的位置:</li>
+		<li><a href="{{cp}}public/index">首页</a></li>
+		<li><a href="javascript:;">在线支付平台</a>
+		</li>
+	</ol>
+</div>
+<div class="container">
+	<div class="table-table">
+		<div class="table-cell its-aside">
+			<nav class="sidebar its-sidebar">
+			<h4 class="sidebar-header">
+				<img src="{%public assets/img/abm_bszx.png%}"><strong>在线支付平台</strong>
+			</h4>
+			<ul class="nav sidebar-nav" id="titleList">
+				<li class="active"  name="payplatform"><a href="javascript:;">我的缴款单</a></li>
+				<li name="payflow"><a href="javascript:;">支付业务流程</a></li>
+				<li name="payapi"><a href="javascript:;">系统接口</a></li>
+			</ul>
+			</nav>
+		</div>
+		<div class="table-cell its-page" id="pay-content">
+		
+		</div>
+	</div>
+</div>

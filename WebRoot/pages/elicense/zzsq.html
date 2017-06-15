@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <title>我的证照中心</title>
+</head>
+
+
+<body>
+{%include elicense/index/header.html %}
+    <div class="py-25 mb-20 bg-faded">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="media">
+                        <div class="media-left media-middle pr-15">
+                            <i class="nc-icon-outline business_cheque x2l img-circle bg-blue p-20"></i>
+                        </div>
+                        <div class="media-body media-middle">
+                            <h4 class="media-heading"><strong>证照授权</strong></h4>
+                            <small class="text-muted">将证照的使用权限授权给经办人</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <ol class="breadcrumb small pull-right mt-25" style="opacity: .6;">
+                        <li><i class="nc-icon-outline location_pin lg"></i> 当前位置:</li>
+                        <li><a href="{{cp}}public/index">首页</a></li>
+                        <li><a href="{{cp}}elicense/index">证照中心</a></li>
+                        <li><a href="javascript:;">证照授权</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <table class="table table-1610312007">
+        	<thead>
+			    <th class="text-center" width="75">序号</th>
+			    <th class="text-center">证照名称</th>
+			    <th class="text-center">序列号</th>
+			    <th class="text-center">操作</th>
+			</thead>
+			   <tbody id="div_business_list">
+			   </tbody>
+        </table>
+        <p class="text-center" id="project-none" style="display:none;">
+	        <span style="background-color: #F1F2F3; padding: 8px 200px; color: #666;">暂无相关证照数据！</span>
+	    </p>
+    </div>
+<textarea id="template_business_list" style="display: none">
+{if data.length > 0}
+    {for d in data}
+    <tr>
+        <td class="text-center">${d_index*10/10+1}</td>
+        <td>${d.licenseName}</td>
+        <td>${d.licenseNo}</td>
+        <td class="text-right ws-n">
+            <a href="{{cp}}elicense/zzinfo?id=${d.licenseNo}" target="_blank" class="btn btn-warning">查看证照</a>
+            <a href="{{cp}}elicense/zzsq-info?licenseName=${d.licenseName}&licenseNo=${d.licenseNo}" target="_blank" class="btn btn-info">委托授权</a>
+        </td>
+    </tr>
+    {/for}
+{/if}
+</textarea>
+{%include elicense/index/footer.html %}
+</body>
+</html>
+<script>
+$(function(){
+	bltable = new LEx.Control.Table("div_business_list","template_business_list");
+	bltable.limit(10);
+	onQuery(); 	
+});
+function onQuery(){
+	var start = bltable.start();
+	var limit=bltable.limit();
+	var cmd = new LEx.Command("app.icity.govservice.LicenseCmd");
+	cmd.setParameter("start",start);
+	cmd.setParameter("limit", limit);	
+	cmd.setParameter("ucid","{{UserInfo.uid}}");
+	var ret =  cmd.execute("getLicenceListByCertificateTypeAndCertificateNo");
+	if(ret.state=="1"){
+		bltable.toBody(ret);
+		bltable.toPageBar("epager","bltable",ret.total,"onQuery()");
+		$("#div_business_list").html(LEx.processDOMTemplate("template_business_list",ret));
+	}else{		
+		$("#project-none").show();
+	}
+}
+</script>

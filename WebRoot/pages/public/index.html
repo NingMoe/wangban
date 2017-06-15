@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<title>{{ConfigInfo.AppTitle}}</title>
+<link rel="stylesheet" href="{% public assets/css/custom.css %}">
+<link rel="stylesheet" type="text/css" href="{% public assets/css/custom-1.css %}" />
+<link rel="stylesheet" type="text/css" href="{% public assets/css/mdicon.font.css %}" />
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+	<script src="{% public assets/js/html5.min.js %}"></script>
+	<script src="{% public assets/js/respond.min.js %}"></script>
+<![endif]-->
+<script type="text/javascript">
+{% set cp PageContext.ContextPath %}
+var __webPath = "{{cp}}";
+var __signature = "{{cp.SignatureInfo}}";
+</script>
+<script  type="text/javascript" src="{{cp}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,common.js"></script>
+<script type="text/JavaScript">
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_nbGroup(event, grpName) { //v6.0
+  var i,img,nbArr,args=MM_nbGroup.arguments;
+  if (event == "init" && args.length > 2) {
+    if ((img = MM_findObj(args[2])) != null && !img.MM_init) {
+      img.MM_init = true; img.MM_up = args[3]; img.MM_dn = img.src;
+      if ((nbArr = document[grpName]) == null) nbArr = document[grpName] = new Array();
+      nbArr[nbArr.length] = img;
+      for (i=4; i < args.length-1; i+=2) if ((img = MM_findObj(args[i])) != null) {
+        if (!img.MM_up) img.MM_up = img.src;
+        img.src = img.MM_dn = args[i+1];
+        nbArr[nbArr.length] = img;
+    } }
+  } else if (event == "over") {
+    document.MM_nbOver = nbArr = new Array();
+    for (i=1; i < args.length-1; i+=3) if ((img = MM_findObj(args[i])) != null) {
+      if (!img.MM_up) img.MM_up = img.src;
+      img.src = (img.MM_dn && args[i+2]) ? args[i+2] : ((args[i+1])? args[i+1] : img.MM_up);
+      nbArr[nbArr.length] = img;
+    }
+  } else if (event == "out" ) {
+    for (i=0; i < document.MM_nbOver.length; i++) {
+      img = document.MM_nbOver[i]; img.src = (img.MM_dn) ? img.MM_dn : img.MM_up; }
+  } else if (event == "down") {
+    nbArr = document[grpName];
+    if (nbArr)
+      for (i=0; i < nbArr.length; i++) { img=nbArr[i]; img.src = img.MM_up; img.MM_dn = 0; }
+    document[grpName] = nbArr = new Array();
+    for (i=2; i < args.length-1; i+=2) if ((img = MM_findObj(args[i])) != null) {
+      if (!img.MM_up) img.MM_up = img.src;
+      img.src = img.MM_dn = (args[i+1])? args[i+1] : img.MM_up;
+      nbArr[nbArr.length] = img;
+  } }
+}
+</script>
+</head>
+<body onload="MM_preloadImages('{{cp}}public/assets/img/zwfw_005.png','{{cp}}public/assets/img/zwfw_0055.png','{{cp}}public/assets/img/zwfw_006.png','{{cp}}public/assets/img/zwfw_0066.png','{{cp}}public/assets/img/zwfw_007.png','{{cp}}public/assets/img/zwfw_0077.png','{{cp}}public/assets/img/zwfw_008.png','{{cp}}public/assets/img/zwfw_0088.png','{{cp}}public/assets/img/zwfw_009.png','{{cp}}public/assets/img/zwfw_0099.png')">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="35" align="center" background="{{cp}}public/assets/img/zwfww_001.jpg"><table width="1070" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="243" height="35" align="center">您好，欢迎访问政务服务门户网站！</td>
+        <td width="432" align="left">&nbsp;</td>
+        <td width="395">
+       {% include public/index/header-topbar.html %}
+        </td>
+      </tr>
+      
+    </table></td>
+  </tr>
+</table>
+<table width="1420" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="611" background="{{cp}}public/assets/img/zwfww_011.jpg"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td height="611" valign="top" background="{{cp}}public/assets/img/beijing.png"><table width="74%" height="117" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="24%" height="29">&nbsp;</td>
+            <td colspan="4">&nbsp;</td>
+          </tr>
+          <tr>
+            <td height="96" rowspan="2">&nbsp;</td>
+            <td width="7%" height="60" align="center"><img src="{{cp}}public/assets/img/zwfw_004.png" width="57" height="57" /></td>
+            <td colspan="2"><table width="99%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="35" valign="bottom"><span class="STYLE9">{{ConfigInfo.AppTitle}}</span></td>
+              </tr>
+              <tr>
+                <td height="13">{{ConfigInfo.SubAppTitle}}</td>
+              </tr>
+            </table></td>
+            <td width="46%" rowspan="2"><table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+              <tr>
+                <td height="40" align="center"><a href="{{cp}}person" target="_blank" onclick="MM_nbGroup('down','group1','zwfw005','{{cp}}public/assets/img/zwfw_005.png',1)" onmouseover="MM_nbGroup('over','zwfw005','{{cp}}public/assets/img/zwfw_0055.png','{{cp}}public/assets/img/zwfw_0055.png',1)" onmouseout="MM_nbGroup('out')"><img src="{{cp}}public/assets/img/zwfw_005.png" name="zwfw005" width="75" height="82" border="0" /></a></td>
+                <td align="center"><a href="{{cp}}ent" target="_blank" onclick="MM_nbGroup('down','group1','zwfw006','{{cp}}public/assets/img/zwfw_006.png',1)" onmouseover="MM_nbGroup('over','zwfw006','{{cp}}public/assets/img/zwfw_0066.png','{{cp}}public/assets/img/zwfw_0066.png',1)" onmouseout="MM_nbGroup('out')"><img src="{{cp}}public/assets/img/zwfw_006.png" name="zwfw006" width="75" height="82" border="0" /></a></td>
+                <td align="center"><a href="{{cp}}convenience" target="_blank" onclick="MM_nbGroup('down','group1','zwfw007','{{cp}}public/assets/img/zwfw_007.png',1)" onmouseover="MM_nbGroup('over','zwfw007','{{cp}}public/assets/img/zwfw_0077.png','{{cp}}public/assets/img/zwfw_0077.png',1)" onmouseout="MM_nbGroup('out')"><img src="{{cp}}public/assets/img/zwfw_007.png" name="zwfw007" width="75" height="82" border="0" /></a></td>
+                <td align="center"><a href="{{cp}}approve" target="_blank" onclick="MM_nbGroup('down','group1','zwfw008','{{cp}}public/assets/img/zwfw_008.png',1)" onmouseover="MM_nbGroup('over','zwfw008','{{cp}}public/assets/img/zwfw_0088.png','{{cp}}public/assets/img/zwfw_0088.png',1)" onmouseout="MM_nbGroup('out')"><img src="{{cp}}public/assets/img/zwfw_008.png" name="zwfw008" width="75" height="82" border="0" /></a></td>
+                <td align="center"><a href="{{cp}}sunny" target="_blank" onclick="MM_nbGroup('down','group1','zwfw009','{{cp}}public/assets/img/zwfw_009.png',1)" onmouseover="MM_nbGroup('over','zwfw009','{{cp}}public/assets/img/zwfw_0099.png','{{cp}}public/assets/img/zwfw_0099.png',1)" onmouseout="MM_nbGroup('out')"><img src="{{cp}}public/assets/img/zwfw_009.png" name="zwfw009" width="75" height="82" border="0" /></a></td>
+              </tr>
+            </table></td>
+          </tr>
+          <tr>
+            <td height="28">&nbsp;</td>
+            <td width="8%" align="center"><span class="STYLE16">{{ConfigInfo.AppHall}}</span></td>
+            <td width="15%" valign="top">{% include public/website.html %}</td>
+          </tr>
+        </table>
+          <table width="75%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+              <td height="377" colspan="5" valign="top">
+              <table width="253" height="36" border="0" align="right" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="35" height="36" align="center"><img src="{{cp}}public/assets/img/zwfw_010.png" width="16" height="13" /></td>
+                  <td width="218" align="right"><div class="input-group input-group-sm" style="width: 100%;">
+                    <input type="text" class="form-control key" onkeydown="if(event.keyCode==13) searchX();" data-stoppropagation="true"  placeholder="请输入关键字查询">
+      				<span class="input-group-btn">
+        			<button class="btn btn-default" type="button" onclick="searchX();">搜索</button>
+      				</span>
+                </div></td>
+                </tr>
+              </table></td>
+            </tr>
+            <tr>
+              <td width="15%" height="84">&nbsp;</td>
+              <td width="19%"><table width="90%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="8%" height="27" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+                  <td width="38%"><a onclick="doWrite();">智能问答</a></td>
+                   <td width="8%" height="27" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+                  <td width="38%"><a href="{{cp}}govservice/jxkh">绩效考核</a></td>
+                </tr>
+                <tr>
+                  <td width="8%" height="27" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+                  <td width="38%"><a href="{{cp}}consult">我要咨询</a></td>
+                  <td width="9%" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+                  <td width="45%"><a href="{{cp}}complain">我要投诉</a></td>
+                </tr>
+                {%if ConfigInfo.DEMONSTRATE_MODE|equal:"1"%}
+					<tr id="project">
+					<td width="10%" height="24" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+					<td width="40%"><a href="{{cp}}icity/engineering/index" target="_blank">工程建设</a></td>
+					<td width="10%" height="24" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+					<td width="40%"><a href="{{cp}}pro/index" target="_blank">投资项目</a></td>
+					</tr>
+				{% endif %}
+              </table></td>
+              <td width="14%">&nbsp;</td>
+              <td width="33%"><table width="57%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="10%" height="24" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+                  <td width="40%"><a href="{{cp}}sunny/power" target="_blank">权力清单</a></td>
+                  <td width="8%" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+                  <td width="42%"><a href="{{cp}}dolist" target="_blank">办件公告</a></td>
+                </tr>
+                <tr>
+                  <td height="24" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+                  <!-- <td>绩效考评</td> -->
+                  <td><a href="{{cp}}queryletter" target="_blank">信件答复</a></td>
+                  <td width="10%" height="24" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+                  <td width="40%"><a href="{{cp}}govservice/pub/contentlist?type=tzgg">网站发布</a></td>
+                </tr>
+                <tr>
+                  <td width="10%" height="24" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+                  <td width="40%"><a href="{{cp}}onlinebook/pdyy" target="_blank">预约排队</a></td>
+                  <td width="10%" height="24" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+				  <td width="40%"><a href="{{cp}}icity/interactive/satisfaction" target="_blank">星级测评</a>
+                </tr>
+                
+              </table></td>
+              <td width="19%"><table width="92%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="10%" height="24" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+                  <td width="40%"><a href="{{cp}}icity/onlineBusiness/guideto" target="_blank">办事指南</a></td>
+                  <td width="8%" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+                  <td width="42%"><a href="{{cp}}queryprogress" target="_blank">办事进度</a></td>
+                </tr>
+                <tr>
+                  <td height="24" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+                  <td><a href="{{cp}}icity/onlineBusiness/onlinebidding" target="_blank">在线申办</a></td>
+                  <td height="24" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+                   <td><a href="{{cp}}icity/onlineBusiness/formtodownload" target="_blank">表格下载</a></td>
+                </tr>
+                <tr>
+                  <td height="24" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+                  <td><a href="{{cp}}uc/index" target="_blank">个人服务空间</a></td>
+                  <td height="24" align="center"><img src="{{cp}}public/assets/img/zwfww_002.jpg" width="3" height="5" /></td>
+                  <td><a href="{{cp}}onlinebook/ssdt" target="_blank">实时大厅</a></td>
+                </tr>
+              </table></td>
+            </tr>
+          </table></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+{% include public/index/footer.html %}
+{% include govservice/reply.html %}
+<script>
+function searchX(){
+	 var key=$(".key").val();
+	 if(!LEx.isNotNull(key)){
+		 return false;
+	 }
+	 window.open("{{cp}}search?key="+ encodeURIComponent(key));
+}
+</script>
+</body></html>

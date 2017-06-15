@@ -1,0 +1,168 @@
+<div class="corner_shadow"></div>
+<div class="home_map">
+	<h2>网站地图</h2>
+  <!-- 暂时屏蔽
+	<div class="part">
+		<h3>政务公开</h3>
+		<div class="map_items" id="govopen_list">
+		</div>
+	</div>
+	
+	<div class="part">
+		<h3>投资审批</h3>
+		<div class="map_items" id="govinvest_list">
+		</div>
+	</div>
+  -->
+    <div class="part" >
+		<h3>投资审批</h3>
+		<div class="map_items" id="goveffect_list" style="border-bottom: 1px solid #CCC;">
+		<dl>
+			<dd>
+					<a  href="{{PageContext.ContextPath}}icity/invest/index?type=0" title="政府投资" target="_blank">政府投资</a>
+			</dd>
+			<dt></dt>
+		</dl>
+		<dl>
+			<dd>
+					<a  href="{{PageContext.ContextPath}}icity/invest/index?type=1" title="企业投资" target="_blank">企业投资</a>
+			</dd>
+			<dt></dt>
+		</dl>
+		<dl>
+			<dd>
+					<a  href="{{PageContext.ContextPath}}icity/invest/index?type=2" title="部门服务" target="_blank">部门服务</a>
+			</dd>
+			<dt></dt>
+		</dl>
+		</div>
+	</div>
+  	
+	<div class="part">
+		<h3>网上办事</h3>
+		<div class="map_items">
+			<dl>
+				<dd><a href="{{PageContext.ContextPath}}project/index?service=p" target="_blank">个人办事</a></dd>
+				<dt>办理个人相关的事项，如身份证，护照等。</dt>
+			</dl>
+			<dl>
+				<dd><a href="{{PageContext.ContextPath}}project/index?service=c" target="_blank">企业办事</a></dd>
+				<dt>办理企业相关的事项，如企业设立，变更，注销.申请资质等。</dt>
+			</dl>
+			<dl>
+				<dd><a href="{{PageContext.ContextPath}}project/index?service=d"  target="_blank">部门服务</a></dd>
+				<dt>按照部门，进入部门首页，查找审批事项等信息内容。</dt>
+			</dl>
+		</div>
+	</div>
+<!-- 	<div class="part"> -->
+<!-- 		<h3>政民互动</h3> -->
+<!-- 		<div class="map_items"> -->
+<!-- 			<dl> -->
+<!-- 				<dd><a href="{{PageContext.ContextPath}}mutual"  target="_blank">政务微博</a></dd> -->
+<!-- 				<dt>政务官方微博，及时了解最新政务动态信息。</dt> -->
+<!-- 				<dd><a href="http://www.sz.gov.cn/cn/tpxv/200812/t20081215_707666.htm"  target="_blank">12345投诉热线</a></dd> -->
+<!-- 				<dt>12345，有事找政府.</dt> -->
+<!-- 			</dl> -->
+<!-- 			<dl> -->
+<!-- 				<dd><a href="http://www.sz.gov.cn/cn/hdjl/zxft/ztc" target="_blank">直通车</a></dd> -->
+<!-- 				<dt>政府服务单位与您“零距离”服务。</dt> -->
+<!-- 				<dd><a href="http://www.sz.gov.cn/cn/hdjl/zxft/zqt/" target="_blank">企业通</a></dd> -->
+<!-- 				<dt>政府与企业网上对话沟通活动.</dt> -->
+<!-- 			</dl> -->
+<!-- 			<dl> -->
+<!-- 				<dd><a href="http://www.sz.gov.cn/cn/hdjl/zxft/mxq/" target="_blank">民心桥</a></dd> -->
+<!-- 				<dt>您的生活相关问题，将会在这里找到答案。</dt> -->
+<!-- 				<dd><a href="http://other.sznews.com/wdsz2012/"  target="_blank">网络答政平台</a></dd> -->
+<!-- 				<dt>网络问政，答政，询计问策，献计献策的平台。</dt> -->
+<!-- 			</dl> -->
+		
+<!-- 		</div> -->
+<!-- 	</div> -->
+	<div class="part" >
+		<h3>效能监察</h3>
+		<div class="map_items" id="goveffect_list" style="border-bottom: 1px solid #CCC;">
+		<dl>
+			<dd>
+					<a  href="{{PageContext.ContextPath}}effect/index?type=0" title="服务事项进驻情况" target="_blank">服务事项进驻情况</a>
+			</dd>
+			<dt></dt>
+		</dl>
+		<dl>
+			<dd>
+					<a  href="{{PageContext.ContextPath}}effect/index?type=3" title="网上服务登记情况" target="_blank">网上服务登记情况</a>
+			</dd>
+			<dt></dt>
+		</dl>
+		<dl>
+			<dd>
+					<a  href="{{PageContext.ContextPath}}effect/index?type=6" title="在线办理率级别评定" target="_blank">在线办理率级别评定</a>
+			</dd>
+			<dt></dt>
+		</dl>
+		</div>
+	</div>
+</div>
+
+
+<!-- 暂时屏蔽
+<textarea id="govopen" style="display:none">
+		{if data.length>0}
+			{for o in data}
+				<dl>
+					<dd>
+						{if o.URL}
+							<a  href="${o.URL}" title="${o.NAME}" target="_blank">${o.NAME}</a>
+						{else}
+								<a  href="{{PageContext.ContextPath}}open" title="${o.NAME}" target="_blank">${o.NAME}</a>
+						{/if}
+					</dd>
+					<dt>${o.REMARK}</dt>
+				</dl>
+			{/for}
+		{else} 
+			<dl><dd>无数据</dd></dl>
+		{/if}
+</textarea>
+
+<textarea id="govinvest" style="display:none">
+		{if data.length>0}
+			{for o in data}
+				<dl>
+					<dd>
+						{if o.URL}
+							<a  href="${o.URL}" title="${o.NAME}" target="_blank">${o.NAME}</a>
+						{else}
+							<a  href="{{PageContext.ContextPath}}invest/index" title="${o.NAME}" target="_blank">${o.NAME}</a>
+						{/if}
+					</dd>
+					<dt>${o.REMARK}</dt>
+				</dl>
+			{/for}
+		{else} 
+			<dl><dd>无数据</dd></dl>
+		{/if}
+</textarea>
+
+<textarea id="goveffect" style="display:none">
+		{if goveffect.length>0}
+			{for o in goveffect}
+				<dl>
+					<dd>
+						{if o.URL}
+							<a  href="${o.URL}" title="${o.NAME}" target="_blank">${o.NAME}</a>
+						{else}
+							<a  href="{{PageContext.ContextPath}}effect/index" title="${o.NAME}" target="_blank">${o.NAME}</a>
+						{/if}
+					</dd>
+					<dt>${o.REMARK}</dt>
+				</dl>
+			{/for}
+		{else} 
+			<dl><dd>无数据</dd></dl>
+		{/if}
+</textarea>
+
+-->
+
+

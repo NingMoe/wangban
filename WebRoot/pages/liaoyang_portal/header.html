@@ -1,0 +1,96 @@
+<script src="{{PageContext.ContextPath}}pages/liaoyang_portal/scripts/swfobject_modified.js" type="text/javascript"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="renderer" content="webkit">
+<script type="text/javascript">
+	{% set cp PageContext.ContextPath %}
+	var __webPath = "{{cp}}";
+	var __signature = "{{PageContext.SignatureInfo}}";
+</script>
+<!-- Bootstrap -->
+<link href="{{PageContext.ContextPath}}pages/liaoyang_portal/assets/css/bootstrap.css" rel="stylesheet">
+<link href="{{PageContext.ContextPath}}pages/liaoyang_portal/assets/css/custom.css" rel="stylesheet">
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+	<script src="{% public assets/js/html5.min.js %}"></script>
+	<script src="{% public assets/js/respond.min.js %}"></script>
+<![endif]-->
+<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+<style>
+.deptlisttype {
+    border: 1px solid #DDDFEA !important;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    width: 132px !important;
+    height: 34px;
+    font: 14px/14px "微软雅黑";
+    text-align: center;
+    margin: 4px !important;
+}
+</style>
+<div class="container banner">
+	<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+		width="1000" height="160" id="FlashID" title="banner">
+		<param name="movie"
+			value="{{PageContext.ContextPath}}pages/liaoyang_portal/assets/fla/banner.swf">
+		<param name="quality" value="high">
+		<param name="wmode" value="opaque">
+		<param name="swfversion" value="11.2.0.0">
+		<!-- 此 param 标签提示使用 Flash Player 6.0 r65 和更高版本的用户下载最新版本的 Flash Player。如果您不想让用户看到该提示，请将其删除。 -->
+		<param name="expressinstall" value="scripts/expressInstall.swf">
+		<!-- 下一个对象标签用于非 IE 浏览器。所以使用 IECC 将其从 IE 隐藏。 -->
+		<!--[if !IE]>-->
+		<object type="application/x-shockwave-flash"
+			data="{{PageContext.ContextPath}}pages/liaoyang_portal/assets/fla/banner.swf"
+			width="1000" height="160">
+			<!--<![endif]-->
+			<param name="quality" value="high">
+			<param name="wmode" value="opaque">
+			<param name="swfversion" value="11.2.0.0">
+			<param name="expressinstall"
+				value="{{PageContext.ContextPath}}pages/liaoyang_portal/scripts/expressInstall.swf">
+			<!-- 浏览器将以下替代内容显示给使用 Flash Player 6.0 和更低版本的用户。 -->
+			<div>
+				<h4>此页面上的内容需要较新版本的 Adobe Flash Player。</h4>
+				<p>
+					<a href="http://www.adobe.com/go/getflashplayer"><img
+						src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif"
+						alt="获取 Adobe Flash Player" width="112" height="33" /> </a>
+				</p>
+			</div>
+			<!--[if !IE]>-->
+		</object>
+		<!--<![endif]-->
+	</object>
+</div>
+<div class="container topbar">
+	<ul class="nav nav-pills nav-justified" role="tablist">
+		<li role="presentation"><a href="{{PageContext.ContextPath}}liaoyang_portal/index">网站首页</a></li>
+		<li role="presentation"><a href="{{PageContext.ContextPath}}liaoyang_portal/jgsz">机构设置</a></li>
+		<li role="presentation"><a href="{{PageContext.ContextPath}}liaoyang_portal/zwxx">政务信息</a></li>
+		<li role="presentation"><a href="{{PageContext.ContextPath}}liaoyang_portal/xxgk">信息公开</a></li>
+		<li role="presentation"><a href="http://60.18.184.20/icity/icity/project" target="_blank">网上办事</a></li>
+		<li role="presentation"><a href="{{PageContext.ContextPath}}liaoyang_portal/zcfg">政策法规</a></li>
+	</ul>
+</div>
+<div class="container search clearfix">
+    <div class="row">
+        <div class="col-xs-8">
+            <p class="pull-left">您好！欢迎来到辽阳市行政审批局</p>
+        </div>
+        <div class="col-xs-4">
+            <!-- <div class="form-group pull-right" style="margin:0; width:230px;">
+                <div class="input-group">
+                    <input class="form-control input-sm" type="text" placeholder="请输入关键字">
+                    <span class="input-group-btn">
+                            <button class="btn btn-warning btn-sm" type="button">搜索</button>
+                        </span>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,172 @@
+<link rel="stylesheet" type="text/css"
+	href="{{PageContext.PagePath}}icity/submitsp/all.css" />
+<script src="{% public scripts/LEx.form.js %}"></script>
+<style type="text/css">
+input.date {
+	background: #fff url({% public images/input_date.png %}) no-repeat right
+		3px;
+	border: 1px solid #848484;
+	height: 28px;
+	width: 100%;
+	margin: 0 5px 0 0;
+	padding: 2px 0 2px 5px;
+	font-family: Verdana, Geneva, sans-serif, "宋体";
+	font-size: 12px;
+}
+
+.input_validation-invalid {
+	border: 1px solid #F00;
+	color: #F00;
+}
+
+.input_validation-valid {
+	border: 1px solid #333;
+	color: #333;
+}
+
+.DynarchCalendar-topCont {
+	width: 200px;
+}
+
+table.t1 {
+	width: 900px;
+}
+</style>
+<div id="page" class="container"
+	style="padding-left: 10px; padding-right: 10px; background-color: #fff;">
+	<div id="guide-top">
+		<div id="form" style="height: 500px; display: block;">
+			<iframe id="formiframe" name="formiframe" src=""
+				style="border: 0px; width: 100%; height: 100%;"></iframe>
+		</div>
+
+		<div id="apply" style="display: none;">
+			<table style="border: 1px; width: 80%" class="t1"></table>
+		</div>
+		<br />
+		<div id="submitsp" style="height: 40px; text-align: center;">
+			<input type="button" style="width: 68px;" class="btn btn-info next"
+				onclick="next();" value="下一步" title="下一步" /> <!-- <input id="save"
+				type="button" style="width: 68px;" class="btn btn-info save"
+				onclick="saveDraft();" value="暂存" title="暂存" /> -->
+		</div>
+	</div>
+</div>
+<script>
+	var data = LEx.urldata;
+	var _dataId = null; //表单数据id,null表示表单数据未提交。
+	var obj = null; //表单对象。
+	var name = "";
+	$(document).ready(
+			//如查状态为12，隐藏暂存按钮			
+			function() {
+				if (data.state == "12") {
+					$("#save").remove();
+				}
+				$("#formiframe").attr(
+						"src",
+						"{{PageContext.ContextPath}}icity/submitsp/view?formId=" + data.formId + "&flowId=" + data.flowId + "&dataId=" + data.dataId);
+				formiframe = $("#formiframe");
+				$("#form").show();
+				$(".next").val("下一步");
+
+			});
+
+	//下一步
+	function next() {
+		obj = document.getElementById("formiframe").contentWindow.window;
+		obj.bSave();
+		_dataId = obj.document.getElementById("dataid").value;
+
+		var isTaKan;
+		var radio = obj.document.getElementsByName("是否申请联合踏勘");
+		if (radio.length > 0) {
+			for ( var j = 0; j < radio.length; j++) {
+				if (radio[j].checked == true) {
+					isTaKan = radio[j].value;
+					break;
+				}
+			}
+		}
+		if (data.JRType == "0") {
+			name = obj.document.getElementById("qymc").value;
+		} else if (data.JRType == "3") {
+			name = obj.document.getElementById("APPLY_OBJECTS").value;
+		} else if (data.JRType == "4") {
+			name = obj.document.getElementById("SBZXM").value;
+		}
+
+		//如果_dataId（表单数据id）不为空。则组装data数据，带到下一流程。
+		if (LEx.isNotNull(_dataId)) {
+			data.dataId = _dataId;
+			data.isTaKan = isTaKan;
+			data.qymc = name;
+			data.companyType = "0";
+			var EntType = document.getElementById("formiframe").contentWindow.document
+					.getElementById("EntType")
+			if (LEx.isNotNull(EntType)) {
+				data.companyType = EntType.value;
+			}
+			var EntName = document.getElementById("formiframe").contentWindow.document
+					.getElementById("EntName")
+
+			window.open("{{PageContext.ContextPath}}JRPlatform/resourceList?"+LEx.urlEncode(data), "_self");
+		} else {
+			alert("表单数据未保存成功！");
+			return;
+		}
+	}
+
+	//暂存
+	function saveDraft() {
+		//存入表单系统里，获取dataId.
+		obj = document.getElementById("formiframe").contentWindow.window;
+		obj.bSave();
+		_dataId = obj.document.getElementById("dataid").value;
+
+		var radio = obj.document.getElementsByName("是否申请联合踏勘");
+		for ( var j = 0; j < radio.length; j++) {
+			if (radio[j].checked == true) {
+				isTaKan = radio[j].value;
+				break;
+			}
+		}
+
+		if (data.JRType == "0") {
+			name = obj.document.getElementById("qymc").value;
+		} else if (data.JRType == "3") {
+			name = obj.document.getElementById("APPLY_OBJECTS").value;
+		} else if (data.JRType == "4") {
+			name = obj.document.getElementById("SBZXM").value;
+		}
+
+		data.qymc = name;
+		data.isTaKan = isTaKan;
+		data.dataId = _dataId;
+		if (LEx.isNotNull(_dataId)) {
+			var command = new LEx.Command("app.icity.enterprises.EnterprisesCmd");
+			command.setParameter("IS_LHTK", data.isTaKan);
+			command.setParameter("dataId", data.dataId);
+			command.setParameter("flowId", data.flowId);
+			command.setParameter("formId", data.formId);
+			command.setParameter("ID_index", data.ID_index);
+			command.setParameter("APPLY_SUBJECT", "关于" + name + "的申请");
+			var ret = command.execute("first_saveDraftApplicationInfo");
+			if (!command.error) {
+				alert("暂存成功！");
+				if (ret.data != null) {
+					data.ID_index = ret.data;
+				}
+				
+				window.location.href="{{cp}}center/index";
+			} else {
+				alert("暂存失败！");
+				return;
+			}
+
+		} else {
+			alert("暂存出错(提交表单数据未成功)");
+			return;
+		}
+	}
+</script>

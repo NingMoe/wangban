@@ -1,0 +1,174 @@
+<script type="text/javascript" src="{{PageContext.JsPath}}LEx.form.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<style type="text/css">
+.listTable th {
+	text-align: center;
+	color: black;
+	font-weight: normal;
+	background-color: #F1F1F1;
+	padding: 2px 2px;
+	font-size: 13px;
+	height: 24px;
+	background: url("{{PageContext.ContextPath}}public/themes/default/images/w3c_ttt.png") bottom repeat-x #FFF;
+}
+
+.listTable tr td {
+	padding: 6px 10px;
+	font-size: 12px;
+	font-weight:normal;
+	cursor:default;
+}
+a.htmlhref{cursor: pointer;text-decoration: none;}
+a.htmlhref:link{color:#335CF4;}
+a.htmlhref:visited{color:#335CF4;}
+a.htmlhref:hover{color:#FF9F10;}
+a.htmlhref:active{color:#FF9F10;}
+</style>
+<script type="text/javascript">
+	var table = null;
+	var _calendar= null;
+	function init(){
+		_calendar= new LEx.Control.Calendar(function(){
+			contentHandler();
+		});
+		var tabObj = {id:"tab"};
+		LEx.Control.Tab(tabObj);		
+		$(".tabs-base li").click(function(){			
+			var tag=$(this).attr("tag");
+			if(tag=="list"){
+				$("#goveffect").hide();	
+				$("#govweibo").show();							
+			}else{
+				$("#govweibo").hide();
+				$("#goveffect").show();
+				var ifm=document.getElementById("effectFrm");
+				var obj=ifm.contentWindow.document.getElementById("effect_header_tab_0");
+				obj.click();
+			}
+		});		
+		table = new LEx.Control.Table("list","template");
+		table.limit(10);
+		onQuery();
+		
+		var page=LEx.urldata.page;
+		if(page=="jiancha"){
+			$("li[tag=list]").hide();
+			$("li[tag=effect] a").click();
+		}
+	}
+	
+	function onQuery(){	
+		var find_id=LEx.urldata.id;
+		var find_type=LEx.urldata.type;
+		var find_depart=LEx.urldata.depart;
+		var find_keyword=LEx.urldata.keyword;		
+		
+		var cmd = new LEx.Command("app.icity.guestbook.WriteCmd");			
+		cmd.setParameter("start", table.start());
+		cmd.setParameter("limit", table.limit());
+		cmd.setParameter("OPEN@=", "1");
+		cmd.setParameter("GIVE_STATUS@=", "1");
+		
+		if(LEx.isNotNull(find_id)){
+			cmd.setParameter("ID@=",find_id);
+			document.getElementById("title").innerHTML = title;
+		}
+	
+		if(LEx.isNotNull(find_type)){
+			cmd.setParameter("TYPE@=",find_type);
+			var title = find_type+"列表";
+		}
+		
+		if(LEx.isNotNull(find_depart)){
+			cmd.setParameter("DEPART_ID@=",find_depart);
+		}
+		
+		if(LEx.isNotNull(find_keyword)){
+			//var find_keyword="%"+find_keyword+"%";
+			cmd.setParameter("TITLE@like","%"+find_keyword+"%");
+		}
+		
+		var ret = cmd.execute("getList");
+		if(!ret.error){
+			//2.将数据传递给table对象
+			table.toBody(ret);
+			//将部门id转换为部门名称
+			//table.toKey("sys_dept","list",""); 
+			//3.加载分页控件：分页div的id，Table的实例化对象名称（字符串）,总数量，查询方法（字符串）
+			table.toPageBar("pager","table",ret.total,"onQuery()");
+		}else{
+			LEx.alert(ret.error);
+		}
+	}
+</script>
+<div class="fl w210">
+	{% widget "other.GuestBookLeftWidget" %}
+</div>
+<div class="ml210">
+	<div id="tab">
+		<ul class="tabs tabs-base">
+			<li tag="list"><a id="title" href="javascript:void(0);" tag="govweibo" class="tab active">答复列表</a></li>
+			{% if ConfigInfo.PAGE_MODE|equal:'yns' %}
+				<li tag="effect"><a href="javascript:void(0);" tag="goveffect" class="tab active">效能监察</a></li>
+			{% endif %}
+		</ul>
+	</div>
+	<div class="tabs-content" style="padding-top:8px;margin-top: -2px;">
+		<div id="govweibo">
+			<table id="list" class="listTable" style="margin:8px auto;" width="93%">
+				<thead>
+					<tr>
+						<th style="width:10%;">类别</th>
+						<th style="width:19%;">信件来源</th>
+						<th style="width:45%;">主题</th>
+						<th style="width:16%;">来信时间</th>
+						<th style="width:10%;">处理状态</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+			<div id="pager"></div>
+		</div>
+		{% if ConfigInfo.PAGE_MODE|equal:'yns' %}
+			<div id="goveffect" style="display:none;">
+				<div style="width:100%;margin:0px;padding:0px;">
+					<iframe id="effectFrm" width="100%" height="100%" scrolling="no" frameborder="0" src="{{PageContext.ContextPath}}guestbook/effect/index_yns"></iframe>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+</div>
+<textarea id="template" class="template" style="display:none"  style="margin-left:auto;margin-right: auto;">
+	{for o in data}
+ 		<tr>
+			<td align="center"><a target="_blank" href="{{PageContext.ContextPath}}icity/guestbook/list?type=${o.TYPE}">
+			  {if o.TYPE=="0"}
+			       [建议]      
+			  {elseif o.TYPE=="1"}
+				   [表扬]
+			  {elseif o.TYPE=="2"}
+				   [咨询]
+			  {elseif o.TYPE=="3"}
+				   [投诉]	
+			  {elseif o.TYPE=="4"}
+				   [其他]
+			  {elseif o.TYPE=="5"}
+				   [意见]   	         
+			  {/if} 
+			</a></td>
+			<td align="center"><a target="_blank" href="{{PageContext.ContextPath}}icity/guestbook/list?depart=${o.DEPART_ID}">${o.DEPART_NAME}</a></td>
+			<td ><a target="_blank" href="{{PageContext.ContextPath}}icity/guestbook/detail?id=${o.ID}">${o.TITLE}</a></td>
+			<td align="center">${LEx.util.Format.formatDate(o.WRITE_DATE)}</td>
+			<td align="center">
+			  {if o.STATUS=="0"}
+			       	未处理
+			  {elseif o.STATUS=="1"}
+				   	已处理
+			  {/if} 
+			</td>
+		</tr>
+	{/for}
+	{if total == 0} 
+		<tr><td colspan="5">无数据</td></tr>
+	{/if}
+</textarea>

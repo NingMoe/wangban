@@ -1,0 +1,117 @@
+<style>
+<!--
+.tree-file {
+	background: url("");
+	width: 0;
+}
+
+.tree-title {
+	padding: 0px
+}
+
+.datagrid-body td,.datagrid-footer td {
+	border-bottom: 1px dotted #21A4FF
+}
+
+.ntabs .opt li {    border: 1px solid #CCCCCC;
+    border-radius: 2px 2px 2px 2px;
+    cursor: pointer;
+    float: left;
+    margin: 0 10px;
+    padding: 3px 10px;}
+.ntabs .opt li.on{color: #FFF; background: #4F95EA;border:1px solid #155BDD;font-weight: bold;}
+
+.ntabs .ntab{
+	border:1px solid #CCCCCC;
+	background: #F4F4F4
+}
+.list_table_1{
+	table-layout: fixed;
+	word-break:break-all;
+}
+.list_table_1 td{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	height: 100%;
+}
+.urlTag{display: none;}
+-->
+</style>
+<div class="navigation">
+	<ul class="navigation_ul">
+		<li class="cur">添加菜单</li>
+	</ul>
+</div>
+<div id="security" style="margin: 5px;0px;0px;0px;" align="center" >
+<table id="form" class="baseform list_table_1" style="width: 95%">
+	<colgroup>
+		<col width="20%" />
+		<col width="30%" />
+		<col width="20%" />
+		<col width="30%" />
+	</colgroup>
+	<tr>
+		<th>名称：</th>
+		<td colspan="3">
+			<input type="text" tag="NAME" class="input" style="width: 95%" reg="^.+$" tips="请输入菜单名称"/>
+			<input type="hidden" tag="PARENT_ID" />
+			<input type="hidden" tag="GID" />
+		</td>
+	</tr>
+	<tr >
+		<th>状态：</th>
+		<td>
+			<select  tag="IS_USE">
+				<option value="1">可用</option>
+				<option value="0">不可用</option>
+			</select>
+		</td>
+		<th>导航：</th>
+		<td>
+			<select  tag="IS_NAV">
+				<option value="1">是</option>
+				<option value="0">不是</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th>类型：</th>
+		<td>
+			<select id="tagType" tag="TYPE">
+				<option value="portal">自定义页面</option>
+				<option value="url">链接地址</option>
+			</select>
+		</td>
+		<th>跳转方式：</th>
+		<td>
+			<select  tag="TARGET_TYPE">
+				<option value="_blank">弹出新页面</option>
+				<option value="_self">本页面跳转</option>
+			</select>
+		</td>
+	</tr>
+
+	<tr >
+		<th>链接地址：</th>
+		<td colspan="3">
+			<input type="text" tag="VALUE"  class="input" regis style="width: 95%" value="/"  reg="^.+$" tips="请输入菜单链接地址"/>
+			<br/>
+			<font color="red" class="urlTag">外部地址请输入http://,内部地址请填写虚拟地址后值</font>
+			<font color="red" class="portalTag">实际访问地址为http://ip:端口/虚拟路径/portal/链接地址</font>
+		</td>
+	</tr>
+	<tr class="portalTag">
+		<th>页面标题：</th>
+		<td colspan="3">
+			<input type="text" tag="TITLE"  class="input" style="width: 95%"  reg="^.+$" tips="请输入页面标题"/>
+		</td>
+	</tr>
+	<tr class="portalTag">
+		<th>页面META：</th>
+		<td colspan="3">
+			<textarea tag="META" rows="5" style="width: 95%"></textarea>
+		</td>
+	</tr>
+</table>
+</div>

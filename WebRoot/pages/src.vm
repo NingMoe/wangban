@@ -1,0 +1,6 @@
+{% include PageContext.HtmlName %}
+{% if PageContext.JsName %}
+<script type="text/javascript">
+	{% include PageContext.JsName %}
+</script>
+{% endif %}

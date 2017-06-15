@@ -1,0 +1,331 @@
+<link rel="icon" href="assets/ico/favicon.ico">
+<link rel="stylesheet" href="{% public assets/css/jquery-ui.css %}">
+<script src="{% public assets/js/jquery-ui.js %}"></script>
+<script src="{% public assets/js/jquery-ui.js %}"></script>
+<script src="{{cp}}public/scripts/validator/jquery.validator.min.js?local=zh-CN"></script>
+<body style="background-color: #f5f5f5;">
+	<div class="container">
+		<ol class="breadcrumb">
+			<li><img src="{%public assets/img/current_home.png%}">
+				您当前所在的位置:</li>
+			<li><a href="{{cp}}/public/index">首页</a>
+			</li>
+			<li><a href="javascript:void(0)">留言咨询</a>
+			</li>
+		</ol>
+	</div>
+	<div class="container">
+		<div class="table-table">
+			<div class="table-cell its-aside">
+				<nav class="sidebar its-sidebar">
+					<h4 class="sidebar-header" data-toggle="collapse"
+						href="#collapseOne">
+						<img src="{%public assets/img/abm_bszx.png%}"><strong>留言咨询</strong>
+					</h4>
+					<ul class="nav sidebar-nav collapse in" id="collapseOne">
+						<li><a href="{{cp}}govservice/robot" target="_blank">智能问答</a>
+						</li>
+						<li><a href="{{cp}}govservice/help" target="_blank">常见问题</a>
+						</li>
+						<li class="active"><a href="javascript:void(0)">留言咨询</a>
+						</li>
+						<li><a href="{{PageContext.ContextPath}}uinfo?folder=active&tag=business_complaint_list">办件投诉</a>
+						</li>
+						<li><a href="{{cp}}govservice/phonenum">部门咨询电话</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+
+			<form class="table-cell its-page" id="liuyan" >
+
+				<section class="its-page-body">
+					<section class="panel panel-default" style="border-color: #bacbda;">
+						<header class="" style="border-bottom: 1px solid #bacbda;">
+							<h3 class="panel-title inline-block"
+								style=" padding: 15px 25px; border-bottom: 3px solid #29588c; margin-bottom: -2px;">
+								<strong>留言咨询</strong>
+							</h3>
+						</header>
+						<table class="table table-form">
+							<tbody>
+								<tr>
+									<td colspan="4" style="padding-left: 4em;color: red;">说明：
+										本栏目提供行政许可事项的咨询服务，请在咨询前选定有关行政许可事项。</td>
+								</tr>
+								<tr>
+									<td class="text-right" width="15%"><strong
+										style="color: red;">*</strong> 我的姓名：</td>
+									<td width="30%"><input class="form-control" id="username"
+										type="text" value="{{UserInfo.userName}}"  disabled="disabled">
+									</td>
+									<td width="30%"></td>
+									<td width="25"></td>
+								</tr>
+								<tr>
+									<td class="text-right"><strong style="color: red;">*</strong>
+										电话号码：</td>
+									<td><input class="form-control" data-rule="电话号码:required;mobile;" id="phone" type="text"
+										value="{{UserInfo.mobile}}">
+									</td>
+									<td></td>
+									<td></td>
+								</tr>
+					        	<tr>
+									<td class="text-right"><strong style="color: red;">*</strong>
+										电子邮箱：</td>
+									<td><input class="form-control" data-rule="电子邮箱:required;email;" id="email" type="text">
+									</td>
+								</tr>
+								<!--<tr>
+									<td class="text-right"><strong style="color: red;">*</strong>
+										联系地址：</td>
+									<td colspan="2">
+									<input data-rule="联系地址:required;length(~48);" class="form-control" value="" id="address" type="text">
+									</td>
+									<td></td>
+								</tr> -->
+								<tr>
+									<td class="text-right"><strong style="color: red;">*</strong>
+										按部门：</td>
+									<td colspan="2"><select class="form-control" id="depart_name" onchange="gradeChange()" data-rule="部门:required;">
+									</select></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td class="text-right"><strong style="color: red;">*</strong>
+										按事项：</td>
+									<td colspan="2"><input name="autocomplete"  id="autocomplete" sxid="0" sxbm="0"
+										autocomplete="off" class="ui-autocomplete-input form-control"> 
+									</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td class="text-right"><strong style="color: red;">*</strong>
+										标题：</td>
+									<td colspan="2"><input data-rule="标题:required;length(~48);illegaSymbol;"  class="form-control" id="title"
+										type="text">
+									</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td class="text-right"><strong style="color: red;">*</strong>
+										咨询内容：</td>
+									<td colspan="2" class="text-right"><textarea class="form-control"
+											id="content" rows="8" data-rule="咨询内容:required;length(20~300);illegaSymbol;"></textarea>
+											<span>（注：字数20-300）</span>
+									</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td class="text-right"><strong style="color: red;">*</strong>验证码：</td>
+									<td style="text-overflow:ellipsis;word-break:keep-all; white-space:nowrap;"><div class="fromcontrol fromcontrol-code">
+											<input data-target="#change" id="verify" name="verify" type="text" class="form-control" style="width: 120px;" placeholder="验证码"> 
+											<a href="javascript:changeVerify();" hidefocus="hidefocus"> 
+												<img id="verifyImg" src="{{PageContext.ContextPath}}bsp/verifyCode" alt="换一张" style="position: relative;">
+											</a>&nbsp; <a id="change" href="javascript:changeVerify();" hidefocus="hidefocus" style="font-size: 13px;">换一张</a>
+										</div>
+									</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>
+										<button type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;</button>
+										<button type="submit" class="btn btn-default"
+											onclick="empty()">&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;</button>
+									</td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</section>
+				</section>
+
+			</form>
+		</div>
+	</div>
+	</div>
+
+
+	<script type="text/javascript">
+	$("#liuyan").validator({
+		theme:"yellow_right_effect",
+	    rules: {
+	        item: function(element) {
+	        	if($("#autocomplete").attr("sxid")=="0"){
+	        		$("#autocomplete").val("");
+					return "请查询后选择你要咨询的事项";
+				}
+	        },
+	        verifyCode:function(element){
+	    		var flag=false;
+	    		var message="";
+	             $.ajax({
+	                url:'{{cp}}bsp/verifyCode',
+	                type: 'post',
+	                async:false,
+	                data: {"action":"check","VerifyCode":$("#verify").val()},
+	                dataType: 'json',
+	                success: function(d){
+	                	if(d.state==1){
+	                		flag=true;
+	                	}else{
+	                		message = d.message;
+	                	}
+	                }
+	            });
+	             if(!flag){
+	            	 if(message!="")
+	            		 return message;
+	            	 return "验证码错误";
+	             }
+	        }
+	    },
+	    fields: {
+	    	autocomplete: "事项:required;item;",
+	    	verify:"验证码:required;verifyCode;"
+	    },
+	    valid: function(form) {
+	    	Onsubmit();
+	    }
+	});
+		function empty() {
+			//$("#address").val("");
+			$("#title").val("");
+			$("#content").val("");
+			if(!(LEx.urldata.item_id&&LEx.urldata.item_code&&LEx.urldata.item_name&&LEx.urldata.org_code)){
+				$("#autocomplete").val("");
+				$("#autocomplete").attr("sxid","");
+				$("#autocomplete").attr("sxbm","");
+			}
+			if(!(LEx.urldata.org_code)){
+				$("#depart_name").val("");
+			}
+			$("#verify").val("");
+			changeVerify();
+		}
+		function gradeChange(){
+			$("#autocomplete").attr("sxid","0");			
+			$("#autocomplete").attr("sxbm","0");
+			$("#autocomplete").val("");			
+		}
+		function Onsubmit() {
+			var cmd = new LEx.Command("app.icity.guestbook.WriteCmd");
+			cmd.setParameter("VerifyCode", $("#verify").val());
+			cmd.setParameter("USERNAME", $("#username").val());
+			cmd.setParameter("DEPART_NAME", $("#depart_name").find(
+					"option:selected").text());
+			cmd.setParameter("DEPART_ID", $("#depart_name").val());
+			cmd.setParameter("PHONE", $("#phone").val());
+			cmd.setParameter("EMAIL", $("#email").val());
+			//cmd.setParameter("ADDRESS", $("#address").val());
+			cmd.setParameter("TITLE", $("#title").val());
+			cmd.setParameter("CONTENT", $("#content").val());
+			cmd.setParameter("SXMC", $("#autocomplete").val());
+			cmd.setParameter("SXID", $("#autocomplete").attr("sxid"));
+			cmd.setParameter("SXBM", $("#autocomplete").attr("sxbm"));
+			cmd.setParameter("USER_ID", "{{UserInfo.uid}}");
+			var ret = cmd.execute("insertInfo4weihai");
+			if (ret.error) {
+				errorDialog("系统提示信息", ret.error);
+				return false;
+			} else {
+				LEx.alert("您的咨询信息已提交成功");
+				empty();
+			}
+		}
+		
+		$(function() {
+			onQuerydepts();
+			$("#autocomplete").autocomplete(
+					{
+						source : function(request, response) {
+							response(getlist(request.term));
+						},
+						minLength:0,
+						select : function(event, ui) {
+							$("#autocomplete").val(
+									$("<p>" + ui.item.NAME + "</p>")
+											.text());
+							$("#autocomplete").attr("sxid",ui.item.ID);	
+							$("#autocomplete").attr("sxbm",ui.item.CODE);
+							$("#depart_name").val(ui.item.ORG_CODE);
+							return false;
+						}
+					}).focus(function () {
+			                $(this).autocomplete("search");
+			            }).autocomplete("instance")._renderItem = function(
+					ul, item) {
+				return $("<li code='"+item.ID+"' title='"+item.NAME+"'>").append(item.NAME).appendTo(ul);
+			}
+			if(LEx.urldata.item_id&&LEx.urldata.item_code&&LEx.urldata.item_name){
+				$("#autocomplete").val(LEx.urldata.item_name);
+				$("#autocomplete").attr("sxid",LEx.urldata.item_id);
+				$("#autocomplete").attr("sxbm",LEx.urldata.item_code);
+			    $("#autocomplete").attr("disabled","disabled");
+			}
+			if(LEx.urldata.org_code){
+				$("#depart_name").find("option[value='"+LEx.urldata.org_code+"']").attr("selected",true);
+				$("#depart_name").attr("disabled","disabled");
+			}
+		});
+		function getlist(key) {
+			$("#autocomplete").attr("sxid","0");			
+			$("#autocomplete").attr("sxbm","0");
+			var dept_code = $("#depart_name").val();
+			var start = '1';
+			var limit = '10';
+			var cmd = new LEx.Command("app.icity.search.SearchCmd");
+			cmd.setParameter("key", key);
+			var AppId = getSecurityValue("AppId");
+			//潍坊需要显示所有类型的事项
+			if(AppId!="weifang"){
+				cmd.setParameter("power_type", "XK");
+			}
+			cmd.setParameter("org_code", dept_code);
+			cmd.setParameter("type", "project");
+			cmd.setParameter("start", start);
+			cmd.setParameter("limit", limit);
+			var ret = cmd.execute("getIndex");
+			return ret.data;
+		}
+		//创建部门列表
+		function onQuerydepts() {
+			var region_code = getSecurityValue("WebRegion");
+			var command = new LEx.Command("app.icity.ServiceCmd");
+			command.setParameter("region_code", region_code);
+			var ret = command.execute("getDeptList");
+			if (!command.error) {
+				creatListdepts(ret.data.organ);
+			} else {
+				LEx.dialog({
+					title : "系统提示",
+					content : command.error,
+					icon : 'error',
+					lock : true
+				});
+			}
+		}
+		function creatListdepts(orgs) {
+			var len = orgs.length;
+			var strHtml = "";
+
+			strHtml += "<option value='' selected='selected'>------请选择------</option>";
+			for ( var i = 0; i < len; i++) {
+				if (orgs[i].IS_HALL == "1") {
+
+					strHtml += "<option value='"+orgs[i].CODE+"' >"
+							+ orgs[i].NAME + "</option>";
+				}
+			}
+			$("#depart_name").append(strHtml);
+		}
+		function changeVerify() {
+		    var url = LEx.webPath + "bsp/verifyCode?time=" + new Date().getTime();
+		    $("#verifyImg").attr("src", url);
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<script type="text/javascript"
+	src="{{PageContext.JsPath}}raty_master/lib/jquery.raty.js"></script>
+	<script type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/layer.js"></script>
+	
+<style>
+.paycontent{
+	border-style：solid;
+	border-width: 1px;
+	border-color:red;
+	margin-top:-70px;
+	margin-left:-90px;
+	background-color:#42a5f5;
+ 	max-width: 400px;
+ 	position: absolute;
+ 	text-align: center;
+ 	padding: 20px 30px 10px 10px;
+ 	font-style: normal;
+ 	z-index: 2;
+ 	display: none;
+ 	color:#FFFFFF;
+ 	border-radius: 10px;
+}
+.div0{
+display: none;
+}
+li{
+list-style: inherit;
+}
+
+</style>
+<table class="table table-bordered">
+	<tr class="sec_tr">
+		<td>
+			<span>联合审批业务列表</span>
+			<a class="btn btn-primary pull-right" style="background-color:#728db0;color:#fcfcfc; margin-top: -8px;" href="javascript:void(0);" onclick="lhspBack();">返回投资项目列表 →</a>
+		</td>
+	</tr>
+	<tr>
+		<td><form action="" method="post">
+				<ul class="list-inline">
+					<li class="col-xs-12">申办时间：<input type="text"
+						style="width: 100px;" id="APPLYTIME_S2" name="APPLYTIME_S2" /> <img
+						src="{%public assets/img/date.jpg%}" style="margin-left: -20px;"
+						id="date1"> &nbsp;至&nbsp;<input type="text"
+						style="width: 100px;" id="APPLYTIME_E2" name="APPLYTIME_E2" /> <img
+						src="{%public assets/img/date2.jpg%}" style="margin-left: -20px;"
+						id="date2"> 
+						<button style="float:right" type="button" class="btn btn-warning" onclick="onQuery2();">查询</button>
+					</li>
+				</ul>
+
+			</form></td>
+	</tr>
+</table>
+<div class="businessList_main">
+	<div id="bldata2" class="template_list" style="overflow-y:auto;height:740px;"></div>
+</div>
+<textarea id="template_business_list2" style="display: none">
+{if data.length > 0}
+{for o in data}
+<table class="table table-bordered">
+	<tr class="sec_tr">
+		<td style="border-right: none;" colspan="2">
+			<span style="display: inline-block; width: 270px; padding-top: 5px;">
+				投资类别：${formateType(o.investType)}
+			</span>
+		</td>
+		<td style="border-left: none; border-right: none;" colspan="2"><span
+				style="display: inline-block; padding-top: 5px;">申办时间：${o.receiveTime}</span>
+		</td>
+		<td style="border-left: none; width: 120px">
+			<div class="other" style="text-align: center;"></div>
+		</td>
+	</tr>
+	<tr>
+		<td class="col-xs-2" style="border-right: none; width: 100px;" rowspan="2"><img src="{%public assets/img/1-3.png%}"></td>
+		<td style="border-left: none;" colspan="3">
+			<div style="float:left;"><span style="font-size: 18px; color: #2c87b6;">牵头单位：${o.orgName}</span></div>
+		</td>
+		<td rowspan="2" align="center" style="width:136px;">
+			<a href="javascript:void(0);" style="color: #008000; line-height: 50px;" onclick="applymaterial('${o.unionId}');">${formateUnionState(o.state)}</a><BR />
+			<a href="javascript:void(0);" onclick="showdetail('${o.unionId}');" style="line-height: 5px;">业务详情</a><BR />
+		</td>
+	</tr>
+	<tr>
+		<td style="border-left: none;" colspan="3">
+			<ul class="list-inline">
+				<li>数据来源：${formateSource(o.dataSource)}</li>
+			</ul>
+		</td>
+	</tr>
+</table>
+{/for}
+{else}
+	<div style="border: 1px; solid: #DCDCDC; height: 25px; padding-top: 5px; width: 785px; text-align: center; color: red;">无业务信息！</div>
+{/if}
+</textarea>

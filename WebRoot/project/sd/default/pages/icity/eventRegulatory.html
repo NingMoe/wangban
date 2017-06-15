@@ -1,0 +1,94 @@
+{% set deptid PageContext.Parameter.org_code %} 
+{% set id PageContext.Parameter.id %} 
+{% map "deptid",deptid,"id",id,"page","1","limit","1" as d%} 
+{% command "app.icity.ServiceCmd","getSupervise",d as p%}
+{% set info p.data%}
+<div class="container" style="width: 1030px !important;"> 
+    <ol class="breadcrumb">
+        <li><img src="{%public assets/img/current_home.png%}"> 您当前所在的位置:</li>
+        <li>事中事后监管制度</li>
+    </ol>
+</div>
+<div class="container" style="width: 1030px !important;"> 
+    <section class="panel" style="padding: 10px;">
+        <header class="panel-heading">
+            <button type="button" class="btn btn-info pull-right" onclick="javascript:window.opener=null;window.open('','_self');window.close();">关闭</button>
+            <h4 style="border-bottom: solid 1px #e5e5e5; margin:0; padding-bottom: 5px;">
+                <img src="{%public assets/img/zhcx_title_pic3.jpg%}">&nbsp;&nbsp;<strong>事中事后监管制度</strong>
+            </h4>
+        </header>
+        <div class="panel-body">
+            <h3 class="text-center"><strong>{% for o in info%} {% if
+									o.TITLE%} {{o.TITLE}} {% else %} 暂无数据！ {% endif %} {% endfor%}</strong></h3>
+            <br>
+            
+            <table class="table">
+                <tbody>
+                    <tr class="bg-info f16">
+                        <th class="text-primary">描述：</th>
+                    </tr>
+                    <tr>
+                        <td>{% for o in info%} {% if
+									o.CONTENT%} {{o.CONTENT}} {% else %} 暂无数据！ {% endif %} {%
+									endfor%}</td>
+                    </tr>
+                    <tr class="bg-info f16">
+                        <th class="text-primary">监督检查对象：</th>
+                    </tr>
+                    <tr>
+                        <td>
+                           {% for o in info%} {% if
+									o.SUPERVISE_OBJ%} {{o.SUPERVISE_OBJ}} {% else %} 暂无数据！ {% endif
+									%} {% endfor%}
+                        </td>
+                    </tr>
+                    
+                    <tr class="bg-info f16">
+                        <th class="text-primary">监督检查方式和程序：</th>
+                    </tr>
+                    <tr>
+                        <td>
+                          	{% for o in info%} {% if
+									o.SUPERVISE_MODE%} {{o.SUPERVISE_MODE}} {% else %} 暂无数据！ {%
+									endif %} {% endfor%}
+                        </td>
+                    </tr>
+                    
+                    <tr class="bg-info f16">
+                        <th class="text-primary">监督检查措施：</th>
+                    </tr>
+                    <tr>
+                        <td>
+                          	{% for o in info%} {% if
+									o.SUPERVISE_MEASURE%} {{o.SUPERVISE_MEASURE}} {% else %} 暂无数据！
+									{% endif %} {% endfor%}
+                        </td>
+                    </tr>
+                    
+                    <tr class="bg-info f16">
+                        <th class="text-primary">监督检查处理：</th>
+                    </tr>
+                    <tr>
+                        <td>
+                          	{% for o in info%} {% if
+									o.SUPERVISE_DISPOSE%} {{o.SUPERVISE_DISPOSE}} {% else %} 暂无数据！
+									{% endif %} {% endfor%}
+                        </td>
+                    </tr>
+                    
+                    <tr class="bg-info f16">
+                        <th class="text-primary">监督检查内容：</th>
+                    </tr>
+                    <tr>
+                        <td>
+                          	{% for o in info%} {% if
+									o.SUPERVISE_CONTENT%} {{o.SUPERVISE_CONTENT}} {% else %} 暂无数据！
+									{% endif %} {% endfor%}
+                        </td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+

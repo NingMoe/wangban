@@ -1,0 +1,50 @@
+<script>
+var cname = "";
+$(function(){	
+	var id = LEx.urldata.ID;
+	onQuery(id);
+});
+function onQuery(id){
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+	cmd.setParameter("id", id);
+	var ret =  cmd.execute("getContentDetail");
+	if(!ret.error){
+		var dick_url = "{{ConfigInfo.NetDiskAddress}}";
+		dick_url = dick_url.replace("upload", "doc?doc_id="+LEx.urldata.DOCID+"&type=thumbnail");
+
+		$("#img_docid").attr("src",dick_url);
+		$("#grb_content").html(ret.data.CONTENT);
+		$("#grb_title").html(ret.data.NAME);
+		$("#a2").html(ret.data.NAME);
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+</script>
+<style>
+.content-body {
+padding: 15px 50px;
+border: solid #169BE5 2px;
+}
+</style>
+            <div class="container" style="background-color:#fff;">
+                <ol class="breadcrumb" style="margin-left: -10px; margin-right: -10px;">
+                    <li><a href="#">所在位置：</a></li>
+                    <li><a href="index">首页</a></li>
+                    <li><a href="honorRoll">光荣榜</a></li>
+                    <li class="active" id="a2">管委会简介</li>
+                </ol>
+                <div class="row" style="padding:15px 15px;">                    
+                    <div class="col-xs-12 content-body">                     
+                        <article style="padding: 0 20px; line-height: 2;">
+                            <h4 class="delta text-center" style="line-height: 1.5;">
+                            	<strong id="js-list-group-l1">  
+                            	   <img src="" id="img_docid" />                          	  
+                            	   <div id="grb_title"></div>                            
+                            	</strong>
+                            </h4>
+                            <p style="text-indent: 2em;"  id="grb_content">加载中......</p>
+                        </article>
+                    </div>
+                </div>
+            </div>

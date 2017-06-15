@@ -1,0 +1,85 @@
+<style>
+<!--
+
+.tree-file {
+	background: url("");
+	width: 0;
+}
+
+.tree-title {
+	padding: 0px
+}
+
+.datagrid-body td,.datagrid-footer td {
+	border-bottom: 1px dotted #21A4FF
+}
+
+.ntabs .opt li {    border: 1px solid #CCCCCC;
+    border-radius: 2px 2px 2px 2px;
+    cursor: pointer;
+    float: left;
+    margin: 0 10px;
+    padding: 3px 10px;}
+.ntabs .opt li.on{color: #FFF; background: #4F95EA;border:1px solid #155BDD;font-weight: bold;}
+
+.ntabs .ntab{
+	border:1px solid #CCCCCC;
+	background: #F4F4F4
+}
+.list_table_1{
+	table-layout: fixed;
+	word-break:break-all;
+}
+.list_table_1 td{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	height: 100%;
+}
+
+.baseform {background: #EDEDED;border-top: 2px solid #888;}
+
+.baseform tr th { background: #f1f1f1;padding: 5px; color: #222; border:1px solid #f1f1f1;}
+
+
+-->
+</style>
+<div class="navigation">
+	<ul class="navigation_ul">
+		<li class="cur">插件管理</li>
+	</ul>
+	<ul class="navigation_button">
+		<li class="edit" onClick="save()">保存配置</li>
+	</ul>
+</div>
+
+
+<div region="north" border="false" style="height: 40px; display: none;"></div>
+<div id="plugin" style="margin: 5px;0px;0px;0px;" align="center" >
+
+</div>
+<textarea style="display: none" id="pluginTemplate">
+	<table id="tJob" class="baseform" style="width: 98%">
+		<col width="8%;">
+		<col width="82%;">
+		<col width="10%">
+		<tr>
+			<th align="center" style="text-align: center;">序号</th>
+			<th align="center" style="text-align: center;">名称</th>
+			<th align="center" style="text-align: center;">操作</th>
+		</tr>
+		{for o in data}
+			<tr id="tr_${o_index}" {if o.ISOPEN == '1'}class="on"{else}class="off"{/if}>
+				<td style="text-align: center;">${formatIndex(o_index)}</td>
+				<td>${o.NAME}<input type="hidden" id="id" value="${o.ID}"></input></td>
+				<td style="text-align: center;">
+					{if o.ISOPEN == '1'}
+						<span class="selectedOn" onclick="cmd(this,'${o_index}')"></span>
+					{else}
+						<span class="selectedOff" onclick="cmd(this,'${o_index}')"></span>
+					{/if}
+				</td>
+			</tr>
+		{/for}
+	</table>
+</textarea>

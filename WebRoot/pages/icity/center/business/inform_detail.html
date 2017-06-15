@@ -1,0 +1,82 @@
+<link rel="icon" href="{% public zs/pro/assets/ico/favicon.ico %}">
+<link rel="stylesheet" href="{% public zs/pro/assets/css/custom.css %}">
+<link rel="stylesheet" href="{% public zs/pro/assets/css/bootstrap-datetimepicker.min.css %}">
+<link href="http://cdn.bootcss.com/simple-line-icons/2.2.2/css/simple-line-icons.min.css" rel="stylesheet">
+<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.form.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+<script  type="text/javascript" src="{% public scripts/common.js %}"></script>
+<script  type="text/javascript" src="{% public assets/js/holder.js %}"></script>
+<script  type="text/javascript" src="{% public zs/pro/assets/js/jquery.page.js %}"></script>
+<script  type="text/javascript" src="{% public zs/pro/assets/js/bootstrap-datetimepicker.min.js %}"></script>
+<script  type="text/javascript" src="{% public zs/pro/assets/js/bootstrap-datetimepicker.zh-CN.js %}"></script>
+<script>
+var id = LEx.urldata.id;
+$(function(){
+	querylist();
+});
+
+function querylist(){
+	var command = new LEx.Command("app.icity.pro.ProCmd");
+	command.setParameter("projectId", LEx.urldata.projectId);
+	var ret = command.execute("queryOnceByProjectId");
+	if(!command.error){	
+		$('#list1').html(LEx.processDOMTemplate('itemTemplate',ret));
+	}
+}
+
+</script>
+<style>
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1px;
+}
+.btn-primary {
+  color: #ffffff;
+  background-color: #29588c;
+  border-color: transparent;
+}
+.btn-primary:focus,
+.btn-primary.focus {
+  color: #ffffff;
+  background-color: #1d3f65;
+  border-color: rgba(0, 0, 0, 0);
+}
+.btn-primary:hover {
+  color: #ffffff;
+  background-color: #1d3f65;
+  border-color: rgba(0, 0, 0, 0);
+}
+</style>
+<div style="background-color: #fff;overflow-y:auto;" id="div1">
+    <section class="">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="w-d-x-1">
+                <table class="listTable" cellspacing="1" style="width:850px;margin:25px;" id="apply">
+                    <thead>
+                        <tr class="active">
+                        	<th class="text-center" style="width:40%;">事项编码</th>
+                            <th class="text-center" style="width:30%;">事项名称</th>
+                            <th class="text-center" style="width:30%;">意见</th>
+                        </tr>
+                    </thead>
+                    <tbody id="list1">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/template" id="itemTemplate">
+{for o in data.infoArray}
+	{if o.id == id}
+		{for p in o.itemArray}
+		<tr>
+			<td class="text-left" style="width:40%;">${p.itemCode}</td>
+        	<td style="width:30%;text-align:center;">${p.itemName}</td>
+            <td class="text-left" style="width:30%;">${o.opinion}</td>
+         </tr>
+		{/for}
+	{/if}
+{/for}
+</script>
+

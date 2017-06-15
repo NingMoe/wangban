@@ -1,0 +1,109 @@
+            <div class="container" style="background-color:#fff;">
+                <ol class="breadcrumb" style="margin-left: -10px; margin-right: -10px;">
+                    <li><a href="#">所在位置：</a></li>
+                    <li><a href="index">首页</a></li>
+                    <li class="active" id="cname"> </li>
+                </ol>
+                <div class="row">
+                    <div class="col-xs-3" style="margin-top: -20px;">
+                     <section class="panel panel-primary no-bordered no-shadow" style="background-color:#EDF1F7;" id="cd">
+                         </section>
+                        <section class="panel no-bordered btn-group a-b-g-2">
+                            <a type="button" class="btn btn-block btn-default" href="onlineSurvey?type=0">
+                                <img class="pull-left" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-c-2.png">
+                                <span class="pull-left f18">民意评测</span>
+                                <img class="pull-right gamma chi" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-r.png">
+                            </a>
+                            <a type="button" class="btn btn-block btn-default" href="onlineSurvey?type=2">
+                                <img class="pull-left" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-c-3.png">
+                                <span class="pull-left f18">意见征集</span>
+                                <img class="pull-right gamma chi" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-r.png">
+                            </a>
+                            <a type="button" class="btn btn-block btn-default" href="base-2?CNAME=规章制度">
+                                <img class="pull-left" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-c-1.png">
+                                <span class="pull-left f18">规章制度</span>
+                                <img class="pull-right gamma chi" src="{{PageContext.ContextPath}}public/images/iportal/b-ico-r.png">
+                            </a>
+                        </section>
+                        <section class="panel no-bordered">
+                            <a href="{{ConfigInfo.iportal}}"><img src="{{PageContext.ContextPath}}public/images/iportal/j-c.png" alt="" width="235"></a>
+                        </section>
+                       <section class="panel no-bordered">
+                            <div class="panel-body bordered-blue-200">
+                                <h4 class="text-muted delta">通讯录查询</h4>
+                                <div class="input-group input-group-sm">
+                                    <input class="form-control" id="txlcxdept" placeholder="请输入单位名称" type="text" style=" margin-bottom:10px;">
+                                    <input class="form-control" id="txlcx" placeholder="请输入人员姓名" type="text">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="submit" onclick="queryProgress();" style=" margin-top:40px"><i class="mdicon mdicon-search f16"></i> 搜索</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </section>
+                        
+                    </div>
+                    <div class="col-xs-9" id="contentList">
+                       <div>	  	
+	<div id="contentList" style="min-height: 400px;width:750px">
+		<table class="listTable" id="contentLi_s" style="width:100%;background-color: #FFFFFF;" align="left">
+			<tbody></tbody>
+		</table>
+		<table><tr><td>&nbsp;</td></tr></table>
+		<div id="epager"></div>
+	</div>
+</div>
+{% include iportal/addressbookquery.html %}
+<textarea id="content_li" style="display: none;">
+{for o in data}
+	 <li class="list-group-item">
+			{if o.URL}
+				<a href="${o.URL}" title="${o.NAME}" target="_blank"><i class="mdicon mdicon-play-arrow f12"></i>${parseLength(o.NAME,40)}</a>
+			{else}
+				<a href="{{cp}}iportal/base-1?ID=${o.ID}" title="${o.NAME}" target="_blank" ><i class="mdicon mdicon-play-arrow f12"></i>${parseLength(o.NAME,40)}</a>
+			{/if}
+					<span style="float: right; margin-right: 10px;">${o.CTIME}</span>
+		</li>
+{/for}
+{if total == 0} 
+	<tr>
+		<td colspan="2" style="text-align:center;">无符合条件的数据!</td>
+	</tr>
+{/if}
+</textarea>
+
+<textarea id="content_lia" style="display: none;">
+{for o in data}
+	 <li class="list-group-item">
+			{if o.URL}
+				<a href="${o.URL}" title="${o.NAME}" target="_blank"><i class="mdicon mdicon-play-arrow f12"></i>[${o.DEPT_NAME}]${parseLength(o.NAME,36)}</a>
+			{else}
+				<a href="{{cp}}iportal/base-1?ID=${o.ID}" title="${o.NAME}" target="_blank" ><i class="mdicon mdicon-play-arrow f12"></i>[${o.DEPT_NAME}]${parseLength(o.NAME,36)}</a>
+			{/if}
+					<span style="float: right; margin-right: 10px;">${o.CTIME}</span>
+		</li>
+{/for}
+{if total == 0} 
+	<tr>
+		<td colspan="2" style="text-align:center;">无符合条件的数据!</td>
+	</tr>
+{/if}
+</textarea>
+<script type="text/template" id="MattersLista">
+<header class="panel-heading">
+                                <h3 class="panel-title"><i class="mdicon mdicon-subject f24"></i> <strong>导航菜单</strong></h3>
+                            </header>
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked">
+{for m in data}
+     {if m.NAME==cname}          
+                  <li class="active"><a href="{{cp}}iportal/base-2?CNAME=${m.NAME}">${m.NAME}</a></li>
+{else}
+                  <li><a  href="{{cp}}iportal/base-2?CNAME=${m.NAME}">${m.NAME}</a></li>
+{/if}
+{/for}
+ </ul>
+                            </div>
+</script>
+                    </div>
+                </div>
+            </div>

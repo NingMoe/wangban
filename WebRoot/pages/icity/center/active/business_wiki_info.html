@@ -1,0 +1,49 @@
+<script type="text/javascript">
+
+
+</script>
+
+<style>
+body {
+	background:#EEF5FD;
+} 
+</style>
+<div id="form" style="width:80%;padding:10px 60px;margin:10px auto" class="boxTop">
+  <div style="font-family:微软雅黑;font-size: 18px; margin:10px 0px 10px 20px"> 
+  		<b style="padding-right:2px;padding-left:12px;border-left:5px solid #56B6E0;">办事攻略信息</b>
+        <div style=" float:right"> 
+           
+        </div>
+    </div>
+    <table class="baseform" align="center">
+        <colgroup>
+            <col style="width: 20%;"></col>
+            <col style="width: 30%;"></col>
+            <col style="width: 20%;"></col>
+            <col style="width: 30%;"></col>
+        </colgroup>
+        <tr>
+			<th>话题名称</th>
+			<td colspan="3"><input id="wiki_title" tag="NAME" style="width: 565px" ></td>
+		 </tr>	
+		 <tr>	
+			<th>关联事项</th>
+			<td colspan="3"><div tag="PNAME" style="width: 565px" ></div></td>
+		</tr>
+		<tr>	
+			<th>话题内容</th>
+			<td colspan="3">
+			<textarea rows="6" id="wiki_content" cols="7" style="width:99%; height:300px;font-size: 14px" tag="CONTENT"></textarea>
+			</td>
+		</tr>
+		
+        <tr>
+			<th>是否审核</th>
+           <td><div tag="CHECKS" style="width: 200px" id="checks"></div> </td> 
+           <th>创建时间</th>
+		   <td>
+				<div tag="CREATETIME"  style="width:175px;"  id="time"></div>
+		   </td>    
+        </tr>		
+	</table>
+</div>

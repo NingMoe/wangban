@@ -1,0 +1,147 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}project.css" />
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+<style type="text/css">
+.tab_1 {
+	background: #CCC;
+	font-size: 14px;
+	margin: 10px auto;
+	border-top: 2px solid #37A3DB
+}
+
+.busy-result .tab_1 .tr_1 {
+	line-height: 25px;
+	padding: 5px 10px;
+	background: #F2F6F9;
+	text-align: right;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result .tab_1 .tr_1 .th_1 {
+	padding: 5px 10px;
+	background: #E2EBFF;
+	font-family: 微软雅黑;
+	font-weight: bold;
+	color: #666666;
+	text-align: right;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result .tab_1 .tr_1 .td_1 {
+	padding: 5px 10px;
+	background: #FFFFFF;
+	text-align: left;
+	border: 1px solid #FFFFFF
+}
+
+.busy-result {
+	padding: 20px
+}
+</style>
+
+{% map "SBLSH",code as p%} {% command "app.icity.project.ProjectIndexCmd","BusinessQueryByNameAndId",p as d %}
+{% if d.data %}
+{% set o  d.data %}
+<div class="busy-result">
+	<table class="tab_1" width="100%" height="100%" cellspacing="1">
+		<tr class="tr_1">
+			<th class="th_1">申办流水号</th>
+			<td class="td_1" width="30%"><font id="sblsh">{{o.SBLSH}}</font></td>
+			<th class="th_1" width="20%">查询密码</th>
+			<td class="td_1" width="20%"><font id="cxmm">{{o.CXMM}}</font></td>
+		</tr>
+		<!-- <tr class="tr_1">
+			<th class="th_1">项目名称</th>
+			<td class="td_1" colspan="3"><font id="sbxmmc">{{o.SBXMMC}}</font></td>
+		</tr> -->
+		<tr class="tr_1">
+			<th class="th_1" width="20%">事项名称</th>
+			<td class="td_1" width="30%"><font id="sxmc">{{o.SXMC}}</font></td>
+			<th class="th_1" width="20%">申请人或单位</th>
+			<td class="td_1" width="30%"><font id="sqrmc">{{o.SQRMC}}</font></td>
+		</tr>
+		<tr class="tr_1">
+			<th class="th_1" width="20%">申办时间</th>
+			<td class="td_1" width="30%"><font class="NeedFormatTimeDetail" style="display: none;">{{o.SBSJ}}</font></td>
+			<th class="th_1" width="20%">当前状态</th>
+			<td class="td_1" width="30%"><font class="NeedFormatState" state="{{o.STATE}}"></font></td>
+		</tr>
+		{% set a o.STATE|equal:"14"%}
+		{% set b o.STATE|equal:"13"%}
+		{% set c o.STATE|equal:"02"%}
+		{% if a|or:b,c %}
+		<tr class="tr_1">
+			<th class="th_1" width="20%">预审时间</th>
+			<td class="td_1" width="30%"><font class="NeedFormatTimeDetail" style="display: none;">{{o.YSLSJ}}</font></td>
+			<th class="th_1" width="20%">预审意见</th>
+			<td class="td_1" width="30%"><font id="sbxmmc">{{o.YSLJGMS}}</font></td>
+		</tr>
+		{% endif %}
+		<tr class="tr_1">
+			<th class="th_1">流转过程</th>
+			<td class="td_1" colspan="3">
+				<table class="listTable" width="100%" height="100%" cellspacing="1">
+					<tr class="tr_2">
+						<th width="20%">环节名称</th>
+						<th width="16%">处理人</th>
+						<th width="17%">处理时间</th>
+						<th width="17%">处理意见</th>
+					</tr>
+
+					 {% if o.CONTENT %}
+						{% for r in o.CONTENT %}
+						<tr>
+							<td>{{r.CURRENT_NODE_NAME}}</td>
+							<td>{{r.USER_NAME}}</td>
+							<td class="NeedFormatTimeType">{{r.SEND_TIME}}</td>
+							<td>{{r.OPINION}}</td>							
+						</tr>
+						{% endfor %}
+					{% endif %} 
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+ {% endif %}
+<script type="text/javascript">
+	function BusyDetailInit() {
+		$(".NeedFormatState").each(function() {
+			var status = $(this).attr("state");
+			var bState = LEx.icityBusiness.formatStatus(status);
+			$(this).html(bState);
+		});
+
+		$(".NeedFormatTimeDetail,.NeedFormatTime").each(function() {
+			var shtml = $(this).html()+"";
+			if(LEx.isNotNull(shtml)){
+				var stime = eval('(' + shtml + ')');
+				var rtime = formatTime(stime);
+				$(this).html(rtime).show();
+			}else{
+				$(this).html("—").show();
+			}
+		});
+		$(".NeedFormatTimeType").each(function() {
+			var shtml = $(this).html()+"";
+			if(LEx.isNotNull(shtml)){
+				var stime = eval('(' + shtml + ')');
+				var t = (new Date(stime)).pattern("yyyy-MM-dd HH:mm");
+				$(this).html(t).show();
+			}else{
+				$(this).html("—").show();
+			}
+		});
+	}
+
+	function formatTime(obj) {
+		try {
+			return LEx.util.Format.formatDate(parseInt(obj.time) / 1000, "yyyy-MM-dd HH:mm");
+		} catch(e){
+			return "—"; 
+		}
+	}
+
+	//初始化业务详细信息
+	BusyDetailInit();
+</script>

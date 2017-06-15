@@ -1,0 +1,103 @@
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}project.css" />
+<link rel="stylesheet" type="text/css" href="{{PageContext.CssPath}}print.css" media="print" />
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+<script type="text/javascript">
+	
+	$(function(){
+		initSqclMaterial();
+	});
+	
+	function initSqclMaterial(){
+		var cmd = new LEx.Command("app.icity.pro.ProCmd");
+		cmd.setParameter("bizId",LEx.urldata.bizId);
+		var ret = cmd.execute("getFileByBizId");
+		if(ret.state == 1){
+			if(ret.data.fileArray.length>0){
+				for(var i=0;i<ret.data.fileArray.length;i++){
+					var cmd = new LEx.Command("app.icity.pro.ProCmd");
+					cmd.setParameter("itemId", LEx.urldata.itemId);
+					var r = cmd.execute("getAllItemInfo");
+					if(!cmd.error){
+						for(var k=0;k<r.data.material.length;k++){
+							if(ret.data.fileArray[i].resourceCode == r.data.material[k].CODE){
+								ret.data.fileArray[i].resourceName = r.data.material[k].NAME;
+							}
+						}
+					}else{
+						alert(r.error);
+					}
+				}
+			}
+			
+			$("#sqcllist").html(LEx.processDOMTemplate('templateResultmaterials',ret));
+			$("#tip").hide();	
+		}else{
+			$("#btn").hide();
+			$("#sqcllist").hide();
+			$("#tip").show();	
+		}
+	}
+	
+	function printArea(){
+		$("#sqcllist").printArea();
+	}
+	
+	function download1(docid,name){
+		if(docid==""||docid==undefined||docid=="undefined"){
+			return;
+		}
+	    var opera = "downloadagent4wp&path="+docid+"&name="+encodeURIComponent(name); 
+	   	window.open(LEx.webPath + "bsp/uploadify?action="+opera);
+		return false;
+	}
+	
+	function formateType(val){
+		if(val=="0"){
+			return "纸质";
+		}else if(val=="1"){
+			return "电子";
+		}else if(val=="2"){
+			return "证照";
+		}else{
+			return "";
+		}
+	}
+</script>
+<style type="text/css">
+.main{width: 900px}
+</style>
+<button id="btn" onclick="printArea()" class="nbutton_gray" style="float: right; margin-right: 20px; margin-top: 20px; margin-bottom: 5px;">打印</button>
+<div class="busy-result" id="sqcllist" style="margin: 15px;">
+</div>
+<div class="busy-result" id="tip" style="margin: 15px;">
+	<table class="listTable" width="100%" cellspacing="1">
+		<tr class="tr_2">
+			<th>无任何实际上传材料！</th>
+		</tr>
+	</table>
+</div>
+<textarea id="templateResultmaterials" style="display: none">	
+	<table class="listTable" width="100%" cellspacing="1">
+		<tr class="tr_2">
+			<th width="35%">结果材料名称</th>
+			<th width="65%">实际上传材料的名称</th>
+		</tr>
+	{for o in data.fileArray}
+		{if o.resourceType == 'Approve'}
+			<tr>
+				<input type="hidden" name="resourceCode" value="${o.resourceCode}" />
+				<td width="40%">${o.resourceName}</td>
+				<td width="60%">
+				
+					{if o.fileType == '0'}
+			    		<span>${o.fileName}（${formateType(o.fileType)}）</span><br/>
+			    	{else}
+			    		<a href="javascript:void(0);" onclick="download1('${o.filePath}','${o.fileName}');">${o.fileName}（${formateType(o.fileType)}）</a><br/>
+			    	{/if}
+				</td>
+			</tr>
+		{/if}
+	{/for}	
+	</table>	
+</textarea>

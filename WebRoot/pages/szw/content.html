@@ -1,0 +1,41 @@
+<script>
+$(function(){	
+	var id = LEx.urldata.id;
+	onQuery(id);
+});
+function onQuery(id){
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+	cmd.setParameter("id", id);
+	var ret =  cmd.execute("getContentDetail");
+	if(!ret.error){
+		$("#js-list-group-l2").html('<h3 id="title" class="text-center" style="color:#005fa7; font-weight:bold">'+ret.data.NAME+'</h3>'
+				+'<hr width="95%" style="border:solid 1px #999"><h5 class="text-center" style="margin-top:-10px">发布时间：'+LEx.util.Format.formatDate(ret.data.CT,'yyyy-MM-dd')+' 发布单位：'+ret.data.DEPT_NAME+' </h5>'+ret.data.CONTENT);
+
+		if(ret.data.upfiles.length>0){
+			
+			$("#js-list-group-l2").append('<br/><br/><span style="color: blue;font-size: 16px;font-weight: bold;">附件列表：</span>');
+			
+			for(var i=0;i<ret.data.upfiles.length;i++){
+				if(ret.data.upfiles[i].TYPE=="2"){
+					$("#js-list-group-l2").append('<a href="{{cp}}file/upload/'+ret.data.upfiles[i].NAME+'" target="_blank">'+ret.data.upfiles[i].YNAME+'</a>&nbsp;&nbsp;;');
+				}
+			}
+		}
+	}else{
+		LEx.alert(ret.error);
+	}
+}
+
+</script>    
+<body style=" background:url({{cp}}public/zs/szw/img/bg-1.jpg) no-repeat top center fixed;">
+<!------content---->
+<DIV class=container >
+<DIV class=page-content >
+<div class="col-xs-12" style="background-color: #FFFFFF;">
+<div class="content-body" id="js-list-group-l2" >
+</div>
+</div>
+</DIV>
+</DIV>
+</body>
+

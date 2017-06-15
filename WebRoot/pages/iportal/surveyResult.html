@@ -1,0 +1,316 @@
+<style type="text/css">
+		.toolbar{
+			  padding: 5px;
+  			  background-color: #e7e7e7;
+              border-bottom: 1px solid #ddd;
+		}
+		/* 调查问卷样式  start*/
+		.body{
+			background: #eee;
+			padding: 5px;
+		}
+		.survey-body{
+			  border: 1px solid #E3E3E3;
+ 			  background: #FFF;
+ 			  border-radius: 5px;
+ 			  margin: 5px auto;
+ 			  width: 768px;
+ 			  line-height: 22px;
+ 			  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+ 			  font-size: 14px;
+ 			  min-height: 500px;
+ 			  padding: 10px;
+		}
+		.survey-header{
+			box-sizing: border-box;
+			padding: 10px;
+			line-height: 32px;
+  			font-size: 2em;
+  			text-align: center;
+  			margin: 5px;
+  			background-color: #ffebc7;
+  			border:solid 1px #d4d4d4 !important;
+		}
+		.selectContent, .questionContent{
+			box-sizing: border-box;
+			padding: 5px;
+			line-height: 32px;
+  			font-size: 20px;
+  			text-align: left;
+  			margin: 5px;
+  			background-color: #eeebc7;
+		}
+		.que_answer{
+			box-sizing: border-box;
+			padding: 5px;
+			line-height: 32px;
+  			text-align: left;
+  			margin: 5px 30px 5px 30px;
+  			background-color: #eee;
+  			border-radius:4px;
+		}
+		.survey-item{
+			  box-sizing: border-box;
+			  /* cursor: pointer; */
+			  border:solid 1px #d4d4d4 !important;
+			  padding: 5px 5px 5px 15px;
+			  background-color: #fff;
+			  margin: 10px;
+			  border-radius:4px;
+		}
+		/* .survey-item:hover,.survey-header:hover{
+			background-color:white !important; 
+			border:dashed 1px gray !important;
+		} */
+		.placeHolder { background-color:white !important; border:dashed 1px gray !important; }
+		/* 调查问卷样式  end*/
+		
+		/* 单选弹出框样式 start*/
+		.panel-content{
+  			font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  			font-size: 14px;
+		}
+		.panel-heading{
+			color: #333;
+  			background-color: #f5f5f5;
+  			border-color: #ddd;
+  			box-sizing: border-box;
+  			padding: 10px 15px;
+  			border-bottom: 1px solid rgb(221, 221, 221);
+  			border-top-left-radius: 3px;
+  			border-top-right-radius: 3px;
+		}
+		.index{
+			/* background: #ffeecc; */
+		}
+		.require{
+			color: red;
+			font-size: 15px;
+		}
+		.input_validation-invalid,.input_validation-failed {border: 1px solid #ff2f2f;background: #fff3f3;}
+		.input_validation-valid {border: 1px solid #333;color: #333;}
+</style>
+<div id="page" class="container" style="padding-left: 10px; padding-right: 10px; background-color: #fff;">
+	<div class="row" style="background-color: #f5fafe;">
+        <div id="formValidate">
+            <section class="panel panel-success">
+				<header class="panel-heading">
+					<h3 class="panel-title">网上调查</h3>
+<!--
+                    <div class="pull-right">
+                        
+                    </div>
+-->
+				</header>
+				<div class="panel-body" style="background-color: #f5fafe;">
+				  	  <input type="hidden" name="id" id="id" value="">
+					  <div class="survey-header" itemValue="{&quot;type&quot;:&quot;3&quot;}" surveyId="" onclick="showSelectDialog(this)">调查问卷名称</div>
+					  <div class="selectContent">选择题：</div>
+					  <div  id="surveyContent">
+				      </div>
+				      <div class="questionContent">问答题：</div>
+				      <div class="panel-body zl-thumbnails-ggfu-2" id="js-list-group-l2" >
+
+					  </div>
+					  
+						
+				</div>
+			</section>
+        </div>
+    </div>
+</div>
+
+<!-- 试卷中单选、多选模板  start-->
+	<div class="part select" style="display: none; position: relative;" itemValue="" >
+		<h4 class="title"><span class="index"></span><span class="itemName">新建问题</span><span class="require">*<lable class="rules">(必填)</lable></span></h4>
+		<ul class="options">
+		</ul>
+	</div>
+<!-- 试卷中单选、多选模板 end-->
+<!-- 问答题模板   start -->
+<div class="part question" style="display: none; position: relative; margin: 10px; padding-left: 15px;" itemValue="">
+	<h4 class="title"><span class="index"></span><span class="itemName">新建问题</span><span class="require">*<lable class="rules">(必填)</lable></span></h4>
+	<span class="que_answer_span">
+		
+		
+	</span>
+</div>
+
+<script type="text/template" id="questionTemplate">
+	<table class="SurveyList table-bordered table-hover">
+        <tbody>
+		{for o in data}
+			<tr>
+			<div class="part survey-item" style=" position: relative; margin: 10px; padding-left: 15px;" itemValue="">
+			<h4 class="title"><span class="index"></span><span class="itemName">${index(o_index)}、&nbsp;&nbsp;${o.title}</span><span class="require">*<lable class="rules">(必填)</lable></span></h4>
+			{for a in o.answers}
+				<div class="que_answer">
+					${a}
+				</div>
+			{/for}
+				<!--<div id="project-none" style="display:none;font-size:30px;font-weight:bold;text-align:center;">还未有人回答...</div>
+						<nav class="text-center">
+							<div class="jqpagination" style="display:none;">
+								<a href="#" class="first" data-action="first">&laquo;</a>
+								<a href="#" class="previous" data-action="previous">&lsaquo;</a>
+								<input type="text" readonly="readonly"  data="max-page:23" />
+								<a href="#" class="next" data-action="next">&rsaquo;</a>
+								<a href="#" class="last" data-action="last">&raquo;</a>
+							</div>
+						</nav>
+			</div>-->
+			
+			</tr>
+		{/for}
+        </tbody>
+    </table>
+
+</script>
+<!-- 问答题模板   end -->
+
+<script src="{{PageContext.JsPath}}Math.uuid.js"></script>
+<script src="{% public scripts/LEx.form.survey.js %}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	var ID = $.getUrlParam("ID");
+	var cmd = new LEx.Command("app.icity.interactive.OnlineSurveyCmd");
+	cmd.setParameter("t1.SURVEY_ID",ID);
+	cmd.setParameter("type","0");         //获取选择题
+	var ret =  cmd.execute("getStatisticsByID");
+	if(!ret.error){
+	 	var total=ret.total;
+		var data = ret.data;
+		if(data.length > 0){
+			var survey = eval(ret.data[0]);
+			var content = survey.CONTENT;
+			$(".survey-header").text(survey.NAME);
+			$(".survey-header").attr("surveyId", ID);
+			var index = 1, index2 = 1;
+			for(var i=0; i<content.length; i++){
+  				if(content[i].type == "0" || content[i].type == "1"){
+  					var singleSelect = $(".select").clone(true, true);
+  	  				singleSelect.css("display","block");
+  	  				singleSelect.removeClass("select")
+  	  							.addClass("survey-item");       //更改样式，保证下次添加的时候只添加一个
+  	  				var itemDivID = "ITEM_"+Math.uuid();
+  	  				singleSelect.attr("id",itemDivID);
+  	  				singleSelect.attr("itemValue",JSON.stringify(content[i]));
+  	  				singleSelect.find(".index").text( index +"、" )
+  	  				$("#surveyContent").append(singleSelect);
+  	  				initItem(itemDivID);
+  	  				index++;
+  				}
+  			}
+		}
+	}else{
+		LEx.alert(ret.error);
+	}
+	/* $('.jqpagination').jqPagination({
+		paged: function(page) {
+			onQueryQuestion(page);
+		},
+		page_string:"第{current_page}页   共{max_page}页"
+	}); */
+	onQueryQuestion(0);
+	
+	//LEx.form.init("#baseinfo");
+});
+
+//查询问答题答案 
+function onQueryQuestion(start){
+	var limit = 500;
+	var ID = $.getUrlParam("ID");
+	cmd = new LEx.Command("app.icity.interactive.OnlineSurveyCmd");
+	cmd.setParameter("t1.SURVEY_ID",ID);
+	cmd.setParameter("type","1");         //获取选择题
+	cmd.setParameter("start", start+"");
+	cmd.setParameter("limit", limit+"");
+	var ret =  cmd.execute("getStatisticsByID");
+	if(!ret.error){
+		var data = ret.data;
+		var res = new Array();
+		for(var i = 0; i<data.length; i++){
+			var flag = true;
+			for(var j=0; j<res.length; j++){
+				if(res[j].id == data[i].QUESTION_ID){
+					res[j].answers.push(data[i].ANSWER);
+					flag = false;
+					break;
+				}
+			}
+			if(flag){
+				var ob = new Object();
+				ob.id = data[i].QUESTION_ID;
+				ob.title = data[i].TITLE;
+				ob.answers = new Array();
+				ob.answers.push(data[i].ANSWER);
+				res.push(ob);
+			}
+		}
+		var d = new Object();
+		d.data = res;
+		$('#js-list-group-l2').html(LEx.processDOMTemplate('questionTemplate',d));
+	 	var total=res.length;
+		total=Math.ceil(total/limit);
+		if(total==0){
+			$("#project-none").show();
+			$('.jqpagination').hide();
+		}
+		else{
+			$("#project-none").hide();
+			$('.jqpagination').show();
+			$('.jqpagination').jqPagination('option',{current_page:start,max_page:total,trigger:false});
+		}
+	}else{
+		LEx.alert(ret.error);
+	}
+	
+}
+(function($) {
+	$.getUrlParam = function(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null)
+			return unescape(r[2]);
+		return null;
+	}
+})(jQuery);
+
+/**
+ * 初始化每条div中的数据
+ */
+function initItem(divId){
+	var elemTemple = $("#"+ divId);
+	var itemValue = elemTemple.attr("itemValue");
+	var jsonObject = JSON.parse(itemValue);
+	if(jsonObject["type"] == "0" || jsonObject["type"] == "1"){        //单选或者多选
+		elemTemple.find(".itemName").text(jsonObject["itemName"]);
+		if(jsonObject["required"] == "off" || jsonObject["required"] == undefined){
+			elemTemple.find(".require").hide();
+		}else{
+			elemTemple.find(".require").show();
+		}
+		var lable = jsonObject["option"];
+		elemTemple.find("ul").html("");
+		var uuid = Math.uuid();
+		for(var i=0; i<lable.length; i++){
+			elemTemple.find("ul").append("<li><lable style='color:#7b7b7b'>"+ lable[i].optionName +"&nbsp;&nbsp;&nbsp;</lable><lable style='color:#ffdd8d'>"+lable[i].sum+"人&nbsp;&nbsp;&nbsp;</lable><lable style='color:#837bd4'>"+lable[i].percent+"%&nbsp;&nbsp;&nbsp;</lable></li>");
+		}
+	}else if(jsonObject["type"] == "2"){
+		elemTemple.find(".itemName").text(jsonObject["itemName"]);
+		if(jsonObject["required"] == "off" || jsonObject["required"] == undefined){
+			elemTemple.find(".require").hide();
+		}else{
+			elemTemple.find(".require").show();
+		}
+	}else if(jsonObject["type"] == "3"){
+		$(".survey-header").text(jsonObject["itemName"]);
+		$(".panel-heading span").show();
+		$(".panel-heading lable").show();
+	}
+}
+
+function index(index){
+	return parseInt(index)+1;
+}
+</script>

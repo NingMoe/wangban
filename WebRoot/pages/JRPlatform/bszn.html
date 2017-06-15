@@ -1,0 +1,111 @@
+<script>
+var names={"qyssdj":"企业商事登记","gtgshdj":"个体工商户登记","fdcqdj":"房地产权登记"};
+var type = "qyssdj";
+
+$(function(){
+	if(LEx.urldata.type){
+		type = LEx.urldata.type;	
+	}	
+	$(".active").removeClass("active");
+	$("#"+type).addClass("active");
+	$("#list_name").html(($("#"+type).find("a").html()).split("》")[1]);
+	
+	$('.jqpagination').jqPagination({
+		paged: function(page) {
+			onQueryBszn(page,names[type]);
+		},
+		page_string:"第{current_page}页   共{max_page}页"
+	});
+	
+	onQueryBszn(1,names[type]);
+});
+
+$(function(){
+	$("#ul_list > li").click(function(){
+		$(".active").removeClass("active");
+		$(this).addClass("active");
+		$("#list_name").html(($(this).find("a").html()).split("》")[1]);
+		type = $(this).attr("id");
+		onQueryBszn(1,names[type]);
+	});
+});
+function onQueryBszn(start,name){
+ 	var limit=10;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("start",(start-1)*limit);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	cmd.setParameter("open","1");
+	cmd.setParameter("name", name);
+	var ret =  cmd.execute("getContentInfo");
+	if(!ret.error){
+		$("#ul_sspdw_bszn").html(LEx.processDOMTemplate('bsznContentTemplate',ret));
+		var total=ret.total;
+		total=Math.ceil(total/limit);
+		if(total==0){
+			$("#project-none").show();
+			$('.jqpagination').hide();
+		}
+		else{
+			$("#project-none").hide();
+			$('.jqpagination').show();
+			$('.jqpagination').jqPagination('option',{current_page:start,max_page:total,trigger:false});
+		}
+	}else{
+		LEx.alert(ret.error);
+	} 
+}
+</script>
+<script type="text/template" id="bsznContentTemplate">
+<tbody>
+{for o in data}
+<tr>
+    <td><a href="{{PageContext.ContextPath}}govservice/pub/contentDetail?id=${o.ID}" title="${o.NAME}" {if o.BLANK==1}target="_blank"{else}target="_self"{/if}>${formatLen(o.NAME,0,50)}</a></td>
+    <td>${LEx.util.Format.formatDate(o.CTIME)}</td>
+</tr>
+{/for}
+</tbody>
+</script>
+<div id="page" class="container" style="padding-left: 10px; padding-right: 10px; background-color:#fff;">
+	<div class="row">
+        <div class="col-xs-3">
+            <div class="panel-group" id="accordion" role="tablist">
+                <div class="panel panel-success">
+                 
+                        <div class="panel-body" style="background:#fafafa;height: 320px;">
+                            <ul class="nav sidenav" id="ul_list">
+                                    <li id="qyssdj" class="active"><a href="#">》企业商事登记</a></li>
+                                    <li id="gtgshdj"><a href="#">》个体工商户登记</a></li>
+                                    <li id="fdcqdj"><a href="#">》房地产权登记</a></li>
+                                </ul>
+                        </div>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-9">
+            <section class="panel panel-success">
+				<header class="panel-heading">
+					<h3 class="panel-title" id="list_name">企业商事登记</h3>
+				</header>
+				<div class="panel-body zl-thumbnails-ggfu-2" >
+                    <table class="table table-hover" id="ul_sspdw_bszn">
+                       
+                    </table>
+                <div id="project-none" style="display:none;font-size:30px;font-weight:bold;text-align:center;">无相关内容</div>
+                <nav class="text-center">
+                <div class="jqpagination" style="display:none;">
+			    <a href="#" class="first" data-action="first">&laquo;</a>
+			    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+			    <input type="text" readonly="readonly"  data="max-page:23" />
+			    <a href="#" class="next" data-action="next">&rsaquo;</a>
+			    <a href="#" class="last" data-action="last">&raquo;</a>
+				</div>
+                </nav>
+                    
+				</div>
+			</section>
+            
+        </div>
+    </div>
+</div>

@@ -1,0 +1,145 @@
+<link rel="icon" href="{% public zs/pro/assets/ico/favicon.ico %}">
+<link rel="stylesheet" href="{% public zs/pro/assets/css/custom.css %}">
+<link rel="stylesheet" href="{% public zs/pro/assets/css/bootstrap-datetimepicker.min.css %}">
+<link href="http://cdn.bootcss.com/simple-line-icons/2.2.2/css/simple-line-icons.min.css" rel="stylesheet">
+<script  type="text/javascript" src="{{PageContext.ContextPath}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.form.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+<script  type="text/javascript" src="{% public scripts/common.js %}"></script>
+<script  type="text/javascript" src="{% public assets/js/holder.js %}"></script>
+<script  type="text/javascript" src="{% public zs/pro/assets/js/jquery.page.js %}"></script>
+<script  type="text/javascript" src="{% public zs/pro/assets/js/bootstrap-datetimepicker.min.js %}"></script>
+<script  type="text/javascript" src="{% public zs/pro/assets/js/bootstrap-datetimepicker.zh-CN.js %}"></script>
+<script>
+$(function(){
+	querylist();
+});
+
+function checkdata(){
+	
+	var radio = "";
+	
+	var chkObjs = document.getElementsByName("radio");
+    for(var i=0;i<chkObjs.length;i++){
+        if(chkObjs[i].checked){
+        	radio = chkObjs[i].value;
+        }
+    }
+    
+    if(radio == ""){
+    	alert("请选择项目！");
+    	return;
+    }
+	var command = new LEx.Command("app.icity.pro.ProCmd");		
+	command.setParameter("investType", LEx.urldata.investType);
+	command.setParameter("projectCode",radio);
+	command.setParameter("itemGroupId", LEx.urldata.itemGroupId);
+	command.setParameter("formId", LEx.urldata.formId);
+	command.setParameter("dataId", LEx.urldata.dataId);
+	command.setParameter("groupName", LEx.urldata.groupName);
+	command.setParameter("orgCode", LEx.urldata.orgCode);
+	command.setParameter("orgName", LEx.urldata.orgName);
+	var ret = command.execute("applyUnionBusiness");
+	if(!command.error){	
+		if(ret.state==1){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	return true;
+}
+
+function querylist(){
+	
+	var projectCode = $("#projectCode").val();
+	var projectName = $("#projectName").val(); 
+	
+	var userinfo = {};
+	userinfo.uuid = {{UserInfo}}.uid;
+	var command = new LEx.Command("app.icity.pro.ProCmd");
+	command.setParameter("userInfo", userinfo);
+	command.setParameter("projectCode", projectCode);
+	command.setParameter("projectName", projectName);
+	command.setParameter("investType", LEx.urldata.investType);
+	var ret = command.execute("getMyProjectList");
+	if(!command.error){	
+		total = ret.total;
+		$('#user-jdcx-list1').html(LEx.processDOMTemplate('itemTemplate',ret));
+	}
+}
+</script>
+<style>
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1px;
+}
+.btn-primary {
+  color: #ffffff;
+  background-color: #29588c;
+  border-color: transparent;
+}
+.btn-primary:focus,
+.btn-primary.focus {
+  color: #ffffff;
+  background-color: #1d3f65;
+  border-color: rgba(0, 0, 0, 0);
+}
+.btn-primary:hover {
+  color: #ffffff;
+  background-color: #1d3f65;
+  border-color: rgba(0, 0, 0, 0);
+}
+</style>
+<div style="background-color: #fff;overflow-y:auto;">
+    <section class="panel panel-default">
+        <header class="clearfix" style="border-bottom: 2px solid #29588C; background-color: #fff; margin: -1px; margin-bottom:0;">
+         	<div class="tab-content">
+	            <div class="tab-pane fade in active">
+	                <table class="table table-hover">
+                        <tr class="active">
+                        	<td class="text-center" style="width:14%;">项目编码： </td>
+                        	<td class="text-center" style="width:29%;"><input style="width: 140px;" id="projectCode" class="form-control" type="text"></td>
+                            <td class="text-center" style="width:14%;">项目名称：</td>
+                        	<td class="text-center" style="width:29%;"><input style="width: 140px;" id="projectName" class="form-control" type="text"></td>
+                        	<td class="text-center" style="width:14%;"><button type="button" style="cursor: pointer; width: 100px;" onclick="javascript:querylist();" class="btn btn-primary">查询</button></td>
+                        </tr>
+	                </table>
+	            </div>
+	        </div> 
+        </header>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="w-d-x-1">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="active">
+                        	<th class="text-center" style="width:10%;">&nbsp;</th>
+                        	<th class="text-center" style="width:25%;">项目编码</th>
+                            <th class="text-center" style="width:65%;">项目名称（项目类型）</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-jdcx-list1">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/template" id="itemTemplate">
+{for o in data}
+	<tr>
+		<td class="text-center" style="width:10%;">
+			<input type="radio" value="${o.SBLSH}" name="radio" />
+		</td>
+		<td class="text-center" style="width:25%;">${o.SBLSH}</td>
+        <td class="text-left" style="width:65%;">
+            ${o.PROJECTNAME}
+			{if LEx.isNotNull(o.PROJECT_TYPE)}
+			{if o.PROJECT_TYPE=='A00002'}(核准类项目){/if}
+			{if o.PROJECT_TYPE=='A00001'}(审批类项目){/if}
+			{if o.PROJECT_TYPE=='A00003'}(备案类项目){/if}{/if}
+			<br>
+        </td>		
+      </tr>
+{/for}
+</script>
+

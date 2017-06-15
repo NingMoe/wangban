@@ -1,0 +1,161 @@
+<script>
+var dick_url =LEx.webPath+ "bsp/uploadify?action=downloadagent4wp";
+$(function(){
+	getDeptName();
+});
+function getDeptName(){
+	var region_code=getSecurityValue("WebRegion");
+	var command = new LEx.Command("app.icity.ServiceCmd");
+	command.setParameter("region_code",region_code);
+	var ret = command.execute("getDeptList");
+	if(!command.error){
+		var len = ret.data.organ.length;
+		//var dept = ret.data.region;//下级行政区划
+		var dept = ret.data.organ;//下级部门
+		for(var i=0;i<len;i++){
+			if(ret.data.organ[i].TYPE_NAME=="机关"){
+				if("330901000,001008009005146,001008009005142".indexOf(ret.data.organ[i].CODE)<0){
+					if(ret.data.organ[i].IS_HALL=="1"){
+						$("#ddlDepartment").append("<option value='"+dept[i].CODE+"' title='"+dept[i].SHORT_NAME+"'>"+formatLen(dept[i].SHORT_NAME,0,20)+"</option>");	
+					}
+				}
+				
+			}
+		}
+	}else{
+		alert(command.error);//打印错误信息
+	}
+}
+
+function DeptChange(){
+    //获取该部门下的事项
+    var limit=200;
+    var start=1;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");	
+	cmd.setParameter("CAT", "dept");
+	cmd.setParameter("ID",$("#ddlDepartment").val());//"440105002"
+	cmd.setParameter("PAGEMODEL", "pagemodel");
+	cmd.setParameter("start",(start-1)*limit);
+	cmd.setParameter("page",start);
+	cmd.setParameter("limit", limit);
+	cmd.setParameter("TYPE","");
+	cmd.setParameter("SearchName","");
+	var ret =  cmd.execute("getMattersList");
+	
+	if(!ret.error){
+	    var len = ret.data.length;
+		//var dept = ret.data.region;//下级行政区划
+		var spsx = ret.data;//下级部门
+		$("#ddlSxappname").empty();
+		if(spsx.length==0){
+			
+			$("#ddlSxappname").append(" <option selected='selected'>请选择审批事项</option>");
+			$('#dfile').html("");
+			/* $("#ddlSxappname").html("dhfhwef"); */
+		}else{
+		for(var i=0;i<len;i++){			
+			$("#ddlSxappname").append("<option value='"+spsx[i].ID+"' title=\""+spsx[i].NAME+"\">"+formatLen(spsx[i].NAME,0,20)+"</option>");
+		}
+		SPsxChange();}
+	}else{
+		/* alert(ret.error);//打印错误信息 */
+	}
+
+}
+
+function SPsxChange(){
+    //获取事项材料表格
+    var limit=200;
+    var start=1;
+	var cmd = new LEx.Command("app.icity.govservice.GovProjectCmd");
+	cmd.setParameter("itemid", $("#ddlSxappname").val());//"3DACC6AB361F40C2B50F4E6FAADC1AD8"
+	
+	var ret =  cmd.execute("getAllItemInfoByItemID");
+	if(!ret.error){
+	    var len = ret.data.length;
+	   if(len==0){
+	   		$("#dfile").html("<tr><td colspan='2'>无表格下载</td></tr>");
+	   }else{ 		    
+	   		$('#dfile').html(LEx.processDOMTemplate('MattersListTemplate',ret));
+	   }
+		
+	}else{
+		alert(ret.error);//打印错误信息
+	}
+
+}
+</script>
+
+<div id="page" class="container" style="padding-left: 10px; padding-right: 10px; background-color: #fff;">
+	<div class="row">
+        <div class="col-xs-12">
+            <section class="panel panel-success">
+				<header class="panel-heading">
+					<h3 class="panel-title">表格下载（全部）</h3>
+				</header>
+				<div class="panel-body zl-thumbnails-ggfu-2">
+                    <table border="0" cellpadding="0" cellspacing="0" width="90%" style="margin-bottom: 15px;">
+                        <tbody>
+                            <tr valign="middle" align="center">
+                                <td width="10%" align="right"><strong>部门名称：</strong></td>
+                                <td width="23%" align="left">
+                                    <span class="tdlabel">
+                                        <select name="ddlDepartment" id="ddlDepartment" onchange="DeptChange()" style="width:100%;">
+                                            <option selected="selected" value="-1">请选择事项类别</option>
+                                        </select>   
+                                    </span>
+                                </td>
+                                <td width="10%" align="center">
+                                    <strong>事项名称：</strong>
+                                </td>
+                                <td width="23%" align="left">
+                                    <span class="tdlabel">
+                                        <select name="ddlSxappname" id="ddlSxappname" onchange="SPsxChange()" style="width:100%;">
+                                            <option selected="selected">请选择审批事项</option>
+                                        </select>
+                                    </span>
+                                </td>
+                                <td width="6%" align="center">
+                                   <!--  <input name="btnSearchAll" value="查询" onclick="GetItemId();" language="javascript" id="btnSearchAll" type="submit"> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+					<table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                            <th>文档名称</th>
+                            <th>样表</th>
+                            </tr>
+                        </thead>
+                            <tbody id="dfile">
+                            </tbody>
+                    </table>
+				</div>
+			</section>
+        </div>
+    </div>
+</div>
+<script type="text/template" id="MattersListTemplate">
+	{for o in data}
+	{var samples=[]}
+	{if LEx.isNotNull(o.SAMPLE_NAME)}
+	{var samples=o.SAMPLE_NAME.split(";")}
+	{var docids=o.SAMPLE.split(";")}
+{/if}
+      <tr>
+         <td>${o.NAME} </td>
+ <td>
+ {if samples.length>0}
+{for sample in samples}
+{if LEx.isNotNull(sample)}
+ 		${sample}<a class="btn btn-xs btn-link" href="${dick_url+'&path='+docids[sample_index]+'&name='+sample}">下载</a></br>	
+{/if} 
+{/for}
+{else}
+无样表
+{/if}
+</td>    
+	{/for}
+</script>

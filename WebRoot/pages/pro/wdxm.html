@@ -1,0 +1,157 @@
+<script>
+var page = 1;
+var limit = 10;
+var total = 0;
+
+$(function(){
+	getJDCX();
+	$(".tcdPageCode").createPage({
+	    pageCount:Math.ceil(total/limit),
+	    current:page,
+	    backFn:function(p){
+	    	page=p;
+	    	getJDCX();
+	    }
+	});
+});
+function getJDCX()
+{
+	var command = new LEx.Command("app.icity.pro.ProCmd");
+	command.setParameter("uuid", {{UserInfo}}.uid);
+	command.setParameter("regionCode", "{{ConfigInfo.WebRegion}}");
+	command.setParameter("page", page);
+	command.setParameter("limit", limit);
+	var ret = command.execute("getUserJDCX");
+	if(!command.error){	
+		total = ret.total;
+		$('#user-jdcx-list1').html(LEx.processDOMTemplate('itemTemplate',ret));
+	}
+}
+
+function jdcx(id,type){
+	LEx.dialog({
+		id: "selectRegion", title: "进度查询",
+		url: LEx.webPath+"pro/printJD?sblsh="+id+"&type="+type,
+		width: 1100, height: 450,
+		lock:true,
+		button: [
+		         {
+		        	 name: '关闭',
+		         }
+		         ]
+	});
+}
+
+function print(id){
+	LEx.dialog({
+		id: "selectRegion1", title: "项目登记单",
+		url: LEx.webPath+"pro/printApply?id="+id,
+		width: 900, height: 450,
+		lock:true,
+		button: [
+		         {
+		        	 name: '打印',
+		        	 callback: function() {
+		        	 var iframe = this.iframe.contentWindow;
+		        	 if (!iframe.document.body) {
+		        		 LEx.alert('内容还没加载完毕呢');
+		        		 return false;
+		        	 }
+		        	 iframe.close();
+					 iframe.focus();
+					 iframe.print();
+		        	 return false;
+		        	 
+		         },
+		         focus: true
+		         },
+		         {
+		        	 name: '关闭'
+		         }
+		         ]
+	});
+}
+function report(projectname,projectcode){
+	window.location.href = "{{cp}}pro/new?projectname="+projectname+"&projectcode="+projectcode;
+	//window.location.href = "{{cp}}pro/new?projectname=测试项目&projectcode=ceshicode";
+}
+</script>
+
+<div style="background-color: #fff; padding: 20px 40px;width:1030px;margin:0px auto;">
+    <ol class="breadcrumb">
+        <li><a href="{{cp}}pro/index">首页</a></li>
+        <li class="active">我的项目</li>
+    </ol>
+    
+    
+    
+    <section class="panel panel-default">
+        <header class="clearfix" style="border-bottom: 2px solid #29588C; background-color: #fff; margin: -1px; margin-bottom:0;">
+            <div class="input-group pull-right" style="width: 300px; margin-top: 5px;">
+            </div>
+            <ul class="nav nav-pills font-size-16">
+                <li class="active"><a data-toggle="pill" href="#w-d-x-1"><i class="fa fa-clock-o fa-lg"></i> 我的项目</a></li>
+                <!--<li><a data-toggle="pill" href="#w-d-x-2"><i class="fa fa-dot-circle-o fa-lg"></i> 开工项目(0)</a></li>
+                <li><a data-toggle="pill" href="#w-d-x-3"><i class="fa fa-check-circle-o fa-lg"></i> 竣工项目(0)</a></li>  -->
+            </ul>
+        </header>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="w-d-x-1">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="active">
+                        	<th class="text-center" style="width:20%;">项目编码</th>
+                            <th  style="width:40%;">项目名称（项目类型）<!-- 【项目代码】 --></th>
+                            <th class="text-center"  style="width:20%;">申报时间</th>                            
+                            <th class="text-center"  style="width:20%;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-jdcx-list1">
+                        
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">
+                            <div class="tcdPageCode">
+    						</div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="w-d-x-2">
+                22222222
+            </div>
+            <div class="tab-pane fade" id="w-d-x-3">
+                33333333
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/template" id="itemTemplate">
+{for o in data}
+	<tr>
+		<td class="text-center"  style="width:20%;">
+			{if LEx.isNotNull(o.SBLSH)}
+			${o.SBLSH}
+			{else}未赋码{/if}			
+		</td>
+        <td  style="width:40%;">
+            ${o.PROJECTNAME}
+			{if LEx.isNotNull(o.PROJECT_TYPE)}
+			{if o.PROJECT_TYPE=='A00002'}(核准类项目){/if}
+			{if o.PROJECT_TYPE=='A00001'}(审批类项目){/if}
+			{if o.PROJECT_TYPE=='A00003'}(备案类项目){/if}{/if}
+			<br>
+        </td>		
+        <td class="text-center"  style="width:20%;">${o.SBSJ}</td>        
+        <td class="text-center"  style="width:20%;">
+            <a class="btn btn-xs btn-info" href="javascript:print('${o.SEQID}')" ><i class="fa fa-pencil"></i>打印</a>			
+			<a class="btn btn-xs btn-info" id="jdcx${o.SBLSH}" href="javascript:jdcx('${o.SBLSH}','${o.PROJECT_TYPE}')" ><i class="fa fa-pencil"></i>进度查询</a>
+            <!-- <a class="btn btn-xs btn-info" {if LEx.isNotNull(o.SBLSH)}href="javascript:report('${o.PROJECTNAME}','${o.SBLSH}')"{else}href="javascript:alert('未赋码');"{/if}><i class="fa fa-pencil"></i>报告上传</a>-->
+			<a class="btn btn-xs btn-info" href="javascript:report('${o.PROJECTNAME}','${o.SBLSH}')"><i class="fa fa-pencil"></i>报告上传</a>						
+        </td>
+      </tr>
+{/for}
+</script>
+

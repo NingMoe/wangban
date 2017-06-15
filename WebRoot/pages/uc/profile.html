@@ -1,0 +1,490 @@
+<style>
+.sec_bd img {
+    width: 14px;
+    height: 16px;
+    margin-top: 0;
+    vertical-align: middle;
+}
+</style>
+<script type="text/javascript"
+	src="{{PageContext.PagePath}}uc/js/common.js"></script>
+<div class="sec_div">
+	<span>用户资料</span>
+</div>
+<ul id="personal">
+	<li><span>您在网上办事大厅注册的账号信息</span></li>
+	<li>
+		<table class="sec_tab">
+			<tr>
+				<td class="t1"><em>*</em> 登录账号：</td>
+				<td class="t2"><span tag="ACCOUNT" name="ACCOUNT" id="ACCOUNT"
+					style="padding-left: 2px;"></span></td>
+				<td class="form-tip"></td>
+			</tr>
+			<tr>
+				<td class="t1"><em>*</em> 真实姓名：</td>
+				<td class="t2"><input tag="NAME" name="NAME" id="NAME"
+					reg="^.+$" tip="请填写真实姓名" class="input" type="text" /></td>
+				<td class="form-tip"><span for="NAME"></span></td>
+			</tr>
+			<tr>
+				<td class="t1"><em>*</em> 证件类型：</td>
+				<td class="t2"><select name="CARD_TYPE" tag="CARD_TYPE" style="width:160px;" 
+					id="CARD_TYPE" reg="^.+$" tip="请按选择证件类型" class="card_type"></select></td>
+				<td class="form-tip"><span for="CARD_TYPE"></span></td>
+			</tr>
+			<tr>
+				<td class="t1"><em>*</em> 证件号码：</td>
+				<td class="t2"><input tag="CARD_NO" name="CARD_NO" id="CARD_NO"
+					reg="^.+$" tip="请填写证件号码" func="checkCardNo" for="CARD_TYPE"
+					class="input" type="text" /></td>
+				<td class="form-tip"><span for="CARD_NO"></span></td>
+			</tr>
+		</table>
+	</li>
+	<li><span>账号扩展信息</span></li>
+	<li>
+		<table class="sec_tab">
+			<!-- <tr>
+				<td class="t1"><em>*</em>&nbsp;登录账号：</td>
+				<td class="t2"><span tag="ACCOUNT" name="ACCOUNT" id="ACCOUNT"
+					style="padding-left: 2px;"></span></td>
+				<td class="form-tip"></td>
+			</tr> -->
+			<tr>
+				<td> 籍贯：</td>
+				<td><input name="NATIVEPLACE" type="text" tag="NATIVEPLACE" id="nativePlace"/></td>
+				<td>&nbsp;&nbsp;联系电话：</td>
+				<td><input reg="^[u002A\0-9]{7,12}$" tag="PHONE" tip="请输入正确的手机号码" func="check_Exists" 
+					name="PHONE" type="text" id="PHONE" value="" /></td>
+			</tr>
+			<tr>
+				<td> 性别：</td>
+				<td><input type="radio" tag="SEX" checked="true" group="gender" value="男" name="SEX"
+						id="sex">男
+				<input type="radio" tag="SEX" value="女" group="gender" name="SEX" id="sex">女</td>
+				<td>&nbsp;&nbsp;联系地址：</td>
+				<td><input reg="^[\u4E00-\u9FA5]{2}.{0,48}$" tag = "ADDRESS" name="ADDRESS" type="text"
+					id="ADDRESS"/></td>
+			</tr>
+			<tr>
+				<td> 民族：</td>
+				<td><input name="NATION" tag="NATION" type="text" id="NATION"/>
+				</td>
+				<td>&nbsp;&nbsp;户籍地：</td>
+				<td><input name="HOMEADDRESS" type="text" tag="HOMEADDRESS" id="homeAddress"/></td>
+			</tr>
+			<tr>
+				<td> 邮箱：</td>
+				<td><input tag="EMAIL" name="EMAIL" type="text" id="EMAIL" reg="^(\w)+(\.\w+)*@(\w)+(\.\w+)*$" tip="请输入正确的邮箱地址" func="check_Exists" /></td>
+				<td>&nbsp;&nbsp;出生日期：</td>
+				<td><input type="text"
+						style="width: 100px;" tag="BIRTHDAY" id="birthday" name="birthday" /> <img
+						src="{%public assets/img/date.jpg%}" style="margin-left: -20px;"
+						id="date1">
+				</td>
+			</tr>
+			<tr>
+				<td> 学历：</td>
+				<td><select id="EDUCATION" tag="EDUCATION" tag="EDUCATION" name="EDUCATION" class="span3" style="width: 160px;">
+						<option value="BK">本科</option>
+						<option value="BS">博士</option>
+						<option value="BSH">博士后</option>
+						<option value="DZ">大专</option>
+						<option value="SS">硕士</option>
+						<option value="YJS">研究生</option>
+						<option value="YS">院士</option>
+						<option value="ZZ">中专</option>
+						<option value="QT" selected='selected'>其它</option>
+				</select></td>
+				<td>&nbsp;&nbsp;政治面貌：</td>
+				<td><select id="POLITICALSTATUS" tag="POLITICALSTATUS" name="POLITICALSTATUS" class="span3" style="width: 160px;">
+						<option value="DY">党员</option>
+						<option value="QZ" selected='selected'>群众</option>
+						<option value="TY">团员</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td> 邮政编码：</td>
+				<td><input name="POSTCODE" tag = "POSTCODE" type="text" id="postCode"/>
+				</td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+	</li>
+</ul>
+
+<ul class="form-body" id="depart">
+	<li><span>您在网上办事大厅注册的账号信息</span></li>
+	<li>
+		<table class="sec_tab">
+			<tr>
+				<td><em>*</em> 登录账号：</td>
+				<td><span tag="ACCOUNT" name="ACCOUNT" id="ACCOUNT"
+					style="padding-left: 2px;"></span></td>
+				<td class="form-tip"></td>
+			</tr>
+			<tr>
+				<td><em>*</em> 组织机构代码：</td>
+				<td><input tag="ORG_NO" id="ORG_NO" reg="^.+$" tip="请输入组织机构代码"
+					func="check_Exists" class="input" type="text"></td>
+				<td class="form-tip"><span for="ORG_NO"></span></td>
+			</tr>
+			<tr>
+				<td><em>*</em> 组织机构全称：</td>
+				<td><input tag="ORG_NAME" id="ORG_NAME" reg="^.+$"
+					tip="请输入组织机构全称" class="input" type="text"></td>
+				<td class="form-tip"><span for="ORG_NAME"></span></td>
+			</tr>
+			<tr>
+				<td><em>*</em> 法人姓名：</td>
+				<td><input tag="ORG_BOSS_NAME" id="ORG_BOSS_NAME" reg="^.+$"
+					tip="请输入法人姓名" class="input" type="text"></td>
+				<td class="form-tip"><span for="ORG_BOSS_NAME"></span></td>
+			</tr>
+			<tr>
+				<td><em>*</em> 法人证件类型：</td>
+				<td><select tag="ORG_BOSS_TYPE" name="ORG_BOSS_TYPE" style="width:160px;"
+					id="ORG_BOSS_TYPE" reg="^.+$" tip="请选择法人证件类型" class="card_type"></select>
+				</td>
+				<td class="form-tip"><span for="ORG_BOSS_TYPE"></span></td>
+			</tr>
+			<tr>
+				<td><em>*</em> 法人证件号码：</td>
+				<td><input tag="ORG_BOSS_NO" id="ORG_BOSS_NO" reg="^.+$"
+					tip="请输入法人证件号码" func="checkCardNo" for="ORG_BOSS_TYPE"
+					class="input" type="text"></td>
+				<td class="form-tip"><span for="ORG_BOSS_NO"></span></td>
+			</tr>
+			<tr>
+				<td><em>*</em> 联系人姓名：</td>
+				<td><input tag="NAME" id="NAME" reg="^.+$" tip="请输入联系人姓名"
+					class="input" type="text"></td>
+				<td class="form-tip"><span for="NAME"></span></td>
+			</tr>
+			<tr>
+				<td><em>*</em> 联系人证件类型：</td>
+				<td><select tag="CARD_TYPE" name="CARD_TYPE" id="CARD_TYPE" style="width:160px;" 
+					reg="^.+$" tip=" 请选择联系人证件类型" class="card_type">
+				</select></td>
+				<td class="form-tip"><span for="CARD_TYPE"></span></td>
+			</tr>
+			<tr>
+				<td><em>*</em> 联系人证件号码：</td>
+				<td><input tag="CARD_NO" id="CARD_NO" reg="^.+$"
+					tip="请输入联系人证件号码" func="checkCardNo" for="CARD_TYPE" class="input"
+					type="text"></td>
+				<td class="form-tip"><span for="CARD_NO"></span></td>
+			</tr>
+		</table>
+	</li>
+	<li><span>账号扩展信息</span></li>
+	<li>
+		<table class="sec_tab">
+			<tr>
+				<td>统一信用代码：</td>
+				<td><input reg="^.{0,24}$" value="" class="span3" name="CREDIT_CODE" tag="CREDIT_CODE" id="CREDIT_CODE" ></td>
+				<td>营业执照：</td>
+		      	<td><input reg="^.{0,24}$" value="" class="span3" name="ICREGNUMBER" tag="ICREGNUMBER" id="ICREGNUMBER" ></td>
+			</tr>
+			<tr>
+				<td> 组织机构代码发证机构：</td>
+				<td><input reg="^.{0,24}$" value="" class="span3" name="ORGCODEAWARDORG" tag="ORGCODEAWARDORG" id="ORGCODEAWARDORG" ></td>
+				<td>组织机构代码证有效期起：</td>
+		      	<td><input value="" class="date"  type="text" name="ORGCODEVALIDPERIODSTART_STR" tag="ORGCODEVALIDPERIODSTART_STR" id="ORGCODEVALIDPERIODSTART_STR">
+		      	<img src="{%public assets/img/date.jpg%}" style="margin-left: -20px;"></td>
+
+			</tr>
+			<tr>
+				<td>组织机构代码证有效期止：</td>
+		      	<td><input class="date" type="text" name="ORGCODEVALIDPERIODEND_STR" id="ORGCODEVALIDPERIODEND_STR" tag="ORGCODEVALIDPERIODEND_STR">
+		      	<img src="{%public assets/img/date.jpg%}" style="margin-left: -20px;"></td>
+		      	<td>机构英文名称：</td>
+		      	<td><input reg="^.{0,50}$" value="" class="span3" id="ORGENGLISHNAME" tag="ORGENGLISHNAME" name="ORGENGLISHNAME" ></td>
+			</tr>
+			<tr>
+				<td>组织机构类型：</td>
+		      	<td> 
+			      	<select id="ORGTYPE" tag="ORGTYPE" name="ORGTYPE" class="span3">	 					
+						<option value="Enterprise">企业</option>
+						<option value="GovDept">政府机关</option>
+						<option value="Institutions">事业单位</option>
+						<option value="SocialOrg">社会团体</option>
+			      	</select>
+			      	<div class="Validform_checktip"></div>
+		      	</td>
+		      	<td>组织机构现状：</td>
+		      	<td>
+		      		<select name="ORGACTUALITY"  id="ORGACTUALITY" tag="ORGACTUALITY" class="span3"  >
+						<option value="Change">变更</option>
+						<option value="Deregister">注销</option>
+						<option value="Register">设立</option>
+						<option value="Revoke">吊销</option>
+			      	</select>
+			      	<div class="Validform_checktip"></div>
+		      	</td>
+			</tr>
+			<tr>
+				<td>企业类别代码：</td>
+		      	<td><input reg="^[a-zA-Z0-9]{0,5}$" value="" class="span3" id="ENTERPRISESORTCODE" tag="ENTERPRISESORTCODE" name="ENTERPRISESORTCODE" ></td>
+		      	<td>企业类别名称：</td>
+		      	<td><input reg="^.{0,15}$" value="" class="span3" id="ENTERPRISESORTNAME" tag="ENTERPRISESORTNAME" name="ENTERPRISESORTNAME" ></td>
+			</tr>
+			<tr>
+			<td>组织机构代码证发证日期：</td>
+		      	<td><input value="" class="date" type="text"tag="ORGCODEAWARDDATE_STR" name="ORGCODEAWARDDATE_STR" id="ORGCODEAWARDDATE_STR">
+		      	<img src="{%public assets/img/date.jpg%}" style="margin-left: -20px;"></td>
+		      	<td>登记注册日期：</td>
+		      	<td><input  value="" name="REGISTERDATE_STR" tag="REGISTERDATE_STR" type="text" class="date" id="REGISTERDATE_STR">
+		      	<img src="{%public assets/img/date.jpg%}" style="margin-left: -20px;">
+		      	<div class="Validform_checktip"></div>
+		      	</td>
+		     </tr> 
+		</table>
+	</li>
+</ul>
+
+<div class="form-submit" style="margin-top: 20px; margin-left: 280px;">
+	<table>
+		<tr>
+			<td><a class="opt_btn" href="javascript:void(0);"
+				style="position: relative; left: -20px; background-image: url('{{PageContext.ContextPath}}public/themes/uc/images/btn/uc_btn_hover.png');"
+				id="submit" hidefocus="hidefocus"><span>保存</span></a></td>
+			<td><a class="opt_btn opt_btn_cancle" href="javascript:void(0);"
+				style="position: relative; left: 5px; background-image: url('{{PageContext.ContextPath}}public/themes/uc/images/btn/uc_btn.png')"
+				id="cancel" hidefocus="hidefocus" jQuery182027847452985761856="39"><span>取消</span></a></td>
+		</tr>
+	</table>
+</div>
+<script type="text/javascript">
+{% merge "[{label:'dict_code@in',value:'user_sfzjlx'}]" as pwhere %}
+{% map "code","PUB_DICT_ITEM_GetCollection","pwhere",pwhere as params %}
+{% command "app.db.DbProxy","collection",params as result %}
+var CODE_MAP_SOURCE = {{result.data}};
+</script>
+<script type="text/javascript">
+var formid = null; //表单id
+var type = null; //用户类型
+var _calendar= null;
+//身份证件类型正则表达式
+var zjlxReg={
+	10:"(^\\d{15}$)|(^\\d{18}$)|(^\\d{17}[X|x]$)",
+	14:"^(H|h|M|m)\\d{8}\\d{2}$",
+	16:"^[a-zA-Z]{1,2}\\d{6}\\(\\d{1}\\)$",
+	17:"^\\d{7}\\(\\d\\)$",
+	18:"^[a-zA-Z]\\d{9}$"	
+}
+
+function initCodeMap() {
+	var option = "";
+	for ( var o in CODE_MAP_SOURCE) {
+		var obj = CODE_MAP_SOURCE[o];
+		if (obj.DICT_CODE == "user_sfzjlx") {
+			option += '<option value="' + obj.ITEM_CODE + '" title="' + obj.ITEM_VALUE + '">' + obj.ITEM_VALUE + '</option>';
+		}
+	}
+
+	$("#personal #CARD_TYPE,#depart #CARD_TYPE,#ORG_BOSS_TYPE").html(option);
+}
+
+(function(){
+	// 初始化选项
+	initCodeMap();
+	
+	loadData();
+	
+	contentHandler();
+	//提交身份资料
+	$("#submit").click(function() {
+		doSubmit();
+	});
+
+	//取消修改身份资料
+	$("#cancel").click(function() {
+		$(".show_tab").load(LEx.webPath + "src?m=uc/profile.html");
+	});
+	
+	$(".card_type").change(function(){
+		var obj=$("#"+formid+" input[for="+$(this).attr("id")+"]");
+		checkCardNo(obj);
+	});
+
+	//检验普通项的数据
+	$("[reg]").bind("blur", function() {
+		var obj = $(this);
+		validateObj(obj, formid);
+	});	
+})();
+function contentHandler(){
+	if(_calendar != null){
+		//_calendar.setup({id:"birthday_str"});
+		_calendar.setup({id:"birthday"});
+		_calendar.setup({id:"ORGCODEVALIDPERIODSTART_STR"});
+		_calendar.setup({id:"ORGCODEVALIDPERIODEND_STR"});
+		_calendar.setup({id:"REGISTERDATE_STR"});
+		_calendar.setup({id:"ORGCODEAWARDDATE_STR"});
+	}else{
+		_calendar= new LEx.Control.Calendar(function(){
+		//_calendar.setup({id:"birthday_str"});
+		_calendar.setup({id:"birthday"});
+		_calendar.setup({id:"ORGCODEVALIDPERIODSTART_STR"});
+		_calendar.setup({id:"ORGCODEVALIDPERIODEND_STR"});
+		_calendar.setup({id:"REGISTERDATE_STR"});
+		_calendar.setup({id:"ORGCODEAWARDDATE_STR"});
+		});
+	}
+}
+function loadData(){
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	var ret = cmd.execute("showUserInfo");
+	if (ret.state == 1) {
+		if (ret.data!=null) {
+			var utype = ret.data.TYPE;	//用户类型
+			
+			if(LEx.isNotNull(utype)){
+				type = utype;
+				if (utype == "11" || utype == "12") {
+					formid = "personal";
+					$("#depart").hide();
+					LEx.form.set(formid, ret.data);					
+					checkValidate(formid);
+				} else if (utype == "21" || utype == "22") {
+					formid = "depart";
+					$("#personal").hide();
+					LEx.form.set(formid, ret.data);					
+					checkValidate(formid);
+				}else {
+					$("#personal-form").hide();
+					$("#depart-form").hide();
+					errorDialog("系统提示", "用户类型不存在！");
+				}
+			} else {
+				$("#personal-form").hide();
+				$("#depart-form").hide();
+				errorDialog("系统提示", "未获取到用户类型！");
+			}
+		}
+	} else {
+		errorDialog("系统提示", "error：" + ret.message);
+	}
+}
+
+//提交数据	
+function doSubmit() {
+	if (!checkValidate(formid)) {
+		errorDialog("系统提示", "请填写正确的信息");
+		return false;
+	}
+	var obj = LEx.form.get(formid);
+	var data = {
+		ACCOUNT : "",
+		NAME : "",
+	}
+	$.extend(data, obj);
+
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	cmd.setParameter("USER_TYPE", type);
+	for ( var property in data) {
+		cmd.setParameter(property, obj[property]);
+	}
+	cmd.setParameter("CARD_OFF_STATUS","1");
+	cmd.setParameter("MOBILE_OFF_STATUS","1");
+	var ret = cmd.execute("updateProfile");
+	if (ret.state == 1) {
+		LEx.dialog({
+			title : "系统提示",
+			content : "修改身份资料信息成功",
+			icon : 'succeed',
+			lock : true
+		});
+		return true;
+	} else {
+		errorDialog("系统提示", "修改身份资料信息失败：" + ret.message);
+	}
+	return false;
+}
+
+function checkCardNo(obj) {
+	var c = $("#" + formid);
+	var t = $(".form-tip span[for=" + obj.attr("id") + "]", c);
+	var reg;
+	var f = obj.attr("for");	
+	var zjlx=$("#"+f,c).val();
+	
+	//如果存在正则表达式，必须符合格式，否则可以随意填
+	if(zjlxReg[zjlx]){
+		reg=new RegExp(zjlxReg[zjlx]);
+		if (reg.test(obj.val())=== false) {
+			t.attr("class", "invalid").html("证件输入不合法");
+			return false;
+		}else{
+			t.attr("class", "valid").html("");
+			return true;
+		}
+	}else{
+		t.attr("class", "valid").html("");
+		return true;
+	}
+}
+
+function checkExists(field, value) {
+	var cmd = new LEx.Command("app.uc.UserCmd");
+	cmd.setParameter("ID@!=", $("#userInfo").val());
+	cmd.setParameter(field, value);
+	var ret = cmd.execute("getList");
+	if (ret.state == 1) {
+		if (ret.data.length > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		errorDialog("系统提示", "调用服务出错：" + ret.message);
+	}
+	return true;
+}
+
+function check_Exists(obj) {
+	var t = $("#" + formid + " .form-tip span[for=" + obj.attr("id") + "]");
+	if (checkExists(obj.attr("tag"), obj.val())) {
+		t.html("该信息已注册");
+		t.attr("class", "invalid");
+		return false;
+	}else{
+		t.attr("class", "valid").html("");
+		return true;
+	}		
+}
+function checkValidate() {
+	var c = $(".form-contain .curr_contain");
+	var f = true;
+	$("[reg]", c).each(function() {
+		var t = $(".form-tip span[for=" + $(this).attr("id") + "]", c);
+		if (!validate($(this))) {
+			t.html($(this).attr("tip"));
+			t.attr("class", "invalid");
+			f = false;
+		} else {
+			var func = $(this).attr("func");
+			if (func == undefined) {
+				t.html("");
+				t.attr("class", "valid");
+			} else {
+				try {
+					var s = eval(func);
+					var re = s.call(s, $(this));
+					if (!re) {
+						f = false;
+					}
+				} catch (e) {
+					alert("请求的验证函数错误。");
+				}
+			}
+		}
+		
+	});
+	
+	return f;
+}
+</script>

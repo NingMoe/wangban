@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+	<title>{{ConfigInfo.AppTitle}}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<script type="text/javascript">
+		{% set cp PageContext.ContextPath %}
+		var __webPath = "{{cp}}";
+		var __signature = "{{PageContext.SignatureInfo}}";
+		{% set webrg ConfigInfo.WebRegion %}
+		<!-- 列表页显示条数-->
+		{% set pagelimit "20" %}
+	</script>
+	<link rel="stylesheet" type="text/css" href="{% public zs/szw/css/bootstrap.min.css %}" />
+	<link rel="stylesheet" type="text/css" href="{% public themes/default/css/base.css %}">
+	<link rel="stylesheet" type="text/css" href="{% public zs/szw/css/bootstrap.css %}" />
+	<link rel="stylesheet" type="text/css" href="{% public zs/szw/css/mine.css %}" />
+	<script  type="text/javascript" src="{{cp}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js,LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,icity.js"></script>
+	<script  type="text/javascript" src="{% public scripts/common.js %}"></script>
+	<script  type="text/javascript" src="{% public assets/js/holder.js %}"></script>
+	<script  type="text/javascript" src="{% public jqPagination/js/jquery.jqpagination.min.js %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% public jqPagination/css/jqpagination.css %}" />
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+	<script src="{% public assets/js/html5.min.js %}"></script>
+	<script src="{% public assets/js/respond.min.js %}"></script>
+<![endif]-->
+
+	<script type="text/javascript">
+		plugin.add('dialog', {
+			path: '{{cp}}public/scripts/dialog/a?t=js&m=jquery.artDialog.js,plugins/iframeTools.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['dialog_css']
+		});
+		plugin.add('dialog_css', {
+			path: '{{cp}}public/scripts/dialog/skins/default.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		plugin.add('tree', {
+			path: '{{cp}}public/scripts/zTreeStyle/jquery.ztree.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['tree_css']
+		});
+		plugin.add('tree_css', {
+			path: '{{cp}}public/scripts/zTreeStyle/zTreeStyle.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		
+		plugin.add('calendar', {
+			path: '{{cp}}public/scripts/calendar/calendar-min.js',
+			type: 'js',
+			charset: 'utf-8',
+			rely: ['calendar_css']
+		});
+		plugin.add('calendar_css', {
+			path: '{{cp}}public/scripts/calendar/calendar-min.css',
+			type: 'css',
+			charset: 'utf-8'
+		});
+		plugin.add('editor',{path:'{{cp}}public/scripts/kindeditor/kindeditor-min.js',type:'js',charset:'utf-8'});
+		plugin.add('fullCalendar',{
+			path:'{{cp}}public/scripts/fullcalendar/fullcalendar.js',
+			type:'js',
+			charset:'utf-8',
+			rely: ['jquery_ui']
+		});
+		
+		plugin.add('jquery_ui',{
+			path:'{{cp}}public/scripts/fullcalendar/jquery-ui-1.10.2.custom.min.js',
+			type:'js',
+			charset:'utf-8',
+			rely: ['fullCalendar_css']
+		});
+		
+		plugin.add('fullCalendar_css',{
+			path:'{{cp}}public/scripts/fullcalendar/a?t=css&m=fullcalendar.css,fullcalendar.print.css',
+			type:'css',
+			charset:'utf-8'
+		});
+	</script>
+	<script  type="text/javascript" src="{{PageContext.ContextPath}}public/zs/szw/Scripts/swfobject_modified.js"></script>
+</head>
+<!--<body style=" background:url({{cp}}public/zs/szw/img/bg-1.jpg) no-repeat top center fixed;">-->
+<body>
+{% include "public/szw/header.html" %}
+	{% include PageContext.HtmlName %}
+	<script type="text/javascript">
+	{% if PageContext.JsName %}
+	{% include PageContext.JsName %}
+	{% endif %}
+	</script>	
+{% include "public/szw/footer.html" %}
+
+ <!--   <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>-->
+    <!-- 用本地js统计表不显示    <script src="{{cp}}public/zs/szw/js/jquery.min.js">-->
+   <!-- <script src="{{cp}}public/zs/szw/js/highcharts-column.js"></script> 办件统计 柱状图  放在index.js中了-->
+    <script src="{{cp}}public/zs/szw/js/highcharts.js"></script>
+
+</body>
+</html>
+{{PageContext.Print}}
+<script type="text/javascript">
+jQuery(document).ready(function(e) {
+	jQuery.ajaxSetup({
+		cache: false
+	});
+	if(typeof init == "function"){
+		init();
+	}
+});
+</script>    
+  <script type="text/javascript">
+swfobject.registerObject("FlashID");
+  </script>
+  <script>
+  <!-- 取一定长度的标题-->
+function parseLength(val,len) {
+	if (LEx.isNotNull(val)&&val.length>len) {
+		return val.substring(0,len)+"...";
+	} else {
+		return val;
+	}
+}
+
+ <!-- 格式化时间-->
+function parseDate(val) {
+	if (LEx.isNotNull(val)) {
+		return LEx.util.Format.formatDate(val);
+	} else {
+		return '-';
+	}
+}
+</script>

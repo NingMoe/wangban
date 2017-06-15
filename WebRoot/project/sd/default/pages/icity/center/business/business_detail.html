@@ -1,0 +1,37 @@
+<style>
+/*强制不显示横向滚动条，纵向滚动条会在内容过多时自动显示*/
+html{
+    /*overflow:hidden;*/
+    background:#F5F6F7;
+    overflow-x:hidden;
+}
+</style>
+<section class="panel panel-primary" style="border-color: #ddd;">
+    <header class="panel-heading no-bordered" style="margin: -1px; margin-bottom:0; padding: 15px; background-color:#4f719c;">
+        <a class="btn btn-primary pull-right" style="background-color:#728db0; margin-top: -8px;" href="javascript:;" onclick="BusinessList();">返回业务列表 →</a>
+         <h3 class="panel-title"><strong>业务详情</strong></h3>
+     </header>
+     <ul class="nav nav-tabs nav-justified its-nav-tabs-business">
+         <li class="active"><a data-toggle="tab" href="#t-b-1" aria-expanded="true">基本信息</a></li>
+         <li class=""><a data-toggle="tab" href="#t-b-2" aria-expanded="false">表单信息</a></li>
+         <li class=""><a data-toggle="tab" href="#t-b-3" aria-expanded="false">申请材料</a></li>
+         <li class=""><a data-toggle="tab" href="#t-b-4" aria-expanded="false">结果材料</a></li>
+     </ul>
+     {% set code PageContext.Parameter.id%}
+     {% set type PageContext.Parameter.type%}
+     {% set sxid PageContext.Parameter.sxid%}
+     <div class="tab-content panel-body"  style="min-height:500px;">
+         <div class="tab-pane active" id="t-b-1" >
+         {% widget "project.BusinessDetailWidget" %}
+         </div>
+         <div class="tab-pane" id="t-b-2">
+             {% widget "project.FormInfo" %}
+         </div>
+         <div class="tab-pane" id="t-b-3">
+         {% widget "project.MaterialList" %}                
+         </div>
+         <div class="tab-pane" id="t-b-4">
+         {% widget "project.ResultMaterialList" %}
+         </div>
+     </div>
+ </section>

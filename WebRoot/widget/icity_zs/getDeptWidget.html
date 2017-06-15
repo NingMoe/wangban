@@ -1,0 +1,41 @@
+<script type="text/javascript" src="{{PageContext.JsPath}}common.js"></script>
+<script type="text/javascript" src="{{PageContext.JsPath}}icity.js"></script>
+{% map "region_code",ConfigInfo.WebRegion as p%}
+
+{% command "app.icity.ServiceCmd",'getDeptList',p as d%}
+
+<ul id="ul_sspdw" class="list-unstyled zl-list-unstyled-ggfu-2">
+	{% if d.data %} {% for o in d.data.organ %}
+	{%if o.IS_HALL|equal:"1"%}
+	<li class="col-xs-2 paddingli"><a class="buttonli" href="javascript:catalogonclick('dept','{{o.CODE}}')" deptid="{{o.CODE}}" deptcode="{{o.CODE}}" title="{{o.SHORT_NAME}}">
+						{{o.SHORT_NAME|truncate:'6'}}</a></li>
+	{% endif %}
+	{% endfor %} 
+	{% else %}
+	<li>
+	
+		<div style="text-align: center; margin-top: 5px;">
+			<font>暂无数据</font>
+		</div>
+	</li> {% endif %}
+</ul>
+<div id="classlistdept"></div>
+
+<style>
+.buttonli {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #E2E5EA;
+	text-align: center;
+}
+
+.paddingli {
+	padding: 2px 2px 2px 2px;
+}
+
+.zl-list-unstyled-ggfu-2>li>a {
+	padding: 6px;
+}
+</style>
+<ul id="ul_sspdw" class="list-unstyled zl-list-unstyled-ggfu-2">
+</ul>

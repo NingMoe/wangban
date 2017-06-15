@@ -1,0 +1,222 @@
+@CHARSET "UTF-8";
+
+.branch_map{
+	float:left;
+	display:block;
+	margin:0 auto;
+	text-align:center;
+	height:400px;
+	width:100%;
+	text-align:center;
+}
+
+.branch_map a{
+	cursor:pointer;
+	text-decoration: none;
+}
+
+.branch_map a:hover{
+	cursor:pointer;
+	color:blue;
+	text-decoration: none;
+}
+
+.branch_bottom{
+	float:right;
+	display:block;
+	height:27px;
+	text-align:right;
+}
+
+.branch_link{
+	float:right;
+	margin-right:10px;
+	line-height:27px;
+	text-align:right;
+	font-size:13px;
+}
+
+.branch_link a{
+	float:left;
+	display:block;
+	height:27px;
+	line-height:27px;
+	padding-left:8px;
+	padding-right:8px;
+	background:#E8E8E8;
+	margin-left:2px;
+	text-decoration: none;
+	cursor: pointer;
+	color:#6688CC;
+}
+.branch_link a:hover{
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.branch_baoan{
+	position: relative; 
+	display:block;
+	left:195px; 
+	top: 185px;
+	width:60px;
+	height:22px;
+	line-height:22px;
+	font-size:13px;
+	font-weight:bold;
+	background:#fff;
+	color:black;
+	cursor: pointer;
+}
+.branch_nanshan{
+	background: none repeat scroll 0 0 #FFFFFF;
+    color: black;
+    cursor: pointer;
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    height: 21px;
+    left: 285px;
+    line-height: 21px;
+    position: relative;
+    top: 205px;
+    width: 50px;
+}
+.branch_futian{
+	background: none repeat scroll 0 0 #F7A900;
+    color: white;
+    cursor: pointer;
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    height: 22px;
+    left: 350px;
+    line-height: 22px;
+    position: relative;
+    top: 212px;
+    width: 50px;
+}
+.branch_luohu{
+	background: none repeat scroll 0 0 #ffffff;
+    color: black;
+    cursor: pointer;
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    height: 22px;
+    left: 428px;
+    line-height: 22px;
+    position: relative;
+    top: 167px;
+    width: 50px;
+}
+.branch_yantian{
+ 	background: none repeat scroll 0 0 #ffffff;
+    color: black;
+    cursor: pointer;
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    height: 21px;
+    left: 524px;
+    line-height: 21px;
+    position: relative;
+    top: 121px;
+    width: 50px;
+}
+.branch_pingshan{
+	background: none repeat scroll 0 0 #FFFFFF;
+    color: black;
+    cursor: pointer;
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    height: 21px;
+    left: 594px;
+    line-height: 21px;
+    position: relative;
+    top: 38px;
+    width: 70px;
+}
+.branch_dapeng{
+  	background: none repeat scroll 0 0 #FFFFFF;
+    color: black;
+    cursor: pointer;
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    height: 21px;
+    left: 674px;
+    line-height: 21px;
+    position: relative;
+    top: 64px;
+    width: 70px;
+}
+.branch_longhua{
+    background: none repeat scroll 0 0 #FFFFFF;
+    color: black;
+    cursor: pointer;
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    height: 21px;
+    left: 337px;
+    line-height: 21px;
+    position: relative;
+    top: -20px;
+    width: 60px;
+}
+.branch_longgang{
+	background: none repeat scroll 0 0 #FFFFFF;
+    color: black;
+    cursor: pointer;
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    height: 21px;
+    left: 510px;
+    line-height: 21px;
+    position: relative;
+    top: -48px;
+    width: 60px;
+}
+.branch_guangming{
+	position: relative; 
+	display:block;
+	left:248px; 
+	top: 65px;
+	width:60px;
+	height:22px;
+	line-height:22px;
+	font-size:13px;
+	font-weight:bold;
+	background:#fff;
+	color:black;
+	cursor: pointer;
+}
+
+.branch_qianhai{
+	position: relative; 
+	display:block;
+	left:220px; 
+	top: 48px;
+	width:60px;
+	height:60px;
+	line-height:22px;
+	font-size:13px;
+	color:white;
+	cursor: pointer;
+	background: url("../images/home/flag.png") no-repeat center center;
+}
+.branch_qianhai span{
+	position: relative;
+	color: white;
+    cursor: pointer;
+    display: block;
+    font-size: 11px;
+    height: 25px;
+    line-height: 25px;
+    margin-left: 25px;
+    padding-top: 10px;
+    width: 30px;
+}

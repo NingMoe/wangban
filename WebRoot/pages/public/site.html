@@ -1,0 +1,694 @@
+<script>
+var a = 5 ;//烟台（默认选中）
+window.onload = function() {
+	var oDs = document.getElementById('ds');
+	var aBtn = oDs.getElementsByTagName('a');
+	var oQx = document.getElementById('right_qx');
+	var aDiv = oQx.getElementsByTagName('div');
+	var oPc = document.getElementById('right_pc');
+	var aDivPc = oPc.getElementsByTagName('div');
+	
+	var town = document.getElementById('town').getElementsByClassName("text");
+	var i = 0;
+
+	for (i = 0; i < aBtn.length; i++) {
+		aBtn[i].index = i;
+		aBtn[i].onmouseover = function() {//第i个城市的鼠标滑过事件
+			for (i = 0; i < aBtn.length; i++) {
+				aBtn[i].style.color = '';
+				aDiv[i].style.display = 'none';
+				aDivPc[i].style.display = 'none';
+				town[i].style.display = 'none';
+			}
+			this.style.color = '#6ac2ea';
+			aDiv[this.index].style.display = 'block';
+			aDivPc[this.index].style.display = 'block';
+			town[this.index].style.display = 'block';
+			a = this.index;
+			if(aBtn[this.index].getAttribute("show")=="1"){
+				document.getElementById("townshow").style.display = 'block';
+				document.getElementById("organ").className = 'cont';
+			}else{
+				document.getElementById("townshow").style.display = 'none';
+				document.getElementById("organ").className = '';
+			}
+		};
+	}
+	//乡镇
+	for (i = 0; i < aDiv.length; i++) {//第i个城市
+		var icity = document.getElementsByClassName('town'+i);
+		for(var j=0;j<icity.length;j++){//第i个城市中的第j个县区
+			icity[j].index = j;
+			icity[j].onmouseover = function(){
+			icity = document.getElementsByClassName('town'+a);
+			var aTown = town[a].getElementsByTagName("div");
+				for(j=0;j<icity.length;j++){
+					icity[j].style.color = '';
+					aTown[j].style.display = 'none';
+				}
+				this.style.color = '#6ac2ea';
+				aTown[this.index].style.display = 'block';
+			}
+		}
+	}
+};
+</script>
+<style type="text/css">
+body{
+	background:white!important;
+}
+#logosj {
+	position: relative;
+	margin-left: 200px;
+	width: 70px;
+	height: 34px;
+}
+#container {
+	font-family: "微软雅黑";
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 9px;
+}
+#mainbg {
+	width: 100%;
+	border: 1px solid #6ac2ea;
+	border-radius: 5px;
+	background-color: #fff;
+	padding: 0px;
+	float: left;
+	position: relative;
+}
+#right {
+	float: right;
+	padding: 0px;
+	width: 89%;
+	border-left: 1px solid #6ac2ea;
+	text-align: left;
+}
+#right_qx {
+	float: right;
+	padding: 0px;
+	width: 89%;
+	border-left: 1px solid #6ac2ea;
+	text-align: left;
+}
+#town {
+	float: right;
+	padding: 0px;
+	width: 89%;
+	border-left: 1px solid #6ac2ea;
+	text-align: left;
+}
+#right_ds {
+	float: right;
+	padding: 0px;
+	width: 89%;
+	border-left: 1px solid #6ac2ea;
+	text-align: left;
+}
+#right_pc {
+	float: right;
+	padding: 0px;
+	width: 89%;
+	border-left: 1px solid #6ac2ea;
+	text-align: left;
+}
+
+#left {
+	float: left;
+	color: #0385c3;
+	padding: 0px;
+	width: 10%;
+	text-align: center;
+}
+.text {
+	margin: 0px;
+	padding: 15px 10px;
+}
+.text a {
+	display: inline-block;
+	margin-bottom: 10px;
+	color: #333;
+	margin-right: 4px;
+	cursor: pointer;
+	text-decoration: none;
+}
+.text a:hover {
+	color: #6ac2ea;
+}
+.cont {
+	height: 58px;
+	border-bottom: 1px solid #6ac2ea;
+}
+</style>
+<body>
+	<div id="container">
+		<div id="mainbg">
+			<img style="position:absolute; left:255px; top:-10px;" src="{%public assets/img/src_sharp.jpg %}">
+				<div class="cont">
+					<div id="right">
+						<div class="text">
+							<a target="_top" href="http://zwfw.sd.gov.cn/"> 省级</a>
+						</div>
+					</div>
+					<div id="left">
+						<div class="text">省</div>
+					</div>
+				</div>
+				<div class="cont">
+					<div id="right">
+						<div class="text" id="ds">
+							<a target="_top" href="http://jnzwfw.sd.gov.cn/" class="" class="" style="color: rgb(106, 194, 234);">济南</a>
+							<a target="_top" href="http://qdzwfw.sd.gov.cn/" class="">青岛</a>
+							<a target="_top" href="http://zbzwfw.sd.gov.cn/" class="">淄博</a>
+							<a target="_top" href="http://zzzwfw.sd.gov.cn/" class="">枣庄</a>
+							<a target="_top" href="http://dyzwfw.sd.gov.cn/" class="">东营</a>
+							<a target="_top" show="1" href="http://ytzwfw.sd.gov.cn/">烟台</a>
+							<a target="_top" href="http://wfzwfw.sd.gov.cn/" class="">潍坊</a>
+							<a target="_top" href="http://jizwfw.sd.gov.cn/" class="">济宁</a>
+							<a target="_top" href="http://tazwfw.sd.gov.cn/" class="">泰安</a>
+							<a target="_top" href="http://whzwfw.sd.gov.cn/" class="">威海</a>
+							<a target="_top" href="http://rzzwfw.sd.gov.cn/" class="">日照</a>
+							<a target="_top" href="http://lwzwfw.sd.gov.cn/" class="">莱芜</a>
+							<a target="_top" href="http://lyzwfw.sd.gov.cn/" class="">临沂</a>
+							<a target="_top" href="http://dzzwfw.sd.gov.cn/" class="">德州</a>
+							<a target="_top" href="http://lczwfw.sd.gov.cn/" class="">聊城</a>
+							<a target="_top" href="http://bzzwfw.sd.gov.cn/" class="">滨州</a>
+							<a target="_top" href="http://hzzwfw.sd.gov.cn/" class="">菏泽</a>
+						</div>
+					</div>
+					<div id="left">
+						<div class="text">市</div>
+					</div>
+				</div>
+				<div class="cont">
+					<div id="right_qx">
+						<!---济南--->
+						<div class="text" style="display: block;">
+							<a target="_top" class="town0" href="http://jnlxzwfw.sd.gov.cn/">历下区</a> <a
+								target="_top" class="town0" href="http://jnszzwfw.sd.gov.cn/">市中区</a> <a
+								target="_top" class="town0" href="http://jnhyzwfw.sd.gov.cn/">槐荫区</a> <a
+								target="_top" class="town0" href="http://jntqzwfw.sd.gov.cn/">天桥区</a> <a
+								target="_top" class="town0" href="http://jnlczwfw.sd.gov.cn/">历城区</a> <a
+								target="_top" class="town0" href="http://jncqzwfw.sd.gov.cn/">长清区</a> <a
+								target="_top" class="town0" href="http://jnzqzwfw.sd.gov.cn/">章丘市</a> <a
+								target="_top" class="town0" href="http://jnpyzwfw.sd.gov.cn/">平阴县</a> <a
+								target="_top" class="town0" href="http://jnjyzwfw.sd.gov.cn/">济阳县</a> <a
+								target="_top" class="town0" href="http://jnshzwfw.sd.gov.cn/">商河县</a>
+						</div>
+						<!---青岛--->
+						<div class="text" style="display:none;">
+							<a target="_top" class="town1" href="http://qdsnzwfw.sd.gov.cn/">市南区</a> <a
+								target="_top" class="town1" href="http://qdsbzwfw.sd.gov.cn/">市北区</a> <a
+								target="_top" class="town1" href="http://qdhdzwfw.sd.gov.cn/">黄岛区</a> <a
+								target="_top" class="town1" href="http://qdlszwfw.sd.gov.cn/">崂山区</a> <a
+								target="_top" class="town1" href="http://qdlczwfw.sd.gov.cn/">李沧区</a> <a
+								target="_top" class="town1" href="http://qdcyzwfw.sd.gov.cn/">城阳区</a> <a
+								target="_top" class="town1" href="http://qdjzzwfw.sd.gov.cn/">胶州市</a> <a
+								target="_top" class="town1" href="http://qdjmzwfw.sd.gov.cn/">即墨市</a> <a
+								target="_top" class="town1" href="http://qdpdzwfw.sd.gov.cn/">平度市</a> <a
+								target="_top" class="town1" href="http://qdlxzwfw.sd.gov.cn/">莱西市</a>
+						</div>
+						<!---淄博--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://zbzczwfw.sd.gov.cn/">淄川区</a> <a
+								target="_top" href="http://zbzdzwfw.sd.gov.cn/">张店区</a> <a
+								target="_top" href="http://zbbszwfw.sd.gov.cn/">博山区</a> <a
+								target="_top" href="http://zblzzwfw.sd.gov.cn/">临淄区</a> <a
+								target="_top" href="http://zbzczwfw.sd.gov.cn/">周村区</a> <a
+								target="_top" href="http://zbhtzwfw.sd.gov.cn/">桓台县</a> <a
+								target="_top" href="http://zbgqzwfw.sd.gov.cn/">高青县</a> <a
+								target="_top" href="http://zbyyzwfw.sd.gov.cn/">沂源县</a>
+						</div>
+						<!---枣庄--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://zzszzwfw.sd.gov.cn/">市中区</a> <a
+								target="_top" href="http://zzxczwfw.sd.gov.cn/">薛城区</a> <a
+								target="_top" href="http://zzyczwfw.sd.gov.cn/">峄城区</a> <a
+								target="_top" href="http://zztezzwfw.sd.gov.cn/">台儿庄区</a> <a
+								target="_top" href="http://zzstzwfw.sd.gov.cn/">山亭区</a> <a
+								target="_top" href="http://zztzzwfw.sd.gov.cn/">滕州市</a>
+						</div>
+						<!---东营--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://dydyzwfw.sd.gov.cn/">东营区</a> <a
+								target="_top" href="http://dyhkzwfw.sd.gov.cn/">河口区</a> <a
+								target="_top" href="http://dyklzwfw.sd.gov.cn/">垦利县</a> <a
+								target="_top" href="http://dyljzwfw.sd.gov.cn/">利津县</a> <a
+								target="_top" href="http://dygrzwfw.sd.gov.cn/">广饶县</a>
+						</div>
+						<!---烟台--->
+						<div class="text" style="display: none;">
+							<a target="_top" class="town5" href="http://ytzfzwfw.sd.gov.cn/zfq/public/index">芝罘区</a> <a
+								target="_top" class="town5" href="http://ytfszwfw.sd.gov.cn/fsq/public/index">福山区</a> <a
+								target="_top" class="town5" href="http://ytmpzwfw.sd.gov.cn/mpq/public/index">牟平区</a> <a
+								target="_top" class="town5" href="http://ytlszwfw.sd.gov.cn/lsq/public/index">莱山区</a> <a
+								target="_top" class="town5" href="http://ytlkzwfw.sd.gov.cn/lks/public/index">龙口市</a> <a
+								target="_top" class="town5" href="http://ytlyzwfw.sd.gov.cn/lys/public/index">莱阳市</a> <a
+								target="_top" class="town5" href="http://ytlzzwfw.sd.gov.cn/lzs/public/index">莱州市</a> <a
+								target="_top" class="town5" href="http://ytplzwfw.sd.gov.cn/pls/public/index">蓬莱市</a> <a
+								target="_top" class="town5" href="http://ytzyzwfw.sd.gov.cn/zys/public/index">招远市</a> <a
+								target="_top" class="town5" href="http://ytqxzwfw.sd.gov.cn/qxs/public/index">栖霞市</a> <a
+								target="_top" class="town5" href="http://ythyzwfw.sd.gov.cn/hys/public/index">海阳市</a> <a
+								target="_top" class="town5" href="http://ytcdzwfw.sd.gov.cn/cdq/public/index">长岛县</a>
+						</div>
+						<!---潍坊--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://wfwczwfw.sd.gov.cn/">潍城区</a> <a
+								target="_top" href="http://wfhtzwfw.sd.gov.cn/">寒亭区</a> <a
+								target="_top" href="http://wffzzwfw.sd.gov.cn/">坊子区</a> <a
+								target="_top" href="http://wfkwzwfw.sd.gov.cn/">奎文区</a> <a
+								target="_top" href="http://wfqzzwfw.sd.gov.cn/">青州市</a> <a
+								target="_top" href="http://wfzczwfw.sd.gov.cn/">诸城市</a> <a
+								target="_top" href="http://wfsgzwfw.sd.gov.cn/">寿光市</a> <a
+								target="_top" href="http://wfaqzwfw.sd.gov.cn/">安丘市</a> <a
+								target="_top" href="http://wfgmzwfw.sd.gov.cn/">高密市</a> <a
+								target="_top" href="http://wfcyzwfw.sd.gov.cn/">昌邑市</a> <a
+								target="_top" href="http://wflqzwfw.sd.gov.cn/">临朐县</a> <a
+								target="_top" href="http://wfclzwfw.sd.gov.cn/">昌乐县</a>
+						</div>
+						<!---济宁--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://jirczwfw.sd.gov.cn/">任城区</a> <a
+								target="_top" href="http://jiyzzwfw.sd.gov.cn/">兖州区</a> <a
+								target="_top" href="http://jiqfzwfw.sd.gov.cn/">曲阜市</a> <a
+								target="_top" href="http://jizczwfw.sd.gov.cn/">邹城市</a> <a
+								target="_top" href="http://jiwszwfw.sd.gov.cn/">微山县</a> <a
+								target="_top" href="http://jiytzwfw.sd.gov.cn/">鱼台县</a> <a
+								target="_top" href="http://jijxzwfw.sd.gov.cn/">金乡县</a> <a
+								target="_top" href="http://jijxxzwfw.sd.gov.cn/">嘉祥县</a> <a
+								target="_top" href="http://jiwsxzwfw.sd.gov.cn/">汶上县</a> <a
+								target="_top" href="http://jisszwfw.sd.gov.cn/">泗水县</a> <a
+								target="_top" href="http://jilszwfw.sd.gov.cn/">梁山县</a>
+						</div>
+						<!---泰安--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://tatszwfw.sd.gov.cn/">泰山区</a> <a
+								target="_top" href="http://tadyzwfw.sd.gov.cn/">岱岳区</a> <a
+								target="_top" href="http://taxtzwfw.sd.gov.cn/">新泰市</a> <a
+								target="_top" href="http://tafczwfw.sd.gov.cn/">肥城市</a> <a
+								target="_top" href="http://tanyzwfw.sd.gov.cn/">宁阳县</a> <a
+								target="_top" href="http://tadpzwfw.sd.gov.cn/">东平县</a>
+						</div>
+						<!---威海--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://whhczwfw.sd.gov.cn/">环翠区</a> <a
+								target="_top" href="http://whwdzwfw.sd.gov.cn/">文登区</a> <a
+								target="_top" href="http://whrczwfw.sd.gov.cn/">荣成市</a> <a
+								target="_top" href="http://whrszwfw.sd.gov.cn/">乳山市</a>
+						</div>
+						<!---日照--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://rzdgzwfw.sd.gov.cn/">东港区</a> <a
+								target="_top" href="http://rzlszwfw.sd.gov.cn/">岚山区</a> <a
+								target="_top" href="http://rzwlzwfw.sd.gov.cn/">五莲县</a> <a
+								target="_top" href="http://rzjxzwfw.sd.gov.cn/">莒县</a>
+						</div>
+						<!---莱芜--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://lwlczwfw.sd.gov.cn/">莱城区</a> <a
+								target="_top" href="http://lwgczwfw.sd.gov.cn/">钢城区</a>
+						</div>
+						<!---临沂--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://lylszwfw.sd.gov.cn/">兰山区</a> <a
+								target="_top" href="http://lylzzwfw.sd.gov.cn/">罗庄区</a> <a
+								target="_top" href="http://lyhdzwfw.sd.gov.cn/">河东区</a> <a
+								target="_top" href="http://lyynzwfw.sd.gov.cn/">沂南县</a> <a
+								target="_top" href="http://lytczwfw.sd.gov.cn/">郯城县</a> <a
+								target="_top" href="http://lyyszwfw.sd.gov.cn/">沂水县</a> <a
+								target="_top" href="http://lyllzwfw.sd.gov.cn/">兰陵县</a> <a
+								target="_top" href="http://lyfxzwfw.sd.gov.cn/">费县</a> <a
+								target="_top" href="http://lypyzwfw.sd.gov.cn/">平邑县</a> <a
+								target="_top" href="http://lyjnzwfw.sd.gov.cn/">莒南县</a> <a
+								target="_top" href="http://lymyzwfw.sd.gov.cn/">蒙阴县</a> <a
+								target="_top" href="http://lylszwfw.sd.gov.cn/">临沭县</a>
+						</div>
+						<!---德州--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://dzdczwfw.sd.gov.cn/">德城区</a> <a
+								target="_top" href="http://dzlczwfw.sd.gov.cn/">陵城区</a> <a
+								target="_top" href="http://dzllzwfw.sd.gov.cn/">乐陵市</a> <a
+								target="_top" href="http://dzyczwfw.sd.gov.cn/">禹城市</a> <a
+								target="_top" href="http://dznjzwfw.sd.gov.cn/">宁津县</a> <a
+								target="_top" href="http://dzqyzwfw.sd.gov.cn/">庆云县</a> <a
+								target="_top" href="http://dzlyzwfw.sd.gov.cn/">临邑县</a> <a
+								target="_top" href="http://dzqhzwfw.sd.gov.cn/">齐河县</a> <a
+								target="_top" href="http://dzpyzwfw.sd.gov.cn/">平原县</a> <a
+								target="_top" href="http://dzxjzwfw.sd.gov.cn/">夏津县</a> <a
+								target="_top" href="http://dzwczwfw.sd.gov.cn/">武城县</a>
+						</div>
+						<!---聊城--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://lcdcfzwfw.sd.gov.cn/">东昌府区</a> <a
+								target="_top" href="http://lclqzwfw.sd.gov.cn/">临清市</a> <a
+								target="_top" href="http://lcygzwfw.sd.gov.cn/">阳谷县</a> <a
+								target="_top" href="http://lcsxzwfw.sd.gov.cn/">莘县</a> <a
+								target="_top" href="http://lccpzwfw.sd.gov.cn/">茌平县</a> <a
+								target="_top" href="http://lcdezwfw.sd.gov.cn/">东阿县</a> <a
+								target="_top" href="http://lcgxzwfw.sd.gov.cn/">冠县</a> <a
+								target="_top" href="http://lcgtzwfw.sd.gov.cn/">高唐县</a>
+						</div>
+						<!---滨州--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://bzbczwfw.sd.gov.cn/">滨城区</a> <a
+								target="_top" href="http://bzzhzwfw.sd.gov.cn/">沾化区</a> <a
+								target="_top" href="http://bzhmzwfw.sd.gov.cn/">惠民县</a> <a
+								target="_top" href="http://bzyxzwfw.sd.gov.cn/">阳信县</a> <a
+								target="_top" href="http://bzwdzwfw.sd.gov.cn/">无棣县</a> <a
+								target="_top" href="http://bzbxzwfw.sd.gov.cn/">博兴县</a> <a
+								target="_top" href="http://bzzpzwfw.sd.gov.cn/">邹平县</a>
+						</div>
+						<!---菏泽--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://hzmdzwfw.sd.gov.cn/">牡丹区</a> <a
+								target="_top" href="http://hzcxzwfw.sd.gov.cn/">曹县</a> <a
+								target="_top" href="http://hzsxzwfw.sd.gov.cn/">单县</a> <a
+								target="_top" href="http://hzcwzwfw.sd.gov.cn/">成武县</a> <a
+								target="_top" href="http://hzjyzwfw.sd.gov.cn/">巨野县</a> <a
+								target="_top" href="http://hzyczwfw.sd.gov.cn/">郓城县</a> <a
+								target="_top" href="http://hzjczwfw.sd.gov.cn/">鄄城</a> <a
+								target="_top" href="http://hzdtzwfw.sd.gov.cn/">定陶县</a> <a
+								target="_top" href="http://hzdmzwfw.sd.gov.cn/">东明县</a>
+						</div>
+					</div>
+					<div id="left">
+						<div class="text">县区</div>
+					</div>
+				</div> <!------------------------------------>
+				<div class="" id="organ">
+					<div id="right_pc">
+						<!---济南--->
+						<div class="text" style="display: none;">
+							<a target="_top" class="town0" href="http://jngxzwfw.sd.gov.cn/">高新技术产业开发区</a>
+						</div>
+						<!---青岛--->
+						<div class="text" style="display:none;">
+							<a target="_top" class="" href=""></a>
+						</div>
+						<!---淄博--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://zbgxzwfw.sd.gov.cn/">高新技术产业开发区</a> <a
+								target="_top" href="http://zbwczwfw.sd.gov.cn/">文昌湖旅游度假区</a>
+						</div>
+						<!---枣庄--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://zzgxzwfw.sd.gov.cn/">高新技术产业开发区</a>
+						</div>
+						<!---东营--->
+	
+						<div class="text" style="display:none;">
+							<a target="_top" class="" href=""></a>
+						</div>
+						<!---烟台--->
+						<div class="text" style="display: block;">
+							<a target="_top" class="town5" href="http://ytjjzwfw.sd.gov.cn/">经济技术开发区</a> <a
+								target="_top" class="town5" href="http://ytgxzwfw.sd.gov.cn/">高新技术产业开发区</a> <a
+								target="_top" class="town5" href="http://ytkyszwfw.sd.gov.cn/">昆嵛山保护区</a>
+						</div>
+						<!---潍坊--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://wfgxzwfw.sd.gov.cn/">高新技术产业开发区</a> <a
+								target="_top" href="http://wfbhzwfw.sd.gov.cn/">滨海经济技术开发区</a> <a
+								target="_top" href="http://wfxszwfw.sd.gov.cn/">峡山生态经济发展区</a> <a
+								target="_top" href="http://wfbszwfw.sd.gov.cn/">综合保税区</a> <a
+								target="_top" href="http://wfjjzwfw.sd.gov.cn/">经济开发区</a>
+						</div>
+						<!---济宁--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://jigxzwfw.sd.gov.cn/">高新技术开发区</a> <a
+								target="_top" href="http://jitbzwfw.sd.gov.cn/">太白湖新区</a>
+						</div>
+						<!---泰安--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://tagxzwfw.sd.gov.cn/">高新技术产业开发区</a> <a
+								target="_top" href="http://tatsfjzwfw.sd.gov.cn/">泰山风景名胜区</a>
+						</div>
+						<!---威海--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://whgqzwfw.sd.gov.cn/">火炬高技术产业开发区</a>
+							<a target="_top" href="http://whjqzwfw.sd.gov.cn/">经济技术开发区</a> <a
+								target="_top" href="http://whlgzwfw.sd.gov.cn/">临港经济技术开发区</a>
+						</div>
+						<!---日照--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://rzjjzwfw.sd.gov.cn/">经济技术开发区</a>
+						</div>
+						<!---莱芜--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://lwgxzwfw.sd.gov.cn/">高新技术产业开发区</a>
+						</div>
+						<!---临沂--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://lygxzwfw.sd.gov.cn/">高新技术产业开发区</a> <a
+								target="_top" href="http://lyjjzwfw.sd.gov.cn/">经济技术开发区</a> <a
+								target="_top" href="http://lylgzwfw.sd.gov.cn/">临港经济开发区</a> <a
+								target="_top" href="http://lymszwfw.sd.gov.cn/">蒙山旅游区</a>
+						</div>
+						<!---德州--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://dzkfzwfw.sd.gov.cn/">经济技术开发区</a> <a
+								target="_top" href="http://dzyhzwfw.sd.gov.cn/">运河经济开发区</a>
+						</div>
+						<!---聊城--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://lcjjzwfw.sd.gov.cn/">经济技术开发区</a> <a
+								target="_top" href="http://lcgxqzwfw.sd.gov.cn/">高新技术产业开发区</a> <a
+								target="_top" href="http://lcsczwfw.sd.gov.cn/">江北水城旅游度假区</a>
+						</div>
+						<!---滨州--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://bzjjzwfw.sd.gov.cn/">经济技术开发区</a> <a
+								target="_top" href="http://bzgxzwfw.sd.gov.cn/">高新技术产业开发区</a> <a
+								target="_top" href="http://bzbhzwfw.sd.gov.cn/">北海经济开发区</a>
+						</div>
+						<!---菏泽--->
+						<div class="text" style="display:none;">
+							<a target="_top" href="http://hzjjzwfw.sd.gov.cn/">经济开发区</a> <a
+								target="_top" href="http://hzgxzwfw.sd.gov.cn/">高新技术产业开发区</a>
+						</div>
+					</div>
+					<div id="left">
+						<div class="text">
+							市派出机构 
+						</div>
+					</div>
+				</div>
+				
+				<!-- 乡镇、街道 -->
+				<div class="" id="townshow" style="display:none;">
+					<div id="town">
+						<!---济南--->
+						<div class="text" style="display: none;">
+							<!-- 这里的div个数是   一个市下面的县和开发区的总和 -->
+							<!-- 历下区 -->
+							<div class="" style="display: none;">
+							</div>
+							<!-- 历下区 -->
+							<div class="" style="display: none;">
+							</div>
+							<!-- 历下区 -->
+							<div class="" style="display: none;">
+							</div>
+							<!-- 历下区 -->
+							<div class="" style="display: none;">
+							</div>
+							<!-- 历下区 -->
+							<div class="" style="display: none;">
+							</div>
+							<!-- 历下区 -->
+							<div class="" style="display: none;">
+							</div>
+							<!-- 历下区 -->
+							<div class="" style="display: none;">
+							</div>
+							<!-- 历下区 -->
+							<div class="" style="display: none;">
+							</div>
+							<!-- 历下区 -->
+							<div class="" style="display: none;">
+							</div>
+							<!-- 历下区 -->
+							<div class="" style="display: none;">
+							</div>
+							<!-- 历下区 -->
+							<div class="" style="display: none;">
+							</div>
+						</div>
+						<!---青岛--->
+						<div class="text" style="display:none;">
+						</div>
+						<!---淄博--->
+						<div class="text" style="display:none;">
+						</div>
+						<!---枣庄--->
+						<div class="text" style="display:none;">
+						</div>
+						<!---东营--->
+						<div class="text" style="display:none;">
+						</div>
+						<!---烟台--->
+						<div class="text" style="display: bolck;">
+							<!-- 芝罘区 -->
+							<div class="" style="display: none;">
+								<a target="_top" href="http://ytzfzwfw.sd.gov.cn/zfqbs/public/index">白石街道</a>
+								<a target="_top" href="http://ytzfzwfw.sd.gov.cn/zfqwly/public/index">卧龙园街道</a>
+								<a target="_top" href="http://ytzfzwfw.sd.gov.cn/zfqzfd/public/index">芝罘岛街道</a>
+								<a target="_top" href="http://ytzfzwfw.sd.gov.cn/zfqhw/public/index">黄务街道</a>
+								<a target="_top" href="http://ytzfzwfw.sd.gov.cn/zfqts/public/index">通伸街道</a>
+								<a target="_top" href="http://ytzfzwfw.sd.gov.cn/zfqxf/public/index">幸福街道</a>
+								<a target="_top" href="http://ytzfzwfw.sd.gov.cn/zfqfht/public/index">凤凰台街道</a>
+								<a target="_top" href="http://ytzfzwfw.sd.gov.cn/zfqzc/public/index">只楚街道</a>
+								<a target="_top" href="http://ytzfzwfw.sd.gov.cn/zfqyhd/public/index">毓璜顶街道</a>
+								<a target="_top" href="http://ytzfzwfw.sd.gov.cn/zfqqs/public/index">奇山街道</a>
+								<a target="_top" href="http://ytzfzwfw.sd.gov.cn/zfqds/public/index">东山街道</a>
+								<a target="_top" href="http://ytzfzwfw.sd.gov.cn/zfqshy/public/index">世回尧街道</a>
+								<a target="_top" href="http://ytzfzwfw.sd.gov.cn/zfqxy/public/index">向阳街道</a>
+							</div>
+							<!-- 福山区 -->
+							<div class="" style="display:none;">
+								<a target="_top" href="http://ytfszwfw.sd.gov.cn/fsqqy/public/index">清洋街道</a>
+								<a target="_top" href="http://ytfszwfw.sd.gov.cn/fsqfx/public/index">福新街道</a>
+								<a target="_top" href="http://ytfszwfw.sd.gov.cn/fsqdt/public/index">东厅街道</a>
+								<a target="_top" href="http://ytfszwfw.sd.gov.cn/fsqml/public/index">门楼镇</a>
+								<a target="_top" href="http://ytfszwfw.sd.gov.cn/fsqgt/public/index">高疃镇</a>
+								<a target="_top" href="http://ytfszwfw.sd.gov.cn/fsqzgz/public/index">张格庄镇</a>
+								<a target="_top" href="http://ytfszwfw.sd.gov.cn/fsqhl/public/index">回里镇</a>
+								<a target="_top" href="http://ytfszwfw.sd.gov.cn/fsqfsy/public/index">福山园</a>
+							</div>
+							<!-- 牟平区 -->
+							<div class="" style="display:none;">
+								<a target="_top" href="http://ytmpzwfw.sd.gov.cn/mpqnh/public/index">宁海</a>
+								<a target="_top" href="http://ytmpzwfw.sd.gov.cn/mpqdy/public/index">大窑</a>
+							</div>
+							<!-- 莱山区 -->
+							<div class="" style="display:none;">
+								<a target="_top" href="http://www.baidu.com"></a>
+							</div>
+							<!-- 龙口市 -->
+							<div class="" style="display:none;">
+								<a target="_top" href="http://www.baidu.com"></a>
+							</div>
+							<!-- 莱阳市 -->
+							<div class="" style="display:none;">
+								<a target="_top" href="http://ytlyzwfw.sd.gov.cn/lysdk/public/index">大夼镇</a>
+								<a target="_top" href="http://ytlyzwfw.sd.gov.cn/lystgz/public/index">谭格庄镇</a>
+								<a target="_top" href="http://ytlyzwfw.sd.gov.cn/lyszwz/public/index">照旺庄镇</a>
+								<a target="_top" href="http://ytlyzwfw.sd.gov.cn/lyswd/public/index">万第镇</a>
+								<a target="_top" href="http://ytlyzwfw.sd.gov.cn/lysyj/public/index">羊郡镇</a>
+								<a target="_top" href="http://ytlyzwfw.sd.gov.cn/lysxf/public/index">穴坊镇</a>
+								<a target="_top" href="http://ytlyzwfw.sd.gov.cn/lystw/public/index">团旺镇</a>
+								<a target="_top" href="http://ytlyzwfw.sd.gov.cn/lysblz/public/index">柏林庄街道</a>
+								<a target="_top" href="http://ytlyzwfw.sd.gov.cn/lysfgz/public/index">冯格庄街道</a>
+								<a target="_top" href="http://ytlyzwfw.sd.gov.cn/lyslwz/public/index">龙旺庄街道</a>
+								<a target="_top" href="http://ytlyzwfw.sd.gov.cn/lysgl/public/index">古柳街道</a>
+								<a target="_top" href="http://ytlyzwfw.sd.gov.cn/lyssqd/public/index">山前店镇</a>
+							</div>
+							<!-- 莱州市 -->
+							<div class="" style="display:none;">
+								<a target="_top" href="http://www.baidu.com"></a>
+							</div>
+							<!-- 蓬莱市 -->
+							<div class="" style="display:none;">
+								<a target="_top" href="http://ytplzwfw.sd.gov.cn/plsclj/public/index">村里集镇</a>
+								<a target="_top" href="http://ytplzwfw.sd.gov.cn/plsdxd/public/index">大辛店镇</a>
+								<a target="_top" href="http://ytplzwfw.sd.gov.cn/plsxmj/public/index">小门家镇</a>
+								<a target="_top" href="http://ytplzwfw.sd.gov.cn/plsdlx/public/index">大柳行镇</a>
+								<a target="_top" href="http://ytplzwfw.sd.gov.cn/plsljg/public/index">刘家沟镇</a>
+								<a target="_top" href="http://ytplzwfw.sd.gov.cn/plsnw/public/index">南王街道</a>
+								<a target="_top" href="http://ytplzwfw.sd.gov.cn/plsplg/public/index">蓬莱阁街道</a>
+								<a target="_top" href="http://ytplzwfw.sd.gov.cn/plsxg/public/index">新港街道</a>
+								<a target="_top" href="http://ytplzwfw.sd.gov.cn/plsdz/public/index">登州街道</a>
+								<a target="_top" href="http://ytplzwfw.sd.gov.cn/plsbg/public/index">北沟镇</a>
+							</div>
+							<!-- 招远市 -->
+							<div class="" style="display:none;">
+								<a target="_top" href="http://www.baidu.com"></a>
+							</div>
+							<!-- 栖霞市 -->
+							<div class="" style="display:none;">
+								<a target="_top" href="http://www.baidu.com"></a>
+							</div>
+							<!-- 海阳市 -->
+							<div class="" style="display:none;">
+								<a target="_top" href="http://ythyzwfw.sd.gov.cn/hysxa/public/index">辛安镇</a>
+								<a target="_top" href="http://ythyzwfw.sd.gov.cn/hysxc/public/index">行村镇</a>
+								<a target="_top" href="http://ythyzwfw.sd.gov.cn/hysxj/public/index">小纪镇</a>
+								<a target="_top" href="http://ythyzwfw.sd.gov.cn/hysfc/public/index">发城镇</a>
+								<a target="_top" href="http://ythyzwfw.sd.gov.cn/hysxjd/public/index">徐家店镇</a>
+								<a target="_top" href="http://ythyzwfw.sd.gov.cn/hysgc/public/index">郭城镇</a>
+								<a target="_top" href="http://ythyzwfw.sd.gov.cn/hyspsz/public/index">盘石庄镇</a>
+								<a target="_top" href="http://ythyzwfw.sd.gov.cn/hyslgz/public/index">留格庄镇</a>
+								<a target="_top" href="http://ythyzwfw.sd.gov.cn/hysls/public/index">龙山街道</a>
+								<a target="_top" href="http://ythyzwfw.sd.gov.cn/hysfc/public/index">凤城街道</a>
+								<a target="_top" href="http://ythyzwfw.sd.gov.cn/hysdc/public/index">东村街道</a>
+								<a target="_top" href="http://ythyzwfw.sd.gov.cn/hysfy/public/index">方圆街道</a>
+								<a target="_top" href="http://ythyzwfw.sd.gov.cn/hyszw/public/index">朱吴镇</a>
+							</div>
+							<!-- 长岛县 -->
+							<div class="" style="display:none;">
+								<a target="_top" href="http://www.baidu.com"></a>
+							</div>
+							<!-- 经济技术开发区 -->
+							<div class="" style="display:none;">
+								<a target="_top" href="http://ytjjzwfw.sd.gov.cn/kfqdjj/public/index">大季家街道</a>
+								<a target="_top" href="http://ytjjzwfw.sd.gov.cn/kfqbj/public/index">八角街道</a>
+								<a target="_top" href="http://ytjjzwfw.sd.gov.cn/kfqfls/public/index">福莱山街道</a>
+								<a target="_top" href="http://ytjjzwfw.sd.gov.cn/kfqgx/public/index">古现街道</a>
+							</div>
+							<!-- 高新技术产业开发区 -->
+							<div class="" style="display:none;">
+								<a target="_top" href="http://www.baidu.com"></a>
+							</div>
+							<!-- 昆嵛山保护区 -->
+							<div class="" style="display:none;">
+								<a target="_top" href="http://www.baidu.com"></a>
+							</div>
+							<!-- -->
+							<div class="" style="display:block;">
+								<a target="_top" href="http://www.baidu.com"></a>
+							</div>
+						</div>
+						<!---潍坊--->
+						<div class="text" style="display:none;">
+						</div>
+						<!---济宁--->
+						<div class="text" style="display:none;">
+						</div>
+						<!---泰安--->
+						<div class="text" style="display:none;">
+						</div>
+						<!---威海--->
+						<div class="text" style="display:none;">
+						</div>
+						<!---日照--->
+						<div class="text" style="display:none;">
+						</div>
+						<!---莱芜--->
+						<div class="text" style="display:none;">
+						</div>
+						<!---临沂--->
+						<div class="text" style="display:none;">
+						</div>
+						<!---德州--->
+						<div class="text" style="display:none;">
+						</div>
+						<!---聊城--->
+						<div class="text" style="display:none;">
+						</div>
+						<!---滨州--->
+						<div class="text" style="display:none;">
+						</div>
+						<!---菏泽--->
+						<div class="text" style="display:none;">
+						</div>
+					</div>
+					<div id="left">
+						<div class="text">乡镇、街道</div>
+					</div>
+				</div> 
+				
+		</div>
+
+
+	</div>
