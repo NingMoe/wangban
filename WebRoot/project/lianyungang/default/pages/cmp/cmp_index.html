@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+</head>
+	<div id="IntrDiv"></div>	
+		
+	<script type="text/javascript">
+	query();
+	function query(){
+		var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
+		cmd.setParameter("type","1");
+		var ret = cmd.execute("getIndexIntroduction");
+		if(ret.state==1&&ret.total>0){
+			var content = ret.data[0].CONTENT;
+			content = content.replace(new RegExp(" ","gm"),"+");//base64加密使"+" 变为了" "，解码前替换+号
+			content = Base64.decode(content);
+			$("#IntrDiv").html(content);
+		}else{
+			alert("没有查询到数据");
+		}
+	}
+	</script>
+				
+
+</html>

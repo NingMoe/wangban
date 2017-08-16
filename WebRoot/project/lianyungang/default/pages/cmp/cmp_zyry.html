@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="{% public assets/css/bootstrap.css %}" />
+		<link rel="stylesheet" href="{% public assets/css/css.css %}" />
+		<link href="{% public assets/css/lanrenzhijia.css %}" type="text/css" rel="stylesheet">
+		<script src="{% public assets/js/mootools-core.js %}"></script>
+		<script src="{% public assets/js/mediabox.js %}"></script>
+	</head>
+	<body background="{% public assets/img/bj.png %}">
+				<div>
+					<div class="cmp_zyda_01">
+						<div class="col-lg-4">
+							<div class="cmp_zyda_02"><a href="cmp_zyda_bmda.html"><span class="	glyphicon glyphicon-cloud-upload"></span>&nbsp;&nbsp;单位荣誉</a></div>
+						</div>
+						<div class="col-lg-4">
+							<div class="cmp_zyda_02"><a href="cmp_zyda_bmda.html"><span class="	glyphicon glyphicon-cloud-upload"></span>&nbsp;&nbsp;部门荣誉</a></div>
+						</div>
+						<div class="col-lg-4">
+							<div class="cmp_zyda_02"><a href="cmp_zyda_grda.html"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;个人荣誉</a></div>
+						</div>
+					</div>
+					<div align="top">
+						<div class="mod_gallerylist">
+						    <div class="layout_default">
+						      <p class="info"><span class="date"></span> <span class="author"></span></p>
+						      <div class="image_container"> <a href="{% public assets/img/q.jpg %}" rel="lightbox[ostec]"> <img src="{% public assets/img/q.jpg %}"  > </a> </div>
+						      <div class="meta"><a href="http://www.lanrenzhijia.com" target="_blank">懒人之家网站建设</a></div>
+						    </div>
+						    <div class="layout_default">
+						      <p class="info"><span class="date"></span> <span class="author"></span></p>
+						      <div class="image_container"> <a href="{% public assets/img/qq.jpg %}" rel="lightbox[ostec]"> <img src="{% public assets/img/qq.jpg %}" > </a> </div>
+						      <div class="meta"><a href="http://www.lanrenzhijia.com" target="_blank">懒人之家HTML学习</a></div>
+						    </div>
+						    <div class="layout_default">
+						      <p class="info"><span class="date"></span> <span class="author"></span></p>
+						      <div class="image_container"> <a href="{% public assets/img/qqq.jpg %}" rel="lightbox[ostec]"> <img src="{% public assets/img/qqq.jpg %}"  > </a> </div>
+						      <div class="meta"><a href="http://www.lanrenzhijia.com" target="_blank">懒人之家图文特效</a></div>
+						    </div>
+						    
+						  </div>
+					</div>
+				</div>
+				
+		<script>
+		Mediabox.scanPage = function() {
+		  var links = $$("a").filter(function(el) {
+		    return el.rel && el.rel.test(/^lightbox/i);
+		  });
+		  $$(links).mediabox({/* Put custom options here */}, null, function(el) {
+		    var rel0 = this.rel.replace(/[[]|]/gi," ");
+		    var relsize = rel0.split(" ");
+		    return (this == el) || ((this.rel.length > 8) && el.rel.match(relsize[1]));
+		  });
+		};
+		window.addEvent("domready", Mediabox.scanPage);
+		</script>
+	</body>
+</html>

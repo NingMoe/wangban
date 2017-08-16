@@ -1,0 +1,98 @@
+.div1{
+	width: 100%;
+	height: 94px;
+	background-color: #c20c0c;
+}
+.div2{
+	color: #ffee5f;
+	font-size: 20px;
+	float: left;
+	line-height: 94px;
+	padding-left: 20px;
+}
+.cmp{
+	width: 1920px;
+	height: 1080px;
+}
+.cmp_01{
+	width: 1880px;
+	height: 1000px;
+	padding:300px 20px 40px;
+	font-family: "微软雅黑";
+	font-size: 32px;
+}
+.cmp_02{
+	width: 1340px;
+	height: auto;
+	float: left;
+	line-height: 56px;
+	color: #761C19;
+	letter-spacing: 2px;
+	text-shadow: 2px 0px 0px #761C19,
+　　　　　　　　　-2px 0px 0px #761C19, 
+　　　　　　　　　0px 2px 0px #EC971F, 
+　　　　　　　　　0px -2px 0px #EC971F;
+}
+.cmp_02 p{
+	text-indent:66px;
+}
+.cmp_03{
+	width: 460px;
+	height: auto;
+	float: right;
+}
+.cmp_03 ul li {
+	list-style: none;
+	height: 110px;
+}
+.cmp_zyda_01{
+	height: 100px;
+}
+.cmp_zyda_02{
+	height: 80px;
+	width: auto;
+	border: double 1px #940f03;
+	background-color: #f4a702;
+	text-align:center;
+	color: #ffffff;
+	line-height: 74px;
+}
+.cmp_zyda_03{
+	height: 159px;
+	border: double 1px #999999;
+	text-align:center;
+	line-height:150px;
+	margin-top: 20px;
+	background:repeat-x url(../img/bj_02.png) top;
+}
+a {
+  color: #ffffff;
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  color: #ffffff;
+  text-decoration: none;
+}
+a:focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+  color: #ffffff;
+}
+.px18{
+	font-size: 22px;
+}
+.cmp_zyda_04{
+	height: 160px;
+	width: 120px;
+	margin: 20px;
+	font-size: 20px;
+	float: left;
+	font-family: "微软雅黑";
+	font-weight:300 ;
+
+}
+.cmp_zyda_05 img{
+	padding: 1px;
+	border: 1px double #dfdfdf;
+}
