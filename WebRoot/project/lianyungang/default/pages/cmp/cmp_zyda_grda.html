@@ -3,105 +3,339 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-		<link rel="stylesheet" href="{% public assets/css/bootstrap.css %}" />
-		<link rel="stylesheet" href="{% public assets/css/css.css %}" />
-		<script type="text/javascript" src="{% public assets/js/bootstrap.js %}" ></script>
-		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
-	<body background="{% public assets/img/bj.png %}">
-		<div class="cmp">
-			<div class="cmp_01">
-				<div class="cmp_02">
-					<div class="cmp_zyda_01">
-						<div class="col-lg-4">
-							<div class="cmp_zyda_02"> <button class="btn-group-justified" style="background-color: #f4a702; border-width: 0px;" data-toggle="modal" data-target="#myModal">
-	<span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;单位档案
-</button></div>
-						</div>
-						<div class="col-lg-4">
-							<div class="cmp_zyda_02"><a href="cmp_zyda_bmda.html"><span class="	glyphicon glyphicon-cloud-upload"></span>&nbsp;&nbsp;部门档案</a></div>
-						</div>
-						<div class="col-lg-4">
-							<div class="cmp_zyda_02"><a href="cmp_zyda_grda.html"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;个人档案</a></div>
-						</div>
-					</div>
-					<div align="center" style="width: 1340px; padding-left: 30px;">
-						<div class="cmp_zyda_04">
-							<div><a href="#"><img src="{% public assets/img/11.jpg %}" style="height: 140px; width: 110px;"></a></div>
-							<div align="center"><a href="#">张三</a></div>
-						</div>
-						<div class="cmp_zyda_04">
-							<div><a href="#"><img src="{% public assets/img/11.jpg %}" style="height: 140px; width: 110px;"></a></div>
-							<div align="center"><a href="#">张三</a></div>
-						</div>
-						<div class="cmp_zyda_04">
-							<div><a href="#"><img src="{% public assets/img/11.jpg %}" style="height: 140px; width: 110px;"></a></div>
-							<div align="center"><a href="#">张三</a></div>
-						</div>
-						<div class="cmp_zyda_04">
-							<div><a href="#"><img src="{% public assets/img/11.jpg %}" style="height: 140px; width: 110px;"></a></div>
-							<div align="center"><a href="#">张三</a></div>
-						</div>
-						<div class="cmp_zyda_04">
-							<div><a href="#"><img src="{% public assets/img/11.jpg %}" style="height: 140px; width: 110px;"></a></div>
-							<div align="center"><a href="#">张三</a></div>
-						</div>
-						<div class="cmp_zyda_04">
-							<div><a href="#"><img src="{% public assets/img/11.jpg %}" style="height: 140px; width: 110px;"></a></div>
-							<div align="center"><a href="#">张三</a></div>
-						</div>
-						<div class="cmp_zyda_04">
-							<div><a href="#"><img src="{% public assets/img/11.jpg %}" style="height: 140px; width: 110px;"></a></div>
-							<div align="center"><a href="#">张三</a></div>
-						</div>
-						<div class="cmp_zyda_04">
-							<div><a href="#"><img src="{% public assets/img/11.jpg %}" style="height: 140px; width: 110px;"></a></div>
-							<div align="center"><a href="#">张三</a></div>
-						</div>
-						<div class="cmp_zyda_04">
-							<div><a href="#"><img src="{% public assets/img/11.jpg %}" style="height: 140px; width: 110px;"></a></div>
-							<div align="center"><a href="#">张三</a></div>
-						</div>
-						<div class="cmp_zyda_04">
-							<div><a href="#"><img src="{% public assets/img/11.jpg %}" style="height: 140px; width: 110px;"></a></div>
-							<div align="center"><a href="#">张三</a></div>
-						</div>
-						<div class="cmp_zyda_04">
-							<div><a href="#"><img src="{% public assets/img/11.jpg %}" style="height: 140px; width: 110px;"></a></div>
-							<div align="center"><a href="#">张三</a></div>
-						</div>
-						<div class="cmp_zyda_04">
-							<div><a href="#"><img src="{% public assets/img/11.jpg %}" style="height: 140px; width: 110px;"></a></div>
-							<div align="center"><a href="#">张三</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="cmp_03">
-					<ul>
-						<li><a href="cmp_index.html"><img id="button01" src="{% public assets/img/button00.png %}"></a></li>
-						<li><a href="cmp_zyda.html"><img id="button01" src="{% public assets/img/button001.png %}"></a></li>
-						<li><img id="button02" src="{% public assets/img/button02.png %}"></li>
-						<li><img id="button03" src="{% public assets/img/button03.png %}"></li>
-						<li><img id="button04" src="{% public assets/img/button04.png %}"></li>
-						<li><img id="button05" src="{% public assets/img/button05.png %}"></li>
-					</ul>
+	<div align="center" style="width: 1340px; padding-left: 30px;height: 960px;overflow-y: auto;overflow-x: auto" id="photo" >
+		
+	</div>
+	<div id="message" style="display:none">
+		<ul id="myTab" class="nav nav-tabs nav-pills" style="width: 1304px; margin: 0px 15px;">
+			<li class="active"><a href="#jbxinxi" data-toggle="tab">基本信息</a></li>
+			<li><a href="#xieshi" data-toggle="tab">工作写实</a></li>
+			<li><a href="#renwu" data-toggle="tab">工作任务 </a></li>
+			<li><a href="#yeji" data-toggle="tab">工作业绩</a></li>
+			<li><a href="#anjian" data-toggle="tab">办理案件 </a></li>
+		</ul>
+		<div id="myTabContent" class="tab-content">
+			<div align="center" style="width: 1340px; padding-left: 30px; margin-top: 20px;" class="tab-pane fade in active" id="jbxinxi">没有查询到人员基本信息</div>
+			<div align="center" style="width: 1340px; padding-left: 30px; margin-top: 20px;" class="tab-pane fade " id="xieshi">
+			<div id="xieshiDiv">没有查询到工作写实信息</div>
+			<div id="epagerXs" class="z-page" style="clear:both;position: relative;top: -10px;display:none"></div>
+			</div>
+			<div align="center" style="width: 1340px; padding-left: 30px; margin-top: 20px;" class="tab-pane fade " id="renwu">
+			<div id="renwuDiv">没有查询到工作任务信息</div>
+			<div id="epagerRw" class="z-page" style="clear:both;position: relative;top: -10px;display:none"></div>
+			</div>
+			<div align="center" style="width: 1340px; padding-left: 30px; margin-top: 20px;" class="tab-pane fade " id="yeji">没有查询到工作业绩信息
+			<div class="container">
+				<div class="row clearfix">
+					<div class="col-md-1 column" id="year"></div>
+					<div class="col-md-11 column" id="content"></div>
 				</div>
 			</div>
-		</div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-
-			<div class="modal-body">
-				<div class="cmp_zyda_02 px18"><a href="cmp_zyda.html">班子组成</a></div>
-				<div class="cmp_zyda_02 px18"><a href="#">机构组成</a></div>
-				<div class="cmp_zyda_02 px18"><a href="#">年度报告</a></div>
-				<div class="cmp_zyda_02 px18"><a href="cmp_zyda_dsj.html">大事记</a></div>
+			
+			
 			</div>
-
+			<div align="center" style="width: 1340px; padding-left: 30px; margin-top: 20px;" class="tab-pane fade " id="anjian">没有查询到办理案件信息</div>
 		</div>
 	</div>
+	
+<textarea style="display:none" id="sPersonInfo">
+{var d = data[0]}
+<div style="height: 300px;">
+<div style="float: left; width: 180px;"><img src="{% public assets/img/11.jpg %}" style="height: 290px; width: 200px;" id="imgSrc"></div>
+<div style="float: right; width: 1060px; font-size: 18px; margin: 0px 30px 0px 0px;">
+	<table class="table tab-pane" align="left">
+		<tbody>
+			<tr>
+				<th width="15%">姓名：</th>
+				<td width="35%">${d.NAME}</td>
+				<th width="15%">Email:</th>
+				<td width="35%">${d.EMAIL}</td>
+			</tr>
+			<tr>
+				<th>部门名称：</th>
+				<td>${d.WORK_DEPT}</td>
+				<th>学历：</th>
+				<td>${d.FULL_TIME_EDUCATION}</td>
+			</tr>
+			<tr>
+				<th>政治面貌：</th>
+				<td>${d.PARTY}</td>
+				<th>专业：</th>
+				<td>${d.FULL_TIME_MAJOR}</td>
+			</tr>
+			<tr>
+				<th>性别：</th>
+				<td>${d.SEX}</td>
+				<th>职务：</th>
+				<td>${d.NOW_POST}</td>
+			</tr>
+			<tr>
+				<th>办公电话：</th>
+				<td>${d.FIXED_PHONE}</td>
+				<th>毕业院校</th>
+				<td>${d.FULL_TIME_SCHOOL}</td>
+			</tr>
+			<tr>
+				<th>办公室：</th>
+				<td>${d.OFFICE_LOCATION}</td>
+				<th>籍贯：</th>
+				<td>${d.ORIGIN_ADDRESS}</td>
+			</tr>
+			<tr>
+				<th>手机：</th>
+				<td>${d.MOBILE_PHONE}</td>
+				<th></th>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
 </div>
-</body>
+</div>
+<div style="clear: both;" align="left">
+<div style="font-size: 16px;" class="col-lg-3" align="left">
+	<div style="width: 300px;" class="cmp_zyda_05">
+		<a href="#"><img src="{% public assets/img/1.png %}" style="height: 200px; width: 280px;"></a>
+	</div>
+	<div style="width: 300px;" align="center">
+		<a href="#">张三去武汉市调研街道摆摊乱象</a>
+	</div>
+</div>
+<div style="font-size: 16px;" class="col-lg-3" align="left">
+	<div style="width: 300px;" class="cmp_zyda_05">
+		<a href="#"><img src="{% public assets/img/1.png %}" style="height: 200px; width: 280px;"></a>
+	</div>
+	<div style="width: 300px;" align="center">
+		<a href="#">张三去武汉市调研街道摆摊乱象</a>
+	</div>
+</div>
+<div style="font-size: 16px;" class="col-lg-3" align="left">
+	<div style="width: 300px;" class="cmp_zyda_05">
+		<a href="#"><img src="{% public assets/img/1.png %}" style="height: 200px; width: 280px;"></a>
+	</div>
+	<div style="width: 300px;" align="center">
+		<a href="#">张三去武汉市调研街道摆摊乱象</a>
+	</div>
+</div>
+<div style="font-size: 16px;" class="col-lg-3" align="left">
+	<div style="width: 300px;" class="cmp_zyda_05">
+		<a href="#"><img src="{% public assets/img/1.png %}" style="height: 200px; width: 280px;"></a>
+	</div>
+	<div style="width: 300px;" align="center">
+		<a href="#">张三去武汉市调研街道摆摊乱象</a>
+	</div>
+</div>
+</div>
+</textarea>
+
+<textarea style="display:none" id="sPersonGzxs">
+<div class="container">
+<div class="row clearfix">
+	<div class="col-md-3 column text-center">
+	<div style="float: left; width: 180px;"><img src="" style="height: 290px; width: 200px;" id="photoXs"></div>
+	</div>
+	<div class="col-md-9 column">
+	<table class="table table-hover">
+	  <caption class="text-center">工作写实</caption>
+	  <thead>
+	    <tr>
+	      <th class="text-center">名称</th>
+	      <th class="text-center">操作</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  {for d in data}
+		{if d_index < data.length}
+		<tr>
+		   <td class="text-center" >${d.TITLE}的工作日志 </td>
+		   <td class="text-center"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#gzxs_${d.ID}">查看</button></td>
+		</tr>
+		<div class="modal fade" id="gzxs_${d.ID}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		      <div class="modal-content">
+		          <div class="modal-header">
+		              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		              <h4 class="modal-title" id="myModalLabel">${d.TITLE}的工作日志</h4>
+		          </div>
+		          <div class="modal-body">${d.CONTENT}</div>
+		          <div class="modal-footer">
+		              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		          </div>
+		      </div>
+		  </div>
+		</div>
+		{/if}
+	  {/for}
+	  </tbody>
+	</table>
+	</div>
+</div>
+</div>
+</textarea>
+
+<textarea style="display:none" id="sPersonGzrw">
+<div class="container">
+<div class="row clearfix">
+	<div class="col-md-3 column text-center">
+	<div style="float: left; width: 180px;"><img src="" style="height: 290px; width: 200px;" id="photoRw"></div>
+	</div>
+	<div class="col-md-9 column">
+	<table class="table table-hover">
+	  <caption class="text-center">工作任务</caption>
+	  <thead>
+	    <tr>
+	      <th class="text-center">名称</th>
+	      <th class="text-center">紧急程度</th>
+	      <th class="text-center">操作</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  {for d in data}
+		{if d_index < data.length}
+		<tr>
+		   <td class="text-center" >${d.TITLE} </td>
+		   <td class="text-center" >${d.DEGREE} </td>
+		   <td class="text-center"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#gzrw_${d.ID}">查看</button></td>
+		</tr>
+		<div class="modal fade" id="gzrw_${d.ID}" tabindex="-1" role="dialog" aria-labelledby="myModalLabelRw_${d.ID}" aria-hidden="true">
+		  <div class="modal-dialog">
+		      <div class="modal-content">
+		          <div class="modal-header">
+		              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		              <h4 class="modal-title" id="myModalLabelRw_${d.ID}">${d.TITLE}</h4>
+		          </div>
+		          <div class="modal-body">[${d.TASK_STATUS}]${d.CONTENT}</div>
+		          <div class="modal-footer">
+		              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		          </div>
+		      </div>
+		  </div>
+		</div>
+		{/if}
+		{/for}
+	  </tbody>
+	</table>
+	</div>
+</div>
+</div>
+</textarea>
+
+<textarea style="display:none" id="sPersonGzyjYear">
+<div class="dropdown">
+    <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">年份
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    {for d in data}
+        <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">${d.TITLE}</a>
+        </li>
+        <li role="presentation" class="divider"></li>
+    {/for}
+    </ul>
+</div>
+</textarea>
+
+<script type="text/javascript">
+var diskUrl = getSecurityValue("NetDiskDownloadAddress");
+query();
+var Pid = "";
+var PphoSrc = "";
+//个人档案照片
+function query(){
+	var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
+	var ret = cmd.execute("getPersonInfo");
+	if(ret.state==1&&ret.total>0){
+		var htmls="";
+		for(var i=0;i<ret.data.length;i++){
+			htmls += "<div class=\"cmp_zyda_04\">"+
+					 "<div><a href=\"javascript:void(0);\" onclick=\"showMessage('"+ret.data[i].ID+"','"+ret.data[i].PHOTO+"');\"><img src=\""+diskUrl+ret.data[i].PHOTO+"\" alt=\""+ret.data[i].PHOTO+"\" style=\"height: 140px; width: 110px;\"></a></div>"+
+					 "<div align=\"center\"><a href=\"#\">"+ret.data[i].NAME+"</a></div>"+
+					 "</div>";
+		}
+		$("#photo").html(htmls);
+	}else{
+		alert("没有查询到数据");
+	}
+}
+//信息展示
+function showMessage(id,phoSrc){
+	Pid = id;
+	PphoSrc = phoSrc;
+	var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
+	cmd.setParameter("ID",id);
+	var ret = cmd.execute("getPersonInfoById");
+	//个人基本信息
+	if(ret.state==1&&ret.total>0){
+		$("#jbxinxi").html(LEx.processDOMTemplate("sPersonInfo", ret));
+		$("#imgSrc").attr("src",diskUrl+phoSrc);
+		$("#photo").hide();
+		$("#message").show();
+	}
+	//工作写实ById
+	Gzxs();
+	//工作任务ById
+	Gzrw();
+	//
+	Gzyjyear();
+	
+}
+//工作写实
+var gzxsList = null;
+gzxsList = new LEx.Control.Table("xieshiDiv", "sPersonGzxs");
+gzxsList.start(0);
+gzxsList.limit(3);
+function Gzxs(){
+	var cmdXs = new LEx.Command("app.icity.project.ArchivesCmd");
+	cmdXs.setParameter("ID",Pid);
+	cmdXs.setParameter("start", gzxsList.start());
+	cmdXs.setParameter("limit", gzxsList.limit());
+	var retXs = cmdXs.execute("getPersonGzxsById");
+	if(retXs.state==1&&retXs.total>0){
+		$("#epagerXs").show();
+		gzxsList.toLygPageBar("epagerXs", "gzxsList", retXs.total, "Gzxs()");
+		//分页div的id，Table的实例化对象名称（字符串）,总数量，查询方法（字符串）
+		//gzxsList.toPageBar("xieshiDiv","gzxsList",ret.total,"Gzxs()");
+		$("#xieshiDiv").html(LEx.processDOMTemplate("sPersonGzxs", retXs));
+		$("#photoXs").attr("src",diskUrl+PphoSrc);
+	}else{
+		$("#epagerXs").hide();
+	}
+}
+//工作任务
+var gzrwList = null;
+gzrwList = new LEx.Control.Table("renwuDiv", "sPersonGzrw");
+gzrwList.start(0);
+gzrwList.limit(3);
+function Gzrw(){
+	var cmdRw = new LEx.Command("app.icity.project.ArchivesCmd");
+	cmdRw.setParameter("ID",Pid);
+	cmdRw.setParameter("start", gzrwList.start());
+	cmdRw.setParameter("limit", gzrwList.limit());
+	var retRw = cmdRw.execute("getPersonGzrwById");
+	if(retRw.state==1&&retRw.total>0){
+		$("#epagerRw").show();
+		gzrwList.toLygPageBar("epagerRw", "gzrwList", retRw.total, "Gzrw()");
+		//分页div的id，Table的实例化对象名称（字符串）,总数量，查询方法（字符串）
+		//gzxsList.toPageBar("xieshiDiv","gzxsList",ret.total,"Gzxs()");
+		$("#renwuDiv").html(LEx.processDOMTemplate("sPersonGzrw", retRw));
+		$("#photoRw").attr("src",diskUrl+PphoSrc);
+	}else{
+		$("#epagerRw").hide();
+	}
+}
+//工作业绩Year
+function Gzyjyear(){
+	alert(2);
+	var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
+	cmd.setParameter("ID",id);
+	var ret = cmd.execute("getPersonGzyjYearById");
+	if(ret.state==1&&ret.total>0){
+		alert(1);
+		$("#year").html(LEx.processDOMTemplate("sPersonGzyjYear", ret));
+	}else{
+		alert("没有查询到数据");
+	}
+}
+</script>
 </html>

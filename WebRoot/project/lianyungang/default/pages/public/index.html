@@ -1,56 +1,30 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>连云港职业档案荣誉室</title>
-		<link rel="stylesheet" href="{% public assets/css/bootstrap.css %}" />
-		<link rel="stylesheet" href="{% public assets/css/css.css %}" />
-		<script type="text/javascript" src="{% public assets/js/bootstrap.js %}" ></script>
-		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<head>
+	<meta charset="UTF-8">
+	<title>连云港职业档案荣誉室</title>
+	<link rel="stylesheet" href="{% public assets/css/bootstrap.css %}" />
+	<link rel="stylesheet" href="{% public assets/css/css.css %}" />
+	<script type="text/javascript" src="{% public assets/js/bootstrap.js %}" ></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <!-- 		<script  type="text/javascript" src="{{cp}}public/scripts/a?t=js&m=jquery.js,bootstrap.min.js,jquery.plugin.js,LEx.core.js,LEx.json.js, -->
 <!-- 		LEx.command.js,LEx.template.js,LEx.cookie.js,LEx.control.js,LEx.util.Format.js,common.js"></script> -->
-	</head>
-	{% include public/index/header.html%}
-	<body background="{% public assets/img/bj.png %}">
-		<div class="cmp">
-			<div class="cmp_01">
-				<div class="cmp_02" id="bodyDiv">
-					
-				</div>
-				<div class="cmp_03">
-					<ul>
-                        <!-- 前言简介  -->
-						<li><a href="javascript:void(0)" onclick="loadPage('qyjj','0')"><img id="qyjj" src="{% public assets/img/button000.png %}"></a></li>
-                        <!-- 职业档案  -->
-						<li><a href="javascript:void(0)" onclick="loadPage('zyda','1')"><img id="zyda" src="{% public assets/img/button01.png %}"></a></li>
-                        <!-- 职业荣誉 -->
-						<li><a href="javascript:void(0)" onclick="loadPage('zyry','2')"><img id="zyry" src="{% public assets/img/button02.png %}"></a></li>
-                        <!-- 检查之星 -->
-						<li><a href="javascript:void(0)" onclick="loadPage('jczx','3')"><img id="jczx" src="{% public assets/img/button03.png %}"></a></li>
-                        <!-- 职业仪式 -->
-						<li><a href="javascript:void(0)" onclick="loadPage('zyys','4')"><img id="zyys" src="{% public assets/img/button04.png %}"></a></li>
-                        <!-- 从简之路 -->
-						<li><a href="javascript:void(0)" onclick="loadPage('cjzl','5')"><img id="cjzl" src="{% public assets/img/button05.png %}"></a></li>
-					</ul>
-				</div>
+</head>
+<body background="{% public assets/img/bj.png %}">
+	<div class="cmp">
+		<div class="cmp_01">
+			<div class="cmp_02" id="bodyDiv">
+				
+			</div>
+			<div class="cmp_03">
+				{% include cmp/navBar.html %}
 			</div>
 		</div>
-	<script type="text/javascript">
-	var names = {"qyjj":"cmp_index","zyda":"cmp_zyda","zyry":"cmp_zyry","jczx":"cmp_index3","zyys":"cmp_index4","cjzl":"cmp_index5"};
-	loadPage('qyjj','0');
-	function loadPage(type,flag){
-		var page = names[type];
-		changeButton(type,flag);
-		$("#bodyDiv").load("{{PageContext.ContextPath}}cmp/"+page);
-	}
-	
-	function changeButton(type,flag){
-		for(var i=0;i<6;i++){
-			$("ul img:eq("+i+")").attr("src","/icity/project/lianyungang/default/public/assets/img/button0"+i+".png");
-		}
-		$("#"+type).attr("src","/icity/project/lianyungang/default/public/assets/img/button00"+flag+".png");
-	}
-	</script>
-
-	</body>
+	</div>
+<script type="text/javascript">
+window.onload=function(){
+    loadPage('qyjj','0');
+}
+</script>
+</body>
 </html>

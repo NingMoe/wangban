@@ -3,9 +3,6 @@
 	<head>
 		<meta charset="UTF-8">
 	</head>
-<style>
-.yincang{display:none;}
-</style>
 	<div>
 		<div>
 			<div class="col-lg-4">
@@ -16,12 +13,12 @@
                 </div>
 			</div>
 			<div class="col-lg-4">
-				<div class="cmp_zyda_02"><a href="javascript:void(0)" onclick="loadPage('bmda')">
+				<div class="cmp_zyda_02"><a href="javascript:void(0)" onclick="loadPage_('bmda')">
 				    <span class="	glyphicon glyphicon-cloud-upload"></span>&nbsp;&nbsp;部门档案</a>
 				</div>
 			</div>
 			<div class="col-lg-4">
-				<div class="cmp_zyda_02"><a href="javascript:void(0)" onclick="loadPage('grda')">
+				<div class="cmp_zyda_02"><a href="javascript:void(0)" onclick="loadPage_('grda')">
 				    <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;个人档案</a>
 				</div>
 			</div>
@@ -30,7 +27,7 @@
 			<div align="center" >
 				<h1 style="color: #F4A702;" id="title"></h1>
 			</div>
-			<div align="left" id="IntrDiv">
+			<div align="left" id="DaDiv">
 			</div>
 		</div>
 	</div>
@@ -38,19 +35,19 @@
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-	
 				<div class="modal-body">
-					<div class="cmp_zyda_02 px18"><a href="javascript:void(0)" onclick="loadPage('bzzc')">班子组成</a></div>
-					<div class="cmp_zyda_02 px18"><a href="javascript:void(0)" onclick="loadPage('jgzc')">机构组成</a></div>
-					<div class="cmp_zyda_02 px18"><a href="javascript:void(0)" onclick="loadPage('ndbg')">年度报告</a></div>
-					<div class="cmp_zyda_02 px18"><a href="javascript:void(0)" onclick="loadPage('dsj')">大事记</a></div>
+					<div class="cmp_zyda_02 px18"><a href="javascript:void(0)" data-dismiss="modal" onclick="loadPage_('bzzc')">班子组成</a></div>
+					<div class="cmp_zyda_02 px18"><a href="javascript:void(0)" data-dismiss="modal" onclick="loadPage_('jgzc')">机构组成</a></div>
+					<div class="cmp_zyda_02 px18"><a href="javascript:void(0)" data-dismiss="modal" onclick="loadPage_('ndbg')">年度报告</a></div>
+					<div class="cmp_zyda_02 px18"><a href="javascript:void(0)" data-dismiss="modal" onclick="loadPage_('dsj')">大事记</a></div>
 				</div>
 			</div>
 		</div>
 	</div>
 <script type="text/javascript">
-	query();
-	function query(){
+//单位档案首页
+queryIndex();
+	function queryIndex(){
 		var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
 		cmd.setParameter("type","2");
 		var ret = cmd.execute("getIndexIntroduction");
@@ -58,19 +55,22 @@
 			var content = ret.data[0].CONTENT;
 			content = content.replace(new RegExp(" ","gm"),"+");//base64加密使"+" 变为了" "，解码前替换+号
 			content = Base64.decode(content);
-			$("#IntrDiv").html(content);
-			$("#title").html("单位档案");
+			var diskUrl = getSecurityValue("NetDiskDownloadAddress");
+ 			var a = content.indexOf("src=\"http:");
+ 		    var b = content.indexOf("/WebDiskServerDemo/doc?doc_id=");
+ 			var s = content.substring(a, b);
+			$("#DaDiv").html(content.replace(s+"/WebDiskServerDemo/doc?doc_id=", "src=\""+diskUrl));//替换原网盘地址为配置文件网盘地址
 		}else{
 			alert("没有查询到数据");
 		}
 	}
 	
-	var names = {"bzzc":"cmp_zyda_grda","jgzc":"cmp_zyda_grda_01","ndbg":"cmp_zyda_ndbg","dsj":"cmp_zyda_dsj","bmda":"cmp_zyda_bmda","grda":"cmp_zyda_grda"};
-	function loadPage(type){
-		$("#myModal").modal('hide');
-		$(".modal-backdrop").remove();
-		var page = names[type];
-		$("#bodyDiv").load("{{PageContext.ContextPath}}cmp/"+page);
+	var names_ = {"bzzc":"cmp_zyda_grda","jgzc":"cmp_zyda_grda_01","ndbg":"cmp_zyda_ndbg","dsj":"cmp_zyda_dsj","bmda":"cmp_zyda_bmda","grda":"cmp_zyda_grda","bmda":"cmp_zyda_bmda","grda":"cmp_zyda_grda"};
+	function loadPage_(type){
+		//$("#myModal").modal('hide');
+		//$(".modal-backdrop").remove();
+		var page = names_[type];
+		$("#DaDiv").load("{{PageContext.ContextPath}}cmp/"+page);
 	}
 	
 </script>
