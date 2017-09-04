@@ -18,24 +18,30 @@
 		<div id="myTabContent" class="tab-content">
 			<div align="center" style="width: 1340px; padding-left: 30px; margin-top: 20px;" class="tab-pane fade in active" id="jbxinxi">没有查询到人员基本信息</div>
 			<div align="center" style="width: 1340px; padding-left: 30px; margin-top: 20px;" class="tab-pane fade " id="xieshi">
-			<div id="xieshiDiv">没有查询到工作写实信息</div>
-			<div id="epagerXs" class="z-page" style="clear:both;position: relative;top: -10px;display:none"></div>
+				<div id="xieshiDiv">没有查询到工作写实信息</div>
+				<div id="epagerXs" class="z-page" style="clear:both;position: relative;top: -10px;display:none"></div>
 			</div>
 			<div align="center" style="width: 1340px; padding-left: 30px; margin-top: 20px;" class="tab-pane fade " id="renwu">
-			<div id="renwuDiv">没有查询到工作任务信息</div>
-			<div id="epagerRw" class="z-page" style="clear:both;position: relative;top: -10px;display:none"></div>
-			</div>
-			<div align="center" style="width: 1340px; padding-left: 30px; margin-top: 20px;" class="tab-pane fade " id="yeji">没有查询到工作业绩信息
+				<div id="renwuDiv">没有查询到工作任务信息</div>
+				<div id="epagerRw" class="z-page" style="clear:both;position: relative;top: -10px;display:none"></div>
+				</div>
+			<div align="center" style="width: 1340px; padding-left: 30px; margin-top: 20px;" class="tab-pane fade " id="yeji">
 			<div class="container">
 				<div class="row clearfix">
-					<div class="col-md-1 column" id="year"></div>
-					<div class="col-md-11 column" id="content"></div>
+				    <div class="col-md-2 column">
+				        <div style="float: left; width: 180px;"><img src="" style="height: 290px; width: 200px;" id="photoYj"></div>
+				    </div>
+				    <div style="height: 800px;overflow-y: auto">
+					<div class="col-md-2 column" id="year" style="margin-left: 10px" ></div>
+					<div class="col-md-8 column" id="content"  ></div>
+					</div>
 				</div>
 			</div>
-			
-			
 			</div>
-			<div align="center" style="width: 1340px; padding-left: 30px; margin-top: 20px;" class="tab-pane fade " id="anjian">没有查询到办理案件信息</div>
+			<div align="center" style="width: 1340px; padding-left: 30px; margin-top: 20px;" class="tab-pane fade " id="anjian">
+	            <div id="anjianDiv">没有查询到工作写实信息</div>
+				<div id="epagerAj" class="z-page" style="clear:both;position: relative;top: -10px;display:none"></div>
+            </div>
 		</div>
 	</div>
 	
@@ -222,17 +228,93 @@
 
 <textarea style="display:none" id="sPersonGzyjYear">
 <div class="dropdown">
-    <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">年份
+    <button type="button" class="btn dropdown-toggle" id="yearCheck" data-toggle="dropdown">点击选择年份查看
         <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <ul class="dropdown-menu" role="menu" aria-labelledby="yearCheck">
     {for d in data}
+    {if d_index < data.length}
         <li role="presentation">
-            <a role="menuitem" tabindex="-1" href="#">${d.TITLE}</a>
+            <a role="menuitem" tabindex="-1" onclick="showYjContent('${d.TITLE}')">${d.TITLE}年工作业绩</a>
         </li>
         <li role="presentation" class="divider"></li>
+    {/if}
     {/for}
     </ul>
+</div>
+</textarea>
+
+<textarea style="display:none" id="sPersonGzyjContent">
+{for d in data}
+{if d_index < data.length}
+<div class="panel panel-default">
+	<div class="panel-heading" style="background-color: #e41e02;">
+		工作业绩
+	</div>
+	<div class="panel-body" style="widht:100%;height:100%;word-wrap: break-word">
+		${d.ACHIEVEMENTS}
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<div class="panel-heading" style="background-color: #e41e02;">
+			主办工作
+		</div>
+	</div>
+	<div class="panel-body" style="widht:100%;height:100%;word-wrap: break-word">
+		${d.JOB}
+	</div>
+</div>
+{/if}
+{/for}
+</textarea>
+
+<textarea style="display:none" id="sPersonBlaj">
+<div class="container">
+<div class="row clearfix">
+	<div class="col-md-3 column text-center">
+	<div style="float: left; width: 180px;"><img src="" style="height: 290px; width: 200px;" id="photoAj"></div>
+	</div>
+	<div class="col-md-9 column">
+	<table class="table table-hover">
+	  <caption class="text-center">办理案件</caption>
+	  <thead>
+	    <tr>
+	      <th class="text-center">案件名称</th>
+	      <th class="text-center">操作</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  {for d in data}
+		{if d_index < data.length}
+		<tr>
+		   <td class="text-center" >${d.AJ_NAME}</td>
+		   <td class="text-center"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#blaj_${d.ID}">查看</button></td>
+		</tr>
+		<div class="modal fade" id="blaj_${d.ID}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		      <div class="modal-content">
+		          <div class="modal-header">
+		              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		              <h4 class="modal-title" id="myModalLabel">${d.AJ_NAME}</h4>
+		          </div>
+		          <div class="modal-body text-left"  style="widht:100%;height:100%;word-wrap: break-word">
+		                     编号：${d.NUM} &nbsp;&nbsp;<br>承办人姓名：${d.AGENT_NAME}<br>
+		                     受理时间：${d.SL_TIME}&nbsp;&nbsp;<br>到期时间：${d.DUE_TIME}&nbsp;&nbsp;<br>办结时间：${d.BJ_TIME}&nbsp;&nbsp;<br>完成时间：${d.COMP_TIME}<br>
+		                     案件内容： ${d.CONTENT}                
+		          </div>
+		          <div class="modal-footer">
+		              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		          </div>
+		      </div>
+		  </div>
+		</div>
+		{/if}
+	  {/for}
+	  </tbody>
+	</table>
+	</div>
+</div>
 </div>
 </textarea>
 
@@ -276,8 +358,10 @@ function showMessage(id,phoSrc){
 	Gzxs();
 	//工作任务ById
 	Gzrw();
-	//
-	Gzyjyear();
+	//工作业绩年份查看
+	GzyjYear();
+	//办理案件
+	Blaj();
 	
 }
 //工作写实
@@ -325,16 +409,46 @@ function Gzrw(){
 	}
 }
 //工作业绩Year
-function Gzyjyear(){
-	alert(2);
+function GzyjYear(){
 	var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
-	cmd.setParameter("ID",id);
+	cmd.setParameter("ID",Pid);
 	var ret = cmd.execute("getPersonGzyjYearById");
 	if(ret.state==1&&ret.total>0){
-		alert(1);
 		$("#year").html(LEx.processDOMTemplate("sPersonGzyjYear", ret));
+		$("#photoYj").attr("src",diskUrl+PphoSrc);
+		showYjContent(ret.data[0].TITLE);
+	}
+}
+//工作业绩内容
+function showYjContent(year){
+	var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
+	cmd.setParameter("ID",Pid);
+	cmd.setParameter("year",year);
+	var ret = cmd.execute("getPersonGzyjContentById");
+	if(ret.state==1&&ret.total>0){
+		$("#content").html(LEx.processDOMTemplate("sPersonGzyjContent", ret));
+	}
+}
+//办理案件
+var blajList = null;
+blajList = new LEx.Control.Table("anjianDiv", "sPersonGzrw");
+blajList.start(0);
+blajList.limit(3);
+function Blaj(){
+	var cmdAj = new LEx.Command("app.icity.project.ArchivesCmd");
+	cmdAj.setParameter("ID",Pid);
+	cmdAj.setParameter("start", blajList.start());
+	cmdAj.setParameter("limit", blajList.limit());
+	var retAj = cmdAj.execute("getPersonBlajById");
+	if(retAj.state==1&&retAj.total>0){
+		$("#epagerAj").show();
+		blajList.toLygPageBar("epagerAj", "blajList", retAj.total, "Blaj()");
+		//分页div的id，Table的实例化对象名称（字符串）,总数量，查询方法（字符串）
+		//gzxsList.toPageBar("xieshiDiv","gzxsList",ret.total,"Gzxs()");
+		$("#anjianDiv").html(LEx.processDOMTemplate("sPersonBlaj", retAj));
+		$("#photoAj").attr("src",diskUrl+PphoSrc);
 	}else{
-		alert("没有查询到数据");
+		$("#epagerAj").hide();
 	}
 }
 </script>

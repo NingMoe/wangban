@@ -27,7 +27,15 @@
 			<div align="center" >
 				<h1 style="color: #F4A702;" id="title"></h1>
 			</div>
-			<div align="left" id="DaDiv">
+			<div align="left" id="DaDiv" style="widht:100%;height:100%;word-wrap: break-word">
+			</div>
+			<div align="left" id="ndbgDiv">
+				<div class="container">
+		            <div class="row clearfix">
+						<div id="lDiv" style="widht:100%;height:100%;word-wrap: break-word"></div>
+						<div id="rDiv" style="widht:100%;height:100%;word-wrap: break-word"></div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -44,7 +52,69 @@
 			</div>
 		</div>
 	</div>
+	
+<textarea style="display:none" id="NdbgYear">
+<div class="col-md-2 column text-left">
+<div class="dropdown">
+    <button type="button" class="btn dropdown-toggle" id="yearCheck" data-toggle="dropdown">点击选择年份查看
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="yearCheck">
+    {for d in data}
+    {if d_index < data.length}
+        <li role="presentation">
+            <a role="menuitem" tabindex="-1" onclick="showNdbgContent('${d.YEAR}')">${d.YEAR}年年度报告</a>
+        </li>
+        <li role="presentation" class="divider"></li>
+    {/if}
+    {/for}
+    </ul>
+</div>
+</div>
+</textarea>
+
+<textarea style="display:none" id="DsjYear">
+<div class="col-md-2 column text-left">
+<div class="dropdown">
+    <button type="button" class="btn dropdown-toggle" id="yearCheck" data-toggle="dropdown">点击选择年份查看
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="yearCheck">
+    {for d in data}
+    {if d_index < data.length}
+        <li role="presentation">
+            <a role="menuitem" tabindex="-1" onclick="queryDsjMonth('${d.YEAR}')">${d.YEAR}年大事记</a>
+        </li>
+        <li role="presentation" class="divider"></li>
+    {/if}
+    {/for}
+    </ul>
+</div>
+<div class="list-group" id="dsjMonthDiv">
+</div>
+</div>
+</textarea>
+
+<textarea style="display:none" id="DsjMonth">
+<a href="#" class="list-group-item active">
+    <h4 class="list-group-item-heading">
+          月份
+    </h4>
+</a>
+{for d in data}
+{if d_index < data.length}
+<a href="javascript:void(0);" class="list-group-item" onclick="showDsjContent('${d.MONTH}')">
+    <h4 class="list-group-item-heading">
+        ${d.MONTH}月份
+    </h4>
+</a>
+{/if}
+{/for}
+</textarea>
+
+
 <script type="text/javascript">
+var DsjYearM = "";
 //单位档案首页
 queryIndex();
 	function queryIndex(){
@@ -65,12 +135,129 @@ queryIndex();
 		}
 	}
 	
-	var names_ = {"bzzc":"cmp_zyda_grda","jgzc":"cmp_zyda_grda_01","ndbg":"cmp_zyda_ndbg","dsj":"cmp_zyda_dsj","bmda":"cmp_zyda_bmda","grda":"cmp_zyda_grda","bmda":"cmp_zyda_bmda","grda":"cmp_zyda_grda"};
+	var names_ = {"bzzc":"cmp_zyda_grda","bmda":"cmp_zyda_bmda","grda":"cmp_zyda_grda","bmda":"cmp_zyda_bmda","grda":"cmp_zyda_grda"};
 	function loadPage_(type){
-		//$("#myModal").modal('hide');
-		//$(".modal-backdrop").remove();
-		var page = names_[type];
-		$("#DaDiv").load("{{PageContext.ContextPath}}cmp/"+page);
+		if(type=="jgzc"){
+			$("#lDiv").html('');
+			$("#rDiv").html('');
+			queryJgzc();
+		}else if(type=="ndbg"){
+			$("#DaDiv").html('');
+			queryNdbgYear();
+		}else if(type=="dsj"){
+			$("#DaDiv").html('');
+			queryDsjYear();
+		}else{
+			$("#lDiv").html('');
+			$("#rDiv").html('');
+			var page = names_[type];
+			$("#DaDiv").load("{{PageContext.ContextPath}}cmp/"+page);
+		}
+	}
+	
+	//机构组成
+	function queryJgzc(){
+		var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
+		cmd.setParameter("type","4");
+		var ret = cmd.execute("getIndexIntroduction");
+		if(ret.state==1&&ret.total>0){
+			var content = ret.data[0].CONTENT;
+			content = content.replace(new RegExp(" ","gm"),"+");//base64加密使"+" 变为了" "，解码前替换+号
+			content = Base64.decode(content);
+			var diskUrl = getSecurityValue("NetDiskDownloadAddress");
+ 			var a = content.indexOf("src=\"http:");
+ 		    var b = content.indexOf("/WebDiskServerDemo/doc?doc_id=");
+ 			var s = content.substring(a, b);
+			$("#DaDiv").html(content.replace(s+"/WebDiskServerDemo/doc?doc_id=", "src=\""+diskUrl));//替换原网盘地址为配置文件网盘地址
+		}else{
+			alert("没有查询到数据");
+		}
+	}
+	//年度报告Year
+	function queryNdbgYear(){
+		var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
+		cmd.setParameter("type","2");
+		var ret = cmd.execute("getNdbgYear");
+		if(ret.state==1&&ret.total>0){
+			$("#lDiv").html(LEx.processDOMTemplate("NdbgYear", ret));
+			showNdbgContent(ret.data[0].YEAR);
+		}
+	}
+	//年度报告Content
+	function showNdbgContent(year){
+		var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
+		cmd.setParameter("year",year);
+		cmd.setParameter("type","2");
+		var ret = cmd.execute("getNdbgContent");
+		if(ret.state==1&&ret.total>0){
+			var content = ret.data[0].CONTENT;
+			content = content.replace(new RegExp(" ","gm"),"+");//base64加密使"+" 变为了" "，解码前替换+号
+			content = Base64.decode(content);
+			var htmls = "<div class=\"col-md-10 column\">"+
+						"<div class=\"panel panel-default\">"+
+						"<div class=\"panel-heading\">"+
+							"<div class=\"panel-heading\" style=\"background-color: #e41e02;\">"+
+								ret.data[0].TITLE+
+							"</div>"+
+						"</div>"+
+						"<div class=\"panel-body\" style=\"widht:100%;height:100%;word-wrap: break-word\">"+
+						content+
+						"</div>"+
+						"</div>"+
+						"</div>";
+			$("#rDiv").html(htmls);
+		}
+	}
+	
+	//大事记Year
+	function queryDsjYear(){
+		var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
+		cmd.setParameter("type","1");
+		var ret = cmd.execute("getDsjYear");
+		if(ret.state==1&&ret.total>0){
+			$("#lDiv").html(LEx.processDOMTemplate("DsjYear", ret));
+			DsjYearM = ret.data[0].YEAR;
+			queryDsjMonth(DsjYearM);
+		}
+	}
+	
+	//大事记Month
+	function queryDsjMonth(year){
+		var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
+		cmd.setParameter("type","1");
+		cmd.setParameter("year",year);
+		var ret = cmd.execute("getDsjMonth");
+		if(ret.state==1&&ret.total>0){
+			$("#dsjMonthDiv").html(LEx.processDOMTemplate("DsjMonth", ret));
+			DsjYearM = year;
+			showDsjContent(ret.data[0].MONTH);
+		}
+	}
+	
+	function showDsjContent(month){
+		var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
+		cmd.setParameter("type","1");
+		cmd.setParameter("year",DsjYearM);
+		cmd.setParameter("month",month);
+		var ret = cmd.execute("getDsjContent");
+		if(ret.state==1&&ret.total>0){
+			var content = ret.data[0].CONTENT;
+			content = content.replace(new RegExp(" ","gm"),"+");//base64加密使"+" 变为了" "，解码前替换+号
+			content = Base64.decode(content);
+			var htmls = "<div class=\"col-md-10 column\">"+
+			"<div class=\"panel panel-default\">"+
+			"<div class=\"panel-heading\">"+
+				"<div class=\"panel-heading\" style=\"background-color: #e41e02;\">"+
+					ret.data[0].TITLE+
+				"</div>"+
+			"</div>"+
+			"<div class=\"panel-body\" style=\"widht:100%;height:100%;word-wrap: break-word\">"+
+			content+
+			"</div>"+
+			"</div>"+
+			"</div>";
+            $("#rDiv").html(htmls);
+		}
 	}
 	
 </script>

@@ -81,6 +81,43 @@ public class ArchivesDao extends BaseJdbcDao {
 		return this.executeDataset(sql);
 	}
 	
+	public DataSet getPersonGzyjContentById(ParameterSet pSet) {
+		String sql = "select id, l_id, status, title, achievements, job, creat_time from hr_yj where l_id='"+pSet.getParameter("ID")+"' and title='"+pSet.getParameter("year")+"' and status='1' order by title desc ";
+		return this.executeDataset(sql);
+	}
+	
+	public DataSet getPersonBlajById(ParameterSet pSet) {
+		int start = (int) pSet.getParameter("start");
+		int limit = (int) pSet.getParameter("limit");
+		String sql = "select num, aj_name, aj_status, to_char(sl_time,'yyyy-MM-dd') as sl_time, stage, to_char(due_time,'yyyy-MM-dd') as due_time, to_char(bj_time,'yyyy-MM-dd') as bj_time, to_char(comp_time,'yyyy-MM-dd') as comp_time, sort, agent_name, content, id, l_id, status, creat_time from hr_bl where status='1' and l_id='"+pSet.getParameter("ID")+"' order by sl_time desc ";
+		return this.executeDataset(sql, start, limit, null, this.getDataSourceName());
+	}
+	
+	public DataSet getNdbgYear(ParameterSet pSet) {
+		String sql = "select year from HR_THINGS where status='1' and type='"+ pSet.getParameter("type")+"' group by year order by year desc ";
+		return this.executeDataset(sql);
+	}
+	
+	public DataSet getNdbgContent(ParameterSet pSet) {
+		String sql = "select id, l_id, year, month, title, content, to_char(create_time,'yyyy-MM-dd') as create_time, status, type from hr_things  where status='1' and type='"+ pSet.getParameter("type")+"' and year='"+pSet.getParameter("year")+"' ";
+		return this.executeDataset(sql);
+	}
+	
+	public DataSet getDsjYear(ParameterSet pSet) {
+		String sql = "select year from HR_THINGS where status='1' and type='"+ pSet.getParameter("type")+"' group by year order by year desc ";
+		return this.executeDataset(sql);
+	}
+	
+	public DataSet getDsjMonth(ParameterSet pSet) {
+		String sql = "select month from HR_THINGS where status='1' and type='"+ pSet.getParameter("type")+"' and year='"+ pSet.getParameter("year")+"' group by month order by month desc ";
+		return this.executeDataset(sql);
+	}
+	
+	public DataSet getDsjContent(ParameterSet pSet) {
+		String sql = "select id, l_id, year, month, title, content, create_time, status, type from hr_things where type='"+ pSet.getParameter("type")+"' and year='"+ pSet.getParameter("year")+"' and month='"+ pSet.getParameter("month")+"' and status='1' ";
+		return this.executeDataset(sql);
+	}
+	
 	
 	
 }
