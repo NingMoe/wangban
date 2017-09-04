@@ -135,7 +135,7 @@ queryIndex();
 		}
 	}
 	
-	var names_ = {"bzzc":"cmp_zyda_grda","bmda":"cmp_zyda_bmda","grda":"cmp_zyda_grda","bmda":"cmp_zyda_bmda","grda":"cmp_zyda_grda"};
+	var names_ = {"bmda":"cmp_zyda_bmda","grda":"cmp_zyda_grda"};
 	function loadPage_(type){
 		if(type=="jgzc"){
 			$("#lDiv").html('');
@@ -147,7 +147,12 @@ queryIndex();
 		}else if(type=="dsj"){
 			$("#DaDiv").html('');
 			queryDsjYear();
+		}else if(type=="bzzc"){
+			$("#lDiv").html('');
+			$("#rDiv").html('');
+			queryBzzc();
 		}else{
+			//个人档案  部门档案
 			$("#lDiv").html('');
 			$("#rDiv").html('');
 			var page = names_[type];
@@ -170,7 +175,7 @@ queryIndex();
  			var s = content.substring(a, b);
 			$("#DaDiv").html(content.replace(s+"/WebDiskServerDemo/doc?doc_id=", "src=\""+diskUrl));//替换原网盘地址为配置文件网盘地址
 		}else{
-			alert("没有查询到数据");
+			$("#DaDiv").html("没有查询到“机构组成”数据");
 		}
 	}
 	//年度报告Year
@@ -233,7 +238,7 @@ queryIndex();
 			showDsjContent(ret.data[0].MONTH);
 		}
 	}
-	
+	//大事记内容
 	function showDsjContent(month){
 		var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
 		cmd.setParameter("type","1");
@@ -257,6 +262,25 @@ queryIndex();
 			"</div>"+
 			"</div>";
             $("#rDiv").html(htmls);
+		}
+	}
+	
+	//班子组成
+	function queryBzzc(){
+		var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
+		cmd.setParameter("type","3");
+		var ret = cmd.execute("getIndexIntroduction");
+		if(ret.state==1&&ret.total>0){
+			var content = ret.data[0].CONTENT;
+			content = content.replace(new RegExp(" ","gm"),"+");//base64加密使"+" 变为了" "，解码前替换+号
+			content = Base64.decode(content);
+			var diskUrl = getSecurityValue("NetDiskDownloadAddress");
+ 			var a = content.indexOf("src=\"http:");
+ 		    var b = content.indexOf("/WebDiskServerDemo/doc?doc_id=");
+ 			var s = content.substring(a, b);
+			$("#DaDiv").html(content.replace(s+"/WebDiskServerDemo/doc?doc_id=", "src=\""+diskUrl));//替换原网盘地址为配置文件网盘地址
+		}else{
+			alert("没有查询到数据");
 		}
 	}
 	

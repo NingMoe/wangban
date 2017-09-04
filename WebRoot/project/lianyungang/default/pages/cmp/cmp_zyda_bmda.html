@@ -10,41 +10,50 @@
 		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
 	<div align="top">
-		<div class="col-lg-3">
-			<div class="cmp_zyda_03"><a href="#">院领导</a></div>
-		</div>
-		<div class="col-lg-3">
-			<div class="cmp_zyda_03"><a href="#">办公室</a></div>
-		</div>
-		<div class="col-lg-3">
-			<div class="cmp_zyda_03"><a href="#">政治处</a></div>
-		</div>
-		<div class="col-lg-3">
-			<div class="cmp_zyda_03"><a href="#">侦察监督科</a></div>
-		</div>
-		<div class="col-lg-3">
-			<div class="cmp_zyda_03"><a href="#">公诉科</a></div>
-		</div>
-		<div class="col-lg-3">
-			<div class="cmp_zyda_03"><a href="#">未成年人检察科</a></div>
-		</div>
-		<div class="col-lg-3">
-			<div class="cmp_zyda_03"><a href="#">院领导</a></div>
-		</div>
-		<div class="col-lg-3">
-			<div class="cmp_zyda_03"><a href="#">办公室</a></div>
-		</div>
-		<div class="col-lg-3">
-			<div class="cmp_zyda_03"><a href="#">政治处</a></div>
-		</div>
-		<div class="col-lg-3">
-			<div class="cmp_zyda_03"><a href="#">侦察监督科</a></div>
-		</div>
-		<div class="col-lg-3">
-			<div class="cmp_zyda_03"><a href="#">公诉科</a></div>
-		</div>
-		<div class="col-lg-3">
-			<div class="cmp_zyda_03"><a href="#">未成年人检察科</a></div>
-		</div>
+	    <div id="bmda"></div>
+	    <div id="epagerBm" class="z-page" style="clear:both;position: relative;top: -10px;display:none"></div>
 	</div>
+	
+<script id="Sbmda">
+{for d in data}
+{if d_index < data.length}
+<div class="col-lg-3">
+   <div class="cmp_zyda_03" data-toggle="modal" data-target="#dwda_${d.ID}"><a href="javascript:void(0);">${d.WORK_DEPT}</a></div>
+</div>
+<div class="modal fade" id="bmda_${d.ID}" tabindex="-1" role="dialog" aria-labelledby="myModalLabelBmda_${d.ID}" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabelBmda_${d.ID}">${d.TITLE}</h4>
+        </div>
+        <div class="modal-body">${d.CONTENT}</div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        </div>
+    </div>
+</div>
+</div>
+{/if}
+{/for}
+</script>
+<script type="text/javascript">
+function queryDwda(){
+	var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
+	var ret = cmd.execute("getDept");
+	if(ret.state==1&&ret.total>0){
+		var content = ret.data[0].CONTENT;
+		content = content.replace(new RegExp(" ","gm"),"+");//base64加密使"+" 变为了" "，解码前替换+号
+		content = Base64.decode(content);
+		var diskUrl = getSecurityValue("NetDiskDownloadAddress");
+		var a = content.indexOf("src=\"http:");
+	    var b = content.indexOf("/WebDiskServerDemo/doc?doc_id=");
+		var s = content.substring(a, b);
+		content = content.replace(s+"/WebDiskServerDemo/doc?doc_id=", "src=\""+diskUrl);	//替换原网盘地址为配置文件网盘地址
+		$("#DaDiv").html();
+	}else{
+		$("#DaDiv").html("没有查询到“部门档案”数据");
+	}
+}
+</script>
 </html>

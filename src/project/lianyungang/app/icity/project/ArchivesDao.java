@@ -48,7 +48,7 @@ public class ArchivesDao extends BaseJdbcDao {
 				+ "now_post, to_char(post_date,'yyyy-MM-dd') as post_date, full_time_school, full_time_major, to_char(full_time_entrance_date,'yyyy-MM-dd') as full_time_entrance_date, to_char(full_time_graduation_date,'yyyy-MM-dd') as full_time_graduation_date, full_time_education, "
 				+ "full_time_degree, job_school, job_major, job_entrance_date, job_graduation_date, job_education, job_degree, personnel_identity, "
 				+ "personnel_status, work_dept, office_location, post_type, photo, anniversary_book, org_code, rank, to_char(rank_date,'yyyy-MM-dd hh:mi:ss') as rank_date, to_char(create_time,'yyyy-MM-dd hh:mi:ss') as create_time, "
-				+ "to_char(update_time,'yyyy-MM-dd hh:mi:ss') as update_time from hr_person order by org_code ";
+				+ "to_char(update_time,'yyyy-MM-dd hh:mi:ss') as update_time from hr_person where (org_code!='000000000' or id!='88888888888888888888888888888888') order by org_code ";
 		return this.executeDataset(sql);
 	}
 	
@@ -116,6 +116,13 @@ public class ArchivesDao extends BaseJdbcDao {
 	public DataSet getDsjContent(ParameterSet pSet) {
 		String sql = "select id, l_id, year, month, title, content, create_time, status, type from hr_things where type='"+ pSet.getParameter("type")+"' and year='"+ pSet.getParameter("year")+"' and month='"+ pSet.getParameter("month")+"' and status='1' ";
 		return this.executeDataset(sql);
+	}
+	
+	public DataSet getDept(ParameterSet pSet) {
+		int start = (int) pSet.getParameter("start");
+		int limit = (int) pSet.getParameter("limit");
+		String sql = "select id, l_id, dept_name, content, num, create_time, creater_name from hr_dept_archives where l_id!='88888888888888888888888888888888' order by num ";
+		return this.executeDataset(sql, start, limit, null, this.getDataSourceName());
 	}
 	
 	
