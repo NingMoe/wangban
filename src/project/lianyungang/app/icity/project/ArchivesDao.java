@@ -122,7 +122,7 @@ public class ArchivesDao extends BaseJdbcDao {
 		int start = (int) pSet.getParameter("start");
 		int limit = (int) pSet.getParameter("limit");
 		String sql = "select id, l_id, dept_name, content, num, create_time, creater_name from hr_dept_archives where l_id!='88888888888888888888888888888888' order by num ";
-		return this.executeDataset(sql, start, limit, null, this.getDataSourceName());
+		return this.executeDataset(sql, start*limit, limit, null, this.getDataSourceName());
 	}
 	
 	

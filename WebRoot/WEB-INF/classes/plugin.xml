@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugins>
+	<plugin id="plugin.SendMessagePlugin" name="烟台短信发送插件类" />
+	<plugin id="plugin.SendMessagePlugin_zs" name="舟山短信发送插件类" />
+	<plugin id="plugin.SendMessage4ManZhouLiPlugin" name="满洲里短信发送插件类" />
+	<plugin id="plugin.SendMessage4ZhangZhouPlugin" name="漳州短信发送插件类" />
+	<plugin id="plugin.SendMessage4XiNingPlugin" name="西宁短信发送插件类" />
+	<plugin id="plugin.SendMessage4XiNingPluginBy10086eCloud" name="西宁短信发送插件-云MAS平台" />
+	<plugin id="plugin.DataExchangePlugin" name="数据推送中间件" />
+	<plugin id="plugin.AutoEvaluationPlugin" name="昆明自动评价插件" />
+	<plugin id="plugin.RegcodeMappingYNPlugin" name="昆明数据对接区划映射插件"/>
+	<!-- <plugin id="plugin.ConsultingPlugin" name="搜索引擎初始化咨询信息插件"/> -->
+	<plugin id="plugin.JXDataExchangeYNPlugin" name="昆明绩效考评数据推送插件"/>
+	<plugin id="plugin.SendMessage4WeiHaiPlugin" name="威海短信发送插件类"/>
+	<plugin id="plugin.SendMessagePlugin_weifang" name="潍坊短信发送插件类"/>
+	<plugin id="plugin.PushConsultPlugin" name="咨询投诉信息同步到省平台插件"/>
+	<plugin id="plugin.PubNewsExchangePlugin" name="办件消息同步到省平台插件"/>
+	<plugin id="plugin.PubContentExchangePlugin" name="索引目录同步到省平台插件"/>
+	<plugin id="plugin.SendMessage4LinYiPlugin" name="临沂短信发送插件"/>
+	<plugin id="plugin.SendMessageChongQingPlugin" name="重庆短信发送插件"/>
+	<plugin id="plugin.GetItem4ThemePlugin" name="福州主题分类下事项统计插件类" />
+	<plugin id="plugin.SendMessagePlugin_pl" name="昆明盘龙短信邮件通知发送插件" />
+	<plugin id="plugin.SendMessagePlugin_qqhe" name="齐齐哈尔短信发送插件类" />
+	
+</plugins>

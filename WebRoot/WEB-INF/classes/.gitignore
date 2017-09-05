@@ -5,7 +5,6 @@
 /bl/
 /com/
 /cq/
-/ehcache.xml
 /fz/
 /hecheng/
 /heilongjiang_ggfw/
@@ -13,15 +12,11 @@
 /huaihua/
 /hubei/
 /iop/
-/job.xml
 /jxtzxm/
 /km/
+/lianyungang/
 /linyi/
-/log4j.xml
-/plugin.xml
 /plugin/
-/quartz.properties
-/security.xml
 /shenyang_hepingqu/
 /syan/
 /weihai/
@@ -31,6 +26,4 @@
 /yt/
 /zb/
 /zbs/
-/zs/
 /zs_szw/
-/zs_zwfw/

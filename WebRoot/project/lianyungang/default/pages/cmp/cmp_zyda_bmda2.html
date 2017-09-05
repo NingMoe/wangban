@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="css/bootstrap.css" />
+		<link rel="stylesheet" href="css/css.css" />
+		<script type="text/javascript" src="js/bootstrap.js" ></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+		<div class="cmp_zyda_01">
+		</div>
+		<div align="top">
+			<div id="carousel-example-generic3" class="carousel slide" data-ride="carousel" style="margin-top: 50px">
+				<div class="carousel-inner" role="listbox" id="bumenDiv"></div>
+				<a class="left carousel-control" href="#carousel-example-generic3" onclick="Previous()" role="button" data-slide="prev" style="width:150px;height:537px;">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="right carousel-control" href="#carousel-example-generic3" onclick="Next()" role="button" data-slide="next" style="width:150px;height:537px;">
+					<span class="glyphicon glyphicon-chevron-right"></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>
+		</div>
+					
+<textarea id="bmda" style="display: none">
+<div class="item active">
+	<div class="col-lg-1">
+	</div>
+	<div class="col-lg-10">
+	{for d in data}
+	{if d_index < data.length}
+		<div class="col-lg-4">
+			<div class="cmp_zyda_03"><a href="javascript: void(0);">${d.DEPT_NAME}</a></div>
+		</div>
+	{/if}
+	{/for}
+	</div>
+	<div class="col-lg-1">
+	</div>
+</div>
+</textarea>		
+<script type="text/javascript">
+var nowPage = 0;
+var pageLimt = 9;
+var totalPage = "";
+var bmdaList = null;
+bmdaList = new LEx.Control.Table("bumenDiv", "bmda");
+queryBmda(nowPage);
+function queryBmda(nowPage){
+	var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
+	cmd.setParameter("start", nowPage);
+	cmd.setParameter("limit", 9);
+	var ret = cmd.execute("getDept");
+	if(ret.state==1&&ret.total>0){
+		totalPage = Math.ceil(ret.total/9);
+		$("#bumenDiv").html(LEx.processDOMTemplate("bmda", ret));
+	}else{
+		$("#bumenDiv").html("没有查询到“部门档案”数据");
+	}
+}
+function Previous(){
+	if(nowPage>0){
+		nowPage-=1;
+		queryBmda(nowPage);
+	}
+}
+function Next(){
+	if(nowPage<totalPage-1){
+		nowPage+=1;
+		queryBmda(nowPage);
+	}
+}
+</script>
+</html>
