@@ -125,6 +125,12 @@ public class ArchivesDao extends BaseJdbcDao {
 		return this.executeDataset(sql, start*limit, limit, null, this.getDataSourceName());
 	}
 	
+	public DataSet getDeptById(ParameterSet pSet) {
+		String sql = "select id, l_id, dept_name, content, num, create_time, creater_name from hr_dept_archives where id='"+pSet.getParameter("ID")+"' ";
+		return this.executeDataset(sql);
+	}
+	
+	
 	
 	
 }

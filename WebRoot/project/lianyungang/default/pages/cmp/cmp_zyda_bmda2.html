@@ -27,35 +27,49 @@
 					
 <textarea id="bmda" style="display: none">
 <div class="item active">
-	<div class="col-lg-1">
-	</div>
+	<div class="col-lg-1"></div>
 	<div class="col-lg-10">
 	{for d in data}
 	{if d_index < data.length}
-		<div class="col-lg-4">
-			<div class="cmp_zyda_03"><a href="javascript: void(0);">${d.DEPT_NAME}</a></div>
+		<div class="col-lg-4" data-toggle="modal" data-target="#bmda_">
+			<div class="cmp_zyda_03" onclick="showDept('${d.ID}')">
+			   <a href="javascript: void(0);">${d.DEPT_NAME}</a>
+			</div>
 		</div>
 	{/if}
 	{/for}
 	</div>
-	<div class="col-lg-1">
-	</div>
+	<div class="col-lg-1"></div>
 </div>
 </textarea>		
+<div class="modal fade" id="bmda_" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		      <div class="modal-content">
+		          <div class="modal-header text-center">
+		              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		              <h4 class="modal-title" id="bmdaTitle">部门档案</h4>
+		          </div>
+		          <div class="modal-body" id="bmdaContent">未获取到该部门档案</div>
+		          <div class="modal-footer">
+		              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		          </div>
+		      </div>
+		  </div>
+</div>
 <script type="text/javascript">
 var nowPage = 0;
 var pageLimt = 9;
-var totalPage = "";
+var totalPage = 0;
 var bmdaList = null;
 bmdaList = new LEx.Control.Table("bumenDiv", "bmda");
 queryBmda(nowPage);
 function queryBmda(nowPage){
 	var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
 	cmd.setParameter("start", nowPage);
-	cmd.setParameter("limit", 9);
+	cmd.setParameter("limit", pageLimt);
 	var ret = cmd.execute("getDept");
 	if(ret.state==1&&ret.total>0){
-		totalPage = Math.ceil(ret.total/9);
+		totalPage = Math.ceil(ret.total/pageLimt);
 		$("#bumenDiv").html(LEx.processDOMTemplate("bmda", ret));
 	}else{
 		$("#bumenDiv").html("没有查询到“部门档案”数据");
@@ -71,6 +85,25 @@ function Next(){
 	if(nowPage<totalPage-1){
 		nowPage+=1;
 		queryBmda(nowPage);
+	}
+}
+function showDept(id){
+	var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
+	cmd.setParameter("ID",id);
+	var ret = cmd.execute("getDeptById");
+	if(ret.state==1&&ret.total>0){
+		var content = ret.data[0].CONTENT;
+		content = content.replace(new RegExp(" ","gm"),"+");//base64加密使"+" 变为了" "，解码前替换+号
+		content = Base64.decode(content);
+		var diskUrl = getSecurityValue("NetDiskDownloadAddress");
+		var a = content.indexOf("src=\"http:");
+	    var b = content.indexOf("/WebDiskServerDemo/doc?doc_id=");
+		var s = content.substring(a, b);
+		content = content.replace(s+"/WebDiskServerDemo/doc?doc_id=", "src=\""+diskUrl);
+		$("#bmdaTitle").html(ret.data[0].DEPT_NAME);
+		$("#bmdaContent").html(content);
+	}else{
+		$("#bumenDiv").html("没有查询到“部门档案”数据");
 	}
 }
 </script>
