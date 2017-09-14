@@ -72,6 +72,6 @@ public class ArchivesCmd extends BaseQueryCommand{
 	public DataSet getDeptById(ParameterSet pSet){
 		return ArchivesDao.getInstance().getDeptById(pSet);
 	}
-	
-	
+
+	public DataSet getCeremony(ParameterSet pSet){ return ArchivesDao.getInstance().getCeremony(pSet); }
 }

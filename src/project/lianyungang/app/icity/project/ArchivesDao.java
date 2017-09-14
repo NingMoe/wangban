@@ -146,7 +146,11 @@ public class ArchivesDao extends BaseJdbcDao {
 		return this.executeDataset(sql);
 	}
 
-
+	public DataSet getCeremony(ParameterSet pSet) {
+		String type = (String) pSet.getParameter("type");
+		String sql = "select f.id, f.l_id, f.year, f.title, f.photo,f.vedio, f.type, f.create_time from HR_CEREMONY f  where type='"+type+"' ";
+		return this.executeDataset(sql);
+	}
 
 
 }

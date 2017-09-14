@@ -13,19 +13,22 @@
 		<script type="text/javascript" src="{% public assets/js/BigPicture.js %}" ></script>
 	</head>
 	<div class="cmp_zyda_01">
-		<div class="col-lg-4">
-			<div class="cmp_zyda_02"> <a href="javascript:void(0);"  onclick="loadPage_('zyry');"><span class="glyphicon glyphicon-cloud-upload">&nbsp;&nbsp;单位荣誉</a></div>
+		<div class="col-lg-3">
+			<div class="cmp_zyda_02"> <a href="javascript:void(0);"  onclick="loadPage_('zyys');"><span class="glyphicon glyphicon-cloud-upload">&nbsp;&nbsp;入党仪式</a></div>
 		</div>
-		<div class="col-lg-4">
-			<div class="cmp_zyda_02"><a href="javascript:void(0);" onclick="loadPage_('zyry_csry');"><span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;&nbsp;处室荣誉</a></div>
+		<div class="col-lg-3">
+			<div class="cmp_zyda_02"><a href="javascript:void(0);" onclick="loadPage_('zyys_rzys');"><span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;&nbsp;入职仪式</a></div>
 		</div>
-		<div class="col-lg-4">
-			<div class="cmp_zyda_02"><a href="javascript:void(0);" onclick="loadPage_('zyry_grry');"><span class="glyphicon glyphicon-user" ></span>&nbsp;&nbsp;个人荣誉</a></div>
+		<div class="col-lg-3">
+			<div class="cmp_zyda_02"><a href="javascript:void(0);" onclick="loadPage_('zyys_jjys');"><span class="glyphicon glyphicon-user" ></span>&nbsp;&nbsp;晋级仪式</a></div>
+		</div>
+		<div class="col-lg-3">
+			<div class="cmp_zyda_02"><a href="javascript:void(0);" onclick="loadPage_('zyys_lzys');"><span class="glyphicon glyphicon-user" ></span>&nbsp;&nbsp;离职仪式</a></div>
 		</div>
 	</div>
 	<div align="top">
 		<div id="carousel-example-generic3" class="carousel slide" data-ride="carousel">
-			<div class="carousel-inner" role="listbox"  id="image_container">
+			<div class="carousel-inner" role="listbox"  id="video_container">
 
 			</div>
 			<a class="left carousel-control" href="#carousel-example-generic3" role="button" data-slide="prev" style="width:150px;height:537px;">
@@ -41,7 +44,7 @@
 	</div>
 	<div id="credit"></div>
 
-<textarea id="dwrytemp" style="display: none">
+<textarea id="zyystemp" style="display: none">
 
     <div class="item active" >
         <div class="col-lg-1">
@@ -50,7 +53,7 @@
 			{for o in data}
 			{if o.TITLE!=''}
 				<div class="col-lg-4">
-					<div class="cmp_zyda_05"><a ><img  height="218" width="330" src="http://10.10.10.195:8030/WebDiskServerDemo/doc?doc_id=${o.PHOTO}"></a></div>
+					<div class="cmp_zyda_05 htmlvid" style="height:218px;width:330px;background-image:url(http://10.10.10.195:8030/WebDiskServerDemo/doc?doc_id=${o.PHOTO});" vidSrc="http://10.10.10.195:8030/WebDiskServerDemo/doc?doc_id=${o.VEDIO}"></div>
 					<div class="px18">${o.TITLE}</div>
 				</div>
 				{if o_index%6==5}
@@ -71,7 +74,7 @@
 </textarea>
 
 	<script type="text/javascript">
-		var names_ = {"qyjj":"cmp_index","zyda":"cmp_zyda","zyry":"cmp_zyry_dwry","zyry_csry":"cmp_zyry_csry","zyry_grry":"cmp_zyry_grry","jczx":"cmp_index3","zyys":"cmp_index4","cjzl":"cmp_index5"};
+		var names_ = {"zyys":"cmp_zyys_rdys","zyys_rzys":"cmp_zyys_rzys","zyys_jjys":"cmp_zyys_jjys","zyys_lzys":"cmp_zyys_lzys"};
 		function loadPage_(type){
 			var page = names_[type];
 			$("#bodyDiv").load("{{PageContext.ContextPath}}cmp/"+page);
@@ -80,9 +83,9 @@
         function query(){
             var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
             cmd.setParameter("type","1");
-            var ret = cmd.execute("getHonour");
+            var ret = cmd.execute("getCeremony");
             if(ret.state==1&&ret.total>0){
-                $("#image_container").html(LEx.processDOMTemplate("dwrytemp", ret));
+                $("#video_container").html(LEx.processDOMTemplate("zyystemp", ret));
             }else{
                 alert("没有查询到数据");
             }
@@ -96,12 +99,27 @@
                 document.getElementById(id).onclick = fn;
             }
 
-            setClickHandler('image_container', function (e) {
-                e.target.tagName === 'IMG' && BigPicture({
+
+            setClickHandler('video_container', function(e) {
+                var className = e.target.className;
+                ~className.indexOf('htmlvid') &&
+                BigPicture({
                     el: e.target,
-                    imgSrc: e.target.src.replace('_thumb', '')
+                    vidSrc: e.target.getAttribute('vidSrc')
                 });
-            });
+                ~className.indexOf('vimeo') &&
+                BigPicture({
+                    el: e.target,
+                    vimeoSrc: e.target.getAttribute('vimeoSrc')
+                });
+                ~className.indexOf('youtube') &&
+                BigPicture({
+                    el: e.target,
+                    ytSrc: e.target.getAttribute('ytSrc')
+                });
+            })
+
+
         })();
 
 	</script>
