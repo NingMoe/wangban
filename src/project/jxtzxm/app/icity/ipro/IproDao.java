@@ -1,4 +1,4 @@
-﻿package jxtzxm.app.icity.ipro;
+package jxtzxm.app.icity.ipro;
 
 import io.netty.util.CharsetUtil;
 

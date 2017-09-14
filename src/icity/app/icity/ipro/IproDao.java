@@ -1,4 +1,4 @@
-﻿package app.icity.ipro;
+package app.icity.ipro;
 
 import java.sql.Connection;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-﻿package jxtzxm.app.icity.ipro;
+package jxtzxm.app.icity.ipro;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;

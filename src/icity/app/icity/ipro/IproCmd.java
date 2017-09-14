@@ -1,4 +1,4 @@
-﻿package app.icity.ipro;
+package app.icity.ipro;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
