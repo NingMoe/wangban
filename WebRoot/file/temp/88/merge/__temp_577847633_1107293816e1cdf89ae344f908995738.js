@@ -3422,7 +3422,11 @@ LEx.Control.Table.prototype = {
 		return true;
 	},
 	toPageBar:function(targetId,tempId,total,fun,maxSize,className){
-		$("#"+targetId).html(this.pagebar(tempId,total,fun,maxSize,className));
+		$("#"+targetId).html(this.lygPagebar(tempId,total,fun,maxSize,className));
+	},
+	//lianyungang分页样式
+	toLygPageBar:function(targetId,tempId,total,fun,maxSize,className){
+		$("#"+targetId).html(this.lygPagebar(tempId,total,fun,maxSize,className));
 	},
 	toRegisterPageBar:function(targetId,box,bltable,total,funName,maxSize,className){
 		$("#"+targetId).html(this.registerPageBar(total,maxSize,className));
@@ -3530,6 +3534,96 @@ LEx.Control.Table.prototype = {
 			re.push("<a href=\"javascript:void(0);\" onclick=\""+id+".pageIndex("+(index+1)+");"+fun+"\"  class=\"a1\">下一页 »</a>");
 		}
 		re.push("</div>");
+		return re.join("");
+	},
+	
+	lygPagebar:function(id,total,fun,maxSize,className){
+		if(total == undefined){
+			total = 1;
+		}
+		var index = this.pageIndex();
+		pagenum.length=0;
+		var pSize = this.limit();
+		// 样式名称
+		if(className == null){
+			className = "pages";
+		}
+		// 最大显示多少个分页
+		if(maxSize == null){
+			maxSize = 6;
+		}
+		var startPage = 1;// 开始页
+		var totalPage = 1;
+		if(total%pSize==0){
+			totalPage = total/pSize;
+		}else{
+			totalPage = parseInt((total/pSize))+1;
+		}
+		if(totalPage<1){
+			totalPage = 1;
+		}
+		if(index<1){
+			index= 1;
+		}
+		if(index>totalPage){
+			index = totalPage;
+		}
+		if(totalPage <2){
+			return "";
+		}
+		var re = [];
+		re.push("<nav>");
+		re.push("<ul class=\"pager\">");
+		re.push("<li>共"+total+"条记录"+index+"/"+totalPage+"页</li>");
+		re.push("<li><a href=\"javascript:void(0);\" onclick=\""+id+".pageIndex(1);"+fun+"\">首页</a></li>");
+		
+		// 结束页处理
+//		if(index<=(maxSize/2-1))
+//		{
+//			startPage =1;
+//		}
+//		else{
+//			startPage = Math.ceil(index- (maxSize/2-1));
+//		}
+//		if(startPage+maxSize>totalPage){
+//			startPage = totalPage-maxSize+1;
+//		}
+		if(startPage<1){
+			startPage = 1;
+		}
+		if(index>1){
+			re.push("<li><a href=\"javascript:void(0);\" onclick=\""+id+".pageIndex("+(index-1)+");"+fun+"\" >上一页</a></li>");
+		}else{
+			re.push("<li><a href=\"javascript:void(0);\"  >上一页</a></li>");
+		}
+//		if(startPage>1){
+//			re.push("<a  href=\"javascript:void(0);\" onclick=\""+id+".pageIndex(1);"+fun+"\"  class=\"a1\">1..</a>");
+//		}
+//		for(i=0;i<maxSize;i++){
+//			curIndex = startPage + i;
+//			if(curIndex>totalPage){
+//				break;
+//			}
+//			if(curIndex==index){
+//				re.push("<span>"+curIndex+"</span>");
+//			}
+//			else{
+//				re.push("<a href=\"javascript:void(0);\" onclick=\""+id+".pageIndex("+curIndex+");"+fun+"\"  class=\"a1\">"+curIndex+"</a>");
+//			}
+//		}
+
+//		if(index+maxSize < totalPage){
+//			re.push("<a href=\"javascript:void(0);\" onclick=\""+id+".pageIndex("+totalPage+");"+fun+"\"  class=\"a1\">.."+totalPage+"</a>");
+//		}
+		if(index<totalPage){
+			re.push("<li><a href=\"javascript:void(0);\" onclick=\""+id+".pageIndex("+(index+1)+");"+fun+"\" >下一页</a></li>");
+		}else{
+			re.push("<li><a href=\"javascript:void(0);\" >下一页</a></li>");
+		}
+		re.push("<li><a href=\"javascript:void(0);\" onclick=\""+id+".pageIndex("+totalPage+");"+fun+"\">尾页</a></li>")
+		re.push("<li>共"+totalPage+"页</li>");
+		re.push("</ul>");
+		re.push("</nav>");
 		return re.join("");
 	},
 	
