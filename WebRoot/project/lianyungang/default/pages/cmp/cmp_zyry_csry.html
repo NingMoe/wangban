@@ -42,13 +42,13 @@
 <div id="credit"></div>
 
 <textarea id="dwrytemp" style="display: none">
-
+{var a = total}
     <div class="item active" >
         <div class="col-lg-1">
         </div>
         <div class="col-lg-10">
 			{for o in data}
-			{if o.TITLE!=''}
+			{if o_index<a }
 				<div class="col-lg-4">
 					<div class="cmp_zyda_05"><a ><img  height="218" width="330" src="http://10.10.10.195:8030/WebDiskServerDemo/doc?doc_id=${o.PHOTO}"></a></div>
 					<div class="px18">${o.TITLE}</div>

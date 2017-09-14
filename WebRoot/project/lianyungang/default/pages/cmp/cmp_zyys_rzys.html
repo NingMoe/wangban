@@ -45,13 +45,13 @@
 	<div id="credit"></div>
 
 <textarea id="zyystemp" style="display: none">
-
+{var a = total}
     <div class="item active" >
         <div class="col-lg-1">
         </div>
         <div class="col-lg-10">
 			{for o in data}
-			{if o.TITLE!=''}
+			{if o_index<a}
 				<div class="col-lg-4">
 					<div class="cmp_zyda_05 htmlvid" style="height:218px;width:330px;background-image:url(http://10.10.10.195:8030/WebDiskServerDemo/doc?doc_id=${o.PHOTO});" vidSrc="http://10.10.10.195:8030/WebDiskServerDemo/doc?doc_id=${o.VEDIO}"></div>
 					<div class="px18">${o.TITLE}</div>
