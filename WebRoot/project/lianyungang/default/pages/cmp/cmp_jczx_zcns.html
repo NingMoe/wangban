@@ -64,7 +64,6 @@
 		</div>
 	</textarea>
 
-
 	<!-- 模态框（Modal） -->
 	<div class="modal fade"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
@@ -95,7 +94,7 @@
 
         function query(){
             var cmd = new LEx.Command("app.icity.project.ArchivesCmd");
-            cmd.setParameter("type","1");
+            cmd.setParameter("type","3");
             var ret = cmd.execute("getInspectStar");
             if(ret.state==1&&ret.total>0){
                 $("#jczxDiv").html(LEx.processDOMTemplate("jczxtemp", ret));

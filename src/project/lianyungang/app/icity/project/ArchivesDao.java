@@ -142,7 +142,14 @@ public class ArchivesDao extends BaseJdbcDao {
 
 	public DataSet getInspectStar(ParameterSet pSet) {
 		String type = (String) pSet.getParameter("type");
-		String sql = "select f.id, f.l_id, f.year, f.title, f.photo, f.type, f.create_time  from HR_INSPECTSTAR f ";
+		String sql = "select f.id, f.l_id, f.year, f.title, f.photo, f.type, f.create_time  from HR_INSPECTSTAR f where type='"+type+"' ";
+		return this.executeDataset(sql);
+	}
+
+	public DataSet getJczx(ParameterSet pSet) {
+		String id = (String) pSet.getParameter("id");
+		System.out.println("id为："+id);
+		String sql = "select f.id, f.l_id, f.year, f.title, f.photo, f.type, f.create_time,f.content  from HR_INSPECTSTAR f where id='"+id+"' ";
 		return this.executeDataset(sql);
 	}
 
